@@ -1,0 +1,88 @@
+<?php
+/**
+ * Innomatic
+ *
+ * LICENSE 
+ * 
+ * This source file is subject to the new BSD license that is bundled 
+ * with this package in the file LICENSE.
+ *
+ * @copyright  1999-2012 Innoteam S.r.l.
+ * @license    http://www.innomatic.org/license/   BSD License
+ * @link       http://www.innomatic.org
+ * @since      Class available since Release 5.0
+*/
+
+global $tmpdir;
+
+// Updates the front receiver file.
+@copy(
+    $tmpdir.'/../index.php',
+    RootContainer::instance('rootcontainer')->getHome()
+    . 'index.php'
+);
+@chmod(RootContainer::instance('rootcontainer')->getHome() . 'index.php', 0644);
+
+/*
+@copy($tmpdir . '/WEB-INF/web.xml',
+      InnomaticContainer::instance('innomaticcontainer')->getHome()
+      . 'WEB-INF/web.xml');
+
+@chmod(InnomaticContainer::instance('innomaticcontainer')->getHome()
+       . 'WEB-INF/web.xml', 0644);
+*/
+
+@copy(
+    $tmpdir . '/index.php',
+    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    . 'index.php'
+);
+@chmod(
+    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    . 'index.php', 0644
+);
+
+@copy(
+    $tmpdir . '/favicon.ico',
+    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    . 'favicon.ico'
+);
+@chmod(
+    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    . 'favicon.ico', 0644
+);
+
+// Innomatic dependencies fix
+//
+$appQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    'SELECT id
+    FROM
+        applications
+    WHERE
+        appid='
+    . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText('innomatic')
+);
+
+InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    'DELETE FROM
+        applications_dependencies
+    WHERE
+        appid='.$appQuery->getFields('id')
+);
+
+// Innomatic auto reupdate
+//
+/*
+$app_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    'SELECT appfile '.
+    'FROM applications '.
+    'WHERE appid='
+    . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText('innomatic'));
+
+@copy(
+    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    . 'WEB-INF/applications/'.$app_query->getFields( 'appfile' ),
+    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    . 'WEB-INF/temp/appinst/reupdate'
+);
+*/

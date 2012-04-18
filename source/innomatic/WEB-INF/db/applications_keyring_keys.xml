@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<database>
+
+	<table name="applications_keyring_keys">
+		<field name="id" type="integer" notnull="1" />
+		<field name="application" type="string" length="50" />
+		<field name="version" type="string" length="15" />
+		<field name="domain" type="string" length="50" />
+		<field name="maxdomainusers" type="integer" />
+		<field name="validip" type="text" />
+		<field name="validrange" type="text" />
+		<field name="expirydate" type="string" length="10" />
+		<field name="file" type="text" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="applications_keyring_keys_id_seq" />
+
+</database>

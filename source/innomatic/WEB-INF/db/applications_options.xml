@@ -1,0 +1,11 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="applications_options">
+
+		<field name="applicationid" type="integer" notnull="1" />
+		<field name="name" type="text" notnull="1" />
+
+	</table>
+
+</database>

@@ -1,0 +1,1472 @@
+
+                   Innomatic Web Application Container
+
+                        http://www.innomatic.org
+
+
+
+                                CHANGES
+                                =======
+
+dev
+---
+SECURITY:
+
+FIXES:
+- Fixed wrong initialization of Innomatic main log in
+  InnomaticWebServicesHandler.php. (Alex Pagnoni)
+- Fixed wrong include in ValidatorAggregate.php. (Alex Pagnoni)
+
+CHANGES:
+- Reformatted lot of code following Zend Coding Standard. (Alex Pagnoni)
+
+NEW FEATURES:
+
+DEPRECATED:
+
+
+
+5000 5.0 - 2009/04/30 - "Innomatic"
+---------------------
+CHANGES:
+- Extreme refactoring and huge number of new features. Innomatic is a
+  completely new product and shares very little with previous generations.
+  Compatibility with the past is lost at all levels. (Alex Pagnoni)
+
+
+
+4000 4.0 - 2004/07/15 - "Major refactoring"
+---------------------
+NEW FEATURES:
+- Added new "amp4000" theme.
+- Added new "big" hui icons category.
+- Added 494 new icons in "big" category.
+- Added new Ampoliros class.
+- Added unit tests.
+- Added huixml_cdata() (HuiXml) in place of urlencode() method.
+
+CHANGES:
+- Changed Ampoliros generation to 4000.
+- Now Ampoliros is based on the Carthag platform.
+- Updated Crystal icons to SVG release. Added 584 more new icons.
+- Moved Semaphore class (semaphores.library) to process.Semaphore.
+- Moved Clipboard class (clipboard.library) to datatransfer.Clipboard.
+- Moved CachedItem class (cache.library) to datatransfer.cache.CachedItem.
+- Moved CacheGarbageCollector (cache.library) to
+  datatransfer.cache.CacheGarbageCollector.
+- Moved hui.library classes to hui.*.
+- Moved huithemes.library classes to hui.theme.*.
+- All code is now under a declare() statement.
+- Added pcntl and posix as suggested extensions.
+- Changed "Ampoliros Web Applications Platform" title to "Ampoliros
+  Application Server".
+- Moved maintenance.library classes to maintenance.*.
+- Moved Hook class (hooks.library) to util.Hooks.
+- Renamed AmpolirosSecurityHandler() class to SecurityLayer() and moved it
+  to security.SecurityLayer.
+- Moved archives.library classes to Carthag platform.
+- Moved debug.library classes to debug.* and renamed
+  AmpDebugger() class to Debugger().
+- Moved xmlrpc.library classes to webservices.xmlrpc.*.
+- Removed unused system.library.
+- Moved sites.library classes to site.*.
+- Moved users.library classes to site.user.*.
+- Moved logger.library classes to io.log.*.
+- Moved dblayer libraries classes to db.*.
+- Moved locale.library classes to locale.*.
+- Moved old unused stuff to ampcompatibility package.
+- Now at least PHP 5 is required.
+- Updated copyright notes date.
+- Moved XMLParser class (xml.library) to xml.XMLParser.
+- Applied minor changes for PHP 5 compatibility.
+- Moved modules.library and modulesbase.library classes to
+  module.*.
+- Strongly refactored maintaining compatibility.
+- Changed handling of /ampcgi/ alias during setup.
+- Renamed ModuleElementTypes class to
+  module.ModuleElementFactory.
+- Moved soap.library to ampcompatibility.
+- Updated some stuff in extras directory.
+- Changed "module" term in "application".
+- Renamed root/modules.php to root/applications.php.
+- Moved HelpNode class to help.HelpNode.
+- Moved AmpConfig class to core.AmpConfig.
+- Lot of optimizations in Hui and Hui widgets.
+- Hui validators are now called once even if there are more dispatchers.
+- Moved root initialization code to Ampoliros::startRoot().
+- Moved site initialization code to Ampoliros::startSite().
+- Moved maintenance run script code to Ampoliros::startMaintenance().
+- Moved ampconfig.php code to ampoliros.php.
+- Removed amp3000 Hui theme.
+- Removed CACHE_PATH define.
+
+FIXES:
+- Fixed "frame" attribute in toolbar widget when set to false.
+- Fixed wrong size limit in username length in users table.
+- Unlock script (/ampcgi/unlock.php) is no more recorded as last root
+  page opened.
+- Fixed wrong parameters to Permissions class in adminpage.handler and
+  admingroup.handler.
+
+SECURITY:
+
+DEPRECATED:
+- hui.library.
+- huithemes.library.
+- semaphores.library.
+- clipboard.library.
+- cacheditem.library.
+- maintenance.library.
+- hooks.library.
+- security.library.
+- AmpolirosSecurityHandler() class.
+- archives.library.
+- debug.library.
+- AmpDebugger() class.
+- xmlrpc.library.
+- users.library.
+- sites.library.
+- logger.library.
+- dblayer.library.
+- dblayer_parser.library.
+- dblayer_*.layer.
+- locale.library.
+- xml.library.
+- modules.library.
+- modulesbase.library.
+- help.library.
+- ampoliros.library.
+- amproot.php.
+- ampsite.php.
+- ampconfig.php.
+- LOG_PATH define.
+- CATALOG_PATH define.
+- BIN_PATH define.
+- HELP_PATH define.
+- HTTPD_GROUP and HTTPD_USER defines.
+
+
+
+3000 3.7 - 2004/06/15 - "PHP 5 / Ampoliros 4000 bridge"
+---------------------
+NEW FEATURES:
+- Added multiple rows feature in tab widget.
+- Added support for "big" icons category.
+- Now Ampoliros 3000 is PHP 5 compliant.
+
+FIXES:
+- Fixed bad hint functionality in some Hui widgets.
+- Fixed handling of AM/PM in DbLayer::GetDateArrayFromTimestamp().
+- Fixed LocaleCountry() logged errors during setup phase.
+- Fixed minor issues with PHP5 changes.
+
+
+
+3000 3.6 - 2003/12/15 - "Locale reorganization"
+---------------------
+NEW FEATURES:
+- Added "About Ampoliros" menu.
+- Added "TreeVMenu" Hui widget.
+- Added RPM spec file and build system.
+- Added copyright note in login panels.
+- Added charset support in country descriptors.
+- Added support in Page widget for country charset.
+- Added a year normalization routine in LocaleCountry class (locale.library)
+  when using date arrays, in order to resolve issues with short length year
+  strings.
+- Added memory usage feature in AmpDebugger class (debug.library).
+- Implemented some strategies for reducing database queries.
+- Added VertBar Hui widget.
+
+CHANGES:
+- "Site access" button renamed to "Desktop".
+- "Ampoliros administration" button renamed to "Control Panel".
+- Updated favicon.ico.
+- Added direct link in Ampoliros menus to favicon.ico.
+- Moved PHP Layers Menu code from menu.hui to new phplayersmenu.library.
+- Now "Tools" and "Preferences" site administration groups are always in the
+  last two positions.
+- Now Form Hui widget children are organized as a table like a vertgroup.
+- New javascript based Hui treemenu look.
+- Changed handling of years when using date arrays: years must be always 4
+  chars long. Typical 2 chars long years will be changed to 20xx.
+- Changed handling of trees of Hui widgets when navigating them by reference,
+  resulting in less memory usage.
+- Removed HuiWidgetElement->mLog member and related Logger instance, resulting
+  in less Hui overhead and minor memory usage.
+- Applied CSS "normal" style to all form widgets.
+
+FIXES:
+- Now the button argument "target" works also with the "formsubmit" argument.
+- PopUp icon in Hui date widget is not shown when readonly is set to
+  true.
+- Added missing "forceinstall" parameter to semaphores and clipboard tempdir
+  elements.
+- Removed wrong code for nonexistent align and width properties.
+- Better check about $check_script existance in string Hui widget.
+- Fixed handling of "compact" attribute in AmpToolbar Hui widget buttons.
+- If "rowsperpage" argument is given in table widget but "pagesactionfunction"
+  is not specified, it is ignored and the table displays all the rows.
+
+
+
+3000 3.5 - 2003/09/01 - "Misc features"
+---------------------
+NEW FEATURES:
+- Added IFrame Hui widget.
+- Added "refresh" option to page Hui widget.
+- Added semaphores feature (semaphores.library).
+- Added clipboard feature (clipboard.library).
+- Added the possibility to check string and text widget values before
+  sending a form.
+- Added arrowup, arrowupshadow, arrowleft and arrowleftshadow theme
+  styles.
+- Added arrowup, arrowupshadow, arrowleft and arrowleftshadow icons for
+  Amp3000 theme.
+- Added columns sorting to Hui table widget.
+- Added name attribute to Hui IFrame widget output, so now it is
+  targettable by links.
+- Added 261 new mini icons in Crystal icons set.
+- Added clean clipboard maintenance task.
+- Added Ampoliros and modules requirements check maintenance task.
+- Added a popup calendar in HuiDate widget.
+- Added semaphores administration in root advanced options. It is shown
+  only when platform state is set to development or debug.
+- Added hints to Hui button, checkbox, combobox, date, file, image, label,
+  listbox, radio, string and text widgets. Hint messages are shown in the
+  browser status bar.
+- Added 280 new more icons in Crystal HUI icons set.
+- Added "compact" attribute to button Hui widget.
+- Added module hooks list in modules root page.
+- Added Site::EnableAllModules() (sites.library).
+- Added "Enable all modules" and "Disable all modules" in site modules
+  administration.
+- Added "color" argument to Hui label widget.
+- Added set_root_password() (ampoliros.library).
+- Added users private directory feature. Users directory will be created
+  inside site private directory in the "users" subdirectory. When updating
+  Ampoliros, the private directory for the already existing users will be
+  automatically created.
+- Added UserSettings class (users.library) for user settings feature.
+- Added Logger::Rotate() method (logger.library), for rotating logs.
+- Added log rotation in Ampoliros log clean maintenance task.
+- Added table of all sites with the list of the enabled modules in sites
+  root administration page under the "Situation" button (root/sites.php).
+- Added support for zip archives (archives.library).
+- Now Ampoliros accepts modules compressed by zip (file type recognition is
+  suffix based).
+
+CHANGES:
+- Set "iso-8859-1" as Hui page charset.
+- Now Hui table widget pages navigator supports word wrapping when it is
+  longer than the table width.
+- DBLayer::GetTimestampFromDateArray() (dblayer.library) is now more
+  tolerant with date arrays with missing keys.
+- Updated the sites.php root page using the new form elements check
+  feature.
+- Updated logo in amp3000 theme.
+- Now if a button has no action, it is disabled by default.
+- New javascript based Hui buttons look.
+- New javascript based Hui tabs look.
+- CachedItem class (cache.library) now uses semaphores.
+- Now the unlock.php cgi erases all semaphores too.
+- Now the debugger page uses the same tab position for all processes.
+- Updated Crystal HUI icons set to Crystal Icons 0.90.
+- Now build_events_call_string() (hui.library) outputs "&amp;" in place of
+  "&".
+- Now Site::DisableAllModules() class (sites.library) accepts an optional
+  argument: if set to false, Ampoliros itself is not disabled from the
+  site.
+- Changed fallback procedure for HelpNode::GetContent() (helpnode.library).
+- Now Hui table widget column headers are aligned at top.
+- Removed Ampoliros class (ampoliros.library), to be readded and
+  reengineered for Ampoliros 4000 generation.
+- Now Ampoliros should handle https admin urls with no problems.
+
+FIXES:
+- Added missing xml widget load in root/modules.php (thanks to Damien
+  Fressard and Benoit Boirel).
+- Fixed DBLayer::GetTimestampFromDateArray() handling of seconds.
+- Added encoding of confirmmessage label for buttons in AmpToolbar
+  hui widget.
+- Fixed wrong call to Locale::GetStr() in maintenance.library.
+- Fixed Canada country locale descriptor.
+- Fixed Ampoliros default maintenance tasks installation during setup.
+- Fixed wrong handling of "siteid" and "userid" optional members in Cache
+  class (cache.library).
+- Fixed radio Hui Widget label, it doesn't wrap no more.
+- Fixed modules dependencies handling.
+
+SECURITY:
+- Added AmpolirosSecurityHandler::GetLoggedSessions() (security.library)
+  method.
+- Added logged root and users sessions list in security administration
+  (security.php).
+- Added logging of wrong accesses in access.log.
+- Added forced logout of sessions from security root administration.
+- Added only https access flag for root and sites access.
+
+
+
+3000 3.4 - 2003/05/15 - "Maintenance state"
+---------------------
+NEW FEATURES:
+- Added maintenance state.
+- Added the maintenance library.
+- Added the ampmaintenance.php bootstrap script, to be invoked in a script
+  or in a cron job/planned task without arguments. This script launches
+  Ampoliros in maintenance state.
+- Added the instance.maintenance hook, called in ampmaintenance.php before
+  starting the maintenance system.
+- Added garbage collecting for modules (cache.library).
+- Now modules cached items are removed when uninstalling their modules.
+- Now the XML Hui widget (xml.hui) accepts "definitionfile" as argument;
+  if given, the XML definition is read from the file.
+- Added proxy support in XmlRpc protocol (xmlrpc.library).
+- Now sites can be assigned to remote users. If a remote user with an
+  assigned site logs in, that site is initialized.
+- Added the "compact" attribute to Hui link, label and grid widgets.
+- Added "target" attribute to Hui link widget.
+- Added "bold" attribute to Hui link widget.
+- Now children of Hui table container can set their width in the table.
+- Implemented the designed but never programmed "sitepreinstall" and
+  "sitepreinstall" installation phases scripts.
+- Added the "maintenancetask" element. It adds scheduled tasks to be execute
+  during the maintenance.
+- Added LocaleCountry::GetDateArrayFromUnixTimestamp() method
+  (locale.library).
+- Added the $gEnv['user']['locale'] section in amproot.php.
+- Added the Maintenance root page.
+- Now $gEnv['runtime']['site']['init'] is set to true when a site has been
+  initialized by init_amp_site() (ampsite.php), and a check to avoid multiple
+  init_amp_site() calls is done.
+- Now $gEnv['runtime']['root']['init'] is set to true when a site has been
+  initialized by init_amp_root() (amproot.php), and a check to avoid multiple
+  init_amp_root() calls is done.
+- Added the "MAINTENANCE_REPORTS_ENABLED" Ampoliros configuration key. If
+  set to "1" a report is sent when the maintenance is started.
+- Added the "MAINTENANCE_REPORTS_EMAIL" Ampoliros configuration key. This is
+  the destination email for maintenance reports.
+- Added "title" attribute to Hui link widget, that opens a popup with the
+  attribute content when the mouse pointer is over the link.
+
+CHANGES:
+- Now Ampoliros 3000 3.3.0 is required as a bare minimum for Ampoliros
+  update.
+- Removed the 256 max lines length limit in ConfigFile class
+  (configman.library).
+- Now Hui tab widgets have an arrow inside each tab like the treemenu
+  widget.
+- Now major number version updates no more shows the minor version
+  number.
+- Added some missing apices in array indexes in dblayer_pgsql.dblayer.
+- Changed main menu icons in Amp3000 default theme.
+- Removed all the uniqid() commands. This may boost performance in various
+  cases, especially with XML based Hui definitions.
+- The processes list in ampadvanced.php no more shows itself.
+- Changed all the Hui::LoadAllWidgets() calls to Hui::LoadWidget() ones.
+- The listbox Hui widget now accepts multiple default elements, giving
+  an array as "default" argument.
+- Now Hui SessionKey widget accepts empty values.
+- Updated PHP Layers Menu code to 2.3.5. See AUTHORS file for credits.
+- LocaleCountry class (locale.library) is more tolerant with date arrays
+  when some keys are missing.
+- Now Hui root menus open only when they get clicked.
+
+FIXES:
+- Now the AmpCentral and Edition setup temporary files get removed.
+- Added missing AMP_INTERFACE_REMOTE interface setting in ampremote.php.
+- Fixed wrong handling of mysql_insert_id() in dblayer_mysql->NextSeqValue()
+  (dblayer_mysql.layer).
+- Fixed a SQL query in root/sum.php that under Postgres layer caused a
+  warning in the database log.
+- Fixed bug in dblayer.library that prevented RecordSet::Fields() from
+  retrieving field 0 when using indexes.
+- Fixed AmpolirosSecurityHandler::GetUnsecureWebServicesProfiles()
+  (security.library) to let it work under Postgres layer.
+- Fixed handling of submodules management in sites.php when modules depending
+  on the module with submodules have been enabled.
+- Fixed disappearing layers bug when opening menus under Konqueror 3.1.
+- Fixed old bug with quotes in SQL queries.
+- Fixed some HTML code created by Hui widgets.
+
+SECURITY:
+- Now the access log contains also the remote address when logging in or
+  logging out.
+- Fixed expoitable issue in ampremote.php that may lead to arbitrary
+  persistent connections to Ampoliros root database.
+- Now the "|" and ":" characters are stripped from the username when
+  creating a new user (users.library), in order to avoid possible session
+  keys injections when doing web authentication.
+
+
+
+3000 3.3.1 - 2003/03/27
+-----------------------
+CHANGES:
+- Changed some old $env references to $gEnv.
+
+SECURITY:
+- Fixed expoitable issue in ampconfig.php that may lead to arbitrary
+  persistent connections to Ampoliros root database.
+
+
+
+3000 3.3.0 - 2003/02/17 - "ASP / Enterprise edition"
+-----------------------
+NEW FEATURES:
+- Now the $gEnv environment variable is always available as $GLOBALS['gEnv'].
+- Added the "edition" platform flag and the AMP_EDITION key in ampconfig
+  configuration file.
+- Added the "ASP" and "Enterprise" editions.
+- Added different style images for big dot in main page for the ASP and the
+  Enterprise edition.
+- Now in Enterprise edition only a site can be created.
+- Now AmpCentral can be automatically downloaded and installed during web
+  setup phase if required.
+- Added init_amp_site_by_md5id() site initialization function.
+- Added the AMP_INTERFACE_EXTERNAL interface type, for interfaces defined by
+  other modules.
+- If interface is set to AMP_INTERFACE_EXTERNAL and AmpDie() is called,
+  a function named as $gEnv['runtime']['external_interface_error_handler']
+  is called if exists.
+- Now AmpDie accepts a second optional parameter for forcing the interface
+  type. 
+- Added the "mini" category in Hui themes icons set.
+- Added icons in the "mini" category in the standard crystal icons set.
+- Added the $gEnv['user']['data'] section.
+- Added the module auto reupdate feature, useful for modules that need to be
+  updated twice. If a file called TMP_PATH.'modinst/reupdate' is found during
+  bootstrap, it gets installed as a module.
+- Now a "SECURITY" section applies in this change log for security related
+  new features, changes and fixes.
+
+CHANGES:
+- In Enterprise edition the "@siteid" part in site usernames is no more
+  added.
+- Added the nowrap as a style in all the HTML tags with the nowrap property
+  set.
+- Updated Crystal icons set. Now there are 805 icons (they were 485 before),
+  plus the new 409 ones in the "mini" icons set category.
+- When installing a module in Enterprise edition it is automatically
+  enabled to the site.
+- Updated PHP Menu Layers code.
+- New logo.
+- This release autoupdates itself twice with the new reupdate feature.
+- Now Ampoliros archive is bigger than the standard max upload size
+  limit (2M) in php.ini configuration file. You may need to increase the
+  upload_max_filesize php.ini directive value. INSTALL and TROUBLESHOOTING
+  files have been updated according.
+- The main auth.php nomore relies on cgi/cfgpath.php script and is now
+  compliant to Ampoliros 3000 bootstrap system.
+
+FIXES:
+- Fixed wrong logging of Ampoliros root user logout.
+- Fixed bug of disappearing window buttons under Internet Explorer.
+- Fixed wrong hook call for instance.startup (it was called bootstrap).
+- Added a missing OpenLibrary( 'modules.library' ) in ampsite.php.
+
+SECURITY:
+- Added remote address for root and site unsuccessfull login alerts.
+
+
+
+3000 3.2.1 - 2003/01/31
+-----------------------
+NEW FEATURES:
+- Added the ability to removeChild() and removeAllChildren() for Element objects
+  (minixml.library).
+- Added the ability to prependChild() and insertChild(CHILD, INDEX)
+  (minixml.library).
+- Add support for system.multicall() to both the client and the server
+  (xmlrpc.library).
+- Added new error messages for system.multicall() (xmlrpc.library).
+- Added new procedure call system.multicall() (xmlrpc.library). See
+  http://www.xmlrpc.com/discuss/msgReader$1208 for details.
+- xmlrpc_client::send (xmlrpc.library) can now take an array of xmlrpcmsg's as
+  an argument. In that case it will attempt to execute the whole array of
+  procure calls in a single HTTP request using system.multicall(). (If that
+  attempt fails, then the calls will be excuted one at a time). The return
+  value will be an array of xmlrpcresp's (or 0 upon transport failure).
+- Added setSSLVerifyPeer and setSSLVerifyHost (xmlrpc.library); as of curl 7.10,
+  various certificate checks are done (by default). The default for
+  CURLOPT_SSL_VERIFYHOST is to ensure the common name on the cert matches the
+  provided hostname.  This breaks a lot of stuff, so allow users to override it.
+- Added message of the day feature in sites.
+
+CHANGES:
+- Updated minixml.library to MiniXML 1.2.4 release.
+- Updated xmlrpc.library to XmlRpc 1.0.99.2.
+- Changed the deprecated mysql_create_db() and mysql_drop_db() functions to
+  standard mysql_query() statements.
+- Renamed $_xh[$parser]['ha'] to $_xh[$parser]['headers'] (xmlrpc.library).
+- xmlrpcresp and parseResponse cleanups (xmlrpc.library); some variable names
+  renamed ('xv' to 'val', for example), added type checking, and stricter
+  default values.
+- Changed $gEnv['runtime']['disp'] initialization due to array_merge()
+  behaviour change in PHP 4.3.0.
+
+FIXES:
+- Fixes to getElement (inability to fetch nested tags of same name)
+  (minixml.library).
+- Fixed bugs related to $_xh[$parser]['headers] (xmlrpc.library); some places
+  treated this as an array, others as a scalar. Now treated unconditionally as
+  an array. Also wrapped header debugging output in PRE tags.
+- Fixed xmlrpcresp's faultcode (xmlrpc.library); return -1 for FAULT responses
+  from the server whose faultcodes don't reflect any errors.
+- Fixed wrong cast to integer in various caching methods (cache.library).
+  This bug caused the creation of new Hui theme cache files for each page
+  request, resulting in thousands of wrong cache files.
+- Fixed bug in extraction of archived files (archives.library) in systems which
+  differentiate between binary and text files during fopen(). This caused
+  corruption of binary files in module archives when installing/upgrading them,
+  so that when updating Ampoliros the images got corrupted.
+
+
+
+3000 3.2.0 - 2003/01/08 - "Security"
+-----------------------
+NEW FEATURES:
+- Added site max users limit.
+- Added submodule feature.
+- Added a profiler for SQL queries.
+- Added a new time marking method for LoadTime class (debug.library) with
+  start and stop methods.
+- Added the "Security" root page.
+- Added the "progressbar" Hui widget.
+- Added the Xml_Db->mTableStructure member (dblayer_parser.library).
+- Added the $gEnv['core']['config'] member.
+- Added the "tools" menu in the root shared menu.
+- Added the access log feature.
+- Added interface for setting the session lifetime.
+- Added interface for setting max wrong logins and wrong login delay.
+- Added block unsecure web services feature.
+- Added the security alert feature.
+- Added a lot of security checks in SQL queries.
+- Added the "string" database datatype, should be used in place of text when
+  settings a max length.
+- Added various security checks.
+- Added a security email reports system.
+- Added mkdirs() function (misc.library).
+- Added dircopy() function (misc.library).
+- Added "basedir" member to Module() class (modulesbase.library).
+- Added "siteid" and "userid" optional members to Cache() class (cache.library)
+  so that items can be related to sites and/or users.
+- Added the CacheGarbageCollector() class (cache.library) for cache garbage
+  collecting purposes.
+- Added automatic cache garbage collecting when removing a site or an user.
+ 
+
+CHANGES:
+- Reorganized the root shared menu.
+- Updated the default icons set to Crystal icons 0.85, with a lot of new icons
+  and many changed ones.
+- Changed some old references to $env to $gEnv.
+- Updated copyright date to 2003.
+
+FIXES:
+- Added missing OpenLibrary( 'locale.library' ) in huidate.hui.
+- Fixed missing 'themesized' attribute in the summaries that prevented PNG
+  icons to be viewed under Win32 platforms.
+- Fixed wrong handling of target attribute in menu.hui.
+
+
+
+3000 3.1.5 - 2002/12/06
+-----------------------
+FIXES:
+- Removed wrong DomXml requirement during installation phase. DomXml is no more
+  needed since 3.1.3 release.
+
+
+
+3000 3.1.4 - 2002/12/01
+-----------------------
+FIXES:
+- Fixed trouble during first installation procedure.
+
+
+
+3000 3.1.3 - 2002/11/27
+-----------------------
+NEW FEATURES:
+- Added xmlrpcprofile.add.calltime, xmlrpcprofile.add.profileadded hooks.
+- Added xmlrpcprofile.remove.calltime, xmlrpcprofile.remove.profileremoved
+  hooks.
+- Added xmlrpcprofile.rename.calltime, xmlrpcprofile.rename.profilerenamed
+  hooks.
+- Added 'link' property to Hui table headers.
+- Added caching of Hui themes, this greatly improves performances.
+
+CHANGES:
+- Changed two call-time pass-by-reference in xmlrpc.library.
+- Now the Hui link widget label property defaults to the link property.
+- Changed some references to old style variables and defines.
+- Now the $gEnv['user'] section is filled when issuing init_amp_site() even
+  when no user id is given. The site root user id applies.
+- Changed toolbar style in admin pages.
+- Better profiler output.
+- Completely rewritten xml Hui widget parser.
+- Now domxml extension is no more needed.
+- Many code optimizations.
+- LocaleCountry::FormatShortArrayDate() (locale.library) is now safe with dates
+  not inside UNIX epoch.
+
+FIXES:
+- Fixed ModuleDep::CheckModuleDeps() (modules.library).
+- Fixed topheader property in table Hui element.
+- Fixed handling of active page link in table Hui element when a same table
+  is rebuilt with less pages than the persistant stored value.
+- Fixed handling of active tab in tab Hui element when only a tab remains after
+  the other tabs are removed.
+- Fixed return result in ModuleConfig::GetKey() (modules.library), now it
+  returns an empty string if the given key doesn't exists instead of false.
+- Fixed ConfigMan class (configman.library) when referring to no more existant
+  modid member.
+- Removed a wrong reference to GetStoreId() in ampsite.php.
+- Fixed handling of default theme in ampsite.php when no theme has been set.
+  This drammatically improves speed, especially on slow machines.
+
+
+
+3000 3.1.2 - 2002/11/04
+-----------------------
+NEW FEATURES:
+- Added the Hui validator feature. This brings more power to Hui widgets.
+- Added the huivalidator element.
+- Added the huivalidators root table.
+- Added authentication with Ampoliros root password for unlock.php cgi.
+- Added site notes feature.
+- Added moduleconfig element type.
+- Added siteconfig element type.
+- Added the LogCenter class (logger.library).
+- Added a log for each module as standard.
+- Added log viewer for each module, if the log exists.
+
+CHANGES:
+- Removed old debug code in modulesbase.library.
+- Moved the Hui file widget validator code to file.huivalidator.
+- Greatly improved Hui XML widget when it loads unloaded widgets.
+- Changed the old style confirm requester with the new one based on
+  button "confirmmessage" parameter in sites, modules and web services
+  administration.
+- Various optimizations.
+
+FIXES:
+- Fixed handling of Ampoliros dependencies for Ampoliros itself. The previous
+  handling prevented sites creation, modules enabling and sites remotion after
+  upgrading Ampoliros.
+- Removed wrong entry in crystal icons theme definition file.
+- Fixed mkdir() in tempdir.element by adding the missing argument.
+
+
+
+3000 3.1.1 - 2002/10/28
+-----------------------
+NEW FEATURES:
+- Created the new modulesbase.library for the basilar modules handling code.
+- Added the $gEnv['runtime']['modules'] section.
+- Added the "keep" parameter to the configurationfile element type handler. If
+  set to true the old configuration file is kept when updating a module, if
+  it already exists.
+- Added the $gEnv['root']['dblog'] and $gEnv['site']['dblog'] variables.
+
+CHANGES:
+- Moved base modules functions to modulesbase.library for speed optimization
+  purposes.
+- Now the Hui button "confirmmessage" argument is processed with addslashes().
+- Table in module structure page (modules.php) is now paged.
+
+FIXES:
+- Fixed handling of $elemArgs in label.hui.
+- Fixed return result in Site::GetKey() (sites.library), now it returns an
+  empty string if the given key doesn't exists instead of false.
+
+
+
+3000 3.1.0 - 2002/10/16
+-----------------------
+NEW FEATURES:
+- Added the instance.startup hook, that is called at the instance startup.
+- Added the instance.shutdown hook, that is called at the instance shutdown.
+- Added the "tabindex" parameter to Hui form widgets.
+- Added a check in setup phase for PHP XML-RPC extension. If loaded, the
+  requirements check phase complains about it and ask to remove the extension
+  from the php.ini configuration file.
+- Added web services description localization mechanism.
+- Added web services description column in web services administration page.
+- Added country descriptor for Brazil and language descriptor for Brazilian.
+- Added $gEnv['runtime']['libraries'] with the list of the opened libraries.
+- Added the new "tab" Hui widget.
+- Added the COLORSET.TITLEBARS.TEXTCOLOR color in Hui colors sets.
+- Added various profiler markers.
+- Added more new icons in crystal icons set.
+- Added the $gEnv['runtime']['sessionid'] key.
+
+CHANGES:
+- Removed old code needed for pre-3.0.0 Ampoliros update.
+- Now the profiler is checked before executing it at the shutdown, to avoid
+  an error message if the database is down.
+- Various forms now use tabbing.
+- Started changing references to the environment variable from $env to $gEnv.
+- Now the amppage Hui widget encodes the status and title arguments.
+- Now when in debug state the pid file is not removed and contains a dump of
+  the $gEnv environment variable.
+- Various optimizations in libraries opening.
+- Many optimizations in code.
+- Updated the AUTHORS file.
+- Changed default SESSION_LIFETIME value in Makefile to 525600 minutes
+  (a year).
+- Suppressed a lot of innocuous PHP NOTICE type log events when state is set
+  to AMP_STATE_DEBUG.
+- New look for default theme.
+- Optimized ampinterface.php root page by using a tab widget.
+- The Hui dispatcher now always passes an array to the event function even if
+  there isn't any even data.
+- Changed session cookie management, now it should last one year by default.
+- Updated the Win32 installation script.
+
+FIXES:
+- Fixed profiler log string type to DEBUG.
+- Fixed handling of Ampoliros state when changing it in the ampadvanced.php
+  root administration page.
+- Fixed wrong use of locale support in some administration pages.
+- Fixed old $env['sitelocale'].
+- Fixed pages listing cell colspan in table Hui widget.
+
+
+
+3000 3.0.2 - 2002/09/30
+-----------------------
+NEW FEATURES:
+- Added 3 seconds wait when accessing root or a site with a wrong password.
+  After 3 retries the system dies.
+- Implemented the "unsecure" flag for dangerous web services. Unsecure web
+  services are tagged in the list of the remote methods in profiles editing.
+- Now modules can define dependencies for PHP and PHP extensions. A module can
+  define a minimum PHP version by eg. defining php[4.2.1], and required
+  extensions defining extensionname.extension (eg. xml.extension) in the
+  module dependencies.
+
+CHANGES:
+- Updated MiniXML code to 1.2.2. See AUTHORS file for credits.
+- Updated PHP Layers Menu code to 2.1.0. See AUTHORS file for credits. Now the
+  vertical coordinates of links are obtained simply as DOM properties.
+- Updated Crystal icons set to Crystal 0.6, with 22 new icons.
+- Changed the help icon in the root and site pages from "content" to the new
+  "help" icon.
+
+FIXES:
+- Fixed an issue that prevented the login pages to use the root Hui theme.
+- Fixed iconsset name in crystal.huiiconsset configuration file.
+- Fixed a typo that caused an innocuous error relative to Ampoliros database
+  to be logged in the main Ampoliros log.
+
+
+
+3000 3.0.1 - 2002/09/23
+-----------------------
+NEW FEATURES:
+- When in AMP_STATE_DEBUG state, the shutdown function logs the profiler total
+  execution time.
+- Added MiniXML 1.2 code to the new minixml.library. See AUTHORS file for
+  credits.
+- Added the AMPOLIROS_LOCALE_SAFE_DATESTAMP define.
+- Added the LocaleCountry::SafeFormatTimestamp() method (locale.library).
+
+CHANGES:
+- Now the AmpDie() function outputs the HTML error message only if the current
+  instance interface is set to AMP_INTERFACE_WEB, else it prints a standard
+  text.
+- Updated PHP Layers Menu code to 2.0.0 final. See AUTHORS file for credits.
+- Reorganized package files structure. The varios license and other files from
+  external packages integrated in Ampoliros code have been moved in the extras
+  directory.
+- ModuleDep::ExplodeDeps() (modules.library) now handles spaces between
+  dependency items.
+
+FIXES:
+- Fixed broken support of method argument in Hui form container.
+- Added missing mDisp member in Hui listbox widget.
+- Removed wrong mFormSubmit member in Hui submit widget.
+- Fixed $gEnv['user']['locale'] section in ampsite.php bootstrap script.
+- Fixed DbLayer->fmttimestamp member.
+
+
+
+3000 3.0.0 - 2002/09/09 - "Hui themes"
+-----------------------
+NEW FEATURES:
+- Added Hui themes big features.
+- Added ampshared.library for Ampoliros interface elements shared between
+  various files and modules.
+- Added menus in administration pages.
+- Added a specific log for PHP events.
+- Added PHP_LOG define for php log.
+- Added more entries in the TROUBLESHOOTING file.
+- Added the tempdir element type.
+- Added the modinst tempdir.
+- Added the ampcache tempdir.
+- Added the phpsessions tempdir.
+- Added the mWidgetType member to HuiWidgetElement class (hui.library).
+- Added persistant HUI widgets using sessions big feature.
+- Added persistant pages to the Hui table element.
+- Added the Hui sessionkey element.
+- Added list of sites enabled to each module in module dependencies panel.
+- Added the MODULE_CATEGORY configuration key for modules general.def file.
+- Added the $gEnv Ampoliros environment variable big feature.
+- Added the Ampoliros state feature. Now Ampoliros can be in one of this
+  states: setup, upgrade, debug, development and production. State is set in
+  $gEnv['core']['state'].
+- Added the Ampoliros interface mode feature. Interface mode can be one of the
+  following: unknown, console, web, remote, gui. Interface mode is set in
+  $gEnv['core']['interface'].
+- Added registered shutdown function ampoliros_shutdown().
+- Added creation of a pid file for each Ampoliros instance, that gets deleted
+  at the instance end by the shutdown function. Pid is set in
+  $gEnv['runtime']['pid'].
+- Added the pids tempdir.
+- Added email field to site users.
+- Added the Ampoliros mode feature. Mode can be root or site.
+- Added ampsite.php and amproot.php elements for system bootstrap.
+- Added P3P compact header in Hui::Render() (hui.library).
+- Added a log viewer during setup phase if something goes wrong.
+- Added option to not create site database at site creation.
+- Hooks can now return special codes to the calling function. Current
+  available codes are HOOK_RESULT_OK, HOOK_RESULT_CANCEL, HOOK_RESULT_ABORT.
+- Added a root page for advanced settings like Ampoliros state.
+- Added list of the available remote methods for the remote accounts in the
+  web services root page.
+- Added ampremote.php element for remote system bootstrap.
+
+CHANGES:
+- Changed Ampoliros generation to 3000.
+- Changed default interface look with a new theme. See AUTHORS file for icon
+  set credits.
+- Moved development docs in a separate directory and archive.
+- Now PHP memory limit defaults to 64 Mb.
+- Reorganized the TROUBLESHOOTING file.
+- Various optimizations.
+- Added a consider extensions option in Module::CheckSiteDepengindModules()
+  and Module::IsEnabled() (modules.library).
+- Now the PHP session files are stored in the Ampoliros temporary directory
+  under TMP_PATH.'phpsessions/'.
+- Now the Ampoliros cache files are stored in the Ampoliros temporary directory
+  under TMP_PATH.'ampcache/'.
+- Now the Ampoliros modules installation temporary files are stored in the
+  Ampoliros temporary directory under TMP_PATH.'modinst/'.
+- Better interface where Hui tables elements are involved.
+- Hui treemenu element is now persistant.
+- Now sessions stay alive even when closing the browser.
+- Now when entering administration pages, the last seen page is loaded.
+- Now the modules list is ordered by category. If a module has no category,
+  it is listed in the "Various" category.
+- Updated dblayer_pgsql.dblayer to new Postgres functions names.
+- Various optimizations in users.library.
+- Completely restructured the ampconfig.php bootstrap file and system.
+- Changed some remaining $PHP_SELF into $_SERVER['PHP_SELF'].
+- Now Hui treemenu element widgets are clickable.
+- Now menu borders have been removed, only flat style.
+- Removed width and height attributes from Hui treemenu widget.
+- Added time() as second option to all touch() functions due to a bug
+  introduced in PHP since the 4.2.1 release.
+- Web setup phase has been improved, graphically and functionally.
+- Now hook return codes in Ampoliros functions are verified in order to take
+  advantage of new hook functions.
+- Now the Ampoliros error handler chooses when to log and when to die in base
+  of Ampoliros state.
+- Now if an event of type LOGGER_FAILURE is logged, Ampoliros dies in any
+  case.
+- Now LOGGER_DEBUG and LOGGER_WARNING log event types are logged only if
+  Ampoliros state allows it.
+- Added a lot of isset() checks to array indexes in order to avoid PHP notices
+  when Ampoliros state is set to AMP_STATE_DEBUG.
+- Updated Hui menu code to PHPLayersMenu 2.0 beta 3. Now the system works also
+  on Mozilla  even with the long DTD for HTML 4.01 Transitional.
+- Now sessions stay alive for a year if not specified.
+- Increased width of log viewers.
+- Now module structure can be seen only when Ampoliros state is set to
+  AMP_STATE_DEBUG or AMP_STATE_DEVELOPMENT.
+- Now comments in Hui HTML code are automatically enabled in debug state.
+- Added support for APC PHP cache. After installing/upgrading a module, the
+  cache gets flushed by Ampoliros.
+
+FIXES:
+- Added missing copy of logout icons.
+- Fixed minor typos in huielement.element handler.
+- Fixed typo in dblayer_pgsql.dblayer that prevented the creation of tables.
+- Fixes bug which prevented site remotion.
+- Fixed broken Module::CheckSiteModuleDeps(); there was a bug in a certain
+  situation with multiple dependencies.
+- Fixed handling of sessions expire time.
+- Fixed typo in sites.library that prevented the correct insert in the sites
+  table of the database port when creating a new site.
+- Restored support of Postgres, broken due to various fixed issues.
+- Fixed Hui treemenu widget that caused a PHP warning if a group was empty.
+- Fixed wrong reference to an internal member in DbLayer::ErrorMsg()
+  (dblayer.library).
+- Fixed broken Hui new window widget javascript code under Internet Explorer.
+- Fixed sites permissions trouble with adminpages accessible even for not
+  enabled modules.
+
+
+
+2000 2.7.6 - 2002/08/26
+-----------------------
+CHANGES:
+- Predisposition for update to Ampoliros 3000 3.0.0.
+
+
+
+2000 2.7.5 - 2002/08/19
+-----------------------
+NEW FEATURES:
+- Added SiteSettings::SetKey() wrapper for SiteSettings::EditKey().
+- Added $env['currentuser-country'] and $env['currentuser-locale'] in
+  admin/auth.php.
+- Added "disabled" parameter to button Hui element.
+- Added support for patch level in version strings (eg. 2.4.12-1 is now valid
+  and well recognized during comparisons for modules version).
+- Added the AMP_DBDEBUG directive in Ampoliros configuration. Setting it to 1
+  in etc/ampconfig.cfg file will cause Ampoliros to log all database queries.
+- Added the SESSION_LIFETIME directive in Ampoliros configuration, defaults to
+  1440 minutes. Setting it changes the session expiry time.
+- Added dispatchers_list() function (hui.library) for retrieving of the passed
+  dispatchers in Hui event calls.
+- Added FormArg Hui element for hidden form arguments.
+
+CHANGES:
+- Changed fallback procedure for Locale::OpenCatalog() (locale.library).
+- Now AmpToolbar Hui element passes all buttons arguments.
+- Now root/sites.php checks if the sites logs exists before trying to show
+  them.
+- Now sessions expires after 1440 minutes.
+- Modules, sites and remote procedures root administration pages are more
+  compact.
+- Now the "default" event call for "main" dispatcher is added in the root and
+  site login forms.
+
+FIXES:
+- Fixed a typo in amp_root_modules_it.catalog.
+- Fixed trouble with localization when the default catalog language is
+  different from AMP_LANG.
+
+
+
+2000 2.7.4 - 2002/08/12
+-----------------------
+NEW FEATURES:
+- Added huixml_encode() and huixml_decode() functions (handlers/xml.hui).
+- Added "frame" attribute to AmpToolBar Hui element.
+- Added version dependency in module suggestions list in root/modules.php.
+- Added the "Modules settings" root group in root administration. Modules are
+  encouraged to use the new modsettings rootgroup.
+- Added MODULE_MAINTAINER and MODULE_MAINTAINER_EMAIL configuration keys
+  for modules general.def file.
+
+CHANGES:
+- Now default script execution time limit is set to no limit if not specified
+  with the Ampoliros configuration directive PHP_EXECUTION_TIME_LIMIT.
+- Updated the TROUBLESHOOTING file.
+
+FIXES:
+- Added missing argument for ignore_user_abort() in etc/ampconfig.php. Now is
+  set to TRUE, that is to ignore user abort.
+
+
+
+2000 2.7.3 - 2002/08/05
+-----------------------
+NEW FEATURES:
+- Added new menu Hui widget. Check LICENSE.phplayersmenu and AUTHORS for
+  credits.
+- Added site.module.enable.calltime, site.module.enable.moduleenabled,
+  site.module.disable.calltime and site.module.disable.moduledisabled hook
+  events.
+- Added module.enable.calltime, module.enable.enabled, module.disable.calltime
+  and module.disable.moduledisabled hook events.
+- Added empty Hui container.
+- Added archives.library. Check AUTHORS for tar class credits.
+- Now modules are extracted with the new archive functions.
+- Added ZLib support requirement.
+- Added "needconfirm" and "confirmmessage" properties to button, submit and
+  pushbutton Hui elements. If set, a javascript popup message is opened
+  for action confirmation.
+- Added module version dependency big feature. Modules can optionally specify
+  minimum version dependency in general.def file with the format:
+  module1[version],module2,module3[version].
+- Added build_events_call_string() function (hui.library) to generate Hui
+  events call strings in a bunch.
+- Xml Hui element automatically loads widgets defined in the structure if not
+  already loaded.
+- Added ampoliros.log.amp.get, ampoliros.log.amp.erase and
+  ampoliros.log.amp.logevent remote procedure calls.
+- Added ampoliros.log.remote.get, ampoliros.log.remote.erase and
+  ampoliros.log.remote.logevent remote procedure calls.
+- Added ampoliros.log.db.get, ampoliros.log.db.erase and
+  ampoliros.log.db.logevent remote procedure calls.
+
+CHANGES:
+- Reordered the defs/structure.xml file grouping elements by feature.
+- Changed root main frame name from "prefsop" to "groupup".
+- Now Ampoliros requires PHP DOM support (since 2.7.2).
+- Restored HuiWidgetElement::AddChild() by reference.
+- Minor optimizations.
+- When creating a new site, if a database with the same name of the site
+  database is found now it is dropped and then recreated.
+- Now PHP_MEMORY_LIMIT is set to 16M in the Makefile during ampconfig.cfg
+  creation.
+- Logger::CleanLog() (logger.library) no more recreates the log file with
+  zero bytes size.
+
+FIXES:
+- Added missing definitions of amppage and amptoolbar Hui elements into
+  var/db/amproot.xsql.
+- Fixed issue with Windows platforms when extracting a module.
+- Fixed setup that didn't stopped if the DOM support was not available.
+- Fixed CompareVersionNumbers() (misc.library).
+- Removed wrong log events in module.library.
+- Updating a module no more deletes the module file in modules dir if the name
+  is the same as the old module version.
+- Fixed missing site log error when removing a site.
+
+
+
+2000 2.7.2 - 2002/07/29
+-----------------------
+NEW FEATURES:
+- Added XML Hui widgets element big feature.
+- Added "doc/sdk/xml_hui_element.txt" tutorial for XML Hui element.
+- Added module details feature.
+- Added module details page in root/modules.php.
+- Added the following module keys in defs/general.def: MODULE_AUTHOR,
+  MODULE_AUTHOR_EMAIL, MODULE_AUTHOR_SITE, MODULE_SUPPORT_EMAIL,
+  MODULE_BUGS_EMAIL, MODULE_COPYRIGHT, MODULE_LICENSE, MODULE_LICENSE_FILE.
+- Added mLog property to HuiWidgetElement class (hui.library).
+- Added PHP support check for XML DOM.
+- Added AmpPage Hui element (var/handlers/amppage.hui).
+- Added AmpToolBar Hui element (var/handlers/amptoolbar.hui).
+- Added "nowrap" attribute to link and button Hui elements.
+- Added "bgcolor" attribute to toolbar, vertframe, horizframe and text Hui
+  elements.
+- Added "formsubmit" attribute to button Hui element; it overrides the
+  "action" attribute and performs a submit to a form named as the "formsubmit"
+  attribute.
+- Added hui.js cgi with common JavaScript code.
+- Added name attribute in form HTML code in form Hui element.
+
+CHANGES:
+- Updated README file.
+- Link HUI element now is not a link when no url is given; only the label is
+  printed.
+- Changed defs/general.def file accordingly to new module details feature.
+- Now HuiWidgetElement::AddChild() takes no more the child by reference.
+- Update of modules is performed twice in order to immediately apply some
+  changes at structure level. Slower, but more accurate.
+- Optimized a lot of speed critical code by converting double quotes to single
+  quotes.
+- Changed button Hui element in order to look better when attribute 'horiz' is
+  set to true.
+
+FIXES:
+- Added missing global declarations in xmlrcp.library. They are necessary due
+  to the new OpenLibrary() function.
+- Fixed typo in var/handlers/vertgroup.hui which prevented begin comment from
+  working.
+- Fixed bug in grid Hui element when adding a child with a row or column
+  exceding the preset rows and columns.
+
+
+
+2000 2.7.1 - 2002/07/22
+-----------------------
+NEW FEATURES:
+- Added Italian help nodes.
+- Added soap.library. Check LICENSE.nusoap and AUTHORS for credits.
+- Added doc/sdk/soap.txt Soap SDK guide.
+- Added doc/sdk/soap directory containing Soap API.
+- Added groups in root administration.
+- Added rootgroup.element.
+- Added category attribute to rootpage.element.
+- Added $gEnv global variable. Now $env is a reference of $gEnv; in future
+  $gEnv will be restructured and $env will maintain the current structure
+  for compatibility.
+
+CHANGES:
+- Changed some old style code to new style.
+- Changed many include() calls into OpenLibrary().
+- Post installation script generalpostupdate.php now copies also other
+  LICENSE.* files.
+
+FIXES:
+- Fixed typo in configure script.
+
+
+
+2000 2.7.0 - 2002/07/15 - "Database table update"
+-----------------------
+NEW FEATURES:
+- Added the long awaited table update in admintable.element and
+  roottable.element. For now it can add new columns and remove old columns.
+- Added CompareVersionNumbers() function in misc.library.
+- Added check for Curl extension for SSL support in Xml-Rpc functions.
+- Added User::GetGroup() memebr (users.library) to get user group id.
+- Added site.user.add, site.user.remove, site.group.add, site.group.remove hooks.
+- Added OpenLibrary function (ampoliros.library).
+
+CHANGES:
+- Changed version to 2.7 series, due to new table update important feature.
+- Changed big logo, added a "2000" string.
+
+FIXES:
+- Fixed wrong assignment of site superuser locale settings from
+  admin/locale.php.
+- Added missing HuiPage::mBorder data member.
+- Fixed wrong variable inside single quotes block in xml.library.
+- Fixed broken image link in main pages if OEM logo is not enabled.
+- Fixed "Invalid Ampoliros database handler" failure when finishing web setup
+  phase.
+- Added check in RecRemoveDir() (misc.library) in order to verify if the given
+  dirname exists.
+
+
+
+2000 2.6.7 - 2002/07/08
+-----------------------
+NEW FEATURES:
+- Added OEM settings.
+- Added interface settings.
+- Added some autodocs comments.
+- Added "width" parameter to VertFrame HUI container.
+- Added "width" parameter to VertGroup HUI container.
+- Added "border" parameter to Page HUI container.
+- Added a border to the pages.
+- Added a clean log function in Ampoliros and sites log pages.
+- Added dedicated log for remote procedures in [PRIVATE DIR]/var/log/remote.log.
+- Added AMP_REMOTE_LOG define for remote procedures log.
+- Added remote procedures log page in root/info.php.
+- Added Ampoliros cache feature (cache.library).
+- Added cacheditems.xsql roottable.
+- Added CACHE_PATH define for cache files.
+- Added "doc/sdk/cache.txt" tutorial for cache feature.
+- Added autodocs header to cron.library code.
+- Added "underline" and "bold" parameters to Label HUI widget.
+- Added AMP_HUI_COMMENTS define and configuration parameter for HUI
+  comments control.
+- Added AMP_COMPRESSED_OB define and configuration parameter for
+  compressed output buffering control.
+- Added advanced settings page in root/info.php in order to control
+  AMP_HUI_COMMENTS and AMP_COMPRESSED_OB configuration parameters.
+
+CHANGES:
+- Converted some other double quotes to single quotes.
+- Logger::CleanLog() now recreate the log file after it has been deleted.
+- Rewrote cron.library to PHP coding standard. Added some logging too.
+
+FIXES:
+- Fixed SimpleCron::AddEntry() and SimpleCron::RemoveEntry()
+  (cron.library); due to the checks, adding and removing entries of
+  SIMPLECRONTYPE_REGULAR was not possible.
+
+
+
+2000 2.6.6 - 2002/06/29 - "Module bundles"
+-----------------------
+NEW FEATURES:
+- Added modules bundles feature. Now a collection of modules can be boundled
+  into a single archive file, so you can install/update a bunch of modules
+  with a single step. See doc/sdk/modules_bundles.txt for more info.
+- Added checks before removing lock files during setup phase.
+- Added logging of principal root administration functions.
+- Added some useful status messages in administration pages.
+- Added close widget in TitleBar Hui element.
+- Added new window widget in TitleBar Hui element.
+- Started code of root administration groups, users and profiles.
+- Added the helpnodes for all the page (even if empty).
+- Added setup.library with web setup code.
+- Added a check in Module::Setup (modules.library) before attempting to create
+  the module directory.
+- Added a php script (etc/websetup.php) that launches the second stage setup
+  from command line instead of web, taking arguments from a configuration
+  file (etc/websetup.cfg). Requires PHP cgi binary.
+- Added PHP_EXECUTION_TIME_LIMIT optional configuration parameter in
+  etc/ampconfig.cfg, to set PHP execution time limit. Optional parameter.
+- Added PHP_MEMORY_LIMIT optional configuration parameter in etc/ampconfig.cfg,
+  to set PHP memory limit.
+- Added acceptlicense target in Makefile to skip license during installation.
+
+CHANGES:
+- Changed old help pages with the helpnode Hui element.
+- Removed setup code from www/main.php.
+
+FIXES:
+- Fixed some locale strings.
+- Fixed trouble with Hui::LoadAllWidgets() during installation in
+  www/main.php when setup finishes.
+- Fixed the trouble with ConfigMan class (configman.library) when instancing
+  a new Logger class; there was a strange inclusion of libraries.
+- Fixed the wrong "/ampcgi/" links to CGI_URL.
+- Fixed typo in log string in helpnode.library.
+- Added missing forceinstall="true" in defs/structure.xml to helpnode
+  elements.
+
+
+
+2000 2.6.5 - 2002/06/22
+-----------------------
+NEW FEATURES:
+- Added some .cvsignore files in CVS repository.
+- Added BUGS file.
+- Added check for mandatory file uploads support during installation phase.
+- Added troubleshooting answer for POST forms not passing the parameters.
+- Added error handling for the not already handled PHP error types.
+- Added some useful status messages in administration pages.
+
+CHANGES:
+- Completely reworked ConfigBase (configman.library) system.
+- Changed updater binary in order to work with new ConfigBase system.
+- Changed reference to $PHP_AUTH_x in xmlrpc.php cgi to $_SERVER['PHP_AUTH_x']
+  in order to work with PHP >= 4.1.0.
+- Changed Ampoliros requirements, added file uploads requirement.
+- Reformatted the documentation.
+- Reformatted the Ampoliros header in all appliaple text files.
+
+FIXES:
+- ConfigBase class (configman.library) now doesn't screw anymore files with the
+  same base name.
+- Removed a PHP warning when changing SimpleCron (cron.library) temporary files.
+- Now old XmlRpc permissions are removed when uninstalling a module.
+- Fixed a bug in ModuleDep::CheckModuleDep() (modules.library): when a module
+  has more than one dependency and one of them that is not the last one in list
+  is not met, the method reported that the dependecies were met.
+- Fixed PHP version check handling.
+- Fixed some wrong singles quotes in place of double quotes.
+- Site::MakeDir (sites.library) now checks if the directory already exists
+  before attempting to create it.
+- Function main_showmodule() root/modules.php now checks if the extracted
+  $elems is an array.
+- Fixed some setup phase minor troubles in www/main.php.
+- Added some missing checks when unlinking files in modules.library.
+
+
+
+2000 2.6.4 - 2002/06/14
+-----------------------
+NEW FEATURES:
+- Added ConfigBase class (configman.library).
+- Added site link in main access page.
+- Added hui-logo.gif cgi file.
+
+CHANGES:
+- Changed minimum required PHP version to 4.1.0.
+- ConfigMan class (configman.library) is now a ConfigBase extension class.
+- Disabled logging of PHP notices.
+- Changed deprecated mysql_db_query() in mysql_query() in
+  dblayer_mysql.dblayer.
+- Removed length limit in modules table for modfile field.
+- Added some information in README file.
+
+FIXES:
+- Fixed some wrong strings quoted with single quotes instead of double quotes.
+- Fixed bug in ampconfig.php with $env['disp'] initialization when
+  register_globals is set to On.
+- Suppressed a lot of PHP notices.
+- Fixed wrong references in hui elements ($this->mComment instead of
+  $this->mComments).
+- Fixed uninstalling of extension modules. Module::Uninstall() tried to disable
+  modules from all sites even for extension modules.
+
+
+
+2000 2.6.3 - 2002/06/10 - "Dates localization"
+-----------------------
+NEW FEATURES:
+- Added "doc/sdk/new_release_steps.txt" tutorial.
+- Added "doc/sdk/localization.txt" tutorial.
+- Completed LocaleCountry::FormatTime(), LocaleCountry::FormatDate(),
+  LocaleCountry::FormatShortDate() in locale.library.
+- Added "unixtimestamp" field type in dblayer.library.
+- Added LocaleCountry::FormatArrayDate() (locale.library).
+- Added LocaleCountry::FormatShortArrayDate() (locale.library).
+- Added LocaleCountry::GetDateArrayFromShortDateStamp() (locale.library).
+- Added LocaleCountry::FormatArrayTime() (locale.library).
+- Added help node feature.
+- Added helpnode library (helpnode.library).
+- Added helpnode element (helpnode.element).
+- Added helpnode Hui element (helpnode.hui).
+- Added "doc/sdk/help_nodes.txt" tutorial.
+- Added some help nodes.
+
+CHANGES:
+- Renamed Ampoliros II to Ampoliros 2000.
+- Applied htmlentities() to some hui widgets parameters.
+- Optimized a lot of code by changing double quotes to single quotes.
+- Changed references to some session and other variables in order to work with
+  register_globals turned off, default since PHP 4.2.0.
+
+FIXES:
+- Removed "%" from country descriptors.
+- Some fixes to country descriptors.
+- Added missing quotes to defines in etc/ampconfig.php.
+
+
+
+2.6.2 - 2002/06/04 - "Unlock script"
+------------------
+NEW FEATURES:
+- Added header frame reload in root/network.php when changing network settings.
+- Added "extras" element. File component of extras element types will be copied
+  in the module directory.
+- Added Ampoliros mini logo "amplogo.png" as extras.
+- Added unlock cgi unlock.php. It unlocks a locked Ampoliros.
+- Added ConfigMan::mCommentPrefix (configman.library), useful for not standard
+  comments format.
+
+CHANGES:
+- Removed old code in root/network.php.
+- Updated European country descriptors for EUR currency.
+- Disabled compressed output buffering.
+- Changed some Ampoliros class members (ampoliros.library) return types.
+- Removed old style images in www/cgi.
+- Changed default.css (used by oophtml.library) to look similar to hui.css.
+
+FIXES:
+- Fixed country descriptors.
+
+
+
+2.6.1 - 2002/05/23
+------------------
+NEW FEATURES:
+- Added many comments to code in headerdoc format.
+- Added "AllGroupsActive" parameter in TreeMenu Hui element.
+- Added some other parameters to various Hui widgets.
+- Added Hui::mComment boolean member to enable/disable comments in Hui final
+  code.
+- Added module details page in modules.php.
+
+CHANGES:
+- Converted main.php files to Hui.
+- Improved Hui style sheet.
+- Applied "allgroupsactive" parameter to root sum page treemenu element.
+- By default Hui comments in final code are disabled.
+- Better handling of Ampoliros log files in root/info.php.
+
+FIXES:
+- Fixed references to log handler in all element handlers.
+- Fixed wrong handling of dispatcher event in listbox.hui when "multiple"
+  attribute is not set as true.
+- Fixed wrong handling of error result codes in hui.library.
+- Fixed file.hui handler, it missed a final ">".
+
+
+
+2.6.0 - 2002/04/17 - "Hui and hooks"
+------------------
+NEW FEATURES:
+- Added hooks big feature.
+- Added hui big feature.
+- Added Ampoliros name.
+- Started Ampoliros domain system big feature.
+- Added Network root page.
+- Added Informations root page.
+- Added LICENSE.xmlrpc file for some parts of xmlrpc code license.
+- Added auth.php in Ampoliros public directory root.
+- Added site log and site database log files viewer in sites administration.
+- Added SITESTUFF_PATH define, alias for old STORESTUFF_PATH define.
+- Added logging to site log files in sites.library.
+- Added TODO file.
+- Added AMPOLIROS_SETUP_PHASE define, defined during Ampoliros setup phase.
+- Added Dump class in debug.library.
+- Added error handler.
+- Added doc directory.
+- Added autodocs build script.
+- Added XmlRpc sdk docs.
+- Added "Slackware 8 to Ampoliros server" guide.
+- Added XmlRpc accounts.
+- Added example config.h file.
+
+CHANGES:
+- Resized header frame in root administration for Ampoliros name and domain
+  text.
+- Updated Edd Dumbill's XmlRpc code to 1.02 release. Refer to relative
+  changelog for details.
+- New hui look.
+- General code cleanup and revision.
+- Logger::LogEvent() now formats date and time strings.
+- Reorganized auth.php and ampconfig.php files.
+- Reformatted CHANGES file.
+- Optimized catalog files.
+- Various minor optimizations.
+
+FIXES:
+- Fixed missing dblayer element handler from the elementtypes table in
+  amproot.xsql file.
+- Fixed dblayer_mysql::_Close(): removed odd mysql_close().
+- Fixed dblayer_mysql::_CreateDB(): removed odd mysql_close().
+- Fixed bug in Sites::RemoveAllUsers() not removing all the users.
+- Fixed wrong recordset handling with empty result resource.
+- Fixed wrong database query in Group::Remove() when updating users table.
+- Fixed wrong variable in User::EditUser() when updating "otherdata" field in
+  user table.
+- Fixed odd method to get current directory in modules.library.
+- Fixed query in Module::Install().
+- Fixed wrong function name in hook events elements in structure.xml.
+
+
+
+2.5.4 - 02/02/2002
+------------------
+FIXES:
+- Fixed handling of new element of new element types when updating a module.
+
+
+
+2.5.3 - 13/12/2001
+------------------
+NEW FEATURES:
+- Added TROUBLESHOOTING file.
+
+
+
+2.5.2 - 30/11/2001
+------------------
+FIXES:
+- Fixed dblayer->split_sql() member troubles with some queries.
+- Added a "@" before an is_dir() with a possibly non existant dir argument.
+
+
+
+2.5.1 - 15/11/2001
+------------------
+NEW FEATURES:
+- Added site activation date field.
+- Added module activation date field.
+- Added site name in admin page title.
+- Added host name in root page title.
+
+CHANGES:
+- Changed default time format in dblayer.library from h:i:s to H:i:s.
+
+FIXES:
+- Fixed permissions handling of hidden pages.
+- Fixed media selection in site data preferences.
+- Fixed some column lengths in root and site tables.
+- Added missing "index.php" adminpage element in structure.xml.
+- Added missing "index.php" rootpage element in structure.xml.
+
+
+
+2.5.0 - "New modules system"
+-----
+NEW FEATURES:
+- New modular system based on elements and element types.
+
+
+
+New version template:
+SECURITY:
+FIXES:
+CHANGES:
+NEW FEATURES:
+DEPRECATED:

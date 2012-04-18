@@ -1,0 +1,62 @@
+
+                   Innomatic Web Application Container
+
+                        http://www.innomatic.org
+
+
+
+                          AUTHORS AND CREDITS
+                          ===================
+
+
+
+Core team
+---------
+
+Alex Pagnoni                <alex.pagnoni@innoteam.it>
+- Original concept, coding.
+
+
+
+Authors of external code and other contributions (alphabetical order)
+---------------------------------------------------------------------
+
+Dan Allen
+- Some code in WebApp classes.
+
+Erik Arvidsson				http://webfx.eae.net/contact.html#erik
+- pngbehavior.htc
+
+Josh Barger                 <josh.barger@attbi.com>
+- Tar class.
+
+Everaldo Coelho             <everaldo@everaldo.com>
+- Crystal icon set used as default theme.
+
+Edd Dumbill                 <edd@usefulinc.com>
+Andres Salomon              <dilinger@voxel.net>
+Geoffrey T. Dairiki
+- Original XML-RPC code in XML-RPC classes.
+
+Manuel Lemos                <mlemos@acm.org>
+- Some code in DataAccess classes.
+
+John Lim                    <jlim@natsoft.com.my>
+- Lot of code from ADODB in DataAccess classes.
+
+Boris Penck                 <boris@gamate.com>
+- FileMan class.
+
+Marco Pratesi               <pratesi@telug.it>
+- Original PHP Layers Menu in menu.wui.
+
+Saravanan                   <winsaravanan@yahoo.com>
+- Mail class.
+
+
+
+Misc credits
+------------
+
+Thanks to all those who contributed by reporting bugs and issues.
+

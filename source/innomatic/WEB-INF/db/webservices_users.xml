@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="webservices_users">
+		<field name="id" type="integer" notnull="1" />
+		<field name="username" type="text" length="50" notnull="1" />
+		<field name="password" type="text" notnull="1" />
+		<field name="profileid" type="integer" notnull="1" />
+		<field name="domainid" type="integer" />
+		<key field="id" type="unique" />
+		<key field="username" type="index" />
+	</table>
+
+	<sequence name="webservices_users_id_seq" />
+
+</database>

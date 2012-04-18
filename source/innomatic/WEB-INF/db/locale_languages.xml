@@ -1,0 +1,10 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="locale_languages">
+		<field name="langshort" type="text" length="6" notnull="1" />
+		<field name="langname" type="text" length="30" notnull="1" />
+		<key field="langshort" type="index" />
+	</table>
+
+</database>

@@ -1,0 +1,12 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="applications_options_disabled">
+
+		<field name="applicationid" type="integer" notnull="1" />
+		<field name="optionname" type="text" notnull="1" />
+		<field name="domainid" type="integer" notnull="1" />
+
+	</table>
+
+</database>

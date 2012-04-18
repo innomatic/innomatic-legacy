@@ -1,0 +1,12 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="applications_repositories">
+		<field name="id" type="integer" notnull="1" />
+		<field name="accountid" type="integer" notnull="1" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="applications_repositories_id_seq" />
+
+</database>

@@ -1,0 +1,18 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="domain_panels">
+		<field name="id" type="integer" notnull="1" />
+		<field name="groupid" type="integer" />
+		<field name="name" type="text" length="50" />
+		<field name="iconfile" type="text" length="250" />
+		<field name="catalog" type="text" length="250" />
+		<field name="themeicon" type="text" default="" />
+		<field name="themeicontype" type="text" default="" />
+		<key field="id" type="unique" />
+		<key field="name" type="index" />
+	</table>
+
+	<sequence name="domain_panels_id_seq" />
+
+</database>

@@ -1,0 +1,11 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="applications_dependencies">
+		<field name="appid" type="integer" notnull="1" />
+		<field name="moddep" type="text" length="50" notnull="1" />
+		<field name="deptype" type="integer" notnull="1" />
+		<field name="version" type="text" default="" />
+	</table>
+
+</database>

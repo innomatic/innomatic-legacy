@@ -1,0 +1,11 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="domain_users_settings">
+		<field name="userid" type="integer" notnull="1" />
+		<field name="keyname" type="text" length="50" notnull="1" />
+		<field name="val" type="text" />
+		<key field="keyname" type="index" />
+	</table>
+
+</database>

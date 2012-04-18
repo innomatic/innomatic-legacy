@@ -1,0 +1,12 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="applications_components_register">
+		<field name="appname" type="text" length="50" notnull="1" />
+		<field name="categoryid" type="integer" notnull="1" />
+		<field name="componentname" type="text" length="200" notnull="1" />
+		<field name="domainid" type="integer" />
+		<field name="override" type="text" length="10" default="false" />
+	</table>
+
+</database>

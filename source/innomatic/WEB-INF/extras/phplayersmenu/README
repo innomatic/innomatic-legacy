@@ -1,0 +1,247 @@
+----------------------------------------------
+The PHP Layers Menu System 2.3.5 (development)
+----------------------------------------------
+
+It is released under the GNU Lesser General Public License,
+either Version 2.1, or (at your option) any later version
+(see the file COPYING for details).
+
+It is a hierarchical dynamic menu system to rapidly choose
+among the items.
+It achieves a compact view and a reasonably small file size
+for the page also with a very large number of entries.
+An arbitrary number of vertical and horizontal menus can be used
+on the same page.
+The menus behaviour is analogous to the Gnome, KDE, and MS Windows
+main menus.
+As much levels as needed can be used and each menu is dynamically
+generated starting from its menu structure (that is read from a file
+or from a string), that is rather simple and intuitive.
+Starting from version 2.3.3, data related to the menu items can be
+retrieved also from a suited DB table.
+The menu system also allows generation of layers-based Tree Menus,
+whose look is analogous to the most widely used file managers and
+bookmark handling tools and whose nodes can be exploded and collapsed
+on sufficiently DOM-compliant browsers (they remain completely exploded
+for the other browsers).
+An extended class is provided to prepare also "server-side based"
+Tree Menus (that have just the same look of the above layers-based
+Tree Menus, but require the PHP support on the web server) and
+Plain Menus that do not require the JavaScript support to the browser.
+
+The menu system is rather easy to use, as you can see looking
+at the demo menu structures and at the demo script source code.
+It employs the PEAR conforming version of the PHPLib Template class.
+If you want to try it without PHP installed, load in your browser
+the static demo, i.e. index-static.html (please note that, in this
+case, the contents of the server-side tree menus are static).
+
+The Layers Menu requires the JavaScript support on the browser;
+it has been tested and it works at least with the following browsers:
+
+- Mozilla >= 0.7 (version >= 0.9.1 is suggested)
+- Netscape >= 6.1 and other browsers based on Mozilla, e.g. Galeon
+- Netscape >= 4.07
+- Konqueror >= 2.1 (see in the following)
+- Opera 5, 6, 7
+- Internet Explorer 4, 5, 5.5, 6
+
+Some notes about Konqueror...
+All the layers should disappear when clicking elsewhere
+in the browser window; this works on Konqueror >= 2.2,
+but it does not work on Konqueror 2.1.
+The layers menu is not correctly usable with Konqueror 1.9.8 (KDE 2.0),
+because K. 1.9.8 triggers onmouseover events also for hidden layers;
+currently, I do not know if there is a way to avoid this behaviour.
+
+The layers based Tree Menus have more strict requirements and provide
+complete functionality only to browsers sufficiently DOM-compliant
+for the purpose at hand, i.e.:
+
+- Mozilla (version >= 0.9.1 is suggested)
+- Netscape >= 6.1 and other browsers based on Mozilla, e.g. Galeon
+- Konqueror >= 3.0
+- Opera 7
+- Internet Explorer 4, 5, 5.5, 6
+
+while the following browsers are *not* supported, as supporting them
+is either not possible at all or really too hard, even though full
+accessibility is provided for them:
+
+- Netscape 4.x
+- Konqueror 2.x
+- lynx and links
+- Opera 5 and 6
+
+The Tree Menus always appear completely exploded (and no node can be
+collapsed) on the above browsers, and this guarantees a rather good
+accessibility for them.
+Sorry for Netscape 4; my choice of not supporting it for the JavaScript
+Tree Menu makes me very sad, also because it has been the browser
+that has disclosed me the world of Internet; but, alas, it is time
+to begin abandoning it... thank you so much, and goodbye...
+
+Browser detection
+-----------------
+
+Basically, the following cases are considered:
+DOM --> Document Object Model ( http://www.w3c.org/DOM/ )
+NS4 --> Netscape 4.x
+IE4 --> Internet Explorer 4
+
+Apart from some details and workarounds, it is made the simplifying
+assumption that sufficiently recent browsers (Mozilla, NS >= 6.1,
+Konqueror >= 2.1, Opera >= 5, IE >= 5) can be considered compliant
+to the DOM specifications if only not-so-much-advanced features
+are employed, while Netscape 4.x and Internet Explorer 4 have to be
+handled as distinct cases.
+Here and there it is necessary to use specific code also for
+Konqueror, Opera, and Internet Explorer.
+
+Working principle
+-----------------
+
+The generation of layers is based on a depth-first search over the tree,
+as it can be easily understood examining layersmenu*.txt.
+The depth-first search allows to logically arrange in a one-dimension
+sequence the tree's nodes, just as the directories in file managers
+providing a tree view (for example, the Gnome's "gmc" and Nautilus,
+and the MS Windows' file browser) when all branches are expanded,
+to show all subdirectories.
+
+Nodes-layers correspondence
+---------------------------
+
+In the categories tree, the "root node" is represented
+by the "Top" category, that does not appear in the layers menu.
+Then we have to consider the children of the root node,
+i.e. the "first-level" subcategories (of "Top"), that have to be
+handled differently from the other nodes, as they have to be always
+visible on the page.
+Finally, we have to distinguish leaf nodes - i.e. the ones without
+children - (categories without corresponding subcategories) from
+all the other nodes; such distinction is significant also for
+the children of the root node ("first-level" subcategories);
+in the subsequent part of the present document it will be clear why
+leaf nodes have to be handled a bit differently from the other nodes.
+
+The algorithm employed to generate the needed layers performs a scan
+of nodes analogous to the one foreseen in the PHP Tree Menu 1.1,
+authored by Bjorge Dijkstra (bjorge@gmx.net) and published at
+http://www.zinc.f2s.com/scriptorium/index.php/treemenu
+In fact, the Layers Menu scans the nodes reading a menu structure
+whose format is analogous to the one used by the PHP Tree Menu 1.1.
+
+Implementation driving rules
+----------------------------
+
+Each layer lists all the children of a not-leaf node; each
+of these children has a link to the corresponding URL associated with.
+
+The root node's children (i.e. the subcategories of "Top")
+can be considered as belonging to a "special" layer, as they have
+to be always visible on the page, while, in the general case,
+all other layers are hidden.
+
+Each layer is defined when it is involved by the depth-first search;
+its geometrical placement is identified by its top-left corner
+coordinates and it depends by the route leading to it.
+In particular, it depends on the position and width of the
+"father" layer and on size and scroll of the browsing window;
+the vertical coordinate has to be related to the vertical coordinate
+of the link corresponding to the "father node".
+
+A LMPopUpL([layername]) function is defined, that is used to set
+as visible the layer labeled as [layername]; for a given layer,
+the label (name) is obtained as 'L[N]', where [N] is a progressive
+integer number, identifying the position (line) of the father node
+inside the depth-first search result (starting from 0 for the root node).
+
+A shutdown() function is defined, that is used to set as hidden
+all the layers (only links related the root node's children
+are always visible on the page).
+
+A LMPopUp([menuName]) function is defined, that is used to set as visible
+all layers corresponding to the route leading to the corresponding layer,
+starting from the link related to a root node's child.
+All other layers have to be hidden, hence such a function starts calling
+the shutdown() and the set as visible all the layers on the name route.
+
+It is imposed that the Layers Menu behaviour is completely analogous
+to the behaviour of the Gnome and KDE main menus and of the "Start" menu
+of MS Windows.
+This last rule implies the following sub rules.
+
+	In any case, a click event outside of visible layers
+	has to trigger the hiding of all the layers (shutdown()).
+
+	The positioning of the mouse pointer over a link corresponding
+	to a non-leaf node has to trigger the visibility of all the
+	layers on the route to the layer containing the "children
+	of the link", and only of that layers, while all the others
+	have to be hidden.
+
+	The positioning of the mouse pointer over a link corresponding
+	to a leaf node (category without subcategories) has to trigger
+	the visibility of all the layers on the route to the layer
+	under the mouse pointer, and only of that layers,
+	while all the others have to be hidden.
+	This rule implies also that, if the mouse pointer exits from
+	a link corresponding to a non-leaf node and goes over a link
+	corresponding to a leaf node, then the "highest level" layer
+	among the visible ones will become hidden.
+	For a leaf node which is a root node's child, this rule simply
+	implies a shutdown().
+
+Useful hints
+------------
+
+The geometry and the appearance of the menu is determined by
+parameters chosen invoking suited methods (refer to the class
+implementation in layersmenu.inc.php) and by the HTML templates,
+provided in the "templates" directory.
+
+At the end of the _parseCommon() method (layersmenu.inc.php)
+there is a commented out "if" block to handle the root node's children
+differently from children with hierarchical level > 1.
+This is intended as an alternative that is useful if you want
+to associate links only to leaf nodes, i.e. when non-leaf subcategories
+are intended to be empty (you are associating products only to leaf
+subcategories) and, hence, it is unuseful to visit them.
+
+It has been decided to add to each layer a title, corresponding
+to the name of the father node, because there is not a strict
+visual correspondence between a given layer and its "father link",
+but this correspondence may become more evident if the layer
+has a title recalling the "father".
+
+When the mouse passes over a link corresponding to a non leaf node,
+the starting ordinate of the layer to be popped up is set to the
+vertical coordinate of the link minus an offset (unless the size
+of the browsing window imposes some "wrapping"); such offset is chosen
+when invoking the new*Menu() method.
+
+Alas, Netscape 4 is not able to return the vertical coordinate
+of the link by relying on the DOM tree; hence, for Netscape 4,
+such coordinate is estimated (with very, very good accuracy) through
+the vertical coordinate that the pointer has when it triggers
+the onmouseover event; that's why the vertical coordinate of the
+mouse pointer position is continuously detected through a portion
+of JavaScript code specifically devoted to Netscape 4.
+A threshold for the triggering of the layer position is used too,
+to avoid flickering of the layer to continuous repositioning
+if the mouse is moved around the link.
+
+How do you detect if a node is a leaf?
+Well, with the tree items ordered according to a depth-first search,
+a node is a leaf if one of the following two conditions is true;
+- it is the last node of the tree;
+- it is not the last node of the tree, and the hierarchical level
+  associated to the subsequent node is larger or equal to the current
+  hierarchical level.
+It should be rather easy to become convinced of this statement
+considering the view corresponding to a completely expanded tree menu.
+
+--
+Marco Pratesi
+

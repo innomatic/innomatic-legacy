@@ -1,0 +1,12 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="applications_enabled">
+		<field name="applicationid" type="integer" notnull="1" />
+		<field name="domainid" type="integer" notnull="1" />
+		<field name="activationdate" type="date" />
+		<field name="expirydate" type="date" />
+		<field name="active" type="boolean" />
+	</table>
+
+</database>

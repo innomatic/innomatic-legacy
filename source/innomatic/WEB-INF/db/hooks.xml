@@ -1,0 +1,18 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="hooks">
+		<field name="id" type="integer" notnull="1" />
+		<field name="functionapplication" type="text" notnull="1" />
+		<field name="function" type="text" notnull="1" />
+		<field name="event" type="text" notnull="1" />
+		<field name="hookapplication" type="text" notnull="1" />
+		<field name="hookhandler" type="text" notnull="1" />
+		<field name="hookmethod" type="text" notnull="1" />
+
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="hooks_id_seq" />
+
+</database>

@@ -1,0 +1,904 @@
+<?xml version="1.0"?>
+<application>
+
+	<definition>
+		<idname>innomatic</idname>
+		<release>
+			<version>5.0.1</version>
+			<date>2009/04/30</date>
+			<changesfile>CHANGES</changesfile>
+		</release>
+		<description><![CDATA[<strong><font color="#c9c8ce">Inno</font><font color="#9392b4">matic 5000</font></strong> Web Application Container.]]></description>
+		<category>innomatic</category>
+		<iconfile>innomatic.png</iconfile>
+		<dependencies>
+			<dependency>innomatic[5.0]</dependency>
+			<dependency>php[5.0]</dependency>
+			<dependency>zlib.extension</dependency>
+			<suggestion>curl.extension</suggestion>
+			<suggestion>pcntl.extension</suggestion>
+			<suggestion>posix.extension</suggestion>
+		</dependencies>
+		<options>
+			<!-- <option></option> -->
+		</options>
+		<legal>
+			<author>
+				<name>Innoteam</name>
+				<email>info@innoteam.it</email>
+				<web>http://www.innoteam.it/</web>
+			</author>
+			<copyright>Copyright (C) 1999-2012 Innoteam S.r.l.</copyright>
+			<license>New BSD</license>
+			<licensefile>LICENSE</licensefile>
+		</legal>
+		<support>
+			<supportemail>support@innomatic.org</supportemail>
+			<bugsemail>bugs@innomatic.org</bugsemail>
+			<maintainer>
+				<name>Alex Pagnoni</name>
+				<email>alex.pagnoni@innoteam.it</email>
+			</maintainer>
+		</support>
+	</definition>
+
+	<components>
+
+		<!--
+			********************************************************
+			CORE AND BASE PACKAGES
+			********************************************************
+		-->
+
+		<!-- Components - They must be at top of structure file -->
+
+		<component name="component" file="ComponentComponent.php" />
+		<component name="domaingroup" file="DomaingroupComponent.php" />
+		<component name="domainpanel" file="DomainpanelComponent.php" />
+		<component name="domaintable" file="DomaintableComponent.php" />
+		<component name="binary" file="BinaryComponent.php" />
+		<component name="script" file="ScriptComponent.php" />
+		<component name="catalog" file="CatalogComponent.php" />
+		<component name="shared" file="SharedComponent.php" />
+		<component name="class" file="ClassComponent.php" />
+		<component name="country" file="CountryComponent.php" />
+		<component name="configurationfile"
+			file="ConfigurationfileComponent.php" />
+		<component name="dataaccessdriver"
+			file="DataaccessdriverComponent.php" />
+		<component name="extras" file="ExtrasComponent.php" />
+		<component name="helpnode" file="HelpnodeComponent.php" />
+		<component name="hook" file="HookComponent.php" />
+		<component name="hookevent" file="HookeventComponent.php" />
+		<component name="hookhandler" file="HookhandlerComponent.php" />
+		<component name="wuiwidget" file="WuiwidgetComponent.php" />
+		<component name="wuistyle" file="WuistyleComponent.php" />
+		<component name="wuicolorsset" file="WuicolorssetComponent.php" />
+		<component name="wuiiconsset" file="WuiiconssetComponent.php" />
+		<component name="wuitheme" file="WuithemeComponent.php" />
+		<component name="wuivalidator" file="WuivalidatorComponent.php" />
+		<component name="language" file="LanguageComponent.php" />
+		<component name="library" file="LibraryComponent.php" />
+		<component name="maintenancetask"
+			file="MaintenancetaskComponent.php" />
+		<component name="applicationsettings"
+			file="ApplicationsettingsComponent.php" />
+		<component name="rootgroup" file="RootgroupComponent.php" />
+		<component name="rootpanel" file="RootpanelComponent.php" />
+		<component name="roottable" file="RoottableComponent.php" />
+		<component name="domainsettings"
+			file="DomainsettingsComponent.php" />
+		<component name="tempdir" file="TempdirComponent.php" />
+		<component name="webserviceshandler"
+			file="WebserviceshandlerComponent.php" />
+		<component name="webservicesmethod"
+			file="WebservicesmethodComponent.php" />
+		<component name="webappskeleton" file="WebappskeletonComponent.php" />
+		<component name="webapphandler" file="WebapphandlerComponent.php" />
+		<component name="ajaxcall" file="AjaxcallComponent.php" />
+		
+		<!-- Installation scripts -->
+
+		<generalpreupdate file="generalpreupdate.php" />
+		<generalpostupdate file="generalpostupdate.php" />
+
+		<!-- PHP -->
+
+		<class name="innomatic/php/PHPCodeChecker.php" />
+		<class name="innomatic/php/PHPSession.php" />
+		<class name="innomatic/php/PHPTemplate.php" />
+		<class name="innomatic/php/PHPWebAppHandler.php" />
+		<webappskeleton name="php" catalog="innomatic::webapps" />
+
+		<!-- Setup -->
+
+		<class name="innomatic/setup/InnomaticSetup.php" />
+		<class name="innomatic/desktop/layout/setup/index.php" />
+		<class name="innomatic/desktop/layout/setup/logo.php" />
+		<class name="innomatic/desktop/layout/setup/main.php" />
+		<class name="innomatic/desktop/layout/setup/menu.php" />
+		<script name="kickstart.php" />
+		<configurationfile name="kickstart.ini" />
+
+		<!--  Root container -->
+
+		<class name="innomatic/core/RootContainer.php" />
+
+		<!-- Innomatic core -->
+
+		<class name="innomatic/core/InnomaticContainer.php" />
+		<class name="innomatic/core/InnomaticSettings.php" />
+		<class name="innomatic/debug/InnomaticDump.php" />
+
+		<catalog name="innomatic" />
+
+		<shared name="innomatic_logo.png" />
+
+		<helpnode name="innomatic" file="innomatic" forceinstall="true" />
+
+		<hookevent name="instance.startup" function="instance"
+			event="startup" forceinstall="true" />
+		<hookevent name="instance.shutdown" function="instance"
+			event="shutdown" forceinstall="true" />
+
+		<tempdir name="pids" forceinstall="true" />
+
+		<webserviceshandler name="innomatic"
+			file="InnomaticWebServicesHandler.php" />
+
+		<webservicesmethod name="innomatic.version"
+			function="InnomaticWebServicesHandler::version" handler="innomatic"
+			catalog="innomatic::webservices" forceinstall="true" />
+		<webservicesmethod name="innomatic.log.root.get"
+			function="InnomaticWebServicesHandler::log_root_get"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" />
+		<webservicesmethod name="innomatic.log.root.erase"
+			function="InnomaticWebServicesHandler::log_root_erase"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" unsecure="1" />
+		<webservicesmethod name="innomatic.log.root.logevent"
+			function="InnomaticWebServicesHandler::log_root_logevent"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" unsecure="1" />
+
+		<!-- Processes, hooks and semaphores -->
+
+		<tempdir name="semaphores" forceinstall="true" />
+
+		<class name="innomatic/process/Process.php" />
+		<class name="innomatic/process/Semaphore.php" />
+		<class name="innomatic/process/Thread.php" />
+		<class name="innomatic/process/Crontab.php" />
+		<class name="innomatic/process/Hook.php" />
+		<class name="innomatic/process/HookHandler.php" />
+
+		<roottable name="hooks" file="hooks.xml" />
+		<roottable name="hooks_events" file="hooks_events.xml" />
+
+		<!--  Input / Output -->
+
+		<class name="innomatic/io/filesystem/DirectoryUtils.php" />
+
+		<!-- Archives -->
+
+		<class name="innomatic/io/archive/Archive.php" />
+		<class name="innomatic/io/archive/archivers/PclZip.php" />
+		<class name="innomatic/io/archive/archivers/Tar.php" />
+
+		<!-- Net -->
+
+		<class name="innomatic/net/mail/Mail.php" />
+
+		<!-- XML -->
+
+		<class name="innomatic/xml/XMLParser.php" />
+
+		<!-- Security -->
+
+		<class name="innomatic/security/SecurityManager.php" />
+
+		<rootpanel name="security" catalog="innomatic::root_menu"
+			category="innomatic" themeicon="important" forceinstall="true" />
+
+		<!-- Maintenance -->
+
+		<class name="innomatic/maintenance/MaintenanceHandler.php" />
+		<class name="innomatic/maintenance/MaintenanceTask.php" />
+
+		<roottable name="maintenance_tasks"
+			file="maintenance_tasks.xml" />
+
+		<script name="maintenance.php" />
+
+		<hookevent name="instance.maintenance" function="instance"
+			event="maintenance" forceinstall="true" />
+
+		<maintenancetask name="innomatic_logs"
+			file="InnomaticLogsMaintenance.php" catalog="innomatic::maintenance"
+			enabled="false" />
+		<maintenancetask name="innomatic_cache"
+			file="InnomaticCacheMaintenance.php" catalog="innomatic::maintenance"
+			enabled="false" />
+		<maintenancetask name="innomatic_requirements"
+			file="InnomaticRequirementsMaintenance.php"
+			catalog="innomatic::maintenance" enabled="false" />
+
+		<rootpanel name="maintenance" catalog="innomatic::root_menu"
+			category="innomatic" themeicon="package_settings"
+			forceinstall="true" />
+			
+		<!-- Scripts -->
+		
+		<class name="innomatic/scripts/ScriptContainer.php" />
+		<script name="scripts_container.php" />
+
+		<!-- Socket Server -->
+
+		<class name="innomatic/net/socket/SequentialServerSocket.php" />
+		<class name="innomatic/net/socket/ServerSocket.php" />
+		<class name="innomatic/net/socket/Socket.php" />
+		<class name="innomatic/net/socket/SocketException.php" />
+		<class name="innomatic/net/socket/SocketHandler.php" />
+		<class name="innomatic/net/socket/ThreadedServerSocket.php" />
+
+		<!-- Applications -->
+
+		<class name="innomatic/application/Application.php" />
+		<class name="innomatic/application/ApplicationSettings.php" />
+		<class name="innomatic/application/ApplicationDependencies.php" />
+		<class name="innomatic/application/ApplicationComponent.php" />
+		<class
+			name="innomatic/application/ApplicationComponentFactory.php" />
+		<class
+			name="innomatic/application/ApplicationComponentRegister.php" />
+		<class
+			name="innomatic/application/ApplicationStructureDefinition.php" />
+
+		<hookevent name="application.enable.calltime"
+			function="application.enable" event="calltime" forceinstall="true" />
+		<hookevent name="application.enable.applicationenabled"
+			function="application.enable" event="applicationenabled"
+			forceinstall="true" />
+		<hookevent name="application.disable.calltime" event="calltime"
+			forceinstall="true" />
+		<hookevent name="application.disable.applicationdisabled"
+			function="application.disable" event="applicationdisabled"
+			forceinstall="true" />
+
+		<rootpanel name="applications" themeicon="kpackage"
+			catalog="innomatic::root_menu" category="innomatic"
+			forceinstall="true" />
+
+		<roottable name="applications_components_types"
+			file="applications_components_types.xml" />
+		<roottable name="applications_settings"
+			file="applications_settings.xml" />
+		<roottable name="applications_dependencies"
+			file="applications_dependencies.xml" />
+		<roottable name="applications_components_register"
+			file="applications_components_register.xml" />
+		<roottable name="applications" file="applications.xml" />
+		<roottable name="applications_options"
+			file="applications_options.xml" />
+		<roottable name="applications_options_disabled"
+			file="applications_options_disabled.xml" />
+
+		<tempdir name="appinst" forceinstall="true" />
+
+		<webservicesmethod name="innomatic.applications.list"
+			function="InnomaticWebServicesHandler::applications_list"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" />
+		<webservicesmethod
+			name="innomatic.applications.application.install"
+			function="InnomaticWebServicesHandler::applications_application_install"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" unsecure="1" />
+		<webservicesmethod
+			name="innomatic.applications.application.remove"
+			function="InnomaticWebServicesHandler::applications_application_remove"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" unsecure="1" />
+
+		<!-- AppCentral -->
+
+		<class name="innomatic/application/AppCentralRemoteServer.php" />
+
+		<roottable name="applications_repositories"
+			file="applications_repositories.xml" />
+
+		<tempdir name="appcentral-client" forceinstall="true" />
+
+		<!-- Applications Key Ring -->
+
+		<class name="innomatic/application/ApplicationKeyRing.php" />
+
+		<roottable name="applications_keyring_keys"
+			file="applications_keyring_keys.xml" />
+
+		<!-- Domains -->
+
+		<domaintable name="domain_settings" file="domain_settings.xml" />
+
+		<hookevent name="domain.create.calltime"
+			function="domain.create" event="calltime" forceinstall="true" />
+		<hookevent name="domain.create.domaincreated"
+			function="domain.create" event="domaincreated" forceinstall="true" />
+		<hookevent name="domain.edit.calltime" function="domain.edit"
+			event="calltime" forceinstall="true" />
+		<hookevent name="domain.edit.domainedited"
+			function="domain.edit" event="domainedited" forceinstall="true" />
+		<hookevent name="domain.chpasswd.calltime"
+			function="domain.chpasswd" event="calltime" forceinstall="true" />
+		<hookevent name="domain.chpasswd.passwordchanged"
+			function="domain.chpasswd" event="passwordchanged"
+			forceinstall="true" />
+		<hookevent name="domain.remove.calltime"
+			function="domain.remove" event="calltime" forceinstall="true" />
+		<hookevent name="domain.remove.domainremoved"
+			function="domain.remove" event="domainremoved" forceinstall="true" />
+		<hookevent name="domain.user.add.calltime"
+			function="domain.user.add" event="calltime" forceinstall="true" />
+		<hookevent name="domain.user.add.useradded"
+			function="domain.user.add" event="useradded" forceinstall="true" />
+		<hookevent name="domain.user.remove.calltime"
+			function="domain.user.remove" event="calltime" forceinstall="true" />
+		<hookevent name="domain.user.remove.userremoved"
+			function="domain.user.remove" event="userremoved"
+			forceinstall="true" />
+		<hookevent name="domain.group.add.calltime"
+			function="domain.group.add" event="calltime" forceinstall="true" />
+		<hookevent name="domain.group.add.groupadded"
+			function="domain.group.add" event="useradded" forceinstall="true" />
+		<hookevent name="domain.group.remove.calltime"
+			function="domain.group.remove" event="calltime" forceinstall="true" />
+		<hookevent name="domain.group.remove.groupremoved"
+			function="domain.group.remove" event="userremoved"
+			forceinstall="true" />
+		<hookevent name="domain.application.enable.calltime"
+			function="domain.application.enable" event="calltime"
+			forceinstall="true" />
+		<hookevent name="domain.application.enable.applicationenabled"
+			function="domain.application.enable" event="applicationenabled"
+			forceinstall="true" />
+		<hookevent name="domain.application.disable.calltime"
+			function="domain.application.disable" event="calltime"
+			forceinstall="true" />
+		<hookevent name="domain.application.disable.applicationdisabled"
+			function="domain.application.disable" event="applicationdisabled"
+			forceinstall="true" />
+
+		<class name="innomatic/domain/Domain.php" />
+		<class name="innomatic/domain/DomainSettings.php" />
+
+		<rootpanel name="domains" catalog="innomatic::root_menu"
+			category="innomatic" themeicon="folder_home" themeicontype="filesystems"
+			forceinstall="true" />
+
+		<roottable name="applications_enabled"
+			file="applications_enabled.xml" />
+		<roottable name="domains" file="domains.xml" />
+
+		<webservicesmethod name="innomatic.domains.list"
+			function="InnomaticWebServicesHandler::domains_list"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" />
+		<webservicesmethod
+			name="innomatic.domains.domain.enabledapplications"
+			function="InnomaticWebServicesHandler::domains_domain_enabledapplications"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" />
+
+		<!--
+			********************************************************
+			STANDARDS
+			********************************************************
+		-->
+
+		<!-- Interfaces -->
+
+		<class name="innomatic/util/Command.php" />
+
+		<!-- Collections -->
+
+		<!-- Patterns -->
+
+		<class name="innomatic/util/Observable.php" />
+		<class name="innomatic/util/Observer.php" />
+
+		<!-- Idioms -->
+
+		<class name="innomatic/util/Registry.php" />
+		<class name="innomatic/util/Singleton.php" />
+
+		<!--
+			********************************************************
+			INTEGRATION
+			********************************************************
+		-->
+
+		<!-- Data access -->
+
+		<dataaccessdriver name="mysql" file="MysqlDataAccess"
+			desc="MySQL 3.22+" />
+		<dataaccessdriver name="pgsql" file="PgsqlDataAccess"
+			desc="PostgreSQL 7.0+" />
+
+		<class name="innomatic/dataaccess/DataAccess.php" />
+		<class name="innomatic/dataaccess/DataAccessSourceName.php" />
+		<class name="innomatic/dataaccess/DataAccessFactory.php" />
+		<class name="innomatic/dataaccess/DataAccessException.php" />
+		<class name="innomatic/dataaccess/DataAccessObject.php" />
+		<class name="innomatic/dataaccess/DataAccessResult.php" />
+		<class name="innomatic/dataaccess/DataAccessXmlTable.php" />
+		<class
+			name="innomatic/dataaccess/DataAccessXmlTableUpdater.php" />
+		<class
+			name="innomatic/dataaccess/drivers/mysql/MysqlDataAccess.php" />
+		<class
+			name="innomatic/dataaccess/drivers/mysql/MysqlDataAccessResult.php" />
+		<class
+			name="innomatic/dataaccess/drivers/pgsql/PgsqlDataAccess.php" />
+		<class
+			name="innomatic/dataaccess/drivers/pgsql/PgsqlDataAccessResult.php" />
+
+		<webservicesmethod name="innomatic.log.db.get"
+			function="InnomaticWebServicesHandler::log_db_get"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" />
+		<webservicesmethod name="innomatic.log.db.erase"
+			function="InnomaticWebServicesHandler::log_db_erase"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" unsecure="1" />
+		<webservicesmethod name="innomatic.log.db.logevent"
+			function="InnomaticWebServicesHandler::log_db_logevent"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" unsecure="1" />
+
+		<!-- Web Services -->
+
+		<class
+			name="innomatic/webservices/WebServicesWebAppHandler.php" />
+		<class name="innomatic/webservices/WebServicesAccount.php" />
+		<class name="innomatic/webservices/WebServicesUser.php" />
+		<class name="innomatic/webservices/WebServicesProfile.php" />
+		<class name="innomatic/webservices/WebServicesHandler.php" />
+		<class name="innomatic/webservices/xmlrpc/XmlRpc_Client.php" />
+		<class name="innomatic/webservices/xmlrpc/XmlRpc_Server.php" />
+		<class name="innomatic/webservices/xmlrpc/XmlRpc_Wrappers.php" />
+
+		<webapphandler name="webservices"
+			class="innomatic/webservices/WebServicesWebAppHandler.php"
+			urlpattern="/webservices/*" listings="false" />
+
+		<hookevent name="webservicesaccount.create.calltime"
+			function="webservicesaccount.create" event="calltime"
+			forceinstall="true" />
+		<hookevent name="webservicesaccount.create.accountcreated"
+			function="webservicesaccount.create" event="accountcreated"
+			forceinstall="true" />
+		<hookevent name="webservicesaccount.remove.calltime"
+			function="webservicesaccount.remove" event="calltime"
+			forceinstall="true" />
+		<hookevent name="webservicesaccount.remove.accountremoved"
+			function="webservicesaccount.remove" event="accountremoved"
+			forceinstall="true" />
+		<hookevent name="webservicesaccount.udpate.calltime"
+			function="webservicesaccount.update" event="calltime"
+			forceinstall="true" />
+		<hookevent name="webservicesaccount.update.accountupdated"
+			function="webservicesaccount.update" event="accountupdated"
+			forceinstall="true" />
+		<hookevent name="webservicesprofile.add.calltime"
+			unction="webservicesprofile.add" event="calltime"
+			forceinstall="true" />
+		<hookevent name="webservicesprofile.add.profileadded"
+			function="webservicesprofile.add" event="profileadded"
+			forceinstall="true" />
+		<hookevent name="webservicesprofile.remove.calltime"
+			function="webservicesprofile.remove" event="calltime"
+			forceinstall="true" />
+		<hookevent name="webservicesprofile.remove.profileremoved"
+			function="webservicesprofile.remove" event="profileremoved"
+			forceinstall="true" />
+		<hookevent name="webservicesprofile.rename.calltime"
+			function="webservicesprofile.rename" event="calltime"
+			forceinstall="true" />
+		<hookevent name="webservicesprofile.rename.profilerenamed"
+			function="webservicesprofile.rename" event="profilerenamed"
+			forceinstall="true" />
+
+		<rootpanel name="webservices" themeicon="connect_to_network"
+			themeicontype="filesystems" catalog="innomatic::root_menu"
+			category="innomatic" forceinstall="true" />
+
+		<roottable name="webservices_accounts"
+			file="webservices_accounts.xml" />
+		<roottable name="webservices_methods"
+			file="webservices_methods.xml" />
+		<roottable name="webservices_profiles"
+			file="webservices_profiles.xml" />
+		<roottable name="webservices_permissions"
+			file="webservices_permissions.xml" />
+		<roottable name="webservices_users"
+			file="webservices_users.xml" />
+
+		<webservicesmethod name="innomatic.log.webservices.get"
+			function="InnomaticWebServicesHandler::log_webservices_get"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" />
+		<webservicesmethod name="innomatic.log.webservices.erase"
+			function="InnomaticWebServicesHandler::log_webservices_erase"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" unsecure="1" />
+		<webservicesmethod name="innomatic.log.webservices.logevent"
+			function="InnomaticWebServicesHandler::log_webservices_logevent"
+			handler="innomatic" catalog="innomatic::webservices"
+			forceinstall="true" unsecure="1" />
+
+		<!--
+			********************************************************
+			COMMON APPLICATION FRAMEWORKS
+			********************************************************
+		-->
+
+		<!-- Logging -->
+
+		<class name="innomatic/logging/Logger.php" />
+		<class name="innomatic/logging/LogCenter.php" />
+
+		<!-- Cache -->
+
+		<class name="innomatic/datatransfer/cache/CachedItem.php" />
+		<class
+			name="innomatic/datatransfer/cache/CacheGarbageCollector.php" />
+		<roottable name="cache_items" file="cache_items.xml" />
+		<tempdir name="cache" forceinstall="true" />
+
+		<!-- Validation -->
+
+		<class name="innomatic/validator/Validator.php" />
+		<class name="innomatic/validator/ValidatorAggregate.php" />
+		<class name="innomatic/validator/validators/EmailValidator.php" />
+		<class
+			name="innomatic/validator/validators/NumberValidator.php" />
+		<class name="innomatic/validator/validators/RegexValidator.php" />
+
+		<!-- Template -->
+
+		<class name="innomatic/tpl/Template.php" />
+
+		<!-- Localization -->
+
+		<country name="brazil" file="brazil.ini" short="br"
+			forceinstall="true" />
+		<country name="canada" file="canada.ini" short="ca"
+			forceinstall="true" />
+		<country name="france" file="france.ini" short="fr"
+			forceinstall="true" />
+		<country name="germany" file="germany.ini" short="de"
+			forceinstall="true" />
+		<country name="greece" file="greece.ini" short="gr"
+			forceinstall="true" />
+		<country name="italy" file="italy.ini" short="it"
+			forceinstall="true" />
+		<country name="japan" file="japan.ini" short="jp"
+			forceinstall="true" />
+		<country name="sanmarino" file="sanmarino.ini" short="sm"
+			forceinstall="true" />
+		<country name="spain" file="spain.ini" short="es"
+			forceinstall="true" />
+		<country name="unitedkingdom" file="unitedkingdom.ini"
+			short="gb" forceinstall="true" />
+		<country name="unitedstates" file="unitedstates.ini" short="us"
+			forceinstall="true" />
+
+		<language name="brazilian" file="brazilian" short="br"
+			forceinstall="true" />
+		<language name="german" file="german" short="de"
+			forceinstall="true" />
+		<language name="greek" file="greek" short="el"
+			forceinstall="true" />
+		<language name="english" file="english" short="en"
+			forceinstall="true" />
+		<language name="spanish" file="spanish" short="es"
+			forceinstall="true" />
+		<language name="finnish" file="finnish" short="fi"
+			forceinstall="true" />
+		<language name="french" file="french" short="fr"
+			forceinstall="true" />
+		<language name="italian" file="italian" short="it"
+			forceinstall="true" />
+		<language name="polish" file="polish" short="pl"
+			forceinstall="true" />
+		<language name="portuguese" file="portuguese" short="pt"
+			forceinstall="true" />
+		<language name="russian" file="russian" short="ru"
+			forceinstall="true" />
+		<language name="swedish" file="swedish" short="sw"
+			forceinstall="true" />
+
+		<class name="innomatic/locale/LocaleCatalog.php" />
+		<class name="innomatic/locale/LocaleCountry.php" />
+		<roottable name="locale_countries" file="locale_countries.xml" />
+		<roottable name="locale_languages" file="locale_languages.xml" />
+
+		<!-- Clipboard -->
+
+		<class name="innomatic/datatransfer/Clipboard.php" />
+		<tempdir name="clipboard" forceinstall="true" />
+
+		<!-- Session -->
+
+		<tempdir name="phpsessions" forceinstall="true" />
+
+		<!-- Help -->
+
+		<class name="innomatic/help/HelpNode.php" />
+
+		<!-- WUI widgets -->
+
+		<roottable name="wui_widgets" file="wui_widgets.xml" />
+		<roottable name="wui_validators" file="wui_validators.xml" />
+
+		<class name="innomatic/wui/WuiException.php" />
+		<class name="innomatic/wui/Wui.php" />
+		<class name="innomatic/wui/widgets/WuiContainerWidget.php" />
+		<class name="innomatic/wui/widgets/WuiWidget.php" />
+		<class name="innomatic/wui/validation/WuiValidatorHelper.php" />
+
+		<shared name="clear.gif" />
+		<shared name="wui.js" />
+		<shared name="pngbehavior.htc" />
+
+		<wuiwidget name="alertframe" file="WuiAlertframe.php" />
+		<wuiwidget name="innomaticpage" file="WuiInnomaticpage.php" />
+		<wuiwidget name="innomatictoolbar"
+			file="WuiInnomatictoolbar.php" />
+		<wuiwidget name="button" file="WuiButton.php" />
+		<wuiwidget name="checkbox" file="WuiCheckbox.php" />
+		<wuiwidget name="combobox" file="WuiCombobox.php" />
+		<wuiwidget name="date" file="WuiDate.php" />
+		<wuiwidget name="empty" file="WuiEmpty.php" />
+		<wuiwidget name="file" file="WuiFile.php" />
+		<wuivalidator name="file" file="FileWuiValidator.php"
+			forceinstall="true" />
+		<wuiwidget name="form" file="WuiForm.php" />
+		<wuiwidget name="formarg" file="WuiFormarg.php" />
+		<wuiwidget name="grid" file="WuiGrid.php" />
+		<wuiwidget name="helpnode" file="WuiHelpnode.php" />
+		<wuiwidget name="horizbar" file="WuiHorizbar.php" />
+		<wuiwidget name="horizframe" file="WuiHorizframe.php" />
+		<wuiwidget name="horizgroup" file="WuiHorizgroup.php" />
+		<wuiwidget name="iframe" file="WuiIframe.php" />
+		<wuiwidget name="image" file="WuiImage.php" />
+		<wuiwidget name="label" file="WuiLabel.php" />
+		<wuiwidget name="link" file="WuiLink.php" />
+		<wuiwidget name="listbox" file="WuiListbox.php" />
+
+		<wuiwidget name="menu" file="WuiMenu.php" />
+		<shared name="layersmenu.js" />
+		<configurationfile name="layersmenu/layersmenu-browser_detection.js" />
+		<configurationfile name="layersmenu/layersmenu-plain_menu.ihtml" />
+		<configurationfile
+			name="layersmenu/layersmenu-horizontal_plain_menu.ihtml" />
+		<configurationfile name="layersmenu/layersmenu-vertical_menu.ihtml" />
+		<configurationfile name="layersmenu/layersmenu-horizontal_menu.ihtml" />
+		<configurationfile name="layersmenu/layersmenu-sub_menu.ihtml" />
+		<configurationfile name="layersmenu/layersmenu-footer.ijs" />
+		<configurationfile name="layersmenu/layersmenu-header.ijs" />
+		<configurationfile name="layersmenu/layerstreemenu.ijs" />
+		<class name="innomatic/wui/widgets/layersmenu/LayersMenu.php" />
+		<class name="innomatic/wui/widgets/layersmenu/LayersTemplate.php" />
+		<class name="innomatic/wui/widgets/layersmenu/XLayersMenu.php" />
+
+		<wuiwidget name="page" file="WuiPage.php" />
+		<wuiwidget name="progressbar" file="WuiProgressbar.php" />
+		<wuiwidget name="pushbutton" file="WuiPushbutton.php" />
+		<wuiwidget name="radio" file="WuiRadio.php" />
+		<wuiwidget name="raw" file="WuiRaw.php" />
+		<wuiwidget name="sessionkey" file="WuiSessionkey.php" />
+		<wuiwidget name="statusbar" file="WuiStatusbar.php" />
+		<wuiwidget name="string" file="WuiString.php" />
+		<wuiwidget name="submit" file="WuiSubmit.php" />
+		<wuiwidget name="tab" file="WuiTab.php" />
+		<wuiwidget name="table" file="WuiTable.php" />
+		<wuiwidget name="text" file="WuiText.php" />
+		<wuiwidget name="titlebar" file="WuiTitlebar.php" />
+		<wuiwidget name="toolbar" file="WuiToolbar.php" />
+		<wuiwidget name="treemenu" file="WuiTreemenu.php" />
+		<wuiwidget name="treevmenu" file="WuiTreevmenu.php" />
+		<wuiwidget name="vertbar" file="WuiVertbar.php" />
+		<wuiwidget name="vertframe" file="WuiVertframe.php" />
+		<wuiwidget name="vertgroup" file="WuiVertgroup.php" />
+		<wuiwidget name="xml" file="WuiXml.php" />
+
+		<!-- WUI themes -->
+
+		<roottable name="wui_styles" file="wui_styles.xml" />
+		<roottable name="wui_iconssets" file="wui_iconssets.xml" />
+		<roottable name="wui_colorssets" file="wui_colorssets.xml" />
+		<roottable name="wui_themes" file="wui_themes.xml" />
+		<class name="innomatic/wui/theme/WuiColorsSet.php" />
+		<class name="innomatic/wui/theme/WuiIconsSet.php" />
+		<class name="innomatic/wui/theme/WuiStyle.php" />
+		<class name="innomatic/wui/theme/WuiTheme.php" />
+		<wuitheme name="cleantheme" file="cleantheme_wuitheme.ini"
+			catalog="innomatic::cleantheme" />
+		<wuicolorsset name="cleantheme"
+			file="cleantheme_wuicolorsset.ini" catalog="innomatic::cleantheme" />
+		<wuistyle name="cleantheme" file="cleantheme_wuistyle.ini"
+			catalog="innomatic::cleantheme" />
+		<wuiiconsset name="crystal" file="crystal_wuiiconsset.ini"
+			catalog="innomatic::cleantheme" />
+		<wuitheme name="sky" file="sky_wuitheme.ini"
+			catalog="innomatic::skytheme" />
+		<wuicolorsset name="sky" file="sky_wuicolorsset.ini"
+			catalog="innomatic::skytheme" />
+		<wuistyle name="sky" file="sky_wuistyle.ini"
+			catalog="innomatic::skytheme" />
+
+		<!-- WUI dispatching -->
+
+		<class name="innomatic/wui/dispatch/WuiDispatcher.php" />
+		<class name="innomatic/wui/dispatch/WuiEvent.php" />
+		<class name="innomatic/wui/dispatch/WuiEventRawData.php" />
+		<class name="innomatic/wui/dispatch/WuiEventsCall.php" />
+
+		<!-- AJAX -->
+
+		<shared name="xajax.js" />
+		<shared name="xajax_uncompressed.js" />
+		<class name="innomatic/ajax/Xajax.php" />
+		<class name="innomatic/ajax/XajaxCompressJavascript.php" />
+		<class name="innomatic/ajax/XajaxConfig.php" />
+		<class name="innomatic/ajax/XajaxResponse.php" />
+		<class name="innomatic/ajax/XajaxWebAppHandler.php" />
+		<configurationfile name="ajax.xml" keep="1"/>
+		<webapphandler name="xajax"
+			class="innomatic/ajax/XajaxWebAppHandler.php"
+			urlpattern="/_xajax/*" listings="false" />
+
+		<!--
+			********************************************************
+			WEB APPLICATION SERVER
+			********************************************************
+		-->
+
+		<!-- WebApp -->
+
+		<class name="innomatic/webapp/DefaultWebAppHandler.php" />
+		<class name="innomatic/webapp/WebApp.php" />
+		<class name="innomatic/webapp/WebAppContainer.php" />
+		<class name="innomatic/webapp/WebAppHandler.php" />
+		<class name="innomatic/webapp/WebAppProcessor.php" />
+		<class name="innomatic/webapp/WebAppRequest.php" />
+		<class name="innomatic/webapp/WebAppResponse.php" />
+		<class name="innomatic/webapp/WebAppSession.php" />
+		<webappskeleton name="default" catalog="innomatic::webapps" />
+		<webappskeleton name="custom" catalog="innomatic::webapps" />
+		<roottable name="webapps_skeletons" file="webapps_skeletons.xml" />
+		<configurationfile name="webapp/report.tpl.php" />
+		<configurationfile name="webapp/statusreports.xml" />
+
+		<!--
+			********************************************************
+			DESKTOP
+			********************************************************
+		-->
+
+		<!-- Authentication -->
+
+		<class
+			name="innomatic/desktop/auth/DesktopAuthenticatorHelperFactory.php" />
+		<class
+			name="innomatic/desktop/auth/DesktopAuthenticatorHelper.php" />
+		<class
+			name="innomatic/desktop/auth/DesktopBaseAuthenticatorHelper.php" />
+		<class
+			name="innomatic/desktop/auth/DesktopRootAuthenticatorHelper.php" />
+		<class
+			name="innomatic/desktop/auth/DesktopDomainAuthenticatorHelper.php" />
+
+		<!-- Front Controller -->
+
+		<class
+			name="innomatic/desktop/controller/DesktopFrontController.php" />
+
+		<!-- Session -->
+
+		<class name="innomatic/desktop/session/DesktopSession.php" />
+
+		<!-- Layout -->
+
+		<class name="innomatic/desktop/layout/DesktopLayout.php" />
+
+		<!-- Base Desktop -->
+
+		<class
+			name="innomatic/desktop/webapp/DesktopBaseWebAppHandler.php" />
+		<class name="innomatic/desktop/layout/base/index.php" />
+
+		<webapphandler name="default"
+			class="innomatic/desktop/webapp/DesktopBaseWebAppHandler.php"
+			urlpattern="/*" listings="false" />
+
+		<!-- Root Desktop -->
+
+		<class
+			name="innomatic/desktop/webapp/DesktopRootWebAppHandler.php" />
+		<class name="innomatic/desktop/layout/root/index.php" />
+		<class name="innomatic/desktop/layout/root/logo.php" />
+		<class name="innomatic/desktop/layout/root/main.php" />
+		<class name="innomatic/desktop/layout/root/menu.php" />
+
+		<webapphandler name="root"
+			class="innomatic/desktop/webapp/DesktopRootWebAppHandler.php"
+			urlpattern="/root/*" listings="false" />
+
+		<rootgroup name="innomatic" catalog="innomatic::root_menu"
+			forceinstall="true" />
+		<rootgroup name="tools" catalog="innomatic::root_menu"
+			forceinstall="true" />
+		<rootgroup name="settings" catalog="innomatic::root_menu"
+			forceinstall="true" />
+
+		<rootpanel name="interface" themeicon="style"
+			catalog="innomatic::root_menu" category="innomatic"
+			forceinstall="true" />
+
+		<roottable name="root_panels_groups"
+			file="root_panels_groups.xml" />
+		<roottable name="root_panels" file="root_panels.xml" />
+		<roottable name="root_permissions" file="root_permissions.xml" />
+		<roottable name="root_profiles" file="root_profiles.xml" />
+
+		<!-- Domain Desktop -->
+
+		<class
+			name="innomatic/desktop/webapp/DesktopDomainWebAppHandler.php" />
+		<class name="innomatic/desktop/layout/domain/index.php" />
+		<class name="innomatic/desktop/layout/domain/logo.php" />
+		<class name="innomatic/desktop/layout/domain/main.php" />
+		<class name="innomatic/desktop/layout/domain/menu.php" />
+
+		<webapphandler name="domain"
+			class="innomatic/desktop/webapp/DesktopDomainWebAppHandler.php"
+			urlpattern="/domain/*" listings="false" />
+
+		<domaingroup name="tools" catalog="innomatic::domain_menu" />
+		<domaingroup name="preferences"
+			catalog="innomatic::domain_menu" />
+
+		<domainpanel name="interface" category="preferences"
+			themeicon="style" catalog="innomatic::domain_menu" />
+		<domainpanel name="password" category="preferences"
+			themeicon="password" catalog="innomatic::domain_menu" />
+		<domainpanel name="profiles" category="preferences"
+			themeicon="kuser" catalog="innomatic::domain_menu" />
+
+		<domaintable name="domain_panels_groups"
+			file="domain_panels_groups.xml" />
+		<domaintable name="domain_panels" file="domain_panels.xml" />
+		<domaintable name="domain_users_groups"
+			file="domain_users_groups.xml" />
+		<domaintable name="domain_users_permissions"
+			file="domain_users_permissions.xml" />
+		<domaintable name="domain_users_settings"
+			file="domain_users_settings.xml" />
+		<domaintable name="domain_users" file="domain_users.xml" />
+
+		<class name="innomatic/domain/user/User.php" />
+		<class name="innomatic/domain/user/UserSettings.php" />
+		<class name="innomatic/domain/user/Group.php" />
+		<class name="innomatic/domain/user/Permissions.php" />
+		
+		<!-- Panels -->
+		
+		<class name="innomatic/desktop/panel/PanelController.php" />
+		<class name="innomatic/desktop/panel/PanelActions.php" />
+		<class name="innomatic/desktop/panel/PanelViews.php" />
+
+	</components>
+</application>

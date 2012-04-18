@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="wui_widgets">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="50" notnull="1" />
+		<field name="file" type="text" length="50" notnull="1" />
+
+		<key field="id" type="unique" />
+		<key field="name" type="index" />
+	</table>
+
+	<sequence name="wui_widgets_id_seq" start="42" />
+
+</database>

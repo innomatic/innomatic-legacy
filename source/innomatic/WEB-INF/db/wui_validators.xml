@@ -1,0 +1,10 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="wui_validators">
+		<field name="name" type="text" length="50" notnull="1" />
+		<field name="file" type="text" length="50" notnull="1" />
+		<key field="name" type="index" />
+	</table>
+
+</database>

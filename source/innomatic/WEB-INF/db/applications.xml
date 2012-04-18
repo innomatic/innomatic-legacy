@@ -1,0 +1,31 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="applications">
+		<field name="id" type="integer" notnull="1" />
+		<field name="appid" type="text" length="50" notnull="1" />
+		<field name="appversion" type="text" length="15" />
+		<field name="appdate" type="text" length="25" />
+		<field name="appdesc" type="text" />
+		<field name="appfile" type="text" />
+		<field name="onlyextension" type="boolean" />
+		<field name="author" type="text" />
+		<field name="authoremail" type="text" />
+		<field name="authorsite" type="text" />
+		<field name="supportemail" type="text" />
+		<field name="bugsemail" type="text" />
+		<field name="copyright" type="text" />
+		<field name="license" type="text" />
+		<field name="licensefile" type="text" />
+		<field name="changesfile" type="text" />
+		<field name="maintainer" type="text" />
+		<field name="maintaineremail" type="text" />
+		<field name="category" type="text" default="" />
+		<field name="iconfile" type="text" />
+		<key field="id" type="unique" />
+		<key field="appid" type="index" />
+	</table>
+
+	<sequence name="applications_id_seq" />
+
+</database>

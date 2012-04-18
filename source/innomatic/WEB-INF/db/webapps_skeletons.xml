@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="webapps_skeletons">
+		<field name="name" type="text" length="50" notnull="1" />
+		<field name="catalog" type="text" length="50" notnull="1" />
+	</table>
+
+</database>

@@ -1,0 +1,10 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="webservices_permissions">
+		<field name="profileid" type="integer" notnull="1" />
+		<field name="application" type="text" />
+		<field name="method" type="text" />
+	</table>
+
+</database>

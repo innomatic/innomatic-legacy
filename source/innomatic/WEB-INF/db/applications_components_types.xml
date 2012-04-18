@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="applications_components_types">
+		<field name="id" type="integer" notnull="1" />
+		<field name="typename" type="text" length="50" notnull="1" />
+		<field name="priority" type="integer" notnull="1" />
+		<field name="domain" type="boolean" notnull="1" />
+		<field name="file" type="text" notnull="1" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="applications_components_types_id_seq" start="35" />
+
+</database>

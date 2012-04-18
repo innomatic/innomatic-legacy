@@ -1,0 +1,11 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="locale_countries">
+		<field name="countryshort" type="text" length="6" notnull="1" />
+		<field name="countryname" type="text" length="40" notnull="1" />
+		<field name="countryfile" type="text" length="50" notnull="1" />
+		<key field="countryshort" type="index" />
+	</table>
+
+</database>

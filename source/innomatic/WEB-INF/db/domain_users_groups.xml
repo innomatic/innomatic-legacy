@@ -1,0 +1,12 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="domain_users_groups">
+		<field name="id" type="integer" notnull="1" />
+		<field name="groupname" type="text" length="20" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="domain_users_groups_id_seq" />
+
+</database>

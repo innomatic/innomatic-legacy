@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<!--
+  =======================================================================
+
+   Innomatic build file
+
+   Copyright (c) 2008-2012 Innoteam S.r.l.. All rights reserved.
+
+  =======================================================================
+-->
+<project name="Innomatic" default="build">
+
+	<property name="name" value="innomatic" />
+	<property name="version" value="5.0.1" />
+
+    <!--
+    Helper target that initializes the CruiseControl project and creates the base
+    directory structure.
+    -->
+    <target name="init" depends="initdir">
+        <!-- Checkout Innomatic trunk into source -->
+        <exec executable="svn">
+            <arg line="co http://svn.innoteam.it/prodotti/Innomatic/Innomatic/innomatic/trunk source" />
+        </exec>
+    </target>
+	
+	<target name="initdir">
+        <!-- Create the source directory -->
+        <mkdir dir="source" />
+
+        <!-- Create the different build directories -->
+        <mkdir dir="build/logs" />
+        <mkdir dir="build/api" />
+        <mkdir dir="build/coverage" />
+        <mkdir dir="build/packages" />
+	</target>
+
+	<!--
+    The clean target is used to remove build artifacts of previous builds. Otherwise
+    Innomatic will present old, maybe successful result, even if your build
+    process fails.
+    -->
+	<target name="clean">
+		<!-- Remove old log files -->
+		<delete>
+			<fileset dir="${basedir}/build/logs" includes="**.*" />
+		</delete>
+		<!-- Remove old api documentation -->
+		<delete>
+			<fileset dir="${basedir}/build/api" includes="**.*" />
+		</delete>
+		<!-- Remove old coverage report -->
+		<delete>
+			<fileset dir="${basedir}/build/coverage" includes="**.*" />
+		</delete>
+		<!-- Remove old packages -->
+		<delete>
+			<fileset dir="${basedir}/build/packages" includes="**.*" />
+		</delete>
+	</target>
+
+    <!--
+    Performs an 'svn up' for the working copy.
+    -->
+	<target name="checkout">
+		<exec executable="svn" dir="${basedir}">
+			<arg line="up" />
+		</exec>
+	</target>
+
+	<target name="checkphp">
+		<apply executable="php" failonerror="true">
+			<arg value="-l" />
+			<fileset dir="${basedir}/source">
+				<include name="**/*.php" />
+			</fileset>
+		</apply>
+	</target>
+
+	<!--
+   Generates the project documentation into the <project>/build/api directory.
+   phpUnderControl uses the command line output of PhpDocumentor that is logged
+   by CruiseControl.
+   -->
+    <target name="php-documentor">
+		<exec executable="phpdoc" dir="${basedir}/source">
+			<arg line="-ct type -ue on -t ${basedir}/build/api
+	                 -tb /opt/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
+	                 -d innomatic" />
+		</exec>
+		<tar destfile="${basedir}/build/packages/${name}-${version}-api.tgz" compression="gzip">
+			<tarfileset dir="${basedir}/build/api" prefix="${name}-api">
+			</tarfileset>
+		</tar>
+	</target>
+
+	<!--
+   Execute code sniffer. CodeSniffer
+   uses the Checkstyle report generator that is supported by CruiseControl. The
+   'output' attribute for the exec element pipes the command line output into the
+   <project>/build/logs/checkstyle.xml file.
+  
+   You should always declare the optional @error attribute for the codesniffer
+   task. Otherwise all errors will be logged in the checkstyle.xml file, which
+   results in an invalid xml document.
+   -->
+	<target name="php-codesniffer">
+		<exec executable="phpcs" dir="${basedir}/source" error="/dev/null" output="${basedir}/build/logs/checkstyle.xml">
+			<arg line="--report=checkstyle
+	                 --standard=Zend
+	                 --ignore=WEB-INF/classes/innomatic/io/archive/archivers innomatic/" />
+		</exec>
+	</target>
+
+	<target name="pdepend">
+		<exec dir="${basedir}" executable="pdepend" failonerror="false">
+			<arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml ." />
+		</exec>
+	</target>
+
+	<!--
+   Executes the project unit tests and stores the different logs in the
+   <project>/build/logs directory. Furthermore it generates the coverage report
+   under <project>/build/coverage.
+   -->
+	<target name="phpunit">
+		<exec executable="phpunit" dir="${basedir}" failonerror="on">
+			<arg line="--log-xml ${basedir}/build/logs/phpunit.xml
+                   --log-pmd ${basedir}/build/logs/phpunit.pmd.xml
+                   --log-metrics ${basedir}/build/logs/phpunit.metrics.xml
+                   --coverage-xml  ${basedir}/build/logs/phpunit.coverage.xml
+                   --coverage-html ${basedir}/build/coverage
+                   tests/allTests.php" />
+		</exec>
+	</target>
+
+	<target name="sources" depends="initdir,clean">
+		<tar destfile="${basedir}/build/packages/${name}-src-${version}.tgz" compression="gzip">
+			<tarfileset dir="${basedir}" prefix="${name}-src">
+				<exclude name="**/.svn/**" />
+				<exclude name="${basedir}/build/packages/**" />
+				<exclude name="build/packages/**" />
+				<exclude name="nbproject/**" />
+				<exclude name="project.index" />
+				<exclude name=".project" />
+				<exclude name=".settings/**" />
+				<exclude name=".cache/**" />
+			</tarfileset>
+		</tar>
+	</target>
+
+	<target name="package" depends="initdir,clean">
+		<tar destfile="${basedir}/build/packages/${name}-${version}.tgz" compression="gzip">
+			<tarfileset dir="${basedir}/source" prefix="${name}">
+				<exclude name="**/.cvsignore" />
+				<exclude name="**/.svn/**" />
+				<exclude name="build/**" />
+				<exclude name="nbproject/**" />
+				<exclude name="innomatic.iss" />
+				<exclude name="project.index" />
+				<exclude name=".project" />
+				<exclude name=".settings/**" />
+				<exclude name=".cache/**" />
+				<exclude name="build.xml" />
+				<exclude name="insticon.ico" />
+			</tarfileset>
+		</tar>
+	</target>
+
+	 <!--
+    The default build target for this project. It simply depends on all sub tasks
+    that perform the project build. The sub targets are executed in the listed
+    order.
+   
+    1. 'clean' Clean old project build artifacts
+    2. 'checkout' Update project working copy
+    3. 'checkphp' Execute a code lint
+    4. 'php-documentor' Generate api documentation
+    5. 'php-codesniffer' Check for coding violations.
+    6. 'phpunit' Execute unit tests, generate metrics, coverage etc.
+    7. 'sources' Creation of sources package
+    8. 'package' Creation of installation package
+    -->
+	<target name="build" depends="clean,checkout,checkphp,php-documentor,php-codesniffer,phpunit,sources,package" />
+
+</project>

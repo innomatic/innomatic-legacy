@@ -1,0 +1,16 @@
+<FilesMatch "\.">
+order allow,deny
+deny from all
+</FilesMatch>
+
+<FilesMatch "(index\.php|\.(gif|jpe?g|png|css|js|htc|ico|html|xml))$">
+order allow,deny
+allow from all
+</FilesMatch>
+
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule !\.(gif|jpe?g|png|css|js|htc|ico|html|xml)$ index.php
+</IfModule>

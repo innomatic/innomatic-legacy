@@ -1,0 +1,14 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="domain_panels_groups">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="50" />
+		<field name="catalog" type="text" length="250" />
+		<key field="id" type="unique" />
+		<key field="name" type="index" />
+	</table>
+
+	<sequence name="domain_panels_groups_id_seq" />
+
+</database>

@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="domain_users_permissions">
+		<field name="groupid" type="integer" />
+		<field name="permnode" type="text" length="200" />
+	</table>
+
+</database>

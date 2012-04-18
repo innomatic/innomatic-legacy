@@ -1,0 +1,21 @@
+<!-- BEGIN template -->
+<!-- horizontal menu begin -->
+<table border="0" cellpadding="0" cellspacing="0" class="navdark">
+<tr>
+<td>
+<table border="0" cellpadding="3" cellspacing="0">
+<tr valign="middle" nowrap style="white-space: nowrap">
+<!-- BEGIN horizontal_menu_cell -->
+<td class="nav" valign="middle" align="center" nowrap style="white-space: nowrap">
+<!-- BEGIN cell_link -->
+{icontag}<a href="{link}"{onmouseover}{title}{target}>{text}</a>{arrow}
+<!-- END cell_link -->
+</td>
+<!-- END horizontal_menu_cell -->
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<!-- horizontal menu end -->
+<!-- END template -->

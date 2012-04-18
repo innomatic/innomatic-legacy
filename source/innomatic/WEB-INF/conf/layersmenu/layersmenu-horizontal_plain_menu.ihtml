@@ -1,0 +1,25 @@
+<!-- BEGIN template -->
+<!-- horizontal plain menu begin -->
+<table border="0" cellpadding="2" cellspacing="0" class="navdark">
+<tr>
+<td>
+<table border="0" cellpadding="5" cellspacing="1" width="100%">
+<tr>
+<!-- BEGIN horizontal_plain_menu_cell -->
+<td class="nav" valign="top">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<!-- BEGIN plain_menu_cell -->
+<tr>
+<td class="nav" valign="middle" nowrap style="white-space: nowrap">{nbsp}<a href="{link}"{title}{target}>{text}</a></td>
+</tr>
+<!-- END plain_menu_cell -->
+</table>
+</td>
+<!-- END horizontal_plain_menu_cell -->
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<!-- horizontal plain menu end -->
+<!-- END template -->

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Innomatic//DTD Web Application 1.0//EN" "http://www.innomatic.org/dtd/web-app_1_0.dtd">
+<webapp>
+    <displayname></displayname>
+    <description></description>
+    <contextparam>
+        <paramname>controlAllResources</paramname>
+        <paramvalue>0</paramvalue>
+    </contextparam>
+	<contextparam>
+		<paramname>useRewrite</paramname>
+		<paramvalue>true</paramvalue>
+	</contextparam>
+	
+    <!-- Handler Definitions -->
+    <handler>
+        <handlername>default</handlername>
+        <handlerclass>innomatic/webapp/DefaultWebAppHandler.php</handlerclass>
+        <initparam>
+            <paramname>listings</paramname>
+            <paramvalue>false</paramvalue>
+        </initparam>
+    </handler>
+	
+    <!-- Handler Mappings -->
+    <handlermapping>
+        <handlername>default</handlername>
+        <urlpattern>/*</urlpattern>
+    </handlermapping>
+
+    <!-- Mime Type Mappings -->
+    <mimemapping>
+        <extension>html</extension>
+        <mimetype>text/html</mimetype>
+    </mimemapping>
+    <mimemapping>
+        <extension>css</extension>
+        <mimetype>text/css</mimetype>
+    </mimemapping>
+    <mimemapping>
+        <extension>js</extension>
+        <mimetype>text/javascript</mimetype>
+    </mimemapping>
+    <mimemapping>
+        <extension>png</extension>
+        <mimetype>image/png</mimetype>
+    </mimemapping>
+    <mimemapping>
+        <extension>jpg</extension>
+        <mimetype>image/jpeg</mimetype>
+    </mimemapping>
+    <mimemapping>
+        <extension>jpeg</extension>
+        <mimetype>image/jpeg</mimetype>
+    </mimemapping>
+    <mimemapping>
+        <extension>gif</extension>
+        <mimetype>image/gif</mimetype>
+    </mimemapping>
+
+    <!-- Default Welcome File List -->
+    <welcomefilelist>
+        <welcomefile>home</welcomefile>
+    </welcomefilelist>
+
+</webapp>

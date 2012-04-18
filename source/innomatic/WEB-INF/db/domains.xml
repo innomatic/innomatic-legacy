@@ -1,0 +1,30 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="domains">
+		<field name="id" type="integer" notnull="1" />
+		<field name="domainid" type="text" length="30" notnull="1" />
+		<field name="domainname" type="text" length="100" notnull="1" />
+		<field name="domainpassword" type="text" length="32"
+			notnull="1" />
+		<field name="domaindaname" type="text" length="40" notnull="1" />
+		<field name="dataaccesshost" type="text" length="100" />
+		<field name="dataaccessport" type="integer" />
+		<field name="dataaccessuser" type="text" length="15" />
+		<field name="dataaccesspassword" type="text" length="15" />
+		<field name="dataaccesstype" type="text" length="20"
+			notnull="1" />
+		<field name="domaincreationdate" type="date" />
+		<field name="domainexpirydate" type="date" />
+		<field name="domainactive" type="boolean" />
+		<field name="notes" type="text" />
+		<field name="maxusers" type="integer" />
+		<field name="webappskeleton" type="text" length="50" />
+		<field name="webappurl" type="text" length="200" />
+		<key field="id" type="unique" />
+		<key field="domainid" type="index" />
+	</table>
+
+	<sequence name="domains_id_seq" />
+
+</database>

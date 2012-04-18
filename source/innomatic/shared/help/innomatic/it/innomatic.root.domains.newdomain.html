@@ -1,0 +1,58 @@
+Nuovo sito
+==========
+
+Da questa pagina &egrave; possibile creare un nuovo sito.
+
+Il pannello &egrave; diviso in due parti, la prima dedicata alle impostazioni
+generali e la seconda alle impostazioni del database.
+
+Molti dei campi possono essere lasciati vuoti perch&egrave; vengono
+automaticamente determinati da Innomatic con i settaggi pi&ugrave;
+appropriati.
+
+Impostazioni generali
+---------------------
+
+- Nome del sito: nome descrittivo del sito.
+
+- Id: nome breve per identificare il sito. Non utilizzare spazi, segni
+di punteggiatura o altri segni particolari. Corrisponde inoltre al nome
+del superutente del sito.
+
+- Password: password di accesso del superutente.
+
+- Path: directory pubblica nel server dedicata al sito. Si consiglia di
+lasciare vuoto il campo.
+
+- URL: indirizzo della directory pubblica del sito. Opzionale.
+
+Impostazioni database
+---------------------
+
+- Tipo database: tipo di server SQL che gestisce il database. Si
+consiglia di lasciare il campo con il valore proposto se non si hanno
+esigenze differenti.
+
+- Nome database: nome del database, si consiglia di lasciare vuoto il
+campo. Il nuovo database verr&agrave; creato con la convenzione 'innomatic_' + id del
+sito + '_domain'; es. per il sito 'test' verr&agrave; creato il database
+'innomatic_test_domain'.
+
+- Host name database: nome dell'host in cui risiede il database.
+Lasciando il campo vuoto verr&agrave; automaticamente utilizzato l'host name
+del database centrale di Innomatic.
+
+- Porta database: porta dell'host in cui &egrave; in ascolto il database.
+Lasciando il campo vuoto verr&agrave; automaticamente utilizzata la porta del
+database centrale di Innomatic.
+
+- Utente database: nome utente del database. Lasciando il campo vuoto
+verr&agrave; automaticamente utilizzato il nome utente del database centrale
+di Innomatic.
+
+- Password database: password del database. Lasciando il campo vuoto
+verr&agrave; automaticamente utilizzata la password del database centrale di
+Innomatic.
+
+- Log file database: log del database del sito. Si consiglia di
+lasciare il campo vuoto.

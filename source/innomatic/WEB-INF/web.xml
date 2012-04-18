@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Innomatic//DTD Web Application 1.0//EN" "http://www.innomatic.org/dtd/web-app_1_0.dtd">
+<webapp>
+    <displayname>Innomatic</displayname>
+    <description>Innomatic</description>
+    <contextparam>
+        <paramname>controlAllResources</paramname>
+        <paramvalue>0</paramvalue>
+    </contextparam>
+	<contextparam>
+		<paramname>useRewrite</paramname>
+		<paramvalue>true</paramvalue>
+	</contextparam>
+	
+    <!-- Handler Definitions -->
+    <handler>
+        <handlername>default</handlername>
+        <handlerclass>innomatic/desktop/webapp/DesktopBaseWebAppHandler.php</handlerclass>
+        <initparam>
+            <paramname>listings</paramname>
+            <paramvalue>false</paramvalue>
+        </initparam>
+    </handler>
+    <handler>
+        <handlername>root</handlername>
+        <handlerclass>innomatic/desktop/webapp/DesktopRootWebAppHandler.php</handlerclass>
+        <initparam>
+            <paramname>listings</paramname>
+            <paramvalue>false</paramvalue>
+        </initparam>
+    </handler>
+    <handler>
+        <handlername>domain</handlername>
+        <handlerclass>innomatic/desktop/webapp/DesktopDomainWebAppHandler.php</handlerclass>
+        <initparam>
+            <paramname>listings</paramname>
+            <paramvalue>false</paramvalue>
+        </initparam>
+    </handler>
+    <handler>
+        <handlername>webservices</handlername>
+        <handlerclass>innomatic/webservices/WebServicesWebAppHandler.php</handlerclass>
+        <initparam>
+            <paramname>listings</paramname>
+            <paramvalue>false</paramvalue>
+        </initparam>
+    </handler>
+	<handler>
+		<handlername>xajax</handlername>
+		<handlerclass>innomatic/ajax/XajaxWebAppHandler.php</handlerclass>
+		<initparam>
+			<paramname>listings</paramname>
+			<paramvalue>false</paramvalue>
+		</initparam>
+	</handler>
+	
+    <!-- Handler Mappings -->
+    <handlermapping>
+        <handlername>xajax</handlername>
+        <urlpattern>/_xajax/*</urlpattern>
+    </handlermapping>
+    <handlermapping>
+        <handlername>root</handlername>
+        <urlpattern>/root/*</urlpattern>
+    </handlermapping>
+    <handlermapping>
+        <handlername>domain</handlername>
+        <urlpattern>/domain/*</urlpattern>
+    </handlermapping>
+    <handlermapping>
+        <handlername>webservices</handlername>
+        <urlpattern>/webservices/*</urlpattern>
+    </handlermapping>
+    <handlermapping>
+        <handlername>default</handlername>
+        <urlpattern>/*</urlpattern>
+    </handlermapping>
+
+    <!-- Mime Type Mappings -->
+    <mimemapping>
+        <extension>html</extension>
+        <mimetype>text/html</mimetype>
+    </mimemapping>
+    <mimemapping>
+        <extension>css</extension>
+        <mimetype>text/css</mimetype>
+    </mimemapping>
+    <mimemapping>
+        <extension>js</extension>
+        <mimetype>text/javascript</mimetype>
+    </mimemapping>
+    <mimemapping>
+        <extension>png</extension>
+        <mimetype>image/png</mimetype>
+    </mimemapping>
+    <mimemapping>
+        <extension>jpg</extension>
+        <mimetype>image/jpeg</mimetype>
+    </mimemapping>
+    <mimemapping>
+        <extension>jpeg</extension>
+        <mimetype>image/jpeg</mimetype>
+    </mimemapping>
+    <mimemapping>
+        <extension>gif</extension>
+        <mimetype>image/gif</mimetype>
+    </mimemapping>
+
+    <!-- Default Welcome File List -->
+    <welcomefilelist>
+        <welcomefile>home</welcomefile>
+    </welcomefilelist>
+
+</webapp>

@@ -1,0 +1,26 @@
+<!-- BEGIN template -->
+<!-- vertical menu begin -->
+<table border="0" cellpadding="3" cellspacing="0" class="navdark">
+<tr>
+<td>
+<table border="0" cellpadding="10" cellspacing="0" width="{abscissaStep}">
+<tr>
+<td class="nav">
+<!-- BEGIN vertical_menu_table -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<!-- BEGIN vertical_menu_cell -->
+<tr>
+<td>{icontag}</td>
+<td class="nav" valign="middle" height="{ordinateStep}" nowrap style="white-space: nowrap"><a href="{link}"{refid}{onmouseover}{title}{target}>{text}</a>{arrow}</td>
+</tr>
+<!-- END vertical_menu_cell -->
+</table>
+<!-- END vertical_menu_table -->
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<!-- vertical menu end -->
+<!-- END template -->

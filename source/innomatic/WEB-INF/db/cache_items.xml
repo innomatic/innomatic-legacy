@@ -1,0 +1,13 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="cache_items">
+		<field name="application" type="text" notnull="1" />
+		<field name="itemid" type="text" notnull="1" />
+		<field name="itemfile" type="text" notnull="1" />
+		<field name="validator" type="text" />
+		<field name="domainid" type="integer" />
+		<field name="userid" type="integer" />
+	</table>
+
+</database>

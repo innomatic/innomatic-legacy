@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="domain_settings">
+		<field name="keyname" type="text" notnull="1" />
+		<field name="val" type="text" />
+	</table>
+
+</database>

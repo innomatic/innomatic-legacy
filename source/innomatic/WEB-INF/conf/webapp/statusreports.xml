@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<statusreports>
+	<status>
+		<statuscode>400</statuscode>
+		<statusreport>The request sent by the client was syntactically incorrect ({0}).</statusreport>
+	</status>
+	<status>
+		<statuscode>401</statuscode>
+		<statusreport>This request requires HTTP authentication ({0}).</statusreport>
+	</status>
+	<status>
+		<statuscode>404</statuscode>
+		<statusreport>The requested resource ({0}) is not available.</statusreport>
+	</status>
+	<status>
+		<statuscode>500</statuscode>
+		<statusreport>The server encountered an internal error ({0}) that prevented it from fulfilling this request.</statusreport>
+	</status>
+</statusreports>

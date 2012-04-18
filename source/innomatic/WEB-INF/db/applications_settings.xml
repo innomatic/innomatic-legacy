@@ -1,0 +1,10 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="applications_settings">
+		<field name="appname" type="text" length="100" notnull="1" />
+		<field name="keyname" type="text" notnull="1" />
+		<field name="value" type="text" />
+	</table>
+
+</database>

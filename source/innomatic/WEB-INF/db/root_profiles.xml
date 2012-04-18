@@ -1,0 +1,12 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="root_profiles">
+		<field name="id" type="integer" notnull="1" />
+		<field name="profilename" type="text" length="20" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="root_profiles_id_seq" />
+
+</database>

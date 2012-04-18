@@ -1,0 +1,18 @@
+<?xml version='1.0'?>
+<database>
+	<table name="webservices_methods">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="150" notnull="1" />
+		<field name="function" type="text" notnull="1" />
+		<field name="signature" type="text" />
+		<field name="docstring" type="text" />
+		<field name="handler" type="text" notnull="1" />
+		<field name="application" type="text" notnull="1" />
+		<field name="unsecure" type="boolean" />
+		<field name="catalog" type="text" />
+		<key field="id" type="unique" />
+		<key field="name" type="index" />
+	</table>
+
+	<sequence name="webservices_methods_id_seq" />
+</database>

@@ -1,0 +1,12 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="webservices_profiles">
+		<field name="id" type="integer" notnull="1" />
+		<field name="profilename" type="text" notnull="1" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="webservices_profiles_id_seq" />
+
+</database>

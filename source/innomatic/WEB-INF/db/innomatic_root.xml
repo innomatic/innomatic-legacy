@@ -1,0 +1,945 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="cache_items">
+		<field name="application" type="text" notnull="1" />
+		<field name="itemid" type="text" notnull="1" />
+		<field name="itemfile" type="text" notnull="1" />
+		<field name="validator" type="text" />
+		<field name="domainid" type="integer" />
+		<field name="userid" type="integer" />
+	</table>
+
+	<table name="domains">
+		<field name="id" type="integer" notnull="1" />
+		<field name="domainid" type="text" length="30" notnull="1" />
+		<field name="domainname" type="text" length="100" notnull="1" />
+		<field name="domainpassword" type="text" length="32"
+			notnull="1" />
+		<field name="domaindaname" type="text" length="40" notnull="1" />
+		<field name="dataaccesshost" type="text" length="100" />
+		<field name="dataaccessport" type="integer" />
+		<field name="dataaccessuser" type="text" length="15" />
+		<field name="dataaccesspassword" type="text" length="15" />
+		<field name="dataaccesstype" type="text" length="20"
+			notnull="1" />
+		<field name="domaincreationdate" type="date" />
+		<field name="domainexpirydate" type="date" />
+		<field name="domainactive" type="boolean" />
+		<field name="notes" type="text" />
+		<field name="maxusers" type="integer" />
+		<field name="webappskeleton" type="text" length="50" />
+		<field name="webappurl" type="text" length="200" />
+		<key field="id" type="unique" />
+		<key field="domainid" type="index" />
+	</table>
+
+	<sequence name="domains_id_seq" />
+
+	<table name="hooks">
+		<field name="id" type="integer" notnull="1" />
+		<field name="functionapplication" type="text" notnull="1" />
+		<field name="function" type="text" notnull="1" />
+		<field name="event" type="text" notnull="1" />
+		<field name="hookapplication" type="text" notnull="1" />
+		<field name="hookhandler" type="text" notnull="1" />
+		<field name="hookmethod" type="text" notnull="1" />
+
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="hooks_id_seq" />
+
+	<table name="hooks_events">
+		<field name="id" type="integer" notnull="1" />
+		<field name="functionapplication" type="text" notnull="1" />
+		<field name="function" type="text" notnull="1" />
+		<field name="event" type="text" notnull="1" />
+
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="hooks_events_id_seq" />
+
+	<table name="wui_widgets">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="50" notnull="1" />
+		<field name="file" type="text" length="50" notnull="1" />
+
+		<key field="id" type="unique" />
+		<key field="name" type="index" />
+	</table>
+
+	<sequence name="wui_widgets_id_seq" start="42" />
+
+	<insert table="wui_widgets">
+		<data field="id" value="1" />
+		<data field="name" value="button" />
+		<data field="file" value="HuButton.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="2" />
+		<data field="name" value="checkbox" />
+		<data field="file" value="WuiCheckbox.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="3" />
+		<data field="name" value="combobox" />
+		<data field="file" value="WuiCombobox.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="4" />
+		<data field="name" value="file" />
+		<data field="file" value="WuiFile.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="5" />
+		<data field="name" value="form" />
+		<data field="file" value="WuiForm.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="6" />
+		<data field="name" value="grid" />
+		<data field="file" value="WuiGrid.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="7" />
+		<data field="name" value="horizbar" />
+		<data field="file" value="WuiHorizbar.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="8" />
+		<data field="name" value="horizframe" />
+		<data field="file" value="WuiHorizframe.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="9" />
+		<data field="name" value="horizgroup" />
+		<data field="file" value="WuiHorizgroup.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="38" />
+		<data field="name" value="iframe" />
+		<data field="file" value="WuiIframe.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="10" />
+		<data field="name" value="image" />
+		<data field="file" value="WuiImage.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="11" />
+		<data field="name" value="label" />
+		<data field="file" value="WuiLabel.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="12" />
+		<data field="name" value="link" />
+		<data field="file" value="WuiLink.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="13" />
+		<data field="name" value="listbox" />
+		<data field="file" value="WuiListbox.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="14" />
+		<data field="name" value="page" />
+		<data field="file" value="WuiPage.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="15" />
+		<data field="name" value="pushbutton" />
+		<data field="file" value="WuiPushbutton.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="16" />
+		<data field="name" value="radio" />
+		<data field="file" value="WuiRadio.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="17" />
+		<data field="name" value="raw" />
+		<data field="file" value="WuiRaw.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="18" />
+		<data field="name" value="statusbar" />
+		<data field="file" value="WuiStatusbar.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="19" />
+		<data field="name" value="string" />
+		<data field="file" value="WuiString.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="20" />
+		<data field="name" value="submit" />
+		<data field="file" value="WuiSubmit.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="21" />
+		<data field="name" value="table" />
+		<data field="file" value="WuiTable.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="22" />
+		<data field="name" value="text" />
+		<data field="file" value="WuiText.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="23" />
+		<data field="name" value="titlebar" />
+		<data field="file" value="WuiTitlebar.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="24" />
+		<data field="name" value="toolbar" />
+		<data field="file" value="WuiToolbar.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="25" />
+		<data field="name" value="treemenu" />
+		<data field="file" value="WuiTreemenu.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="39" />
+		<data field="name" value="treevmenu" />
+		<data field="file" value="WuiTreevmenu.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="40" />
+		<data field="name" value="vertbar" />
+		<data field="file" value="WuiVertbar.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="26" />
+		<data field="name" value="vertframe" />
+		<data field="file" value="WuiVertframe.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="27" />
+		<data field="name" value="vertgroup" />
+		<data field="file" value="WuiVertgroup.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="28" />
+		<data field="name" value="date" />
+		<data field="file" value="WuiDate.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="29" />
+		<data field="name" value="helpnode" />
+		<data field="file" value="WuiHelpnode.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="30" />
+		<data field="name" value="menu" />
+		<data field="file" value="WuiMenu.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="31" />
+		<data field="name" value="innomaticpage" />
+		<data field="file" value="WuiInnomaticpage.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="32" />
+		<data field="name" value="innomatictoolbar" />
+		<data field="file" value="WuiInnomatictoolbar.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="33" />
+		<data field="name" value="empty" />
+		<data field="file" value="WuiEmpty.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="34" />
+		<data field="name" value="formarg" />
+		<data field="file" value="WuiFormarg.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="35" />
+		<data field="name" value="sessionkey" />
+		<data field="file" value="WuiSessionkey.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="36" />
+		<data field="name" value="tab" />
+		<data field="file" value="WuiTab.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="37" />
+		<data field="name" value="progressbar" />
+		<data field="file" value="WuiProgressbar.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="41" />
+		<data field="name" value="alertframe" />
+		<data field="file" value="WuiAlertframe.php" />
+	</insert>
+
+	<table name="wui_validators">
+		<field name="name" type="text" length="50" notnull="1" />
+		<field name="file" type="text" length="50" notnull="1" />
+		<key field="name" type="index" />
+	</table>
+
+	<table name="wui_colorssets">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="50" notnull="1" />
+		<field name="file" type="text" length="50" notnull="1" />
+		<field name="catalog" type="text" length="50" notnull="1" />
+
+		<key field="id" type="unique" />
+		<key field="name" type="index" />
+	</table>
+
+	<sequence name="wui_colorssets_id_seq" />
+
+	<table name="wui_iconssets">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="50" notnull="1" />
+		<field name="file" type="text" length="50" notnull="1" />
+		<field name="catalog" type="text" length="50" notnull="1" />
+
+		<key field="id" type="unique" />
+		<key field="name" type="index" />
+	</table>
+
+	<sequence name="wui_iconssets_id_seq" />
+
+	<table name="wui_styles">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="50" notnull="1" />
+		<field name="file" type="text" length="50" notnull="1" />
+		<field name="catalog" type="text" length="50" notnull="1" />
+
+		<key field="id" type="unique" />
+		<key field="name" type="index" />
+	</table>
+
+	<sequence name="wui_styles_id_seq" />
+
+	<table name="wui_themes">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="50" notnull="1" />
+		<field name="file" type="text" length="50" notnull="1" />
+		<field name="catalog" type="text" length="50" notnull="1" />
+
+		<key field="id" type="unique" />
+		<key field="name" type="index" />
+	</table>
+
+	<sequence name="wui_themes_id_seq" start="3" />
+
+	<insert table="wui_themes">
+		<data field="id" value="1" />
+		<data field="name" value="cleantheme" />
+		<data field="file" value="cleantheme_wuitheme.ini" />
+		<data field="catalog" value="innomatic::cleantheme" />
+	</insert>
+
+	<insert table="wui_themes">
+		<data field="id" value="2" />
+		<data field="name" value="sky" />
+		<data field="file" value="sky_wuitheme.ini" />
+		<data field="catalog" value="innomatic::skytheme" />
+	</insert>
+
+	<table name="applications">
+		<field name="id" type="integer" notnull="1" />
+		<field name="appid" type="text" length="50" notnull="1" />
+		<field name="appversion" type="text" length="15" />
+		<field name="appdate" type="text" length="25" />
+		<field name="appdesc" type="text" />
+		<field name="appfile" type="text" />
+		<field name="onlyextension" type="boolean" />
+		<field name="author" type="text" />
+		<field name="authoremail" type="text" />
+		<field name="authorsite" type="text" />
+		<field name="supportemail" type="text" />
+		<field name="bugsemail" type="text" />
+		<field name="copyright" type="text" />
+		<field name="license" type="text" />
+		<field name="licensefile" type="text" />
+		<field name="changesfile" type="text" />
+		<field name="maintainer" type="text" />
+		<field name="maintaineremail" type="text" />
+		<field name="category" type="text" default="" />
+		<field name="iconfile" type="text" />
+		<key field="id" type="unique" />
+		<key field="appid" type="index" />
+	</table>
+
+	<sequence name="applications_id_seq" />
+
+	<table name="applications_keyring_keys">
+		<field name="id" type="integer" notnull="1" />
+		<field name="application" type="string" length="50" />
+		<field name="version" type="string" length="15" />
+		<field name="domain" type="string" length="50" />
+		<field name="maxdomainusers" type="integer" />
+		<field name="validip" type="text" />
+		<field name="validrange" type="text" />
+		<field name="expirydate" type="string" length="10" />
+		<field name="file" type="text" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="applications_keyring_keys_id_seq" />
+
+	<table name="applications_options">
+
+		<field name="applicationid" type="integer" notnull="1" />
+		<field name="name" type="text" notnull="1" />
+
+	</table>
+
+	<table name="applications_options_disabled">
+
+		<field name="applicationid" type="integer" notnull="1" />
+		<field name="optionname" type="text" notnull="1" />
+		<field name="domainid" type="integer" notnull="1" />
+
+	</table>
+
+	<table name="applications_dependencies">
+		<field name="appid" type="integer" notnull="1" />
+		<field name="moddep" type="text" length="50" notnull="1" />
+		<field name="deptype" type="integer" notnull="1" />
+		<field name="version" type="text" default="" />
+	</table>
+
+	<table name="applications_settings">
+		<field name="appname" type="text" length="50" notnull="1" />
+		<field name="keyname" type="text" notnull="1" />
+		<field name="value" type="text" />
+	</table>
+
+	<table name="applications_components_types">
+		<field name="id" type="integer" notnull="1" />
+		<field name="typename" type="text" length="50" notnull="1" />
+		<field name="priority" type="integer" notnull="1" />
+		<field name="domain" type="boolean" notnull="1" />
+		<field name="file" type="text" notnull="1" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="applications_components_types_id_seq" start="38" />
+
+	<insert table="applications_components_types">
+		<data field="id" value="1" />
+		<data field="typename" value="component" />
+		<data field="priority" value="100" />
+		<data field="domain" value="0" />
+		<data field="file" value="ComponentComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="2" />
+		<data field="typename" value="roottable" />
+		<data field="priority" value="150" />
+		<data field="domain" value="0" />
+		<data field="file" value="RoottableComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="3" />
+		<data field="typename" value="domaingroup" />
+		<data field="priority" value="10" />
+		<data field="domain" value="0" />
+		<data field="file" value="DomaingroupComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="4" />
+		<data field="typename" value="domainpanel" />
+		<data field="priority" value="0" />
+		<data field="domain" value="1" />
+		<data field="file" value="DomainpanelComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="5" />
+		<data field="typename" value="domaintable" />
+		<data field="priority" value="130" />
+		<data field="domain" value="1" />
+		<data field="file" value="DomaintableComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="6" />
+		<data field="typename" value="binary" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="BinaryComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="7" />
+		<data field="typename" value="catalog" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="CatalogComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="8" />
+		<data field="typename" value="shared" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="SharedComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="9" />
+		<data field="typename" value="configurationfile" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="ConfigurationfileComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="10" />
+		<data field="typename" value="library" />
+		<data field="priority" value="110" />
+		<data field="domain" value="0" />
+		<data field="file" value="LibraryComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="11" />
+		<data field="typename" value="rootpanel" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="RootpanelComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="12" />
+		<data field="typename" value="webserviceshandler" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="WebserviceshandlerComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="13" />
+		<data field="typename" value="webservicesmethod" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="WebservicesmethodComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="14" />
+		<data field="typename" value="country" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="CountryComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="15" />
+		<data field="typename" value="language" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="LanguageComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="16" />
+		<data field="typename" value="hook" />
+		<data field="priority" value="10" />
+		<data field="domain" value="0" />
+		<data field="file" value="HookComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="17" />
+		<data field="typename" value="hookevent" />
+		<data field="priority" value="10" />
+		<data field="domain" value="0" />
+		<data field="file" value="HookeventComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="18" />
+		<data field="typename" value="hookhandler" />
+		<data field="priority" value="10" />
+		<data field="domain" value="0" />
+		<data field="file" value="HookhandlerComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="19" />
+		<data field="typename" value="wuiwidget" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="WuiwidgetComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="24" />
+		<data field="typename" value="wuistyle" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="WuistyleComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="25" />
+		<data field="typename" value="wuiiconsset" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="WuiiconssetComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="26" />
+		<data field="typename" value="wuicolorsset" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="WuicolorssetComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="27" />
+		<data field="typename" value="wuitheme" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="WuithemeComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="20" />
+		<data field="typename" value="dataaccessdriver" />
+		<data field="priority" value="110" />
+		<data field="domain" value="0" />
+		<data field="file" value="DataaccessdriverComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="21" />
+		<data field="typename" value="extras" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="ExtrasComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="22" />
+		<data field="typename" value="helpnode" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="HelpnodeComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="23" />
+		<data field="typename" value="rootgroup" />
+		<data field="priority" value="10" />
+		<data field="domain" value="0" />
+		<data field="file" value="RootgroupComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="28" />
+		<data field="typename" value="tempdir" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="TempdirComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="29" />
+		<data field="typename" value="wuivalidator" />
+		<data field="priority" value="40" />
+		<data field="domain" value="0" />
+		<data field="file" value="WuivalidatorComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="30" />
+		<data field="typename" value="applicationsettings" />
+		<data field="priority" value="10" />
+		<data field="domain" value="0" />
+		<data field="file" value="ApplicationsettingsComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="31" />
+		<data field="typename" value="domainsettings" />
+		<data field="priority" value="10" />
+		<data field="domain" value="1" />
+		<data field="file" value="DomainsettingsComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="32" />
+		<data field="typename" value="maintenancetask" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="MaintenancetaskComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="33" />
+		<data field="typename" value="class" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="ClassComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="34" />
+		<data field="typename" value="webappskeleton" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="WebappskeletonComponent.php" />
+	</insert>
+	
+	<insert table="applications_components_types">
+		<data field="id" value="35" />
+		<data field="typename" value="script" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="ScriptComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="36" />
+		<data field="typename" value="webapphandler" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="WebapphandlerComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="37" />
+		<data field="typename" value="ajaxcall" />
+		<data field="priority" value="0" />
+		<data field="domain" value="0" />
+		<data field="file" value="AjaxcallComponent.php" />
+	</insert>
+
+	<table name="maintenance_tasks">
+		<field name="name" type="text" length="50" notnull="1" />
+		<field name="file" type="text" length="50" notnull="1" />
+		<field name="catalog" type="text" length="50" />
+		<field name="enabled" type="boolean" />
+		<key field="name" type="index" />
+	</table>
+
+	<insert table="maintenance_tasks">
+		<data field="name" value="innomatic_logs" />
+		<data field="file" value="InnomaticLogsMaintenance.php" />
+		<data field="catalog" value="innomatic::maintenance" />
+		<data field="enabled" value="" />
+	</insert>
+
+	<insert table="maintenance_tasks">
+		<data field="name" value="innomatic_cache" />
+		<data field="file" value="InnomaticCacheMaintenance.php" />
+		<data field="catalog" value="innomatic::maintenance" />
+		<data field="enabled" value="" />
+	</insert>
+
+	<insert table="maintenance_tasks">
+		<data field="name" value="innomatic_requirements" />
+		<data field="file" value="InnomaticRequirementsMaintenance.php" />
+		<data field="catalog" value="innomatic::maintenance" />
+		<data field="enabled" value="" />
+	</insert>
+
+	<table name="applications_components_register">
+		<field name="appname" type="text" length="100" notnull="1" />
+		<field name="categoryid" type="integer" notnull="1" />
+		<field name="componentname" type="text" length="200" notnull="1" />
+		<field name="domainid" type="integer" />
+		<field name="override" type="text" length="10" default="false" />
+	</table>
+
+	<table name="root_panels_groups">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="50" />
+		<field name="catalog" type="text" length="250" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="root_panels_groups_id_seq" />
+
+	<table name="root_panels">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="50" notnull="1" />
+		<field name="iconfile" type="text" length="250" />
+		<field name="catalog" type="text" length="250" />
+		<field name="groupid" type="integer" />
+		<field name="themeicon" type="text" default="" />
+		<field name="themeicontype" type="text" default="" />
+		<key field="id" type="unique" />
+		<key field="name" type="index" />
+	</table>
+
+	<sequence name="root_panels_id_seq" />
+
+	<table name="root_permissions">
+		<field name="groupid" type="integer" />
+		<field name="permnode" type="text" length="200" />
+	</table>
+
+	<table name="root_profiles">
+		<field name="id" type="integer" notnull="1" />
+		<field name="profilename" type="text" length="20" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="rootprofile_id_seq" />
+
+	<table name="applications_enabled">
+		<field name="applicationid" type="integer" notnull="1" />
+		<field name="domainid" type="integer" notnull="1" />
+		<field name="activationdate" type="date" />
+		<field name="expirydate" type="date" />
+		<field name="active" type="boolean" />
+	</table>
+
+	<table name="locale_countries">
+		<field name="countryshort" type="text" length="6" notnull="1" />
+		<field name="countryname" type="text" length="40" notnull="1" />
+		<field name="countryfile" type="text" length="50" notnull="1" />
+		<key field="countryshort" type="index" />
+	</table>
+
+	<table name="locale_languages">
+		<field name="langshort" type="text" length="6" notnull="1" />
+		<field name="langname" type="text" length="30" notnull="1" />
+		<key field="langshort" type="index" />
+	</table>
+
+	<table name="webservices_accounts">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" />
+		<field name="host" type="text" />
+		<field name="path" type="text" />
+		<field name="port" type="text" />
+		<field name="username" type="text" />
+		<field name="password" type="text" />
+		<field name="proxy" type="text" />
+		<field name="proxyport" type="text" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="webservices_accounts_id_seq" />
+
+	<table name="webservices_methods">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="150" notnull="1" />
+		<field name="function" type="text" notnull="1" />
+		<field name="signature" type="text" />
+		<field name="docstring" type="text" />
+		<field name="handler" type="text" notnull="1" />
+		<field name="application" type="text" notnull="1" />
+		<field name="unsecure" type="boolean" />
+		<field name="catalog" type="text" />
+		<key field="id" type="unique" />
+		<key field="name" type="index" />
+	</table>
+
+	<sequence name="webservices_methods_id_seq" />
+
+	<table name="webservices_users">
+		<field name="id" type="integer" notnull="1" />
+		<field name="username" type="text" length="50" notnull="1" />
+		<field name="password" type="text" notnull="1" />
+		<field name="profileid" type="integer" notnull="1" />
+		<field name="domainid" type="integer" />
+		<key field="id" type="unique" />
+		<key field="username" type="index" />
+	</table>
+
+	<sequence name="webservices_users_id_seq" />
+
+	<table name="webservices_profiles">
+		<field name="id" type="integer" notnull="1" />
+		<field name="profilename" type="text" notnull="1" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="webservices_profiles_id_seq" />
+
+	<table name="webservices_permissions">
+		<field name="profileid" type="integer" notnull="1" />
+		<field name="application" type="text" />
+		<field name="method" type="text" />
+	</table>
+
+	<table name="applications_repositories">
+		<field name="id" type="integer" notnull="1" />
+		<field name="accountid" type="integer" notnull="1" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="applications_repositories_id_seq" />
+
+	<table name="webapps_skeletons">
+		<field name="name" type="text" length="50" notnull="1" />
+		<field name="catalog" type="text" length="50" notnull="1" />
+	</table>
+
+	<insert table="webapps_skeletons">
+		<data field="name" value="default" />
+		<data field="catalog" value="innomatic::webapps" />
+	</insert>
+
+	<insert table="webapps_skeletons">
+		<data field="name" value="custom" />
+		<data field="catalog" value="innomatic::webapps" />
+	</insert>
+
+	<insert table="webapps_skeletons">
+		<data field="name" value="php" />
+		<data field="catalog" value="innomatic::webapps" />
+	</insert>
+
+</database>

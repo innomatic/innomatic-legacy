@@ -1,0 +1,19 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="domain_users">
+		<field name="id" type="integer" notnull="1" />
+		<field name="groupid" type="integer" />
+		<field name="username" type="text" length="50" />
+		<field name="password" type="text" length="32" />
+		<field name="fname" type="text" length="30" />
+		<field name="lname" type="text" length="30" />
+		<field name="otherdata" type="text" />
+		<field name="email" type="text" />
+		<key field="id" type="unique" />
+		<key field="username" type="index" />
+	</table>
+
+	<sequence name="domain_users_id_seq" />
+
+</database>

@@ -1,0 +1,19 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="webservices_accounts">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" />
+		<field name="host" type="text" />
+		<field name="path" type="text" />
+		<field name="port" type="text" />
+		<field name="username" type="text" />
+		<field name="password" type="text" />
+		<field name="proxy" type="text" />
+		<field name="proxyport" type="text" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="webservices_accounts_id_seq" />
+
+</database>
