@@ -42,14 +42,14 @@ class WuivalidatorComponent extends ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            if (@copy($this->basedir . '/WEB-INF/classes/shared/wui/validators/' . basename($params['file']), InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/wui/validators/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/wui/validators/' . basename($params['file']), 0644);
+            if (@copy($this->basedir . '/core/classes/shared/wui/validators/' . basename($params['file']), InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']))) {
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']), 0644);
                 if ($this->rootda->execute('INSERT INTO wui_validators ' . 'VALUES (' . $this->rootda->formatText($params['name']) . ',' . $this->rootda->formatText($params['file']) . ')')) {
                     $result = true;
                 } else
                     $this->mLog->logEvent('shared.components.wuivalidator.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', Logger::ERROR);
             } else
-                $this->mLog->logEvent('shared.components.wuivalidator.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/wui/validators/' . basename($params['file']) . ')', Logger::ERROR);
+                $this->mLog->logEvent('shared.components.wuivalidator.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']) . ')', Logger::ERROR);
         } else
             $this->mLog->logEvent('shared.components.wuivalidator.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
         return $result;
@@ -59,7 +59,7 @@ class WuivalidatorComponent extends ApplicationComponent
         $result = false;
         if (strlen($params['file'])) {
             if ($this->rootda->execute('DELETE FROM wui_validators ' . 'WHERE name=' . $this->rootda->formatText($params['name']))) {
-                if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/wui/validators/' . basename($params['file']))) {
+                if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']))) {
                     $result = true;
                 } else
                     $this->mLog->logEvent('shared.components.wuivalidator.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to unlink component', Logger::ERROR);
@@ -73,11 +73,11 @@ class WuivalidatorComponent extends ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            if (@copy($this->basedir . '/WEB-INF/classes/shared/wui/validators/' . basename($params['file']), InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/wui/validators/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/wui/validators/' . basename($params['file']), 0644);
+            if (@copy($this->basedir . '/core/classes/shared/wui/validators/' . basename($params['file']), InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']))) {
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']), 0644);
                 $result = true;
             } else
-                $this->mLog->logEvent('shared.components.wuivalidator.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/wui/validators/' . basename($params['file']) . ')', Logger::ERROR);
+                $this->mLog->logEvent('shared.components.wuivalidator.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']) . ')', Logger::ERROR);
         } else
             $this->mLog->logEvent('shared.components.wuivalidator.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
         return $result;

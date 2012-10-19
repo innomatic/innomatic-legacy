@@ -41,9 +41,9 @@ class WuiTreeVMenu extends WuiWidget
         } else {
             $mid = $registry->getGlobalObject('singleton xlayersmenu');
         }
-        $mid->libdir = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/lib/';
+        $mid->libdir = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/lib/';
         $mid->libwww = InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/';
-        //$mid->tpldir = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/';
+        //$mid->tpldir = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/';
         $mid->imgdir = $this->mThemeHandler->mStyleDir;
         $mid->imgwww = $this->mThemeHandler->mStyleBase . $this->mThemeHandler->mStyleName . '/';
         //$mid->imgdir = InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/';

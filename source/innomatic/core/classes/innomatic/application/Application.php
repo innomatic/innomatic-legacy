@@ -105,10 +105,10 @@ only application. */
             // Moves temp file to applications repository and extracts it
             //
             $fname = InnomaticContainer::instance('innomaticcontainer')->getHome()
-                . 'WEB-INF/applications/' . basename($tmpfilepath);
+                . 'core/applications/' . basename($tmpfilepath);
             @copy($tmpfilepath, $fname);
             $basetmpdir = $tmpdir = InnomaticContainer::instance('innomaticcontainer')->getHome()
-                . 'WEB-INF/temp/appinst/' . md5(microtime());
+                . 'core/temp/appinst/' . md5(microtime());
             @mkdir($tmpdir, 0755);
             $olddir = getcwd();
             @chdir($tmpdir);
@@ -125,15 +125,15 @@ only application. */
 
             // Checks if the files are into a directory instead of the root
             //
-            if (!@is_dir($tmpdir.'/META-INF')) {
+            if (!@is_dir($tmpdir.'/setup')) {
                 $dhandle = opendir($tmpdir);
                 while (FALSE != ($file = readdir($dhandle))) {
                     if (
                         $file != '.' && $file != '..' && (
-                            is_dir($tmpdir.'/'.$file.'/META-INF') or is_dir($tmpdir.'/'.$file.'/innomatic/META-INF')
+                            is_dir($tmpdir.'/'.$file.'/setup') or is_dir($tmpdir.'/'.$file.'/innomatic/setup')
                         )
                     ) {
-                        if (is_dir($tmpdir.'/'.$file.'/META-INF')) {
+                        if (is_dir($tmpdir.'/'.$file.'/setup')) {
                             $tmpdir = $tmpdir.'/'.$file;
                         } else {
                             $tmpdir = $tmpdir.'/'.$file.'/innomatic';
@@ -148,8 +148,8 @@ only application. */
 
             // Checks for definition and structure files
             //
-            if (file_exists($tmpdir.'/META-INF/bundle.ini')) {
-                $applicationsArray = file($tmpdir.'/META-INF/bundle.ini');
+            if (file_exists($tmpdir.'/setup/bundle.ini')) {
+                $applicationsArray = file($tmpdir.'/setup/bundle.ini');
                 $result = TRUE;
 
                 while (list (, $application) = each($applicationsArray)) {
@@ -160,9 +160,9 @@ only application. */
                         $result = FALSE;
                     }
                 }
-            } else if (file_exists($tmpdir.'/META-INF/application.xml')) {
+            } else if (file_exists($tmpdir.'/setup/application.xml')) {
                 $genconfig = $this->parseApplicationDefinition(
-                    $tmpdir . '/META-INF/application.xml'
+                    $tmpdir . '/setup/application.xml'
                 );
                 $this->appname = $genconfig['ApplicationIdName'];
 
@@ -237,20 +237,20 @@ only application. */
                         //
                         @mkdir(
                             InnomaticContainer::instance('innomaticcontainer')->getHome()
-                            . 'WEB-INF/applications/'
+                            . 'core/applications/'
                             . $genconfig['ApplicationIdName'],
                             0755
                         );
 
                         // Defs files
                         //
-                        if ($dhandle = @opendir($tmpdir.'/META-INF')) {
+                        if ($dhandle = @opendir($tmpdir.'/setup')) {
                             while (FALSE != ($file = readdir($dhandle))) {
-                                if ($file != '.' && $file != '..' && is_file($tmpdir.'/META-INF/'.$file)) {
+                                if ($file != '.' && $file != '..' && is_file($tmpdir.'/setup/'.$file)) {
                                     @copy(
-                                        $tmpdir . '/META-INF/' . $file,
+                                        $tmpdir . '/setup/' . $file,
                                         InnomaticContainer::instance('innomaticcontainer')->getHome()
-                                        . 'WEB-INF/applications/'
+                                        . 'core/applications/'
                                         . $genconfig['ApplicationIdName']
                                         . '/' . $file
                                     );
@@ -275,48 +275,48 @@ only application. */
                         $this->setOptions(explode(',', trim($genconfig['ApplicationOptions'], ' ,')));
 
                         $this->HandleStructure(
-                            $tmpdir.'/META-INF/application.xml',
+                            $tmpdir.'/setup/application.xml',
                             Application::INSTALL_MODE_INSTALL,
                             $tmpdir
                         );
 
                         if (
                             strlen($genconfig['ApplicationLicenseFile'])
-                            and file_exists($tmpdir.'/META-INF/'.$genconfig['ApplicationLicenseFile'])
+                            and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'])
                         ) {
                             @copy(
-                                $tmpdir.'/META-INF/'.$genconfig['ApplicationLicenseFile'],
+                                $tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'],
                                 InnomaticContainer::instance('innomaticcontainer')->getHome()
-                                .'WEB-INF/applications/'.$genconfig['ApplicationIdName'].'/'
+                                .'core/applications/'.$genconfig['ApplicationIdName'].'/'
                                 .$genconfig['ApplicationLicenseFile']
                             );
                         }
                         if (
                             strlen($genconfig['ApplicationChangesFile'])
-                            and file_exists($tmpdir.'/META-INF/'.$genconfig['ApplicationChangesFile'])
+                            and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationChangesFile'])
                         ) {
                             @copy(
-                                $tmpdir.'/META-INF/'.$genconfig['ApplicationChangesFile'],
+                                $tmpdir.'/setup/'.$genconfig['ApplicationChangesFile'],
                                 InnomaticContainer::instance('innomaticcontainer')->getHome()
-                                .'WEB-INF/applications/'.$genconfig['ApplicationIdName'].'/'
+                                .'core/applications/'.$genconfig['ApplicationIdName'].'/'
                                 .$genconfig['ApplicationChangesFile']
                             );
                         }
                         if (
                             strlen($genconfig['ApplicationIconFile'])
-                            and file_exists($tmpdir.'/META-INF/'.$genconfig['ApplicationIconFile'])
+                            and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationIconFile'])
                         ) {
                             @copy(
-                                $tmpdir.'/META-INF/'.$genconfig['ApplicationIconFile'],
+                                $tmpdir.'/setup/'.$genconfig['ApplicationIconFile'],
                                 InnomaticContainer::instance('innomaticcontainer')->getHome()
-                                .'WEB-INF/applications/'.$genconfig['ApplicationIdName'].'/'
+                                .'core/applications/'.$genconfig['ApplicationIdName'].'/'
                                 .$genconfig['ApplicationIconFile']
                             );
                         }
 
                         // Checks if it is an extension application
                         //
-                        $genconfig = $this->parseApplicationDefinition($tmpdir.'/META-INF/application.xml');
+                        $genconfig = $this->parseApplicationDefinition($tmpdir.'/setup/application.xml');
 
                         $ext = $this->rootda->fmtfalse;
 
@@ -404,7 +404,7 @@ only application. */
                             //
                             touch(
                                 InnomaticContainer::instance('innomaticcontainer')->getHome()
-                                .'WEB-INF/temp/upgrading_system_lock'
+                                .'core/temp/upgrading_system_lock'
                             );
 
                             // :WARNING: evil 20020506: possible problems on Windows systems
@@ -416,13 +416,13 @@ only application. */
                                 (basename($fname) != $appdata['appfile'])
                                 and (file_exists(
                                     InnomaticContainer::instance('innomaticcontainer')->getHome()
-                                    .'WEB-INF/applications/'.$appdata['appfile']
+                                    .'core/applications/'.$appdata['appfile']
                                 )
                                 )
                             )
                             @unlink(
                                 InnomaticContainer::instance('innomaticcontainer')->getHome()
-                                .'WEB-INF/applications/'.$appdata['appfile']
+                                .'core/applications/'.$appdata['appfile']
                             );
 
                             // Updates applications table
@@ -449,22 +449,22 @@ only application. */
                                 ', iconfile='.$this->rootda->formatText($genconfig['ApplicationIconFile']).
                                 ' WHERE id='. (int) $this->serial
                             );
-                            $genconfig = $this->parseApplicationDefinition($tmpdir.'/META-INF/application.xml');
+                            $genconfig = $this->parseApplicationDefinition($tmpdir.'/setup/application.xml');
 
                             // Script files - only before handlestructure
                             //
-                            if ($dhandle = @opendir($tmpdir.'/META-INF')) {
+                            if ($dhandle = @opendir($tmpdir.'/setup')) {
                                 while (FALSE != ($file = readdir($dhandle))) {
                                     if (
                                         $file != '.'
                                         and $file != '..'
                                         and $file != 'application.xml'
-                                        and is_file($tmpdir.'/META-INF/'.$file)
+                                        and is_file($tmpdir.'/setup/'.$file)
                                     ) {
                                         @copy(
-                                            $tmpdir.'/META-INF/'.$file,
+                                            $tmpdir.'/setup/'.$file,
                                             InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                            'WEB-INF/applications/'.$genconfig['ApplicationIdName'].'/'.$file
+                                            'core/applications/'.$genconfig['ApplicationIdName'].'/'.$file
                                         );
                                     }
                                 }
@@ -472,51 +472,51 @@ only application. */
                             }
 
                             $this->HandleStructure(
-                                $tmpdir.'/META-INF/application.xml',
+                                $tmpdir.'/setup/application.xml',
                                 Application::INSTALL_MODE_UPDATE,
                                 $tmpdir
                             );
 
                             if (
                                 strlen($genconfig['ApplicationLicenseFile'])
-                                and file_exists($tmpdir.'/META-INF/'.$genconfig['ApplicationLicenseFile'])
+                                and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'])
                             ) {
                                 @copy(
-                                    $tmpdir.'/META-INF/'.$genconfig['ApplicationLicenseFile'],
+                                    $tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'],
                                     InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                    'WEB-INF/applications/'.$genconfig['ApplicationIdName'].'/'.
+                                    'core/applications/'.$genconfig['ApplicationIdName'].'/'.
                                     $genconfig['ApplicationLicenseFile']
                                 );
                             }
                             if (
                                 strlen($genconfig['ApplicationChangesFile'])
-                                and file_exists($tmpdir.'/META-INF/'.$genconfig['ApplicationChangesFile'])
+                                and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationChangesFile'])
                             ) {
                                 @copy(
-                                    $tmpdir.'/META-INF/'.$genconfig['ApplicationChangesFile'],
+                                    $tmpdir.'/setup/'.$genconfig['ApplicationChangesFile'],
                                     InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                    'WEB-INF/applications/'.$genconfig['ApplicationIdName'].'/'.
+                                    'core/applications/'.$genconfig['ApplicationIdName'].'/'.
                                     $genconfig['ApplicationChangesFile']
                                 );
                             }
                             if (
                                 strlen($genconfig['ApplicationIconFile'])
-                                and file_exists($tmpdir.'/META-INF/'.$genconfig['ApplicationIconFile'])
+                                and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationIconFile'])
                             ) {
                                 @copy(
-                                    $tmpdir.'/META-INF/'.$genconfig['ApplicationIconFile'],
+                                    $tmpdir.'/setup/'.$genconfig['ApplicationIconFile'],
                                     InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                    'WEB-INF/applications/'.$genconfig['ApplicationIdName'].'/'.
+                                    'core/applications/'.$genconfig['ApplicationIdName'].'/'.
                                     $genconfig['ApplicationIconFile']
                                 );
                             }
 
-                            // META-INF files - only after handlestructure
+                            // setup files - only after handlestructure
                             //
                             @copy(
-                                $tmpdir.'/META-INF/application.xml',
+                                $tmpdir.'/setup/application.xml',
                                 InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                'WEB-INF/applications/'.$genconfig['ApplicationIdName'].'/application.xml'
+                                'core/applications/'.$genconfig['ApplicationIdName'].'/application.xml'
                             );
                             // Checks if it is an extension application
                             //
@@ -572,7 +572,7 @@ only application. */
                                 //
                                 unlink(
                                     InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                    'WEB-INF/temp/upgrading_system_lock'
+                                    'core/temp/upgrading_system_lock'
                                 );
 
                                 if (
@@ -614,10 +614,10 @@ only application. */
                 require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
-                if (!file_exists($tmpdir.'/META-INF/application.xml'))
+                if (!file_exists($tmpdir.'/setup/application.xml'))
                 $log->logEvent(
                     'innomatic.applications.applications.install',
-                    'Application structure file '.$tmpdir.'/META-INF/application.xml'.' not found',
+                    'Application structure file '.$tmpdir.'/setup/application.xml'.' not found',
                     Logger::ERROR
                 );
             }
@@ -684,7 +684,7 @@ only application. */
                     if (
                         file_exists(
                             InnomaticContainer::instance('innomaticcontainer')->getHome().
-                            'WEB-INF/applications/'.$appdata['appid'].'/application.xml'
+                            'core/applications/'.$appdata['appid'].'/application.xml'
                         )
                     ) {
                         $this->appname = $appdata['appid'];
@@ -704,9 +704,9 @@ only application. */
 
                             $this->HandleStructure(
                                 InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                'WEB-INF/applications/'.$appdata['appid'].'/application.xml',
+                                'core/applications/'.$appdata['appid'].'/application.xml',
                                 Application::INSTALL_MODE_UNINSTALL,
-                                InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/appinst/'
+                                InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/appinst/'
                             );
 
                             // Removes application archive and directory
@@ -714,18 +714,18 @@ only application. */
                             if (
                                 file_exists(
                                     InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                    'WEB-INF/applications/'.$appdata['appfile']
+                                    'core/applications/'.$appdata['appfile']
                                 )
                             ) {
                                 @unlink(
                                     InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                    'WEB-INF/applications/'.$appdata['appfile']
+                                    'core/applications/'.$appdata['appfile']
                                 );
                             }
                             require_once('innomatic/io/filesystem/DirectoryUtils.php');
                             DirectoryUtils::unlinkTree(
                                 InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                'WEB-INF/applications/'.$appdata['appid']
+                                'core/applications/'.$appdata['appid']
                             );
 
                             // Application rows in applications table
@@ -769,7 +769,7 @@ only application. */
                         $log->logEvent(
                             'innomatic.applications.applications.uninstall',
                             'Structure file '.InnomaticContainer::instance('innomaticcontainer')->getHome().
-                            'WEB-INF/applications/'.$appdata['appid'].'/application.xml'.' for application '.
+                            'core/applications/'.$appdata['appid'].'/application.xml'.' for application '.
                             $appdata['appid'].' was not found',
                             Logger::ERROR
                         );
@@ -839,8 +839,8 @@ only application. */
 
         // Checks for definition and structure files
         //
-        if (file_exists($tmpdir.'META-INF/application.xml')) {
-            $genconfig = $this->parseApplicationDefinition($tmpdir.'/META-INF/application.xml');
+        if (file_exists($tmpdir.'setup/application.xml')) {
+            $genconfig = $this->parseApplicationDefinition($tmpdir.'/setup/application.xml');
             $this->appname = $genconfig['ApplicationIdName'];
 
             // Checks if Innomatic has been already installed
@@ -884,24 +884,24 @@ only application. */
                 if (
                     !file_exists(
                         InnomaticContainer::instance('innomaticcontainer')->getHome().
-                        'WEB-INF/applications/'.$genconfig['ApplicationIdName']
+                        'core/applications/'.$genconfig['ApplicationIdName']
                     )
                 )
                 @mkdir(
                     InnomaticContainer::instance('innomaticcontainer')->getHome().
-                    'WEB-INF/applications/'.$genconfig['ApplicationIdName'], 0755
+                    'core/applications/'.$genconfig['ApplicationIdName'], 0755
                 );
 
-                // META-INF files
+                // setup files
                 //
-                $dhandle = @opendir($tmpdir.'/META-INF');
+                $dhandle = @opendir($tmpdir.'/setup');
                 if ($dhandle) {
                     while (FALSE != ($file = readdir($dhandle))) {
-                        if ($file != '.' && $file != '..' && is_file($tmpdir.'/META-INF/'.$file)) {
+                        if ($file != '.' && $file != '..' && is_file($tmpdir.'/setup/'.$file)) {
                             @copy(
-                                $tmpdir.'/META-INF/'.$file,
+                                $tmpdir.'/setup/'.$file,
                                 InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                'WEB-INF/applications/'.$genconfig['ApplicationIdName'].'/'.$file
+                                'core/applications/'.$genconfig['ApplicationIdName'].'/'.$file
                             );
                         }
                     }
@@ -909,17 +909,17 @@ only application. */
                 }
 
                 $result = $this->HandleStructure(
-                    $tmpdir.'META-INF/application.xml', Application::INSTALL_MODE_INSTALL, $tmpdir, 0, TRUE
+                    $tmpdir.'setup/application.xml', Application::INSTALL_MODE_INSTALL, $tmpdir, 0, TRUE
                 );
 
                 if (
                     strlen($genconfig['ApplicationLicenseFile'])
-                    and file_exists($tmpdir.'/META-INF/'.$genconfig['ApplicationLicenseFile'])
+                    and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'])
                 ) {
                     @copy(
-                        $tmpdir.'/META-INF/'.$genconfig['ApplicationLicenseFile'],
+                        $tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'],
                         InnomaticContainer::instance('innomaticcontainer')->getHome().
-                        'WEB-INF/applications/'.$genconfig['ApplicationIdName'].
+                        'core/applications/'.$genconfig['ApplicationIdName'].
                         '/'.$genconfig['ApplicationLicenseFile']
                     );
                 } else {
@@ -949,10 +949,10 @@ only application. */
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
-            if (!file_exists($tmpdir.'META-INF/application.xml'))
+            if (!file_exists($tmpdir.'setup/application.xml'))
             $log->logEvent(
                 'innomatic.applications.applications.setup',
-                'Innomatic structure file '.$tmpdir.'META-INF/application.xml not found',
+                'Innomatic structure file '.$tmpdir.'setup/application.xml not found',
                 Logger::ERROR
             );
         }
@@ -997,7 +997,7 @@ only application. */
                         if (
                             file_exists(
                                 InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                'WEB-INF/applications/'.$appdata['appid'].'/application.xml'
+                                'core/applications/'.$appdata['appid'].'/application.xml'
                             )
                         ) {
                             $this->appname = $appdata['appid'];
@@ -1019,7 +1019,7 @@ only application. */
                                 $args['dbuser'] = $domaindata['dataaccessuser'];
                                 $args['dbpass'] = $domaindata['dataaccesspassword'];
                                 $args['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                'WEB-INF/domains/'.$domaindata['domainid'].'/log/dataaccess.log';
+                                'core/domains/'.$domaindata['domainid'].'/log/dataaccess.log';
 
                                 require_once('innomatic/dataaccess/DataAccessFactory.php');
                                 require_once('innomatic/dataaccess/DataAccessSourceName.php');
@@ -1070,10 +1070,10 @@ only application. */
                             if ($unmetdeps == FALSE and !$modenabled) {
                                 $result = $this->HandleStructure(
                                     InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                    'WEB-INF/applications/'.$appdata['appid'].'/application.xml',
+                                    'core/applications/'.$appdata['appid'].'/application.xml',
                                     Application::INSTALL_MODE_ENABLE,
                                     InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                    'WEB-INF/applications/'.$appdata['appid'].'/',
+                                    'core/applications/'.$appdata['appid'].'/',
                                     $domainid
                                 );
                                 $modquery = $this->rootda->execute(
@@ -1126,7 +1126,7 @@ only application. */
                             $log->logEvent(
                                 'innomatic.applications.applications.enable',
                                 'Structure file '.InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                'WEB-INF/applications/'.$appdata['appid'].'/application.xml'.' for application '.
+                                'core/applications/'.$appdata['appid'].'/application.xml'.' for application '.
                                 $appdata['appid'].' was not found',
                                 Logger::ERROR
                             );
@@ -1226,7 +1226,7 @@ only application. */
                         if (
                             file_exists(
                                 InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                'WEB-INF/applications/'.$appdata['appid'].'/application.xml'
+                                'core/applications/'.$appdata['appid'].'/application.xml'
                             )
                         ) {
                             $this->appname = $appdata['appid'];
@@ -1247,7 +1247,7 @@ only application. */
                                 $args['dbuser'] = $domaindata['dataaccessuser'];
                                 $args['dbpass'] = $domaindata['dataaccesspassword'];
                                 $args['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                'WEB-INF/domains/'.$domaindata['domainid'].'/log/dataaccess.log';
+                                'core/domains/'.$domaindata['domainid'].'/log/dataaccess.log';
 
                                 require_once('innomatic/dataaccess/DataAccessFactory.php');
                                 require_once('innomatic/dataaccess/DataAccessSourceName.php');
@@ -1286,10 +1286,10 @@ only application. */
                             if (($pendingdeps == FALSE) and ($modenabled == TRUE)) {
                                 $result = $this->HandleStructure(
                                     InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                    'WEB-INF/applications/'.$appdata['appid'].'/application.xml',
+                                    'core/applications/'.$appdata['appid'].'/application.xml',
                                     Application::INSTALL_MODE_DISABLE,
                                     InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                    'WEB-INF/applications/'.$appdata['appid'].'/',
+                                    'core/applications/'.$appdata['appid'].'/',
                                     $domainid
                                 );
 
@@ -1343,7 +1343,7 @@ only application. */
                             $log->logEvent(
                                 'innomatic.applications.applications.disable',
                                 'Structure file '.InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                'WEB-INF/applications/'.$appdata['appid'].'/application.xml'.' for application '.
+                                'core/applications/'.$appdata['appid'].'/application.xml'.' for application '.
                                 $appdata['appid'].' was not found',
                                 Logger::ERROR
                             );
@@ -1532,21 +1532,21 @@ only application. */
         switch ($installmode) {
             case Application::INSTALL_MODE_INSTALL :
                 $sortmode = 'cmp';
-                $scriptdir = $tmpdir.'/META-INF/';
+                $scriptdir = $tmpdir.'/setup/';
                 $prescript = 'generalpreinstall';
                 $postscript = 'generalpostinstall';
                 break;
 
             case Application::INSTALL_MODE_UNINSTALL :
                 $sortmode = 'rcmp';
-                $scriptdir = $tmpdir.'/META-INF/';
+                $scriptdir = $tmpdir.'/setup/';
                 $prescript = 'generalpreuninstall';
                 $postscript = 'generalpostuninstall';
                 break;
 
             case Application::INSTALL_MODE_UPDATE :
                 $sortmode = 'cmp';
-                $scriptdir = $tmpdir.'/META-INF/';
+                $scriptdir = $tmpdir.'/setup/';
                 $prescript = 'generalpreupdate';
                 $postscript = 'generalpostupdate';
                 $domainprescript = $domainpostscript = '';
@@ -1577,7 +1577,7 @@ only application. */
                 $structure = $this->MergeStructureFiles(
                     $deffilepath,
                     InnomaticContainer::instance('innomaticcontainer')->getHome().
-                    'WEB-INF/applications/'.$this->appname.'/application.xml',
+                    'core/applications/'.$this->appname.'/application.xml',
                     $tmpdir
                 );
                 break;
@@ -1633,7 +1633,7 @@ only application. */
                     if (
                         file_exists(
                             InnomaticContainer::instance('innomaticcontainer')->getHome().
-                            'WEB-INF/classes/shared/components/'.ucfirst(strtolower($eltype)).'Component.php'
+                            'core/classes/shared/components/'.ucfirst(strtolower($eltype)).'Component.php'
                         )
                     ) {
                         while (list (, $val) = each($arraycontent)) {
@@ -1641,7 +1641,7 @@ only application. */
                             //
                             require_once(
                                 InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                'WEB-INF/classes/shared/components/'.ucfirst(strtolower($eltype)).'Component.php'
+                                'core/classes/shared/components/'.ucfirst(strtolower($eltype)).'Component.php'
                             );
 
                             // Creates a new instance of the component type class and installs the component
@@ -1659,7 +1659,7 @@ only application. */
                                  if (
                                  file_exists(
                                      InnomaticContainer::instance('innomaticcontainer')->getHome().
-                                     'WEB-INF/classes/shared/components/'.$data['file']
+                                     'core/classes/shared/components/'.$data['file']
                                   ) )
                                  {
                                  include_once( 'shared/components/'.$data['file'] );

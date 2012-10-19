@@ -58,8 +58,8 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
         */
 
         require_once('innomatic/config/ConfigMan.php');
-        $this->mRegCron  = new ConfigMan( $this->mAppId, InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/crontab_regular', ConfigBase::MODE_DIRECT );
-        $this->mTempCron = new ConfigMan( $this->mAppId, InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/crontab_temporary', ConfigBase::MODE_DIRECT );
+        $this->mRegCron  = new ConfigMan( $this->mAppId, InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/crontab_regular', ConfigBase::MODE_DIRECT );
+        $this->mTempCron = new ConfigMan( $this->mAppId, InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/crontab_temporary', ConfigBase::MODE_DIRECT );
     }
 
     /*!
@@ -95,7 +95,7 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
             case Crontab::TYPE_TEMPORARY:
                 $result = $this->mTempCron->changesegment( $this->mAppId.'-'.$identifier, $entry );
-                $this->mTempCron->changesegment( 'innomatic-cronremover', 'rm '.InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/crontab_temporary'."\n" );
+                $this->mTempCron->changesegment( 'innomatic-cronremover', 'rm '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/crontab_temporary'."\n" );
                 break;
 
             default:
@@ -145,7 +145,7 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
             case Crontab::TYPE_TEMPORARY:
                 $result = $this->mTempCron->removesegment( $this->mAppId.'-'.$identifier );
-                $this->mTempCron->changesegment( 'innomatic-cronremover', 'rm '.InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/crontab_temporary'."\n" );
+                $this->mTempCron->changesegment( 'innomatic-cronremover', 'rm '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/crontab_temporary'."\n" );
                 break;
 
             default:

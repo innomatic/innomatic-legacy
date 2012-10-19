@@ -110,7 +110,7 @@ class WuiIconsSet {
 
     public function getIconsSet() {
         $result = array();
-        $values = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/themes/'.$this->mSetName.'_wuiiconsset.ini');
+        $values = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuiiconsset.ini');
         if ($values !== FALSE) {
             while (list ($key, $val) = each($values)) {
                 $key = trim($key);
@@ -128,7 +128,7 @@ class WuiIconsSet {
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open icons set file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/themes/'.$this->mSetName.'_wuiiconsset.ini', Logger::ERROR);
+            $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open icons set file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuiiconsset.ini', Logger::ERROR);
         }
 
         return $result;

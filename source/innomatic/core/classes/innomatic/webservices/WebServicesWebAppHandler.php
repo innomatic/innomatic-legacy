@@ -39,7 +39,7 @@ class WebServicesWebAppHandler extends WebAppHandler {
         require_once('innomatic/core/InnomaticContainer.php');
 
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
-        $innomatic->bootstrap($home, $home.'WEB-INF/conf/innomatic.ini');
+        $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
         $innomatic->setMode(InnomaticContainer::MODE_ROOT);
         $innomatic->setInterface(InnomaticContainer::INTERFACE_WEBSERVICES);
 
@@ -84,7 +84,7 @@ class WebServicesWebAppHandler extends WebAppHandler {
             if ($tmpdata['handler'] and $tmpdata['name'] and $tmpdata['function']) {
                 // TODO Fixare gestione handler servizi remoti
                 if (!defined(strtoupper($tmpdata['handler']).'_XMLRPCMETHOD')) {
-                    require_once(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/classes/shared/webservices/'.ucfirst($tmpdata['handler']).'WebServicesHandler.php');
+                    require_once(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/classes/shared/webservices/'.ucfirst($tmpdata['handler']).'WebServicesHandler.php');
                 }
 
                 $structure[$tmpdata['name']]['function'] = $tmpdata['function'];

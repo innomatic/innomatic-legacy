@@ -34,8 +34,8 @@ class DataAccessFactory
     {
         global $dbtypes;
         $dbtypes = array();
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/dataaccessdrivers.ini')) {
-            $dbcfgfile = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/dataaccessdrivers.ini');
+        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini')) {
+            $dbcfgfile = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini');
             if ($dbcfgfile !== FALSE) {
                 $dbtypes = (array)$dbcfgfile;
             }
@@ -44,14 +44,14 @@ class DataAccessFactory
 
     public static function getDrivers()
     {
-        return @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/dataaccessdrivers.ini');
+        return @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini');
     }
 
     public function addDriver($name, $desc)
     {
         global $dbtypes;
         if (!isset($dbtypes[$name])) {
-            $cfg = new ConfigMan('innomatic', InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/dataaccessdrivers.ini', ConfigBase::MODE_DIRECT);
+            $cfg = new ConfigMan('innomatic', InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini', ConfigBase::MODE_DIRECT);
             $cfg->AddSegment($name, $name.' = '.$desc."\n");
             $this->retrieveAvailableDrivers();
         }
@@ -61,7 +61,7 @@ class DataAccessFactory
     {
         global $dbtypes;
         if (isset($dbtypes[$name])) {
-            $cfg = new ConfigMan('innomatic', InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/dataaccessdrivers.ini', ConfigBase::MODE_DIRECT);
+            $cfg = new ConfigMan('innomatic', InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini', ConfigBase::MODE_DIRECT);
             $cfg->ChangeSegment($name, $name.' = '.$desc."\n");
             $this->retrieveAvailableDrivers();
         }
@@ -71,7 +71,7 @@ class DataAccessFactory
     {
         global $dbtypes;
         if (isset($dbtypes[$name])) {
-            $cfg = new ConfigMan('innomatic', InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/dataaccessdrivers.ini', ConfigBase::MODE_DIRECT);
+            $cfg = new ConfigMan('innomatic', InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini', ConfigBase::MODE_DIRECT);
             $cfg->RemoveSegment($name);
             $this->retrieveAvailableDrivers();
         }

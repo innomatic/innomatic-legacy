@@ -72,7 +72,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler {
 
         $log = new Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/log/webservices.log'
+            . 'core/log/webservices.log'
         );
 
         return new XmlRpcResp(new XmlRpcVal($log->rawReadLog()));
@@ -85,7 +85,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler {
         require_once('innomatic/logging/Logger.php');
         $log = new Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/log/webservices.log'
+            . 'core/log/webservices.log'
         );
         return new XmlRpcResp(new XmlRpcVal($log->cleanLog()));
     }
@@ -98,7 +98,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler {
 
         $log = new Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/log/webservices.log'
+            . 'core/log/webservices.log'
         );
 
         $event_caller = $m->getParam(0);

@@ -55,14 +55,14 @@ class WebappskeletonComponent extends ApplicationComponent
             return false;
         }
         // Source folder.
-        $skeleton_source = $this->basedir . '/WEB-INF/conf/skel/webapps/' . basename($params['name']) . '-skel/';
+        $skeleton_source = $this->basedir . '/core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
         // Checks if the skeleton directory exists in application archive.
         if (! is_dir($skeleton_source)) {
             $this->mLog->logEvent('WebappskeletonComponent::doInstallAction', 'Missing webapp skeleton folder (' . basename($params['name']) . '-skel) in application ' . $this->appname, Logger::ERROR);
             return false;
         }
         // Destination folder.
-        $skeleton_destination = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/skel/webapps/' . basename($params['name']) . '-skel/';
+        $skeleton_destination = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
         // Copies the skeleton folder to the destination.
         require_once ('innomatic/io/filesystem/DirectoryUtils.php');
         $result = DirectoryUtils::dirCopy($skeleton_source, $skeleton_destination);
@@ -86,7 +86,7 @@ class WebappskeletonComponent extends ApplicationComponent
             return false;
         }
         // Skeleton folder.
-        $skeleton_folder = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/skel/webapps/' . basename($params['name']) . '-skel';
+        $skeleton_folder = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel';
         // Removes skeleton directory.
         require_once ('innomatic/io/filesystem/DirectoryUtils.php');
         $result = DirectoryUtils::unlinkTree($skeleton_folder);
@@ -111,14 +111,14 @@ class WebappskeletonComponent extends ApplicationComponent
             return false;
         }
         // Source folder.
-        $skeleton_source = $this->basedir . '/WEB-INF/conf/skel/webapps/' . basename($params['name']) . '-skel/';
+        $skeleton_source = $this->basedir . '/core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
         // Checks if the skeleton directory exists in application archive.
         if (! is_dir($skeleton_source)) {
             $this->mLog->logEvent('WebappskeletonComponent::doUdpateAction', 'Missing webapp skeleton folder (' . basename($params['name']) . '-skel) in application ' . $this->appname, Logger::ERROR);
             return false;
         }
         // Destination folder.
-        $skeleton_destination = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/skel/webapps/' . basename($params['name']) . '-skel/';
+        $skeleton_destination = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
         // Removes previous skeleton directory.
         require_once ('innomatic/io/filesystem/DirectoryUtils.php');
         DirectoryUtils::unlinkTree($skeleton_folder);

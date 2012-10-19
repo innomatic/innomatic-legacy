@@ -369,7 +369,7 @@ class DomainsPanelActions extends PanelActions
     {
         $tempLog = new Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            .'WEB-INF/domains/'.$eventData['domainid'].'/log/domain.log'
+            .'core/domains/'.$eventData['domainid'].'/log/domain.log'
         );
 
         if ($tempLog->cleanLog()) {
@@ -389,7 +389,7 @@ class DomainsPanelActions extends PanelActions
 
         $tempLog = new Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            .'WEB-INF/domains/'.$query->getFields('domainid').'/log/dataaccess.log'
+            .'core/domains/'.$query->getFields('domainid').'/log/dataaccess.log'
         );
 
         if ($tempLog->cleanLog()) {

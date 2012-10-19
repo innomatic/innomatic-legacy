@@ -24,12 +24,12 @@ global $tmpdir;
 @chmod(RootContainer::instance('rootcontainer')->getHome() . 'index.php', 0644);
 
 /*
-@copy($tmpdir . '/WEB-INF/web.xml',
+@copy($tmpdir . '/core/web.xml',
       InnomaticContainer::instance('innomaticcontainer')->getHome()
-      . 'WEB-INF/web.xml');
+      . 'core/web.xml');
 
 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome()
-       . 'WEB-INF/web.xml', 0644);
+       . 'core/web.xml', 0644);
 */
 
 @copy(
@@ -81,8 +81,8 @@ $app_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()
 
 @copy(
     InnomaticContainer::instance('innomaticcontainer')->getHome()
-    . 'WEB-INF/applications/'.$app_query->getFields( 'appfile' ),
+    . 'core/applications/'.$app_query->getFields( 'appfile' ),
     InnomaticContainer::instance('innomaticcontainer')->getHome()
-    . 'WEB-INF/temp/appinst/reupdate'
+    . 'core/temp/appinst/reupdate'
 );
 */

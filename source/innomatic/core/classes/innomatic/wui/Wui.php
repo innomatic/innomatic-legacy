@@ -86,7 +86,7 @@ class Wui extends Singleton
         }
 
         $widgetFile = InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/classes/shared/wui/Wui' . ucfirst($widgetName) . '.php';
+            . 'core/classes/shared/wui/Wui' . ucfirst($widgetName) . '.php';
         $result = include_once($widgetFile);
 
         if (!$result) {
@@ -96,7 +96,7 @@ class Wui extends Singleton
                 'innomatic.wui.wui.loadwidget',
                 'Unable to load widget handler file '
                 . InnomaticContainer::instance('innomaticcontainer')->getHome()
-                . 'WEB-INF/classes/shared/wui/Wui'
+                . 'core/classes/shared/wui/Wui'
                 . ucfirst($widgetName) . '.php', Logger::ERROR
             );
             require_once('innomatic/wui/WuiException.php');

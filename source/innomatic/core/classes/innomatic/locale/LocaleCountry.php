@@ -94,7 +94,7 @@ class LocaleCountry {
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
 
         require_once('innomatic/config/ConfigFile.php');
-        $country_file = @parse_ini_file($innomatic->getHome().'WEB-INF/locale/countries/'.$this->mCountry.'.ini');
+        $country_file = @parse_ini_file($innomatic->getHome().'core/locale/countries/'.$this->mCountry.'.ini');
         if ($country_file !== FALSE) {
             $this->mCountryShort = $country_file['COUNTRYSHORT'];
             $this->mLanguage = $country_file['LANGUAGE'];
@@ -122,7 +122,7 @@ class LocaleCountry {
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic/locale/LocaleCountry', 'Unable to open country file '.$innomatic->getHome().'WEB-INF/locale/countries/'.$this->mCountry.'.ini', Logger::ERROR);
+            $log->logEvent('innomatic/locale/LocaleCountry', 'Unable to open country file '.$innomatic->getHome().'core/locale/countries/'.$this->mCountry.'.ini', Logger::ERROR);
         }
 
         return $result;

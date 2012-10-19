@@ -43,8 +43,8 @@ class TempdirComponent extends ApplicationComponent
         $result = false;
         if (strlen($params['name'])) {
             $result = true;
-            if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/temp/' . $params['name']))
-                $result = @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/temp/' . $params['name'], 0755);
+            if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/temp/' . $params['name']))
+                $result = @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/temp/' . $params['name'], 0755);
             if (! $result)
                 $this->mLog->logEvent('innomatic.tempdircomponent.tempdircomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to create temporary directory', Logger::ERROR);
         } else
@@ -56,7 +56,7 @@ class TempdirComponent extends ApplicationComponent
         $result = false;
         if (strlen($params['name'])) {
             require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-            if (DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/temp/' . $params['name']))
+            if (DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/temp/' . $params['name']))
                 $result = true;
             else
                 $this->mLog->logEvent('innomatic.tempdircomponent.tempdircomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove temporary directory', Logger::ERROR);

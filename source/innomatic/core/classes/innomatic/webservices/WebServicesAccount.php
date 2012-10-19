@@ -76,7 +76,7 @@ class WebServicesAccount
     function WebServicesAccount( &$rrootDb, $id = '' )
     {
         $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-        $this->mWebServicesLog = new Logger( InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/webservices.log' );
+        $this->mWebServicesLog = new Logger( InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log' );
 
         $this->mId = $id;
 

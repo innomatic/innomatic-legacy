@@ -62,14 +62,14 @@ class WebAppProcessor {
      */
     public function report(WebAppRequest $req, WebAppResponse $res) {
         require_once('innomatic/core/RootContainer.php');
-        $statusReportsTree = simplexml_load_file(RootContainer::instance('rootcontainer')->getHome().'innomatic/WEB-INF/conf/webapp/statusreports.xml');
+        $statusReportsTree = simplexml_load_file(RootContainer::instance('rootcontainer')->getHome().'innomatic/core/conf/webapp/statusreports.xml');
         $statusReports = array();
         foreach($statusReportsTree->status as $status) {
             $statusReports[sprintf('%s', $status->statuscode)] = sprintf('%s', $status->statusreport);
         }
 
         require_once('innomatic/php/PHPTemplate.php');
-        $tpl = new PHPTemplate(RootContainer::instance('rootcontainer')->getHome().'innomatic/WEB-INF/conf/webapp/report.tpl.php');
+        $tpl = new PHPTemplate(RootContainer::instance('rootcontainer')->getHome().'innomatic/core/conf/webapp/report.tpl.php');
         $tpl->set('status_code', $res->getStatus());
         $tpl->set('message', htmlspecialchars($res->getMessage()));
         $tpl->set('report', str_replace('{0}', $res->getMessage(), isset($statusReports[$res->getStatus()]) ? $statusReports[$res->getStatus()] : ''));

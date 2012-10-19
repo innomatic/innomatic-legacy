@@ -108,7 +108,7 @@
 		<exec executable="phpcs" dir="${basedir}/source" error="/dev/null" output="${basedir}/build/logs/checkstyle.xml">
 			<arg line="--report=checkstyle
 	                 --standard=Zend
-	                 --ignore=WEB-INF/classes/innomatic/io/archive/archivers innomatic/" />
+	                 --ignore=core/classes/innomatic/io/archive/archivers innomatic/" />
 		</exec>
 	</target>
 

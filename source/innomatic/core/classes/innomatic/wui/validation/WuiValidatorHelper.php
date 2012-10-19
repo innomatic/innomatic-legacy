@@ -33,8 +33,8 @@ class WuiValidatorHelper
                 if ($validators_query) {
                     // TODO old
                     while (!$validators_query->eof) {
-                        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/classes/shared/wui/validators/'.$validators_query->getFields('file'))) {
-                            include_once(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/classes/shared/wui/validators/'.$validators_query->getFields('file'));
+                        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/classes/shared/wui/validators/'.$validators_query->getFields('file'))) {
+                            include_once(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/classes/shared/wui/validators/'.$validators_query->getFields('file'));
                         }
                         $validators_query->moveNext();
                     }

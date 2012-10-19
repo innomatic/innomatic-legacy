@@ -47,7 +47,7 @@ class Domain {
                     $args['dbport'] = $this->domaindata['dataaccessport'];
                     $args['dbuser'] = $this->domaindata['dataaccessuser'];
                     $args['dbpass'] = $this->domaindata['dataaccesspassword'];
-                    $args['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$this->domaindata['domainid'].'/log/dataaccess.log';
+                    $args['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$this->domaindata['domainid'].'/log/dataaccess.log';
 
                     require_once('innomatic/dataaccess/DataAccessFactory.php');
                     require_once('innomatic/dataaccess/DataAccessSourceName.php');
@@ -70,7 +70,7 @@ class Domain {
                 $this->domainid = $this->domaindata['domainid'];
 
                 require_once('innomatic/logging/Logger.php');
-                $this->domainlog = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domainid.'/log/domain.log');
+                $this->domainlog = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domainid.'/log/domain.log');
             } else {
                 require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
@@ -87,7 +87,7 @@ class Domain {
 
             $this->domainserial = $tmpquery->getFields('id');
             require_once('innomatic/logging/Logger.php');
-            $this->domainlog = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domainid.'/log/domain.log');
+            $this->domainlog = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domainid.'/log/domain.log');
         }
 
         $this->reservedNames[] = 'innomatic';
@@ -181,12 +181,12 @@ class Domain {
                     $this->domainid = $domaindata['domainid'];
                     $this->domainserial = $nextseq;
                     require_once('innomatic/logging/Logger.php');
-                    $this->domainlog = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domaindata['domainid'].'/log/domain.log');
+                    $this->domainlog = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domaindata['domainid'].'/log/domain.log');
 
                     // Domain private directory tree creation inside Innomatic webapp.
-                    $this->makedir(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domaindata['domainid']);
-                    $this->makedir(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domaindata['domainid'].'/log');
-                    $this->makedir(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domaindata['domainid'].'/conf');
+                    $this->makedir(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domaindata['domainid']);
+                    $this->makedir(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domaindata['domainid'].'/log');
+                    $this->makedir(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domaindata['domainid'].'/conf');
 
                     // Domain webapp creation.
                     WebAppContainer::createWebApp($domaindata['domainid'], $domaindata['webappskeleton']);
@@ -199,7 +199,7 @@ class Domain {
                         $args['dbport'] = $domaindata['dataaccessport'];
                         $args['dbuser'] = $domaindata['dataaccessuser'];
                         $args['dbpass'] = $domaindata['dataaccesspassword'];
-                        $args['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domaindata['domainid'].'/log/dataaccess.log';
+                        $args['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domaindata['domainid'].'/log/dataaccess.log';
 
                         $args['name'] = $domaindata['domaindaname'];
 
@@ -612,7 +612,7 @@ class Domain {
                 $args['dbuser'] = $data['dataaccessuser'];
                 $args['dbpass'] = $data['domaindapass'];
                 $args['dbtype'] = $data['dataaccesstype'];
-                $args['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$data['domainid'].'/log/dataaccess.log';
+                $args['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$data['domainid'].'/log/dataaccess.log';
 
                 $this->dataAccess->close();
                 $this->dataAccess->dropDB($args);
@@ -633,10 +633,10 @@ class Domain {
 
             if (!empty($data['domainid']) and !in_array($data['domainid'], $this->reservedNames) ) {
                 require_once('innomatic/security/SecurityManager.php');
-                if (!SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$data['domainid'], InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/')) {
+                if (!SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$data['domainid'], InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/')) {
                     require_once('innomatic/io/filesystem/DirectoryUtils.php');
                     // Removes domain directory inside Innomatic webapp
-                    DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$data['domainid']);
+                    DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$data['domainid']);
                 }
                 // Removes domain webapp
                 WebAppContainer::eraseWebApp($data['domainid']);

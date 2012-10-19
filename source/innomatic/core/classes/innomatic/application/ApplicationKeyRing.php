@@ -30,7 +30,7 @@ class ApplicationKeyRing
 
                 copy(
                     $keyFile,
-                    InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/keyring/'.$keyName
+                    InnomaticContainer::instance('innomaticcontainer')->getHome().'core/keyring/'.$keyName
                 );
 
                 $checkQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
@@ -143,7 +143,7 @@ class ApplicationKeyRing
 
                 unlink(
                     InnomaticContainer::instance('innomaticcontainer')->getHome()
-                    .'WEB-INF/keyring/'.$checkQuery->getFields('file')
+                    .'core/keyring/'.$checkQuery->getFields('file')
                 );
             }
         }
@@ -189,7 +189,7 @@ class ApplicationKeyRing
             InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_UPGRADE
         ) {
             $filename = InnomaticContainer::instance('innomaticcontainer')->getHome()
-            .'WEB-INF/keyring/'.$applicationName;
+            .'core/keyring/'.$applicationName;
             if ( strlen($domainName) ) $filename .= '-'.$domainName;
             $filename .= '.key';
 

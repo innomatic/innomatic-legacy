@@ -181,7 +181,7 @@ clearstatcache();
 
 // Checks if there are remaining setup phases
 //
-if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_lock')) {
+if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_lock')) {
     require_once('innomatic/webapp/WebAppContainer.php');
     $uri = dirname(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getRequestURI());
     $wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('innomaticsetup_title'), 'javascript' => "parent.location.href='".$uri."'"));
@@ -192,13 +192,13 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     require_once('innomatic/dataaccess/DataAccessFactory.php');
     // System check
     //
-    if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_systemchecked')) {
+    if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_systemchecked')) {
         $wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('innomaticsetup_title')));
 
         $systemok = true;
         $row = 0;
 
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_checkingsystem', time());
+        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_checkingsystem', time());
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('systemcheck_title');
 
@@ -379,9 +379,9 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Files installation
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_filesinstalled'))
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_filesinstalled'))
     {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_installingfiles', time());
+        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_installingfiles', time());
         $next_action = new WuiEventSCall();
         $next_action->addEvent(new WuiEvent('action', 'installfiles', ''));
         require_once('innomatic/webapp/WebAppContainer.php');
@@ -389,9 +389,9 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Innomatic edition
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_editionset'))
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_editionset'))
     {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_settingedition', time());
+        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingedition', time());
 
         $wui_vgroup = new WuiVertGroup('vgroup');
 
@@ -433,15 +433,15 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Database creation
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_dataaccessdriverscreated')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_creatingdataaccessdrivers', time());
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_dataaccessdriverscreated')) {
+        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_creatingdataaccessdrivers', time());
 
         $next_action = new WuiEventSCall();
         $next_action->addEvent(new WuiEvent('action', 'createdataaccessdrivers', ''));
         require_once('innomatic/webapp/WebAppContainer.php');
         WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('Location', $next_action->getEventsCallString());
-    } else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_dbcreated')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_creatingdb', time());
+    } else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_dbcreated')) {
+        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_creatingdb', time());
         require_once('innomatic/dataaccess/DataAccessFactory.php');
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('dbcreation_title');
@@ -496,9 +496,9 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Components initialization
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_componentsinitialized'))
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_componentsinitialized'))
     {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_initializingcomponents', time());
+        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_initializingcomponents', time());
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('components_title');
 
@@ -518,9 +518,9 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Innomatic host name and group
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_innomatichostset'))
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_innomatichostset'))
     {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_settinginnomatichost', time());
+        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinginnomatichost', time());
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('innomatichost_title');
 
@@ -559,9 +559,9 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Root administration country
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_countryset'))
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_countryset'))
     {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_settingcountry', time());
+        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingcountry', time());
 
         $args['dbname'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseName');
         $args['dbhost'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseHost');
@@ -569,7 +569,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $args['dbuser'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseUser');
         $args['dbpass'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabasePassword');
         $args['dbtype'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseType');
-        $args['dblog']  = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic_root_db.log';
+        $args['dblog']  = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log';
         require_once('innomatic/dataaccess/DataAccessSourceName.php');
         $dasn_string = $args['dbtype'].'://'.
         $args['dbuser'].':'.
@@ -630,8 +630,8 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Root administration language
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_languageset')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_settinglanguage', time());
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_languageset')) {
+        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinglanguage', time());
 
         $pass_data = $actionDispatcher->getEventData();
         $country = $pass_data['country'];
@@ -647,7 +647,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $args['dbuser'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseUser');
         $args['dbpass'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabasePassword');
         $args['dbtype'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseType');
-        $args['dblog']  = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic_root_db.log';
+        $args['dblog']  = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log';
         require_once('innomatic/dataaccess/DataAccessSourceName.php');
         $dasn_string = $args['dbtype'].'://'.
         $args['dbuser'].':'.
@@ -719,8 +719,8 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Password choice
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_passwordset')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_settingpassword', time());
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_passwordset')) {
+        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingpassword', time());
 
         $wui_grid = new WuiGrid('grid');
 
@@ -759,9 +759,9 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     // AppCentral
     //
     /*
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_appcentralset'))
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_appcentralset'))
     {
-    @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_settingappcentral', time());
+    @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingappcentral', time());
 
     $wui_vgroup = new WuiVertGroup('vgroup');
 
@@ -799,8 +799,8 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     */
     // Final cleanup
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_cleanedup')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_cleaningup', time());
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_cleanedup')) {
+        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_cleaningup', time());
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('cleanup_title');
 
@@ -817,7 +817,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $wui_vgroup->addChild($next_button);
         InnomaticSetup::check_log($wui_vgroup);
         $wuiMainFrame->addChild($wui_vgroup);
-    } else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/setup_done')) {
+    } else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_done')) {
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('finish_title');
 
         $wui_vgroup = new WuiVertGroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));

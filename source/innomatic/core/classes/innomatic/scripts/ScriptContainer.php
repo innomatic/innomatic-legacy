@@ -24,7 +24,7 @@ class ScriptContainer extends Singleton
         $innomatic->setInterface(InnomaticContainer::INTERFACE_CONSOLE);
         $home = RootContainer::instance('rootcontainer')->getHome()
             . 'innomatic/';
-        $innomatic->bootstrap($home, $home . 'WEB-INF/conf/innomatic.ini');
+        $innomatic->bootstrap($home, $home . 'core/conf/innomatic.ini');
     }
     
     public static function cleanExit()

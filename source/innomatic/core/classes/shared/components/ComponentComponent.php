@@ -54,15 +54,15 @@ class ComponentComponent extends ApplicationComponent
         }
         */
         if (strlen($params['file'])) {
-            $params['file'] = $this->basedir . '/WEB-INF/classes/shared/components/' . basename($params['file']);
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/components/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/components/' . basename($params['file']), 0644);
-                $params['filepath'] = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/components/' . basename($params['file']);
+            $params['file'] = $this->basedir . '/core/classes/shared/components/' . basename($params['file']);
+            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']))) {
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']), 0644);
+                $params['filepath'] = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']);
                 if ($this->eltype->Install($params)) {
                     $result = true;
                 }
             } else
-                $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/components/' . basename($params['file']) . ')', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']) . ')', Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
         return $result;
@@ -70,9 +70,9 @@ class ComponentComponent extends ApplicationComponent
     function DoUninstallAction ($params)
     {
         $result = false;
-        $params['filepath'] = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/components/' . basename($params['file']);
+        $params['filepath'] = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']);
         if ($this->eltype->Uninstall($params)) {
-            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/components/' . basename($params['file']))) {
+            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']))) {
                 $result = true;
             }
         }
@@ -82,15 +82,15 @@ class ComponentComponent extends ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            $params['file'] = $this->basedir . '/WEB-INF/classes/shared/components/' . basename($params['file']);
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/components/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/components/' . basename($params['file']), 0644);
-                $params['filepath'] = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/components/' . basename($params['file']);
+            $params['file'] = $this->basedir . '/core/classes/shared/components/' . basename($params['file']);
+            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']))) {
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']), 0644);
+                $params['filepath'] = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']);
                 if ($this->eltype->Update($params)) {
                     $result = true;
                 }
             } else
-                $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/components/' . basename($params['file']) . ')', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']) . ')', Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
         return $result;

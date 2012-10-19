@@ -63,7 +63,7 @@ class CacheGarbageCollector
         
         $dirstream = opendir(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/temp/cache'
+            . 'core/temp/cache'
         );
         
         if ($dirstream) {
@@ -73,13 +73,13 @@ class CacheGarbageCollector
                         is_file(
                             InnomaticContainer::instance(
                                 'innomaticcontainer'
-                            )->getHome() . 'WEB-INF/temp/cache/' . $filename
+                            )->getHome() . 'core/temp/cache/' . $filename
                         )
                     ) {
                         unlink(
                             InnomaticContainer::instance(
                                 'innomaticcontainer'
-                            )->getHome() . 'WEB-INF/temp/cache/' . $filename
+                            )->getHome() . 'core/temp/cache/' . $filename
                         );
                     }
                 }

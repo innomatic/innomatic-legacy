@@ -158,7 +158,7 @@ class InnomaticContainer extends Singleton
 
         // Adds global override classes folder to the include path.
         set_include_path(
-            $this->_home . 'WEB-INF/overrides/classes/'
+            $this->_home . 'core/overrides/classes/'
             . PATH_SEPARATOR . get_include_path()
         );
 
@@ -169,7 +169,7 @@ class InnomaticContainer extends Singleton
         // Waits until system is in upgrade phase
         if ($this->_lockOverride == false) {
             while (file_exists(
-                $this->_home . 'WEB-INF/temp/upgrading_system_lock'
+                $this->_home . 'core/temp/upgrading_system_lock'
             )) {
                 $this->_state = InnomaticContainer::STATE_UPGRADE;
                 clearstatcache();
@@ -177,7 +177,7 @@ class InnomaticContainer extends Singleton
             }
         }
         // Checks if system is in setup phase and sets the state
-        if (file_exists($this->_home . 'WEB-INF/temp/setup_lock')) {
+        if (file_exists($this->_home . 'core/temp/setup_lock')) {
             $this->_state = InnomaticContainer::STATE_SETUP;
             if (extension_loaded('APD')) {
                 apd_set_session_trace(35);
@@ -215,10 +215,10 @@ class InnomaticContainer extends Singleton
 
         if ($this->_state != InnomaticContainer::STATE_SETUP) {
             $this->_pid = md5(microtime());
-            if (!file_exists($this->_home . 'WEB-INF/temp/pids/')) {
-                @mkdir($this->_home . 'WEB-INF/temp/pids/');
+            if (!file_exists($this->_home . 'core/temp/pids/')) {
+                @mkdir($this->_home . 'core/temp/pids/');
             }
-            touch($this->_home . 'WEB-INF/temp/pids/' . $this->_pid, time());
+            touch($this->_home . 'core/temp/pids/' . $this->_pid, time());
             register_shutdown_function(array($this, 'shutdown'));
         }
 
@@ -256,7 +256,7 @@ class InnomaticContainer extends Singleton
             . $this->_config->Value('RootDatabaseName') . '?'
             . 'logfile='
             . InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/log/innomatic_root_db.log';
+            . 'core/log/innomatic_root_db.log';
             $this->_rootDb = DataAccessFactory::getDataAccess(
                 new DataAccessSourceName($dasnString)
             );
@@ -332,13 +332,13 @@ class InnomaticContainer extends Singleton
         // *********************************************************************
 
         // Application reupdate check
-        if (file_exists($this->_home . 'WEB-INF/temp/appinst/reupdate')) {
+        if (file_exists($this->_home . 'core/temp/appinst/reupdate')) {
             require_once('innomatic/application/Application.php');
             $tmpmod = new Application($this->_rootDb, '');
-            $tmpmod->Install($this->_home . 'WEB-INF/temp/appinst/reupdate');
+            $tmpmod->Install($this->_home . 'core/temp/appinst/reupdate');
             clearstatcache();
-            if (file_exists($this->_home . 'WEB-INF/temp/appinst/reupdate')) {
-                unlink($this->_home . 'WEB-INF/temp/appinst/reupdate');
+            if (file_exists($this->_home . 'core/temp/appinst/reupdate')) {
+                unlink($this->_home . 'core/temp/appinst/reupdate');
             }
         }
 
@@ -410,7 +410,7 @@ class InnomaticContainer extends Singleton
 
             // Adds override classes folder to the include path.
             set_include_path(
-                $this->_home . 'WEB-INF/domains/'
+                $this->_home . 'core/domains/'
                 . $this->_currentDomain->getDomainId()
                 . '/overrides/classes/'
                 . PATH_SEPARATOR . get_include_path()
@@ -447,7 +447,7 @@ class InnomaticContainer extends Singleton
             // Removes override classes folder from the include path
             set_include_path(
                 str_replace(
-                    $this->_home . 'WEB-INF/domains/'
+                    $this->_home . 'core/domains/'
                     . $this->_currentDomain->getDomainId()
                     . '/overrides/classes/' . PATH_SEPARATOR,
                     '', get_include_path()
@@ -536,7 +536,7 @@ class InnomaticContainer extends Singleton
                     );
 
                     $fh = @fopen(
-                        $this->_home . 'WEB-INF/temp/pids/' . $this->_pid,
+                        $this->_home . 'core/temp/pids/' . $this->_pid,
                         'w'
                     );
                     if ($fh) {
@@ -564,7 +564,7 @@ class InnomaticContainer extends Singleton
             }
 
             $fh = @fopen(
-                $this->_home . 'WEB-INF/temp/pids/' . $this->_pid . '_coredump',
+                $this->_home . 'core/temp/pids/' . $this->_pid . '_coredump',
                 'w'
             );
             if ($fh) {
@@ -582,11 +582,11 @@ class InnomaticContainer extends Singleton
             or (
                 $this->_state != InnomaticContainer::STATE_DEBUG
                 and file_exists(
-                    $this->_home . 'WEB-INF/temp/pids/' . $this->_pid
+                    $this->_home . 'core/temp/pids/' . $this->_pid
                 )
             )
         ) {
-            @unlink($this->_home . 'WEB-INF/temp/pids/' . $this->_pid);
+            @unlink($this->_home . 'core/temp/pids/' . $this->_pid);
         }
 
         exit();
@@ -731,11 +731,11 @@ class InnomaticContainer extends Singleton
         if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
             $phpLog = InnomaticContainer::instance(
                 'innomaticcontainer'
-            )->getHome() . 'WEB-INF/log/php.log';
+            )->getHome() . 'core/log/php.log';
         } else {
             $phpLog = InnomaticContainer::instance(
                 'innomaticcontainer'
-            )->getHome() . 'WEB-INF/log/innomatic.log';
+            )->getHome() . 'core/log/innomatic.log';
         }
 
         switch ($this->_state) {
@@ -1098,7 +1098,7 @@ class InnomaticContainer extends Singleton
         if (!is_object($this->_logger)) {
             require_once('innomatic/logging/Logger.php');
             $this->_logger = new Logger(
-                $this->_home . 'WEB-INF/log/innomatic.log'
+                $this->_home . 'core/log/innomatic.log'
             );
         }
         return $this->_logger;
@@ -1219,7 +1219,7 @@ class InnomaticContainer extends Singleton
         // Erases all semaphores.
         $handle = opendir(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/temp/semaphores'
+            . 'core/temp/semaphores'
         );
         if ($handle) {
             while (($file = readdir($handle)) !== false) {
@@ -1228,7 +1228,7 @@ class InnomaticContainer extends Singleton
                         InnomaticContainer::instance(
                             'innomaticcontainer'
                         )->getHome()
-                        . 'WEB-INF/temp/semaphores/' . $file
+                        . 'core/temp/semaphores/' . $file
                     );
                 }
             }
@@ -1239,7 +1239,7 @@ class InnomaticContainer extends Singleton
         if (
             file_exists(
                 InnomaticContainer::instance('innomaticcontainer')->getHome()
-                . 'WEB-INF/temp/upgrading_system_lock'
+                . 'core/temp/upgrading_system_lock'
             )
         ) {
             if (
@@ -1247,7 +1247,7 @@ class InnomaticContainer extends Singleton
                     InnomaticContainer::instance(
                         'innomaticcontainer'
                     )->getHome()
-                    . 'WEB-INF/temp/upgrading_system_lock'
+                    . 'core/temp/upgrading_system_lock'
                 )
             ) {
                 require_once('innomatic/logging/Logger.php');
@@ -1356,7 +1356,7 @@ class InnomaticContainer extends Singleton
 
         $fh = @fopen(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/conf/rootpasswd.ini',
+            . 'core/conf/rootpasswd.ini',
             'r'
         );
         if ($fh) {
@@ -1370,7 +1370,7 @@ class InnomaticContainer extends Singleton
                     InnomaticContainer::instance(
                         'innomaticcontainer'
                     )->getHome()
-                    . 'WEB-INF/conf/rootpasswd.ini',
+                    . 'core/conf/rootpasswd.ini',
                     'w'
                 );
                 if ($fh) {

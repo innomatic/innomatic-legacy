@@ -259,11 +259,11 @@ class InnomaticLogsMaintenance extends MaintenanceTask
         $total = 0;
         require_once('innomatic/util/Registry.php');
         $reg = Registry::instance();
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic.log');
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic_root_db.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic_root_db.log');
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/access.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/access.log');
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/webservices.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/webservices.log');
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/php.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/php.log');
+        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log');
+        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log');
+        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/access.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/access.log');
+        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log');
+        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/php.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/php.log');
 
         return $total;
     }
@@ -278,10 +278,10 @@ class InnomaticLogsMaintenance extends MaintenanceTask
 
         while (!$domains_query->eof)
         {
-            $log_file = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domains_query->getFields('domainid').'/log/dataaccess.log';
+            $log_file = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/dataaccess.log';
             if (file_exists($log_file)) $total += filesize($log_file);
-            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domains_query->getFields('domainid').'/log/domain.log'))
-                $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domains_query->getFields('domainid').'/log/domain.log');
+            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/domain.log'))
+                $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/domain.log');
 
             $domains_query->moveNext();
         }
@@ -296,83 +296,83 @@ class InnomaticLogsMaintenance extends MaintenanceTask
         
         if (
             $this->mCleanRootLog
-            and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic.log')
+            and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')
            )
         {
-            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic.log');
+            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log');
             $log->Rotate(0);
-            unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic.log');
+            unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log');
         }
         if (
             $this->mCleanRootDbLog
-            and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic_root_db.log')
+            and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log')
            )
         {
-            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic_root_db.log');
+            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log');
             $log->Rotate(0);
-            unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic_root_db.log');
+            unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log');
         }
         if (
             $this->mCleanPhpLog
-            and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/php.log')
+            and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/php.log')
            )
         {
-            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/php.log');
+            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/php.log');
             $log->Rotate(0);
-            unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/php.log');
+            unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/php.log');
         }
         if (
             $this->mCleanWebServicesLog
-            and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/webservices.log')
+            and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log')
            )
         {
-            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/webservices.log');
+            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log');
             $log->Rotate(0);
-            unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/webservices.log');
+            unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log');
         }
         if (
             $this->mCleanAccessLog
-            and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/access.log')
+            and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/access.log')
            )
         {
-            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/access.log');
+            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/access.log');
             $log->Rotate(0);
-            unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/access.log');
+            unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/access.log');
         }
 
         if (
             $this->mRotateRootLog
            )
         {
-            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic.log');
+            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log');
             $log->Rotate(7);
         }
         if (
             $this->mRotateRootDbLog
            )
         {
-            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic_root_db.log');
+            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log');
             $log->Rotate(7);
         }
         if (
             $this->mRotatePhpLog
            )
         {
-            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/php.log');
+            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/php.log');
             $log->Rotate(7);
         }
         if (
             $this->mRotateWebServicesLog
            )
         {
-            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/webservices.log');
+            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log');
             $log->Rotate(7);
         }
         if (
             $this->mRotateAccessLog
            )
         {
-            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/access.log');
+            $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/access.log');
             $log->Rotate(7);
         }
 
@@ -388,7 +388,7 @@ class InnomaticLogsMaintenance extends MaintenanceTask
 
         while (!$domains_query->eof)
         {
-            $da_log_file = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domains_query->getFields('domainid').'/log/dataaccess.log';
+            $da_log_file = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/dataaccess.log';
             if (file_exists($da_log_file))
             {
                 if ($this->mCleanDomainsLogs)
@@ -404,17 +404,17 @@ class InnomaticLogsMaintenance extends MaintenanceTask
                 }
             }
 
-            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domains_query->getFields('domainid').'/log/domain.log'))
+            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/domain.log'))
             {
                 if ($this->mCleanDomainsLogs)
                 {
-                    $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domains_query->getFields('domainid').'/log/domain.log');
+                    $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/domain.log');
                     $log->Rotate(0);
-                    unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domains_query->getFields('domainid').'/log/domain.log');
+                    unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/domain.log');
                 }
                 else if ($this->mRotateDomainsLogs)
                 {
-                    $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domains_query->getFields('domainid').'/log/domain.log');
+                    $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/domain.log');
                     $log->Rotate(7);
                 }
             }

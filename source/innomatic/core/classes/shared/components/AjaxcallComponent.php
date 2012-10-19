@@ -64,7 +64,7 @@ class AjaxcallComponent extends ApplicationComponent
         $ajax_xml_file = InnomaticContainer::instance(
             'innomaticcontainer'
         )->getHome()
-        . 'WEB-INF/conf/ajax.xml';
+        . 'core/conf/ajax.xml';
         
         $sx = simplexml_load_file($ajax_xml_file);
         // Function
@@ -102,7 +102,7 @@ class AjaxcallComponent extends ApplicationComponent
             return false;
         }
         $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/conf/ajax.xml';
+            . 'core/conf/ajax.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Removes the Ajax call function.
         foreach ($sx->function as $hm) {
@@ -127,7 +127,7 @@ class AjaxcallComponent extends ApplicationComponent
             return false;
         }
         $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/conf/ajax.xml';
+            . 'core/conf/ajax.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Keeps track if the Ajax call function is found in ajax.xml file.
         $found_handler = false;

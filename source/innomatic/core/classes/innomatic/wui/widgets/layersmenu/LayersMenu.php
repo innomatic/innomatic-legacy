@@ -363,9 +363,9 @@ function LayersMenu(
     $this->prependedUrl = "";
 
         $this->dirroot = '';
-        $this->libdir = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/lib/';
+        $this->libdir = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/lib/';
         $this->libwww = InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/';
-        $this->tpldir = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/layersmenu/';
+        $this->tpldir = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/layersmenu/';
         $this->imgdir = InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/';
         $this->imgwww = InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/';
 

@@ -54,7 +54,7 @@ class WebapphandlerComponent extends ApplicationComponent
             $this->mLog->logEvent('WebapphandlerComponent::doInstallAction', 'Empty webapp handler parameters in application ' . $this->appname, Logger::ERROR);
             return false;
         }
-        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/web.xml';
+        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/web.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Handler
         $ok = true;
@@ -108,7 +108,7 @@ class WebapphandlerComponent extends ApplicationComponent
             $this->mLog->logEvent('WebapphandlerComponent::doUninstallAction', 'Empty webapp handler parameters in application ' . $this->appname, Logger::ERROR);
             return false;
         }
-        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/web.xml';
+        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/web.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Removes any mapping to the webapp handler.
         foreach ($sx->handlermapping as $hm) {
@@ -134,7 +134,7 @@ class WebapphandlerComponent extends ApplicationComponent
             $this->mLog->logEvent('WebapphandlerComponent::doUpdateAction', 'Empty webapp handler parameters in application ' . $this->appname, Logger::ERROR);
             return false;
         }
-        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/web.xml';
+        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/web.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Keeps track if the webapp handler is found in web.xml file.
         $found_handler = false;

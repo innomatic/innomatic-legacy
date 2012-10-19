@@ -21,7 +21,7 @@ require_once('innomatic/webapp/WebAppHandler.php');
  * WebApp Handler for the control panel desktop.
  * 
  * The control panel desktop supports the output buffering through the
- * CompressedOutputBuffering parameter in the WEB-INF/conf/innomatic.ini
+ * CompressedOutputBuffering parameter in the core/conf/innomatic.ini
  * configuration file.
  *
  * @copyright  2000-2012 Innoteam S.r.l.
@@ -78,7 +78,7 @@ class DesktopRootWebAppHandler extends WebAppHandler
         $innomatic->setBaseUrl($baseUrl);
         $innomatic->setInterface(InnomaticContainer::INTERFACE_WEB);
         $home = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome();
-        $innomatic->bootstrap($home, $home.'WEB-INF/conf/innomatic.ini');
+        $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
 
         if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP) {
             $innomatic->abort('Setup phase');

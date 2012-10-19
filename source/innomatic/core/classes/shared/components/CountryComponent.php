@@ -42,9 +42,9 @@ class CountryComponent extends ApplicationComponent
     {
         $result = false;
         if (strlen($params['file']) and strlen($params['name']) and strlen($params['short'])) {
-            $params['file'] = $this->basedir . '/WEB-INF/locale/countries/' . $params['file'];
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/locale/countries/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/locale/countries/' . basename($params['file']), 0644);
+            $params['file'] = $this->basedir . '/core/locale/countries/' . $params['file'];
+            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/countries/' . basename($params['file']))) {
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/countries/' . basename($params['file']), 0644);
                 $result = &$this->rootda->execute('INSERT INTO locale_countries ' . 'VALUES (' . $this->rootda->formatText($params['short']) . ',' . $this->rootda->formatText($params['name']) . ',' . $this->rootda->formatText(basename($params['file'])) . ')');
             }
         } else
@@ -55,7 +55,7 @@ class CountryComponent extends ApplicationComponent
     {
         $result = false;
         if (strlen($params['file']) and strlen($params['name']) and strlen($params['short'])) {
-            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/locale/countries/' . basename($params['file']))) {
+            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/countries/' . basename($params['file']))) {
                 $result = &$this->rootda->execute('DELETE FROM locale_countries ' . 'WHERE countryname=' . $this->rootda->formatText($params['name']) . ' ' . 'AND countryshort=' . $this->rootda->formatText($params['short']));
             }
         } else
@@ -66,9 +66,9 @@ class CountryComponent extends ApplicationComponent
     {
         $result = false;
         if (strlen($params['name']) and strlen($params['short']) and strlen($params['file'])) {
-            $params['file'] = $this->basedir . '/WEB-INF/locale/countries/' . $params['file'];
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/locale/countries/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/locale/countries/' . basename($params['file']), 0644);
+            $params['file'] = $this->basedir . '/core/locale/countries/' . $params['file'];
+            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/countries/' . basename($params['file']))) {
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/countries/' . basename($params['file']), 0644);
                 $result = &$this->rootda->execute('UPDATE locale_countries ' . 'SET countryshort=' . $this->rootda->formatText($params['short']) . ',' . 'countryname = ' . $this->rootda->formatText($params['name']) . ' ' . 'WHERE countryfile=' . $this->rootda->formatText(basename($params['file'])));
             }
         } else

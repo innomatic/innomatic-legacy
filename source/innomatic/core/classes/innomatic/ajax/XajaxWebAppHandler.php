@@ -31,7 +31,7 @@ class XajaxWebAppHandler extends WebAppHandler
         $xajax = Xajax::instance('Xajax');
         $xajax->setLogFile(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/log/ajax.log'
+            . 'core/log/ajax.log'
         );
         $xajax->processRequests();
     }

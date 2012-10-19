@@ -181,7 +181,7 @@ class ApplicationStructureDefinition extends XMLParser
                     if (
                         file_exists(
                             $this->basedir
-                            . '/WEB-INF/classes/shared/components/'
+                            . '/core/classes/shared/components/'
                             . ucfirst(strtolower($tag))
                             . 'Component.php'
                         )

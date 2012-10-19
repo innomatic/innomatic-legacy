@@ -43,14 +43,14 @@ class WuistyleComponent extends ApplicationComponent
     {
         $result = FALSE;
         if (strlen($params['file'])) {
-            $params['file'] = $this->basedir . '/WEB-INF/conf/themes/' . basename($params['file']);
+            $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
-            if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/')) {
+            if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/')) {
                 require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/', 0755);
+                DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/', 0755);
             }
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']), 0644);
+            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
                 $wui_component = new WuiStyle($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Install($params)) {
@@ -67,7 +67,7 @@ class WuistyleComponent extends ApplicationComponent
                 } else
                     $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', Logger::ERROR);
             } else
-                $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']) . ')', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']) . ')', Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
         return $result;
@@ -85,7 +85,7 @@ class WuistyleComponent extends ApplicationComponent
                 }
                 if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/styles/' . $params['name']))
                     @rmdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/styles/' . $params['name']);
-                if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']))) {
+                if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                     $result = TRUE;
                 }
             } else
@@ -98,14 +98,14 @@ class WuistyleComponent extends ApplicationComponent
     {
         $result = FALSE;
         if (strlen($params['file'])) {
-            $params['file'] = $this->basedir . '/WEB-INF/conf/themes/' . basename($params['file']);
+            $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
-            if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/')) {
+            if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/')) {
                 require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/', 0755);
+                DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/', 0755);
             }
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']), 0644);
+            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
                 $wui_component = new WuiStyle($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Update($params)) {
@@ -122,7 +122,7 @@ class WuistyleComponent extends ApplicationComponent
                 } else
                     $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update component', Logger::ERROR);
             } else
-                $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']) . ')', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']) . ')', Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
         return $result;

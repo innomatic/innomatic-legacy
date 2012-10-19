@@ -522,7 +522,7 @@ class DomainsPanelViews extends PanelViews
                     file_exists(
                         InnomaticContainer::instance(
                             'innomaticcontainer'
-                        )->getHome().'WEB-INF/domains/'.$data['domainid'].'/log/domain.log'
+                        )->getHome().'core/domains/'.$data['domainid'].'/log/domain.log'
                     )
                 ) {
                     $logAction[$row] = new WuiEventsCall();
@@ -550,7 +550,7 @@ class DomainsPanelViews extends PanelViews
                     file_exists(
                         InnomaticContainer::instance(
                             'innomaticcontainer'
-                        )->getHome().'WEB-INF/domains/'.$data['domainid'].'/log/dataaccess.log'
+                        )->getHome().'core/domains/'.$data['domainid'].'/log/dataaccess.log'
                     )
                 ) {
                     $dblogAction[$row] = new WuiEventsCall();
@@ -1766,7 +1766,7 @@ class DomainsPanelViews extends PanelViews
                 file_exists(
                     InnomaticContainer::instance(
                         'innomaticcontainer'
-                    )->getHome().'WEB-INF/domains/'.$domainData['domainid'].'/log/domain.log'
+                    )->getHome().'core/domains/'.$domainData['domainid'].'/log/domain.log'
                 )
             ) {
                 $logToolbar = new WuiToolBar('logbar');
@@ -1806,7 +1806,7 @@ class DomainsPanelViews extends PanelViews
                 $domainLogContent = file_get_contents(
                     InnomaticContainer::instance(
                         'innomaticcontainer'
-                    )->getHome().'WEB-INF/domains/'.$domainData['domainid'].'/log/domain.log'
+                    )->getHome().'core/domains/'.$domainData['domainid'].'/log/domain.log'
                 );
             }
 
@@ -1848,7 +1848,7 @@ class DomainsPanelViews extends PanelViews
                 file_exists(
                     InnomaticContainer::instance(
                         'innomaticcontainer'
-                    )->getHome().'WEB-INF/domains/'.$domainData['domainid'].'/log/dataaccess.log'
+                    )->getHome().'core/domains/'.$domainData['domainid'].'/log/dataaccess.log'
                 )
             ) {
                 $logToolbar = new WuiToolBar('logbar');
@@ -1888,7 +1888,7 @@ class DomainsPanelViews extends PanelViews
                 $dbLogContent = file_get_contents(
                     InnomaticContainer::instance(
                         'innomaticcontainer'
-                    )->getHome().'WEB-INF/domains/'.$domainData['domainid'].'/log/dataaccess.log'
+                    )->getHome().'core/domains/'.$domainData['domainid'].'/log/dataaccess.log'
                 );
             }
 

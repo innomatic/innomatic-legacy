@@ -22,7 +22,7 @@ require_once('innomatic/core/InnomaticContainer.php');
  * Desktop sessions supports the default $_SESSION PHP superglobals.
  * 
  * The session lifetime is definable with the DesktopSessionLifetime parameter
- * in the WEB-INF/conf/innomatic.ini configuration file.
+ * in the core/conf/innomatic.ini configuration file.
  *
  * @copyright  2000-2012 Innoteam S.r.l.
  * @license    http://www.innomatic.org/license/   BSD License
@@ -76,7 +76,7 @@ class DesktopSession implements WebAppSession
             ini_set(
                 'session.save_path',
                 InnomaticContainer::instance('innomaticcontainer')->getHome()
-                . 'WEB-INF/temp/phpsessions/'
+                . 'core/temp/phpsessions/'
             );
         }
         session_start();

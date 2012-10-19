@@ -90,7 +90,7 @@ class Semaphore {
      */
     public function getFileName() {
         if ($this->mResourceType and $this->mResource) {
-            return InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/semaphores/'.md5($this->mResourceType.'_'.$this->mResource).'.semaphore';
+            return InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/semaphores/'.md5($this->mResourceType.'_'.$this->mResource).'.semaphore';
         }
         return '';
     }
@@ -137,8 +137,8 @@ class Semaphore {
                             fputs($fh, serialize(array('pid' => $innomatic->getPid(), 'time' => time(), 'resource' => $this->mResource)));
                             fclose($fh);
                         } else {
-                            if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/semaphores/')) {
-                                mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/semaphores/');
+                            if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/semaphores/')) {
+                                mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/semaphores/');
                             }
                             return false;
                         }

@@ -33,9 +33,9 @@ class WebAppContainer extends Singleton {
         $root_home = RootContainer::instance('rootcontainer')->getHome();
         $this->home = $root_home;
         $this->config = array();
-        if (file_exists($root_home.'innomatic/WEB-INF/conf/webapp.ini')) {
+        if (file_exists($root_home.'innomatic/core/conf/webapp.ini')) {
             $this->useDefaults = false;
-            $this->config = @parse_ini_file($root_home.'innomatic/WEB-INF/conf/webapp.ini');
+            $this->config = @parse_ini_file($root_home.'innomatic/core/conf/webapp.ini');
         } else {
             $this->useDefaults = true;
         }
@@ -135,14 +135,14 @@ class WebAppContainer extends Singleton {
         mkdir($home.$webappName);
 
         // Checks if the given skeleton exits, otherwise uses default one.
-        if (!is_dir($home.'innomatic/WEB-INF/conf/skel/webapps/'.$skeleton.'-skel/')) {
+        if (!is_dir($home.'innomatic/core/conf/skel/webapps/'.$skeleton.'-skel/')) {
             $skeleton = 'default';
         }
         
         // Copies the skeleton to the webapp directory.
         require_once('innomatic/io/filesystem/DirectoryUtils.php');
         return DirectoryUtils::dirCopy(
-              $home.'innomatic/WEB-INF/conf/skel/webapps/'.$skeleton.'-skel/',
+              $home.'innomatic/core/conf/skel/webapps/'.$skeleton.'-skel/',
             $home.$webappName.'/');
     }
     
@@ -192,14 +192,14 @@ class WebAppContainer extends Singleton {
         $skeletonName = basename($skeletonName);
         
         // Checks if the given skeleton exits, otherwise uses default one.
-        if (!is_dir($home.'innomatic/WEB-INF/conf/skel/webapps/'.$skeletonName.'-skel/')) {
+        if (!is_dir($home.'innomatic/core/conf/skel/webapps/'.$skeletonName.'-skel/')) {
             return false;
         }
         
         // Copies the skeleton to the webapp directory, overwriting previos skeleton.
         require_once('innomatic/io/filesystem/DirectoryUtils.php');
         return DirectoryUtils::dirCopy(
-              $home.'innomatic/WEB-INF/conf/skel/webapps/'.$skeletonName.'-skel/',
+              $home.'innomatic/core/conf/skel/webapps/'.$skeletonName.'-skel/',
             $home.$webappName.'/');
     }
 }

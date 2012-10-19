@@ -1,5 +1,5 @@
 <?php
-require_once 'source/innomatic/WEB-INF/classes/innomatic/core/InnomaticSettings.php';
+require_once 'source/innomatic/core/classes/innomatic/core/InnomaticSettings.php';
 require_once 'PHPUnit/Framework/TestCase.php';
 /**
  * InnomaticSettings test case.

@@ -66,13 +66,13 @@ class ApplicationComponentFactory
                         if (
                             file_exists(
                                 InnomaticContainer::instance('innomaticcontainer')->getHome()
-                                .'WEB-INF/classes/shared/components/'.$data['file']
+                                .'core/classes/shared/components/'.$data['file']
                             )
                         ) {
                             // TODO gestire con require_once una volta migliorata la gestione della variabile $component
                             require_once(
                                 InnomaticContainer::instance('innomaticcontainer')->getHome()
-                                .'WEB-INF/classes/shared/components/'.$data['file']
+                                .'core/classes/shared/components/'.$data['file']
                             );
                         } else {
                             require_once('innomatic/logging/Logger.php');

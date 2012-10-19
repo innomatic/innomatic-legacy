@@ -41,7 +41,7 @@ class MaintenanceTaskComponent extends ApplicationComponent
     function DoInstallAction ($args)
     {
         $result = false;
-        $args['file'] = $this->basedir . '/WEB-INF/classes/shared/maintenance/' . basename($args['file']);
+        $args['file'] = $this->basedir . '/core/classes/shared/maintenance/' . basename($args['file']);
         if (strlen($args['name']) and strlen($args['file']) and file_exists($args['file'])) {
             if (! isset($args['enabled']))
                 $args['enabled'] = 'false';
@@ -49,8 +49,8 @@ class MaintenanceTaskComponent extends ApplicationComponent
                 $args['catalog'] = '';
             $result = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('INSERT INTO maintenance_tasks VALUES (' . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText($args['name']) . ',' . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText(basename($args['file'])) . ',' . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText($args['catalog']) . ',' . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText($args['enabled'] == 'true' ? InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmttrue : InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmtfalse) . ')');
             if ($result) {
-                @copy($args['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/maintenance/' . basename($args['file']));
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/maintenance/' . basename($args['file']), 0644);
+                @copy($args['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/maintenance/' . basename($args['file']));
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/maintenance/' . basename($args['file']), 0644);
             }
         }
         return $result;
@@ -58,25 +58,25 @@ class MaintenanceTaskComponent extends ApplicationComponent
     function DoUninstallAction ($args)
     {
         $result = false;
-        $args['file'] = $this->basedir . '/WEB-INF/classes/shared/maintenance/' . basename($args['file']);
+        $args['file'] = $this->basedir . '/core/classes/shared/maintenance/' . basename($args['file']);
         if (strlen($args['name'])) {
             $result = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('DELETE FROM maintenance_tasks WHERE name=' . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText($args['name']));
-            @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/maintenance/' . $args['file']);
+            @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/maintenance/' . $args['file']);
         }
         return $result;
     }
     function DoUpdateAction ($args)
     {
         $result = false;
-        $args['file'] = $this->basedir . '/WEB-INF/classes/shared/maintenance/' . basename($args['file']);
+        $args['file'] = $this->basedir . '/core/classes/shared/maintenance/' . basename($args['file']);
         if (strlen($args['name']) and strlen($args['file']) and file_exists($args['file'])) {
             if (! isset($args['catalog'])) {
                 $args['catalog'] = '';
             }
             $result = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('UPDATE maintenance_tasks SET file=' . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText(basename($args['file'])) . ',catalog=' . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText($args['catalog']) . ' WHERE name=' . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText($args['name']));
             if ($result) {
-                @copy($args['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/maintenance/' . basename($args['file']));
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/classes/shared/maintenance/' . basename($args['file']), 0644);
+                @copy($args['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/maintenance/' . basename($args['file']));
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/maintenance/' . basename($args['file']), 0644);
             }
         }
         return $result;

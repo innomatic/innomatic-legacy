@@ -135,7 +135,7 @@ class InnomaticCacheMaintenance extends MaintenanceTask {
     {
         return $this->dirSize(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/temp/cache'
+            . 'core/temp/cache'
            );
     }
 
@@ -150,7 +150,7 @@ class InnomaticCacheMaintenance extends MaintenanceTask {
     {
         return $this->dirSize(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/temp/phpsessions'
+            . 'core/temp/phpsessions'
        );
     }
 
@@ -158,7 +158,7 @@ class InnomaticCacheMaintenance extends MaintenanceTask {
     {
         return $this->eraseDirContent(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/temp/phpsessions',
+            . 'core/temp/phpsessions',
             session_id()
            );
     }
@@ -167,7 +167,7 @@ class InnomaticCacheMaintenance extends MaintenanceTask {
     {
         return $this->dirSize(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            . 'WEB-INF/temp/pids'
+            . 'core/temp/pids'
        );
     }
 
@@ -176,29 +176,29 @@ class InnomaticCacheMaintenance extends MaintenanceTask {
         require_once('innomatic/core/InnomaticContainer.php');
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
         return $this->eraseDirContent(
-            InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/pids',
+            InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/pids',
             $innomatic->getPid()
            );
     }
 
     public function getRootTempDirsSize()
     {
-        return $this->dirSize(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/appinst');
+        return $this->dirSize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/appinst');
     }
 
     public function cleanRootTempDirs()
     {
-        return $this->eraseDirContent(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/appinst');
+        return $this->eraseDirContent(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/appinst');
     }
 
     public function getClipboardSize()
     {
-        return $this->dirSize(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/clipboard');
+        return $this->dirSize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/clipboard');
     }
 
     public function cleanClipboard()
     {
-        return $this->eraseDirContent(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/clipboard');
+        return $this->eraseDirContent(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/clipboard');
     }
 
     // ----- Facilities -----

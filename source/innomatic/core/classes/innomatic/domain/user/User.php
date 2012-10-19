@@ -142,7 +142,7 @@ class User {
                         $result = $seqval;
 
                         require_once('innomatic/io/filesystem/DirectoryUtils.php');
-                        DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$max_users_query->getFields('domainid').'/users/'.$userdata['username'].'/', 0755);
+                        DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$max_users_query->getFields('domainid').'/users/'.$userdata['username'].'/', 0755);
 
                         if ($hook->CallHooks('useradded', $this, array('domainserial' => $this->domainserial, 'userdata' => $userdata)) != Hook::RESULT_OK)
                             $result = false;
@@ -293,9 +293,9 @@ class User {
                 // Remove user dir
                 $domain_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('SELECT domainid FROM domains WHERE id='. (int) $this->domainserial);
 
-                if (InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domain_query->getFields('domainid').'/users/'.$this->username != InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domain_query->getFields('domainid').'/users/') {
+                if (InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domain_query->getFields('domainid').'/users/'.$this->username != InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domain_query->getFields('domainid').'/users/') {
                     require_once('innomatic/io/filesystem/DirectoryUtils.php');
-                    DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/domains/'.$domain_query->getFields('domainid').'/users/'.$this->username, 0755);
+                    DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domain_query->getFields('domainid').'/users/'.$this->username, 0755);
                 }
 
                 // Remove cached items

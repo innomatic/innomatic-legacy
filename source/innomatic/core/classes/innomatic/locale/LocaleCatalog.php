@@ -147,18 +147,18 @@ class LocaleCatalog {
 
         // Tries specified language catalog
         //
-        if (file_exists($innomatic->getHome().'WEB-INF/locale/catalogs/'.$base.'/'.$this->lang.'/'.$catalog.'.ini')) {
-            $catfile = $innomatic->getHome().'WEB-INF/locale/catalogs/'.$base.'/'.$this->lang.'/'.$catalog.'.ini';
+        if (file_exists($innomatic->getHome().'core/locale/catalogs/'.$base.'/'.$this->lang.'/'.$catalog.'.ini')) {
+            $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/'.$this->lang.'/'.$catalog.'.ini';
         }
         // Tries Innomatic language catalog
         //
-        else if (file_exists($innomatic->getHome().'WEB-INF/locale/catalogs/'.$base.'/'.InnomaticContainer::instance('innomaticcontainer')->getLanguage().'/'.$catalog.'.ini')) {
-            $catfile = $innomatic->getHome().'WEB-INF/locale/catalogs/'.$base.'/'.InnomaticContainer::instance('innomaticcontainer')->getLanguage().'/'.$catalog.'.ini';
+        else if (file_exists($innomatic->getHome().'core/locale/catalogs/'.$base.'/'.InnomaticContainer::instance('innomaticcontainer')->getLanguage().'/'.$catalog.'.ini')) {
+            $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/'.InnomaticContainer::instance('innomaticcontainer')->getLanguage().'/'.$catalog.'.ini';
         }
         // Tries English catalog
         //
-        else if (file_exists($innomatic->getHome().'WEB-INF/locale/catalogs/'.$base.'/en/'.$catalog.'.ini')) {
-            $catfile = $innomatic->getHome().'WEB-INF/locale/catalogs/'.$base.'/en/'.$catalog.'.ini';
+        else if (file_exists($innomatic->getHome().'core/locale/catalogs/'.$base.'/en/'.$catalog.'.ini')) {
+            $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/en/'.$catalog.'.ini';
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();

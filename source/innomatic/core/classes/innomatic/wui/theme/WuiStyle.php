@@ -111,7 +111,7 @@ class WuiStyle {
 
     public function getStyle() {
         $result = array();
-        $values = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/themes/'.$this->mStyleName.'_wuistyle.ini');
+        $values = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini');
         if ($values !== FALSE) {
             while (list ($key, $val) = each($values)) {
                 $key = trim($key);
@@ -126,7 +126,7 @@ class WuiStyle {
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open style file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/themes/'.$this->mStyleName.'_wuistyle.ini', Logger::ERROR);
+            $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open style file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini', Logger::ERROR);
         }
         return $result;
     }

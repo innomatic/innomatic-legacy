@@ -186,7 +186,7 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
 
 function login_login($eventData)
 {     
-    $fh = @fopen(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/rootpasswd.ini', 'r');
+    $fh = @fopen(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/rootpasswd.ini', 'r');
     if ($fh) {
         $cpassword = fgets($fh, 4096);
         require_once('innomatic/desktop/controller/DesktopFrontController.php');

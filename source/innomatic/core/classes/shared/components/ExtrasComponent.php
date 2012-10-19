@@ -42,9 +42,9 @@ class ExtrasComponent extends ApplicationComponent
     {
         $result = false;
         if (strlen($params['name'])) {
-            $params['name'] = $this->basedir . '/WEB-INF/extras/' . $params['name'];
-            if (@copy($params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/applications/' . $this->appname . '/' . basename($params['name']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/applications/' . $this->appname . '/' . basename($params['name']), 0644);
+            $params['name'] = $this->basedir . '/core/extras/' . $params['name'];
+            if (@copy($params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']))) {
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']), 0644);
                 $result = true;
             }
         } else
@@ -55,10 +55,10 @@ class ExtrasComponent extends ApplicationComponent
     {
         $result = false;
         if (strlen($params['name'])) {
-            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/applications/' . $this->appname . '/' . basename($params['name']))) {
+            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']))) {
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.extrascomponent.extrascomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/applications/' . $this->appname . '/' . basename($params['name']), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.extrascomponent.extrascomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']), Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.extrascomponent.extrascomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty extras file name', Logger::ERROR);
         return $result;

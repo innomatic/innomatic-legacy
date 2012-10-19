@@ -24,7 +24,7 @@ require_once('innomatic/webapp/WebAppProcessor.php');
  * Domain destkop.
  * 
  * The base desktop supports the output buffering through the
- * CompressedOutputBuffering parameter in the WEB-INF/conf/innomatic.ini
+ * CompressedOutputBuffering parameter in the core/conf/innomatic.ini
  * configuration file.
  *
  * @copyright  2000-2012 Innoteam S.r.l.
@@ -72,7 +72,7 @@ class DesktopBaseWebAppHandler extends WebAppHandler
 
         $innomatic->setInterface(InnomaticContainer::INTERFACE_WEB);
         $home = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome();
-        $innomatic->bootstrap($home, $home.'WEB-INF/conf/innomatic.ini');
+        $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
 
         if (!headers_sent()) {
             // Starts output compression.

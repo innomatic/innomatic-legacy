@@ -31,8 +31,8 @@ class SecurityManager
      */
     public function __construct()
     {
-        $this->mSecurityLog = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/security.log';
-        $this->mAccessLog = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/access.log';
+        $this->mSecurityLog = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/security.log';
+        $this->mAccessLog = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/access.log';
     }
 
     /*!
@@ -394,8 +394,8 @@ class SecurityManager
     {
         $result = true;
         if (strlen($session)) {
-            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/phpsessions/'.$session))
-            $result = unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/phpsessions/'.$session);
+            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/phpsessions/'.$session))
+            $result = unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/phpsessions/'.$session);
         } else
         $result = false;
         return $result;
@@ -495,7 +495,7 @@ class SecurityManager
     public function checkRootPassword()
     {
         $result = true;
-        $fh = @fopen(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/conf/rootpasswd.ini', 'r');
+        $fh = @fopen(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/rootpasswd.ini', 'r');
         if ($fh) {
             $password = fgets($fh, 4096);
             if (md5('') == $password or md5('root') == $password)
@@ -556,7 +556,7 @@ class SecurityManager
     public function getLoggedSessions()
     {
         $result['root'] = $result['domains'] = array();
-        $dir = InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/phpsessions/';
+        $dir = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/phpsessions/';
 
         if (is_dir($dir)) {
             $dh = opendir($dir);

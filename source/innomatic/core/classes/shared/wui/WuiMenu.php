@@ -46,13 +46,13 @@ class WuiMenu extends WuiWidget
         }
         $mid->libdir = InnomaticContainer::instance(
             'innomaticcontainer'
-        )->getHome() . 'WEB-INF/lib/';
+        )->getHome() . 'core/lib/';
         $mid->libwww = InnomaticContainer::instance(
             'innomaticcontainer'
         )->getBaseUrl(false) . '/shared/';
         $mid->tpldir = InnomaticContainer::instance(
             'innomaticcontainer'
-        )->getHome() . 'WEB-INF/conf/layersmenu/';
+        )->getHome() . 'core/conf/layersmenu/';
         $mid->imgdir = $this->mThemeHandler->mStyleDir;
         $mid->imgwww = $this->mThemeHandler->mStyleBase
             . $this->mThemeHandler->mStyleName . '/';

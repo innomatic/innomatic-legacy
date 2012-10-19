@@ -39,17 +39,17 @@ class WebApp {
 
         // If the webapp contains classes, adds them to the include path.
         // The webapp classes take precedence over Innomatic ones.
-        if (file_exists($this->home.'WEB-INF/classes/')) {
-            set_include_path($this->home.'WEB-INF/classes/'.PATH_SEPARATOR.get_include_path());
+        if (file_exists($this->home.'core/classes/')) {
+            set_include_path($this->home.'core/classes/'.PATH_SEPARATOR.get_include_path());
         }
 
         // Sets var directory
         require_once('innomatic/webapp/WebAppContainer.php');
         $container = WebAppContainer::instance('webappcontainer');
         if ($container->useDefaults() or !$container->isKey('webapps.var_dir') or $container->getKey('webapps.var_dir') == 'shared') {
-            $this->varDir = RootContainer::instance('rootcontainer')->getHome().'innomatic/WEB-INF/domains/'.$this->getName().'/var/';
+            $this->varDir = RootContainer::instance('rootcontainer')->getHome().'innomatic/core/domains/'.$this->getName().'/var/';
         } else {
-            $this->varDir = $this->getHome().'WEB-INF/var/';
+            $this->varDir = $this->getHome().'core/var/';
         }
         
         // Make var directories
@@ -59,7 +59,7 @@ class WebApp {
         
         // Init configuration
         // Must be called only after the cache directory has been set
-        $this->parseConfig($home.'WEB-INF/web.xml');
+        $this->parseConfig($home.'core/web.xml');
     }
 
     /**
@@ -104,7 +104,7 @@ class WebApp {
      */
     public static function isValid($home = '') {
         // TODO: it should check if the web.xml is valid too
-        return file_exists((strlen($home) ? $home : $this->home).'WEB-INF/web.xml');
+        return file_exists((strlen($home) ? $home : $this->home).'core/web.xml');
     }
 
     /**
@@ -133,7 +133,7 @@ class WebApp {
 
     /**
      * Returns webapp var directory.
-     * Depending on the configuration, it can be resident inside webapp WEB-INF/var directory
+     * Depending on the configuration, it can be resident inside webapp core/var directory
      * or inside general var directory.
      */
     public function getVarDir() {

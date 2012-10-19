@@ -160,7 +160,7 @@ class DesktopFrontController extends Singleton
      * for drawing a desktop frame.
      * 
      * Root desktop layout files are stored in the folder
-     * WEB-INF/classes/innomatic/desktop/layout/root.
+     * core/classes/innomatic/desktop/layout/root.
      * 
      * If the panel name is "unlock", a special routine for unlocking a blocked
      * Innomatic container (such as when an application update failed) is
@@ -277,7 +277,7 @@ class DesktopFrontController extends Singleton
      * instead for drawing a desktop frame.
      * 
      * Domain desktop layout files are stored in the folder
-     * WEB-INF/classes/innomatic/desktop/layout/domain.
+     * core/classes/innomatic/desktop/layout/domain.
      * 
      * @param string $resource Panel name.
      */

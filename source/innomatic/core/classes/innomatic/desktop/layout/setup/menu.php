@@ -24,12 +24,12 @@ WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->add
 WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('Pragma', 'no-cache');
 
 function setup_entry($wui_page, &$progress, $phases, $phaseMark, $phaseCompleted, $phaseName, &$wui_table, $row) {
-    if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/'.$phaseMark)) {
+    if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/'.$phaseMark)) {
         $ball_icon = $wui_page->mThemeHandler->mStyle['goldball'];
         $font_color = 'yellow';
         $pre = '<b>';
         $post = '</b>';
-    } else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/'.$phaseCompleted)) {
+    } else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/'.$phaseCompleted)) {
         $ball_icon = $wui_page->mThemeHandler->mStyle['redball'];
         $font_color = 'black';
         $pre = '';

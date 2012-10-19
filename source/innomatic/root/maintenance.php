@@ -74,7 +74,7 @@ $gToolbars['view'] = array(
 
 // Info tool bar
 //
-if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic.log')) {
+if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')) {
     $innomaticLogAction = new WuiEventsCall();
     $innomaticLogAction->addEvent(new WuiEvent('view', 'showrootlog', ''));
     $gToolbars['info']['rootlog'] = array(
@@ -85,7 +85,7 @@ if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'W
     );
 }
 
-if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/webservices.log')) {
+if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log')) {
     $innomaticWebServicesLogAction = new WuiEventsCall();
     $innomaticWebServicesLogAction->addEvent(new WuiEvent('view', 'showrootwebserviceslog', ''));
     $gToolbars['info']['webserviceslog'] = array(
@@ -422,7 +422,7 @@ function action_cleanrootwebserviceslog($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    $tempLog = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/webservices.log');
+    $tempLog = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log');
 
     if ($tempLog->cleanLog()) {
         $gPageStatus = $gLocale->getStr('logcleaned_status');
@@ -1716,7 +1716,7 @@ function main_showrootlog($eventData)
 
     $logContent = '';
 
-    if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic.log')) {
+    if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')) {
 
         $cleanLogAction = new WuiEventsCall();
         $cleanLogAction->addEvent(new WuiEvent('view', 'showrootlog', ''));
@@ -1729,9 +1729,9 @@ function main_showrootlog($eventData)
             'action' => $cleanLogAction->getEventsCallString()
         );
         
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic.log')) {
+        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')) {
             $logContent = file_get_contents(
-                InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/innomatic.log'
+                InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log'
             );
         }
     }
@@ -1762,7 +1762,7 @@ $gWui->loadWidget('toolbars');
 
     $logContent = '';
 
-    if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/webservices.log')) {
+    if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log')) {
         $cleanLogAction = new WuiEventsCall();
         $cleanLogAction->addEvent(new WuiEvent('view', 'showrootwebserviceslog', ''));
         $cleanLogAction->addEvent(new WuiEvent('action', 'cleanrootwebserviceslog', ''));
@@ -1774,9 +1774,9 @@ $gWui->loadWidget('toolbars');
             'action' => $cleanLogAction->getEventsCallString()
         ));
         
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/webservices.log')) {
+        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log')) {
             $logContent = file_get_contents(
-                InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/log/webservices.log'
+                InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log'
             );
         }
     }

@@ -15,22 +15,22 @@
 
 /*
 if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome()
-                . 'WEB-INF/db/innomatic_root.xml.old')) {
+                . 'core/db/innomatic_root.xml.old')) {
       @copy(InnomaticContainer::instance('innomaticcontainer')->getHome()
-           . 'WEB-INF/db/innomatic_root.xml.old',
+           . 'core/db/innomatic_root.xml.old',
            InnomaticContainer::instance('innomaticcontainer')->getHome()
-           . 'WEB-INF/db/innomatic_root.xml.old2' );
+           . 'core/db/innomatic_root.xml.old2' );
 }
 if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome()
-                . 'WEB-INF/db/innomatic_root.xml')) {
+                . 'core/db/innomatic_root.xml')) {
     @copy(InnomaticContainer::instance('innomaticcontainer')->getHome()
-          . 'WEB-INF/db/innomatic_root.xml',
+          . 'core/db/innomatic_root.xml',
           InnomaticContainer::instance('innomaticcontainer')->getHome()
-          . 'WEB-INF/db/innomatic_root.xml.old' );
+          . 'core/db/innomatic_root.xml.old' );
 }
 */
 
 chmod(
     InnomaticContainer::instance('innomaticcontainer')->getHome()
-    . 'WEB-INF/temp/pids', 0777
+    . 'core/temp/pids', 0777
 );

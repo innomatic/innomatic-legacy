@@ -153,11 +153,11 @@ function action_install($eventData)
             $eventData['applicationfile']['tmp_name'],
             InnomaticContainer::instance(
                 'innomaticcontainer'
-            )->getHome().'WEB-INF/temp/'.$eventData['applicationfile']['name']
+            )->getHome().'core/temp/'.$eventData['applicationfile']['name']
         );
         if (
             !$tempApplication->Install(
-                InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/temp/'
+                InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/'
                 .$eventData['applicationfile']['name']
             )
         ) {
@@ -281,7 +281,7 @@ function action_cleanmodlog($eventData)
     global $gLocale, $gLocale, $gStatus;
 
     $tempLog = new Logger(
-        InnomaticContainer::instance('innomaticcontainer')->getHome().'WEB-INF/applications/'.$eventData['appid']
+        InnomaticContainer::instance('innomaticcontainer')->getHome().'core/applications/'.$eventData['appid']
         .'/application.log'
     );
 
@@ -481,7 +481,7 @@ function main_default($eventData)
                                 'hint' => $data['appid'],
                                 'imageurl' => InnomaticContainer::instance(
                                     'innomaticcontainer'
-                                )->getBaseUrl(false).'/WEB-INF/applications/'.$data['appid'].'/'.$data['iconfile']
+                                )->getBaseUrl(false).'/core/applications/'.$data['appid'].'/'.$data['iconfile']
                             )
                         ),
                         $row, 0
@@ -614,7 +614,7 @@ function main_default($eventData)
                     file_exists(
                         InnomaticContainer::instance(
                             'innomaticcontainer'
-                        )->getHome().'WEB-INF/applications/'.$data['appid'].'/application.log'
+                        )->getHome().'core/applications/'.$data['appid'].'/application.log'
                     )
                 ) {
                     $logAction[$data['category']][$row] = new WuiEventsCall();
@@ -974,12 +974,12 @@ function main_details($eventData)
     if (
         strlen($applicationData['licensefile']) and file_exists(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            .'WEB-INF/applications/'.$applicationData['appid'].'/'.$applicationData['licensefile']
+            .'core/applications/'.$applicationData['appid'].'/'.$applicationData['licensefile']
         )
     ) {
             $licenseText = file_get_contents(
                 InnomaticContainer::instance('innomaticcontainer')->getHome()
-                .'WEB-INF/applications/'.$applicationData['appid'].'/'.$applicationData['licensefile']
+                .'core/applications/'.$applicationData['appid'].'/'.$applicationData['licensefile']
             );
             $detailsGrid->addChild(
                 new WuiText(
@@ -1000,12 +1000,12 @@ function main_details($eventData)
     if (
         strlen($applicationData['changesfile']) and file_exists(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            .'WEB-INF/applications/'.$applicationData['appid'].'/'.$applicationData['changesfile']
+            .'core/applications/'.$applicationData['appid'].'/'.$applicationData['changesfile']
         )
     ) {
             $changesText = file_get_contents(
                 InnomaticContainer::instance('innomaticcontainer')->getHome()
-                .'WEB-INF/applications/'.$applicationData['appid'].'/'.$applicationData['changesfile']
+                .'core/applications/'.$applicationData['appid'].'/'.$applicationData['changesfile']
             );
             $detailsGrid->addChild(
                 new WuiLabel(
@@ -1180,7 +1180,7 @@ function main_applicationlog($eventData)
     if (
         file_exists(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
-            .'WEB-INF/applications/'.$applicationData['appid'].'/application.log'
+            .'core/applications/'.$applicationData['appid'].'/application.log'
         )
     ) {
             $logToolbar = new WuiToolBar('logbar');
@@ -1218,7 +1218,7 @@ function main_applicationlog($eventData)
 
             $appLogContent = file_get_contentes(
                 InnomaticContainer::instance('innomaticcontainer')->getHome()
-                .'WEB-INF/applications/'.$applicationData['appid'].'/application.log'
+                .'core/applications/'.$applicationData['appid'].'/application.log'
             );
     }
 

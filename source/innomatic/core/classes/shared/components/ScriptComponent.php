@@ -22,9 +22,9 @@ class ScriptComponent extends ApplicationComponent
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Creates the scripts directory if it doesn't exists.
-        if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/scripts/')) {
+        if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/')) {
             require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-            DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/scripts/', 0755);
+            DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/', 0755);
         }
     }
     public static function getType ()
@@ -51,13 +51,13 @@ class ScriptComponent extends ApplicationComponent
             return false;
         }
         // Checks if the script file exists in application archive.
-        if (! file_exists($this->basedir . '/WEB-INF/scripts/' . $params['name'])) {
+        if (! file_exists($this->basedir . '/core/scripts/' . $params['name'])) {
             $this->mLog->logEvent('ScriptComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Missing script file', Logger::ERROR);
             return false;
         }
         // Cheks that the script file name does not contain malicious code.
         require_once ('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/scripts/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/scripts/')) {
+        if (SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/')) {
             $this->mLog->logEvent('ScriptComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious script file name', Logger::ERROR);
             return false;
         }
@@ -65,15 +65,15 @@ class ScriptComponent extends ApplicationComponent
         $dirname = dirname($params['name']);
         if ($dirname != '.') {
             require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-            DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/scripts/' . $params['name'], 0755);
+            DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/' . $params['name'], 0755);
         }
         // Copies the script file.
-        if (! copy($this->basedir . '/WEB-INF/scripts/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/scripts/' . $params['name'])) {
+        if (! copy($this->basedir . '/core/scripts/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/' . $params['name'])) {
             $this->mLog->logEvent('ScriptComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy script file', Logger::ERROR);
             return false;
         }
         // Updates file permissions.
-        chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/scripts/' . $params['name'], 0644);
+        chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/' . $params['name'], 0644);
         return true;
     }
     public function doUninstallAction ($params)
@@ -85,16 +85,16 @@ class ScriptComponent extends ApplicationComponent
         }
         // Cheks that the script file name does not contain malicious code.
         require_once ('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/scripts/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/scripts/')) {
+        if (SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/')) {
             $this->mLog->logEvent('ScriptComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious script file name', Logger::ERROR);
             return false;
         }
         // Checks if the script file exists.
-        if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . '/WEB-INF/scripts/' . $params['name'])) {
+        if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . '/core/scripts/' . $params['name'])) {
             $this->mLog->logEvent('ScriptComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Missing script file', Logger::ERROR);
             return false;
         }
-        if (! @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/scripts/' . $params['name'])) {
+        if (! @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/' . $params['name'])) {
             $this->mLog->logEvent('ScriptComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove script file', Logger::ERROR);
             return false;
         }

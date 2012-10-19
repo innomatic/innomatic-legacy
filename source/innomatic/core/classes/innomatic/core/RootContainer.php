@@ -64,7 +64,7 @@ class RootContainer extends Singleton
         // as current directory
         set_include_path(
             get_include_path() . PATH_SEPARATOR . $this->_home
-            . 'innomatic/WEB-INF/classes/'
+            . 'innomatic/core/classes/'
         );
     }
 

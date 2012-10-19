@@ -77,7 +77,7 @@ web server user.
 Q. Innomatic hangs after the installation or upgrade of a application.
 
 A. The installation/upgrade process has been interrupted and the lock file
-WEB-INF/temp/upgrading_system has not been removed. Remove it accessing
+core/temp/upgrading_system has not been removed. Remove it accessing
 [Innomatic Web URL]/root/unlock from your browser.
 ------------------------------------------------------------------------------
 Q. I'm unable to complete the database creation phase during setup.

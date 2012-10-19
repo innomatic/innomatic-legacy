@@ -42,21 +42,21 @@ class WuithemeComponent extends ApplicationComponent
     {
         $result = FALSE;
         if (strlen($params['file'])) {
-            $params['file'] = $this->basedir . '/WEB-INF/conf/themes/' . basename($params['file']);
+            $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
-            if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/')) {
+            if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/')) {
                 require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/', 0755);
+                DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/', 0755);
             }
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']), 0644);
+            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
                 $params['file'] = basename($params['file']);
                 if ($this->rootda->execute('INSERT INTO wui_themes VALUES (' . $this->rootda->getNextSequenceValue('wui_themes_id_seq') . ',' . $this->rootda->formatText($params['name']) . ',' . $this->rootda->formatText($params['file']) . ',' . $this->rootda->formatText($params['catalog']) . ')')) {
                     $result = TRUE;
                 } else
                     $this->mLog->logEvent('shared.components.wuithemecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', Logger::ERROR);
             } else
-                $this->mLog->logEvent('shared.components.wuithemecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']) . ')', Logger::ERROR);
+                $this->mLog->logEvent('shared.components.wuithemecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']) . ')', Logger::ERROR);
         } else
             $this->mLog->logEvent('shared.components.wuithemecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
         return $result;
@@ -65,7 +65,7 @@ class WuithemeComponent extends ApplicationComponent
     {
         $result = FALSE;
         if (strlen($params['file'])) {
-            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']))) {
+            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                 $result = $this->rootda->execute('DELETE FROM wui_themes WHERE name=' . $this->rootda->formatText($params['name']));
             } else
                 $this->mLog->logEvent('shared.components.wuithemecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to uninstall component', Logger::ERROR);
@@ -77,14 +77,14 @@ class WuithemeComponent extends ApplicationComponent
     {
         $result = FALSE;
         if (strlen($params['file'])) {
-            $params['file'] = $this->basedir . '/WEB-INF/conf/themes/' . basename($params['file']);
+            $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
-            if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/')) {
+            if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/')) {
                 require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/', 0755);
+                DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/', 0755);
             }
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']), 0644);
+            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
+                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
                 $params['file'] = basename($params['file']);
                 $check_query = $this->rootda->execute('SELECT name FROM wui_themes WHERE name=' . $this->rootda->formatText($params['name']));
                 if ($check_query->getNumberRows()) {
@@ -95,7 +95,7 @@ class WuithemeComponent extends ApplicationComponent
                 if (! $result)
                     $this->mLog->logEvent('shared.components.wuithemecomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update component', Logger::ERROR);
             } else
-                $this->mLog->logEvent('shared.components.wuithemecomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'WEB-INF/conf/themes/' . basename($params['file']) . ')', Logger::ERROR);
+                $this->mLog->logEvent('shared.components.wuithemecomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']) . ')', Logger::ERROR);
         } else
             $this->mLog->logEvent('shared.components.wuithemecomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
         return $result;

@@ -195,7 +195,7 @@ class Xajax extends Singleton {
         
         $this->cfg = XajaxConfig :: getInstance(
             WebAppContainer::instance('webappcontainer')->getCurrentWebApp(),
-            WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'WEB-INF/conf/ajax.xml');
+            WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'core/conf/ajax.xml');
         $this->importAllFunctions();
     }
 
@@ -222,7 +222,7 @@ class Xajax extends Singleton {
     }
         
     public function explodeWabAppURI() {
-        return WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'WEB-INF/xajax'.substr( $this->sRequestURI,strpos($this->sRequestURI, 'index.php/')+9).'.php';
+        return WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'core/xajax'.substr( $this->sRequestURI,strpos($this->sRequestURI, 'index.php/')+9).'.php';
     }
         
     /**
