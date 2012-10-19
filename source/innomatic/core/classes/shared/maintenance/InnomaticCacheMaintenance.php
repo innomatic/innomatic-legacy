@@ -171,7 +171,7 @@ class InnomaticCacheMaintenance extends MaintenanceTask {
        );
     }
 
-    public public function cleanPidFiles()
+    public function cleanPidFiles()
     {
         require_once('innomatic/core/InnomaticContainer.php');
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
