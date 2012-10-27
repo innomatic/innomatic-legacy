@@ -4,8 +4,8 @@
 	<definition>
 		<idname>innomatic</idname>
 		<release>
-			<version>5.0.1</version>
-			<date>2009/04/30</date>
+			<version>5.0.2</version>
+			<date>2012/10/27</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description><![CDATA[<strong><font color="#c9c8ce">Inno</font><font color="#9392b4">matic 5000</font></strong> Web Application Container.]]></description>
@@ -24,7 +24,7 @@
 		</options>
 		<legal>
 			<author>
-				<name>Innoteam Srl</name>
+				<name>Innoteam S.r.l.</name>
 				<email>info@innoteam.it</email>
 				<web>http://www.innoteam.it/</web>
 			</author>

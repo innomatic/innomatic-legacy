@@ -13,16 +13,24 @@ dev
 SECURITY:
 
 FIXES:
+
+CHANGES:
+
+NEW FEATURES:
+
+DEPRECATED:
+
+
+5000 5.0.2 - 2009/04/30 - "Innomatic"
+---------------------
+FIXES:
+- Updated code to work with recent PHP versions. (Alex Pagnoni)
 - Fixed wrong initialization of Innomatic main log in
   InnomaticWebServicesHandler.php. (Alex Pagnoni)
 - Fixed wrong include in ValidatorAggregate.php. (Alex Pagnoni)
 
 CHANGES:
 - Reformatted lot of code following Zend Coding Standard. (Alex Pagnoni)
-
-NEW FEATURES:
-
-DEPRECATED:
 
 
 
