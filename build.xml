@@ -18,10 +18,6 @@
     directory structure.
     -->
     <target name="init" depends="initdir">
-        <!-- Checkout Innomatic trunk into source -->
-        <exec executable="svn">
-            <arg line="co http://svn.innoteam.it/prodotti/Innomatic/Innomatic/innomatic/trunk source" />
-        </exec>
     </target>
 	
 	<target name="initdir">
@@ -57,15 +53,6 @@
 		<delete>
 			<fileset dir="${basedir}/build/packages" includes="**.*" />
 		</delete>
-	</target>
-
-    <!--
-    Performs an 'svn up' for the working copy.
-    -->
-	<target name="checkout">
-		<exec executable="svn" dir="${basedir}">
-			<arg line="up" />
-		</exec>
 	</target>
 
 	<target name="checkphp">
@@ -125,12 +112,7 @@
    -->
 	<target name="phpunit">
 		<exec executable="phpunit" dir="${basedir}" failonerror="on">
-			<arg line="--log-xml ${basedir}/build/logs/phpunit.xml
-                   --log-pmd ${basedir}/build/logs/phpunit.pmd.xml
-                   --log-metrics ${basedir}/build/logs/phpunit.metrics.xml
-                   --coverage-xml  ${basedir}/build/logs/phpunit.coverage.xml
-                   --coverage-html ${basedir}/build/coverage
-                   tests/allTests.php" />
+			<arg line="tests/allTests.php" />
 		</exec>
 	</target>
 
@@ -181,6 +163,6 @@
     7. 'sources' Creation of sources package
     8. 'package' Creation of installation package
     -->
-	<target name="build" depends="clean,checkout,checkphp,php-documentor,php-codesniffer,phpunit,sources,package" />
+	<target name="build" depends="clean,checkphp,php-documentor,php-codesniffer,phpunit,sources,package" />
 
 </project>
