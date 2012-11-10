@@ -163,6 +163,6 @@
     7. 'sources' Creation of sources package
     8. 'package' Creation of installation package
     -->
-	<target name="build" depends="clean,checkphp,php-documentor,php-codesniffer,phpunit,sources,package" />
+	<target name="build" depends="init,clean,checkphp,php-documentor,php-codesniffer,phpunit,sources,package" />
 
 </project>
