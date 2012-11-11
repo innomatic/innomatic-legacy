@@ -13,6 +13,8 @@
  * @since      Class available since Release 5.0
 */
 
+require_once 'innomatic/config/ConfigBase.php';
+
 /*!
  @class ConfigMan
 
