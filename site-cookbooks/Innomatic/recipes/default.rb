@@ -13,5 +13,5 @@ end
 
 web_app "innomatic" do
   application_name "innomatic-app"
-  docroot "/vagrant/source"
+  docroot "/vagrant/dev"
 end

@@ -165,4 +165,19 @@
     -->
 	<target name="build" depends="init,clean,checkphp,php-documentor,php-codesniffer,phpunit,sources,package" />
 
+	<target name="dev">
+		<!-- Remove old files -->
+		<delete>
+			<fileset dir="${basedir}/dev" includes="**.*" />
+		</delete>
+	    <mkdir dir="dev" />
+        <copy todir="${basedir}/dev">
+            <fileset dir="${basedir}/source">
+                <include name="**" />
+                <exclude name="**/.svn" />
+                <exclude name="**/.git" />
+            </fileset>
+        </copy>
+	</target>
+
 </project>
