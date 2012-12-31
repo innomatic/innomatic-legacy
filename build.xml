@@ -167,6 +167,7 @@
 
 	<target name="dev">
 		<!-- Remove old files -->
+	    <mkdir dir="dev" />
 		<delete>
 			<fileset dir="${basedir}/dev" includes="**.*" />
 		</delete>
