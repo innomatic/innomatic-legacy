@@ -441,8 +441,10 @@ class InnomaticContainer extends Singleton
     public function stopDomain()
     {
         if ($this->_domainStarted) {
-            $this->_currentDomain->getDataAccess()->close();
-            // TODO implementare
+			if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP) {
+            	$this->_currentDomain->getDataAccess()->close();
+        	}
+            // TODO implement
 
             // Removes override classes folder from the include path
             set_include_path(

@@ -4,8 +4,8 @@
 	<definition>
 		<idname>innomatic</idname>
 		<release>
-			<version>5.0.2</version>
-			<date>2012/10/27</date>
+			<version>5.0.3</version>
+			<date>2013/05/18</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description><![CDATA[<strong><font color="#c9c8ce">Inno</font><font color="#9392b4">matic 5000</font></strong> Web Application Container.]]></description>
@@ -28,7 +28,7 @@
 				<email>info@innoteam.it</email>
 				<web>http://www.innoteam.it/</web>
 			</author>
-			<copyright>Copyright (C) 1999-2012 Innoteam S.r.l.</copyright>
+			<copyright>Copyright (C) 1999-2013 Innoteam S.r.l.</copyright>
 			<license>New BSD</license>
 			<licensefile>LICENSE</licensefile>
 		</legal>

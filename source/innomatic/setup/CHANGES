@@ -13,6 +13,9 @@ dev
 SECURITY:
 
 FIXES:
+- Fixed InnomaticContainer->stopDomain() so that it no more closes domain
+  database connection when Innomatic edition is set to EDITION_ENTERPRISE.
+  (Alex Pagnoni)
 
 CHANGES:
 
