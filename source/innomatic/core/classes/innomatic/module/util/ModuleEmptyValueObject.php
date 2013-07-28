@@ -4,7 +4,7 @@
  * @since 5.1
  */
 
-require_once('innomatic/module/ValueObject.php');
+require_once('innomatic/module/ModuleValueObject.php');
 
 /**
  * Empty value object.
