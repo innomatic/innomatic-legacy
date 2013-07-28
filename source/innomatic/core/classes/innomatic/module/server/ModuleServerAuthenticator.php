@@ -40,7 +40,7 @@ class ModuleServerAuthenticator extends Singleton {
      */
     public function parseConfig() {
         $context = ModuleServerContext::instance('ModuleServerContext');
-        $xmldoc = simplexml_load_file($context->getHome().'conf/modules-users.xml');
+        $xmldoc = simplexml_load_file($context->getHome().'core/conf/modules-users.xml');
         $this->structure = array ();
         foreach ($xmldoc->user as $user) {
             $userStr = "$user->username";
