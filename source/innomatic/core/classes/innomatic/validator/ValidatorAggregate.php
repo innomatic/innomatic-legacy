@@ -19,7 +19,7 @@ require_once ('innomatic/validator/Validator.php');
  * @copyright Copyright 2012 Innoteam S.r.l.
  * @since 1.0
  */
-class ValidatorAggregate extends Object
+class ValidatorAggregate
 {
     /**
      * Array of validators.
