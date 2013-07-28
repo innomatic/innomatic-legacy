@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <users>
-<!--
 	<user>
 		<username>admin</username>
 		<password>changeme</password>
@@ -10,19 +9,20 @@
             <allowedaction>refresh</allowedaction>
 		</allowedactions>
 	</user>
+<!--
 	<user>
 		<username>test</username>
 		<password>test</password>
-		<allowedeass>
-			<allowedeas>
-				<easlocation>it.innoteam.helloworldeas</easlocation>
-				<easdasn></easdasn>
-			</allowedeas>
-			<allowedeas>
-				<easlocation>it.innoteam.carseas</easlocation>
-				<easdasn>sqlite:///context:carsdb.sql</easdasn>
-			</allowedeas>
-		</allowedeass>
+		<allowedmodules>
+			<allowedmodule>
+				<modulelocation>it.innoteam.helloworldmodule</modulelocation>
+				<moduledasn></moduledasn>
+			</allowedmodule>
+			<allowedmodule>
+				<modulelocation>it.innoteam.carsmodule</modulelocation>
+				<moduledasn>sqlite:///context:carsdb.sql</moduledasn>
+			</allowedmodule>
+		</allowedmodules>
 	</user>
 -->
 </users>
