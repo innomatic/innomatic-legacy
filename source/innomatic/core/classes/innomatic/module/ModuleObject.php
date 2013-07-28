@@ -56,10 +56,10 @@ abstract class ModuleObject implements Serializable {
 			$vo_fqcn = 'it.innoteam.module.util.ModuleEmptyValueObject';
 		}
 
-		// !!!CONVERT!!!
         // Imports value object.
-		Carthag::import($vo_fqcn);
-		$vo_class = strpos($vo_fqcn, '.') ? substr($vo_fqcn, strrpos($vo_fqcn, '.') + 1) : $vo_fqcn;
+        
+		require_once($vo_fqcn.'.php');
+		$vo_class = strpos($vo_fqcn, '/') ? substr($vo_fqcn, strrpos($vo_fqcn, '/') + 1) : $vo_fqcn;
 		if (!class_exists($vo_class)) {
 			require_once('innomatic/module/ModuleException.php');
 			throw new ModuleException('Value object class '.$vo_class.' does not exists');

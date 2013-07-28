@@ -152,7 +152,7 @@ class ModuleServerController {
             $result = $this->socket->readAll();
             $this->socket->disconnect();
         } catch (SocketException $e) {
-            $result = 'Module server is down.';
+            $result = 'Module server is down.'."\n";
         }
         return $result;
     }
@@ -177,7 +177,7 @@ class ModuleServerController {
             $result = $this->socket->readAll();
             $this->socket->disconnect();
         } catch (SocketException $e) {
-            $result = 'Module server is down.';
+            $result = 'Module server is down.'."\n";
         }
         return $result;
     }

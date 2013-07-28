@@ -63,9 +63,9 @@ class ModuleServerContext extends Singleton {
      */
     public function &getModuleList() {
         $list = array ();
-        if ($dh = opendir($this->home.'modules')) {
+        if ($dh = opendir($this->home.'core/modules')) {
             while (($file = readdir($dh)) !== false) {
-                if ($file != '.' and $file != '..' and is_dir($this->home.'modules/'.$file)) {
+                if ($file != '.' and $file != '..' and is_dir($this->home.'core/modules/'.$file)) {
                     $list[] = $file;
                 }
             }

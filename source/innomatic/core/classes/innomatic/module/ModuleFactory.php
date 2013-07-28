@@ -65,16 +65,14 @@ class ModuleFactory {
         $context = ModuleServerContext::instance('ModuleServerContext');
 
         // Checks if Module exists
-        // !!!CONVERT!!!
-        $classes_dir = $context->getHome().'modules/'.$location.'/classes/';
+        $classes_dir = $context->getHome().'core/modules/'.$location.'/classes/';
         if (!is_dir($classes_dir)) {
             require_once('innomatic/module/ModuleException.php');
             throw new ModuleException('Module does not exists');
         }
 
         // Checks if configuration file exists
-        // !!!CONVERT!!!
-        $moduleXml = $context->getHome().'modules/'.$location.'/META-INF/module.xml';
+        $moduleXml = $context->getHome().'core/modules/'.$location.'/setup/module.xml';
         if (!file_exists($moduleXml)) {
             require_once('innomatic/module/ModuleException.php');
             throw new ModuleException('Missing module.xml configuration file');
@@ -82,7 +80,7 @@ class ModuleFactory {
         $cfg = ModuleXmlConfig::getInstance($moduleXml);
         $fqcn = $cfg->getFQCN();
 
-        // Builds BCM Data Access Source Name
+        // Builds Module Data Access Source Name
         $dasn_string = $authenticator->getDASN($locator->getUsername(), $locator->getLocation());
         if (strpos($dasn_string, 'context:')) {
         	require_once('innomatic/module/ModuleContext');
@@ -92,14 +90,12 @@ class ModuleFactory {
         $cfg->setDASN(new DataAccessSourceName($dasn_string));
 
         // Adds Module classes directory to classpath
-        // !!! Should add classpath only if not already available
-        // !!!CONVERT!!!
-        $carthag = Carthag::instance();
-        $carthag->getClassLoader()->addClassPath($classes_dir);
-        Carthag::import($fqcn);
+        // TODO: Should add include path only if not already available
+        set_include_path($classes_dir.PATH_SEPARATOR.get_include_path());
+        require_once $fqcn.'.php';
         
         // Retrieves class name from Fully Qualified Class Name
-        $class = strpos($fqcn, '.') ? substr($fqcn, strrpos($fqcn, '.') + 1) : $fqcn;
+        $class = strpos($fqcn, '/') ? substr($fqcn, strrpos($fqcn, '/') + 1) : $fqcn;
         
         // Instantiates the new class and returns it
         return new $class ($cfg);

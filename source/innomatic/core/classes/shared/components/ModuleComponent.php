@@ -58,6 +58,7 @@ class ModuleComponent extends ApplicationComponent
         require_once('innomatic/module/deploy/ModuleDeployer.php');
 
         $deployer = new ModuleDeployer();
+        echo 'mod: '.$this->basedir . '/core/modules/' . $params['name'];
         return $deployer->deploy($this->basedir . '/core/modules/' . $params['name']);
     }
     

@@ -6,7 +6,7 @@ require_once('innomatic/module/ModuleConfig.php');
  * XML based configuration parser.
  *
  * This class parses Module configuration stored in an XML file, that is usually
- * located in the META-INF/module.xml file.
+ * located in the setup/module.xml file.
  *
  * This class must be instanced using the ModuleLXmlConfig::getInstance() method.
  *
@@ -71,7 +71,7 @@ class ModuleXmlConfig extends ModuleConfig {
         if (strlen($cfg->valueobject->voclass)) {
             $this->voClass = $cfg->valueobject->voclass;
         } elseif (count($cfg->valueobject->vofields)) {
-            $this->voClass = 'innomatic.module.util.ModuleGenericValueObject';
+            $this->voClass = 'innomatic/module/util/ModuleGenericValueObject';
         }
 
         if (isset($this->voClass)) {
@@ -79,7 +79,7 @@ class ModuleXmlConfig extends ModuleConfig {
             $this->voFields[] = "$field";
           }
         } else {
-          $this->voClass = 'innomatic.module.util.ModuleEmptyValueObject';
+          $this->voClass = 'innomatic/module/util/ModuleEmptyValueObject';
         }
     }
 }

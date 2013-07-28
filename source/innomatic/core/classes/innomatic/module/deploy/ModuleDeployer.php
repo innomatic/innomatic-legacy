@@ -8,6 +8,7 @@ require_once('innomatic/module/util/ModuleXmlConfig.php');
 require_once('innomatic/module/ModuleFactory.php');
 require_once('innomatic/module/ModuleException.php');
 require_once('innomatic/io/archive/Archive.php');
+require_once('innomatic/io/filesystem/DirectoryUtils.php');
 
 /**
  * Module deployer class.
@@ -36,45 +37,52 @@ class ModuleDeployer {
 
         $context = ModuleServerContext::instance('ModuleServerContext');
 
-        // Unpacks the Module archive.
-        $arc = new Archive($module, Archive::FORMAT_TAR);
-        $tmp_dir = $context->getHome().'temp'.DIRECTORY_SEPARATOR.'deploy_'.rand().DIRECTORY_SEPARATOR;
+        $tmp_dir = $context->getHome().'core/temp/appinst/deploy_'.rand().DIRECTORY_SEPARATOR;
         mkdir($tmp_dir, 0755, true);
-        if (!$arc->extract($tmp_dir)) {
-            throw new ModuleException('Unable to extract Module');
+
+        if (is_dir($module)) {
+        	// Copies the Module directory
+        	DirectoryUtils::dirCopy($module.'/', $tmp_dir);
+        } else {
+	        // Unpacks the Module archive.
+	        $arc = new Archive($module, Archive::FORMAT_TAR);
+	        if (!$arc->extract($tmp_dir)) {
+	        	DirectoryUtils::unlinkTree($tmp_dir);
+	            throw new ModuleException('Unable to extract Module');
+	        }
         }
 
         // Checks if module.xml file exists.
-        if (!file_exists($tmp_dir.'META-INF/module.xml')) {
-            $this->removeDir($tmp_dir);
+        if (!file_exists($tmp_dir.'setup/module.xml')) {
+			DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Missing module.xml configuration file');
         }
 
         // Parses Module configuration.
-        $cfg = ModuleXmlConfig::getInstance($tmp_dir.'META-INF/module.xml');
+        $cfg = ModuleXmlConfig::getInstance($tmp_dir.'setup/module.xml');
         if (!strlen($cfg->getName())) {
-            $this->removeDir($tmp_dir);
+            DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Missing Module name in module.xml');
         }
 
         // Checks if a Module with that name already exists.
-        if (is_dir($context->getHome().'modules'.DIRECTORY_SEPARATOR.$cfg->getName())) {
-            $this->removeDir($tmp_dir);
+        if (is_dir($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName())) {
+            DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('A Module with that name already exists');
         }
 
         // Checks Module code.
         $code_checker = new PHPCodeChecker();
         if (!$code_checker->checkDirectory($tmp_dir)) {
-            $this->removeDir($tmp_dir);
+            DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Module contains errors in code');
         }
 
         // Deploys the Module.
-        $module_dir = $context->getHome().'modules'.DIRECTORY_SEPARATOR.$cfg->getName().DIRECTORY_SEPARATOR;
+        $module_dir = $context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName().DIRECTORY_SEPARATOR;
         mkdir($module_dir, 0755, true);
-        $this->copyDir($tmp_dir, $module_dir);
-        $this->removeDir($tmp_dir);
+        DirectoryUtils::dirCopy($tmp_dir.'/', $module_dir);
+        DirectoryUtils::unlinkTree($tmp_dir);
 
         // Runs Module deploy hooked actions.
         $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -106,50 +114,57 @@ class ModuleDeployer {
 
         $context = ModuleServerContext::instance('ModuleServerContext');
 
-        // Unpacks the Module archive.
-        $arc = new Archive($module, Archive::FORMAT_TAR);
-        $tmp_dir = $context->getHome().'temp'.DIRECTORY_SEPARATOR.'deploy_'.rand().DIRECTORY_SEPARATOR;
+        $tmp_dir = $context->getHome().'core/temp/appinst/deploy_'.rand().DIRECTORY_SEPARATOR;
         mkdir($tmp_dir, 0755, true);
-        if (!$arc->extract($tmp_dir)) {
-            throw new ModuleException('Unable to extract Module');
+        
+        if (is_dir($module)) {
+        	// Copies the Module directory
+        	DirectoryUtils::dirCopy($module.'/', $tmp_dir);
+        } else {
+        	// Unpacks the Module archive.
+        	$arc = new Archive($module, Archive::FORMAT_TAR);
+        	if (!$arc->extract($tmp_dir)) {
+        		DirectoryUtils::unlinkTree($tmp_dir);
+        		throw new ModuleException('Unable to extract Module');
+        	}
         }
-
+        
         // Checks if cmb.xml file exists.
-        if (!file_exists($tmp_dir.'META-INF/module.xml')) {
-            $this->removeDir($tmp_dir);
+        if (!file_exists($tmp_dir.'setup/module.xml')) {
+            DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Missing module.xml configuration file');
         }
 
         // Parses Module configuration.
-        $cfg = ModuleXmlConfig::getInstance($tmp_dir.'META-INF/module.xml');
+        $cfg = ModuleXmlConfig::getInstance($tmp_dir.'setup/module.xml');
         if (!strlen($cfg->getName())) {
-            $this->removeDir($tmp_dir);
+            DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Missing Module name in module.xml');
         }
 
         // Checks if the Module to be redeployed exists in modules directory.
-        if (!is_dir($context->getHome().'modules'.DIRECTORY_SEPARATOR.$cfg->getName())) {
-            $this->removeDir($tmp_dir);
+        if (!is_dir($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName())) {
+            DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Module to be redeployed does not exists');
         }
 
         // Checks Module code.
         $code_checker = new PHPCodeChecker();
         if (!$code_checker->checkDirectory($tmp_dir)) {
-            $this->removeDir($tmp_dir);
+            DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Module contains errors in code');
         }
 
         // Removes old Module.
-        if (is_dir($context->getHome().'modules'.DIRECTORY_SEPARATOR.$cfg->getName())) {
-            $this->removeDir($context->getHome().'modules'.DIRECTORY_SEPARATOR.$cfg->getName());
+        if (is_dir($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName())) {
+            DirectoryUtils::unlinkTree($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName());
         }
 
         // Deploys new Module.
-        $module_dir = $context->getHome().'modules'.DIRECTORY_SEPARATOR.$cfg->getName().DIRECTORY_SEPARATOR;
+        $module_dir = $context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName().DIRECTORY_SEPARATOR;
         mkdir($module_dir, 0755, true);
-        $this->copyDir($tmp_dir, $module_dir);
-        $this->removeDir($tmp_dir);
+        DirectoryUtils::dirCopy($tmp_dir.'/', $module_dir);
+        DirectoryUtils::unlinkTree($tmp_dir);
 
         // Executes Module redeploy hooked actions.
         $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -176,7 +191,7 @@ class ModuleDeployer {
     public function undeploy($location) {
         // Checks if the specified Module exists.
         $context = ModuleServerContext::instance('ModuleServerContext');
-        if (!is_dir($context->getHome().'modules'.DIRECTORY_SEPARATOR.$location)) {
+        if (!is_dir($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$location)) {
             throw new ModuleException('No such Module');
         }
 
@@ -186,7 +201,7 @@ class ModuleDeployer {
         $module->undeploy();
 
         // Removes Module.
-        $this->removeDir($context->getHome().'modules'.DIRECTORY_SEPARATOR.$location);
+        DirectoryUtils::unlinkTree($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$location);
 
         // Logs undeployment.
         if ($context->getConfig()->getKey('log_deployer_events') == 1 or $context->getConfig()->useDefaults()) {
@@ -195,74 +210,6 @@ class ModuleDeployer {
         }
 
         return true;
-    }
-
-    /**
-     * Recursively removes a directory.
-     *
-     * @access protected
-     * @param string $dirname Directory name.
-     * @return boolean
-     */
-    protected static function removeDir($dirname) {
-        $result = true;
-        if (file_exists($dirname)) {
-            if ($dhandle = @ opendir($dirname)) {
-                while (false != ($file = @ readdir($dhandle))) {
-                    if ($file != '.' && $file != '..') {
-                        if (is_file($dirname.'/'.$file))
-                            $result = @ unlink($dirname.'/'.$file);
-                        elseif (is_dir($dirname.'/'.$file)) $result = self::removeDir($dirname.'/'.$file);
-                    }
-                }
-                @ closedir($dhandle);
-                @ rmdir($dirname);
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * Recursively copies a directory.
-     *
-     * @access protected
-     * @param string $from_path Source directory path.
-     * @param string $to_path Destination directory path.
-     * @return boolean
-     */
-    protected static function copyDir($from_path, $to_path) {
-        $result = true;
-
-        $this_path = getcwd();
-        if (!is_dir($to_path)) {
-            if (strpos(strtolower($_ENV['OS']), 'windows') !== false)
-                $to_path = str_replace('/', '\\', $to_path);
-            mkdir($to_path, 0775, true);
-        }
-
-        if (is_dir($from_path)) {
-            chdir($from_path);
-            $handle = opendir('.');
-            while (($file = readdir($handle)) !== false) {
-                if (($file != ".") && ($file != "..")) {
-                    if (is_dir($file)) {
-                        chdir($this_path);
-                        $result = self::copyDir($from_path.$file.DIRECTORY_SEPARATOR, $to_path.$file.DIRECTORY_SEPARATOR);
-                        chdir($this_path);
-                        chdir($from_path);
-                    }
-                    if (is_file($file)) {
-                        chdir($this_path);
-                        $result = copy($from_path.$file, $to_path.$file);
-                        chdir($from_path);
-                    }
-                }
-            }
-            closedir($handle);
-        }
-        chdir($this_path);
-
-        return $result;
     }
 }
 
