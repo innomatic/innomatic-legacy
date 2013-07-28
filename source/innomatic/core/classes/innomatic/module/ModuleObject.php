@@ -133,6 +133,14 @@ abstract class ModuleObject implements Serializable {
         return true;
     }
     
+    public function serialize() {
+    	return serialize($this);
+    }
+    
+    public function unserialize($data) {
+    	return unserialize($data);
+    }
+    
     /**
      * Abstract function that is called when the Module is deployed.
      *

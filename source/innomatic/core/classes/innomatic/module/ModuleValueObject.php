@@ -93,6 +93,14 @@ abstract class ModuleValueObject implements Serializable {
     public function addField($field) {
         $this->$field = false;
     }
+    
+    public function serialize() {
+    	return serialize($this);
+    }
+    
+    public function unserialize($data) {
+    	return unserialize($data);
+    }
 }
 
 ?>
