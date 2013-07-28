@@ -943,7 +943,7 @@
 		<class name="innomatic/module/util/ModuleGenericRemoteObject.php" />
 		<class name="innomatic/module/util/ModuleGenericValueObject.php" />
 		<class name="innomatic/module/util/ModuleXmlConfig.php" />
-		<module name="innomatic.helloworld" />
+		<module name="helloworld" />
 		<module name="innomatic.cars" />
 		
 	</components>
