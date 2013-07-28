@@ -96,7 +96,8 @@
 		<component name="webappskeleton" file="WebappskeletonComponent.php" />
 		<component name="webapphandler" file="WebapphandlerComponent.php" />
 		<component name="ajaxcall" file="AjaxcallComponent.php" />
-		
+		<component name="module" file="ModuleComponent.php" />
+
 		<!-- Installation scripts -->
 
 		<generalpreupdate file="generalpreupdate.php" />
@@ -942,6 +943,8 @@
 		<class name="innomatic/module/util/ModuleGenericRemoteObject.php" />
 		<class name="innomatic/module/util/ModuleGenericValueObject.php" />
 		<class name="innomatic/module/util/ModuleXmlConfig.php" />
+		<module name="innomatic.helloworld" />
+		<module name="innomatic.cars" />
 		
 	</components>
 </application>
