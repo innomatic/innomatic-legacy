@@ -19,7 +19,7 @@ require_once('innomatic/module/deploy/ModuleDeployer.php');
                     $script->cleanExit();
                     break;
                 case 'deploy' :
-                    $deployer = new EASDeployer();
+                    $deployer = new ModuleDeployer();
                     if ($deployer->deploy($argv[2])) {
                         print('Module deployed'."\n");
                     } else {
@@ -27,7 +27,7 @@ require_once('innomatic/module/deploy/ModuleDeployer.php');
                     }
                     break;
                 case 'redeploy' :
-                    $deployer = new EASDeployer();
+                    $deployer = new ModuleDeployer();
                     if ($deployer->redeploy($argv[2])) {
                         print('Module redeployed'."\n");
                     } else {
@@ -35,7 +35,7 @@ require_once('innomatic/module/deploy/ModuleDeployer.php');
                     }
                     break;
                 case 'undeploy' :
-                    $deployer = new EASDeployer();
+                    $deployer = new ModuleDeployer();
                     if ($deployer->undeploy($argv[2])) {
                         print('Module undeployed'."\n");
                     } else {
