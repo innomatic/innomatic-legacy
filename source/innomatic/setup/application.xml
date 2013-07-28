@@ -906,6 +906,7 @@
 		<configurationfile name="modules-users.xml" keep="1" />
 		<configurationfile name="modules-netregistry.xml" keep="1" />
 		<script name="moduleserver.php" />
+		<script name="moduledeployer.php" />
 		<class name="innomatic/module/deploy/ModuleDeployer.php" />
 		<class name="innomatic/module/ModuleConfig.php" />
 		<class name="innomatic/module/ModuleContext.php" />
