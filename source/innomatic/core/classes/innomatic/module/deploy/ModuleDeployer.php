@@ -85,9 +85,9 @@ class ModuleDeployer {
         DirectoryUtils::unlinkTree($tmp_dir);
 
         // Runs Module deploy hooked actions.
-        $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
-        $module = ModuleFactory::getModule(new ModuleLocator('module://admin:'.$auth->getPassword('admin').'@/'.$cfg->getName()));
-        $module->deploy();
+        //$auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+        //$module = ModuleFactory::getModule(new ModuleLocator('module://admin:'.$auth->getPassword('admin').'@/'.$cfg->getName()));
+        //$module->deploy();
 
         // Logs deployment.
         if ($context->getConfig()->getKey('log_deployer_events') == 1 or $context->getConfig()->useDefaults()) {
@@ -167,9 +167,9 @@ class ModuleDeployer {
         DirectoryUtils::unlinkTree($tmp_dir);
 
         // Executes Module redeploy hooked actions.
-        $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
-        $module = ModuleFactory::getModule(new ModuleLocator('module://admin:'.$auth->getPassword('admin').'@/'.$cfg->getName()));
-        $module->redeploy();
+        //$auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+        //$module = ModuleFactory::getModule(new ModuleLocator('module://admin:'.$auth->getPassword('admin').'@/'.$cfg->getName()));
+        //$module->redeploy();
 
         // Logs redeployment.
         if ($context->getConfig()->getKey('log_deployer_events') == 1 or $context->getConfig()->useDefaults()) {
