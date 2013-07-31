@@ -763,6 +763,14 @@
 		<data field="file" value="AjaxcallComponent.php" />
 	</insert>
 
+	<insert table="applications_components_types">
+		<data field="id" value="38" />
+		<data field="typename" value="module" />
+		<data field="priority" value="100" />
+		<data field="domain" value="0" />
+		<data field="file" value="ModuleComponent.php" />
+	</insert>
+
 	<table name="maintenance_tasks">
 		<field name="name" type="text" length="50" notnull="1" />
 		<field name="file" type="text" length="50" notnull="1" />

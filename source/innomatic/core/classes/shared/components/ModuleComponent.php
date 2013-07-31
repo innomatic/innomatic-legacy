@@ -39,7 +39,7 @@ class ModuleComponent extends ApplicationComponent
     }
     
     public static function getPriority() {
-        return 110;
+        return 100;
     }
     
     public static function getIsDomain() {
