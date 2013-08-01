@@ -74,7 +74,7 @@ class ModuleAccessObject extends DataAccessObject {
 			throw new ModuleException('No object with '.$id.' exists');
 		}
 
-		$row = $dar->moveNext();
+		$row = $dar->getFields();
 		foreach ($row as $key => $value) {
 			$this->valueObject->setValue($key, $value);
 		}
