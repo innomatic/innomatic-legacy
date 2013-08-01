@@ -63,17 +63,18 @@ class ModuleAccessObject extends DataAccessObject {
      */
 	public function get($id) {
 		$dar = $this->retrieve('SELECT * FROM '.$this->config->getTable().' WHERE '.$this->config->getIdField()."='".$id."'");
+
 		if (!$dar instanceof DataAccessResult) {
 			require_once('innomatic/module/ModuleException.php');
 			throw new ModuleException('Unable to retrieve value object for object with id '.$id);
 		}
 
-		if (!$dar->rowCount()) {
+		if (!$dar->getNumberRows()) {
 			require_once('innomatic/module/ModuleException.php');
 			throw new ModuleException('No object with '.$id.' exists');
 		}
 
-		$row = $dar->next();
+		$row = $dar->moveNext();
 		foreach ($row as $key => $value) {
 			$this->valueObject->setValue($key, $value);
 		}
