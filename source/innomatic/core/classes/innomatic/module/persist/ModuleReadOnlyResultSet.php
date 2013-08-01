@@ -16,7 +16,7 @@ class ModuleReadOnlyResultSet {
 	}
 
 	function getNext(ModuleObject $businessObject) {
-		$row = $this->resultSet->next();
+		$row = $this->resultSet->getFields();
 
 		$class = new ReflectionObject($businessObject->moduleGetVO());
 		$properties = $class->getProperties();
@@ -26,6 +26,7 @@ class ModuleReadOnlyResultSet {
 			$businessObject->moduleGetVO()->setValue($prop_name, $row[$prop_name]);
 		}
 
+		$this->resultSet->moveNext();
 		return $businessObject;
 	}
 
@@ -34,7 +35,11 @@ class ModuleReadOnlyResultSet {
 	}
 
 	function rowCount() {
-		return $this->resultSet->rowCount();
+		return $this->resultSet->getNumberRows();
+	}
+	
+	function eof() {
+		return $this->resultSet->eof;
 	}
 }
 

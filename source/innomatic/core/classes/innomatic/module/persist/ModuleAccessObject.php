@@ -91,6 +91,9 @@ class ModuleAccessObject extends DataAccessObject {
 		$fields = array();
 		$values = array();
 
+		$sequence_value = $this->_dataAccess->getNextSequenceValue($this->config->getTable().'_'.$this->config->getIdField().'_seq');		
+		$this->valueObject->setValue($this->config->getIdField(), $sequence_value);
+		
 		$obj = new ReflectionObject($this->valueObject);
 		$properties = $obj->getProperties();
 		foreach ($properties as $property) {
@@ -102,7 +105,6 @@ class ModuleAccessObject extends DataAccessObject {
 
 		$sql = 'INSERT INTO '.$this->config->getTable().' ('.implode(',', $fields).') VALUES ('.implode(',', $values).')';
 		$dar = $this->update($sql);
-		$this->valueObject->setValue($this->config->getIdField(), $this->dataAccess->getLastInsertId());
 	}
 
     /**
