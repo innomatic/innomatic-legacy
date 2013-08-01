@@ -46,12 +46,16 @@ abstract class ModulePersistentObject extends ModuleObject {
 		parent::__construct($config);
 
         // Data Access object
+		/*
 		$dasn = $this->config->getDASN();
 		if (!$dasn instanceof DataAccessSourceName) {
 			require_once('innomatic/module/ModuleException.php');
 			throw new ModuleException('Missing DASN for persistent Module');
 		}
 		$this->dataAccess = DataAccessFactory::getDataAccess($dasn);
+		*/
+
+		$this->dataAccess = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess();
         
         // Data Access Object object
 		$this->dataAccessObject = new ModuleAccessObject($this->dataAccess);
