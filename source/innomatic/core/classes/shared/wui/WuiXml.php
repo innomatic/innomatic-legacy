@@ -203,4 +203,12 @@ class WuiXml extends WuiWidget
     {
         return '<![CDATA[' . $data . ']]>';
     }
+    
+    public static function getContentFromXml($name, $xmlText)
+    {
+    	$wui_widget = new WuiXml($name, array('definition' => $xmlText));
+    	$wui_widget->build();
+    	$content = $wui_widget->render();
+    	return $content;
+    } 
 }
