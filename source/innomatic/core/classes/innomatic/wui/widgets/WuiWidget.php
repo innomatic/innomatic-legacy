@@ -216,6 +216,8 @@ abstract class WuiWidget
         }
     }
 
+    // --- Javascript Events --------------------------------------------------
+    
     /**
       * Adds a Javascript event.
      * @param string $event Event name, without the "on" prefix, e.g. "onclick" must be given as "click".
@@ -226,6 +228,66 @@ abstract class WuiWidget
         $this->events[$event][] = $call;
     }
 
+    /**
+     * Gets a javascript event.
+     *
+     * This methods returns the action of an event, if set, false otherwise.
+     *
+     * @since 5.1
+     * @param string $event Name of the event.
+     * @return mixed Option value.
+     */
+    public function getEvent($event) {
+    	return isset($this->events[$event]) ? $this->events[$event] : false;
+    }
+    
+    /**
+     * Gets all javascript events.
+     *
+     * This methods returns an array of all the events.
+     *
+     * @since 5.1
+     * @return array Events.
+     */
+    public function getEvents() {
+    	return $this->events;
+    }
+    
+    
+    /**
+     * Tells if a javascript event has been set.
+     *
+     * @since 5.1
+     * @param string $event Name of the event.
+     * @return boolean
+     */
+    public function isEvent($event) {
+    	return isset($this->events[$event]);
+    }
+    
+    /**
+     * Tells the number of javascript events.
+     *
+     * @since 5.1
+     * @return integer
+     */
+    public function hasEvents() {
+    	return count($this->events);
+    }
+    
+    /**
+     * Unsets a javascript event.
+     *
+     * @since 5.1
+     * @param string $event Name of the event.
+     * @return boolean
+     */
+    public function unsetEvent($event) {
+    	if (isset($this->events[$event])) {
+    		unset($this->events[$event]);
+    	}
+    }
+    
     /**
      * Builds the event content string, e.g. action_a();action_b().
      * @param string $event Event name.
