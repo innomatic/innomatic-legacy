@@ -1048,7 +1048,7 @@ class Xajax extends Singleton {
 	function _wrap($sFunction,$sRequestType=XAJAX_POST)
 	{
 		$js = "function ".$this->sWrapperPrefix."$sFunction(){".
-		( $this->noLoadingImage ? '' :
+		( $this->ajaxLoader == false ? '' :
 		"document.getElementById('stoppingAjax').style.display = 'none';".
 		"document.getElementById('loadingAjax').style.display = 'inline';" ).
 		"return xajax.call(\"$sFunction\", arguments, ".$sRequestType.");}\n";		
