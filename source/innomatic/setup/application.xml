@@ -4,8 +4,8 @@
 	<definition>
 		<idname>innomatic</idname>
 		<release>
-			<version>5.0.3</version>
-			<date>2013/05/18</date>
+			<version>5.1</version>
+			<date>2013/07/28</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description><![CDATA[<strong><font color="#c9c8ce">Inno</font><font color="#9392b4">matic 5000</font></strong> Web Application Container.]]></description>
@@ -96,7 +96,8 @@
 		<component name="webappskeleton" file="WebappskeletonComponent.php" />
 		<component name="webapphandler" file="WebapphandlerComponent.php" />
 		<component name="ajaxcall" file="AjaxcallComponent.php" />
-		
+		<component name="module" file="ModuleComponent.php" />
+
 		<!-- Installation scripts -->
 
 		<generalpreupdate file="generalpreupdate.php" />
@@ -900,5 +901,50 @@
 		<class name="innomatic/desktop/panel/PanelActions.php" />
 		<class name="innomatic/desktop/panel/PanelViews.php" />
 
+		<!-- EAS -->
+		
+		<configurationfile name="modules.ini" keep="1" />
+		<configurationfile name="modules-users.xml" keep="1" />
+		<configurationfile name="modules-netregistry.xml" keep="1" />
+		<script name="moduleserver.php" />
+		<script name="moduledeployer.php" />
+		<class name="innomatic/module/deploy/ModuleDeployer.php" />
+		<class name="innomatic/module/ModuleConfig.php" />
+		<class name="innomatic/module/ModuleContext.php" />
+		<class name="innomatic/module/ModuleException.php" />
+		<class name="innomatic/module/ModuleFactory.php" />
+		<class name="innomatic/module/ModuleLocator.php" />
+		<class name="innomatic/module/ModuleObject.php" />
+		<class name="innomatic/module/ModulePersistentObject.php" />
+		<class name="innomatic/module/ModuleRemoteObject.php" />
+		<class name="innomatic/module/ModuleValueObject.php" />
+		<class name="innomatic/module/persist/ModuleAccessObject.php" />
+		<class name="innomatic/module/persist/ModuleReadOnlyResultSet.php" />
+		<class name="innomatic/module/server/ModuleServerAuthenticator.php" />
+		<class name="innomatic/module/server/ModuleServerConfig.php" />
+		<class name="innomatic/module/server/ModuleServerContext.php" />
+		<class name="innomatic/module/server/ModuleServerController.php" />
+		<class name="innomatic/module/server/ModuleServerLogger.php" />
+		<class name="innomatic/module/server/ModuleServerRequest.php" />
+		<class name="innomatic/module/server/ModuleServerResponse.php" />
+		<class name="innomatic/module/server/ModuleServerSocket.php" />
+		<class name="innomatic/module/server/ModuleServerSocketHandler.php" />
+		<class name="innomatic/module/server/ModuleServerWatchDog.php" />
+		<class name="innomatic/module/server/ModuleServerXmlRpcProcessor.php" />
+		<class name="innomatic/module/services/ModulePinger.php" />
+		<class name="innomatic/module/services/ModulePingerServer.php" />
+		<class name="innomatic/module/services/ModuleRegistryHandler.php" />
+		<class name="innomatic/module/services/ModuleServiceController.php" />
+		<class name="innomatic/module/services/ModuleServiceSocket.php" />
+		<class name="innomatic/module/services/ModuleServiceSocketHandler.php" />
+		<class name="innomatic/module/session/ModuleSession.php" />
+		<class name="innomatic/module/session/ModuleSessionGarbageCollector.php" />
+		<class name="innomatic/module/util/ModuleEmptyValueObject.php" />
+		<class name="innomatic/module/util/ModuleGenericRemoteObject.php" />
+		<class name="innomatic/module/util/ModuleGenericValueObject.php" />
+		<class name="innomatic/module/util/ModuleXmlConfig.php" />
+		<module name="helloworld" />
+		<module name="innomatic.cars" />
+		
 	</components>
 </application>

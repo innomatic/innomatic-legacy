@@ -27,6 +27,6 @@ class SocketException extends RuntimeException
 
     public function __toString()
     {
-        return 'Socket exception: '.parent::toString();
+        return 'Socket exception: '.parent::__toString();
     }
 }

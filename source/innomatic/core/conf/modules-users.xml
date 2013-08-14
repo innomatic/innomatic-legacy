@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<users>
+	<user>
+		<username>admin</username>
+		<password>changeme</password>
+		<allowedactions>
+			<allowedaction>shutdown</allowedaction>
+			<allowedaction>status</allowedaction>
+            <allowedaction>refresh</allowedaction>
+		</allowedactions>
+	</user>
+<!--
+	<user>
+		<username>test</username>
+		<password>test</password>
+		<allowedmodules>
+			<allowedmodule>
+				<modulelocation>it.innoteam.helloworldmodule</modulelocation>
+				<moduledasn></moduledasn>
+			</allowedmodule>
+			<allowedmodule>
+				<modulelocation>it.innoteam.carsmodule</modulelocation>
+				<moduledasn>sqlite:///context:carsdb.sql</moduledasn>
+			</allowedmodule>
+		</allowedmodules>
+	</user>
+-->
+</users>

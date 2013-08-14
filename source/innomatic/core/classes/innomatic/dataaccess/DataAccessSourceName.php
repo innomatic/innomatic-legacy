@@ -31,6 +31,11 @@ class DataAccessSourceName
         return $this->type;
     }
     
+    public function setType($type)
+    {
+    	$this->type = $type;
+    }
+    
     public function getDbSyntax()
     {
         return $this->dbsyntax;
