@@ -54,7 +54,7 @@ class WuiIFrame extends WuiWidget
     }
     protected function generateSource ()
     {
-        $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' iframe -->' : '') . '<iframe name="' . $this->mName . '"' . ' src="' . $this->mSource . '"' . ' scrolling="' . $this->mScrolling . '"' . (strlen($this->mWidth) ? ' width="' . $this->mWidth . '"' : '') . (strlen($this->mHeight) ? ' height="' . $this->mHeight . '"' : '') . (strlen($this->mMarginWidth) ? ' width="' . $this->mMarginWidth . '"' : '') . (strlen($this->mMarginHeight) ? ' height="' . $this->mMarginHeight . '"' : '') . ' frameborder="0">Your user agent does not support frames or is currently configured not to display frames.</iframe>' . ($this->mComments ? '<!-- end ' . $this->mName . " iframe -->\n" : '');
+        $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' iframe -->' : '') . '<iframe'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' name="' . $this->mName . '"' . ' src="' . $this->mSource . '"' . ' scrolling="' . $this->mScrolling . '"' . (strlen($this->mWidth) ? ' width="' . $this->mWidth . '"' : '') . (strlen($this->mHeight) ? ' height="' . $this->mHeight . '"' : '') . (strlen($this->mMarginWidth) ? ' width="' . $this->mMarginWidth . '"' : '') . (strlen($this->mMarginHeight) ? ' height="' . $this->mMarginHeight . '"' : '') . ' frameborder="0">Your user agent does not support frames or is currently configured not to display frames.</iframe>' . ($this->mComments ? '<!-- end ' . $this->mName . " iframe -->\n" : '');
         return true;
     }
 }

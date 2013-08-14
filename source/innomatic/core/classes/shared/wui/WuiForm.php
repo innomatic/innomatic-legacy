@@ -35,7 +35,7 @@ class WuiForm extends WuiContainerWidget
     }
     protected function generateSourceBegin ()
     {
-        return ($this->mComments ? '<!-- begin ' . $this->mName . " form -->\n" : '') . '<form name="' . $this->mName . '" action="' . $this->mArgs['action'] . '" enctype="multipart/form-data" method="' . $this->mArgs['method'] . "\">\n" . '<table border="0" cellspacing="0" cellpadding="0">' . "\n";
+        return ($this->mComments ? '<!-- begin ' . $this->mName . " form -->\n" : '') . '<form'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' name="' . $this->mName . '" action="' . $this->mArgs['action'] . '" enctype="multipart/form-data" method="' . $this->mArgs['method'] . "\">\n" . '<table border="0" cellspacing="0" cellpadding="0">' . "\n";
     }
     protected function generateSourceEnd ()
     {

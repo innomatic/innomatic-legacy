@@ -73,7 +73,7 @@ class WuiLink extends WuiWidget
             . '<tr><td class="normal" ' . ($this->mArgs['nowrap'] == 'true'
             ? 'nowrap style="white-space: nowrap"' : '') . '>'
             . ((isset($this->mArgs['link']) and strlen($this->mArgs['link']))
-            ? '<a href="' . $this->mArgs['link'] . '"'
+            ? '<a'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : ''). $this->getEventsCompleteString() .' href="' . $this->mArgs['link'] . '"'
             . ((isset($this->mArgs['target'])
             and strlen($this->mArgs['target'])) ? ' target="'
             . $this->mArgs['target'] . '"' : '')
