@@ -150,6 +150,11 @@ class WuiPage extends WuiContainerWidget
             // Show the ajax loader?
             $xajax->ajaxLoader = $this->mArgs['ajaxloader'] == 'true' ?  true : false;
             
+            // Set debug mode
+            if (InnomaticContainer::instance('innomaticcontainer') == InnomaticContainer::STATE_DEBUG) {
+            	$xajax->debugOn();
+            }
+            
             $block .= $xajax->getJavascript(InnomaticContainer::instance('innomaticcontainer')->getBaseUrl() . '/shared', 'xajax.js');
             // Setup calls.
             if (Wui::instance('wui')->countRegisteredAjaxSetupCalls() > 0) {
