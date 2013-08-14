@@ -160,6 +160,8 @@ class Xajax extends Singleton {
      */
     var $iPos;
     
+    public $ajaxLoader = true;
+    
     /**#@-*/
     
     /**
@@ -1043,12 +1045,16 @@ class Xajax extends Singleton {
      * @access private
      * @return string
      */
-    function _wrap($sFunction,$sRequestType=XAJAX_POST)
-    {
-        $js = "function ".$this->sWrapperPrefix."$sFunction(){return xajax.call(\"$sFunction\", arguments, ".$sRequestType.");}\n";        
-        return $js;
-    }
-
+	function _wrap($sFunction,$sRequestType=XAJAX_POST)
+	{
+		$js = "function ".$this->sWrapperPrefix."$sFunction(){".
+		( $this->noLoadingImage ? '' :
+		"document.getElementById('stoppingAjax').style.display = 'none';".
+		"document.getElementById('loadingAjax').style.display = 'inline';" ).
+		"return xajax.call(\"$sFunction\", arguments, ".$sRequestType.");}\n";		
+		return $js;
+	}
+	
     /**
      * Takes a string containing xajax xjxobj XML or xjxquery XML and builds an
      * array representation of it to pass as an argument to the PHP function
