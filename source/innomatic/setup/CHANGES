@@ -23,6 +23,9 @@ NEW FEATURES:
 - Added Module feature with persistance layer, value objects and remote object
   calls. (Alex Pagnoni)
 - Added support for Vagrant. (Alex Pagnoni)
+- New void Wui widget. (Alex Pagnoni)
+- New divframe Wui widget. (Alex Pagnoni)
+- New automatic ajax calls support in desktop panels. (Alex Pagnoni)
 
 
 DEPRECATED:

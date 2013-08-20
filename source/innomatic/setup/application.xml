@@ -661,6 +661,7 @@
 		<wuiwidget name="checkbox" file="WuiCheckbox.php" />
 		<wuiwidget name="combobox" file="WuiCombobox.php" />
 		<wuiwidget name="date" file="WuiDate.php" />
+		<wuiwidget name="divframe" file="WuiDivframe.php" />
 		<wuiwidget name="empty" file="WuiEmpty.php" />
 		<wuiwidget name="file" file="WuiFile.php" />
 		<wuivalidator name="file" file="FileWuiValidator.php"
@@ -713,6 +714,7 @@
 		<wuiwidget name="vertbar" file="WuiVertbar.php" />
 		<wuiwidget name="vertframe" file="WuiVertframe.php" />
 		<wuiwidget name="vertgroup" file="WuiVertgroup.php" />
+		<wuiwidget name="void" file="WuiVoid.php" />
 		<wuiwidget name="xml" file="WuiXml.php" />
 
 		<!-- WUI themes -->
