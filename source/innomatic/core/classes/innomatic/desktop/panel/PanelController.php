@@ -102,9 +102,13 @@ abstract class PanelController implements Observer
         }
         
         // AJAX
+        $ajax_request_uri = $_SERVER['REQUEST_URI'];
+        if (strpos($ajax_request_uri, '?')) {
+        	$ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
+        }
+        
         require_once('innomatic/ajax/Xajax.php');
-        require_once('innomatic/core/InnomaticContainer.php');
-        $xajax = Xajax::instance('Xajax');
+        $xajax = Xajax::instance('Xajax', $ajax_request_uri);
         
         // Set debug mode
         if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
