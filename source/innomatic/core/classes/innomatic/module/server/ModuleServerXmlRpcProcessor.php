@@ -72,7 +72,7 @@ class ModuleServerXmlRpcProcessor {
                 continue;
             }
             // Expose only methods beginning with "module" prefix
-            if (!substr($method->getName(), 0, 6) == 'module') {
+            if (!(substr($method->getName(), 0, 6) == 'module')) {
                 continue;
             }
             xmlrpc_server_register_method($xmlrpc_server, strtolower($method->getName()), array ($this, 'xmlrpcGateway'));
