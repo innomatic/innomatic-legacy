@@ -28,7 +28,9 @@ class XajaxWebAppHandler extends WebAppHandler
     {
         require_once('innomatic/ajax/Xajax.php');
         require_once('innomatic/core/InnomaticContainer.php');
-        $xajax = Xajax::instance('Xajax');
+        
+        $request_uri = WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath(true).'/_xajax/call.xajax';
+        $xajax = Xajax::instance('Xajax', $request_uri);
         
         // Set debug mode
         if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {

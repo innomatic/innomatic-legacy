@@ -175,9 +175,6 @@ class Xajax extends Singleton {
         $this->aFunctions = array();
         $this->aObjects = array();
         $this->aFunctionIncludeFiles = array();
-        if (!strlen($sRequestURI)) {
-            $sRequestURI = WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath(true).'/_xajax/call.xajax';
-        }
         $this->sRequestURI = $sRequestURI;
         if ($this->sRequestURI == "")
             $this->sRequestURI = $this->_detectURI();
