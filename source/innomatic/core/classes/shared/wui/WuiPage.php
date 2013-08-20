@@ -151,7 +151,7 @@ class WuiPage extends WuiContainerWidget
             $xajax->ajaxLoader = $this->mArgs['ajaxloader'] == 'true' ?  true : false;
             
             // Set debug mode
-            if (InnomaticContainer::instance('innomaticcontainer') == InnomaticContainer::STATE_DEBUG) {
+            if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
             	$xajax->debugOn();
             }
             
