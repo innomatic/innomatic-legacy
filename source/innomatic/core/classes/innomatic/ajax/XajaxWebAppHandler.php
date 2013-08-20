@@ -29,6 +29,12 @@ class XajaxWebAppHandler extends WebAppHandler
         require_once('innomatic/ajax/Xajax.php');
         require_once('innomatic/core/InnomaticContainer.php');
         $xajax = Xajax::instance('Xajax');
+        
+        // Set debug mode
+        if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
+        	$xajax->debugOn();
+        }
+        
         $xajax->setLogFile(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
             . 'core/log/ajax.log'
