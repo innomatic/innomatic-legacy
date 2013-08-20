@@ -194,10 +194,6 @@ class Xajax extends Singleton {
         $this->bOutputEntities = false;
     }
         
-    public function explodeWabAppURI() {
-        return WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'core/xajax'.substr( $this->sRequestURI,strpos($this->sRequestURI, 'index.php/')+9).'.php';
-    }
-        
     /**
      * Sets the URI to which requests will be made.
      * <i>Usage:</i> <kbd>$xajax->setRequestURI("http://www.xajaxproject.org");</kbd>

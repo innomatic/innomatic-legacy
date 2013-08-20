@@ -62,4 +62,10 @@ class XajaxWebAppHandler extends WebAppHandler
     public function destroy()
     {
     }
+    
+    /*
+    public function explodeWebAppURI() {
+    	return WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'core/xajax'.substr( $this->sRequestURI,strpos($this->sRequestURI, 'index.php/')+9).'.php';
+    }
+    */
 }
