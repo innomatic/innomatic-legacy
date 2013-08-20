@@ -73,9 +73,7 @@ if (!defined ('XAJAX_POST')) {
  * 
  * @package xajax
  */ 
-class Xajax extends Singleton {
-    protected $cfg;
-    
+class Xajax extends Singleton {    
     /**#@+
      * @access protected
      */
@@ -194,33 +192,6 @@ class Xajax extends Singleton {
         $this->setCharEncoding($sEncoding);
         $this->bDecodeUTF8Input = false;
         $this->bOutputEntities = false;
-        
-        $this->cfg = XajaxConfig :: getInstance(
-            WebAppContainer::instance('webappcontainer')->getCurrentWebApp(),
-            WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'core/conf/ajax.xml');
-        $this->importAllFunctions();
-    }
-
-    public function importAllFunctions() {
-        //require_once('innomatic/wui/Wui.php');
-        //$wui = Wui::instance('wui');
-        foreach($this->cfg->functions as $name => $functionData) {
-            /*if (!$wui->isRegisteredAjaxCall($name)) {
-                continue;
-            }*/
-            $this->registerExternalFunction(array($name, $functionData['classname'], $functionData['method']), $functionData['classfile']);
-        }        
-    }
-    
-    public function importFunction($name) {
-        if (isset($this->cfg->functions[$name])) {
-            //require_once('innomatic/wui/Wui.php');
-            //if (Wui::instance('wui')->isRegisteredAjaxCall($name)) {
-                $this->registerExternalFunction(array($name, $this->cfg->functions[$name]['classname'], $this->cfg->functions[$name]['method']), $this->cfg->functions[$name]['classfile']);
-            //}
-        } else {
-            return false;
-        }
     }
         
     public function explodeWabAppURI() {
