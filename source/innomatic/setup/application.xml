@@ -681,6 +681,7 @@
 
 		<wuiwidget name="menu" file="WuiMenu.php" />
 		<shared name="layersmenu.js" />
+		<shared name="jquery" />
 		<configurationfile name="layersmenu/layersmenu-browser_detection.js" />
 		<configurationfile name="layersmenu/layersmenu-plain_menu.ihtml" />
 		<configurationfile

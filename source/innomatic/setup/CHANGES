@@ -21,6 +21,7 @@ FIXES:
   (Alex Pagnoni)
 
 CHANGES:
+- Shared components now support deployment of folders too. (Alex Pagnoni)
 
 NEW FEATURES:
 - Added Module feature with persistance layer, value objects and remote object
@@ -29,9 +30,10 @@ NEW FEATURES:
 - New void Wui widget. (Alex Pagnoni)
 - New divframe Wui widget. (Alex Pagnoni)
 - New automatic ajax calls support in desktop panels. (Alex Pagnoni)
-
+- Added JQuery support. (Alex Pagnoni)
 
 DEPRECATED:
+
 
 
 5000 5.0.2 - 2009/04/30 - "Innomatic"

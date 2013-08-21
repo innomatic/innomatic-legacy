@@ -101,6 +101,12 @@ class WuiPage extends WuiContainerWidget
         $block .= "-->\n</script>\n";
         $block .= "<script language=\"JavaScript\" type=\"text/javascript\" src=\"" . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/' . "layersmenu.js\"></script>\n";
         $block .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $this->mThemeHandler->mStyle['css'] . "\">\n";
+        
+        // JQuery
+        $block .= '<link href="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/jquery/css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet">' . "\n";
+        $block .= '<script language="JavaScript" type="text/javascript" src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/jquery/js/jquery-1.9.1.js"></script>' . "\n";
+        $block .= '<script language="JavaScript" type="text/javascript" src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/jquery/js/jquery-ui-1.10.3.custom.min.js"></script>' . "\n";
+        
         $block .= '<link rel="shortcut icon" href="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/favicon.ico" type="image/x-icon"/>' . "\n";
         $block .= "<style type=\"text/css\">\nimg {\nbehavior:    url(\"" . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/' . "pngbehavior.htc\");\n}\n</style>\n";
         $block .= "<title>" . Wui::utf8_entities($this->mArgs['title']) . "</title>\n";
