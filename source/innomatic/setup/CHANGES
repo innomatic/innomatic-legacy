@@ -32,6 +32,7 @@ NEW FEATURES:
 - New automatic ajax calls support in desktop panels. (Alex Pagnoni)
 - Added JQuery support. (Alex Pagnoni)
 - Added autocomplete support to Wui String widget. (Alex Pagnoni)
+- Added disableenter option to Wui Form widget. (Alex Pagnoni)
 
 DEPRECATED:
 

@@ -18,9 +18,13 @@ require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
  */
 class WuiForm extends WuiContainerWidget
 {
-    //public $mAction;
-    //public $mMethod;
-    public function __construct (
+	/*
+	 * action string - Submit URL
+	 * method string - POST or GET
+	 * disableenter boolean - Set to disable submit at enter
+	 */
+
+	public function __construct (
         $elemName,
         $elemArgs = '',
         $elemTheme = '',
@@ -32,10 +36,16 @@ class WuiForm extends WuiContainerWidget
             $this->mArgs['method'] = $this->mArgs['method'];
         else
             $this->mArgs['method'] = 'POST';
+        
+        if (isset($this->mArgs['disableenter']) and $this->mArgs['disableenter'] == 'true') {
+        	$this->mArgs['disableenter'] = true;
+        } else {
+        	$this->mArgs['disableenter'] = false;
+        }
     }
     protected function generateSourceBegin ()
     {
-        return ($this->mComments ? '<!-- begin ' . $this->mName . " form -->\n" : '') . '<form'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' name="' . $this->mName . '" action="' . $this->mArgs['action'] . '" enctype="multipart/form-data" method="' . $this->mArgs['method'] . "\">\n" . '<table border="0" cellspacing="0" cellpadding="0">' . "\n";
+        return ($this->mComments ? '<!-- begin ' . $this->mName . " form -->\n" : '') . '<form'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' name="' . $this->mName . '" '.($this->mArgs['disableenter'] ? 'onSubmit="return false" ' : '').'action="' . $this->mArgs['action'] . '" enctype="multipart/form-data" method="' . $this->mArgs['method'] . "\">\n" . '<table border="0" cellspacing="0" cellpadding="0">' . "\n";
     }
     protected function generateSourceEnd ()
     {
