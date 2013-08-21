@@ -31,7 +31,7 @@ NEW FEATURES:
 - New divframe Wui widget. (Alex Pagnoni)
 - New automatic ajax calls support in desktop panels. (Alex Pagnoni)
 - Added JQuery support. (Alex Pagnoni)
-- Added autocomplete support to Wui Button widget. (Alex Pagnoni)
+- Added autocomplete support to Wui String widget. (Alex Pagnoni)
 
 DEPRECATED:
 
