@@ -16,6 +16,9 @@ FIXES:
 - Fixed InnomaticContainer->stopDomain() so that it no more closes domain
   database connection when Innomatic edition is set to EDITION_ENTERPRISE.
   (Alex Pagnoni)
+- Fixed missing handling of last visited domain panel. (Alex Pagnoni)
+- Fixed handling of last visited root/domain panel when the panel is closed.
+  (Alex Pagnoni)
 
 CHANGES:
 
