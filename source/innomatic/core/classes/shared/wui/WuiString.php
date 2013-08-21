@@ -43,6 +43,13 @@ class WuiString extends WuiWidget
     //public $mBgColor;
     /*! @public mTabIndex integer - Position of the current element in the tabbing order. */
     //public $mTabIndex = 0;
+    
+    /*
+     * id string - HTML element id
+     * autocomplete boolean - JQuery autocompletion
+     * autocompleteminlength integer - Minimun lenght to activate the autocompletion, default is 3
+     * autocompletesearchurl string - Backend url to use for searching autocompletion results
+     */
     public function __construct (
         $elemName,
         $elemArgs = '',
@@ -55,11 +62,51 @@ class WuiString extends WuiWidget
             $this->mArgs['tabindex'] = 0;
         if (! isset($this->mArgs['bgcolor']) or ! strlen($this->mArgs['bgcolor']))
             $this->mArgs['bgcolor'] = 'white';
+        
+        if (isset($this->mArgs['autocomplete']) and $this->mArgs['autocomplete'] == 'true') {
+        	$this->mArgs['autocomplete'] = true;
+        } else {
+        	$this->mArgs['autocomplete'] = false;
+        }
+        
+        if (!isset($this->mArgs['autocompleteminlength'])) {
+        	$this->mArgs['autocompleteminlength'] = 3;
+        }
     }
     protected function generateSource ()
     {
-        require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
-        $event_data = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
+    	require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
+    	$event_data = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
+    	 
+    	$this->mLayout = $this->mComments ? '<!-- begin ' . $this->mName . ' string -->' : '';
+    	 
+    	// JQuery autocomplete
+    	if ($this->mArgs['autocomplete'] == true) {
+    		//$jquery_id = 'jqautocomplete_'.$this->mName;
+    		
+    		$this->mLayout .= '<style>
+.ui-autocomplete-loading { background: white url(\''.$this->mThemeHandler->mStyle['ajax_mini'].'\') right center no-repeat; }
+.ui-autocomplete {
+max-height: 250px;
+overflow-y: auto;
+}
+</style>';
+    		
+    		$this->mLayout .= "<script type=\"text/javascript\">
+$(document).ready(function() {
+$(\"#".$this->mArgs['id']."\").autocomplete({
+source: \"".$this->mArgs['autocompletesearchurl']."\",
+select: function( event, ui ) {
+$( \"#".$this->mArgs['id']."_value\" ).attr( \"value\", ui.item.id );
+},
+minLength: ".$this->mArgs['autocompleteminlength']."
+});
+});
+</script>\n";
+    		
+    		$this->mLayout .= "<input type='hidden' name='".$event_data->getDataString()."' id='".$this->mArgs['id']."_value'>";
+    	}
+    	
         if ((isset($this->mArgs['required']) and $this->mArgs['required'] == 'true') || (isset($this->mArgs['integer']) and $this->mArgs['integer'] == 'true') || (isset($this->mArgs['email']) and $this->mArgs['email'] == 'true')) {
             $check_script = '
 <script language="JavaScript" type="text/javascript">
@@ -72,7 +119,6 @@ requiredFields[requiredFields.length] = new Array( "' . $event_data->getDataStri
 -->
 </script>';
         }
-        $this->mLayout = $this->mComments ? '<!-- begin ' . $this->mName . ' string -->' : '';
         $this->mLayout .= '<input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : ''). $this->getEventsCompleteString().' class="normal" ' . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mArgs['hint']) . '\');" onMouseOut="wuiUnHint();" ' : '') . 'type="' . ((isset($this->mArgs['password']) and $this->mArgs['password'] == 'true') ? 'password' : 'text') . '" name="' . $event_data->getDataString() . '"';
         $this->mLayout .= ' tabindex="' . $this->mArgs['tabindex'] . '"';
         $this->mLayout .= (isset($this->mArgs['value']) and strlen($this->mArgs['value'])) ? ' value="' . Wui::utf8_entities($this->mArgs['value']) . '"' : '';
