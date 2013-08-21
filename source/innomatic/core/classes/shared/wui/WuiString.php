@@ -73,7 +73,7 @@ requiredFields[requiredFields.length] = new Array( "' . $event_data->getDataStri
 </script>';
         }
         $this->mLayout = $this->mComments ? '<!-- begin ' . $this->mName . ' string -->' : '';
-        $this->mLayout .= '<input class="normal" ' . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mArgs['hint']) . '\');" onMouseOut="wuiUnHint();" ' : '') . 'type="' . ((isset($this->mArgs['password']) and $this->mArgs['password'] == 'true') ? 'password' : 'text') . '" name="' . $event_data->getDataString() . '"';
+        $this->mLayout .= '<input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : ''). $this->getEventsCompleteString().' class="normal" ' . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mArgs['hint']) . '\');" onMouseOut="wuiUnHint();" ' : '') . 'type="' . ((isset($this->mArgs['password']) and $this->mArgs['password'] == 'true') ? 'password' : 'text') . '" name="' . $event_data->getDataString() . '"';
         $this->mLayout .= ' tabindex="' . $this->mArgs['tabindex'] . '"';
         $this->mLayout .= (isset($this->mArgs['value']) and strlen($this->mArgs['value'])) ? ' value="' . Wui::utf8_entities($this->mArgs['value']) . '"' : '';
         $this->mLayout .= (isset($this->mArgs['hint']) and $this->mArgs['hint']) ? ' alt="' . $this->mArgs['hint'] . '"' : '';

@@ -44,7 +44,7 @@ class WuiImage extends WuiWidget
     {
         $result = false;
         if (strlen($this->mArgs['imageurl'])) {
-            $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' image -->' : '') . '<img ' . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mArgs['hint']) . '\');" onMouseOut="wuiUnHint(); "' : '') . 'src="' . $this->mArgs['imageurl'] . '" border="0"' . (isset($this->mArgs['width']) ? ' width="' . $this->mArgs['width'] . '"' : '') . (isset($this->mArgs['height']) ? ' height="' . $this->mArgs['height'] . '"' : '') . '>' . ($this->mComments ? '<!-- end ' . $this->mName . " image -->\n" : '');
+            $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' image -->' : '') . '<img'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : ''). $this->getEventsCompleteString() . ' '.' ' . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mArgs['hint']) . '\');" onMouseOut="wuiUnHint(); "' : '') . 'src="' . $this->mArgs['imageurl'] . '" border="0"' . (isset($this->mArgs['width']) ? ' width="' . $this->mArgs['width'] . '"' : '') . (isset($this->mArgs['height']) ? ' height="' . $this->mArgs['height'] . '"' : '') . '>' . ($this->mComments ? '<!-- end ' . $this->mName . " image -->\n" : '');
             $result = true;
         }
         return $result;

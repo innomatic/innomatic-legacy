@@ -73,9 +73,7 @@ if (!defined ('XAJAX_POST')) {
  * 
  * @package xajax
  */ 
-class Xajax extends Singleton {
-    protected $cfg;
-    
+class Xajax extends Singleton {    
     /**#@+
      * @access protected
      */
@@ -160,6 +158,8 @@ class Xajax extends Singleton {
      */
     var $iPos;
     
+    public $ajaxLoader = true;
+    
     /**#@-*/
     
     /**
@@ -175,9 +175,6 @@ class Xajax extends Singleton {
         $this->aFunctions = array();
         $this->aObjects = array();
         $this->aFunctionIncludeFiles = array();
-        if (!strlen($sRequestURI)) {
-            $sRequestURI = WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath(true).'/_xajax/call.xajax';
-        }
         $this->sRequestURI = $sRequestURI;
         if ($this->sRequestURI == "")
             $this->sRequestURI = $this->_detectURI();
@@ -192,37 +189,6 @@ class Xajax extends Singleton {
         $this->setCharEncoding($sEncoding);
         $this->bDecodeUTF8Input = false;
         $this->bOutputEntities = false;
-        
-        $this->cfg = XajaxConfig :: getInstance(
-            WebAppContainer::instance('webappcontainer')->getCurrentWebApp(),
-            WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'core/conf/ajax.xml');
-        $this->importAllFunctions();
-    }
-
-    public function importAllFunctions() {
-        //require_once('innomatic/wui/Wui.php');
-        //$wui = Wui::instance('wui');
-        foreach($this->cfg->functions as $name => $functionData) {
-            /*if (!$wui->isRegisteredAjaxCall($name)) {
-                continue;
-            }*/
-            $this->registerExternalFunction(array($name, $functionData['classname'], $functionData['method']), $functionData['classfile']);
-        }        
-    }
-    
-    public function importFunction($name) {
-        if (isset($this->cfg->functions[$name])) {
-            //require_once('innomatic/wui/Wui.php');
-            //if (Wui::instance('wui')->isRegisteredAjaxCall($name)) {
-                $this->registerExternalFunction(array($name, $this->cfg->functions[$name]['classname'], $this->cfg->functions[$name]['method']), $this->cfg->functions[$name]['classfile']);
-            //}
-        } else {
-            return false;
-        }
-    }
-        
-    public function explodeWabAppURI() {
-        return WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'core/xajax'.substr( $this->sRequestURI,strpos($this->sRequestURI, 'index.php/')+9).'.php';
     }
         
     /**
@@ -1043,12 +1009,16 @@ class Xajax extends Singleton {
      * @access private
      * @return string
      */
-    function _wrap($sFunction,$sRequestType=XAJAX_POST)
-    {
-        $js = "function ".$this->sWrapperPrefix."$sFunction(){return xajax.call(\"$sFunction\", arguments, ".$sRequestType.");}\n";        
-        return $js;
-    }
-
+	function _wrap($sFunction,$sRequestType=XAJAX_POST)
+	{
+		$js = "function ".$this->sWrapperPrefix."$sFunction(){".
+		( $this->ajaxLoader == false ? '' :
+		"document.getElementById('stoppingAjax').style.display = 'none';".
+		"document.getElementById('loadingAjax').style.display = 'inline';" ).
+		"return xajax.call(\"$sFunction\", arguments, ".$sRequestType.");}\n";		
+		return $js;
+	}
+	
     /**
      * Takes a string containing xajax xjxobj XML or xjxquery XML and builds an
      * array representation of it to pass as an argument to the PHP function

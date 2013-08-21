@@ -28,11 +28,28 @@ class XajaxWebAppHandler extends WebAppHandler
     {
         require_once('innomatic/ajax/Xajax.php');
         require_once('innomatic/core/InnomaticContainer.php');
-        $xajax = Xajax::instance('Xajax');
+        
+        $request_uri = WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath(true).'/_xajax/call.xajax';
+        $xajax = Xajax::instance('Xajax', $request_uri);
+        
+        // Set debug mode
+        if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
+        	$xajax->debugOn();
+        }
+        
         $xajax->setLogFile(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
             . 'core/log/ajax.log'
         );
+        
+        $cfg = XajaxConfig :: getInstance(
+        		WebAppContainer::instance('webappcontainer')->getCurrentWebApp(),
+        		WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'core/conf/ajax.xml');
+
+        foreach($cfg->functions as $name => $functionData) {
+        	$xajax->registerExternalFunction(array($name, $functionData['classname'], $functionData['method']), $functionData['classfile']);
+        }
+                
         $xajax->processRequests();
     }
 
@@ -47,4 +64,10 @@ class XajaxWebAppHandler extends WebAppHandler
     public function destroy()
     {
     }
+    
+    /*
+    public function explodeWebAppURI() {
+    	return WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'core/xajax'.substr( $this->sRequestURI,strpos($this->sRequestURI, 'index.php/')+9).'.php';
+    }
+    */
 }

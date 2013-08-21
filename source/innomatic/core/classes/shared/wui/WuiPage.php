@@ -68,6 +68,10 @@ class WuiPage extends WuiContainerWidget
         } else {
             $this->mArgs['valign'] = 'top';
         }
+        if (isset($this->mArgs['ajaxloader']) and ($elemArgs['ajaxloader'] == 'true' or $elemArgs['ajaxloader'] == 'false'))
+        	$this->mArgs['ajaxloader'] = $elemArgs['ajaxloader'];
+        else
+        	$this->mArgs['ajaxloader'] = 'true';
     }
     protected function generateSourceBegin ()
     {
@@ -143,6 +147,14 @@ class WuiPage extends WuiContainerWidget
         if (Wui::instance('wui')->countRegisteredAjaxCalls() > 0) {
             require_once ('innomatic/ajax/Xajax.php');
             $xajax = Xajax::instance('Xajax');
+            // Show the ajax loader?
+            $xajax->ajaxLoader = $this->mArgs['ajaxloader'] == 'true' ?  true : false;
+            
+            // Set debug mode
+            if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
+            	$xajax->debugOn();
+            }
+            
             $block .= $xajax->getJavascript(InnomaticContainer::instance('innomaticcontainer')->getBaseUrl() . '/shared', 'xajax.js');
             // Setup calls.
             if (Wui::instance('wui')->countRegisteredAjaxSetupCalls() > 0) {

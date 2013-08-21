@@ -42,7 +42,7 @@ class WuiFormArg extends WuiWidget
         require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
         $eventData = new WuiEventRawData($this->mArgs['disp'], $this->mName);
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName
-            . ' string -->' : '') . '<input type="hidden" name="'
+            . ' string -->' : '') . '<input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' type="hidden" name="'
             . $eventData->getDataString() . '"'
             . (strlen($this->mArgs['value']) ? ' value="'
             . Wui::utf8_entities($this->mArgs['value']) . '"' : '') . '>'
