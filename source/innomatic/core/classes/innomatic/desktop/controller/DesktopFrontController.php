@@ -366,11 +366,11 @@ class DesktopFrontController extends Singleton
                     or (!file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . $empty->mValue . '.php')
                     and !file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . $empty->mValue . '-panel'))) {
                     // Launches the default desktop background.
-                    $mainPageUrl = 'main';
+                    $main_page_url = 'main';
                 } else {
                     // Launches the last opened panel with the default view.
                     require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-                    $mainPageUrl = WuiEventsCall::buildEventsCallString($empty->mValue, array( array( 'view', 'default', '' ) ) );
+                    $main_page_url = WuiEventsCall::buildEventsCallString($empty->mValue, array( array( 'view', 'default', '' ) ) );
                 }
 
                 WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"' );
