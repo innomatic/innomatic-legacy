@@ -43,9 +43,16 @@ class SharedComponent extends ApplicationComponent
         $result = false;
         if (strlen($params['name'])) {
             $file = $this->basedir . '/shared/' . $params['name'];
-            if (@copy($file, InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file), 0644);
-                $result = true;
+            if (is_dir($file)) {
+            	require_once ('innomatic/io/filesystem/DirectoryUtils.php');
+            	if (DirectoryUtils::dirCopy($file.'/', InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/'.basename($file).'/')) {
+            		$result = true;
+            	}
+            } else {
+	            if (@copy($file, InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file))) {
+	                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file), 0644);
+	                $result = true;
+	            }
             }
         } else
             $this->mLog->logEvent('innomatic.sharedcomponent.sharedcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty shared file name', Logger::ERROR);
@@ -55,15 +62,46 @@ class SharedComponent extends ApplicationComponent
     {
         $result = false;
         if (strlen($params['name'])) {
-            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
-                $result = true;
-            }
+        	if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
+        		require_once ('innomatic/io/filesystem/DirectoryUtils.php');
+        		DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']));
+        		$result = true;
+        	} else {
+	            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
+	                $result = true;
+	            }
+        	}
         } else
             $this->mLog->logEvent('innomatic.sharedcomponent.sharedcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty shared file name', Logger::ERROR);
         return $result;
     }
     function DoUpdateAction ($params)
     {
-        return $this->DoInstallAction($params);
+        if (strlen($params['name'])) {
+        	if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
+        		require_once ('innomatic/io/filesystem/DirectoryUtils.php');
+        		DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']));
+        		$result = true;
+        	} else {
+	            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
+	                $result = true;
+	            }
+        	}
+        	
+        	$file = $this->basedir . '/shared/' . $params['name'];
+        	if (is_dir($file)) {
+        		require_once ('innomatic/io/filesystem/DirectoryUtils.php');
+        		if (DirectoryUtils::dirCopy($file.'/', InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/'.basename($file).'/')) {
+        			$result = true;
+        		}
+        	} else {
+        		if (@copy($file, InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file))) {
+        			@chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file), 0644);
+        			$result = true;
+        		}
+        	}
+        } else
+            $this->mLog->logEvent('innomatic.sharedcomponent.sharedcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty shared file name', Logger::ERROR);
+        return $result;
     }
 }
