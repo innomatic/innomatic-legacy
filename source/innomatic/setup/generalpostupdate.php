@@ -13,8 +13,6 @@
  * @since      Class available since Release 5.0
 */
 
-global $tmpdir;
-
 // Updates the front receiver file.
 @copy(
     $tmpdir.'/../index.php',
