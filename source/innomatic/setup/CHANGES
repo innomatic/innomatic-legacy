@@ -8,7 +8,7 @@
                                 CHANGES
                                 =======
 
-dev
+dev - "Modules, Ajax, JQuery"
 ---
 SECURITY:
 
@@ -22,6 +22,7 @@ FIXES:
 
 CHANGES:
 - Shared components now support deployment of folders too. (Alex Pagnoni)
+- Extras components now support deployment of folders too. (Alex Pagnoni)
 
 NEW FEATURES:
 - Added Module feature with persistance layer, value objects and remote object
