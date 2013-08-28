@@ -343,6 +343,12 @@
 			function="domain.user.add" event="calltime" forceinstall="true" />
 		<hookevent name="domain.user.add.useradded"
 			function="domain.user.add" event="useradded" forceinstall="true" />
+
+		<hookevent name="domain.user.edit.calltime"
+			function="domain.user.edit" event="calltime" forceinstall="true" />
+		<hookevent name="domain.user.edit.useredited"
+			function="domain.user.edit" event="useredited" forceinstall="true" />
+
 		<hookevent name="domain.user.remove.calltime"
 			function="domain.user.remove" event="calltime" forceinstall="true" />
 		<hookevent name="domain.user.remove.userremoved"

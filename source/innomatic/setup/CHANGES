@@ -34,6 +34,7 @@ NEW FEATURES:
 - Added JQuery support. (Alex Pagnoni)
 - Added autocomplete support to Wui String widget. (Alex Pagnoni)
 - Added disableenter option to Wui Form widget. (Alex Pagnoni)
+- Added domain.user.edit.calltime and domain.user.edit.useredited hook events. (Alex Pagnoni)
 
 DEPRECATED:
 
