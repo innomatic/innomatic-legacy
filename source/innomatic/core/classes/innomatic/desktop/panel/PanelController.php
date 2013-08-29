@@ -126,7 +126,7 @@ abstract class PanelController implements Observer
         		continue;
         	}
 
-        	// Expose only methods beginning with "module" prefix
+        	// Expose only methods beginning with "ajax" prefix
         	if (!(substr($method->getName(), 0, 4) == 'ajax')) {
         		continue;
         	}
