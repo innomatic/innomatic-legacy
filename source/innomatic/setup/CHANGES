@@ -23,6 +23,7 @@ FIXES:
 CHANGES:
 - Shared components now support deployment of folders too. (Alex Pagnoni)
 - Extras components now support deployment of folders too. (Alex Pagnoni)
+- Changed the old style interface panel to new style. (Alex Pagnoni)
 
 NEW FEATURES:
 - Added Module feature with persistance layer, value objects and remote object
@@ -35,6 +36,7 @@ NEW FEATURES:
 - Added autocomplete support to Wui String widget. (Alex Pagnoni)
 - Added disableenter option to Wui Form widget. (Alex Pagnoni)
 - Added domain.user.edit.calltime and domain.user.edit.useredited hook events. (Alex Pagnoni)
+- Added internal ajax support to Wui widgets. (Alex Pagnoni)
 
 DEPRECATED:
 
