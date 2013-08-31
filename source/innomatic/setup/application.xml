@@ -301,6 +301,8 @@
 			function="InnomaticWebServicesHandler::applications_application_remove"
 			handler="innomatic" catalog="innomatic::webservices"
 			forceinstall="true" unsecure="1" />
+			
+		<script name="application.php" />
 
 		<!-- AppCentral -->
 
@@ -397,6 +399,8 @@
 			handler="innomatic" catalog="innomatic::webservices"
 			forceinstall="true" />
 
+		<script name="domain.php" />
+		
 		<!--
 			********************************************************
 			STANDARDS
@@ -910,7 +914,7 @@
 		<class name="innomatic/desktop/panel/PanelActions.php" />
 		<class name="innomatic/desktop/panel/PanelViews.php" />
 
-		<!-- EAS -->
+		<!-- Modules -->
 		
 		<configurationfile name="modules.ini" keep="1" />
 		<configurationfile name="modules-users.xml" keep="1" />

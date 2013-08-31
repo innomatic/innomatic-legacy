@@ -40,6 +40,7 @@ NEW FEATURES:
 - Added internal ajax support to Wui widgets. (Alex Pagnoni)
 - Kickstart script now accepts custom configuration file argument. (Alex Pagnoni)
 - Added domains management script. (Alex Pagnoni)
+- Added applications management script. (Alex Pagnoni)
  
 DEPRECATED:
 
