@@ -150,6 +150,7 @@ $actionDispatcher->addEvent('cleanup', 'pass_cleanup');
 function pass_cleanup($eventData) {
     global $wuiMainStatus, $innomaticLocale;
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    InnomaticSetup::setBaseUrl();
     InnomaticSetup::cleanup($eventData, $log);
 }
 
