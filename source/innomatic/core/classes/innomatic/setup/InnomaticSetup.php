@@ -52,14 +52,14 @@ class InnomaticSetup {
     return false;
     }
 
-    if ($echo) echo $successString.str_pad('Files installation: ', 60);
+    if ($echo) echo $successString.str_pad('Edition setting: ', 60);
 
     if (!InnomaticSetup::setedition(array('edition' => $cfg['PlatformEdition']))) {
     if ($echo) echo $failureString;
     return false;
     }
 
-    if ($echo) echo $successString.str_pad('Edition setting: ', 60);
+    if ($echo) echo $successString.str_pad('Files installation: ', 60);
 
     if (!InnomaticSetup::installfiles('', $log)) {
     if ($echo) echo $failureString;
