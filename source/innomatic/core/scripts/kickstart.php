@@ -31,17 +31,15 @@ echo "
 
 ";
 
-if (
-    InnomaticContainer::instance(
-        'innomaticcontainer'
-    )->getState() != InnomaticContainer::STATE_SETUP
-) {
+if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
     echo "Innomatic has been already installed.\n";
     return 0;
 }
 
+if (!isset($argv[1])) $argv[1] = '';
+
 echo "Starting setup...\n";
-if (InnomaticSetup::setup_by_config_file('', true)) {
+if (InnomaticSetup::setup_by_config_file($argv[1], true)) {
     echo "Setup successfull.\n";
     return 1;
 } else {

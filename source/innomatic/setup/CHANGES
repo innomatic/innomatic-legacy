@@ -37,7 +37,8 @@ NEW FEATURES:
 - Added disableenter option to Wui Form widget. (Alex Pagnoni)
 - Added domain.user.edit.calltime and domain.user.edit.useredited hook events. (Alex Pagnoni)
 - Added internal ajax support to Wui widgets. (Alex Pagnoni)
-
+- Kickstart script now accepts custom configuration file argument. (Alex Pagnoni)
+ 
 DEPRECATED:
 
 
