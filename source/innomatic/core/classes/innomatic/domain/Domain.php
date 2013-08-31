@@ -775,6 +775,21 @@ class Domain {
         }
         return false;
     }
+    
+    public function getEnabledApplications() {
+    	$query = 'SELECT appid FROM applications
+LEFT JOIN applications_enabled ON applications.id = applications_enabled.applicationid
+LEFT JOIN domains ON domains.id=applications_enabled.domainid
+WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
+    	
+    	$query_result = $this->rootda->execute($query);
+    	$list = array();
+    	while (!$query_result->eof) {
+    		$list[] = $query_result->getFields('appid');
+    		$query_result->moveNext();
+    	}
+    	return $list;
+    }
 
     public function getLastActionUnmetDeps() {
         return (array)$this->unmetdeps;
