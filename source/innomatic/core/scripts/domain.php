@@ -27,14 +27,13 @@ try {
 			print('Usage: php innomatic/core/scripts/domain.php command argument'."\n");
 			print("\n");
 			print('Supported commands:'."\n");
+			print('    create domainname description pwd  Creates a new domain'."\n");
+			print('    remove domainname                  Removes a domain'."\n");
 			print('    enable domainname                  Enables a disabled domain'."\n");
 			print('    disable domainname                 Disables a domain'."\n");
-			print('    remove domainname                  Removes a domain'."\n");
 			print('    applist domainname                 Retrieves a list of enabled applications'."\n");
 			print('    appenable domainname application   Disables a domain'."\n");
 			print('    appdisable domainname application  Disables a domain'."\n");
-
-			print('    create domainname description pwd  Creates a new domain'."\n");
 			$script->cleanExit();
 			break;
 
@@ -42,10 +41,10 @@ try {
 			$domain = new Domain(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $argv[2], null);
 			if ($domain->enable()) {
 				print("Domain $argv[2] enabled\n");
-				return 1;
+				$script->cleanExit();
 			} else {
 				print("Domain $argv[2] not enabled\n");
-				return 0;
+				$script->cleanExit(1);
 			}
 			break;
 			
@@ -53,10 +52,10 @@ try {
 			$domain = new Domain(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $argv[2], null);
 			if ($domain->disable()) {
 				print("Domain $argv[2] disabled\n");
-				return 1;
+				$script->cleanExit();
 			} else {
 				print("Domain $argv[2] not disabled\n");
-				return 0;
+				$script->cleanExit(1);
 			}
 			break;
 			
@@ -68,10 +67,10 @@ try {
 				
 			if ($domain->create($data)) {
 				print("Domain $argv[2] created\n");
-				return 1;
+				$script->cleanExit();
 			} else {
 				print("Domain $argv[2] not created\n");
-				return 0;
+				$script->cleanExit(1);
 			}
 			break;
 				
@@ -79,10 +78,10 @@ try {
 			$domain = new Domain(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $argv[2], null);
 			if ($domain->remove()) {
 				print("Domain $argv[2] removed\n");
-				return 1;
+				$script->cleanExit();
 			} else {
 				print("Domain $argv[2] not removed\n");
-				return 0;
+				$script->cleanExit(1);
 			}
 			break;
 			
@@ -92,7 +91,7 @@ try {
 			foreach($list as $app) {
 				print($app."\n");
 			}
-			return 1;
+			$script->cleanExit();
 			break;
 
 		case 'appenable' :
@@ -100,10 +99,10 @@ try {
 			$appid = Application::getAppIdFromName($argv[3]);
 			if ($domain->enableApplication($appid)) {
 				print("Application $argv[3] enabled to domain $argv[2]\n");
-				return 1;
+				$script->cleanExit();
 			} else {
 				print("Application $argv[3] not enabled to domain $argv[2]\n");
-				return 0;
+				$script->cleanExit(1);
 			}
 			break;
 
@@ -112,10 +111,10 @@ try {
 			$appid = Application::getAppIdFromName($argv[3]);
 			if ($domain->disableApplication($appid)) {
 				print("Application $argv[3] disabled from domain $argv[2]\n");
-				return 1;
+				$script->cleanExit();
 			} else {
 				print("Application $argv[3] not disabled from domain $argv[2]\n");
-				return 0;
+				$script->cleanExit(1);
 			}
 			break;
 					

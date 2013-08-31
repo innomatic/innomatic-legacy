@@ -37,6 +37,7 @@ require_once('innomatic/module/deploy/ModuleDeployer.php');
                         print('Module deployed'."\n");
                     } else {
                         print('Unable to deploy module'."\n");
+                        $script->cleanExit(1);
                     }
                     break;
                 case 'redeploy' :
@@ -45,6 +46,7 @@ require_once('innomatic/module/deploy/ModuleDeployer.php');
                         print('Module redeployed'."\n");
                     } else {
                         print('Unable to redeploy module'."\n");
+                        $script->cleanExit(1);
                     }
                     break;
                 case 'undeploy' :
@@ -53,6 +55,7 @@ require_once('innomatic/module/deploy/ModuleDeployer.php');
                         print('Module undeployed'."\n");
                     } else {
                         print('Unable to undeploy module'."\n");
+                        $script->cleanExit(1);
                     }
                     break;
                 default :
