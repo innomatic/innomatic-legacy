@@ -14,6 +14,7 @@
 */
 
 require_once('innomatic/util/Singleton.php');
+require_once('innomatic/webapp/WebAppContainer.php');
 
 /**
  * Innomatic base container class.
