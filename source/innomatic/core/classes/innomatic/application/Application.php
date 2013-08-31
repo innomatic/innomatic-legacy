@@ -2205,4 +2205,15 @@ only application. */
 
         return $config;
     }
+    
+    public static function getAppIdFromName($name) {
+    	if (!strlen($name)) return false;
+    	
+    	$da = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
+    	$query = $da->execute('SELECT id FROM applications WHERE appid='.$da->formatText($name));
+    	
+    	if ($query->getNumberRows() != 1) return false;
+    	
+    	return $query->getFields('id');
+    }
 }
