@@ -27,8 +27,9 @@ class ScriptContainer extends Singleton
         $innomatic->bootstrap($home, $home . 'core/conf/innomatic.ini');
     }
     
-    public static function cleanExit()
+    public static function cleanExit($status = 0)
     {
         RootContainer::instance('rootcontainer')->stop();
+        exit($status);
     }
 }
