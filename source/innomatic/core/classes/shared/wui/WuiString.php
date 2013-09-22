@@ -77,6 +77,7 @@ class WuiString extends WuiWidget
     {
     	require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
     	$event_data = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
+    	$event_data_id = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName.'_id');
     	 
     	$this->mLayout = $this->mComments ? '<!-- begin ' . $this->mName . ' string -->' : '';
     	 
@@ -104,7 +105,7 @@ minLength: ".$this->mArgs['autocompleteminlength']."
 });
 </script>\n";
     		
-    		$this->mLayout .= "<input type='hidden' name='".$event_data->getDataString()."' id='".$this->mArgs['id']."_value'>";
+    		$this->mLayout .= "<input type='hidden' name='".$event_data_id->getDataString()."' id='".$this->mArgs['id']."_value'>";
     	}
     	
         if ((isset($this->mArgs['required']) and $this->mArgs['required'] == 'true') || (isset($this->mArgs['integer']) and $this->mArgs['integer'] == 'true') || (isset($this->mArgs['email']) and $this->mArgs['email'] == 'true')) {
