@@ -19,6 +19,7 @@ FIXES:
 - Fixed missing handling of last visited domain panel. (Alex Pagnoni)
 - Fixed handling of last visited root/domain panel when the panel is closed.
   (Alex Pagnoni)
+- Fixed readonly state for Wui checkbox widget. (Salvatore Pollaci)
 
 CHANGES:
 - Shared components now support deployment of folders too. (Alex Pagnoni)
