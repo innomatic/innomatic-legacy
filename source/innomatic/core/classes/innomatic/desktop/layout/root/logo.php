@@ -42,7 +42,7 @@ $wuiMainVertGroup->addChild(new WuiButton('innomaticlogo', array('action' => Inn
 
 $label_text = strlen(InnomaticContainer::instance('innomaticcontainer')->getPlatformName()) ? InnomaticContainer::instance('innomaticcontainer')->getPlatformName(). (strlen(InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup()) ? '.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() : '') : '';
 if (strlen($label_text)) {
-    $wuiMainVertGroup->addChild(new WuiLabel('label', array('label' => $label_text, 'color' => $wuiPage->mThemeHandler->mColorsSet['buttons']['text'])));
+    $wuiMainVertGroup->addChild(new WuiLabel('label', array('label' => $label_text)));
 }
 
 if ($layout_mode == 'vert') {

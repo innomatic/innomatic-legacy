@@ -90,6 +90,10 @@ class WuiTable extends WuiContainerWidget
             else
                 $this->mArgs['sortdirection'] = 'down';
         $this->StoreSession(array('pagenumber' => $this->mPageNumber , 'sortby' => $this->mArgs['sortby'] , 'sortdirection' => $this->mArgs['sortdirection']));
+
+		if (!isset($this->mArgs['width'])) {
+			$this->mArgs['width'] = "100%";
+		}
     }
     public function addChild (WuiWidget $childWidget, $row, $col, $halign = '', $valign = '', $nowrap = 'false', $width = '')
     {

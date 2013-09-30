@@ -57,7 +57,7 @@ class WuiTab extends WuiContainerWidget
         $result = false;
         $this->mrWuiDisp = $rwuiDisp;
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . " tab -->\n" : '');
-        $this->mLayout .= '<table border="0" cellspacing="' . ($this->mArgs['compact'] == 'true' ? 1 : 2) . '" cellpadding="0"><tr><td bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['gridcolor'] . "\">\n";
+        $this->mLayout .= '<table border="0" width="100%" cellspacing="' . ($this->mArgs['compact'] == 'true' ? 1 : 2) . '" cellpadding="0"><tr><td bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['gridcolor'] . "\">\n";
         $this->mLayout .= '<table border="0" width="100%" cellspacing="1" cellpadding="' . ($this->mArgs['compact'] == 'true' ? 1 : 4) . '" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['gridcolor'] . "\">\n<tr>";
         $rel_width = 100;
         if (count($this->mArgs['tabs']) and strlen($this->mArgs['tabactionfunction'])) {

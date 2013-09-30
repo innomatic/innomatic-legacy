@@ -77,6 +77,10 @@ class WuiVertGroup extends WuiContainerWidget
             }
         } else
             $this->mArgs['groupvalign'] = 'middle';
+        
+        if (!isset($this->mArgs['width'])) {
+        	$this->mArgs['width'] = "100%";
+        }
     }
     protected function generateSourceBegin ()
     {

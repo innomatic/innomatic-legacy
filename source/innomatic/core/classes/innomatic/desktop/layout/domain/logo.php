@@ -39,8 +39,8 @@ if ($layout_mode == 'horiz') {
 
 $user_data = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserData();
 $wuiMainVertGroup->addChild(new WuiButton('innomaticlogo', array('action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/', 'target' => '_top', 'image' => $wuiPage->mThemeHandler->mStyle['headerlogo'], 'highlight' => 'false', 'compact' => 'true')));
-$wuiMainVertGroup->addChild(new WuiLabel('label', array('label' => InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'], 'nowrap' => 'true', 'align' => 'center', 'color' => $wuiPage->mThemeHandler->mColorsSet['buttons']['text'])));
-$wuiMainVertGroup->addChild(new WuiLabel('labelname', array('label' => $user_data['fname'].' '.$user_data['lname'], 'color' => $wuiPage->mThemeHandler->mColorsSet['buttons']['text'])));
+$wuiMainVertGroup->addChild(new WuiLabel('label', array('label' => InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'], 'nowrap' => 'true', 'align' => 'center')));
+$wuiMainVertGroup->addChild(new WuiLabel('labelname', array('label' => $user_data['fname'].' '.$user_data['lname'])));
 
 if ($layout_mode == 'vert') {
         $wuiMainVertGroup->addChild(new WuiLabel('logout', array('label' => ' ')));
@@ -58,7 +58,7 @@ if ($layout_mode == 'horiz') {
     $logout_events_call = new WuiEventsCall(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath().'/domain');
     $logout_events_call->addEvent(new WuiEvent('login', 'logout', ''));
 
-    $buttons_group->addChild(new WuiButton('logout', array('label' => $innomatic_menu_locale->getStr('logout'), 'horiz' => 'true', 'action' => $logout_events_call->getEventsCallString(), 'target' => 'parent', 'compact' => 'true', 'themeimage' => 'exit', 'themeimagetype' => 'mini', 'highlight' => 'false')));
+//    $buttons_group->addChild(new WuiButton('logout', array('label' => $innomatic_menu_locale->getStr('logout'), 'horiz' => 'true', 'action' => $logout_events_call->getEventsCallString(), 'target' => 'parent', 'compact' => 'true', 'themeimage' => 'exit', 'themeimagetype' => 'mini', 'highlight' => 'false')));
 
 $wuiMainVertGroup->addChild($buttons_group);
 $wuiPage->addChild($wuiMainVertGroup);

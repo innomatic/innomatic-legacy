@@ -738,6 +738,14 @@
 		<class name="innomatic/wui/theme/WuiIconsSet.php" />
 		<class name="innomatic/wui/theme/WuiStyle.php" />
 		<class name="innomatic/wui/theme/WuiTheme.php" />
+		<wuitheme name="flattheme" file="flattheme_wuitheme.ini"
+			catalog="innomatic::flattheme" />
+		<wuicolorsset name="flattheme"
+			file="flattheme_wuicolorsset.ini" catalog="innomatic::flattheme" />
+		<wuistyle name="flattheme" file="flattheme_wuistyle.ini"
+			catalog="innomatic::flattheme" />
+		<wuiiconsset name="crystalflat" file="crystalflat_wuiiconsset.ini"
+			catalog="innomatic::flattheme" />
 		<wuitheme name="cleantheme" file="cleantheme_wuitheme.ini"
 			catalog="innomatic::cleantheme" />
 		<wuicolorsset name="cleantheme"

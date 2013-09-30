@@ -12,10 +12,10 @@ $layout_mode = DesktopLayout::instance('desktoplayout')->getLayout();
 
 if ($layout_mode == 'horiz') {
     ?>
-<frameset rows="35,*,90" framespacing="0" border="0" frameborder="0">
+<frameset rows="35,90,*" framespacing="0" border="0" frameborder="0">
         <frame name="header" target="main" src="logo" scrolling="no" noresize>
-    <frame name="main" src="<?php echo $main_page_url; ?>" noresize>
         <frame name="menu" target="main" src="menu" scrolling="auto" noresize>
+    <frame name="main" src="<?php echo $main_page_url; ?>" noresize>
     <noframes>
     <body>
     <p align="center"><strong>Your browser doesn't support frames.</strong></p>

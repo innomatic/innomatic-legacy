@@ -132,8 +132,8 @@ class WuiPage extends WuiContainerWidget
 <tr>
 <td valign="' . $this->mArgs['valign'] . '" align="' . $this->mArgs['align'] . '">' . "\n";
         if ($this->mArgs['border'] == 'true') {
-            $block .= '<table border="0" height="0%" cellspacing="0" cellpadding="1"><tr><td bgcolor="' . $this->mThemeHandler->mColorsSet['pages']['border'] . "\">\n";
-            $block .= '<table border="0" height="0%" cellspacing="0" cellpadding="0" bgcolor="white">' . "\n";
+            $block .= '<table width="100%" border="0" height="0%" cellspacing="0" cellpadding="1"><tr><td bgcolor="' . $this->mThemeHandler->mColorsSet['pages']['border'] . "\">\n";
+            $block .= '<table width="100%" border="0" height="0%" cellspacing="0" cellpadding="0" bgcolor="white">' . "\n";
             $block .= '<tr><td>';
         }
         return $block;

@@ -1,0 +1,134 @@
+body {
+   font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif;
+   font-size: 14px;
+   background-color: white;
+}
+
+a { color: #3871e3; font-style: normal; text-decoration: none }  /* for unvisited links */
+a:link { color: #007aff; font-style: normal; text-decoration: none }  /* for unvisited links */
+a:visited { color: #007aff; font-style: normal; text-decoration: none } /* for visited links */
+a:active { color: #ff4c00; font-style: normal; text-decoration: none } /* when link is clicked */
+a:hover { color: #fcc85a; font-style: normal; text-decoration: none } /* when mouse is over link */
+
+p {
+   font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif;
+   font-size: 14px;
+   color: black;
+}
+
+table {
+   border-width: 0;
+}
+
+th {
+   border-style: none none none none;
+   color: white;
+   font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif;
+   font-size: 14px;
+   font-weight: bold;
+}
+
+td {
+   font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif;
+   font-size: 14px;
+}
+
+.drag {
+  position: relative;
+  cursor: hand;
+}
+
+ .menu        {                                     font-weight: bold; font-size: 14px; font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif; text-decoration: none }
+ .menuorange  { color: #EA6515;                     font-weight: bold; font-size: 14px; font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif; text-decoration: none }
+ .menubig     {                                     font-weight: bold; font-size: 15px; font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif; text-decoration: none }
+ .boldsmall   {                                     font-weight: bold; font-size: 12px;  font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif; text-decoration: none }
+ .bold        {                                     font-weight: bold; font-size: 14px; font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif; text-decoration: none }
+ .boldbig     {                                     font-weight: bold; font-size: 14px; font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif; text-decoration: none }
+ .normalmini  {                 font-style: normal;                    font-size: 12px;  font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif; text-decoration: none }
+ .normalsmall {                 font-style: normal;                    font-size: 13px; font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif; text-decoration: none }
+ .normal      {                 font-style: normal;                    font-size: 14px; font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif; text-decoration: none }
+ .normalbig   {                 font-style: normal;                    font-size: 14px; font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif; text-decoration: none }
+ .titlebar    { color: #4b4b4d;                     font-weight: bold; font-size: 14px; font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif; text-decoration: none }
+ .status      { color: #4b4b4d;                     font-weight: bold; font-size: 14px; font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif; text-decoration: none }
+
+/* Help node styles */
+
+h1 {
+   font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif;
+    font-size: 17px;
+    color: #3871e3;
+}
+
+h2 {
+   font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif;
+    font-size: 15px;
+}
+
+/* Styles related to the PHP Layers Menu System begin here */
+
+.h1bar    {
+    font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #cc0000;
+}
+
+.normal    {
+    font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif;
+    font-size: 14px;
+}
+
+.horbartop    {
+    font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif;
+    font-size: 14px;
+    background-color: #dfdfdf;
+}
+
+.verbarleft    {
+    font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif;
+    font-size: 14px;
+    background-color: #dfdfdf;
+}
+
+.nav    {
+    background-color: #ffffff;
+    font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif;
+    font-size: 14px;
+}
+
+.navdark    {
+    background-color: #d5d4e6;
+}
+
+.navblack    {
+    background-color: #000000;
+}
+
+.navgreen    {
+    background-color: #839983;
+}
+
+.navdarkgreen    {
+    background-color: #839983;
+}
+
+.navred    {
+    background-color: #aa5859;
+}
+
+.navorange    {
+    background-color: #df9500;
+}
+
+.preformatted    {
+    font-family: courier;
+    font-size: 14px;
+}
+
+.imgs    {
+    border: 0px;
+    width: 16px;
+    height: 18px;
+}
+
+/* Styles related to the PHP Layers Menu System end here */
