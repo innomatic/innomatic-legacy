@@ -48,7 +48,7 @@ class WuiText extends WuiWidget
         if (! isset($this->mArgs['tabindex']))
             $this->mArgs['tabindex'] = 0;
         if (! isset($this->mArgs['bgcolor']) or ! strlen($elemArgs['bgcolor']))
-            $this->mArgs['bgcolor'] = 'white';
+            $this->mArgs['bgcolor'] = '';
     }
     protected function generateSource ()
     {

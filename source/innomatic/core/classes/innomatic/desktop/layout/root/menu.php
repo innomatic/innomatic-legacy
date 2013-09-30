@@ -190,7 +190,7 @@ if ($num_groups > 0) {
 if ($layout_mode == 'horiz') {
     $wuiMainVertGroup->addChild($wui_tab);
 } else {
-    $wui_vertframe = new WuiVertFrame('vertframe');
+    $wui_vertframe = new WuiVertgroup('vertframe');
     $wui_vertframe->addChild(new WuiTreeMenu('treemenu', array('elements' => $el, 'width' => '120', 'target' => 'main', 'allgroupsactive' => 'false')));
     $wuiMainVertGroup->addChild($wui_vertframe);
 }

@@ -39,14 +39,14 @@ class WuiTitleBar extends WuiWidget
             if ($this->mArgs['closewidget'] == 'true')
                 $this->mArgs['closewidget'] = 'true';
         } else
-            $this->mArgs['closewidget'] = 'true';
+            $this->mArgs['closewidget'] = 'false';
         if (isset($this->mArgs['newwindowwidget'])) {
             if ($this->mArgs['newwindowwidget'] == 'false')
                 $this->mArgs['newwindowwidget'] = 'false';
             if ($this->mArgs['newwindowwidget'] == 'true')
                 $this->mArgs['newwindowwidget'] = 'true';
         } else
-            $this->mArgs['newwindowwidget'] = 'true';
+            $this->mArgs['newwindowwidget'] = 'false';
         if (isset($this->mArgs['icon']) and strlen($this->mArgs['icon']))
             $this->mIcon = $this->mArgs['icon'];
         else
@@ -68,8 +68,31 @@ class WuiTitleBar extends WuiWidget
                         "</td></tr>\n</table>\n".
             */
         
-        $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' titlebar -->' : '') . "<table border=\"0\" width=\"100%\" cellspacing=\"0\" cellpadding=\"2\" bgcolor=\"white\">\n" . "<tr>\n" . "<td background=\"" . $this->mThemeHandler->mStyle['titlebar'] . "\" align=\"center\" valign=\"middle\" nowrap style=\"white-space: nowrap\">\n" . $icon . "<img id=\"loadingAjax\" src=\"".$this->mThemeHandler->mStyle['ajax_mini']."\" border=\"0\" style=\"padding:0; margin:0; width:16px; height:16px; display:none;\"></td>\n" . "<td nowrap style=\"white-space: nowrap\" background=\"" . $this->mThemeHandler->mStyle['titlebartitle'] . "\" class=\"titlebar\" valign=\"middle\" bgcolor=\"" . $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . "\">" . "<font color=\"" . $this->mThemeHandler->mColorsSet['titlebars']['textcolor'] . "\">&nbsp;" . $this->mArgs['title'] . "</font></td>\n" . '<td width="100%" background="' . $this->mThemeHandler->mStyle['titlebar'] . '">&nbsp;</td>' . "\n" . '<td background="' . $this->mThemeHandler->mStyle['titlebar'] . '" align="center" valign="middle" nowrap style="white-space: nowrap">' . "\n" . ($this->mArgs['newwindowwidget'] == 'true' ? "<a href=\"#\" onClick=\"WuiWindowOpen('" . $new_window_event->getEventsCallString() . "','" . $win_name . "','width=600,height=400,resizable=yes,scrollbars=yes')\"><img src=\"" . $this->mThemeHandler->mStyle['windownew'] . '" border="0" style="width: 16px; height: 16px;" alt=""></a>&nbsp;' : '') . ($this->mArgs['closewidget'] == 'true' ? "<a href=\"main\" onClick=\"WuiWindowClose()\"><img src=\"" . $this->mThemeHandler->mStyle['windowclose'] . "\" border=\"0\" style=\"width: 16px; height: 16px;\" alt=\"\"></a>\n" : '') . "</td>\n" . //onClick="window.open('http://www.pageresource.com/jscript/jex5.htm','mywindow','width=400,height=200')"
-        "</tr>\n</table>\n" . ($this->mComments ? '<!-- end ' . $this->mName . " titlebar -->\n" : '');
+
+		// User data
+		if (InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
+			$user_data = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserData();
+			$user_name = $user_data['fname'].' '.$user_data['lname'];
+		
+			$domain_name = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'];
+		} else {
+			$user_data = '';
+			$domain_name = '';
+		}
+		
+		/*
+			$wuiMainVertGroup->addChild(new WuiButton('innomaticlogo', array('action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/', 'target' => '_top', 'image' => $wuiPage->mThemeHandler->mStyle['headerlogo'], 'highlight' => 'false', 'compact' => 'true')));
+			$wuiMainVertGroup->addChild(new WuiLabel('label', array('label' => InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'], 'nowrap' => 'true', 'align' => 'center')));
+			$wuiMainVertGroup->addChild(new WuiLabel('labelname', array('label' => $user_data['fname'].' '.$user_data['lname'])));
+			*/
+
+        $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' titlebar -->' : '') . "<table border=\"0\" width=\"100%\" cellspacing=\"0\" cellpadding=\"6\" bgcolor=\"white\">\n" . "<tr>\n" . "<td background=\"" . $this->mThemeHandler->mStyle['titlebar'] . "\" align=\"center\" valign=\"middle\" nowrap style=\"white-space: nowrap\">\n" . $icon
+			. "<img id=\"loadingAjax\" src=\"".$this->mThemeHandler->mStyle['ajax_mini']."\" border=\"0\" style=\"padding:0; margin:0; width:16px; height:16px; display:none;\"></td>\n" . "<td nowrap style=\"white-space: nowrap\" background=\"" . $this->mThemeHandler->mStyle['titlebartitle'] . "\" class=\"titlebar\" valign=\"middle\" bgcolor=\"" . $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . "\">"
+			. "<font color=\"" . $this->mThemeHandler->mColorsSet['titlebars']['textcolor'] . "\"><span style=\"font-weight: 500;\"><a href=\"".InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/'."\">Innomatic</a></span>&nbsp;&nbsp;&nbsp;" . $this->mArgs['title'] . "</font></td>\n"
+			. '<td width="100%" background="' . $this->mThemeHandler->mStyle['titlebar'] . '">&nbsp;</td>' . "\n" . '<td background="' . $this->mThemeHandler->mStyle['titlebar'] . '" align="center" valign="middle" nowrap style="white-space: nowrap" class="titlebar"><span style="font-weight: 500;">' . $domain_name . '</span>&nbsp;&nbsp;&nbsp;' . $user_name . "\n"
+			. ($this->mArgs['newwindowwidget'] == 'true' ? "<a href=\"#\" onClick=\"WuiWindowOpen('" . $new_window_event->getEventsCallString() . "','" . $win_name . "','width=600,height=400,resizable=yes,scrollbars=yes')\"><img src=\"" . $this->mThemeHandler->mStyle['windownew'] . '" border="0" style="width: 16px; height: 16px;" alt=""></a>&nbsp;' : '')
+			. ($this->mArgs['closewidget'] == 'true' ? "<a href=\"main\" onClick=\"WuiWindowClose()\"><img src=\"" . $this->mThemeHandler->mStyle['windowclose'] . "\" border=\"0\" style=\"width: 16px; height: 16px;\" alt=\"\"></a>\n" : '') . "</td>\n" . //onClick="window.open('http://www.pageresource.com/jscript/jex5.htm','mywindow','width=400,height=200')"
+        	"</tr>\n</table>\n" . ($this->mComments ? '<!-- end ' . $this->mName . " titlebar -->\n" : '');
         return true;
     }
 }

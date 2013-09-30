@@ -58,7 +58,7 @@ class WuiTab extends WuiContainerWidget
         $this->mrWuiDisp = $rwuiDisp;
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . " tab -->\n" : '');
         $this->mLayout .= '<table border="0" width="100%" cellspacing="' . ($this->mArgs['compact'] == 'true' ? 1 : 2) . '" cellpadding="0"><tr><td bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['gridcolor'] . "\">\n";
-        $this->mLayout .= '<table border="0" width="100%" cellspacing="1" cellpadding="' . ($this->mArgs['compact'] == 'true' ? 1 : 4) . '" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['gridcolor'] . "\">\n<tr>";
+        $this->mLayout .= '<table border="0" width="100%" cellspacing="1" cellpadding="' . ($this->mArgs['compact'] == 'true' ? 1 : 6) . '" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['gridcolor'] . "\">\n<tr>";
         $rel_width = 100;
         if (count($this->mArgs['tabs']) and strlen($this->mArgs['tabactionfunction'])) {
             //$rel_width = 100 / ceil(count($this->mArgs['tabs']) / $this->mArgs['tabrows']) + 1;
@@ -74,9 +74,9 @@ class WuiTab extends WuiContainerWidget
                 $func_name = $this->mArgs['tabactionfunction'];
                 $this->mLayout .= '<td style="cursor: pointer;' . ($tab_counter == $this->mArgs['activetab'] ? ' border-top: solid ' . $this->mThemeHandler->mColorsSet['tables']['gridcolor'] . ' 2px;' : '') . '" bgcolor="' . ($tab_counter == $this->mArgs['activetab'] ? $this->mThemeHandler->mColorsSet['buttons']['selected'] : $this->mThemeHandler->mColorsSet['pages']['bgcolor']) . '" width="' . $rel_width . '%" align="center" nowrap' . ($tab_counter != $this->mArgs['activetab'] ? ' onMouseOver="this.style.backgroundColor=\'' . $this->mThemeHandler->mColorsSet['buttons']['notselected'] . '\';wuiHint(\'' . str_replace("'", "\'", $this->mArgs['tabs'][$tab_counter]['label']) . '\')" onMouseOut="this.style.backgroundColor=\'' . $this->mThemeHandler->mColorsSet['pages']['bgcolor'] . '\';wuiUnHint()" onClick="this.style.backgroundColor=\'' . $this->mThemeHandler->mColorsSet['buttons']['selected'] . '\';location.href=\'' . $func_name($tab_counter) . '\'"' : '') . '><table cellpadding="0" cellspacing="1" width="100%"><tr>';
                 if ($tab_counter == $this->mArgs['activetab']) {
-                    $this->mLayout .= '<td><img src="' . $this->mThemeHandler->mStyle['arrowright'] . '" alt=""></td><td width="100%" align="center" valign="middle" nowrap style="white-space: nowrap;"><strong>' . $this->mArgs['tabs'][$tab_counter]['label'] . '</strong></td>';
+                    $this->mLayout .= '<td><img src="' . $this->mThemeHandler->mStyle['arrowright'] . '" alt=""></td><td width="100%" align="center" valign="middle" nowrap style="white-space: nowrap;" class="boldbig">' . $this->mArgs['tabs'][$tab_counter]['label'] . '</td>';
                 } else {
-                    $this->mLayout .= '<td><img src="' . $this->mThemeHandler->mStyle['arrowdown'] . '" border="0" alt=""></td><td width="100%" align="center" valign="middle" nowrap style="white-space: nowrap"><font color="' . $this->mThemeHandler->mColorsSet['buttons']['text'] . '">' . $this->mArgs['tabs'][$tab_counter]['label'] . '</font></td>';
+                    $this->mLayout .= '<td><img src="' . $this->mThemeHandler->mStyle['arrowdown'] . '" border="0" alt=""></td><td width="100%" align="center" valign="middle" nowrap style="white-space: nowrap" class="normalbig"><font color="' . $this->mThemeHandler->mColorsSet['buttons']['text'] . '">' . $this->mArgs['tabs'][$tab_counter]['label'] . '</font></td>';
                 }
                 if ($tab_counter == $this->mArgs['activetab'] and $this->mArgs['tabpages'][$tab_counter]->Build($this->mrWuiDisp))
                     $elem = $this->mArgs['tabpages'][$tab_counter]->render();
