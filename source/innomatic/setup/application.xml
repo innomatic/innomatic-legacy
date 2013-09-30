@@ -8,7 +8,7 @@
 			<date>2013/07/28</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
-		<description><![CDATA[<strong><font color="#c9c8ce">Inno</font><font color="#9392b4">matic 5000</font></strong> Web Application Container.]]></description>
+		<description><![CDATA[<strong>Innomatic 5000</strong> Cloud Applications Platform.]]></description>
 		<category>innomatic</category>
 		<iconfile>innomatic.png</iconfile>
 		<dependencies>
