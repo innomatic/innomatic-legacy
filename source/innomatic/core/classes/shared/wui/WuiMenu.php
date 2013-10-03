@@ -36,6 +36,7 @@ class WuiMenu extends WuiWidget
     }
     protected function generateSource ()
     {
+    	/*
         require_once ('innomatic/util/Registry.php');
         $registry = Registry::instance();
         if (! $registry->isGlobalObject('singleton xlayersmenu')) {
@@ -75,5 +76,6 @@ class WuiMenu extends WuiWidget
         $GLOBALS['gEnv']['runtime']['wui_menu']['header'] = true;
         $GLOBALS['gEnv']['runtime']['wui_menu']['footer'] = $mid->MakeFooter();
         return true;
+        */
     }
 }

@@ -323,26 +323,51 @@ class WuiPage extends WuiContainerWidget
 						}
 					}
 
-						/**/
-//			$this->mLayout .= '<div id="innomatic_launcher" style="position: absolute; left: 4; top: 50; visibility: hidden; z-index: 1;">';
-			$left_menu = '			
-
-				<table border="0" cellpadding="0" cellspacing="0" style="padding: 15px;">
-
-						';
+$menu = '';
 
 			foreach ($el as $group) {
-				$left_menu .= '<tr><td style="padding-top: 0px; padding-bottom: 10px;" align="center" colspan="2"><span class="bold" style="color: white;">'.$group['groupname'].'</span></td></tr>';
-				foreach ($group['groupelements'] as $panel) {
-					$left_menu .= '<tr valign="middle"><td align="center" style="padding-bottom: 14px; vertical-align:middle; margin: 3px;">'
-					.'<a class="leftmenu" href="'.$panel['action'].'"><img align="middle" style="vertical-align:middle;" valign="middle" src="'.$panel['image'].'" alt="'.$panel['name'].'" /></a></td><td style="vertical-align:middle;"><a class="leftmenu" href="'.$panel['action'].'">'.$panel['name'].'</a></td></tr>';
+				$menu .= '.|' . $group['groupname'] . "\n";
+		
+				foreach ($group['groupelements'] as $panel) {					
+					$menu .= '..|' . $panel['name'] . '|'
+		            . $panel['action'] . "\n";
 				}
-				$left_menu .= '';
 			}
-			$left_menu .= '
-				</table>';
-						/**/
 
+				        require_once ('innomatic/util/Registry.php');
+				        $registry = Registry::instance();
+				        if (! $registry->isGlobalObject('singleton xlayersmenu')) {
+							require_once('innomatic/wui/widgets/layersmenu/XLayersMenu.php');
+				            $mid = new XLayersMenu();
+				            $registry->setGlobalObject('singleton xlayersmenu', $mid);
+				        } else {
+				            $mid = $registry->getGlobalObject('singleton xlayersmenu');
+				        }
+				
+				        $mid->libdir = InnomaticContainer::instance(
+				            'innomaticcontainer'
+				        )->getHome() . 'core/lib/';
+				        $mid->libwww = InnomaticContainer::instance(
+				            'innomaticcontainer'
+				        )->getBaseUrl(false) . '/shared/';
+				        $mid->tpldir = InnomaticContainer::instance(
+				            'innomaticcontainer'
+				        )->getHome() . 'core/conf/layersmenu/';
+				        $mid->imgdir = $this->mThemeHandler->mStyleDir;
+				        $mid->imgwww = $this->mThemeHandler->mStyleBase
+				            . $this->mThemeHandler->mStyleName . '/';
+				        $mid->setMenuStructureString($menu);
+				        $mid->setDownArrowImg(
+				            basename($this->mThemeHandler->mStyle['arrowdownshadow'])
+				        );
+				        $mid->setForwardArrowImg(
+				            basename($this->mThemeHandler->mStyle['arrowrightshadow'])
+				        );
+				        $mid->parseStructureForMenu($this->mName);
+				        $mid->newHorizontalMenu($this->mName);
+				
+				
+				
 
 
 						// User data
@@ -402,17 +427,25 @@ class WuiPage extends WuiContainerWidget
         if ($this->mArgs['border'] == 'true') {
 			$block .= "<table border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
 			. "<tr>\n" 
-			. "<td style=\"border-bottom: 1px solid #90bcdd; background-color: #205081; width: 100%; height: 45px; align: center; \" align=\"left\"><span nowrap class=\"titlebar\" style=\"white-space: nowrap; color: #b8cfdf;\">".$domain_name."</span></td></tr>"
-			. "<tr><td style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: " . $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"center\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 4px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}"
-			. '<td width="100%">&nbsp;</td>' . "\n"
+			. "<td style=\"border-bottom: 1px solid #90bcdd; background-color: #2b6991; width: 100%; height: 45px; align: center; \" align=\"left\"><span nowrap class=\"titlebar\" style=\"white-space: nowrap; color: #b8cfdf;\">".$domain_name."</span></td></tr>"
+			. "<tr><td style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: "
+			. $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\">"
+			. ((isset($GLOBALS['gEnv']['runtime']['wui_menu']['header'])) ? '' : $mid->MakeHeader()) . $mid->getMenu($this->mName)
+			. '</td></tr>'
+			. "<tr><td style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px;\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 4px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}"
+			. '<td style="width: 100%">&nbsp;</td>' . "\n"
 							. '<td align="right" valign="middle" nowrap style="white-space: nowrap" class="titlebar">' . '&nbsp;&nbsp;&nbsp;' . $user_name . "\n"
-			. "</td></tr></table></td></tr><tr><!--<td valign=\"top\" style=\"height: 100%; width: 130px; background-color: #252c3e;\">".$left_menu."</td>-->"
+			. "</td></tr></table></td></tr><tr>"
 			. "<td valign=\"top\" style=\"\">\n";
 	/*
             $block .= '<table width="100%" border="0" height="0%" cellspacing="0" cellpadding="0"><tr><td bgcolor="' . $this->mThemeHandler->mColorsSet['pages']['border'] . "\">\n";
             $block .= '<table width="100%" border="0" height="0%" cellspacing="0" cellpadding="0" bgcolor="white">' . "\n";
             $block .= '<tr><td>';
 */
+
+$GLOBALS['gEnv']['runtime']['wui_menu']['header'] = true;
+$GLOBALS['gEnv']['runtime']['wui_menu']['footer'] = $mid->MakeFooter();
+
         }
         return $block;
     }

@@ -36,7 +36,7 @@ class WuiToolbar extends WuiContainerWidget
 		$block = '<![WUITOOLBAR[';
         $block .= ($this->mComments ? '<!-- begin ' . $this->mName . " toolbar -->\n" : '');
         $block .= '<td><table border="0" cellspacing="0" cellpadding="0"><tr><td width="0%"' . ">\n";
-        $block .= '<table class="toolbar" border="0" width="100%" cellspacing="0" cellpadding="0" style="background-color: ' . $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ';"' . ">\n";
+        $block .= '<table class="toolbar" border="0" width="100%" cellspacing="0" cellpadding="0"' . ">\n";
         $block .= "<tr>\n";
         $block .= '<td bgcolor="' . $this->mThemeHandler->mColorsSet['toolbars']['separator'] . '" width="1" style="width: 1px; padding: 0px; spacing: 0px"><img src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/clear.gif" alt=""></td>' . "\n";
 		/*

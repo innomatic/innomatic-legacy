@@ -30,7 +30,6 @@ class WuiStatusBar extends WuiWidget
     }
     protected function generateSource ()
     {
-	return true;
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName
             . ' statusbar -->' : '');
 		if (isset($this->mArgs['status']) and

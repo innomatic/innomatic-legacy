@@ -351,7 +351,7 @@ public $_tmpArray = array();
 */
 function LayersMenu(
     $abscissaStep = 140,
-    $ordinateStep = 20,
+    $ordinateStep = 28,
     $thresholdY = 20
     ) {
 
