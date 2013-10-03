@@ -60,7 +60,7 @@ class WuiTitleBar extends WuiWidget
     protected function generateSource ()
     {
         if (strlen($this->mIcon)) {
-            $icon = '<img id="stoppingAjax" src="' . $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['mini'][$this->mIcon]['base'] . '/mini/' . $this->mThemeHandler->mIconsSet['mini'][$this->mIcon]['file'] . '" alt="" border="0" style="width: 16px; height: 16px;">';
+            $icon = '<img id="stoppingAjax" src="' . $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['mini'][$this->mIcon]['base'] . '/mini/' . $this->mThemeHandler->mIconsSet['mini'][$this->mIcon]['file'] . '" alt="" border="0" style="padding-left: 10px; width: 16px; height: 16px;">';
         } else
             $icon = '';
         require_once ('innomatic/wui/dispatch/WuiEventsCall.php');
@@ -74,16 +74,7 @@ class WuiTitleBar extends WuiWidget
             */
         
 
-		// User data
-		if (InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
-			$user_data = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserData();
-			$user_name = $user_data['fname'].' '.$user_data['lname'];
-		
-			$domain_name = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'];
-		} else {
-			$user_name = 'root';
-			$domain_name = 'Innomatic';
-		}
+
 		
 		// <a href=\"".InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/'."\">
 		
@@ -94,14 +85,11 @@ class WuiTitleBar extends WuiWidget
 			*/
 
 $GLOBALS['wui']['titlebar-title'] = 			$icon
-			. "<img id=\"loadingAjax\" src=\"".$this->mThemeHandler->mStyle['ajax_mini']."\" border=\"0\" style=\"padding:0; margin:0; width:16px; height:16px; display:none;\"></td>\n"
-			. "<td nowrap style=\"white-space: nowrap\" class=\"titlebar\" valign=\"middle\">"
-			. "<font color=\"" . $this->mThemeHandler->mColorsSet['titlebars']['textcolor'] . "\"><a class=\"titlebar\" href=\"#\" onclick=\"javascript:document.getElementById('innomatic_launcher').style.visibility = 'visible';\"><span style=\"font-weight: 500;\">".$domain_name."</span>&nbsp;&nbsp;&nbsp;" . $this->mArgs['title']
-			. "  <img src=\"".$this->mThemeHandler->mStyle['arrowdown']."\" alt=\"\"/></a></font></td>\n";
+			. "<img id=\"loadingAjax\" src=\"".$this->mThemeHandler->mStyle['ajax_mini']."\" border=\"0\" style=\"padding-left: 10px; width:16px; height:16px; display:none;\"></td>\n"
+			. "<td nowrap style=\"white-space: nowrap; padding-right: 15px;\" class=\"titlebar\" valign=\"middle\">"
+			. "<font color=\"" . $this->mThemeHandler->mColorsSet['titlebars']['textcolor'] . "\">&nbsp;&nbsp;&nbsp;" . $this->mArgs['title']
+			. "</font></td>\n";
 
-$GLOBALS['wui']['titlebar-user'] = '<td width="100%">&nbsp;</td>' . "\n"
-			. '<td align="right" valign="middle" nowrap style="white-space: nowrap" class="titlebar">' . '&nbsp;&nbsp;&nbsp;' . $user_name . "\n";
-			
 
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' titlebar -->' : '') . "<table border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" heigth=\"100%\" cellspacing=\"0\" cellpadding=\"10\" bgcolor=\"white\">\n"
 			. "<tr>\n" 

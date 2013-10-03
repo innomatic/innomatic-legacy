@@ -324,32 +324,37 @@ class WuiPage extends WuiContainerWidget
 					}
 
 						/**/
-			$this->mLayout .= '<div id="innomatic_launcher" style="position: absolute; left: 4; top: 50; visibility: hidden; z-index: 1;">			
-				<table border="0" cellpadding="2" cellspacing="0" class="navdark" bgcolor="white">
-				<tr>
-				<td>
+//			$this->mLayout .= '<div id="innomatic_launcher" style="position: absolute; left: 4; top: 50; visibility: hidden; z-index: 1;">';
+			$left_menu = '			
 
-				<table border="0" cellpadding="0" cellspacing="0" bgcolor="white" style="padding: 15px;">
+				<table border="0" cellpadding="0" cellspacing="0" style="padding: 15px;">
 
 						';
 
 			foreach ($el as $group) {
-				$this->mLayout .= '<tr><td style="padding-top: 20px; padding-bottom: 10px;"><span class="boldbig">'.$group['groupname'].'</span></td></tr><tr><td><table border="0" cellpadding="8" cellspacing="0" bgcolor="white">';
+				$left_menu .= '<tr><td style="padding-top: 0px; padding-bottom: 10px;" align="center" colspan="2"><span class="bold" style="color: white;">'.$group['groupname'].'</span></td></tr>';
 				foreach ($group['groupelements'] as $panel) {
-					$this->mLayout .= '<td align="center"><a href="'.$panel['action'].'"><img src="'.$panel['image'].'" alt="'.$panel['name'].'" /></a><br/>&nbsp;<br/><a href="'.$panel['action'].'">'.$panel['name'].'</a></td>';
+					$left_menu .= '<tr valign="middle"><td align="center" style="padding-bottom: 14px; vertical-align:middle; margin: 3px;">'
+					.'<a class="leftmenu" href="'.$panel['action'].'"><img align="middle" style="vertical-align:middle;" valign="middle" src="'.$panel['image'].'" alt="'.$panel['name'].'" /></a></td><td style="vertical-align:middle;"><a class="leftmenu" href="'.$panel['action'].'">'.$panel['name'].'</a></td></tr>';
 				}
-				$this->mLayout .= '</table></td></tr>';
+				$left_menu .= '';
 			}
-			$this->mLayout .= '
-				</table>
-				</td>
-				</tr>
-						</table></div>';
+			$left_menu .= '
+				</table>';
 						/**/
 
 
 
+						// User data
+						if (InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
+							$user_data = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserData();
+							$user_name = $user_data['fname'].' '.$user_data['lname'];
 
+							$domain_name = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'];
+						} else {
+							$user_name = 'root';
+							$domain_name = 'Innomatic';
+						}
 
 
 
@@ -397,8 +402,12 @@ class WuiPage extends WuiContainerWidget
         if ($this->mArgs['border'] == 'true') {
 			$block .= "<table border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
 			. "<tr>\n" 
-			. "<td style=\"background-color: #3274a8; width: 100px;\">Menu</td>"
-			. "<td style=\"margin: 0px; padding: 0px; background-color: " . $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"center\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 0px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}{[wui-titlebar-user]}</td></tr></table></td></tr><tr><td valign=\"top\" style=\"height: 100%; width: 100px; background-color: #252c3e;\">menu con icone</td><td valign=\"top\">\n";
+			. "<td style=\"background-color: #3274a8; width: 130px; align: center; \" align=\"center\"><span nowrap class=\"titlebar\" style=\"white-space: nowrap; font-weight: 500; color: #b8cfdf;\">".$domain_name."</span></td>"
+			. "<td style=\"margin: 0px; padding: 0px; background-color: " . $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"center\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 4px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}"
+			. '<td width="100%">&nbsp;</td>' . "\n"
+							. '<td align="right" valign="middle" nowrap style="white-space: nowrap" class="titlebar">' . '&nbsp;&nbsp;&nbsp;' . $user_name . "\n"
+			. "</td></tr></table></td></tr><tr><td valign=\"top\" style=\"height: 100%; width: 130px; background-color: #252c3e;\">".$left_menu."</td>"
+			. "<td valign=\"top\" style=\"\">\n";
 	/*
             $block .= '<table width="100%" border="0" height="0%" cellspacing="0" cellpadding="0"><tr><td bgcolor="' . $this->mThemeHandler->mColorsSet['pages']['border'] . "\">\n";
             $block .= '<table width="100%" border="0" height="0%" cellspacing="0" cellpadding="0" bgcolor="white">' . "\n";
