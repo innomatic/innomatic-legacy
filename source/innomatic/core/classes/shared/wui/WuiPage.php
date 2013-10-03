@@ -419,36 +419,31 @@ $menu = '';
             }
             $block .= '"';
         }
-        //$block.= ((isset($this->mArgs['background']) and strlen($this->mArgs['background'])) ? ' background="'.$this->mArgs['background'].'"' : '');
         $block .= ">\n";
         $block .= '<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 <td valign="' . $this->mArgs['valign'] . '" align="' . $this->mArgs['align'] . '" style="height: 100%;">' . "\n";
         if ($this->mArgs['border'] == 'true') {
 			$block .= "<table border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
-			. "<tr>\n" 
-			. "<td style=\"border-bottom: 1px solid #457c9f; background-color: #2b6991; width: 100%; height: 45px; align: center; \" align=\"left\"><span nowrap class=\"titlebar\" style=\"white-space: nowrap; color: #b8cfdf;\">".$domain_name."</span></td></tr>"
-			. "<tr><td style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: "
+			. "<tr style=\"border-bottom: 1px solid #457c9f; background-color: #2b6991;\">\n" 
+			. "<td style=\"width: 100%; height: 45px; align: center; padding-left: 16px;\" align=\"left\"><span nowrap class=\"titlebar\" style=\"white-space: nowrap; color: #b8cfdf;\">".$domain_name.'</span></td>'
+							. '<td align="right" valign="middle" nowrap style="white-space: nowrap; padding-right: 10px;"><span class="titlebar" style="white-space: nowrap; color: #b8cfdf;">' . $user_name . "</span>"
+			. "</td></tr>"
+			. "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: "
 			. $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\">"
 			. ((isset($GLOBALS['gEnv']['runtime']['wui_menu']['header'])) ? '' : $mid->MakeHeader()) . $mid->getMenu($this->mName)
 			. '</td></tr>'
-			. "<tr><td style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px;\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 4px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}"
-			. '<td style="width: 100%">&nbsp;</td>' . "\n"
-							. '<td align="right" valign="middle" nowrap style="white-space: nowrap" class="titlebar">' . '&nbsp;&nbsp;&nbsp;' . $user_name . "\n"
-			. "</td></tr></table></td></tr><tr>"
-			. "<td valign=\"top\" style=\"\">\n";
-	/*
-            $block .= '<table width="100%" border="0" height="0%" cellspacing="0" cellpadding="0"><tr><td bgcolor="' . $this->mThemeHandler->mColorsSet['pages']['border'] . "\">\n";
-            $block .= '<table width="100%" border="0" height="0%" cellspacing="0" cellpadding="0" bgcolor="white">' . "\n";
-            $block .= '<tr><td>';
-*/
+			. "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; height: 45px;\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 4px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}"
+			. "</tr></table></td></tr><tr>"
+			. "<td valign=\"top\" colspan=\"2\" style=\"\">\n";
 
-$GLOBALS['gEnv']['runtime']['wui_menu']['header'] = true;
-$GLOBALS['gEnv']['runtime']['wui_menu']['footer'] = $mid->MakeFooter();
+			$GLOBALS['gEnv']['runtime']['wui_menu']['header'] = true;
+			$GLOBALS['gEnv']['runtime']['wui_menu']['footer'] = $mid->MakeFooter();
 
         }
         return $block;
     }
+    
     protected function generateSourceEnd ()
     {
 		// Add titlebar
