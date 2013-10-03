@@ -30,8 +30,11 @@ class WuiStatusBar extends WuiWidget
     }
     protected function generateSource ()
     {
+	return true;
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName
             . ' statusbar -->' : '');
+		if (isset($this->mArgs['status']) and
+        strlen($this->mArgs['status'])) {
         $this->mLayout .= '<table border="0" width="100%" cellspacing="0" '
             . 'cellpadding="3" bgcolor="'
             . $this->mThemeHandler->mColorsSet['statusbars']['bgcolor']
@@ -44,6 +47,8 @@ class WuiStatusBar extends WuiWidget
             . "</td>\n";
         $this->mLayout .= '<td width="100%">&nbsp;</td></tr>' . "\n"
             . '</table>' . "\n";
+		}
+		
         $this->mLayout .= ($this->mComments ? '<!-- end ' . $this->mName
             . " statusbar -->\n" : '');
         return true;
