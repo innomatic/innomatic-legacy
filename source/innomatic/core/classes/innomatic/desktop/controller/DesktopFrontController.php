@@ -184,24 +184,6 @@ class DesktopFrontController extends Singleton
                 $dump->desktopApplication = $desktopPanel;
             }
 
-            switch ($desktopPanel) {
-                case 'index':
-                case 'main':
-                case 'menu':
-                case 'logo':
-                case 'unlock':
-                    break;
-
-                default:
-                    require_once('shared/wui/WuiSessionkey.php');
-                    $empty = new WuiSessionKey(
-                        'mainpage',
-                        array(
-                            'sessionobjectnopage' => 'true',
-                            'value' => $desktopPanel
-                    )
-                );
-            }
             if (is_dir($resource . '-panel')) {
                 $panelHome = $resource . '-panel/';
                 $panelName = basename($resource);
@@ -252,12 +234,8 @@ class DesktopFrontController extends Singleton
         } else {
             if (strlen($this->session->get('INNOMATIC_ROOT_AUTH_USER')))
             {
-                require_once('shared/wui/WuiSessionkey.php');
-
-                $empty = new WuiSessionKey( 'mainpage', array( 'sessionobjectnopage' => 'true' ) );
-                if ( !strlen( $empty->mValue )
-                    or (!file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/'.$empty->mValue . '.php')
-                    and !file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/'.$empty->mValue . '-panel'))) {
+                if (!file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/'.$empty->mValue . '.php')
+                    and !file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/'.$empty->mValue . '-panel')) {
                     $main_page_url = 'main';
                     WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->sendRedirect($main_page_url);
                 } else {
@@ -322,9 +300,6 @@ class DesktopFrontController extends Singleton
                         $adloc = new LocaleCatalog('innomatic::authentication', InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage());
                         InnomaticContainer::instance('innomaticcontainer')->abort($adloc->getStr('nopageauth'));
                     }
-
-                    require_once('shared/wui/WuiSessionkey.php');
-                    $empty = new WuiSessionKey('mainpage', array('sessionobjectnopage' => 'true', 'value' => $desktopPanel));
             }
             if (is_dir($resource . '-panel')) {
                 $panelHome = $resource . '-panel/';
@@ -361,12 +336,8 @@ class DesktopFrontController extends Singleton
         } else {
             if (strlen($this->session->get('INNOMATIC_AUTH_USER')))
             {
-                require_once('shared/wui/WuiSessionkey.php');
-
-                $empty = new WuiSessionKey('mainpage', array('sessionobjectnopage' => 'true'));
-                if ( !strlen( $empty->mValue )
-                    or (!file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . $empty->mValue . '.php')
-                    and !file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . $empty->mValue . '-panel'))) {
+                if (!file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . $empty->mValue . '.php')
+                    and !file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . $empty->mValue . '-panel')) {
                     // Launches the default desktop background.
                     $main_page_url = 'main';
                     WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->sendRedirect($main_page_url);

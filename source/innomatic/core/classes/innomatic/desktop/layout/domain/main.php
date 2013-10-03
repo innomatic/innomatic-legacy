@@ -30,13 +30,9 @@ $wui->loadWidget('page');
 $wui->loadWidget('vertframe');
 $wui->loadWidget('vertgroup');
 
-// Sets itself as self visited panel
-require_once('shared/wui/WuiSessionkey.php');
-$empty = new WuiSessionKey('mainpage', array('sessionobjectnopage' => 'true', 'value' => 'main'));
-
 $app_cfg = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
 
-$wuiPage = new WuiPage('page', array('title' => 'Innomatic', 'border' => 'false'));
+$wuiPage = new WuiPage('page', array('title' => 'Innomatic'));
 $wui_vertgroup = new WuiVertGroup('vertgroup', array('align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%'));
 $wui_buttons_group = new WuiVertGroup('buttons_group', array('align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%'));
 if ($app_cfg->getKey('innomatic-biglogo-disabled') != '1') {
@@ -53,7 +49,6 @@ if ($app_cfg->getKey('innomatic-biglogo-disabled') != '1') {
     $wui_button = new WuiButton('button', array('action' => ' http://www.innomatic.org', 'target' => '_top', 'image' => $biglogo_image, 'highlight' => 'false'));
     $wui_buttons_group->addChild($wui_button);
 }
-
 // Service Provider personalization
 //
 $serviceprovider_biglogo_filename = $app_cfg->getKey('serviceprovider-biglogo-filename');
@@ -78,4 +73,5 @@ $wui_vertgroup->addChild($wui_buttons_group);
 $wuiPage->addChild($wui_vertgroup);
 $wui->addChild($wuiPage);
 $wui->render();
+
 ?>

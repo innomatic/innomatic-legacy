@@ -43,7 +43,6 @@ function main_page( $redrawFrames = FALSE ) {
     $wui->loadWidget( 'label' );
 
     $page_params['title'] = 'Innomatic'.( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformName() ) ? ' - '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName().( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() ) ? '.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() : '' ) : '' );
-    $page_params['border'] = 'false';
     if ( $redrawFrames ) {
         require_once('innomatic/webapp/WebAppContainer.php');
         $uri = dirname(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getRequestURI());
