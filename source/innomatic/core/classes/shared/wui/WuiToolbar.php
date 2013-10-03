@@ -39,7 +39,6 @@ class WuiToolbar extends WuiContainerWidget
         $block .= '<table class="toolbar" border="0" width="100%" cellspacing="0" cellpadding="0" style="background-color: ' . $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ';"' . ">\n";
         $block .= "<tr>\n";
         $block .= '<td bgcolor="' . $this->mThemeHandler->mColorsSet['toolbars']['separator'] . '" width="1" style="width: 1px; padding: 0px; spacing: 0px"><img src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/clear.gif" alt=""></td>' . "\n";
-        $block .= '<td bgcolor="' . $this->mArgs['bgcolor'] . '" width="1" style="width: 1px; padding: 0px; spacing: 0px"><img src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/clear.gif" alt=""></td>' . "\n";
 		/*
         $block .= '<td bgcolor="' . $this->mThemeHandler->mColorsSet['toolbars']['separator'] . '" width="1" style="width: 1px; padding: 0px; spacing: 0px"><img src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/clear.gif" alt=""></td>' . "\n";
         $block .= '<td bgcolor="' . $this->mArgs['bgcolor'] . '" width="1" style="width: 1px; padding: 0px; spacing: 0px"><img src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/clear.gif" alt=""></td>' . "\n";
