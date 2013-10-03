@@ -6,14 +6,14 @@ html, body
 body {
 	margin: 0;
 	padding: 0;
-   font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
-   font-size: 12px;
-   background-color: #f8f9fa;
+   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+   font-size: 14px;
+   background-color: white;
 }
 
 input {
-   font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
-   font-size: 13px;
+   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+   font-size: 14px;
 	font-weight: 300;
 	background-color: #f9f9f9;
 	border: 2px solid #dadada;
@@ -27,8 +27,8 @@ input {
 }
 
 textarea {
-   font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
-   font-size: 13px;	
+   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+   font-size: 14px;	
 	font-weight: 300;
 	background-color: #f9f9f9;
 	border: 2px solid #dadada;
@@ -36,8 +36,8 @@ textarea {
 }
 
 select {
-   font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
-   font-size: 13px;	
+   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+   font-size: 14px;	
 	font-weight: 300;
 	background-color: #f9f9f9;
 	border: 2px solid #dadada;	
@@ -45,8 +45,8 @@ select {
 }
 
 a { color: #007aff; font-style: normal; text-decoration: none }  /* for unvisited links */
-a:link { color: #0591ce; font-style: normal; text-decoration: none }  /* for unvisited links */
-a:visited { color: #0591ce; font-style: normal; text-decoration: none } /* for visited links */
+a:link { color: #3b73af; font-style: normal; text-decoration: none }  /* for unvisited links */
+a:visited { color: #3b73af; font-style: normal; text-decoration: none } /* for visited links */
 a:active { color: #0f6ccf; font-style: normal; text-decoration: none } /* when link is clicked */
 a:hover { color: #0f6ccf; font-style: normal; text-decoration: none } /* when mouse is over link */
 
@@ -56,13 +56,15 @@ a.titlebar:visited { color: white; font-style: normal; text-decoration: none } /
 a.titlebar:active { color: #f9fafc; font-style: normal; text-decoration: none } /* when link is clicked */
 a.titlebar:hover { color: #f9fafc; font-style: normal; text-decoration: none } /* when mouse is over link */
 
+.buttontext { color: #3b73af }
+
+/*
 td.titlebar {
 	color: white;
 }
 
-.buttontext { color: #0591ce }
-
 .toolbar .buttontext { color: white }
+*/
 
 a.leftmenu { color: #007aff; font-style: normal; text-decoration: none }  /* for unvisited links */
 a.leftmenu:link { color: #7b7e8f; font-style: normal; text-decoration: none }  /* for unvisited links */
@@ -77,8 +79,8 @@ a.leftmenu:hover { color: #f9fafc; font-style: normal; text-decoration: none } /
 .toolbar a:hover { color: #f9fafc; font-style: normal; text-decoration: none } /* when mouse is over link */
 
 p {
-   font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
-   font-size: 13px;
+   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+   font-size: 14px;
    color: black;
    font-weight: 300;
 }
@@ -90,14 +92,14 @@ table {
 th {
    border-style: none none none none;
    color: white;
-   font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
-   font-size: 13px;
+   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+   font-size: 15px;
    font-weight: 600;
 }
 
 td {
-   font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
-   font-size: 12px;
+   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+   font-size: 14px;
 }
 
 .drag {
@@ -105,62 +107,62 @@ td {
   cursor: hand;
 }
 
- .menu        {                                     font-weight: 600; font-size: 12px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
- .menuorange  { color: #EA6515;                     font-weight: 600; font-size: 12px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
- .menubig     {                                     font-weight: 600; font-size: 14px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .menu        {                                     font-weight: 600; font-size: 14px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .menuorange  { color: #EA6515;                     font-weight: 600; font-size: 14px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .menubig     {                                     font-weight: 600; font-size: 16px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
 
- .normal      {                 font-style: normal; font-weight: 300; font-size: 12px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
- .bold        {                                     font-weight: 600; font-size: 12px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .normal      {                 font-style: normal; font-weight: 300; font-size: 14px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .bold        {                                     font-weight: 600; font-size: 14px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
 
- .normalmini  {                 font-style: normal; font-weight: 300; font-size: 9px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
- .boldmini    {                                     font-weight: 600; font-size: 9px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .normalmini  {                 font-style: normal; font-weight: 300; font-size: 11px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .boldmini    {                                     font-weight: 600; font-size: 11px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
 
- .normalsmall {                 font-style: normal; font-weight: 300; font-size: 10px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
- .boldsmall   {                                     font-weight: 600; font-size: 10px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .normalsmall {                 font-style: normal; font-weight: 300; font-size: 12px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .boldsmall   {                                     font-weight: 600; font-size: 12px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
 
- .normalbig   {                 font-style: normal; font-weight: 300; font-size: 13px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
- .boldbig     {                                     font-weight: 600; font-size: 13px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .normalbig   {                 font-style: normal; font-weight: 300; font-size: 15px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .boldbig     {                                     font-weight: 600; font-size: 15px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
 
- .titlebar    { color: #4b4b4d;                     font-weight: 300; font-size: 13px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
- .status      { color: #4b4b4d;                     font-weight: 600; font-size: 12px; font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .titlebar    { color: #4b4b4d;                     font-weight: 300; font-size: 21px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
+ .status      { color: #4b4b4d;                     font-weight: 600; font-size: 14px; font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif; text-decoration: none }
 
 /* Help node styles */
 
 h1 {
-   font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
     font-size: 19px;
     color: #3871e3;
 }
 
 h2 {
-   font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
     font-size: 17px;
 }
 
 /* Styles related to the PHP Layers Menu System begin here */
 
 .h1bar    {
-    font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+    font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
     font-size: 13px;
     font-weight: 600;
     color: #cc0000;
 }
 
 .horbartop    {
-    font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+    font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
     font-size: 13px;
     background-color: #dfdfdf;
 }
 
 .verbarleft    {
-    font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+    font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
     font-size: 13px;
     background-color: #dfdfdf;
 }
 
 .nav    {
     background-color: #ffffff;
-    font-family: "Verdana", "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
+    font-family: "Helvetica Neue", Verdana, Helvetica, Arial, Geneva, sans-serif;
     font-size: 13px;
 }
 

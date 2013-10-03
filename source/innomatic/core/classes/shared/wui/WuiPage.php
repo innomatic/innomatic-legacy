@@ -402,11 +402,11 @@ class WuiPage extends WuiContainerWidget
         if ($this->mArgs['border'] == 'true') {
 			$block .= "<table border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
 			. "<tr>\n" 
-			. "<td style=\"background-color: #3274a8; width: 130px; align: center; \" align=\"center\"><span nowrap class=\"titlebar\" style=\"white-space: nowrap; font-weight: 500; color: #b8cfdf;\">".$domain_name."</span></td>"
-			. "<td style=\"margin: 0px; padding: 0px; background-color: " . $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"center\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 4px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}"
+			. "<td style=\"border-bottom: 1px solid #90bcdd; background-color: #205081; width: 100%; height: 45px; align: center; \" align=\"left\"><span nowrap class=\"titlebar\" style=\"white-space: nowrap; color: #b8cfdf;\">".$domain_name."</span></td></tr>"
+			. "<tr><td style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: " . $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"center\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 4px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}"
 			. '<td width="100%">&nbsp;</td>' . "\n"
 							. '<td align="right" valign="middle" nowrap style="white-space: nowrap" class="titlebar">' . '&nbsp;&nbsp;&nbsp;' . $user_name . "\n"
-			. "</td></tr></table></td></tr><tr><td valign=\"top\" style=\"height: 100%; width: 130px; background-color: #252c3e;\">".$left_menu."</td>"
+			. "</td></tr></table></td></tr><tr><!--<td valign=\"top\" style=\"height: 100%; width: 130px; background-color: #252c3e;\">".$left_menu."</td>-->"
 			. "<td valign=\"top\" style=\"\">\n";
 	/*
             $block .= '<table width="100%" border="0" height="0%" cellspacing="0" cellpadding="0"><tr><td bgcolor="' . $this->mThemeHandler->mColorsSet['pages']['border'] . "\">\n";
