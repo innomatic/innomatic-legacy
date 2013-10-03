@@ -427,7 +427,7 @@ $menu = '';
         if ($this->mArgs['border'] == 'true') {
 			$block .= "<table border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
 			. "<tr>\n" 
-			. "<td style=\"border-bottom: 1px solid #90bcdd; background-color: #2b6991; width: 100%; height: 45px; align: center; \" align=\"left\"><span nowrap class=\"titlebar\" style=\"white-space: nowrap; color: #b8cfdf;\">".$domain_name."</span></td></tr>"
+			. "<td style=\"border-bottom: 1px solid #457c9f; background-color: #2b6991; width: 100%; height: 45px; align: center; \" align=\"left\"><span nowrap class=\"titlebar\" style=\"white-space: nowrap; color: #b8cfdf;\">".$domain_name."</span></td></tr>"
 			. "<tr><td style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: "
 			. $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\">"
 			. ((isset($GLOBALS['gEnv']['runtime']['wui_menu']['header'])) ? '' : $mid->MakeHeader()) . $mid->getMenu($this->mName)
