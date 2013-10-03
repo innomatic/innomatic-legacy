@@ -259,12 +259,14 @@ class DesktopFrontController extends Singleton
                     or (!file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/'.$empty->mValue . '.php')
                     and !file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/'.$empty->mValue . '-panel'))) {
                     $main_page_url = 'main';
+                    WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->sendRedirect($main_page_url);
                 } else {
                     require_once('innomatic/wui/dispatch/WuiEventsCall.php');
                     $main_page_url = WuiEventsCall::buildEventsCallString($empty->mValue, array( array( 'view', 'default', '' ) ) );
+                    WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->sendRedirect($main_page_url);
                 }
                 WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"' );
-                include('innomatic/desktop/layout/root/index.php');
+                //include('innomatic/desktop/layout/root/index.php');
             }
         }
     }
@@ -367,14 +369,16 @@ class DesktopFrontController extends Singleton
                     and !file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . $empty->mValue . '-panel'))) {
                     // Launches the default desktop background.
                     $main_page_url = 'main';
+                    WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->sendRedirect($main_page_url);
                 } else {
                     // Launches the last opened panel with the default view.
                     require_once('innomatic/wui/dispatch/WuiEventsCall.php');
                     $main_page_url = WuiEventsCall::buildEventsCallString($empty->mValue, array( array( 'view', 'default', '' ) ) );
+                    WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->sendRedirect($main_page_url);
                 }
 
                 WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"' );
-                include('innomatic/desktop/layout/domain/index.php');
+                //include('innomatic/desktop/layout/domain/index.php');
             }
         }
     }

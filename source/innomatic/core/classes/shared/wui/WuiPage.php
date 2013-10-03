@@ -90,6 +90,269 @@ class WuiPage extends WuiContainerWidget
                 //$charset = 'iso-8859-1';
             }
             */
+
+
+
+
+
+						require_once('innomatic/wui/dispatch/WuiEvent.php');
+						require_once('innomatic/wui/dispatch/WuiEventsCall.php');
+						require_once('innomatic/domain/user/Permissions.php');
+						require_once('innomatic/locale/LocaleCatalog.php');
+
+						if (!InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
+							$root_db = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
+
+							$groups_query = $root_db->execute('SELECT * FROM root_panels_groups ORDER BY name');
+							$num_groups = $groups_query->getNumberRows();
+
+							$tabs = array();
+							$tab_pages = array();
+
+							if ($num_groups > 0) {
+							    $cont_a = 0;
+							    unset($el);
+							    while (!$groups_query->eof) {
+							        $group_apps = false;
+							        $group_data = $groups_query->getFields();
+
+							        if (strlen($group_data['catalog'])) {
+							            $tmp_locale = new LocaleCatalog($group_data['catalog'], InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+							            $el[$group_data['id']]['groupname'] = $tmp_locale->getStr($group_data['name']);
+							            if ($layout_mode == 'horiz') {
+							                $tabs[]['label'] = $tmp_locale->getStr($group_data['name']);
+							            }
+							        } else {
+							            $el[$group_data['id']]['groupname'] = $group_data['name'];
+							            if ($layout_mode == 'horiz') {
+							                $tabs[]['label'] = $group_data['name'];
+							            }
+							        }
+
+							        $pagesquery = $root_db->execute('SELECT * FROM root_panels WHERE groupid='.$group_data['id'].' ORDER BY name');
+							        if ($pagesquery) {
+							            $pagesnum = $pagesquery->getNumberRows();
+
+							            if ($pagesnum > 0) {
+							                $group_apps = true;
+							                $cont_b = 0;
+							                while (!$pagesquery->eof) {
+							                    $pagedata = $pagesquery->getFields();
+
+							                    if (strlen($pagedata['catalog']) > 0) {
+							                        $tmploc = new LocaleCatalog($pagedata['catalog'], InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+							                        $descstr = $tmploc->getStr($pagedata['name']);
+							                    }
+
+							                    $tmp_eventscall = new WuiEventsCall($pagedata['name']);
+							                    $tmp_eventscall->addEvent(new WuiEvent('view', 'default', ''));
+
+							                    if (strlen($pagedata['themeicontype']))
+							                        $imageType = $pagedata['themeicontype'];
+							                    else
+							                        $imageType = 'apps';
+
+							                    strlen($pagedata['themeicon']) ? $imageUrl = $this->mThemeHandler->mIconsBase.$this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['base'].'/'.$imageType.'/'.$this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['file'] : $imageUrl = $pagedata['iconfile'];
+
+							                    $el[$group_data['id']]['groupelements'][$cont_b]['name'] = $descstr;
+							                    $el[$group_data['id']]['groupelements'][$cont_b]['image'] = $imageUrl;
+							                    $el[$group_data['id']]['groupelements'][$cont_b]['action'] = $tmp_eventscall->getEventsCallString();
+							                    $el[$group_data['id']]['groupelements'][$cont_b]['themesized'] = 'true';
+
+							                    unset($tmp_eventscall);
+							                    $cont_b ++;
+							                    $pagesquery->moveNext();
+							                }
+							            }
+							        }
+
+							        // TODO Check if this section is for compatibility only - and remove it
+							        if ($group_data['name'] == 'innomatic') {
+							            $pagesquery = $root_db->execute('SELECT * FROM root_panels WHERE groupid=0 OR groupid IS NULL ORDER BY name');
+							            if ($pagesquery) {
+							                $pagesnum = $pagesquery->getNumberRows();
+
+							                if ($pagesnum > 0) {
+							                    $group_apps = true;
+							                    while (!$pagesquery->eof) {
+							                        $pagedata = $pagesquery->getFields();
+
+							                        if (strlen($pagedata['catalog']) > 0) {
+							                            $tmploc = new LocaleCatalog($pagedata['catalog'], InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+							                            $descstr = $tmploc->getStr($pagedata['name']);
+							                        }
+
+							                        $tmp_eventscall = new WuiEventsCall($pagedata['name']);
+							                        $tmp_eventscall->addEvent(new WuiEvent('view', 'default', ''));
+
+							                        $el[$group_data['id']]['groupelements'][$cont_b]['name'] = $descstr;
+							                        $el[$group_data['id']]['groupelements'][$cont_b]['image'] = $pagedata['iconfile'];
+							                        $el[$group_data['id']]['groupelements'][$cont_b]['action'] = $tmp_eventscall->getEventsCallString();
+							                        $el[$group_data['id']]['groupelements'][$cont_b]['themesized'] = 'true';
+
+							                        unset($tmp_eventscall);
+							                        $cont_b ++;
+							                        $pagesquery->moveNext();
+							                    }
+							                }
+							            }
+							        }
+
+							        $groups_query->moveNext();
+
+							        if ($group_apps) {
+							            $cont_a ++;
+							        } else {
+							            unset($el[$group_data['id']]);
+							            if ($layout_mode == 'horiz') {
+							                array_pop($tabs);
+							            }
+							        }
+							    }
+
+
+							}
+						} else {
+
+
+
+						$tmpperm = new Permissions( InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup() );
+
+						$tabs = array();
+						$tab_pages = array();
+
+						$groupsquery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute( 'select * from domain_panels_groups order by name' );
+						$numgroups   = $groupsquery->getNumberRows();
+
+						if ( $numgroups > 0 ) {
+						    $prefs_id = 0;
+						    $tools_id = 0;
+
+						    $cont = 0;
+						    unset( $el );
+
+						    while ( !$groupsquery->eof )
+						    {
+						        $group_apps = false;
+						        $groupdata = $groupsquery->getFields();
+
+						        if ( $tmpperm->check( $groupdata['id'], 'group' ) != Permissions::NODE_NOTENABLED )
+						        {
+						            if ( $groupdata['name'] == 'tools' ) $tools_id = $groupdata['id'];
+						            if ( $groupdata['name'] == 'preferences' ) $prefs_id = $groupdata['id'];
+
+						            if ( strlen( $groupdata['catalog'] ) > 0 )
+						            {
+						                $tmploc = new LocaleCatalog( $groupdata['catalog'], InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage() );
+						                $descstr = $tmploc->getStr( $groupdata['name'] );
+						                $el[$groupdata['id']]['groupname'] = $descstr;
+						            if ($layout_mode == 'horiz') {
+						                $tabs[]['label'] = $tmploc->getStr($groupdata['name']);
+						            }
+						        } else {
+						            $el[$group_data['id']]['groupname'] = $groupdata['name'];
+						            if ($layout_mode == 'horiz') {
+						                $tabs[]['label'] = $groupdata['name'];
+						            }
+						        }
+
+						            $pagesquery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute( 'select * from domain_panels where groupid = '.$groupdata['id'].' order by name' );
+						            $pagesnum = $pagesquery->getNumberRows();
+
+						            if ( $pagesnum > 0 )
+						            {
+						        if ($layout_mode == 'horiz') {
+						            //$tab_pages[$cont] = new WuiHorizGroup('hg');
+			////			            $wui_tab->addChild($tab_pages[$cont]);
+						        }
+
+						                $group_apps = true;
+						                $contb = 0;
+
+						                while ( !$pagesquery->eof )
+						                {
+						                    $pagedata = $pagesquery->getFields();
+
+						                    if ( $tmpperm->check( $pagedata['id'], 'page' ) != Permissions::NODE_NOTENABLED )
+						                    {
+						                        if ( strlen( $pagedata['catalog'] ) > 0 )
+						                        {
+						                            $tmploc = new LocaleCatalog( $pagedata['catalog'], InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage() );
+						                            $descstr = $tmploc->getStr( $pagedata['name'] );
+
+						                            $tmp_eventscall = new WuiEventsCall($pagedata['name']);
+						                            $tmp_eventscall->addEvent( new WuiEvent( 'view', 'default', '' ) );
+
+						                            if ( strlen( $pagedata['themeicontype'] ) ) $imageType = $pagedata['themeicontype'];
+						                            else $imageType = 'apps';
+
+						                            strlen( $pagedata['themeicon'] ) ? $imageUrl = $this->mThemeHandler->mIconsBase.$this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['base'].'/'.$imageType.'/'.$this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['file'] : $imageUrl = $pagedata['iconfile'];
+
+						                            $el[$groupdata['id']]['groupelements'][$contb]['name'] = $descstr;
+						                            $el[$groupdata['id']]['groupelements'][$contb]['image'] = $imageUrl;
+						                            $el[$groupdata['id']]['groupelements'][$contb]['action'] = $tmp_eventscall->getEventsCallString();
+						                            $el[$groupdata['id']]['groupelements'][$contb]['themesized'] = 'true';
+
+						                    if ($layout_mode == 'horiz') {
+						                        ////$tab_pages[$cont]->addChild(new WuiButton('', array('label' => $descstr, 'action' => $tmp_eventscall->getEventsCallString(), 'image' => $imageUrl, 'target' => 'main', 'horiz' => 'true', 'width' => 32, 'height' => 32)));
+						                    }
+						                            unset( $tmp_eventscall );
+						                        }
+						                    }
+
+						                    $pagesquery->movenext();
+						                    $contb++;
+						                }
+						            }
+						        }
+
+						 //$cont++;
+						 /**/
+						        if ($group_apps) {
+						            $cont++;
+						        } else {
+						            unset($el[$groupdata['id']]);
+						            if ($layout_mode == 'horiz') {
+						                array_pop($tabs);
+						            }
+						        }
+						        /**/
+						        $groupsquery->movenext();
+						    }
+
+						}
+					}
+
+						/**/
+			$this->mLayout .= '<div id="innomatic_launcher" style="position: absolute; left: 4; top: 50; visibility: hidden; z-index: 1;">			
+				<table border="0" cellpadding="2" cellspacing="0" class="navdark" bgcolor="white">
+				<tr>
+				<td>
+
+				<table border="0" cellpadding="0" cellspacing="0" bgcolor="white" style="padding: 15px;">
+
+						';
+
+			foreach ($el as $group) {
+				$this->mLayout .= '<tr><td style="padding-top: 20px; padding-bottom: 10px;"><span class="boldbig">'.$group['groupname'].'</span></td></tr><tr><td><table border="0" cellpadding="8" cellspacing="0" bgcolor="white">';
+				foreach ($group['groupelements'] as $panel) {
+					$this->mLayout .= '<td align="center"><a href="'.$panel['action'].'"><img src="'.$panel['image'].'" alt="'.$panel['name'].'" /></a><br/>&nbsp;<br/><a href="'.$panel['action'].'">'.$panel['name'].'</a></td>';
+				}
+				$this->mLayout .= '</table></td></tr>';
+			}
+			$this->mLayout .= '
+				</table>
+				</td>
+				</tr>
+						</table></div>';
+						/**/
+
+
+
+
+
+
+
         $charset = 'UTF-8';
         //$block  = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n";
         $block = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' . "\n";
@@ -128,23 +391,49 @@ class WuiPage extends WuiContainerWidget
         }
         //$block.= ((isset($this->mArgs['background']) and strlen($this->mArgs['background'])) ? ' background="'.$this->mArgs['background'].'"' : '');
         $block .= ">\n";
-        $block .= '<table width="100%" height="100%">
+        $block .= '<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-<td valign="' . $this->mArgs['valign'] . '" align="' . $this->mArgs['align'] . '">' . "\n";
+<td valign="' . $this->mArgs['valign'] . '" align="' . $this->mArgs['align'] . '" style="height: 100%;">' . "\n";
         if ($this->mArgs['border'] == 'true') {
+			$block .= "<table border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
+			. "<tr>\n" 
+			. "<td style=\"background-color: #3274a8; width: 100px;\">Menu</td>"
+			. "<td style=\"margin: 0px; padding: 0px; background-color: " . $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"center\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 0px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}{[wui-titlebar-user]}</td></tr></table></td></tr><tr><td valign=\"top\" style=\"height: 100%; width: 100px; background-color: #252c3e;\">menu con icone</td><td valign=\"top\">\n";
+	/*
             $block .= '<table width="100%" border="0" height="0%" cellspacing="0" cellpadding="0"><tr><td bgcolor="' . $this->mThemeHandler->mColorsSet['pages']['border'] . "\">\n";
             $block .= '<table width="100%" border="0" height="0%" cellspacing="0" cellpadding="0" bgcolor="white">' . "\n";
             $block .= '<tr><td>';
+*/
         }
         return $block;
     }
     protected function generateSourceEnd ()
     {
+		// Add titlebar
+		$this->mLayout = str_replace('{[wui-titlebar-title]}', $GLOBALS['wui']['titlebar-title'], $this->mLayout);
+		$this->mLayout = str_replace('{[wui-titlebar-user]}', $GLOBALS['wui']['titlebar-user'], $this->mLayout);
+		
+		// Extract toolbars
+		$string = '';
+		preg_match_all("/<!\[WUITOOLBAR\[(.*?)\]\]>/s", $this->mLayout, $string);
+		$toolbars = implode($string[0]);
+		$toolbars = str_replace('<![WUITOOLBAR[', '', $toolbars);
+		$toolbars = str_replace(']]>', '', $toolbars);
+
+		// Strip toolbars template
+		$this->mLayout = preg_replace("/<!\[WUITOOLBAR\[(.*?)\]\]>/s", '', $this->mLayout); 
+
+		// Add toolbars
+		$this->mLayout = str_replace('{[wui-toolbars]}', $toolbars, $this->mLayout);
+		
         $block = '';
+        $block .= "</td></tr>\n</table>\n";
         if ($this->mArgs['border'] == 'true') {
+	/*
             $block .= '</td></tr>' . "\n";
             $block .= '<tr><td height="0%" bgcolor="white"></td></tr>' . "\n</table>\n";
             $block .= "</td></tr>\n</table>\n";
+*/
         }
         if (isset($GLOBALS['gEnv']['runtime']['wui_menu']['footer'])) {
             $block .= $GLOBALS['gEnv']['runtime']['wui_menu']['footer'];

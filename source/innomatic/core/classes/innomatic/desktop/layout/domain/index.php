@@ -1,3 +1,6 @@
+<?php
+if ($main_page_url == 'main') {
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
@@ -42,3 +45,8 @@ if ($layout_mode == 'horiz') {
 ?>
 
 </html>
+<?php
+} else {
+
+}
+?>
