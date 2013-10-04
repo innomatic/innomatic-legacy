@@ -143,8 +143,10 @@ class CachedItem
                 $this->mValidator = $validator;
                 $this->mResult = CachedItem::ITEM_STORED;
             }
-            $sem->setGreen();
         }
+
+        // INMATIC-43 The semaphore gets unlocked anyway, even if the operation has failed.
+        $sem->setGreen();
         return $result;
     }
 
