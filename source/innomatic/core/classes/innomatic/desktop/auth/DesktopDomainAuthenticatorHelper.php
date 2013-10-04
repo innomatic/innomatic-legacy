@@ -95,8 +95,8 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
         $wui->loadWidget('vertframe');
         $wui->loadWidget('vertgroup');
 
-        $wuiPage = new WuiPage('loginpage', array('title' => $innomaticLocale->getStr('desktoplogin'), 'border' => 'true', 'align' => 'center', 'valign' => 'middle'));
-        $wuiTopGroup = new WuiVertGroup('topgroup', array('align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%'));
+        $wuiPage = new WuiPage('loginpage', array('title' => $innomaticLocale->getStr('desktoplogin'), 'border' => 'false', 'align' => 'center', 'valign' => 'middle'));
+        $wuiTopGroup = new WuiVertGroup('topgroup', array('align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%', 'width' => '0%'));
         $wuiMainGroup = new WuiVertGroup('maingroup', array('align' => 'center'));
         $wuiTitleBar = new WuiTitleBar('titlebar', array('title' => $innomaticLocale->getStr('desktoplogin'), 'closewidget' => 'false', 'newwindowwidget' => 'false'));
         $wuiMainBFrame = new WuiVertFrame('vframe', array('align' => 'center'));
