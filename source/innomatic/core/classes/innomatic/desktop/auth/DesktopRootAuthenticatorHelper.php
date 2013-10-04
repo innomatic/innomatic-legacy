@@ -111,7 +111,6 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
         $wui_form = new WuiForm('form', array('action' => $form_events_call->getEventsCallString()));
 
         $wui_hgroup = new WuiHorizGroup('horizgroup', array('align' => 'middle'));
-        //        $wui_hgroup->addChild(new WuiButton('innomaticlogo', array('image' => $wui_page->mThemeHandler->mStyle['headerlogo'], 'action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/', 'highlight' => false)));
         $wui_hgroup->addChild(new WuiButton('password', array('themeimage' => 'password', 'themeimagetype' => 'big', 'action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/', 'highlight' => false)));
         $wui_hgroup->addChild($wui_vgroup);
 
