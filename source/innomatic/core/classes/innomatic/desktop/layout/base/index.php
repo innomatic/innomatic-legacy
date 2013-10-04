@@ -43,9 +43,10 @@ function main_page() {
     $wui->loadWidget( 'label' );
 
     $page_params['title'] = 'Innomatic'.( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformName() ) ? ' - '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName().( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() ) ? '.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() : '' ) : '' );
+    $page_params['border'] = 'false';
 
     $wui_page = new WuiPage( 'page', $page_params );
-    $wui_vertgroup = new WuiVertGroup( 'vertgroup', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%' ) );
+    $wui_vertgroup = new WuiVertGroup( 'vertgroup', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%', 'width' => '0%' ) );
     $wui_center_group = new WuiVertGroup('center_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%'));
     $wui_buttons_group = new WuiHorizGroup('buttons', array('align' => 'middle', 'groupalign' => 'center', 'width' => '0%'));
 
