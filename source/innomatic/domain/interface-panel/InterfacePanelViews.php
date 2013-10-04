@@ -115,19 +115,6 @@ $wuiDefaultButton = new WuiButton(
                                   );
 $wuiMainToolbar->addChild($wuiDefaultButton);
 
-$desktopAction = new WuiEventsCall();
-$desktopAction->addEvent(new WuiEvent('view', 'desktop', ''));
-$wuiDesktopButton = new WuiButton(
-                                   'desktopbutton',
-                                   array(
-                                         'label' => $this->_localeCatalog->getStr('desktop_button'),
-                                         'themeimage' => 'desktop',
-                                         'horiz' => 'true',
-                                         'action' => $desktopAction->getEventsCallString()
-                                        )
-                                  );
-$wuiMainToolbar->addChild($wuiDesktopButton);
-
 $countryAction = new WuiEventsCall();
 $countryAction->addEvent(new WuiEvent('view', 'localization', ''));
 $wuiCountryButton = new WuiButton(
@@ -238,73 +225,6 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
     	$this->wuiMainframe->addChild(new WuiXml('page', array('definition' => $xmlDef)));
     
     	$this->wuiTitlebar->mArgs['title'].= ' - '.$this->_localeCatalog->getStr('themes_title');
-    }
-    
-    public function viewdesktop($eventData)
-    {    
-    	$layout = DesktopLayout::instance('desktoplayout')->getLayout();
-    	switch ($layout)
-    	{
-    		case 'horiz':
-    		case 'vert':
-    			break;
-    		default:
-    			$layout = 'horiz';
-    	}
-    
-    	$xmlDef = '<vertgroup><name>vgroup</name><args><halign>center</halign></args><children>
-      <form><name>desktop</name><args><action type="encoded">'
-    			.urlencode(
-    					WuiEventsCall::buildEventsCallString(
-    							'', array(
-    									array('view', 'desktop', ''),
-    									array('action', 'setdesktop', '')
-    							)
-    					)
-    			)
-    			.'</action></args><children>
-        <grid><name>desktopgrid</name><children>
-          <label row="0" col="0"><name>desktoplabel</name><args><label type="encoded">'
-    					.urlencode($this->_localeCatalog->getStr('desktop_label'))
-    					.'</label><bold>true</bold></args></label>
-            <radio row="1" col="0" halign="center"><name>layout</name>
-              <args>
-                <disp>action</disp>
-                <checked>'. ($layout == 'horiz' ? 'true' : 'false').'</checked>
-                <value>horiz</value>
-              </args>
-            </radio>
-    
-            <radio row="2" col="0" halign="center"><name>layout</name>
-              <args>
-                <disp>action</disp>
-                <checked>'. ($layout == 'vert' ? 'true' : 'false').'</checked>
-                <value>vert</value>
-              </args>
-            </radio>
-    
-            <label row="1" col="1">
-              <args>
-                <label type="encoded">'.urlencode($this->_localeCatalog->getStr('layout_horiz.label')).'</label>
-              </args>
-            </label>
-    
-            <label row="2" col="1">
-              <args>
-                <label type="encoded">'.urlencode($this->_localeCatalog->getStr('layout_vert.label')).'</label>
-              </args>
-            </label>
-    
-                  </children></grid>
-        <submit><name>submit</name><args><caption type="encoded">'
-                    		.urlencode($this->_localeCatalog->getStr('setdesktop_submit'))
-                    		.'</caption></args></submit>
-      </children></form>
-    </children></vertgroup>';
-    
-    	$this->wuiMainframe->addChild(new WuiXml('page', array('definition' => $xmlDef)));
-    
-    	$this->wuiTitlebar->mArgs['title'].= ' - '.$this->_localeCatalog->getStr('desktop_title');
     }
     
     public function viewlocalization($eventData)

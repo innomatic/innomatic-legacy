@@ -122,7 +122,7 @@ class DesktopFrontController extends Singleton
     public function executeBase($resource)
     {
         $path = 'base';
-        // TODO verificare se � ancora necessario dopo aver creato Wui::setTheme()
+        // TODO verificare se e' ancora necessario dopo aver creato Wui::setTheme()
         if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
             require_once('innomatic/application/ApplicationSettings.php');
             $appCfg = new ApplicationSettings(
@@ -155,9 +155,8 @@ class DesktopFrontController extends Singleton
     /**
      * Launches a panel in the control panel (root desktop).
      *
-     * If the panel name is one among "index", "main", "menu" and "logo" then
-     * no real panel is launched, a root desktop layout file is included instead
-     * for drawing a desktop frame.
+     * If the panel name is "main" then
+     * no real panel is launched, a root desktop layout file is included instead.
      * 
      * Root desktop layout files are stored in the folder
      * core/classes/innomatic/desktop/layout/root.
@@ -169,10 +168,7 @@ class DesktopFrontController extends Singleton
      * @param string $resource Panel name.
      */
     public function executeRoot($resource)
-    {
-        require_once('innomatic/desktop/layout/DesktopLayout.php');
-        DesktopLayout::instance('desktoplayout')->initRootLayout();
-        
+    {        
         if (substr($resource, -1, 1) != '/') {
             $desktopPanel = basename($resource);
             if (
@@ -209,9 +205,6 @@ class DesktopFrontController extends Singleton
             } else {
                 switch ($desktopPanel) {
                     case 'index':
-                    case 'main':
-                    case 'menu':
-                    case 'logo':
                         include(
                             'innomatic/desktop/layout/root/'
                             . $desktopPanel
@@ -234,17 +227,8 @@ class DesktopFrontController extends Singleton
         } else {
             if (strlen($this->session->get('INNOMATIC_ROOT_AUTH_USER')))
             {
-                if (!file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/'.$empty->mValue . '.php')
-                    and !file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/'.$empty->mValue . '-panel')) {
-                    $main_page_url = 'main';
-                    WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->sendRedirect($main_page_url);
-                } else {
-                    require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-                    $main_page_url = WuiEventsCall::buildEventsCallString($empty->mValue, array( array( 'view', 'default', '' ) ) );
-                    WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->sendRedirect($main_page_url);
-                }
                 WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"' );
-                //include('innomatic/desktop/layout/root/index.php');
+                include('innomatic/desktop/layout/root/index.php');
             }
         }
     }
@@ -252,9 +236,8 @@ class DesktopFrontController extends Singleton
     /**
      * Launches a panel in the domain desktop.
      *
-     * If the panel name is one among "index", "main", "menu" and "logo" then
-     * no real panel is launched, a domain  desktop layout file is included
-     * instead for drawing a desktop frame.
+     * If the panel name is one "main" then
+     * no real panel is launched, a domain  desktop layout file is included.
      * 
      * Domain desktop layout files are stored in the folder
      * core/classes/innomatic/desktop/layout/domain.
@@ -263,10 +246,7 @@ class DesktopFrontController extends Singleton
      */
     
     public function executeDomain($resource)
-    {
-        require_once('innomatic/desktop/layout/DesktopLayout.php');
-        DesktopLayout::instance('desktoplayout')->initDomainLayout();
-        
+    {        
         if (substr($resource, -1, 1) != '/') {
             // Must exit if the user called a page for which he isn't enabled
             //
@@ -281,9 +261,6 @@ class DesktopFrontController extends Singleton
 
             switch ($desktopPanel) {
                 case 'index':
-                case 'menu':
-                case 'logo':
-                case 'main':
                     break;
 
                 default:
@@ -318,10 +295,7 @@ class DesktopFrontController extends Singleton
                 $controller = new $controllerClassName(InnomaticContainer::MODE_DOMAIN, $panelName);
             } else {
                 switch ($desktopPanel) {
-                    case 'index':
-                    case 'main':
                     case 'menu':
-                    case 'logo':
                         include(
                             'innomatic/desktop/layout/domain/'
                             . $desktopPanel
@@ -336,20 +310,8 @@ class DesktopFrontController extends Singleton
         } else {
             if (strlen($this->session->get('INNOMATIC_AUTH_USER')))
             {
-                if (!file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . $empty->mValue . '.php')
-                    and !file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . $empty->mValue . '-panel')) {
-                    // Launches the default desktop background.
-                    $main_page_url = 'main';
-                    WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->sendRedirect($main_page_url);
-                } else {
-                    // Launches the last opened panel with the default view.
-                    require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-                    $main_page_url = WuiEventsCall::buildEventsCallString($empty->mValue, array( array( 'view', 'default', '' ) ) );
-                    WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->sendRedirect($main_page_url);
-                }
-
                 WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"' );
-                //include('innomatic/desktop/layout/domain/index.php');
+                include('innomatic/desktop/layout/domain/index.php');
             }
         }
     }

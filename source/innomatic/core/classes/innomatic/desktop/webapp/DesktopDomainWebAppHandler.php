@@ -43,10 +43,12 @@ class DesktopDomainWebAppHandler extends WebAppHandler
 
         // make sure that this path exists on disk
         switch (substr($resource, strrpos($resource, '/') + 1)) {
+        	/*
             case 'main':
             case 'menu':
             case 'logo':
                 break;
+            */
 
             default:
                 if (substr($resource, -1, 1) != '/' and !file_exists($resource.'.php') and !is_dir($resource.'-panel')) {

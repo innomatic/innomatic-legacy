@@ -44,10 +44,12 @@ class DesktopRootWebAppHandler extends WebAppHandler
 
         // make sure that this path exists on disk
         switch (substr($resource, strrpos($resource, '/') + 1)) {
+        	/*
             case 'main':
             case 'menu':
             case 'logo':
                 break;
+                */
                 
             case 'unlock':
                 $ignore_lock = true;

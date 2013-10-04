@@ -50,7 +50,7 @@ class DesktopBaseWebAppHandler extends WebAppHandler
             case 'menu':
             case 'logo':
                 break;
-
+        	
             default:
                 if (substr($resource, -1, 1) != '/' and !file_exists($resource.'.php') and !is_dir($resource.'-panel')) {
                     $res->sendError(WebAppResponse::SC_NOT_FOUND, $req->getRequestURI());

@@ -95,51 +95,6 @@ require_once('innomatic/wui/dispatch/WuiDispatcher.php');
     	$this->notifyObservers('javascript');
     }
     
-    function executesetdesktop($eventData)
-    {    
-    	$userCfg = new UserSettings(
-    			InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-    			InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
-    	$userCfg->setKey('desktop-layout', $eventData['layout']);
-    
-    	if (
-    			User::isAdminUser(
-    					InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserName(),
-    					InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
-    			)
-    	) {
-    		$domainCfg = new DomainSettings(
-    				InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()
-    		);
-    		$domainCfg->EditKey('desktop-layout', $eventData['layout']);
-    	}
-    
-    	WebAppContainer::instance(
-    	'webappcontainer'
-    			)->getProcessor()->getResponse()->addHeader(
-    			'Location',
-    			WuiEventsCall::buildEventsCallString(
-    			'',
-    			array(
-    			array('view', 'desktop', ''),
-    			array('action', 'setdesktop2', '')
-    			)
-    			)
-    			);
-    }
-    
-    function execute_setdesktop2($eventData)
-    {
-    	$this->status = $this->_localeCatalog->getStr('desktopset_status');
-    	require_once('innomatic/webapp/WebAppContainer.php');
-    	$uri = dirname(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getRequestURI());
-    	$this->javascript = "parent.location.href='".$uri."'";
-    	
-    	$this->setChanged();
-    	$this->notifyObservers('status');
-    	$this->notifyObservers('javascript');
-    }
-    
     function executesetlanguage($eventData)
     {
     	$userCfg = new UserSettings(

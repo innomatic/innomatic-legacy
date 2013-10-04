@@ -832,10 +832,6 @@
 
 		<class name="innomatic/desktop/session/DesktopSession.php" />
 
-		<!-- Layout -->
-
-		<class name="innomatic/desktop/layout/DesktopLayout.php" />
-
 		<!-- Base Desktop -->
 
 		<class
@@ -851,9 +847,6 @@
 		<class
 			name="innomatic/desktop/webapp/DesktopRootWebAppHandler.php" />
 		<class name="innomatic/desktop/layout/root/index.php" />
-		<class name="innomatic/desktop/layout/root/logo.php" />
-		<class name="innomatic/desktop/layout/root/main.php" />
-		<class name="innomatic/desktop/layout/root/menu.php" />
 
 		<webapphandler name="root"
 			class="innomatic/desktop/webapp/DesktopRootWebAppHandler.php"
@@ -881,9 +874,6 @@
 		<class
 			name="innomatic/desktop/webapp/DesktopDomainWebAppHandler.php" />
 		<class name="innomatic/desktop/layout/domain/index.php" />
-		<class name="innomatic/desktop/layout/domain/logo.php" />
-		<class name="innomatic/desktop/layout/domain/main.php" />
-		<class name="innomatic/desktop/layout/domain/menu.php" />
 
 		<webapphandler name="domain"
 			class="innomatic/desktop/webapp/DesktopDomainWebAppHandler.php"
