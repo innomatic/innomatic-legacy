@@ -118,6 +118,10 @@ class CachedItem
         } else {
             $name = $this->cachePath.date('Ymd').'_cacheditem_'.rand();
 
+            if (!file_exists($this->cachePath)) {
+            	require_once('innomatic/io/filesystem/DirectoryUtils.php');
+            	DirectoryUtils::mktree($this->cachePath, 0755);
+            }
             if ($fh = @fopen($name, 'w')) {
                 if (@fwrite($fh, $content)) {
                     $goon = true;
@@ -145,7 +149,7 @@ class CachedItem
             }
         }
 
-        // INMATIC-43 The semaphore gets unlocked anyway, even if the operation has failed.
+        // The semaphore gets unlocked anyway, even if the operation has failed.
         $sem->setGreen();
         return $result;
     }
