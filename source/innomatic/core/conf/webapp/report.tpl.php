@@ -5,10 +5,10 @@
 <head>
 <title><?=$title;?> - Error report</title>
 <style><!--
-* { font-family: "Helvetica Neue Ultra Light", Helvetica, Verdana, Arial, Geneva, sans-serif }
-h1 { color: white; font-weight: 500; background-color: #007aff; font-size:22px; padding: 8px; }
-h2 { color: white; font-weight: 500; background-color: #007aff; font-size:16px; padding: 4px; }
-h3 { color: white; font-weight: 500; background-color: #007aff; font-size:14px; padding: 4px; }
+* { font-family: Arial, Helvetica, Verdana, Arial, Geneva, sans-serif }
+h1 { color: white; font-weight: 500; background-color: #2b6991; font-size:22px; padding: 8px; }
+h2 { color: white; font-weight: 500; background-color: #2b6991; font-size:16px; padding: 4px; }
+h3 { color: white; font-weight: 500; background-color: #2b6991; font-size:14px; padding: 4px; }
 body { color: #7f7e7e; background-color: white; }
 b { color: black; font-weight: 500; background-color: #eeeeee; }
 p { background: white; font-weight: 300; color: #7f7e7e; font-size:12px; }
