@@ -30,11 +30,8 @@ $layout_mode = DesktopLayout::instance('desktoplayout')->getLayout();
 
 $wuiPage = new WuiPage('page', array('title' => 'Innomatic'. (strlen(InnomaticContainer::instance('innomaticcontainer')->getPlatformName()) ? ' - '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName(). (strlen(InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup()) ? '.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() : '') : ''), 'border' => 'false'));
 if ($layout_mode == 'horiz') {
-    $wuiPage->mArgs['background'] = $wuiPage->mThemeHandler->mStyle['menubackhoriztop'];
-    $wuiPage->mArgs['horizbackground'] = 'true';
     $wuiMainVertGroup = new WuiHorizGroup('mainvertgroup', array('groupvalign' => 'middle', 'width' => '100%'));
 } else {
-    $wuiPage->mArgs['background'] = $wuiPage->mThemeHandler->mStyle['menuback'];
     $wuiMainVertGroup = new WuiVertGroup('mainvertgroup', array('align' => 'center'));
 }
 

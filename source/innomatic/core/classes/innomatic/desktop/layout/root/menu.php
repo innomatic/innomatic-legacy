@@ -50,12 +50,6 @@ $wui->loadWidget('button');
 $wui->loadWidget('horizgroup');
 
 $wuiPage = new WuiPage('page', array('title' => 'Innomatic'. (strlen(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getServerName()) ? ' - '.WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getServerName(). (strlen(InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup()) ? '.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() : '') : ''), 'border' => 'false'));
-if ($layout_mode == 'horiz') {
-    $wuiPage->mArgs['background'] = $wuiPage->mThemeHandler->mStyle['menubackhorizbottom'];
-    $wuiPage->mArgs['horizbackground'] = 'true';
-} else {
-    $wuiPage->mArgs['background'] = $wuiPage->mThemeHandler->mStyle['menuback'];
-}
 $wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
 
 $groups_query = $root_db->execute('SELECT * FROM root_panels_groups ORDER BY name');

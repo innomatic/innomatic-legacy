@@ -45,12 +45,6 @@ $wuiPage = new WuiPage( 'page', array(
                                        'title' => 'Innomatic - '.InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'],
                                        'border' => 'false'
                                       ) );
-if ($layout_mode == 'horiz') {
-    $wuiPage->mArgs['background'] = $wuiPage->mThemeHandler->mStyle['menubackhorizbottom'];
-    $wuiPage->mArgs['horizbackground'] = 'true';
-} else {
-    $wuiPage->mArgs['background'] = $wuiPage->mThemeHandler->mStyle['menuback'];
-}
 
 $wuiMainVertGroup = new WuiVertGroup( 'mainvertgroup' );
 

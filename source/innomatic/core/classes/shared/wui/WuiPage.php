@@ -389,9 +389,6 @@ $menu = '';
         $block .= "<html>\n";
         $block .= "<head>\n";
         $block .= '<script language="JavaScript" type="text/javascript" src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/wui.js"></script>' . "\n";
-        $block .= "<script language=\"JavaScript\" type=\"text/javascript\">\n<!--\nfunction WuiWindowClose()\n{\nif ( window.name == \"detached-" . $_SERVER['PHP_SELF'] . "\" )\n{\nwindow.close();\n}\nelse\n{\nwindow.location = \"main\";\n}\n}\n";
-        $block .= "function WuiWindowOpen(location,name,params)\n{\nif ( window.name != \"detached-" . $_SERVER['PHP_SELF'] . "\" )\n{\nvar myWin = window.open(location,name,params);\nwindow.location = \"main\";\n}\n}\n";
-        $block .= "-->\n</script>\n";
         $block .= "<script language=\"JavaScript\" type=\"text/javascript\" src=\"" . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/' . "layersmenu.js\"></script>\n";
         $block .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $this->mThemeHandler->mStyle['css'] . "\">\n";
         

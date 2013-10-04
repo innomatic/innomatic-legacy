@@ -29,11 +29,8 @@ $layout_mode = DesktopLayout::instance('desktoplayout')->getLayout();
 
 $wuiPage = new WuiPage('page', array('title' => 'Innomatic - '.InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'], 'border' => 'false'));
 if ($layout_mode == 'horiz') {
-    $wuiPage->mArgs['background'] = $wuiPage->mThemeHandler->mStyle['menubackhoriztop'];
-    $wuiPage->mArgs['horizbackground'] = 'true';
     $wuiMainVertGroup = new WuiHorizGroup('mainvertgroup', array('groupvalign' => 'middle', 'width' => '100%'));
 } else {
-    $wuiPage->mArgs['background'] = $wuiPage->mThemeHandler->mStyle['menuback'];
     $wuiMainVertGroup = new WuiVertGroup('mainvertgroup', array('align' => 'center'));
 }
 

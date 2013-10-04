@@ -25,7 +25,6 @@ $wuiPage = new WuiPage( 'page', array(
                                        'title' => 'Innomatic'.( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformName() ) ? ' - '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName().( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() ) ? '.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() : '' ) : '' ),
                                        'border' => 'false'
                                       ) );
-$wuiPage->mArgs['background'] = $wuiPage->mThemeHandler->mStyle['menuback'];
 
 $wuiMainVertGroup = new WuiVertGroup( 'mainvertgroup', array( 'align' => 'center' ) );
 
