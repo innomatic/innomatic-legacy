@@ -292,8 +292,8 @@ Calendar.prototype.show = function() {
 
     // Setup the page...
     this.wwrite("<html>");
-    // TODO untie from cleantheme theme
-    this.wwrite("<head><link rel=\"stylesheet\" type=\"text/css\" href=\"../shared/styles/cleantheme/wui.css\">");
+    // TODO untie from flattheme theme
+    this.wwrite("<head><link rel=\"stylesheet\" type=\"text/css\" href=\"../shared/styles/flattheme/wui.css\">");
     this.wwrite("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">");
     this.wwrite("<meta name=\"MSSmartTagsPreventParsing\" content=\"TRUE\">");
     this.wwrite("<title>" + Calendar.Title + "</title>");

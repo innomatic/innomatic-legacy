@@ -1,4 +1,11 @@
+html, body
+{
+  height: 100%;
+}
+
 body {
+	margin: 0;
+	padding: 0;
    font-family: Verdana, Arial, Helvetica, Geneva, sans-serif;
    font-size: 11px;
    background-color: white;
@@ -9,6 +16,8 @@ a:link { color: #6c7a95; font-style: normal; text-decoration: none }  /* for unv
 a:visited { color: #6c7a95; font-style: normal; text-decoration: none } /* for visited links */
 a:active { color: #ff4c00; font-style: normal; text-decoration: none } /* when link is clicked */
 a:hover { color: #fcc85a; font-style: normal; text-decoration: none } /* when mouse is over link */
+
+.buttontext { color: #6c7a95 }
 
 p {
    font-family: Verdana, Arial, Helvetica, Geneva, sans-serif;
@@ -48,8 +57,14 @@ td {
  .normalsmall {                 font-style: normal;                    font-size: 10px; font-family: Verdana, Arial, Helvetica, Geneva, sans-serif; text-decoration: none }
  .normal      {                 font-style: normal;                    font-size: 11px; font-family: Verdana, Arial, Helvetica, Geneva, sans-serif; text-decoration: none }
  .normalbig   {                 font-style: normal;                    font-size: 11px; font-family: Verdana, Arial, Helvetica, Geneva, sans-serif; text-decoration: none }
- .titlebar    { color: #4b4b4d;                     font-weight: bold; font-size: 11px; font-family: Verdana, Arial, Helvetica, Geneva, sans-serif; text-decoration: none }
+ .headerbar   { color: #4b4b4d;                     font-weight: bold; font-size: 13px; font-family: Verdana, Arial, Helvetica, Geneva, sans-serif; text-decoration: none }
+ .titlebar    { color: #4b4b4d;                     font-weight: bold; font-size: 13px; font-family: Verdana, Arial, Helvetica, Geneva, sans-serif; text-decoration: none }
  .status      { color: #4b4b4d;                     font-weight: bold; font-size: 11px; font-family: Verdana, Arial, Helvetica, Geneva, sans-serif; text-decoration: none }
+
+tr.headerbar {
+	border-bottom: 1px solid #dfdef0;
+	background-color: #d4d2e7;
+}
 
 /* Help node styles */
 
@@ -90,10 +105,16 @@ h2 {
     background-color: #dfdfdf;
 }
 
+.navtop    {
+    background-color: white;
+    font-family: "Arial", Arial, Verdana, Helvetica, Geneva, sans-serif;
+    font-size: 13px;
+}
+
 .nav    {
-    background-color: #ffffff;
-    font-family: Verdana, Arial, Helvetica, Geneva, sans-serif;
-    font-size: 11px;
+    background-color: white;
+    font-family: "Arial", Arial, Verdana, Helvetica, Geneva, sans-serif;
+    font-size: 13px;
 }
 
 .navdark    {

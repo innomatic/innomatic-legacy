@@ -4,11 +4,11 @@
 	<definition>
 		<idname>innomatic</idname>
 		<release>
-			<version>5.1</version>
+			<version>6.0</version>
 			<date>2013/07/28</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
-		<description><![CDATA[<strong><font color="#c9c8ce">Inno</font><font color="#9392b4">matic 5000</font></strong> Web Application Container.]]></description>
+		<description><![CDATA[<strong>Innomatic 6000</strong> Cloud Applications Platform.]]></description>
 		<category>innomatic</category>
 		<iconfile>innomatic.png</iconfile>
 		<dependencies>
@@ -738,6 +738,14 @@
 		<class name="innomatic/wui/theme/WuiIconsSet.php" />
 		<class name="innomatic/wui/theme/WuiStyle.php" />
 		<class name="innomatic/wui/theme/WuiTheme.php" />
+		<wuitheme name="flattheme" file="flattheme_wuitheme.ini"
+			catalog="innomatic::flattheme" />
+		<wuicolorsset name="flattheme"
+			file="flattheme_wuicolorsset.ini" catalog="innomatic::flattheme" />
+		<wuistyle name="flattheme" file="flattheme_wuistyle.ini"
+			catalog="innomatic::flattheme" />
+		<wuiiconsset name="crystalflat" file="crystalflat_wuiiconsset.ini"
+			catalog="innomatic::flattheme" />
 		<wuitheme name="cleantheme" file="cleantheme_wuitheme.ini"
 			catalog="innomatic::cleantheme" />
 		<wuicolorsset name="cleantheme"
@@ -824,10 +832,6 @@
 
 		<class name="innomatic/desktop/session/DesktopSession.php" />
 
-		<!-- Layout -->
-
-		<class name="innomatic/desktop/layout/DesktopLayout.php" />
-
 		<!-- Base Desktop -->
 
 		<class
@@ -843,9 +847,6 @@
 		<class
 			name="innomatic/desktop/webapp/DesktopRootWebAppHandler.php" />
 		<class name="innomatic/desktop/layout/root/index.php" />
-		<class name="innomatic/desktop/layout/root/logo.php" />
-		<class name="innomatic/desktop/layout/root/main.php" />
-		<class name="innomatic/desktop/layout/root/menu.php" />
 
 		<webapphandler name="root"
 			class="innomatic/desktop/webapp/DesktopRootWebAppHandler.php"
@@ -873,9 +874,6 @@
 		<class
 			name="innomatic/desktop/webapp/DesktopDomainWebAppHandler.php" />
 		<class name="innomatic/desktop/layout/domain/index.php" />
-		<class name="innomatic/desktop/layout/domain/logo.php" />
-		<class name="innomatic/desktop/layout/domain/main.php" />
-		<class name="innomatic/desktop/layout/domain/menu.php" />
 
 		<webapphandler name="domain"
 			class="innomatic/desktop/webapp/DesktopDomainWebAppHandler.php"

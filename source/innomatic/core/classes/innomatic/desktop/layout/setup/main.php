@@ -57,9 +57,7 @@ $wui->loadWidget('vertgroup'  );
 
 $wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('innomaticsetup_title'), 'javascript' => "parent.frames.menu.location.reload()\nparent.frames.header.location.reload()"));
 $wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
-$wuiTitleBar = new WuiTitleBar('titlebar', array('title' => $innomaticLocale->getStr('innomaticsetup_title'),
-                                                       'closewidget' => 'false',
-                                                       'newwindowwidget' => 'false'));
+$wuiTitleBar = new WuiTitleBar('titlebar', array('title' => $innomaticLocale->getStr('innomaticsetup_title')));
 $wuiMainVertGroup->addChild($wuiTitleBar);
 
 $wui_mainframe1 = new WuiHorizFrame('mainframe');

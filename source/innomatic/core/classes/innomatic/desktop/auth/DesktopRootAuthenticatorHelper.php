@@ -79,10 +79,10 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
         $wui->loadWidget('vertframe');
         $wui->loadWidget('vertgroup');
 
-        $wui_page = new WuiPage('loginpage', array('title' => $innomatic_locale->getStr('rootlogin'), 'border' => 'true', 'align' => 'center', 'valign' => 'middle'));
-        $wui_topgroup = new WuiVertGroup('topgroup', array('align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%'));
+        $wui_page = new WuiPage('loginpage', array('title' => $innomatic_locale->getStr('rootlogin'), 'border' => 'false', 'align' => 'center', 'valign' => 'middle'));
+        $wui_topgroup = new WuiVertGroup('topgroup', array('align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%', 'width' => '0%'));
         $wui_maingroup = new WuiVertGroup('maingroup', array('align' => 'center'));
-        $wui_titlebar = new WuiTitleBar('titlebar', array('title' => $innomatic_locale->getStr('rootlogin'), 'closewidget' => 'false', 'newwindowwidget' => 'false'));
+        $wui_titlebar = new WuiTitleBar('titlebar', array('title' => $innomatic_locale->getStr('rootlogin')));
         $wui_mainbframe = new WuiVertFrame('vframe', array('align' => 'center'));
         $wui_mainframe = new WuiHorizGroup('horizframe');
         $wui_mainstatus = new WuiStatusBar('mainstatusbar');
@@ -111,7 +111,6 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
         $wui_form = new WuiForm('form', array('action' => $form_events_call->getEventsCallString()));
 
         $wui_hgroup = new WuiHorizGroup('horizgroup', array('align' => 'middle'));
-        //        $wui_hgroup->addChild(new WuiButton('innomaticlogo', array('image' => $wui_page->mThemeHandler->mStyle['headerlogo'], 'action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/', 'highlight' => false)));
         $wui_hgroup->addChild(new WuiButton('password', array('themeimage' => 'password', 'themeimagetype' => 'big', 'action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/', 'highlight' => false)));
         $wui_hgroup->addChild($wui_vgroup);
 

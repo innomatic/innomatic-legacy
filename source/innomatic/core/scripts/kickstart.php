@@ -22,8 +22,7 @@ require_once('innomatic/setup/InnomaticSetup.php');
 ob_end_flush();
 
 echo "
-
-                  Innomatic Web Application Container
+                 Innomatic Cloud Applications Platform
 
                        http://www.innomatic.org
 

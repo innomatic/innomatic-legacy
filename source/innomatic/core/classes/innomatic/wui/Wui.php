@@ -48,7 +48,7 @@ class Wui extends Singleton
     private $registeredAjaxCalls = array();
     private $registeredAjaxSetupCalls = array();
 
-    const DEFAULT_THEME = 'cleantheme';
+    const DEFAULT_THEME = 'flattheme';
 
     /*!
      @param rrootDb DataAccess class - Innomatic database handler.

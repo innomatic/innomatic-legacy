@@ -382,7 +382,7 @@
 		<key field="name" type="index" />
 	</table>
 
-	<sequence name="wui_themes_id_seq" start="3" />
+	<sequence name="wui_themes_id_seq" start="4" />
 
 	<insert table="wui_themes">
 		<data field="id" value="1" />
@@ -396,6 +396,13 @@
 		<data field="name" value="sky" />
 		<data field="file" value="sky_wuitheme.ini" />
 		<data field="catalog" value="innomatic::skytheme" />
+	</insert>
+	
+	<insert table="wui_themes">
+		<data field="id" value="3" />
+		<data field="name" value="flattheme" />
+		<data field="file" value="flattheme_wuitheme.ini" />
+		<data field="catalog" value="innomatic::flattheme" />
 	</insert>
 
 	<table name="applications">

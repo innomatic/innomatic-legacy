@@ -525,7 +525,7 @@ function main_default($eventData)
                     $row, 4
                 );
 
-                $wuiApplicationToolbar[$data['category']][$row] = new WuiToolBar('applicationtoolbar'.$row);
+                $wuiApplicationToolbar[$data['category']][$row] = new WuiHorizGroup('applicationtoolbar'.$row);
 
                 $detailsAction[$data['category']][$row] = new WuiEventsCall();
                 $detailsAction[$data['category']][$row]->addEvent(

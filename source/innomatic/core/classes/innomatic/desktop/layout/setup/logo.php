@@ -25,22 +25,9 @@ $wuiPage = new WuiPage( 'page', array(
                                        'title' => 'Innomatic'.( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformName() ) ? ' - '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName().( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() ) ? '.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() : '' ) : '' ),
                                        'border' => 'false'
                                       ) );
-$wuiPage->mArgs['background'] = $wuiPage->mThemeHandler->mStyle['menuback'];
 
 $wuiMainVertGroup = new WuiVertGroup( 'mainvertgroup', array( 'align' => 'center' ) );
 
-$wuiMainVertGroup->addChild(
-    new WuiButton(
-        'innomaticlogo',
-        array(
-            'action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/',
-            'target' => '_top',
-            'image' => $wuiPage->mThemeHandler->mStyle['headerlogo'],
-            'highlight' => 'false',
-            'compact' => 'true'
-            )
-        )
-    );
 
 $label_text = strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformName() ) ? InnomaticContainer::instance('innomaticcontainer')->getPlatformName().( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() ) ? '.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() : '' ) : '';
 if ( strlen( $label_text ) )

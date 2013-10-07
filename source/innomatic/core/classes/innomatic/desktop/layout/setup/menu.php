@@ -67,7 +67,6 @@ $wui->loadWidget('treemenu');
 $wui->loadWidget('progressbar');
 
 $wuiPage = new WuiPage('page', array('title' => 'Innomatic'. (strlen(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getServerName()) ? ' - '.WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getServerName(). (strlen(InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup()) ? '.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() : '') : '')));
-$wuiPage->mArgs['background'] = $wuiPage->mThemeHandler->mStyle['menuback'];
 $wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
 
 $headers[1]['label'] = $innomaticLocale->getStr('setupphase_header');
