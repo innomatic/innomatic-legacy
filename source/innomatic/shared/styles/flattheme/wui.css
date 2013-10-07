@@ -57,6 +57,7 @@ a.titlebar:active { color: #f9fafc; font-style: normal; text-decoration: none } 
 a.titlebar:hover { color: #f9fafc; font-style: normal; text-decoration: none } /* when mouse is over link */
 
 .buttontext { color: #2b6991 }
+.paneltitle { color: #2b6991; font-weight: 600 }
 
 /*
 td.titlebar {

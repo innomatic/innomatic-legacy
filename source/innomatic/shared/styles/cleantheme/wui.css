@@ -18,6 +18,7 @@ a:active { color: #ff4c00; font-style: normal; text-decoration: none } /* when l
 a:hover { color: #fcc85a; font-style: normal; text-decoration: none } /* when mouse is over link */
 
 .buttontext { color: #6c7a95 }
+.paneltitle { color: #6c7a95; font-weight: 600 }
 
 p {
    font-family: Verdana, Arial, Helvetica, Geneva, sans-serif;
