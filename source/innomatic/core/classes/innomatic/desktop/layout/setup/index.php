@@ -3,11 +3,8 @@
 <head><title>Innomatic</title>
 <link rel="shortcut icon" href="<?php echo InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false);?>/favicon.ico" type="image/x-icon"/>
 </head>
-<frameset cols="150,*" framespacing="0" border="0" frameborder="0">
-    <frameset rows="95,*" framespacing="0" border="0" frameborder="0">
-        <frame name="header" target="_top" src="logo" scrolling="no" noresize>
-        <frame name="menu" target="_top" src="menu" scrolling="auto" noresize>
-    </frameset>
+<frameset cols="200,*" framespacing="0" border="0" frameborder="0">
+    <frame name="menu" target="_top" src="menu" scrolling="auto" noresize>
     <frame name="main" src="main" scrolling="auto" noresize>
     <noframes>
         <body>

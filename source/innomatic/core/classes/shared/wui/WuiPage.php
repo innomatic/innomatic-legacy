@@ -100,6 +100,7 @@ class WuiPage extends WuiContainerWidget
 						require_once('innomatic/domain/user/Permissions.php');
 						require_once('innomatic/locale/LocaleCatalog.php');
 
+						if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
 						if (!InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
 							$root_db = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
 
@@ -365,21 +366,27 @@ $menu = '';
 				        );
 				        $mid->parseStructureForMenu($this->mName);
 				        $mid->newHorizontalMenu($this->mName);
-				
+		}
+				        
 				
 				
 
 
-						// User data
-						if (InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
-							$user_data = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserData();
-							$user_name = $user_data['fname'].' '.$user_data['lname'];
+		// User data
+		if (InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
+			$user_data = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserData();
+			$user_name = $user_data['fname'].' '.$user_data['lname'];
 
-							$domain_name = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'];
-						} else {
-							$user_name = 'root';
-							$domain_name = 'Innomatic';
-						}
+			$domain_name = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'];
+		} elseif (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP) {
+			$user_name = '';
+			$domain_name = '';
+		} else {
+			$user_name = 'root';
+			$domain_name = 'Innomatic';
+		}
+		
+		
 
 
 
@@ -421,6 +428,11 @@ $menu = '';
 <tr>
 <td valign="' . $this->mArgs['valign'] . '" align="' . $this->mArgs['align'] . '" style="height: 100%;">' . "\n";
         if ($this->mArgs['border'] == 'true') {
+        	if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
+	        	$menu_header = ((isset($GLOBALS['gEnv']['runtime']['wui_menu']['header'])) ? '' : $mid->MakeHeader()) . $mid->getMenu($this->mName);
+	        	$menu_footer = $mid->MakeFooter();
+        	}
+        	
 			$block .= "<table border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
 			. "<tr class=\"headerbar\">\n" 
 			. "<td style=\"width: 100%; height: 45px; align: center; padding-left: 16px;\" align=\"left\"><span nowrap class=\"headerbar\" style=\"white-space: nowrap;\">".$domain_name.'</span></td>'
@@ -428,14 +440,14 @@ $menu = '';
 			. "</td></tr>"
 			. "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: "
 			. $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\">"
-			. ((isset($GLOBALS['gEnv']['runtime']['wui_menu']['header'])) ? '' : $mid->MakeHeader()) . $mid->getMenu($this->mName)
+			. $menu_header
 			. '</td></tr>'
 			. "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; height: 45px;\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 4px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}"
 			. "</tr></table></td></tr><tr>"
 			. "<td valign=\"top\" colspan=\"2\" style=\"\">\n";
 
 			$GLOBALS['gEnv']['runtime']['wui_menu']['header'] = true;
-			$GLOBALS['gEnv']['runtime']['wui_menu']['footer'] = $mid->MakeFooter();
+			$GLOBALS['gEnv']['runtime']['wui_menu']['footer'] = $menu_footer;
 
         }
         return $block;
