@@ -46,6 +46,8 @@ NEW FEATURES:
 - Added domains management script. (Alex Pagnoni)
 - Added applications management script. (Alex Pagnoni)
 - Added JQuery fancybox script. (Paolo Guanciarossa)
+- New Innomatic Wui layout. (Alex Pagnoni)
+- New flat theme. (Alex Pagnoni)
  
 DEPRECATED:
 
