@@ -120,14 +120,8 @@ class WuiPage extends WuiContainerWidget
 							        if (strlen($group_data['catalog'])) {
 							            $tmp_locale = new LocaleCatalog($group_data['catalog'], InnomaticContainer::instance('innomaticcontainer')->getLanguage());
 							            $el[$group_data['id']]['groupname'] = $tmp_locale->getStr($group_data['name']);
-							            if ($layout_mode == 'horiz') {
-							                $tabs[]['label'] = $tmp_locale->getStr($group_data['name']);
-							            }
 							        } else {
 							            $el[$group_data['id']]['groupname'] = $group_data['name'];
-							            if ($layout_mode == 'horiz') {
-							                $tabs[]['label'] = $group_data['name'];
-							            }
 							        }
 
 							        $pagesquery = $root_db->execute('SELECT * FROM root_panels WHERE groupid='.$group_data['id'].' ORDER BY name');
@@ -205,9 +199,6 @@ class WuiPage extends WuiContainerWidget
 							            $cont_a ++;
 							        } else {
 							            unset($el[$group_data['id']]);
-							            if ($layout_mode == 'horiz') {
-							                array_pop($tabs);
-							            }
 							        }
 							    }
 
@@ -247,14 +238,8 @@ class WuiPage extends WuiContainerWidget
 						                $tmploc = new LocaleCatalog( $groupdata['catalog'], InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage() );
 						                $descstr = $tmploc->getStr( $groupdata['name'] );
 						                $el[$groupdata['id']]['groupname'] = $descstr;
-						            if ($layout_mode == 'horiz') {
-						                $tabs[]['label'] = $tmploc->getStr($groupdata['name']);
-						            }
 						        } else {
 						            $el[$group_data['id']]['groupname'] = $groupdata['name'];
-						            if ($layout_mode == 'horiz') {
-						                $tabs[]['label'] = $groupdata['name'];
-						            }
 						        }
 
 						            $pagesquery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute( 'select * from domain_panels where groupid = '.$groupdata['id'].' order by name' );
@@ -262,11 +247,6 @@ class WuiPage extends WuiContainerWidget
 
 						            if ( $pagesnum > 0 )
 						            {
-						        if ($layout_mode == 'horiz') {
-						            //$tab_pages[$cont] = new WuiHorizGroup('hg');
-			////			            $wui_tab->addChild($tab_pages[$cont]);
-						        }
-
 						                $group_apps = true;
 						                $contb = 0;
 
@@ -294,9 +274,6 @@ class WuiPage extends WuiContainerWidget
 						                            $el[$groupdata['id']]['groupelements'][$contb]['action'] = $tmp_eventscall->getEventsCallString();
 						                            $el[$groupdata['id']]['groupelements'][$contb]['themesized'] = 'true';
 
-						                    if ($layout_mode == 'horiz') {
-						                        ////$tab_pages[$cont]->addChild(new WuiButton('', array('label' => $descstr, 'action' => $tmp_eventscall->getEventsCallString(), 'image' => $imageUrl, 'target' => 'main', 'horiz' => 'true', 'width' => 32, 'height' => 32)));
-						                    }
 						                            unset( $tmp_eventscall );
 						                        }
 						                    }
@@ -313,9 +290,6 @@ class WuiPage extends WuiContainerWidget
 						            $cont++;
 						        } else {
 						            unset($el[$groupdata['id']]);
-						            if ($layout_mode == 'horiz') {
-						                array_pop($tabs);
-						            }
 						        }
 						        /**/
 						        $groupsquery->movenext();
@@ -457,7 +431,6 @@ $menu = '';
     {
 		// Add titlebar
 		$this->mLayout = str_replace('{[wui-titlebar-title]}', $GLOBALS['wui']['titlebar-title'], $this->mLayout);
-		$this->mLayout = str_replace('{[wui-titlebar-user]}', $GLOBALS['wui']['titlebar-user'], $this->mLayout);
 		
 		// Extract toolbars
 		$string = '';
