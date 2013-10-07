@@ -352,9 +352,6 @@ $menu = '';
 			$user_name = $user_data['fname'].' '.$user_data['lname'];
 
 			$domain_name = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'];
-		} elseif (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP) {
-			$user_name = '';
-			$domain_name = '';
 		} else {
 			$user_name = 'root';
 			$domain_name = 'Innomatic';
