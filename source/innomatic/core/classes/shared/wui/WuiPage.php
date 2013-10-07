@@ -447,13 +447,7 @@ $menu = '';
 		
         $block = '';
         $block .= "</td></tr>\n</table>\n";
-        if ($this->mArgs['border'] == 'true') {
-	/*
-            $block .= '</td></tr>' . "\n";
-            $block .= '<tr><td height="0%" bgcolor="white"></td></tr>' . "\n</table>\n";
-            $block .= "</td></tr>\n</table>\n";
-*/
-        }
+
         if (isset($GLOBALS['gEnv']['runtime']['wui_menu']['footer'])) {
             $block .= $GLOBALS['gEnv']['runtime']['wui_menu']['footer'];
         }
