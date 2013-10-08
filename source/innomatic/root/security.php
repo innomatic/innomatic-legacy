@@ -1497,7 +1497,7 @@ $gWui->addChild(
             'toolbars' => array(
                 new WuiInnomaticToolbar(
                     'main',
-                    array('toolbars' => $gToolbars)
+                    array('toolbars' => $gToolbars, 'toolbar' => 'true')
                 )
             ),
             'maincontent' => new WuiXml(

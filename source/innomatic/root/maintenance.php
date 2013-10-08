@@ -1813,7 +1813,7 @@ $gWui->addChild(
                 new WuiInnomaticToolbar(
                     'view',
                     array(
-                        'toolbars' => $gToolbars)
+                        'toolbars' => $gToolbars, 'toolbar' => 'true')
                     )
                 ),
             'maincontent' => new WuiXml(
