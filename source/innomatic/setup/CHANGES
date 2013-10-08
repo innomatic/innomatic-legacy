@@ -26,9 +26,12 @@ CHANGES:
 - Shared components now support deployment of folders too. (Alex Pagnoni)
 - Extras components now support deployment of folders too. (Alex Pagnoni)
 - Changed the old style interface panel to new style. (Alex Pagnoni)
-- ScriptContainer::cleanExit() now really exits the script with a status code. (Alex Pagnoni)
+- ScriptContainer::cleanExit() now really exits the script with a status code.
+  (Alex Pagnoni)
 - The semaphore gets unlocked anyway during a cache store, even if the operation
   has failed. (Alex Pagnoni)
+- InnomaticToolbar Wui widget now creates an horizgroup in place of a toolbar.
+  (Alex Pagnoni)
 
 NEW FEATURES:
 - Added Module feature with persistance layer, value objects and remote object
@@ -40,9 +43,11 @@ NEW FEATURES:
 - Added JQuery support. (Alex Pagnoni)
 - Added autocomplete support to Wui String widget. (Alex Pagnoni)
 - Added disableenter option to Wui Form widget. (Alex Pagnoni)
-- Added domain.user.edit.calltime and domain.user.edit.useredited hook events. (Alex Pagnoni)
+- Added domain.user.edit.calltime and domain.user.edit.useredited hook events.
+  (Alex Pagnoni)
 - Added internal ajax support to Wui widgets. (Alex Pagnoni)
-- Kickstart script now accepts custom configuration file argument. (Alex Pagnoni)
+- Kickstart script now accepts custom configuration file argument. (Alex
+  Pagnoni)
 - Added domains management script. (Alex Pagnoni)
 - Added applications management script. (Alex Pagnoni)
 - Added JQuery fancybox script. (Paolo Guanciarossa)
@@ -50,6 +55,7 @@ NEW FEATURES:
 - New flat theme. (Alex Pagnoni)
  
 DEPRECATED:
+- InnomaticToolbar Wui widget. (Alex Pagnoni)
 
 
 

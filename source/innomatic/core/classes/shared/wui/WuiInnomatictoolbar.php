@@ -15,6 +15,8 @@
 require_once ('shared/wui/WuiXml.php');
 /**
  * @package WUI
+ * 
+ * This class is deprecated.
  */
 class WuiInnomaticToolBar extends WuiXml
 {
@@ -52,7 +54,7 @@ class WuiInnomaticToolBar extends WuiXml
         if (is_array($this->mArgs['toolbars'])) {
             while (list ($tbar_name, $tbar) = each($this->mArgs['toolbars'])) {
                 if (is_array($tbar)) {
-                    $this->mDefinition .= '<toolbar>
+                    $this->mDefinition .= '<horizgroup>
   <name>' . $tbar_name . '</name>
   <children>';
                     while (list ($button_name, $button) = each($tbar)) {
@@ -79,7 +81,7 @@ class WuiInnomaticToolBar extends WuiXml
 </button>';
                     }
                     $this->mDefinition .= '</children>
-</toolbar>';
+</horizgroup>';
                 }
             }
         }
