@@ -266,7 +266,7 @@ function pass_adduser($eventData)
         )->getCurrentDomain()->domaindata['id'];
         $userData['groupid'] = $eventData['groupid'];
         $userData['username'] = $eventData['username']
-            . (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP ? '@'
+            . (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'
             .InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId() : '');
         $userData['password'] = $eventData['passworda'];
         $userData['fname'] = $eventData['fname'];

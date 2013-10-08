@@ -90,7 +90,7 @@ function main_page() {
     $wui_logos_group = new WuiVertGroup( 'buttons_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%' ) );
     if ( $innomatic_logo_disabled != '1' )
     {
-        if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP ) $edition = '_asp';
+        if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ) $edition = '_asp';
         else $edition = '_enterprise';
 
         if ( isset($wui_page->mThemeHandler->mStyle['biglogo'.$edition] ) ) $biglogo_image = $wui_page->mThemeHandler->mStyle['biglogo'.$edition];

@@ -126,7 +126,7 @@ class DomainsPanelViews extends PanelViews
         }
 
         if (InnomaticContainer::instance('innomaticcontainer')
-            ->getEdition() == InnomaticContainer::EDITION_ASP or !$domainQuery->getFields('domains') > 0) {
+            ->getEdition() == InnomaticContainer::EDITION_SAAS or !$domainQuery->getFields('domains') > 0) {
             $newAction = new WuiEventsCall();
             $newAction->addEvent(new WuiEvent('view', 'newdomain', ''));
             $wuiNewButton = new WuiButton(
@@ -761,7 +761,7 @@ class DomainsPanelViews extends PanelViews
             7, 1
         );
 
-        if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP) {
+        if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
             // Database fields
             //
             $wuiDomainGrid->addChild(
@@ -1166,7 +1166,7 @@ class DomainsPanelViews extends PanelViews
                 7, 1
             );
 
-            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP) {
+            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
                 // Database fields
                 //
                 $wuiDomainGrid->addChild(
@@ -1600,7 +1600,7 @@ class DomainsPanelViews extends PanelViews
                 6, 1
             );
 
-            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP) {
+            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
                 // Database fields
                 //
                 $wuiDomainGrid->addChild(

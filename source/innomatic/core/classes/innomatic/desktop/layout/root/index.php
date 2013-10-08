@@ -36,7 +36,7 @@ $wui_vertgroup = new WuiVertGroup('vertgroup', array('align' => 'center', 'group
 $wui_buttons_group = new WuiVertGroup('buttons_group', array('align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%'));
 
 if ($app_cfg->getKey('innomatic-biglogo-disabled') != '1') {
-    if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP)
+    if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS)
         $edition = '_asp';
     else
         $edition = '_enterprise';
