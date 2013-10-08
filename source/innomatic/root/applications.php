@@ -1428,18 +1428,14 @@ function main_appcentral($eventData)
     <label type="encoded">'.urlencode('<strong>'.$data['name'].'</strong><br>'.$data['description']).'</label>
   </args>
 </label>
-<innomatictoolbar row="'.$row.'" col="1"><name>tb</name>
-  <args>
-    <frame>false</frame>
-    <toolbars type="array">'
-    .WuiXml::encode(
-        array(
-            'view' => array(
-                'applications' => array(
-                    'label' => $gLocale->getStr('repository_applications.button'),
-                    'themeimage' => 'view_detailed',
-                    'horiz' => 'true',
-                    'action' => WuiEventsCall::buildEventsCallString(
+<horizgroup row="'.$row.'" col="1"><name>tb</name>
+		<children>
+		  <button>
+		    <args>
+		      <label>'.WuiXml::cdata($gLocale->getStr('repository_applications.button')).'</label>
+		<themeimage>view_detailed</themeimage>
+		<horiz>true</horiz>
+		<action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -1451,14 +1447,11 @@ function main_appcentral($eventData)
                                 )
                             )
                         )
-                    )
-                )
-            )
-        )
-    )
-    .'</toolbars>
-  </args>
-</innomatictoolbar>';
+                    )).'</action>
+		    </args>
+		  </button>
+		</children>
+</horizgroup>';
                 $row++;
             }
 
@@ -1773,13 +1766,14 @@ function main_repositoryapplications($eventData)
             }
         }
 
-        $toolbars = array();
+        $toolbars = '';
 
-        $toolbars['view']['versions'] = array(
-            'label' => $gLocale->getStr('application_versions.button'),
-            'themeimage' => 'view_detailed',
-            'horiz' => 'true',
-            'action' => WuiEventsCall::buildEventsCallString(
+        $toolbars .= '<button>
+        		    <args>
+		      <label>'.WuiXml::cdata($gLocale->getStr('application_versions.button')).'</label>
+		<themeimage>view_detailed</themeimage>
+		<horiz>true</horiz>
+		<action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -1792,17 +1786,20 @@ function main_repositoryapplications($eventData)
                         )
                     )
                 )
-            )
-        );
+            )).'</action>
+        		  </args>
+        		</button>';
+
 
         if (
             $appInstallable
         ) {
-            $toolbars['view']['install'] = array(
-                'label' => $label,
-                'themeimage' => $icon,
-                'horiz' => 'true',
-                'action' => WuiEventsCall::buildEventsCallString(
+        	$toolbars .= '<button>
+        		    <args>
+		      <label>'.WuiXml::cdata($label).'</label>
+		<themeimage>'.$icon.'</themeimage>
+		<horiz>true</horiz>
+		<action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array(
@@ -1823,8 +1820,9 @@ function main_repositoryapplications($eventData)
                             )
                         )
                     )
-                )
-            );
+                )).'</action>
+        		  </args>
+        		</button>';
         }
 
         $gXmlDefinition .=
@@ -1860,12 +1858,9 @@ function main_repositoryapplications($eventData)
   </args>
 </label>
 
-<innomatictoolbar row="'.$row.'" col="4"><name>tb</name>
-  <args>
-    <frame>false</frame>
-    <toolbars type="array">'.WuiXml::encode($toolbars).'</toolbars>
-  </args>
-</innomatictoolbar>';
+<horizgroup row="'.$row.'" col="4"><name>tb</name>
+  <children>'.$toolbars.'</children>
+</horizgroup>';
         $row++;
     }
 
@@ -2040,14 +2035,15 @@ function main_applicationversions($eventData)
             }
         }
 
-        $toolbars = array();
+        $toolbars = '';
 
-        if ( $appInstallable ) {
-            $toolbars['view']['install'] = array(
-                'label' => $label,
-                'themeimage' => $icon,
-                'horiz' => 'true',
-                'action' => WuiEventsCall::buildEventsCallString(
+        if ( $appInstallable ) {        	
+        	$toolbars .= '<button>
+        		    <args>
+		      <label>'.WuiXml::cdata($label).'</label>
+		<themeimage>'.$icon.'</themeimage>
+		<horiz>true</horiz>
+		<action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array(
@@ -2069,8 +2065,9 @@ function main_applicationversions($eventData)
                             )
                         )
                     )
-                )
-            );
+                )).'</action>
+        		  </args>
+        		</button>';
         }
 
         $gXmlDefinition .=
@@ -2101,12 +2098,9 @@ function main_applicationversions($eventData)
   </args>
 </label>
 
-<innomatictoolbar row="'.$row.'" col="3"><name>tb</name>
-  <args>
-    <frame>false</frame>
-    <toolbars type="array">'.WuiXml::encode($toolbars).'</toolbars>
-  </args>
-</innomatictoolbar>';
+<horizgroup row="'.$row.'" col="3"><name>tb</name>
+    <children>'.$toolbars.'</children>
+</horizgroup>';
         $row++;
     }
 
@@ -2198,6 +2192,32 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
         $row = 0;
 
         while (!$query->eof) {
+        	$toolbars = '<button>
+        		    <args>
+		      <label>'.WuiXml::cdata($gLocale->getStr('removekey.button')).'</label>
+		<themeimage>edittrash</themeimage>
+		<horiz>true</horiz>
+				<needconfirm>true</needconfirm>
+                    <confirmmessage>'.WuiXml::cdata($gLocale->getStr('remove_key.confirm')).'</confirmmessage>
+		<action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
+                        '',
+                        array(
+                            array(
+                                'view',
+                                'keyring'
+                            ),
+                            array(
+                                'action',
+                                'removekey',
+                                array(
+                                    'id' => $query->getFields('id')
+                                )
+                            )
+                        )
+                    )).'</action>
+        		  </args>
+        		</button>';
+        	
             $gXmlDefinition .=
 '<label row="'.$row.'" col="0">
   <args>
@@ -2234,41 +2254,9 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
     <label type="encoded">'.urlencode($query->getFields('expirydate')).'</label>
   </args>
 </label>
-<innomatictoolbar row="'.$row.'" col="7">
-  <args>
-    <frame>false</frame>
-    <toolbars type="array">'
-    .WuiXml::encode(
-        array(
-            'view' => array(
-                'remove' => array(
-                    'label' => $gLocale->getStr('removekey.button'),
-                    'themeimage' => 'edittrash',
-                    'horiz' => 'true',
-                    'needconfirm' => 'true',
-                    'confirmmessage' => $gLocale->getStr('remove_key.confirm'),
-                    'action' => WuiEventsCall::buildEventsCallString(
-                        '',
-                        array(
-                            array(
-                                'view',
-                                'keyring'
-                            ),
-                            array(
-                                'action',
-                                'removekey',
-                                array(
-                                    'id' => $query->getFields('id')
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        )
-    ).'</toolbars>
-  </args>
-</innomatictoolbar>';
+<horizgroup row="'.$row.'" col="7">
+    <children>'.$toolbars.'</children>
+</horizgroup>';
 
             $query->moveNext();
             $row++;
