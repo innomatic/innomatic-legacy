@@ -53,6 +53,7 @@ NEW FEATURES:
 - Added JQuery fancybox script. (Paolo Guanciarossa)
 - New Innomatic Wui layout. (Alex Pagnoni)
 - New flat theme. (Alex Pagnoni)
+- Support for automatic domain check during login by hostname. (Alex Pagnoni)
  
 DEPRECATED:
 - InnomaticToolbar Wui widget. (Alex Pagnoni)

@@ -204,7 +204,13 @@ function login_login($eventData)
     require_once('innomatic/domain/Domain.php');
     require_once('innomatic/domain/user/User.php');
     $domainId = User::extractDomainID($eventData['username']);
-    // If no domain is found when in ASP edition, it must be reauth without
+    
+    // Checks it it can find the domain by hostname 
+    if (!strlen($domainId)) {
+    	$domainId = Domain::getDomainByHostname();
+    }
+    
+    // If no domain is found when in SAAS edition, it must be reauth without
     // checking database, since no Domain can be accessed.
     if (!strlen($domainId)) {
         DesktopDomainAuthenticatorHelper::doAuth(true);
