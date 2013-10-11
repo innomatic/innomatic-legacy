@@ -1,17 +1,6 @@
 README
 ======
 
-                  Innomatic Cloud Applications Platform
-
-                        http://www.innomatic.org
-
-
-
-                         INNOMATIC INFORMATION
-                         =====================
-
-
-
 General information
 -------------------
 
