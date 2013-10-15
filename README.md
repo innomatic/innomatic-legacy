@@ -1,14 +1,5 @@
-
-                  Innomatic Cloud Applications Platform
-
-                        http://www.innomatic.org
-
-
-
-                         INNOMATIC INFORMATION
-                         =====================
-
-
+README
+======
 
 General information
 -------------------
@@ -31,7 +22,7 @@ administration system.
 - Web services interface. The container provides a powerful interface for
 XmlRpc web services calls.
 
-- Centralized customers/sites administration. Creation, editing and remotion
+- Centralized customers/domains administration. Creation, editing and remotion
 of the customer profiles/sites can be done through a single interface.
 
 - Centralized applications administration. Installation, update and

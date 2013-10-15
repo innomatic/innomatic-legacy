@@ -163,7 +163,7 @@ class User {
         $domainsquery = $this->rootDA->execute('SELECT id FROM domains WHERE domainid='.$this->rootDA->formatText($domainid));
 
         $userdata['domainid'] = $domainsquery->getFields('id');
-        $userdata['username'] = 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP ? '@'.$domainid : '');
+        $userdata['username'] = 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'.$domainid : '');
         $userdata['lname'] = 'Administrator';
         $userdata['password'] = $domainpassword;
         $userdata['groupid'] = 0;
@@ -367,12 +367,12 @@ class User {
     }
     
     public static function isAdminUser($username, $domain) {
-        $admin_username = 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP ? '@'.$domain : '');
+        $admin_username = 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
         return $username == $admin_username ? true : false;
     }
     
     public static function getAdminUsername($domain) {
-        return 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP ? '@'.$domain : '');
+        return 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
     }
     
 }

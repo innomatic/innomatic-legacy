@@ -428,12 +428,12 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         {
             $next_action = new WuiEventSCall();
             $next_action->addEvent(new WuiEvent('action', 'checksystem', ''));
-            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystal/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
         }
         else
         {
             $next_action = new WuiEventSCall();
-            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('retry_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystal/actions/reload.png', 'action' => $next_action->getEventsCallString()));
+            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('retry_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/reload.png', 'action' => $next_action->getEventsCallString()));
         }
 
         $wui_vgroup->addChild(new WuiHorizBar('horizbar'));
@@ -483,7 +483,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $next_action = new WuiEventSCall();
         $next_action->addEvent(new WuiEvent('action', 'setedition', ''));
         $next_action->addEvent(new WuiEvent('view', 'edition', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'edition', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.'icons/crystal/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'edition', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.'icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup2 = new WuiVertGroup('vgroup2');
 
@@ -548,7 +548,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $next_action = new WuiEventSCall();
         $next_action->addEvent(new WuiEvent('action', 'createdb', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'createdb', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.'icons/crystal/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'createdb', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.'icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup2 = new WuiVertGroup('vgroup2');
 
@@ -575,7 +575,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $next_action = new WuiEventSCall();
         $next_action->addEvent(new WuiEvent('action', 'initializecomponents', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystal/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup->addChild(new WuiHorizBar('hr'));
         $wui_vgroup->addChild($next_button);
@@ -611,7 +611,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $next_action = new WuiEventSCall();
         $next_action->addEvent(new WuiEvent('action', 'setinnomatichost', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'setinnomatichost', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystal/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'setinnomatichost', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup2 = new WuiVertGroup('vgroup2');
 
@@ -677,7 +677,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
             $next_action = new WuiEventSCall();
             $next_action->addEvent(new WuiEvent('action', 'setcountry', ''));
-            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'country', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystal/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'country', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
             $wui_vgroup2 = new WuiVertGroup('vgroup2');
 
@@ -766,7 +766,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
             $next_action = new WuiEventSCall();
             $next_action->addEvent(new WuiEvent('action', 'setlanguage', ''));
             $next_action->addEvent(new WuiEvent('view', 'language', ''));
-            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'language', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystal/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'language', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
             $wui_vgroup2 = new WuiVertGroup('vgroup2');
 
@@ -808,7 +808,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $next_action = new WuiEventSCall();
         $next_action->addEvent(new WuiEvent('action', 'setpassword', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'password', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystal/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'password', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup2 = new WuiVertGroup('vgroup2');
 
@@ -848,7 +848,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
     $next_action = new WuiEventSCall();
     $next_action->addEvent(new WuiEvent('action', 'setappcentral', ''));
-    $next_button = new WuiButton('nextbutton', array('label' => $innomatic_locale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'appcentral', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.'icons/crystal/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+    $next_button = new WuiButton('nextbutton', array('label' => $innomatic_locale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'appcentral', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.'icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
     $wui_vgroup2 = new WuiVertGroup('vgroup2');
 
@@ -877,7 +877,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $next_action = new WuiEventsCall();
         $next_action->addEvent(new WuiEvent('action', 'cleanup', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystal/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup->addChild(new WuiHorizBar('hr'));
         $wui_vgroup->addChild($next_button);
@@ -893,7 +893,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $next_action = new WuiEventSCall();
         $next_action->addEvent(new WuiEvent('action', 'finish', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystal/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup->addChild(new WuiHorizBar('hr'));
         $wui_vgroup->addChild($next_button);

@@ -746,20 +746,6 @@
 			catalog="innomatic::flattheme" />
 		<wuiiconsset name="crystalflat" file="crystalflat_wuiiconsset.ini"
 			catalog="innomatic::flattheme" />
-		<wuitheme name="cleantheme" file="cleantheme_wuitheme.ini"
-			catalog="innomatic::cleantheme" />
-		<wuicolorsset name="cleantheme"
-			file="cleantheme_wuicolorsset.ini" catalog="innomatic::cleantheme" />
-		<wuistyle name="cleantheme" file="cleantheme_wuistyle.ini"
-			catalog="innomatic::cleantheme" />
-		<wuiiconsset name="crystal" file="crystal_wuiiconsset.ini"
-			catalog="innomatic::cleantheme" />
-		<wuitheme name="sky" file="sky_wuitheme.ini"
-			catalog="innomatic::skytheme" />
-		<wuicolorsset name="sky" file="sky_wuicolorsset.ini"
-			catalog="innomatic::skytheme" />
-		<wuistyle name="sky" file="sky_wuistyle.ini"
-			catalog="innomatic::skytheme" />
 
 		<!-- WUI dispatching -->
 

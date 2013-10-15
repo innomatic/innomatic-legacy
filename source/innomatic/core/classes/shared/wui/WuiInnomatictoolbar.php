@@ -15,6 +15,8 @@
 require_once ('shared/wui/WuiXml.php');
 /**
  * @package WUI
+ * 
+ * This class is deprecated.
  */
 class WuiInnomaticToolBar extends WuiXml
 {
@@ -38,6 +40,17 @@ class WuiInnomaticToolBar extends WuiXml
            ) $this->mArgs['frame'] = $this->mArgs['frame'];
         else $this->mArgs['frame'] = 'true';
 */
+
+        if ( isset($this->mArgs['toolbar'] ) and
+        		(
+        				$this->mArgs['toolbar'] == 'true'
+        				or
+        				$this->mArgs['toolbar'] == 'false'
+        		)
+        ) $this->mArgs['toolbar'] = $this->mArgs['toolbar'];
+        else $this->mArgs['toolbar'] = 'false';
+        
+        
         $this->mArgs['frame'] = 'false';
         $this->_fillDefinition();
     }
@@ -52,7 +65,7 @@ class WuiInnomaticToolBar extends WuiXml
         if (is_array($this->mArgs['toolbars'])) {
             while (list ($tbar_name, $tbar) = each($this->mArgs['toolbars'])) {
                 if (is_array($tbar)) {
-                    $this->mDefinition .= '<toolbar>
+                    $this->mDefinition .= '<'.($this->mArgs['toolbar'] == 'true' ? 'toolbar' : 'horizgroup').'>
   <name>' . $tbar_name . '</name>
   <children>';
                     while (list ($button_name, $button) = each($tbar)) {
@@ -79,7 +92,7 @@ class WuiInnomaticToolBar extends WuiXml
 </button>';
                     }
                     $this->mDefinition .= '</children>
-</toolbar>';
+</'.($this->mArgs['toolbar'] == 'true' ? 'toolbar' : 'horizgroup').'>';
                 }
             }
         }

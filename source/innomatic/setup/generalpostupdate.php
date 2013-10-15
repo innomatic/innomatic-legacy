@@ -41,13 +41,13 @@
 );
 
 @copy(
-    $tmpdir . '/favicon.ico',
+    $tmpdir . '/favicon.png',
     InnomaticContainer::instance('innomaticcontainer')->getHome()
-    . 'favicon.ico'
+    . 'favicon.png'
 );
 @chmod(
     InnomaticContainer::instance('innomaticcontainer')->getHome()
-    . 'favicon.ico', 0644
+    . 'favicon.png', 0644
 );
 
 // Innomatic dependencies fix

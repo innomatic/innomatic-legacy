@@ -75,26 +75,6 @@ class WuiPage extends WuiContainerWidget
     }
     protected function generateSourceBegin ()
     {
-        /*
-            if (InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
-                $country_string = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getCountry();
-            } else {
-                 $country_string = InnomaticContainer::instance('innomaticcontainer')->getCountry();
-            }
-            require_once('innomatic/locale/LocaleCountry.php');
-            $country = new LocaleCountry(strlen($country_string) ? $country_string : 'unitedstates');
-            $charset = $country->getCharSet();
-            unset($country);
-            if (!strlen($charset)) {
-                $charset = 'UTF-8';
-                //$charset = 'iso-8859-1';
-            }
-            */
-
-
-
-
-
 						require_once('innomatic/wui/dispatch/WuiEvent.php');
 						require_once('innomatic/wui/dispatch/WuiEventsCall.php');
 						require_once('innomatic/domain/user/Permissions.php');
@@ -341,9 +321,6 @@ $menu = '';
 				        $mid->parseStructureForMenu($this->mName);
 				        $mid->newHorizontalMenu($this->mName);
 		}
-				        
-				
-				
 
 
 		// User data
@@ -356,11 +333,8 @@ $menu = '';
 			$user_name = 'root';
 			$domain_name = 'Innomatic';
 		}
+
 		
-		
-
-
-
         $charset = 'UTF-8';
         //$block  = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n";
         $block = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' . "\n";
@@ -377,7 +351,7 @@ $menu = '';
         $block .= '<link href="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/jquery/css/jquery_validation_errors.css" rel="stylesheet">' . "\n";
         $block .= '<script language="JavaScript" type="text/javascript" src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/jquery/js/jquery.validate.js"></script>' . "\n";
 		        
-        $block .= '<link rel="shortcut icon" href="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/favicon.ico" type="image/x-icon"/>' . "\n";
+        $block .= '<link rel="shortcut icon" href="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/favicon.png" type="image/png"/>' . "\n";
         $block .= "<style type=\"text/css\">\nimg {\nbehavior:    url(\"" . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/' . "pngbehavior.htc\");\n}\n</style>\n";
         $block .= "<title>" . Wui::utf8_entities($this->mArgs['title']) . "</title>\n";
         $block .= ((isset($this->mArgs['javascript']) and strlen($this->mArgs['javascript'])) ? "<script language=\"JavaScript\">\n<!--\n" . $this->mArgs['javascript'] . "\n//-->\n</script>\n" : '');
@@ -406,7 +380,7 @@ $menu = '';
         	
 			$block .= "<table border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
 			. "<tr class=\"headerbar\">\n" 
-			. "<td style=\"width: 100%; height: 45px; align: center; padding-left: 16px;\" align=\"left\"><span nowrap class=\"headerbar\" style=\"white-space: nowrap;\">".$domain_name.'</span></td>'
+			. "<td style=\"width: 100%; height: 45px; align: center; padding-left: 16px;\" align=\"left\"><img src=\"".$this->mThemeHandler->mStyle['titlelogo'] ."\" align=\"left\" width=\"25\" height=\"25\" style=\"margin-right: 15px;\" alt=\"Innomatic\"><span nowrap class=\"headerbar\" style=\"white-space: nowrap;\">".$domain_name.'</span></td>'
 							. '<td align="right" valign="middle" nowrap style="white-space: nowrap; padding-right: 10px;"><span class="headerbar" style="white-space: nowrap;">' . $user_name . "</span>"
 			. "</td></tr>"
 			. "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: "
