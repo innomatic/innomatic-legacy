@@ -201,13 +201,17 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
 
 function login_login($eventData)
 {
+	$username = $eventData['username'];
     require_once('innomatic/domain/Domain.php');
     require_once('innomatic/domain/user/User.php');
-    $domainId = User::extractDomainID($eventData['username']);
+    $domainId = User::extractDomainID($username);
     
     // Checks it it can find the domain by hostname 
     if (!strlen($domainId)) {
     	$domainId = Domain::getDomainByHostname();
+    	if (strlen($domainId)) {
+    		$username .= '@'.$domainId;
+    	}
     }
     
     // If no domain is found when in SAAS edition, it must be reauth without
@@ -223,7 +227,7 @@ function login_login($eventData)
     $domainDA = $tmpDomain->getDataAccess();
     $userQuery = $domainDA->execute(
         'SELECT * FROM domain_users WHERE username='
-        . $domainDA->formatText($eventData['username'])
+        . $domainDA->formatText($username)
         . ' AND password='
         . $domainDA->formatText(md5($eventData['password']))
     );
@@ -234,14 +238,14 @@ function login_login($eventData)
             'desktopfrontcontroller'
         )->session->put(
             'INNOMATIC_AUTH_USER',
-            $eventData['username']
+            $username
         );
 
         require_once('innomatic/security/SecurityManager.php');
 
         $innomaticSecurity = new SecurityManager();
         $innomaticSecurity->LogAccess(
-            $eventData['username'],
+            $username,
             false,
             false,
             $_SERVER['REMOTE_ADDR']
