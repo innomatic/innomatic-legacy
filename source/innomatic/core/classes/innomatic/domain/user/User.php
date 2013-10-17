@@ -343,7 +343,10 @@ class User {
             }
             return false;
         }
-        return substr($username, strpos($username, '@') + 1);
+        if (strpos($username, '@') !== FALSE) {
+        	return substr($username, strpos($username, '@') + 1);
+        }
+        return false;
     }
 
     public function getLanguage() {
