@@ -83,7 +83,7 @@ installed in every operating system where PHP has been ported.
 License
 -------
 
-Innomatic is released under the MPL license. See the file named LICENSE.
+Innomatic is released under the new BSD license. See the file named LICENSE.
 
 
 
