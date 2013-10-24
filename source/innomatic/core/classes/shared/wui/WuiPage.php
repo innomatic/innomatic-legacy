@@ -329,12 +329,19 @@ $menu = '';
 			$user_name = $user_data['fname'].' '.$user_data['lname'];
 
 			$domain_name = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'];
+			
+			$logout_events_call = new WuiEventsCall(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath().'/domain');
+			$innomatic_menu_locale = new LocaleCatalog('innomatic::root_menu', InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage());
 		} else {
 			$user_name = 'root';
 			$domain_name = 'Innomatic';
-		}
 
+			$logout_events_call = new WuiEventsCall(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath().'/root');
+			$innomatic_menu_locale = new LocaleCatalog('innomatic::root_menu', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+		}
+		$logout_events_call->addEvent(new WuiEvent('login', 'logout', ''));
 		
+		// HTML
         $charset = 'UTF-8';
         //$block  = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n";
         $block = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' . "\n";
@@ -382,6 +389,7 @@ $menu = '';
 			. "<tr class=\"headerbar\">\n" 
 			. "<td style=\"width: 100%; height: 45px; align: center; padding-left: 16px;\" align=\"left\"><img src=\"".$this->mThemeHandler->mStyle['titlelogo'] ."\" align=\"left\" width=\"25\" height=\"25\" style=\"margin-right: 15px;\" alt=\"Innomatic\"><span nowrap class=\"headerbar\" style=\"white-space: nowrap;\">".$domain_name.'</span></td>'
 							. '<td align="right" valign="middle" nowrap style="white-space: nowrap; padding-right: 10px;"><span class="headerbar" style="white-space: nowrap;">' . $user_name . "</span>"
+			. '<a href="'.$logout_events_call->getEventsCallString().'" alt="'.$innomatic_menu_locale->getStr('logout').'"><img width="25" height="25" align="right" style="margin-left: 15px;" src="'.$this->mThemeHandler->mStyle['logout'].'" alt="'.$innomatic_menu_locale->getStr('logout').'" /></a>'
 			. "</td></tr>"
 			. "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: "
 			. $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\">"
