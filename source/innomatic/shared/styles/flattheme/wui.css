@@ -1,0 +1,218 @@
+html, body
+{
+  height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+   font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+   font-size: 14px;
+   background-color: white;
+}
+
+input {
+   font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+   font-size: 14px;
+	font-weight: 300;
+	background-color: #f9f9f9;
+	border: 2px solid #dadada;
+	/*
+	border-top: 0px;
+	border-right: 0px;
+	border-left: 0px;
+	border-bottom: 1px solid #007aff;
+	*/
+	padding: 3px;
+}
+
+textarea {
+   font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+   font-size: 14px;	
+	font-weight: 300;
+	background-color: #f9f9f9;
+	border: 2px solid #dadada;
+	padding: 3px;
+}
+
+select {
+   font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+   font-size: 14px;	
+	font-weight: 300;
+	background-color: #f9f9f9;
+	border: 2px solid #dadada;	
+	padding: 3px;
+}
+
+a { color: #007aff; font-style: normal; text-decoration: none }  /* for unvisited links */
+a:link { color: #2b6991; font-style: normal; text-decoration: none }  /* for unvisited links */
+a:visited { color: #2b6991; font-style: normal; text-decoration: none } /* for visited links */
+a:active { color: #457c9f; font-style: normal; text-decoration: none } /* when link is clicked */
+a:hover { color: #457c9f; font-style: normal; text-decoration: none } /* when mouse is over link */
+
+a.titlebar { color: #007aff; font-style: normal; text-decoration: none }  /* for unvisited links */
+a.titlebar:link { color: white; font-style: normal; text-decoration: none }  /* for unvisited links */
+a.titlebar:visited { color: white; font-style: normal; text-decoration: none } /* for visited links */
+a.titlebar:active { color: #f9fafc; font-style: normal; text-decoration: none } /* when link is clicked */
+a.titlebar:hover { color: #f9fafc; font-style: normal; text-decoration: none } /* when mouse is over link */
+
+.buttontext { color: #2b6991 }
+.paneltitle { color: #2b6991; font-weight: 600 }
+
+/*
+td.titlebar {
+	color: white;
+}
+
+.toolbar .buttontext { color: white }
+*/
+
+a.leftmenu { color: #007aff; font-style: normal; text-decoration: none }  /* for unvisited links */
+a.leftmenu:link { color: #7b7e8f; font-style: normal; text-decoration: none }  /* for unvisited links */
+a.leftmenu:visited { color: #7b7e8f; font-style: normal; text-decoration: none } /* for visited links */
+a.leftmenu:active { color: #f9fafc; font-style: normal; text-decoration: none } /* when link is clicked */
+a.leftmenu:hover { color: #f9fafc; font-style: normal; text-decoration: none } /* when mouse is over link */
+
+.toolbar a { color: #007aff; font-style: normal; text-decoration: none }  /* for unvisited links */
+.toolbar a:link { color: white; font-style: normal; text-decoration: none }  /* for unvisited links */
+.toolbar a:visited { color: white; font-style: normal; text-decoration: none } /* for visited links */
+.toolbar a:active { color: #f9fafc; font-style: normal; text-decoration: none } /* when link is clicked */
+.toolbar a:hover { color: #f9fafc; font-style: normal; text-decoration: none } /* when mouse is over link */
+
+p {
+   font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+   font-size: 14px;
+   color: black;
+   font-weight: 300;
+}
+
+table {
+   border-width: 0;
+}
+
+th {
+   border-style: none none none none;
+   color: white;
+   font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+   font-size: 15px;
+   font-weight: 600;
+}
+
+td {
+   font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+   font-size: 14px;
+}
+
+.drag {
+  position: relative;
+  cursor: hand;
+}
+
+ .menu        {                                     font-weight: 600; font-size: 14px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+ .menuorange  { color: #EA6515;                     font-weight: 600; font-size: 14px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+ .menubig     {                                     font-weight: 600; font-size: 16px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+
+ .normal      {                 font-style: normal; font-weight: 300; font-size: 14px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+ .bold        {                                     font-weight: 600; font-size: 14px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+
+ .normalmini  {                 font-style: normal; font-weight: 300; font-size: 11px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+ .boldmini    {                                     font-weight: 600; font-size: 11px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+
+ .normalsmall {                 font-style: normal; font-weight: 300; font-size: 12px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+ .boldsmall   {                                     font-weight: 600; font-size: 12px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+
+ .normalbig   {                 font-style: normal; font-weight: 300; font-size: 15px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+ .boldbig     {                                     font-weight: 600; font-size: 15px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+
+ .titlebar    { color: #4b4b4d;                     font-weight: 300; font-size: 21px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+ .status      { color: #4b4b4d;                     font-weight: 600; font-size: 14px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+
+ .headerbar   { color: #b8cfdf;                     font-weight: 300; font-size: 21px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+
+tr.headerbar {
+	border-bottom: 1px solid #457c9f;
+	background-color: #2b6991;
+}
+			
+/* Help node styles */
+
+h1 {
+   font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+    font-size: 19px;
+    color: #3871e3;
+}
+
+h2 {
+   font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+    font-size: 17px;
+}
+
+/* Styles related to the PHP Layers Menu System begin here */
+
+.h1bar    {
+    font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #cc0000;
+}
+
+.horbartop    {
+    font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+    font-size: 13px;
+    background-color: #dfdfdf;
+}
+
+.verbarleft    {
+    font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+    font-size: 13px;
+    background-color: #dfdfdf;
+}
+
+.navtop    {
+    background-color: #f5f5f5;
+    font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+    font-size: 15px;
+}
+
+.nav    {
+    background-color: white;
+    font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
+    font-size: 15px;
+}
+
+.navdark    {
+    background-color: #d5d4e6;
+}
+
+.navblack    {
+    background-color: #000000;
+}
+
+.navgreen    {
+    background-color: #839983;
+}
+
+.navdarkgreen    {
+    background-color: #839983;
+}
+
+.navred    {
+    background-color: #aa5859;
+}
+
+.navorange    {
+    background-color: #df9500;
+}
+
+.preformatted    {
+    font-family: courier;
+    font-size: 13px;
+}
+
+.imgs    {
+    border: 0px;
+    width: 16px;
+    height: 18px;
+}
+
+/* Styles related to the PHP Layers Menu System end here */

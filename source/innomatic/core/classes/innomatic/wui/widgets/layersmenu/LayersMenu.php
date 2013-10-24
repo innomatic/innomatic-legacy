@@ -351,7 +351,7 @@ public $_tmpArray = array();
 */
 function LayersMenu(
     $abscissaStep = 140,
-    $ordinateStep = 20,
+    $ordinateStep = 28,
     $thresholdY = 20
     ) {
 
@@ -820,7 +820,8 @@ function parseStructureForMenu(
             $this->tree[$cnt]["link"] = $node[2];
             $this->tree[$cnt]["title"] = $node[3];
             $this->tree[$cnt]["icon"] = $node[4];
-            $this->tree[$cnt]["target"] = strlen( $node[5] ) ? $node[5] : 'main'; // :PATCH: Alex Pagnoni 20030413: Innomatic patch
+            $this->tree[$cnt]["target"] = $node[5];
+            //$this->tree[$cnt]["target"] = strlen( $node[5] ) ? $node[5] : 'main'; // :PATCH: Alex Pagnoni 20030413: Innomatic patch
             $this->tree[$cnt]["expanded"] = $node[6];
             $cnt++;
         }

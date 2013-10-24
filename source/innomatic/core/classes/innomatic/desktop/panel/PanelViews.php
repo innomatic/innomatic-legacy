@@ -71,4 +71,9 @@ abstract class PanelViews implements Observer
     {
         return $this->_controller;
     }
+    
+  	public function getWuiContainer()
+  	{
+  		return $this->_wuiContainer;
+  	}
 }

@@ -70,7 +70,7 @@
 		<key field="name" type="index" />
 	</table>
 
-	<sequence name="wui_widgets_id_seq" start="42" />
+	<sequence name="wui_widgets_id_seq" start="44" />
 
 	<insert table="wui_widgets">
 		<data field="id" value="1" />
@@ -317,7 +317,19 @@
 		<data field="name" value="alertframe" />
 		<data field="file" value="WuiAlertframe.php" />
 	</insert>
+	
+	<insert table="wui_widgets">
+		<data field="id" value="42" />
+		<data field="name" value="void" />
+		<data field="file" value="WuiVoid.php" />
+	</insert>
 
+	<insert table="wui_widgets">
+		<data field="id" value="43" />
+		<data field="name" value="divframe" />
+		<data field="file" value="WuiDivframe.php" />
+	</insert>
+	
 	<table name="wui_validators">
 		<field name="name" type="text" length="50" notnull="1" />
 		<field name="file" type="text" length="50" notnull="1" />
@@ -370,7 +382,7 @@
 		<key field="name" type="index" />
 	</table>
 
-	<sequence name="wui_themes_id_seq" start="3" />
+	<sequence name="wui_themes_id_seq" start="4" />
 
 	<insert table="wui_themes">
 		<data field="id" value="1" />
@@ -384,6 +396,13 @@
 		<data field="name" value="sky" />
 		<data field="file" value="sky_wuitheme.ini" />
 		<data field="catalog" value="innomatic::skytheme" />
+	</insert>
+	
+	<insert table="wui_themes">
+		<data field="id" value="3" />
+		<data field="name" value="flattheme" />
+		<data field="file" value="flattheme_wuitheme.ini" />
+		<data field="catalog" value="innomatic::flattheme" />
 	</insert>
 
 	<table name="applications">
@@ -761,6 +780,14 @@
 		<data field="priority" value="0" />
 		<data field="domain" value="0" />
 		<data field="file" value="AjaxcallComponent.php" />
+	</insert>
+
+	<insert table="applications_components_types">
+		<data field="id" value="38" />
+		<data field="typename" value="module" />
+		<data field="priority" value="100" />
+		<data field="domain" value="0" />
+		<data field="file" value="ModuleComponent.php" />
 	</insert>
 
 	<table name="maintenance_tasks">

@@ -29,158 +29,155 @@ require_once('innomatic/application/Application.php');
 
 class InnomaticSetup {
     public static function setup_by_config_file($configFile = '', $echo = false) {
-    $successString = "[  \033[1;32mOK\033[0;39m  ]\n";
-    $failureString = "[\033[1;31mFAILED\033[0;39m]\n";
-
-    require_once('innomatic/config/ConfigFile.php');
-
-    if (strlen($configFile) and file_exists($configFile)) {
-        $configFileName = $configFile;
-    }
-    else $configFileName = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/kickstart.ini';
-
-    if (!file_exists($configFileName)) {
-        if ($echo) echo $failureString;
-        return false;
-    }
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-
-    $cfg = @parse_ini_file($configFileName);
-    if ($echo) echo str_pad('System check: ', 60);
-    if (!InnomaticSetup::checksystem('', $log)) {
-    if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Files installation: ', 60);
-
-    if (!InnomaticSetup::setedition(array('edition' => $cfg['PlatformEdition']))) {
-    if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Edition setting: ', 60);
-
-    if (!InnomaticSetup::installfiles('', $log)) {
-    if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Database drivers creation: ', 60);
-
-    if (!InnomaticSetup::dataaccessdrivers('', $log))
-    {
-    if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Innomatic database creation: ', 60);
-
-    $dbArgs = array(
-                                             'dbtype' => $cfg['RootDatabaseType'],
-                                             'dbname' => $cfg['RootDatabaseName'],
-                                             'dbhost' => $cfg['RootDatabaseHost'],
-                                             'dbport' => $cfg['RootDatabasePort'],
-                                             'dbuser' => $cfg['RootDatabaseUser'],
-                                             'dbpass' => $cfg['RootDatabasePassword']
-   );
-
-    if (!InnomaticSetup::createdb($dbArgs, $log))
-    {
-    if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Components initialization (may take some time): ', 60);
-
-    require_once('innomatic/util/Registry.php');
-    $reg = Registry::instance();
-    $dbArgs['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log';
-
-    if (!InnomaticSetup::initializecomponents($dbArgs, $log))
-    {
-    if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Root password: ', 60);
-
-    $pwdArgs = $dbArgs;
-    $pwdArgs['passworda'] = $cfg['RootPassword'];
-    $pwdArgs['passwordb'] = $cfg['RootPassword'];
-
-    if (!InnomaticSetup::setpassword($pwdArgs, $log))
-    {
-    if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Network settings: ', 60);
-
-    $hostArgs['innomatichost'] = $cfg['PlatformName'];
-    $hostArgs['innomaticgroup'] = $cfg['PlatformGroup'];
-
-    if (!InnomaticSetup::setinnomatichost($hostArgs, $log))
-    {            if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Country setting: ', 60);
-
-    $country_args['country'] = $cfg['RootCountry'];
-
-    if (!InnomaticSetup::setcountry($country_args, $log))
-    {
-    if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Language setting: ', 60);
-
-    $lang_args['language'] = $cfg['RootLanguage'];
-
-    if (!InnomaticSetup::setlanguage($lang_args, $log))
-    {
-    if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Clean up: ', 60);
-
-    if (!InnomaticSetup::cleanup('', $log))
-    {            if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Setup finish: ', 60);
-
-    if (!InnomaticSetup::finish('', $log))
-    {
-    if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Remotion of setup phases locks: ', 60);
-
-    if (!InnomaticSetup::check_lock_files())
-    {
-    if ($echo) echo $failureString;
-    return false;
-    }
-
-    if ($echo) echo $successString.str_pad('Remotion of setup lock: ', 60);
-
-    InnomaticSetup::remove_lock_files();
-    if (!InnomaticSetup::remove_setup_lock_file())
-    {
-    if ($echo) echo $failureString;
-    return false;
-    }
-
-    echo $successString;
-    return true;
-
-    return $result;
+	    $successString = "[  \033[1;32mOK\033[0;39m  ]\n";
+	    $failureString = "[\033[1;31mFAILED\033[0;39m]\n";
+	
+	    require_once('innomatic/config/ConfigFile.php');
+	
+	    if (strlen($configFile) and file_exists($configFile)) {
+	        $configFileName = $configFile;
+	    }
+	    else $configFileName = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/kickstart.ini';
+	
+	    if (!file_exists($configFileName)) {
+	        if ($echo) echo $failureString;
+	        return false;
+	    }
+	    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+	
+	    $cfg = @parse_ini_file($configFileName);
+	    if ($echo) echo str_pad('System check: ', 60);
+	    if (!InnomaticSetup::checksystem('', $log)) {
+	    if ($echo) echo $failureString;
+	    return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Edition setting: ', 60);
+	
+	    if (!InnomaticSetup::setEdition(array('edition' => $cfg['PlatformEdition']))) {
+		    if ($echo) echo $failureString;
+		    return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Files installation: ', 60);
+	
+	    if (!InnomaticSetup::installfiles('', $log)) {
+		    if ($echo) echo $failureString;
+		    return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Database drivers creation: ', 60);
+	
+	    if (!InnomaticSetup::dataaccessdrivers('', $log))
+	    {
+		    if ($echo) echo $failureString;
+		    return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Innomatic database creation: ', 60);
+	
+	    $dbArgs = array(
+	                                             'dbtype' => $cfg['RootDatabaseType'],
+	                                             'dbname' => $cfg['RootDatabaseName'],
+	                                             'dbhost' => $cfg['RootDatabaseHost'],
+	                                             'dbport' => $cfg['RootDatabasePort'],
+	                                             'dbuser' => $cfg['RootDatabaseUser'],
+	                                             'dbpass' => $cfg['RootDatabasePassword']
+	    );
+	
+	    if (!InnomaticSetup::createdb($dbArgs, $log)) {
+		    if ($echo) echo $failureString;
+		    return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Components initialization (may take some time): ', 60);
+	
+	    require_once('innomatic/util/Registry.php');
+	    $reg = Registry::instance();
+	    $dbArgs['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log';
+	
+	    if (!InnomaticSetup::initializecomponents($dbArgs, $log)) {
+		    if ($echo) echo $failureString;
+		    return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Root password: ', 60);
+	
+	    $pwdArgs = $dbArgs;
+	    $pwdArgs['passworda'] = $cfg['RootPassword'];
+	    $pwdArgs['passwordb'] = $cfg['RootPassword'];
+	
+	    if (!InnomaticSetup::setpassword($pwdArgs, $log)) {
+		    if ($echo) echo $failureString;
+		    return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Network settings: ', 60);
+	
+	    $hostArgs['innomatichost'] = $cfg['PlatformName'];
+	    $hostArgs['innomaticgroup'] = $cfg['PlatformGroup'];
+	
+	    if (!InnomaticSetup::setinnomatichost($hostArgs, $log)) {
+	    	if ($echo) echo $failureString;
+	    	return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Country setting: ', 60);
+	
+	    $country_args['country'] = $cfg['RootCountry'];
+	
+	    if (!InnomaticSetup::setcountry($country_args, $log)) {
+		    if ($echo) echo $failureString;
+		    return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Language setting: ', 60);
+	
+	    $lang_args['language'] = $cfg['RootLanguage'];
+	
+	    if (!InnomaticSetup::setlanguage($lang_args, $log)) {
+		    if ($echo) echo $failureString;
+		    return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Base URL setting: ', 60);
+	    
+	    if (!InnomaticSetup::setBaseUrl($cfg['InnomaticBaseUrl'])) {
+	    	if ($echo) echo $failureString;
+	    	return false;
+	    }
+	     
+	    if ($echo) echo $successString.str_pad('Clean up: ', 60);
+	
+	    if (!InnomaticSetup::cleanup('', $log)) {            
+	    	if ($echo) echo $failureString;
+	    	return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Setup finish: ', 60);
+	
+	    if (!InnomaticSetup::finish('', $log)) {
+		    if ($echo) echo $failureString;
+		    return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Remotion of setup phases locks: ', 60);
+	
+	    if (!InnomaticSetup::check_lock_files()) {
+		    if ($echo) echo $failureString;
+		    return false;
+	    }
+	
+	    if ($echo) echo $successString.str_pad('Remotion of setup lock: ', 60);
+	
+	    InnomaticSetup::remove_lock_files();
+	    if (!InnomaticSetup::remove_setup_lock_file()) {
+		    if ($echo) echo $failureString;
+		    return false;
+	    }
+	
+	    echo $successString;
+	    return true;	
     }
 
     public static function checksystem($eventData = '', $log = '') {
@@ -190,7 +187,7 @@ class InnomaticSetup {
         return TRUE;
     }
 
-    public static function installfiles($eventData = '', $log = '') {
+    public static function installFiles($eventData = '', $log = '') {
         InnomaticSetup::recursive_copy(InnomaticContainer::instance('innomaticcontainer')->getHome(), InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/innomatic');
         
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_filesinstalled', time());
@@ -199,7 +196,7 @@ class InnomaticSetup {
         return true;
     }
 
-    public static function setedition($eventData, $log = '')
+    public static function setEdition($eventData, $log = '')
     {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_editionset', time());
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingedition')) @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingedition');
@@ -223,7 +220,7 @@ class InnomaticSetup {
         return TRUE;
     }
 
-    public static function createdb($eventData = '', $log = '')
+    public static function createDb($eventData = '', $log = '')
     {
         $result = FALSE;
         require_once('innomatic/util/Registry.php');
@@ -295,7 +292,7 @@ class InnomaticSetup {
         return $result;
     }
 
-    public static function initializecomponents($eventData = '', $log = '')
+    public static function initializeComponents($eventData = '', $log = '')
     {
         $result = false;
 
@@ -344,7 +341,7 @@ class InnomaticSetup {
         return $result;
     }
 
-    public static function setpassword($eventData, $log = '')
+    public static function setPassword($eventData, $log = '')
     {
         $result = FALSE;
         
@@ -408,7 +405,7 @@ class InnomaticSetup {
         return $result;
     }
 
-    public static function setinnomatichost($eventData, $log = '')
+    public static function setInnomaticHost($eventData, $log = '')
     {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_innomatichostset', time());
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinginnomatichost')) @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinginnomatichost');
@@ -421,7 +418,7 @@ class InnomaticSetup {
         return TRUE;
     }
 
-    public static function setcountry($eventData, $log = '')
+    public static function setCountry($eventData, $log = '')
     {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_countryset', time());
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingcountry')) @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingcountry');
@@ -432,7 +429,7 @@ class InnomaticSetup {
         return TRUE;
     }
 
-    public static function setlanguage($eventData, $log = '')
+    public static function setLanguage($eventData, $log = '')
     {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_languageset', time());
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinglanguage')) @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinglanguage');
@@ -517,13 +514,24 @@ class InnomaticSetup {
     }
     */
     
+    public static function setBaseUrl($url = '') {
+    	$fh = @fopen(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/innomatic.ini', 'a');
+    	if ($fh) {
+    		if (strlen($url)) {
+    			$req_url = $url;
+    		} else {
+    			$req_url = InnomaticContainer::instance('innomaticcontainer')->getExternalBaseUrl();
+    		}
+    		fputs($fh, 'InnomaticBaseUrl = '.$req_url."\n");
+    		fclose($fh);
+    	} else {
+    		return false;
+    	}
+    	
+    	return true;
+    }
+    
     public static function cleanup($eventData = '', $log = '') {
-        $fh = @fopen(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/innomatic.ini', 'a');
-        if ($fh) {
-            $req_url = InnomaticContainer::instance('innomaticcontainer')->getExternalBaseUrl();
-            fputs($fh, 'InnomaticBaseUrl = '.$req_url."\n");
-            fclose($fh);
-        }
         require_once('innomatic/io/filesystem/DirectoryUtils.php');
         DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/innomatic/');
         DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'setup');

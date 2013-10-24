@@ -486,12 +486,14 @@ class XajaxResponse
      */
     function getXML()
     {
+    	$this->xml .= $this->_cmdXML(array("n"=>"js"),"document.getElementById('stoppingAjax').style.display = 'inline'; document.getElementById('loadingAjax').style.display = 'none';");
+    	
         $sXML = "<?xml version=\"1.0\"";
         if ($this->sEncoding && strlen(trim($this->sEncoding)) > 0)
             $sXML .= " encoding=\"".$this->sEncoding."\"";
         $sXML .= " ?"."><xjx>" . $this->xml . "</xjx>";
         
-        return $sXML;
+        return trim($sXML);
     }
     
     /**

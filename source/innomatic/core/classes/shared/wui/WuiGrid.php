@@ -50,7 +50,7 @@ class WuiGrid extends WuiContainerWidget
         $result = false;
         $this->mrWuiDisp = $rwuiDisp;
         if (isset($this->mArgs['rows']) and $this->mArgs['rows'] and isset($this->mArgs['cols']) and $this->mArgs['cols']) {
-            $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . " grid -->\n" : '') . '<table border="0"' . ($this->mArgs['compact'] == 'true' ? ' cellpadding="0" cellspacing="0"' : '') . '>';
+            $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . " grid -->\n" : '') . '<table'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' border="0"' . ($this->mArgs['compact'] == 'true' ? ' cellpadding="0" cellspacing="0"' : '') . '>';
             for ($row = 0; $row < $this->mArgs['rows']; $row ++) {
                 $this->mLayout .= "<tr>\n";
                 for ($col = 0; $col < $this->mArgs['cols']; $col ++) {

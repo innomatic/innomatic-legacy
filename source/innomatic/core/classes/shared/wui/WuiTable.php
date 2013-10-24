@@ -90,6 +90,10 @@ class WuiTable extends WuiContainerWidget
             else
                 $this->mArgs['sortdirection'] = 'down';
         $this->StoreSession(array('pagenumber' => $this->mPageNumber , 'sortby' => $this->mArgs['sortby'] , 'sortdirection' => $this->mArgs['sortdirection']));
+
+		if (!isset($this->mArgs['width'])) {
+			$this->mArgs['width'] = "100%";
+		}
     }
     public function addChild (WuiWidget $childWidget, $row, $col, $halign = '', $valign = '', $nowrap = 'false', $width = '')
     {
@@ -112,7 +116,7 @@ class WuiTable extends WuiContainerWidget
         $this->mrWuiDisp = $rwuiDisp;
         if ($this->mRows and $this->mCols) {
             $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' table -->' . "\n" : '');
-            $this->mLayout .= '<table border="0" cellspacing="2" cellpadding="1" ' . ((isset($this->mArgs['width']) and strlen($this->mArgs['width'])) ? 'width="' . $this->mArgs['width'] . '" ' : '') . "><tr><td bgcolor=\"" . $this->mThemeHandler->mColorsSet['tables']['gridcolor'] . "\">\n";
+            $this->mLayout .= '<table'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' border="0" cellspacing="2" cellpadding="1" ' . ((isset($this->mArgs['width']) and strlen($this->mArgs['width'])) ? 'width="' . $this->mArgs['width'] . '" ' : '') . "><tr><td bgcolor=\"" . $this->mThemeHandler->mColorsSet['tables']['gridcolor'] . "\">\n";
             $this->mLayout .= '<table border="0" width="100%" cellspacing="1" cellpadding="3" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['bgcolor'] . "\">\n";
             if (isset($this->mArgs['topheader']) and strlen($this->mArgs['topheader'])) {
                 $this->mLayout .= '<tr><td colspan="' . $this->mCols . '" valign="top" align="center" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['headerbgcolor'] . '" class="bold">' . $this->mArgs['topheader'] . '</td></tr>' . "\n";

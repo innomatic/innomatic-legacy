@@ -14,6 +14,7 @@
 */
 
 require_once('innomatic/util/Singleton.php');
+require_once('innomatic/webapp/WebAppContainer.php');
 
 /**
  * Innomatic base container class.
@@ -52,7 +53,7 @@ class InnomaticContainer extends Singleton
     private $_state;
     private $_mode = InnomaticContainer::MODE_BASE;
     private $_interface = InnomaticContainer::INTERFACE_UNKNOWN;
-    private $_edition = InnomaticContainer::EDITION_ASP;
+    private $_edition = InnomaticContainer::EDITION_SAAS;
     private $_rootDb;
     /**
      * Root language
@@ -115,9 +116,13 @@ class InnomaticContainer extends Singleton
 
     // Edition types
 
-    const EDITION_ASP = 1;
+    const EDITION_SAAS = 1;
     const EDITION_ENTERPRISE = 2;
 
+    // Deprecated
+    
+    const EDITION_ASP = 1;
+    
     // Password result codes
     const SETROOTPASSWORD_NEW_PASSWORD_IS_EMPTY = -1;
     const SETROOTPASSWORD_UNABLE_TO_WRITE_NEW_PASSWORD = -2;
@@ -422,7 +427,7 @@ class InnomaticContainer extends Singleton
             // $admin_username = 'admin'
             // .(InnomaticContainer::instance(
             //      'innomaticcontainer'
-            // )->getEdition() == InnomaticContainer::EDITION_ASP ? '@'.$domain
+            // )->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'.$domain
             // : '');
             require_once('innomatic/domain/user/User.php');
             $this->_currentUser = new User(
@@ -441,8 +446,10 @@ class InnomaticContainer extends Singleton
     public function stopDomain()
     {
         if ($this->_domainStarted) {
-            $this->_currentDomain->getDataAccess()->close();
-            // TODO implementare
+			if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
+            	$this->_currentDomain->getDataAccess()->close();
+        	}
+            // TODO implement
 
             // Removes override classes folder from the include path
             set_include_path(

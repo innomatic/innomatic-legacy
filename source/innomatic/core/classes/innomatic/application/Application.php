@@ -1010,7 +1010,7 @@ only application. */
                             // Connects to the domain database if Innomatic has been installed in ASP edition.
                             if (
                                 InnomaticContainer::instance('innomaticcontainer')->getEdition()
-                                == InnomaticContainer::EDITION_ASP
+                                == InnomaticContainer::EDITION_SAAS
                             ) {
                                 $args['dbtype'] = $domaindata['dataaccesstype'];
                                 $args['dbname'] = $domaindata['domaindaname'];
@@ -1238,7 +1238,7 @@ only application. */
 
                             if (
                                 InnomaticContainer::instance('innomaticcontainer')->getEdition()
-                                == InnomaticContainer::EDITION_ASP
+                                == InnomaticContainer::EDITION_SAAS
                             ) {
                                 $args['dbtype'] = $domaindata['dataaccesstype'];
                                 $args['dbname'] = $domaindata['domaindaname'];
@@ -2204,5 +2204,16 @@ only application. */
         }
 
         return $config;
+    }
+    
+    public static function getAppIdFromName($name) {
+    	if (!strlen($name)) return false;
+    	
+    	$da = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
+    	$query = $da->execute('SELECT id FROM applications WHERE appid='.$da->formatText($name));
+    	
+    	if ($query->getNumberRows() != 1) return false;
+    	
+    	return $query->getFields('id');
     }
 }

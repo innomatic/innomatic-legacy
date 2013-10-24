@@ -22,8 +22,7 @@ require_once('innomatic/setup/InnomaticSetup.php');
 ob_end_flush();
 
 echo "
-
-                  Innomatic Web Application Container
+                 Innomatic Cloud Applications Platform
 
                        http://www.innomatic.org
 
@@ -31,22 +30,20 @@ echo "
 
 ";
 
-if (
-    InnomaticContainer::instance(
-        'innomaticcontainer'
-    )->getState() != InnomaticContainer::STATE_SETUP
-) {
+if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
     echo "Innomatic has been already installed.\n";
-    return 0;
+    $script->cleanExit(1);
 }
+
+if (!isset($argv[1])) $argv[1] = '';
 
 echo "Starting setup...\n";
-if (InnomaticSetup::setup_by_config_file('', true)) {
+if (InnomaticSetup::setup_by_config_file($argv[1], true)) {
     echo "Setup successfull.\n";
-    return 1;
+    $script->cleanExit();
 } else {
     echo "ERROR. Setup unsuccessfull.\n";
-    return 0;
+    $script->cleanExit(1);
 }
 
-$script->cleanExit();
+

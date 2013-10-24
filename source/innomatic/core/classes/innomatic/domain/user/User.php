@@ -163,7 +163,7 @@ class User {
         $domainsquery = $this->rootDA->execute('SELECT id FROM domains WHERE domainid='.$this->rootDA->formatText($domainid));
 
         $userdata['domainid'] = $domainsquery->getFields('id');
-        $userdata['username'] = 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP ? '@'.$domainid : '');
+        $userdata['username'] = 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'.$domainid : '');
         $userdata['lname'] = 'Administrator';
         $userdata['password'] = $domainpassword;
         $userdata['groupid'] = 0;
@@ -179,34 +179,41 @@ class User {
     public function update($userdata) {
         $result = false;
 
-        if ($this->userid != 0) {
-            if ((!empty($userdata['username'])) & (strlen($userdata['groupid']) > 0)) {
-                $upd = 'UPDATE domain_users SET groupid = '.$userdata['groupid'];
-                $upd.= ', username = '.$this->domainDA->formatText($userdata['username']);
-                $upd.= ', fname = '.$this->domainDA->formatText($userdata['fname']);
-                $upd.= ', lname = '.$this->domainDA->formatText($userdata['lname']);
-                $upd.= ', otherdata = '.$this->domainDA->formatText($userdata['otherdata']);
-                $upd.= ', email = '.$this->domainDA->formatText($userdata['email']);
-                $upd.= ' WHERE id='. (int) $this->userid;
-
-                //$this->htp->changePassword( $userdata['username'], $userdata['password'] );
-
-                unset($GLOBALS['gEnv']['runtime']['innomatic']['users']['username_check'][(int)$this->userid]);
-                unset($GLOBALS['gEnv']['runtime']['innomatic']['users']['getgroup'][(int)$this->userid]);
-
-                $result = $this->domainDA->execute($upd);
-                if (strlen($userdata['password'])) {
-                    $this->changePassword($userdata['password']);
-                }
-            } else {
-                require_once('innomatic/logging/Logger.php');
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                $log->logEvent('innomatic.users.users.edituser', 'Empty username or group id', Logger::WARNING);
-            }
-        } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.users.users.edituser', 'Invalid user id '.$this->userid, Logger::WARNING);
+        require_once('innomatic/process/Hook.php');
+        $hook = new Hook($this->rootDA, 'innomatic', 'domain.user.edit');
+        if ($hook->callHooks('calltime', $this, array('domainserial' => $this->domainserial, 'userdata' => $userdata)) == Hook::RESULT_OK) {
+	        if ($this->userid != 0) {
+	            if ((!empty($userdata['username'])) & (strlen($userdata['groupid']) > 0)) {
+	                $upd = 'UPDATE domain_users SET groupid = '.$userdata['groupid'];
+	                $upd.= ', username = '.$this->domainDA->formatText($userdata['username']);
+	                $upd.= ', fname = '.$this->domainDA->formatText($userdata['fname']);
+	                $upd.= ', lname = '.$this->domainDA->formatText($userdata['lname']);
+	                $upd.= ', otherdata = '.$this->domainDA->formatText($userdata['otherdata']);
+	                $upd.= ', email = '.$this->domainDA->formatText($userdata['email']);
+	                $upd.= ' WHERE id='. (int) $this->userid;
+	
+	                //$this->htp->changePassword( $userdata['username'], $userdata['password'] );
+	
+	                unset($GLOBALS['gEnv']['runtime']['innomatic']['users']['username_check'][(int)$this->userid]);
+	                unset($GLOBALS['gEnv']['runtime']['innomatic']['users']['getgroup'][(int)$this->userid]);
+	
+	                $result = $this->domainDA->execute($upd);
+	                if (strlen($userdata['password'])) {
+	                    $this->changePassword($userdata['password']);
+	                }
+	                
+	                if ($hook->callHooks('useredited', $this, array('domainserial' => $this->domainserial, 'userdata' => $userdata)) != Hook::RESULT_OK)
+	                	$result = false;
+	            } else {
+	                require_once('innomatic/logging/Logger.php');
+	                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+	                $log->logEvent('innomatic.users.users.edituser', 'Empty username or group id', Logger::WARNING);
+	            }
+	        } else {
+	            require_once('innomatic/logging/Logger.php');
+	            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+	            $log->logEvent('innomatic.users.users.edituser', 'Invalid user id '.$this->userid, Logger::WARNING);
+	        }
         }
         return $result;
     }
@@ -336,7 +343,10 @@ class User {
             }
             return false;
         }
-        return substr($username, strpos($username, '@') + 1);
+        if (strpos($username, '@') !== FALSE) {
+        	return substr($username, strpos($username, '@') + 1);
+        }
+        return false;
     }
 
     public function getLanguage() {
@@ -360,12 +370,12 @@ class User {
     }
     
     public static function isAdminUser($username, $domain) {
-        $admin_username = 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP ? '@'.$domain : '');
+        $admin_username = 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
         return $username == $admin_username ? true : false;
     }
     
     public static function getAdminUsername($domain) {
-        return 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP ? '@'.$domain : '');
+        return 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
     }
     
 }

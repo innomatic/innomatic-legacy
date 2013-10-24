@@ -128,6 +128,35 @@ abstract class WuiWidget
              ($this->mSessionObjectNoType == 'true' ? '' : get_class($this).'_') .
              ($this->mSessionObjectNoName == 'true' ? '' : $this->mName) .
              (strlen($this->mSessionObjectUserName) ? '_'.$this->mSessionObjectUserName : '');
+
+		// AJAX support
+		
+        require_once('innomatic/ajax/Xajax.php');
+        $xajax = Xajax::instance('Xajax', '');
+
+		require_once('innomatic/wui/Wui.php');
+        $wuiContainer = Wui::instance('wui');
+
+        // Register action ajax calls
+        $theObject = new ReflectionObject($this);
+        $methods = $theObject->getMethods();
+        foreach ($methods as $method) {
+        	// Ignore private methods
+        	$theMethod = new ReflectionMethod($theObject->getName(), $method->getName());
+        	if (!$theMethod->isPublic()) {
+        		continue;
+        	}
+
+        	// Expose only methods beginning with "ajax" prefix
+        	if (!(substr($method->getName(), 0, 4) == 'ajax')) {
+        		continue;
+        	}
+
+        	// Register the ajax call
+        	$call_name = substr($method->getName(), 4);
+        	$wuiContainer->registerAjaxCall($call_name);
+        	$xajax->registerExternalFunction(array($call_name, get_class($this), $method->getName()), 'shared/wui/'.get_class($this).'.php');
+        }
     }
 
     /*!
@@ -216,6 +245,8 @@ abstract class WuiWidget
         }
     }
 
+    // --- Javascript Events --------------------------------------------------
+    
     /**
       * Adds a Javascript event.
      * @param string $event Event name, without the "on" prefix, e.g. "onclick" must be given as "click".
@@ -226,6 +257,66 @@ abstract class WuiWidget
         $this->events[$event][] = $call;
     }
 
+    /**
+     * Gets a javascript event.
+     *
+     * This methods returns the action of an event, if set, false otherwise.
+     *
+     * @since 5.1
+     * @param string $event Name of the event.
+     * @return mixed Option value.
+     */
+    public function getEvent($event) {
+    	return isset($this->events[$event]) ? $this->events[$event] : false;
+    }
+    
+    /**
+     * Gets all javascript events.
+     *
+     * This methods returns an array of all the events.
+     *
+     * @since 5.1
+     * @return array Events.
+     */
+    public function getEvents() {
+    	return $this->events;
+    }
+    
+    
+    /**
+     * Tells if a javascript event has been set.
+     *
+     * @since 5.1
+     * @param string $event Name of the event.
+     * @return boolean
+     */
+    public function isEvent($event) {
+    	return isset($this->events[$event]);
+    }
+    
+    /**
+     * Tells the number of javascript events.
+     *
+     * @since 5.1
+     * @return integer
+     */
+    public function hasEvents() {
+    	return count($this->events);
+    }
+    
+    /**
+     * Unsets a javascript event.
+     *
+     * @since 5.1
+     * @param string $event Name of the event.
+     * @return boolean
+     */
+    public function unsetEvent($event) {
+    	if (isset($this->events[$event])) {
+    		unset($this->events[$event]);
+    	}
+    }
+    
     /**
      * Builds the event content string, e.g. action_a();action_b().
      * @param string $event Event name.

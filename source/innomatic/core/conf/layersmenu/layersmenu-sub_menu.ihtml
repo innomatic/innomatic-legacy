@@ -9,11 +9,6 @@
 <tr>
 <td class="nav">
 <table border="0" cellpadding="1" cellspacing="0" width="100%">
-<tr>
-<td class="nav" colspan="3" nowrap style="white-space: nowrap">
-<b>{layer_title}</b>
-</td>
-</tr>
 <!--<tr><td>&nbsp;</td></tr>-->
 <!-- BEGIN sub_menu_cell -->
 <tr>

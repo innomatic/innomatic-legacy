@@ -548,7 +548,7 @@ function main_default($eventData)
         while (list ($id, $profileName) = each($profiles)) {
             $wuiProfilesTable->addChild(new WuiLabel('profnamelabel'.$row, array('label' => $profileName)), $row, 0);
 
-            $wuiProfileToolBar[$row] = new WuiToolBar('applicationtoolbar'.$row);
+            $wuiProfileToolBar[$row] = new WuiHorizGroup('applicationtoolbar'.$row);
 
             $profileAction[$row] = new WuiEventsCall();
             $profileAction[$row]->addEvent(new WuiEvent('view', 'editprofile', array('profileid' => $id)));
@@ -833,7 +833,7 @@ function main_editprofile($eventData)
             $wuiMethodsTable->addChild(new WuiImage('statusimage'.$row, array('imageurl' => $icon)), $row, 0);
             $wuiMethodsTable->addChild(new WuiLabel('applicationlabel'.$row, array('label' => $application)), $row, 1);
 
-            $wuiApplicationToolBar[$row] = new WuiToolBar('applicationtoolbar'.$row);
+            $wuiApplicationToolBar[$row] = new WuiHorizGroup('applicationtoolbar'.$row);
 
             if ($enabled) {
                 $disableAction[$row] = new WuiEventsCall();
@@ -943,7 +943,7 @@ function main_editprofile($eventData)
                     $row, 5
                 );
 
-                $wuiMethodToolbar[$row] = new WuiToolBar('methodtoolbar'.$row);
+                $wuiMethodToolbar[$row] = new WuiHorizGroup('methodtoolbar'.$row);
 
                 if ($enabled) {
                     $disableAction[$row] = new WuiEventsCall();
@@ -1110,7 +1110,7 @@ function main_users($eventData)
                 $row, 2
             );
 
-            $wuiUserToolbar[$row] = new WuiToolBar('usertoolbar'.$row);
+            $wuiUserToolbar[$row] = new WuiHorizGroup('usertoolbar'.$row);
 
             $profileAction[$row] = new WuiEventsCall();
             $profileAction[$row]->addEvent(
@@ -1620,7 +1620,7 @@ function main_accounts($eventData)
                 $row, 1
             );
 
-            $wuiAccountToolbar[$row] = new WuiToolBar('accounttoolbar'.$row);
+            $wuiAccountToolbar[$row] = new WuiHorizGroup('accounttoolbar'.$row);
 
             $showAction[$row] = new WuiEventsCall();
             $showAction[$row]->addEvent(

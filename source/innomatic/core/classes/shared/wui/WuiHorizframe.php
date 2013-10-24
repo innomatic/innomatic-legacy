@@ -41,6 +41,10 @@ class WuiHorizFrame extends WuiContainerWidget
             $this->mArgs['align'] = 'left';
         if (! isset($this->mArgs['bgcolor']))
             $this->mArgs['bgcolor'] = 'white';
+
+		if (!isset($this->mArgs['width'])) {
+			$this->mArgs['width'] = "100%";
+		}
     }
     protected function generateSourceBegin ()
     {
@@ -61,7 +65,7 @@ class WuiHorizFrame extends WuiContainerWidget
     }
     protected function generateSourceBlockBegin ()
     {
-        return '<td' . ($this->mArgs['align'] ? ' align="' . $this->mArgs['align'] . '"' : '') . '>';
+        return '<td width="100%"' . ($this->mArgs['align'] ? ' align="' . $this->mArgs['align'] . '"' : '') . '>';
     }
     protected function generateSourceBlockEnd ()
     {

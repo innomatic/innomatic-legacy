@@ -1,5 +1,5 @@
 
-                   Innomatic Web Application Container
+                  Innomatic Cloud Applications Platform
 
                         http://www.innomatic.org
 
@@ -8,17 +8,58 @@
                                 CHANGES
                                 =======
 
-dev
+dev - "Modules, Ajax, JQuery"
 ---
 SECURITY:
 
 FIXES:
+- Fixed InnomaticContainer->stopDomain() so that it no more closes domain
+  database connection when Innomatic edition is set to EDITION_ENTERPRISE.
+  (Alex Pagnoni)
+- Fixed missing handling of last visited domain panel. (Alex Pagnoni)
+- Fixed handling of last visited root/domain panel when the panel is closed.
+  (Alex Pagnoni)
+- Fixed readonly state for Wui checkbox widget. (Salvatore Pollaci)
+- Fixed readonly state for Wui radio widget. (Paolo Guanciarossa)
 
 CHANGES:
+- Shared components now support deployment of folders too. (Alex Pagnoni)
+- Extras components now support deployment of folders too. (Alex Pagnoni)
+- Changed the old style interface panel to new style. (Alex Pagnoni)
+- ScriptContainer::cleanExit() now really exits the script with a status code.
+  (Alex Pagnoni)
+- The semaphore gets unlocked anyway during a cache store, even if the operation
+  has failed. (Alex Pagnoni)
+- InnomaticToolbar Wui widget now creates an horizgroup in place of a toolbar.
+  (Alex Pagnoni)
 
 NEW FEATURES:
-
+- Added Module feature with persistance layer, value objects and remote object
+  calls. (Alex Pagnoni)
+- Added support for Vagrant. (Alex Pagnoni)
+- New void Wui widget. (Alex Pagnoni)
+- New divframe Wui widget. (Alex Pagnoni)
+- New automatic ajax calls support in desktop panels. (Alex Pagnoni)
+- Added JQuery support. (Alex Pagnoni)
+- Added autocomplete support to Wui String widget. (Alex Pagnoni)
+- Added disableenter option to Wui Form widget. (Alex Pagnoni)
+- Added domain.user.edit.calltime and domain.user.edit.useredited hook events.
+  (Alex Pagnoni)
+- Added internal ajax support to Wui widgets. (Alex Pagnoni)
+- Kickstart script now accepts custom configuration file argument. (Alex
+  Pagnoni)
+- Added domains management script. (Alex Pagnoni)
+- Added applications management script. (Alex Pagnoni)
+- Added JQuery fancybox script. (Paolo Guanciarossa)
+- New Innomatic Wui layout. (Alex Pagnoni)
+- New flat theme. (Alex Pagnoni)
+- Support for automatic domain check during login by hostname. (Alex Pagnoni)
+ 
 DEPRECATED:
+- InnomaticToolbar Wui widget. (Alex Pagnoni)
+- InnomaticContainer::EDITION_ASP (replaced by
+  InnomaticContainer::EDITION_SAAS). (Alex Pagnoni)
+
 
 
 5000 5.0.2 - 2009/04/30 - "Innomatic"

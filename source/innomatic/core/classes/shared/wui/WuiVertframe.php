@@ -44,6 +44,10 @@ class WuiVertFrame extends WuiContainerWidget
             $this->mArgs['align'] = 'left';
         if (! isset($this->mArgs['bgcolor']))
             $this->mArgs['bgcolor'] = 'white';
+        
+        if (!isset($this->mArgs['width'])) {
+        	$this->mArgs['width'] = "100%";
+        }
     }
     protected function generateSourceBegin ()
     {

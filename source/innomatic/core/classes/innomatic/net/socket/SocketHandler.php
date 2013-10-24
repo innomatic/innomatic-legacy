@@ -15,10 +15,10 @@
 
 /**
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2003-2012 Innoteam S.r.l.
+ * @copyright Copyright 2003-2013 Innoteam S.r.l.
  * @since 1.0
  */
-abstract class SocketHandler extends Object {
+abstract class SocketHandler {
     protected $serversocket;
 
     function setServerSocket(ServerSocket $server) {

@@ -40,7 +40,7 @@ class Domain {
             if ($tmpquery->getNumberRows() == 1) {
                 $this->domaindata = $tmpquery->getFields();
 
-                if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP) {
+                if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
                     $args['dbtype'] = $this->domaindata['dataaccesstype'];
                     $args['dbname'] = $this->domaindata['domaindaname'];
                     $args['dbhost'] = $this->domaindata['dataaccesshost'];
@@ -77,7 +77,7 @@ class Domain {
                 $log->LogDie('innomatic.domains.domain.domain', 'No domain exists with specified domain id ('.$domainid.')');
             }
         } else {
-            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP) {
+            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
                 $this->dataAccess = $domainda;
             } else {
                 $this->dataAccess = $this->rootda;
@@ -189,10 +189,11 @@ class Domain {
                     $this->makedir(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domaindata['domainid'].'/conf');
 
                     // Domain webapp creation.
+                    require_once('innomatic/webapp/WebAppContainer.php');
                     WebAppContainer::createWebApp($domaindata['domainid'], $domaindata['webappskeleton']);
 
                     // Creates the database, if asked.
-                    if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP) {
+                    if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
                         $args['dbtype'] = strlen($domaindata['dataaccesstype']) ? $domaindata['dataaccesstype'] : InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseType');
                         $args['dbname'] = $domaindata['domaindaname'];
                         $args['dbhost'] = $domaindata['dataaccesshost'];
@@ -229,7 +230,7 @@ class Domain {
                             $this->domainlog->logEvent($domaindata['domainid'], 'Database '.$args['dbname'].' created', Logger::NOTICE);
                         }
                         if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ENTERPRISE or $tmpdb->connect()) {
-                            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP) {
+                            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
                                 $this->dataAccess = $tmpdb;
                             } else {
                                 $this->dataAccess = $this->rootda;
@@ -431,10 +432,11 @@ class Domain {
         if ($this->rootda->execute(
             'UPDATE domains SET webappskeleton='.$this->rootda->formatText($skeleton).
             ' WHERE domainid='.$this->rootda->formatText($this->domainid))) {
-        return WebAppContainer::applyNewSkeleton($this->domainid, $skeleton);
-            } else {
-                return false;
-            }
+            require_once('innomatic/webapp/WebAppContainer.php');
+	        return WebAppContainer::applyNewSkeleton($this->domainid, $skeleton);
+        } else {
+            return false;
+        }
     }
 
 
@@ -605,7 +607,7 @@ class Domain {
             // Disables all applications.
             $this->disableAllApplications($this->domainserial);
 
-            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP) {
+            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
                 $args['dbname'] = $data['domaindaname'];
                 $args['dbhost'] = $data['dataaccesshost'];
                 $args['dbport'] = $data['dataaccessport'];
@@ -639,6 +641,7 @@ class Domain {
                     DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$data['domainid']);
                 }
                 // Removes domain webapp
+                require_once('innomatic/webapp/WebAppContainer.php');
                 WebAppContainer::eraseWebApp($data['domainid']);
             }
 
@@ -774,6 +777,21 @@ class Domain {
             return true;
         }
         return false;
+    }
+    
+    public function getEnabledApplications() {
+    	$query = 'SELECT appid FROM applications
+LEFT JOIN applications_enabled ON applications.id = applications_enabled.applicationid
+LEFT JOIN domains ON domains.id=applications_enabled.domainid
+WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
+    	
+    	$query_result = $this->rootda->execute($query);
+    	$list = array();
+    	while (!$query_result->eof) {
+    		$list[] = $query_result->getFields('appid');
+    		$query_result->moveNext();
+    	}
+    	return $list;
     }
 
     public function getLastActionUnmetDeps() {
@@ -950,5 +968,46 @@ class Domain {
 
     public function getDomainId() {
         return $this->domainid;
+    }
+    
+    public static function getDomainByHostname($hostname = '') {   	 
+    	if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ENTERPRISE) {
+    		return false;
+    	}
+    	
+    	if (!strlen($hostname) and InnomaticContainer::instance('innomaticcontainer')->getInterface() != InnomaticContainer::INTERFACE_WEB) {
+    		return false;
+    	}
+
+    	if (!strlen($hostname)) {
+    		require_once('innomatic/webapp/WebAppContainer.php');
+    		$hostname = WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getServerName();
+    	}
+    	
+    	// Is it still empty?
+    	if (!strlen($hostname)) {
+    		return false;
+    	}
+    	
+    	$pos = strpos($hostname, '.');
+    		
+    	if ($pos === FALSE) {
+    		$domain_guess = $hostname;
+    	} else {
+    		$domain_guess = substr($hostname, 0, $pos);
+    	}
+    	
+    	if (!strlen($domain_guess)) {
+    		return false;
+    	}
+    	
+    	$domain_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    			'SELECT domainid FROM domains WHERE domainid='.
+    			InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText($domain_guess));
+    	if ($domain_query->getNumberRows() == 1) {
+    		return $domain_guess;
+    	}
+
+    	return false;
     }
 }

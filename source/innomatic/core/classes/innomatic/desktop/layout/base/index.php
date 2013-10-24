@@ -17,13 +17,13 @@ require_once('innomatic/wui/dispatch/WuiEvent.php');
 require_once('innomatic/wui/dispatch/WuiEventsCall.php');
 require_once('innomatic/locale/LocaleCatalog.php');
 
-function main_page( $redrawFrames = FALSE ) {
+function main_page() {
     require_once('innomatic/wui/Wui.php');
     $innomatic_locale = new LocaleCatalog('innomatic::root_menu', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
     require_once('innomatic/application/ApplicationSettings.php');
     $app_cfg = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
 
-    if ( !$redrawFrames and is_object( InnomaticContainer::instance('innomaticcontainer')->getDataAccess() ) and !(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP) )
+    if (is_object( InnomaticContainer::instance('innomaticcontainer')->getDataAccess() ) and !(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP))
     {
         require_once('innomatic/application/ApplicationSettings.php');
         $app_cfg = new ApplicationSettings( InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic' );
@@ -44,16 +44,9 @@ function main_page( $redrawFrames = FALSE ) {
 
     $page_params['title'] = 'Innomatic'.( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformName() ) ? ' - '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName().( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() ) ? '.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() : '' ) : '' );
     $page_params['border'] = 'false';
-    if ( $redrawFrames ) {
-        require_once('innomatic/webapp/WebAppContainer.php');
-        $uri = dirname(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getRequestURI());
-        $page_params['javascript'] = "parent.location.href='".$uri."'";
-
-        //$page_params['javascript'] = "parent.frames.menu.location.reload()\nparent.frames.header.location.reload()";
-    }
 
     $wui_page = new WuiPage( 'page', $page_params );
-    $wui_vertgroup = new WuiVertGroup( 'vertgroup', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%' ) );
+    $wui_vertgroup = new WuiVertGroup( 'vertgroup', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%', 'width' => '0%' ) );
     $wui_center_group = new WuiVertGroup('center_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%'));
     $wui_buttons_group = new WuiHorizGroup('buttons', array('align' => 'middle', 'groupalign' => 'center', 'width' => '0%'));
 
@@ -97,7 +90,7 @@ function main_page( $redrawFrames = FALSE ) {
     $wui_logos_group = new WuiVertGroup( 'buttons_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%' ) );
     if ( $innomatic_logo_disabled != '1' )
     {
-        if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ASP ) $edition = '_asp';
+        if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ) $edition = '_asp';
         else $edition = '_enterprise';
 
         if ( isset($wui_page->mThemeHandler->mStyle['biglogo'.$edition] ) ) $biglogo_image = $wui_page->mThemeHandler->mStyle['biglogo'.$edition];
@@ -107,7 +100,7 @@ function main_page( $redrawFrames = FALSE ) {
         $wui_logos_group->addChild( $wui_button );
     }
 
-    if ( !$redrawFrames and is_object( InnomaticContainer::instance('innomaticcontainer')->getDataAccess() ) and InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP)
+    if (is_object( InnomaticContainer::instance('innomaticcontainer')->getDataAccess() ) and InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP)
     {
         // Service Provider personalization
         //

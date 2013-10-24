@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<moduleconfig>
+	<name>innomatic.cars</name>
+	<version>1.0</version>
+	<class>innomatic/cars/CarModule</class>
+    <valueobject>
+		<!--
+        <voclass>org/innomatic/cars/CarVO</voclass>
+        -->
+		<vofields>
+			<vofield>manufacturer</vofield>
+			<vofield>model</vofield>
+		</vofields>
+    </valueobject>
+    <table>cars</table>
+    <idfield>id</idfield>
+</moduleconfig>

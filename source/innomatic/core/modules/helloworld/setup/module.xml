@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<moduleconfig>
+	<name>helloworld</name>
+	<version>1.0</version>
+	<class>innomatic/helloworld/HelloWorldModule</class>
+</moduleconfig>

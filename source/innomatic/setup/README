@@ -1,5 +1,5 @@
 
-                   Innomatic Web Application Container
+                  Innomatic Cloud Applications Platform
 
                         http://www.innomatic.org
 
@@ -13,8 +13,8 @@
 General information
 -------------------
 
-Innomatic is an advanced, mature and easy to use distributed PHP Web
-applications container developed by Innoteam.
+Innomatic is an advanced and easy to use cloud applications platform developed
+by Innoteam.
 
 It is suitable as an Internet/Intranet development and deployment
 system. It has a very strong modular architecture and allows very fast
@@ -127,10 +127,10 @@ Innoteam official web site:
      http://www.innoteam.it
 
 To submit a bug report:
-    send an email to bugs@innomatic.org
+    https://bitbucket.org/innoteam/innomatic/issues
 
 To submit a support request:
-    send an email to support@innomatic.org
+    https://bitbucket.org/innoteam/innomatic/issues
 
 
 

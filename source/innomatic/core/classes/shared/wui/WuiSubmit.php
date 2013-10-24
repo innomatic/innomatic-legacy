@@ -41,7 +41,7 @@ class WuiSubmit extends WuiWidget
     {
         $result = false;
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName
-            . ' submit -->' : '') . '<input class="normal" type="submit"'
+            . ' submit -->' : '') . '<input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').$this->getEventsCompleteString().' class="normal" type="submit"'
             . ($this->mArgs['caption'] ? ' value="'
             . Wui::utf8_entities($this->mArgs['caption']) . '"' : '')
             . ' tabindex="' . $this->mArgs['tabindex'] . '"' 

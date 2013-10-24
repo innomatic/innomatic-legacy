@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<registry>
+	<node>
+		<address>127.0.0.1</address>
+		<port>9990</port>
+		<services>
+			<EASmodule>it.innoteam.helloworldeas</EASmodule>
+		</services>
+	</node>
+	<node>
+		<address>127.0.0.1</address>
+		<port>9991</port>
+		<services>
+			<EASmodule>MiaProvaEAS</EASmodule>
+		</services>
+	</node>
+</registry>

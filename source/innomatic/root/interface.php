@@ -235,7 +235,6 @@ function pass_setserviceprovider($eventData)
     $log->logEvent('Innomatic', 'Changed Service Provider settings', Logger::NOTICE);
 
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('iconsset_status');
-    $wuiPage->mArgs['javascript'] = 'parent.frames.menu.location.reload()';
 }
 
 $actionDispatcher->addEvent('setenabledicons', 'pass_setenabledicons');
@@ -253,44 +252,6 @@ function pass_setenabledicons($eventData)
     $log->logEvent('Innomatic', 'Changed Innomatic interface settings', Logger::NOTICE);
 
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('iconsset_status');
-    $wuiPage->mArgs['javascript'] = 'parent.frames.menu.location.reload()';
-}
-
-$actionDispatcher->addEvent('setdesktop', 'pass_setdesktop');
-function pass_setdesktop($eventData)
-{
-    global $wuiMainStatus, $innomaticLocale;
-
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-
-    $appCfg = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
-    $appCfg->setKey('desktop-root-layout', $eventData['layout']);
-    
-    $log->logEvent('Innomatic', 'Changed Innomatic desktop layout', Logger::NOTICE);
-
-    WebAppContainer::instance(
-        'webappcontainer'
-    )->getProcessor()->getResponse()->addHeader(
-        'Location',
-        WuiEventsCall::buildEventsCallString(
-            '',
-            array(
-                array('view', 'desktop', ''),
-                array('action', 'setdesktop2', '')
-            )
-        )
-    );
-}
-
-$actionDispatcher->addEvent('setdesktop2', 'pass_setdesktop2');
-function pass_setdesktop2($eventData)
-{
-    global $wuiMainStatus, $innomaticLocale, $wuiPage;
-
-    $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('desktopset_status');
-    require_once('innomatic/webapp/WebAppContainer.php');
-    $uri = dirname(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getRequestURI());
-    $wuiPage->mArgs['javascript'] = "parent.location.href='".$uri."'";
 }
 
 $actionDispatcher->addEvent('settheme', 'pass_settheme');
@@ -328,7 +289,6 @@ function pass_settheme2($eventData)
     global $wuiMainStatus, $innomaticLocale, $wuiPage;
 
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('themeset_status');
-    $wuiPage->mArgs['javascript'] = "parent.frames.menu.location.reload();\nparent.frames.header.location.reload()";
 }
 $actionDispatcher->addEvent('setadvanced', 'pass_setadvanced');
 function pass_setadvanced($eventData)
@@ -352,7 +312,6 @@ function pass_setadvanced($eventData)
     $log->logEvent('Innomatic', 'Changed Innomatic advanced interface settings', Logger::NOTICE);
 
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('advancedset_status');
-    $wuiPage->mArgs['javascript'] = 'parent.frames.menu.location.reload()';
 }
 
 $actionDispatcher->addEvent('setlanguage', 'pass_setlanguage');
@@ -369,7 +328,6 @@ function pass_setlanguage($eventData)
     $log->logEvent('Innomatic', 'Changed Innomatic root language', Logger::NOTICE);
 
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('languageset_status');
-    $wuiPage->mArgs['javascript'] = 'parent.frames.menu.location.reload()';
 }
 
 $actionDispatcher->addEvent('setcountry', 'pass_setcountry');
@@ -385,7 +343,6 @@ function pass_setcountry($eventData)
     $log->logEvent('Innomatic', 'Changed Innomatic root country', Logger::NOTICE);
 
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('countryset_status');
-    $wuiPage->mArgs['javascript'] = 'parent.frames.menu.location.reload()';
 }
 
 $actionDispatcher->addEvent('editname', 'pass_editname');
@@ -401,9 +358,6 @@ function pass_editname($eventData)
 
     $log->logEvent('Innomatic', 'Changed Innomatic network settings', Logger::NOTICE);
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('datachanged');
-    
-    // TODO verificare se funziona ancora - no perch� � cambiato il nome del frame
-    $wuiPage->mArgs['javascript'] = 'parent.frames.header.location.reload()';
 }
 $actionDispatcher->Dispatch();
 
@@ -460,69 +414,7 @@ function main_default($eventData)
         .urlencode($innomaticLocale->getStr('settheme_submit'))
         .'</caption></args></submit>
       </children></form>
-    </children></vertgroup>';
-    
-    // Desktop settings
-    $layout = $appCfg->getKey('desktop-root-layout');
-    switch ($layout) {
-        case 'horiz':
-        case 'vert':
-            break;
-        default:
-            $layout = 'horiz';
-    }
-
-    $desktopXmlDef = '<vertgroup><name>vgroup</name><args><halign>center</halign></args><children>
-      <form><name>desktop</name><args><action type="encoded">'
-      .urlencode(
-          WuiEventsCall::buildEventsCallString(
-              '',
-              array(
-                  array('view', 'default', ''),
-                  array('action', 'setdesktop', '')
-              )
-          )
-      )
-      .'</action></args><children>
-        <grid><name>desktopgrid</name><children>
-          <label row="0" col="0"><name>desktoplabel</name><args><label type="encoded">'
-          .urlencode($innomaticLocale->getStr('desktop_label'))
-          .'</label><bold>true</bold></args></label>
-            <radio row="1" col="0" halign="center"><name>layout</name>
-              <args>
-                <disp>action</disp>
-                <checked>'. ($layout == 'horiz' ? 'true' : 'false').'</checked>
-                <value>horiz</value>
-              </args>
-            </radio>
-    
-            <radio row="2" col="0" halign="center"><name>layout</name>
-              <args>
-                <disp>action</disp>
-                <checked>'. ($layout == 'vert' ? 'true' : 'false').'</checked>
-                <value>vert</value>
-              </args>
-            </radio>
-            
-            <label row="1" col="1">
-              <args>
-                <label type="encoded">'.urlencode($innomaticLocale->getStr('layout_horiz.label')).'</label>
-              </args>
-            </label>
-    
-            <label row="2" col="1">
-              <args>
-                <label type="encoded">'.urlencode($innomaticLocale->getStr('layout_vert.label')).'</label>
-              </args>
-            </label>
-    
-                  </children></grid>
-        <submit><name>submit</name><args><caption type="encoded">'
-        .urlencode($innomaticLocale->getStr('setdesktop_submit'))
-        .'</caption></args></submit>
-      </children></form>
-    </children></vertgroup>';
-    
+    </children></vertgroup>';    
     
     // Service provider settings
     
@@ -866,10 +758,9 @@ function main_default($eventData)
     $advancedForm->addChild($advancedVGroup);
 
     $tabHeaders[0]['label'] = $innomaticLocale->getStr('themes_title');
-    $tabHeaders[1]['label'] = $innomaticLocale->getStr('desktop_title');
-    $tabHeaders[2]['label'] = $innomaticLocale->getStr('serviceproviderframe_label');
-    $tabHeaders[3]['label'] = $innomaticLocale->getStr('enabled_icons_label');
-    $tabHeaders[4]['label'] = $innomaticLocale->getStr('advancedsettings_label');
+    $tabHeaders[1]['label'] = $innomaticLocale->getStr('serviceproviderframe_label');
+    $tabHeaders[2]['label'] = $innomaticLocale->getStr('enabled_icons_label');
+    $tabHeaders[3]['label'] = $innomaticLocale->getStr('advancedsettings_label');
 
     $tab = new WuiTab(
         'interface',
@@ -881,7 +772,6 @@ function main_default($eventData)
     );
 
     $tab->addChild(new WuiXml('page', array('definition' => $themesXmlDef)));
-    $tab->addChild(new WuiXml('page', array('definition' => $desktopXmlDef)));
     $tab->addChild($serviceProviderForm);
     $tab->addChild($enableForm);
     $tab->addChild($advancedForm);
