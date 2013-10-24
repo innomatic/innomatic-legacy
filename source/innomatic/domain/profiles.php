@@ -419,7 +419,7 @@ function main_default($eventData)
         while (list ($id, $profileName) = each($profiles)) {
             $wuiProfilesTable->addChild(new WuiLabel('profnamelabel'.$row, array('label' => $profileName)), $row, 0);
 
-            $wuiProfileToolbar[$row] = new WuiToolBar('applicationtoolbar'.$row);
+            $wuiProfileToolbar[$row] = new WuiHorizGroup('applicationtoolbar'.$row);
 
             $profileAction[$row] = new WuiEventsCall();
             $profileAction[$row]->addEvent(new WuiEvent('view', 'editprofile', array('profileid' => $id)));
@@ -541,7 +541,7 @@ function main_editprofile($eventData)
                 $row, 1
             );
 
-            $wuiGroupToolbar[$row] = new WuiToolBar('grouptoolbar'.$row);
+            $wuiGroupToolbar[$row] = new WuiHorizGroup('grouptoolbar'.$row);
 
             if ($enabled) {
                 $disableAction[$row] = new WuiEventsCall();
@@ -661,7 +661,7 @@ function main_editprofile($eventData)
                     $row, 3
                 );
 
-                $wuiPageToolbar[$row] = new WuiToolBar('pagetoolbar'.$row);
+                $wuiPageToolbar[$row] = new WuiHorizGroup('pagetoolbar'.$row);
 
                 if ($enabled) {
                     $disableAction[$row] = new WuiEventsCall();
@@ -1087,7 +1087,7 @@ function main_users($eventData)
                     InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
                 )
             ) {
-                $wuiUserToolbar[$row] = new WuiToolBar('usertoolbar'.$row);
+                $wuiUserToolbar[$row] = new WuiHorizGroup('usertoolbar'.$row);
 
                 $profileAction[$row] = new WuiEventsCall();
                 $profileAction[$row]->addEvent(new WuiEvent('view', 'chprofile', array('userid' => $userData['id'])));
