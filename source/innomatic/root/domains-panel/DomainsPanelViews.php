@@ -2053,10 +2053,8 @@ class DomainsPanelViews extends PanelViews
                                     'disablebutton'.$row,
                                     array(
                                         'label' => $this->_localeCatalog->getStr('deactivateapplication_label'),
-                                        'compact' => 'true',
                                         'horiz' => 'true',
-                                        'themeimage' => 'stop',
-                                        'themeimagetype' => 'mini',
+                                        'themeimage' => 'buttoncancel',
                                         'action' => $disableAction[$row]->getEventsCallString()
                                     )
                                 );
@@ -2094,7 +2092,7 @@ class DomainsPanelViews extends PanelViews
                                             ),
                                             ucfirst($name)
                                         ),
-                                        'themeimage' => $enabled ? 'stop' : 'reload',
+                                        'themeimage' => $enabled ? 'buttoncancel' : 'buttonok',
                                         'compact' => 'true',
                                         'themeimagetype' => 'mini',
                                         'horiz' => 'true',
@@ -2189,10 +2187,8 @@ class DomainsPanelViews extends PanelViews
                                     'enablebutton'.$row,
                                     array(
                                         'label' => $this->_localeCatalog->getStr('activateapplication_label'),
-                                        'compact' => 'true',
                                         'horiz' => 'true',
-                                        'themeimage' => 'reload',
-                                        'themeimagetype' => 'mini',
+                                        'themeimage' => 'buttonok',
                                         'action' => $enableAction[$row]->getEventsCallString()
                                     )
                                 );
@@ -2226,7 +2222,7 @@ class DomainsPanelViews extends PanelViews
             
                 <button>
                   <args>
-                    <themeimage>reload</themeimage>
+                    <themeimage>buttonok</themeimage>
                     <label type="encoded">'
                     .urlencode($this->_localeCatalog->getStr('enable_all_applications.button'))
                     .'</label>
@@ -2259,7 +2255,7 @@ class DomainsPanelViews extends PanelViews
             
                 <button>
                   <args>
-                    <themeimage>stop</themeimage>
+                    <themeimage>buttoncancel</themeimage>
                     <label type="encoded">'
                     .urlencode($this->_localeCatalog->getStr('disable_all_applications.button'))
                     .'</label>
