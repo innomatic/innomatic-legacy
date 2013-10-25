@@ -35,7 +35,7 @@ class WuiTitleBar extends WuiWidget
         if (isset($this->mArgs['icon']) and strlen($this->mArgs['icon']))
             $this->mIcon = $this->mArgs['icon'];
         else
-            $this->mIcon = 'document';
+            $this->mIcon = 'empty_ascii';
     }
 
     protected function generateSource ()
@@ -46,7 +46,7 @@ class WuiTitleBar extends WuiWidget
         	} else {
         		$iconname = 'document';
         	}
-            $icon = '<img id="stoppingAjax" src="' . $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons'][$iconname]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$iconname]['file'] . '" alt="" border="0" style="padding-left: 18px; padding-right: 8px; width: 30px; height: 30px;">';
+            $icon = '<img id="stoppingAjax" src="' . $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons'][$iconname]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$iconname]['file'] . '" alt="" border="0" style="padding-left: 11px; padding-right: 1px; width: 30px; height: 30px;">';
         } else
             $icon = '';
 
