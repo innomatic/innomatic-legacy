@@ -86,7 +86,7 @@ class DomainsPanelViews extends PanelViews
             'titlebar',
             array(
                 'title' => $this->_localeCatalog->getStr('domains_title'),
-                'icon' => 'folder_home')
+                'icon' => 'stack1')
             );
         $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
 

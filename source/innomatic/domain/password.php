@@ -82,7 +82,7 @@ $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array(
         'title' => $innomaticLocale->getStr('password_title'),
-        'icon' => 'password'
+        'icon' => 'key'
     )
 );
 $wuiMainVertGroup->addChild($wuiTitleBar);

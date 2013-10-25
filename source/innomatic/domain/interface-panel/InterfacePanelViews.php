@@ -94,7 +94,7 @@ $this->wuiPage = new WuiPage('page', array('title' => $this->_localeCatalog->get
 $this->wuiMainvertgroup = new WuiVertGroup('mainvertgroup');
 $this->wuiTitlebar = new WuiTitleBar(
                                'titlebar',
-                               array('title' => $this->_localeCatalog->getStr('interface_title'), 'icon' => 'kcontrol')
+                               array('title' => $this->_localeCatalog->getStr('interface_title'), 'icon' => 'picture')
                               );
 $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
 
@@ -108,7 +108,7 @@ $wuiDefaultButton = new WuiButton(
                                    'defaultbutton',
                                    array(
                                          'label' => $this->_localeCatalog->getStr('default_button'),
-                                         'themeimage' => 'thumbnail',
+                                         'themeimage' => 'mask',
                                          'horiz' => 'true',
                                          'action' => $defaultAction->getEventsCallString()
                                         )

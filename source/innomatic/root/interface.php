@@ -83,7 +83,7 @@ $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array(
         'title' => $innomaticLocale->getStr('interface_title'),
-        'icon' => 'kcontrol'
+        'icon' => 'picture'
     )
 );
 $wuiMainVertGroup->addChild($wuiTitleBar);

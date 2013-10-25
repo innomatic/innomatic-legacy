@@ -2411,7 +2411,7 @@ $wui->addChild(
         'page',
         array(
             'pagetitle' => $gPageTitle,
-            'icon' => 'kpackage',
+            'icon' => 'listicons',
             'menu' => $gMenu,
             'toolbars' => array(
                 new WuiInnomaticToolbar(

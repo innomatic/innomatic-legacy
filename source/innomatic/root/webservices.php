@@ -73,7 +73,7 @@ $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array(
         'title' => $innomaticLocale->getStr('xmlrpc_title'),
-        'icon' => 'network'
+        'icon' => 'globe2'
     )
 );
 $wuiMainVertGroup->addChild($wuiTitleBar);

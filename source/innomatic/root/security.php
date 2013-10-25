@@ -1363,7 +1363,7 @@ $gViewDispatcher->addEvent('change_password', 'main_change_password');
 function main_change_password($eventData)
 {
     global $gXmlDefinition, $gLocale, $gPageTitle;
-    global $wuiMainFrame, $wuiTitleBar;
+    global $wuiMainFrame;
 
     $gXmlDefinition = '            <table><name>alerts</name>
               <args>
@@ -1505,7 +1505,7 @@ $gWui->addChild(
                 array('definition' => $gXmlDefinition)
             ),
             'status' => $gPageStatus,
-            'icon' => 'important'
+            'icon' => 'security'
         )
     )
 );

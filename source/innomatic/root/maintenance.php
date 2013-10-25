@@ -1822,7 +1822,7 @@ $gWui->addChild(
                     'definition' => $gXmlDefinition)
                 ),
             'status' => $gPageStatus,
-            'icon' => 'package_settings'
+            'icon' => 'gear'
         )
     )
 );
