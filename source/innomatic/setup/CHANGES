@@ -8,6 +8,19 @@
                                 CHANGES
                                 =======
 
+6000 6.1 -
+---------------------
+CHANGES:
+- Removed lot of unused icons in Crystal icon set. (Alex Pagnoni)
+
+NEW FEATURES:
+- New Subway icon set by Pixle. (Alex Pagnoni)
+
+DEPRECATED:
+- Old icon set, only new Subway icon set should be used from now on. (Alex Pagnoni)
+
+
+
 6000 6.0 - 2013/10/24 - "Complete layout overhaul and new Flat theme, Modules, Ajax, JQuery"
 ---------------------
 SECURITY:
