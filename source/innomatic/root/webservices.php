@@ -161,7 +161,7 @@ $wuiAccountsButton = new WuiButton(
     'accountsbutton',
     array(
         'label' => $innomaticLocale->getStr('accounts_button'),
-        'themeimage' => 'network',
+        'themeimage' => 'globe2',
         'horiz' => 'true',
         'action' => $accountsAction->getEventsCallString()
     )
@@ -180,7 +180,7 @@ $wuiNewAccountButton = new WuiButton(
     'newaccountbutton',
     array(
         'label' => $innomaticLocale->getStr('newaccount_button'),
-        'themeimage' => 'filenew',
+        'themeimage' => 'mathadd',
         'horiz' => 'true',
         'action' => $newAccountAction->getEventsCallString()
     )
@@ -569,7 +569,7 @@ function main_default($eventData)
                 array(
                     'label' => $innomaticLocale->getStr('renameprofile_label'),  
                     'horiz' => 'true',
-                    'themeimage' => 'edit',
+                    'themeimage' => 'documenttext',
                     'action' => $renameAction[$row]->getEventsCallString()
                 )
             );
@@ -922,11 +922,11 @@ function main_editprofile($eventData)
 
                 $wuiMethodsTable->addChild(new WuiImage('statusimage'.$row, array('imageurl' => $icon)), $row, 2);
                 $wuiMethodsTable->addChild(new WuiLabel('methodlabel'.$row, array('label' => $method)), $row, 3);
-                $img = ($sec[$application][$method] == true ? 'button_ok' : 'button_cancel');
+                $img = ($sec[$application][$method] == true ? 'buttonok' : 'buttoncancel');
 
                 $secureImage = $wuiMethodsTable->mThemeHandler->mIconsBase
-                .$wuiMethodsTable->mThemeHandler->mIconsSet['mini'][$img]['base']
-                .'/mini/'.$wuiMethodsTable->mThemeHandler->mIconsSet['actions'][$img]['file'];
+                .$wuiMethodsTable->mThemeHandler->mIconsSet['icons'][$img]['base']
+                .'/icons/'.$wuiMethodsTable->mThemeHandler->mIconsSet['icons'][$img]['file'];
 
                 $wuiMethodsTable->addChild(
                     new WuiLabel(
@@ -938,7 +938,7 @@ function main_editprofile($eventData)
                 $wuiMethodsTable->addChild(
                     new WuiImage(
                         'secure'.$row,
-                        array('imageurl' => $secureImage)
+                        array('imageurl' => $secureImage, 'width' => 20, 'heigth' => 20)
                         ),
                     $row, 5
                 );
@@ -1169,7 +1169,7 @@ function main_users($eventData)
                 array(
                     'label' => $innomaticLocale->getStr('chpasswd_label'),
                     'horiz' => 'true',
-                    'themeimage' => 'edit',
+                    'themeimage' => 'documenttext',
                     'action' => $chpasswdAction[$row]->getEventsCallString()
                 )
             );
@@ -1669,7 +1669,7 @@ function main_accounts($eventData)
                 array(
                     'label' => $innomaticLocale->getStr('editaccount_label'),
                     'horiz' => 'true',
-                    'themeimage' => 'edit',
+                    'themeimage' => 'documenttext',
                     'action' => $editAction[$row]->getEventsCallString()
                 )
             );

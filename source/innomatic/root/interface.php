@@ -113,7 +113,7 @@ $wuiDefaultButton = new WuiButton(
     'defaultbutton',
     array(
         'label' => $innomaticLocale->getStr('default_button'),
-        'themeimage' => 'desktop',
+        'themeimage' => 'glasses',
         'horiz' => 'true',
         'action' => $defaultAction->getEventsCallString()
     )
@@ -126,7 +126,7 @@ $wuiCountryButton = new WuiButton(
     'countrybutton',
     array(
         'label' => $innomaticLocale->getStr('localization_button'),
-        'themeimage' => 'locale',
+        'themeimage' => 'globe2',
         'horiz' => 'true',
         'action' => $countryAction->getEventsCallString()
     )

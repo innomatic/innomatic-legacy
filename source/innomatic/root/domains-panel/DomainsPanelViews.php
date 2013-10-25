@@ -133,7 +133,7 @@ class DomainsPanelViews extends PanelViews
                     'newbutton',
                     array(
                         'label' => $this->_localeCatalog->getStr('newdomain_button'),
-                        'themeimage' => 'filenew', 'horiz' => 'true',
+                        'themeimage' => 'mathadd', 'horiz' => 'true',
                         'action' => $newAction->getEventsCallString()
                         ));
             $wuiMainToolBar->addChild($wuiNewButton);
@@ -327,7 +327,7 @@ class DomainsPanelViews extends PanelViews
                     'editbutton'.$row,
                     array(
                         'label' => $this->_localeCatalog->getStr('editconfig_label'),
-                        'themeimage' => 'edit',
+                        'themeimage' => 'documenttext',
                         'action' => $editAction[$row]->getEventsCallString()
                     )
                 );
@@ -511,7 +511,7 @@ class DomainsPanelViews extends PanelViews
                         'applicationsbutton'.$row,
                         array(
                             'label' => $this->_localeCatalog->getStr('domainapplications_label'),
-                            'themeimage' => 'view_icon',
+                            'themeimage' => 'listicons',
                             'action' => $applicationsAction[$row]->getEventsCallString()
                         )
                     );
@@ -539,7 +539,7 @@ class DomainsPanelViews extends PanelViews
                         'logbutton'.$row,
                         array(
                             'label' => $this->_localeCatalog->getStr('domainlog_label'),
-                            'themeimage' => 'toggle_log',
+                            'themeimage' => 'alignjustify',
                             'action' => $logAction[$row]->getEventsCallString()
                         )
                     );
@@ -567,7 +567,7 @@ class DomainsPanelViews extends PanelViews
                         'dblogbutton'.$row,
                         array(
                             'label' => $this->_localeCatalog->getStr('dataaccesslog_label'),
-                            'themeimage' => 'toggle_log',
+                            'themeimage' => 'alignjustify',
                             'action' => $dblogAction[$row]->getEventsCallString()
                         )
                     );
@@ -935,7 +935,7 @@ class DomainsPanelViews extends PanelViews
                 'submit1',
                 array(
                     'label' => $this->_localeCatalog->getStr('createdomain_submit'),
-                    'themeimage' => 'button_ok',
+                    'themeimage' => 'buttonok',
                     'horiz' => 'true',
                     'formsubmit' => 'newdomainform',
                     'formcheckmessage' => $this->_localeCatalog->getStr('newdomain_formcheck.message'),
@@ -1327,7 +1327,7 @@ class DomainsPanelViews extends PanelViews
                     'submit1',
                     array(
                         'label' => $this->_localeCatalog->getStr('editdomain_submit'),
-                        'themeimage' => 'button_ok',
+                        'themeimage' => 'buttonok',
                         'horiz' => 'true',
                         'formsubmit' => 'editdomainform',
                         'formcheckmessage' => $this->_localeCatalog->getStr('editdomain_formcheck.message'),
@@ -1431,7 +1431,7 @@ class DomainsPanelViews extends PanelViews
             )
             .'</action>
             <label type="encoded">'.urlencode($this->_localeCatalog->getStr('notes_apply.submit')).'</label>
-            <themeimage>button_ok</themeimage>
+            <themeimage>buttonok</themeimage>
           </args>
         </button>
       </children>
@@ -1794,7 +1794,7 @@ class DomainsPanelViews extends PanelViews
                     'cleanlogbutton',
                     array(
                         'label' => $this->_localeCatalog->getStr('cleanlog_button'),
-                        'themeimage' => 'editdelete',
+                        'themeimage' => 'documentdelete',
                         'horiz' => 'true',
                         'action' => $cleanlogAction->getEventsCallString()
                     )
@@ -1876,7 +1876,7 @@ class DomainsPanelViews extends PanelViews
                     'cleanlogbutton',
                     array(
                         'label' => $this->_localeCatalog->getStr('cleanlog_button'),
-                        'themeimage' => 'editdelete',
+                        'themeimage' => 'documentdelete',
                         'horiz' => 'true',
                         'action' => $cleanlogAction->getEventsCallString()
                     )

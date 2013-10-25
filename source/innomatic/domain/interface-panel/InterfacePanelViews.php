@@ -121,7 +121,7 @@ $wuiCountryButton = new WuiButton(
                                    'countrybutton',
                                    array(
                                          'label' => $this->_localeCatalog->getStr('localization_button'),
-                                         'themeimage' => 'locale',
+                                         'themeimage' => 'globe2',
                                          'horiz' => 'true',
                                          'action' => $countryAction->getEventsCallString()
                                          )

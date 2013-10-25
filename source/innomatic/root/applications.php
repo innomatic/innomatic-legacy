@@ -631,7 +631,7 @@ function main_default($eventData)
                         'logbutton'.$row,
                         array(
                             'label' => $gLocale->getStr('modlog_label'),
-                            'themeimage' => 'toggle_log',
+                            'themeimage' => 'alignjustify',
                             'action' => $logAction[$data['category']][$row]->getEventsCallString(),
                             'horiz'=>'true'
                         )
@@ -1206,7 +1206,7 @@ function main_applicationlog($eventData)
                 'cleanlogbutton',
                 array(
                     'label' => $gLocale->getStr('cleanlog_button'),
-                    'themeimage' => 'editdelete',
+                    'themeimage' => 'documentdelete',
                     'action' => $cleanLogAction->getEventsCallString()
                 )
             );

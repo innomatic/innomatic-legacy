@@ -42,7 +42,7 @@ $gPageTitle = $gLocale->getStr('maintenance.title');
 $gToolbars['view'] = array(
     'innomatic' => array(
         'label' => $gLocale->getStr('general.toolbar'),
-        'themeimage' => 'configure',
+        'themeimage' => 'gear',
         'horiz' => 'true',
         'action' => WuiEventsCall::buildEventsCallString(
             '',
@@ -57,7 +57,7 @@ $gToolbars['view'] = array(
     ),
     'general' => array(
         'label' => $gLocale->getStr('innomatic.toolbar'),
-        'themeimage' => 'configure',
+        'themeimage' => 'gear',
         'horiz' => 'true',
         'action' => WuiEventsCall::buildEventsCallString(
             '',
@@ -79,7 +79,7 @@ if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'c
     $innomaticLogAction->addEvent(new WuiEvent('view', 'showrootlog', ''));
     $gToolbars['info']['rootlog'] = array(
         'label' => $gLocale->getStr('rootlog_button'),
-        'themeimage' => 'toggle_log',
+        'themeimage' => 'alignjustify',
         'horiz' => 'true',
         'action' => $innomaticLogAction->getEventsCallString()
     );
@@ -90,7 +90,7 @@ if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'c
     $innomaticWebServicesLogAction->addEvent(new WuiEvent('view', 'showrootwebserviceslog', ''));
     $gToolbars['info']['webserviceslog'] = array(
         'label' => $gLocale->getStr('rootwebserviceslog_button'),
-        'themeimage' => 'toggle_log',
+        'themeimage' => 'alignjustify',
         'horiz' => 'true',
         'action' => $innomaticWebServicesLogAction->getEventsCallString()
     );
@@ -534,7 +534,7 @@ function main_default($eventData)
             </label>
             <button row="'.$row.'" col="1">
               <args>
-                <themeimage>'. ($result ? 'button_ok' : 'button_cancel').'</themeimage>
+                <themeimage>'. ($result ? 'buttonok' : 'buttoncancel').'</themeimage>
                 <disabled>true</disabled>
               </args>
             </button>';
@@ -546,7 +546,7 @@ function main_default($eventData)
 
     $gXmlDefinition.= '        <button>
               <args>
-                <themeimage>button_ok</themeimage>
+                <themeimage>buttonok</themeimage>
                 <label type="encoded">'.urlencode($gLocale->getStr('run_maintenance.button')).'</label>
                 <horiz>true</horiz>
                 <frame>false</frame>
@@ -643,7 +643,7 @@ function main_default($eventData)
     
             <button>
               <args>
-                <themeimage>button_ok</themeimage>
+                <themeimage>buttonok</themeimage>
                 <label type="encoded">'.urlencode($gLocale->getStr('apply.button')).'</label>
                 <horiz>true</horiz>
                 <frame>false</frame>
@@ -734,7 +734,7 @@ function main_default($eventData)
     
             <button>
               <args>
-                <themeimage>button_ok</themeimage>
+                <themeimage>buttonok</themeimage>
                 <label type="encoded">'.urlencode($gLocale->getStr('apply.button')).'</label>
                 <horiz>true</horiz>
                 <frame>false</frame>
@@ -829,7 +829,7 @@ function main_innomatic($eventData)
     
             <button row="0" col="2">
               <args>
-                <themeimage>editdelete</themeimage>
+                <themeimage>documentdelete</themeimage>
                 <label type="encoded">'.urlencode($gLocale->getStr('clear.label')).'</label>
                 <horiz>true</horiz>
                 <frame>false</frame>
@@ -868,7 +868,7 @@ function main_innomatic($eventData)
     
             <button row="1" col="2">
               <args>
-                <themeimage>editdelete</themeimage>
+                <themeimage>documentdelete</themeimage>
                 <label type="encoded">'.urlencode($gLocale->getStr('clear.label')).'</label>
                 <horiz>true</horiz>
                 <frame>false</frame>
@@ -907,7 +907,7 @@ function main_innomatic($eventData)
     
             <button row="2" col="2">
               <args>
-                <themeimage>editdelete</themeimage>
+                <themeimage>documentdelete</themeimage>
                 <label type="encoded">'.urlencode($gLocale->getStr('clear.label')).'</label>
                 <horiz>true</horiz>
                 <frame>false</frame>
@@ -946,7 +946,7 @@ function main_innomatic($eventData)
     
             <button row="3" col="2">
               <args>
-                <themeimage>editdelete</themeimage>
+                <themeimage>documentdelete</themeimage>
                 <label type="encoded">'.urlencode($gLocale->getStr('clear.label')).'</label>
                 <horiz>true</horiz>
                 <frame>false</frame>
@@ -985,7 +985,7 @@ function main_innomatic($eventData)
     
             <button row="4" col="2">
               <args>
-                <themeimage>editdelete</themeimage>
+                <themeimage>documentdelete</themeimage>
                 <label type="encoded">'.urlencode($gLocale->getStr('clear.label')).'</label>
                 <horiz>true</horiz>
                 <frame>false</frame>
@@ -1024,7 +1024,7 @@ function main_innomatic($eventData)
     
             <button row="5" col="2">
               <args>
-                <themeimage>editdelete</themeimage>
+                <themeimage>documentdelete</themeimage>
                 <label type="encoded">'.urlencode($gLocale->getStr('clear.label')).'</label>
                 <horiz>true</horiz>
                 <frame>false</frame>
@@ -1063,7 +1063,7 @@ function main_innomatic($eventData)
     
             <button row="6" col="2">
               <args>
-                <themeimage>editdelete</themeimage>
+                <themeimage>documentdelete</themeimage>
                 <label type="encoded">'.urlencode($gLocale->getStr('clear.label')).'</label>
                 <horiz>true</horiz>
                 <frame>false</frame>
@@ -1107,7 +1107,7 @@ function main_innomatic($eventData)
     
             <button row="7" col="2">
               <args>
-                <themeimage>editdelete</themeimage>
+                <themeimage>documentdelete</themeimage>
                 <label type="encoded">'.urlencode($gLocale->getStr('clearall.label')).'</label>
                 <horiz>true</horiz>
                 <frame>false</frame>
@@ -1676,7 +1676,7 @@ function main_innomatic($eventData)
     
             <button>
               <args>
-                <themeimage>button_ok</themeimage>
+                <themeimage>buttonok</themeimage>
                 <label type="encoded">'.urlencode($gLocale->getStr('apply.button')).'</label>
                 <horiz>true</horiz>
                 <frame>false</frame>
@@ -1724,7 +1724,7 @@ function main_showrootlog($eventData)
 
         $gToolbars['logs']['cleanlog'] = array(
             'label' => $gLocale->getStr('cleanlog_button'), 
-            'themeimage' => 'editdelete', 
+            'themeimage' => 'documentdelete', 
             'horiz' => 'true', 
             'action' => $cleanLogAction->getEventsCallString()
         );
@@ -1769,7 +1769,7 @@ $gWui->loadWidget('toolbars');
 
         $gToolbars['logs']['cleanlog'] = array('view' => array(
             'label' => $gLocale->getStr('cleanlog_button'), 
-            'themeimage' => 'editdelete', 
+            'themeimage' => 'documentdelete', 
             'horiz' => 'true', 
             'action' => $cleanLogAction->getEventsCallString()
         ));

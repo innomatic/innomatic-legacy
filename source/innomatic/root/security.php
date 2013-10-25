@@ -41,7 +41,7 @@ $gPageTitle = $gLocale->getStr('security.title');
 $gToolbars['main'] = array(
     'check' => array(
         'label' => $gLocale->getStr('check.toolbar'),
-        'themeimage' => 'zoom',
+        'themeimage' => 'security',
         'horiz' => 'true',
         'action' => WuiEventsCall::buildEventsCallString(
             '',
@@ -56,7 +56,7 @@ $gToolbars['main'] = array(
     ),
     'settings' => array(
         'label' => $gLocale->getStr('settings.toolbar'),
-        'themeimage' => 'configure',
+        'themeimage' => 'gear',
         'horiz' => 'true',
         'action' => WuiEventsCall::buildEventsCallString(
             '',
@@ -74,7 +74,7 @@ $gToolbars['main'] = array(
 $gToolbars['password'] = array(
     'change_password' => array(
         'label' => $gLocale->getStr('chpasswd_button'),
-        'themeimage' => 'password',
+        'themeimage' => 'key',
         'horiz' => 'true', 'action' => WuiEventsCall::buildEventsCallString(
             '',
             array(
@@ -392,7 +392,7 @@ function main_default($eventData)
                 <horiz>true</horiz>
                 <frame>false</frame>
                 <label type="encoded">'.urlencode($gLocale->getStr('logout_sessions.button')).'</label>
-                <themeimage>exit</themeimage>
+                <themeimage>power</themeimage>
                 <formsubmit>rootsessions</formsubmit>
                 <action type="encoded">'
                 .urlencode(
@@ -456,7 +456,7 @@ function main_default($eventData)
                 <horiz>true</horiz>
                 <frame>false</frame>
                 <label type="encoded">'.urlencode($gLocale->getStr('logout_sessions.button')).'</label>
-                <themeimage>exit</themeimage>
+                <themeimage>power</themeimage>
                 <formsubmit>userssessions</formsubmit>
                 <action type="encoded">'
                 .urlencode(
@@ -496,7 +496,7 @@ function main_default($eventData)
                         <button row="0" col="0"><name>check</name>
                           <args>
                             <themeimage>'. (
-                                $securityCheck['rootpasswordcheck'] == false ? 'button_cancel' : 'button_ok'
+                                $securityCheck['rootpasswordcheck'] == false ? 'buttoncancel' : 'buttonok'
                             ).'</themeimage>
                             <disabled>true</disabled>
                           </args>
@@ -523,7 +523,7 @@ function main_default($eventData)
                         <button row="1" col="0"><name>check</name>
                           <args>
                             <themeimage>'. (
-                                $securityCheck['rootdapasswordcheck'] == false ? 'button_cancel' : 'button_ok'
+                                $securityCheck['rootdapasswordcheck'] == false ? 'buttoncancel' : 'buttonok'
                             ).'</themeimage>
                             <disabled>true</disabled>
                           </args>
@@ -551,7 +551,7 @@ function main_default($eventData)
                           <args>
                             <themeimage>'
                             . (
-                               count($securityCheck['domainswithunsecuredbpassword']) ? 'button_cancel' : 'button_ok'
+                               count($securityCheck['domainswithunsecuredbpassword']) ? 'buttoncancel' : 'buttonok'
                             ).'</themeimage>
                             <disabled>true</disabled>
                           </args>
@@ -579,7 +579,7 @@ function main_default($eventData)
                           <args>
                             <themeimage>'
                             . (
-                               count($securityCheck['unsecurelocalaccounts']) ? 'button_cancel' : 'button_ok'
+                               count($securityCheck['unsecurelocalaccounts']) ? 'buttoncancel' : 'buttonok'
                             )
                             .'</themeimage>
                             <disabled>true</disabled>
@@ -606,7 +606,7 @@ function main_default($eventData)
                           <args>
                             <themeimage>'
                             . (
-                               count($securityCheck['unsecurewebservicesprofiles']) ? 'button_cancel' : 'button_ok'
+                               count($securityCheck['unsecurewebservicesprofiles']) ? 'buttoncancel' : 'buttonok'
                             )
                             .'</themeimage>
                             <disabled>true</disabled>
@@ -635,7 +635,7 @@ function main_default($eventData)
                           <args>
                             <themeimage>'
                             . (
-                               count($securityCheck['unsecurewebservicesaccounts']) ? 'button_cancel' : 'button_ok'
+                               count($securityCheck['unsecurewebservicesaccounts']) ? 'buttoncancel' : 'buttonok'
                             )
                             .'</themeimage>
                             <disabled>true</disabled>
@@ -737,7 +737,7 @@ function main_settings($eventData)
     
               <button row="0" col="0"><name>preset</name>
                 <args>
-                    <themeimage>decrypted</themeimage>
+                    <themeimage>unlock</themeimage>
                     <label type="encoded">'.urlencode($gLocale->getStr('level_low.label')).'</label>
                     <horiz>true</horiz>
                     <frame>false</frame>
@@ -774,7 +774,7 @@ function main_settings($eventData)
     
               <button row="1" col="0"><name>preset</name>
                 <args>
-                    <themeimage>encrypted</themeimage>
+                    <themeimage>lock</themeimage>
                     <label type="encoded">'.urlencode($gLocale->getStr('level_normal.label')).'</label>
                     <horiz>true</horiz>
                     <frame>false</frame>
@@ -811,7 +811,7 @@ function main_settings($eventData)
     
               <button row="2" col="0"><name>preset</name>
                 <args>
-                    <themeimage>encrypted</themeimage>
+                    <themeimage>lock</themeimage>
                     <label type="encoded">'.urlencode($gLocale->getStr('level_high.label')).'</label>
                     <horiz>true</horiz>
                     <frame>false</frame>
@@ -848,7 +848,7 @@ function main_settings($eventData)
     
               <button row="3" col="0"><name>preset</name>
                 <args>
-                    <themeimage>encrypted</themeimage>
+                    <themeimage>lock</themeimage>
                     <label type="encoded">'.urlencode($gLocale->getStr('level_paranoid.label')).'</label>
                     <horiz>true</horiz>
                     <frame>false</frame>
@@ -1020,7 +1020,7 @@ function main_settings($eventData)
                     <horiz>true</horiz>
                     <frame>false</frame>
                     <label type="encoded">'.urlencode($gLocale->getStr('apply.submit')).'</label>
-                    <themeimage>button_ok</themeimage>
+                    <themeimage>buttonok</themeimage>
                     <formsubmit>access</formsubmit>
                     <action type="encoded">'
                     .urlencode(
@@ -1206,7 +1206,7 @@ function main_settings($eventData)
                     <horiz>true</horiz>
                     <frame>false</frame>
                     <label type="encoded">'.urlencode($gLocale->getStr('apply.submit')).'</label>
-                    <themeimage>button_ok</themeimage>
+                    <themeimage>buttonok</themeimage>
                     <formsubmit>alerts</formsubmit>
                     <action type="encoded">'
                     .urlencode(
@@ -1325,7 +1325,7 @@ function main_settings($eventData)
                     <horiz>true</horiz>
                     <frame>false</frame>
                     <label type="encoded">'.urlencode($gLocale->getStr('apply.submit')).'</label>
-                    <themeimage>button_ok</themeimage>
+                    <themeimage>buttonok</themeimage>
                     <formsubmit>alerts</formsubmit>
                     <action type="encoded">'
                     .urlencode(
@@ -1452,7 +1452,7 @@ function main_change_password($eventData)
                     <horiz>true</horiz>
                     <frame>false</frame>
                     <label type="encoded">'.urlencode($gLocale->getStr('apply.submit')).'</label>
-                    <themeimage>button_ok</themeimage>
+                    <themeimage>buttonok</themeimage>
                     <formsubmit>password</formsubmit>
                     <action type="encoded">'
                     .urlencode(

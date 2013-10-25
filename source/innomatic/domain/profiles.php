@@ -185,7 +185,7 @@ if (
         'motdbutton',
         array(
             'label' => $innomaticLocale->getStr('motd.button'),
-            'themeimage' => 'edit',
+            'themeimage' => 'documenttext',
             'horiz' => 'true',
             'action' => $motdAction->getEventsCallString()
         )
@@ -441,7 +441,7 @@ function main_default($eventData)
                 'renamebutton'.$row,
                 array(
                     'label' => $innomaticLocale->getStr('renameprofile_label'),
-                    'themeimage' => 'edit',
+                    'themeimage' => 'documenttext',
                     'themeimagetype' => 'mini',
                     'horiz' => 'true',
                     'action' => $renameAction[$row]->getEventsCallString()
@@ -868,7 +868,7 @@ function main_deleteprofile($eventData)
         array(
             'label' => $innomaticLocale->getStr('okremoveprofile_button'),
             'horiz' => 'true',
-            'themeimage' => 'button_ok',
+            'themeimage' => 'buttonok',
             'action' => $removeAction->getEventsCallString()
         )
     );
@@ -899,7 +899,7 @@ function main_deleteprofile($eventData)
         array(
             'label' => $innomaticLocale->getStr('okremoveprofileandusers_button'),
             'horiz' => 'true',
-            'themeimage' => 'button_ok',
+            'themeimage' => 'buttonok',
             'action' => $remove2Action->getEventsCallString()
         )
     );
@@ -1117,7 +1117,7 @@ function main_users($eventData)
                     'chpasswdbutton'.$row,
                     array(
                         'label' => $innomaticLocale->getStr('chpasswd_label'),
-                        'themeimage' => 'edit',
+                        'themeimage' => 'documenttext',
                         'themeimagetype' => 'mini',
                         'horiz' => 'true', 'action' => $chPasswdAction[$row]->getEventsCallString()
                     )
@@ -1138,7 +1138,7 @@ function main_users($eventData)
                     'chdatabutton'.$row,
                     array(
                         'label' => $innomaticLocale->getStr('chdata_label'),
-                        'themeimage' => 'edit',
+                        'themeimage' => 'documenttext',
                         'themeimagetype' => 'mini',
                         'horiz' => 'true',
                         'action' => $chDataAction[$row]->getEventsCallString()
@@ -1466,7 +1466,7 @@ function main_deleteuser($eventData)
         array(
             'label' => $innomaticLocale->getStr('okremoveuser_button'),
             'horiz' => 'true',
-            'themeimage' => 'button_ok',
+            'themeimage' => 'buttonok',
             'action' => $removeAction->getEventsCallString()
         )
     );
@@ -1888,7 +1888,7 @@ if (
               <args>
                 <horiz>true</horiz>
                 <frame>false</frame>
-                <themeimage>button_ok</themeimage>
+                <themeimage>buttonok</themeimage>
                 <label type="encoded">'.urlencode($innomaticLocale->getStr('set_motd.submit')).'</label>
                 <formsubmit>motd</formsubmit>
                 <action type="encoded">'
