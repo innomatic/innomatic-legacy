@@ -71,8 +71,6 @@ class WuiiconssetComponent extends ApplicationComponent
                         @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/mimetypes', 0755);
                     if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/mini'))
                         @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/mini', 0755);
-                    if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/big'))
-                        @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/big', 0755);
                     if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/icons'))
                         @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/icons', 0755);
                     if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/light'))
@@ -111,12 +109,6 @@ class WuiiconssetComponent extends ApplicationComponent
                         while (list (, $file) = each($set_components['mini'])) {
                             if (strlen($file['file']))
                                 @copy($this->basedir . '/shared/icons/' . $params['name'] . '/mini/' . $file['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/mini/' . $file['file']);
-                        }
-                    }
-                    if (is_array($set_components['big'])) {
-                        while (list (, $file) = each($set_components['big'])) {
-                            if (strlen($file['file']))
-                                @copy($this->basedir . '/shared/icons/' . $params['name'] . '/big/' . $file['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/big/' . $file['file']);
                         }
                     }
                     if (is_array($set_components['icons'])) {
@@ -184,12 +176,6 @@ class WuiiconssetComponent extends ApplicationComponent
                             @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/mini/' . $file['file']);
                     }
                 }
-                if (is_array($set_components['big'])) {
-                    while (list (, $file) = each($set_components['big'])) {
-                        if (strlen($file['file']))
-                            @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/big/' . $file['file']);
-                    }
-                }
                 if (is_array($set_components['icons'])) {
                 	while (list (, $file) = each($set_components['icons'])) {
                 		if (strlen($file['file']))
@@ -214,8 +200,6 @@ class WuiiconssetComponent extends ApplicationComponent
                     @rmdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/mimetypes');
                 if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/mini'))
                     @rmdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/mini');
-                if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/big'))
-                    @rmdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/big');
                 if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/light'))
                     @rmdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/light');
                 if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/icons'))
@@ -263,8 +247,6 @@ class WuiiconssetComponent extends ApplicationComponent
                         @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/mimetypes', 0755);
                     if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/mini'))
                         @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/mini', 0755);
-                    if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/big'))
-                        @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/big', 0755);
                     if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/icons'))
                         @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/icons', 0755);
                     if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/light'))
@@ -303,12 +285,6 @@ class WuiiconssetComponent extends ApplicationComponent
                         while (list (, $file) = each($set_components['mini'])) {
                             if (strlen($file['file']))
                                 @copy($this->basedir . '/shared/icons/' . $params['name'] . '/mini/' . $file['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/mini/' . $file['file']);
-                        }
-                    }
-                    if (is_array($set_components['big'])) {
-                        while (list (, $file) = each($set_components['big'])) {
-                            if (strlen($file['file']))
-                                @copy($this->basedir . '/shared/icons/' . $params['name'] . '/big/' . $file['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/big/' . $file['file']);
                         }
                     }
                     if (is_array($set_components['icons'])) {
