@@ -142,7 +142,7 @@ if (strcmp($eventName, 'help')) {
                                    'helpbutton',
                                    array(
                                          'label' => $this->_localeCatalog->getStr('help_button'),
-                                         'themeimage' => 'help',
+                                         'themeimage' => 'info',
                                          'horiz' => 'true',
                                          'action' => $helpAction->getEventsCallString()
                                          )

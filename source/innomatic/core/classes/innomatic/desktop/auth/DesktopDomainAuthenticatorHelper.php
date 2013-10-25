@@ -127,7 +127,7 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
         $wuiForm = new WuiForm('form', array('action' => $formEventsCall->getEventsCallString()));
 
         $wuiHGroup = new WuiHorizGroup('horizgroup', array('align' => 'middle'));
-        $wuiHGroup->addChild(new WuiButton('password', array('themeimage' => 'password', 'themeimagetype' => 'big', 'action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/', 'highlight' => false)));
+        $wuiHGroup->addChild(new WuiButton('password', array('themeimage' => 'keyhole', 'themeimagetype' => 'big', 'action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/', 'highlight' => false)));
         $wuiHGroup->addChild($wuiVGroup);
 
         $wuiForm->addChild($wuiHGroup);

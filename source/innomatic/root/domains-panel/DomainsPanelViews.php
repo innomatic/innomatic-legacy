@@ -112,7 +112,7 @@ class DomainsPanelViews extends PanelViews
             'homebutton',
             array(
                 'label' => $this->_localeCatalog->getStr('domains_button'),
-                'themeimage' => 'folder_home',
+                'themeimage' => 'home',
                 'horiz' => 'true', 'action' => $homeAction->getEventsCallString()
                 ));
         $wuiMainToolBar->addChild($wuiHomeButton);
@@ -146,7 +146,7 @@ class DomainsPanelViews extends PanelViews
             'sitbutton',
             array(
                 'label' => $this->_localeCatalog->getStr('situation.button'),
-                'themeimage' => 'view_detailed',
+                'themeimage' => 'listdetailed',
                 'horiz' => 'true',
                 'action' => WuiEventsCall::buildEventsCallString(
                     '',
@@ -169,7 +169,7 @@ class DomainsPanelViews extends PanelViews
             $wuiHelpButton = new WuiButton(
                 'helpbutton',
                 array('label' => $this->_localeCatalog->getStr('help_button'),
-                    'themeimage' => 'help',
+                    'themeimage' => 'info',
                     'horiz' => 'true',
                     'action' => $helpAction->getEventsCallString()
                 )
@@ -307,7 +307,7 @@ class DomainsPanelViews extends PanelViews
                     'showbutton'.$row,
                     array(
                         'label' => $this->_localeCatalog->getStr('showconfig_label'),
-                        'themeimage' => 'viewmag',
+                        'themeimage' => 'zoom',
                         'action' => $showAction[$row]->getEventsCallString()
                     )
                 );
@@ -372,7 +372,7 @@ class DomainsPanelViews extends PanelViews
                         'accessbutton'.$row,
                         array(
                             'label' => $this->_localeCatalog->getStr('accessdomain_label'),
-                            'themeimage' => 'gohome',
+                            'themeimage' => 'home',
                             'action' => $accessAction[$row]->getEventsCallString(),
                             'target' => '_top'
                         )
@@ -397,7 +397,7 @@ class DomainsPanelViews extends PanelViews
                         'webappbutton'.$row,
                         array(
                             'label' => $this->_localeCatalog->getStr('webapp_label'),
-                            'themeimage' => 'package_network',
+                            'themeimage' => 'globe2',
                             'action' => $domainWebappUrl,
                             'target' => '_blank'
                         )
@@ -485,7 +485,7 @@ class DomainsPanelViews extends PanelViews
                     'removebutton'.$row,
                     array(
                         'label' => $this->_localeCatalog->getStr('removedomain_label'),
-                        'themeimage' => 'edittrash',
+                        'themeimage' => 'trash',
                         'action' => $removeAction[$row]->getEventsCallString(),
                         'needconfirm' => 'true',
                         'confirmmessage' => sprintf(

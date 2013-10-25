@@ -139,7 +139,7 @@ $wuiNameButton = new WuiButton(
     'namebutton',
     array(
         'label' => $innomaticLocale->getStr('name.button'),
-        'themeimage' => 'gohome',
+        'themeimage' => 'home',
         'horiz' => 'true',
         'action' => $nameAction->getEventsCallString()
     )
@@ -162,7 +162,7 @@ if (
         'helpbutton',
         array(
             'label' => $innomaticLocale->getStr('help_button'),
-            'themeimage' => 'help',
+            'themeimage' => 'info',
             'horiz' => 'true',
             'action' => $helpAction->getEventsCallString()
         )

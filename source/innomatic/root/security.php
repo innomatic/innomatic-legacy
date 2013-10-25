@@ -41,7 +41,7 @@ $gPageTitle = $gLocale->getStr('security.title');
 $gToolbars['main'] = array(
     'check' => array(
         'label' => $gLocale->getStr('check.toolbar'),
-        'themeimage' => 'viewmag',
+        'themeimage' => 'zoom',
         'horiz' => 'true',
         'action' => WuiEventsCall::buildEventsCallString(
             '',
@@ -91,7 +91,7 @@ $gToolbars['password'] = array(
 $gToolbars['help'] = array(
     'help' => array(
         'label' => $gLocale->getStr('help.toolbar'),
-        'themeimage' => 'help',
+        'themeimage' => 'info',
         'horiz' => 'true',
         'action' => WuiEventsCall::buildEventsCallString(
             '',
@@ -315,7 +315,7 @@ function main_default($eventData)
                 
                 <button row="1" col="0"><name>erase</name>
                   <args>
-                    <themeimage>edittrash</themeimage>
+                    <themeimage>trash</themeimage>
                     <label type="encoded">'.urlencode($gLocale->getStr('eraselog.button')).'</label>
                     <horiz>true</horiz>
                     <frame>false</frame>

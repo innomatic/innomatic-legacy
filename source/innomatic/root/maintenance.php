@@ -100,7 +100,7 @@ if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'c
 $gToolbars['help'] = array(
     'help' => array(
         'label' => $gLocale->getStr('help.toolbar'),
-        'themeimage' => 'help',
+        'themeimage' => 'info',
         'horiz' => 'true',
         'action' => WuiEventsCall::buildEventsCallString(
             '',
