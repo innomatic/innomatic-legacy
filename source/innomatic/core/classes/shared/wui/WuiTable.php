@@ -124,7 +124,7 @@ class WuiTable extends WuiContainerWidget
             if (isset($this->mArgs['headers']) and count($this->mArgs['headers'])) {
                 $this->mLayout .= "<tr>\n";
                 for ($col = 0; $col < $this->mCols; $col ++) {
-                    $this->mLayout .= '<td valign="top"><table cellpadding="0" cellspacing="1" width="100%"><tr>';
+                    $this->mLayout .= '<td valign="top"><table cellpadding="4" cellspacing="1" width="100%"><tr>';
                     if (isset($this->mArgs['headers'][$col]['link']) and strlen($this->mArgs['headers'][$col]['link'])) {
                         $this->mLayout .= '<td valign="top" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['headerbgcolor'] . '"><a href="' . $this->mArgs['headers'][$col]['link'] . '"><img src="' . ($this->mArgs['sortby'] == $col ? ($this->mArgs['sortdirection'] == 'up' ? $this->mThemeHandler->mStyle['arrowup'] : $this->mThemeHandler->mStyle['arrowdown']) : $this->mThemeHandler->mStyle['arrowrightshadow']) . '" border="0"></a></td>';
                     } else {
