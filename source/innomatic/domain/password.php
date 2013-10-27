@@ -82,7 +82,7 @@ $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array(
         'title' => $innomaticLocale->getStr('password_title'),
-        'icon' => 'password'
+        'icon' => 'key'
     )
 );
 $wuiMainVertGroup->addChild($wuiTitleBar);
@@ -120,7 +120,7 @@ if (strcmp($eventName, 'help')) {
         'helpbutton',
         array(
             'label' => $innomaticLocale->getStr('help_button'),
-            'themeimage' => 'help',
+            'themeimage' => 'info',
             'horiz' => 'true',
             'action' => $helpAction->getEventsCallString()
         )

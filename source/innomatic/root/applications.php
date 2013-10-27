@@ -94,7 +94,7 @@ if (strcmp($eventName, 'help')) {
         'helpbutton',
         array(
             'label' => $gLocale->getStr('help_button'),
-            'themeimage' => 'help',
+            'themeimage' => 'info',
             'horiz' => 'true',
             'action' => $helpAction->getEventsCallString()
         )
@@ -106,19 +106,19 @@ if (strcmp($eventName, 'help')) {
 $gToolbars['view'] = array(
     'default' => array(
         'label' => $gLocale->getStr('applications_button'),
-        'themeimage' => 'view_detailed',
+        'themeimage' => 'listdetailed2',
         'action' => WuiEventsCall::buildEventsCallString('', array(array('view', 'default', ''))),
         'horiz' => 'true'
         ),
     'repository' => array(
         'label' => $gLocale->getStr('repository.toolbar'),
-        'themeimage' => 'package_network',
+        'themeimage' => 'globe2',
         'action' => WuiEventsCall::buildEventsCallString('', array(array('view', 'appcentral', ''))),
         'horiz' => 'true'
         ),
     'keyring' => array(
         'label' => $gLocale->getStr('keys.toolbar'),
-        'themeimage' => 'encrypted',
+        'themeimage' => 'keyhole',
         'horiz' => 'true',
         'action' => WuiEventsCall::buildEventsCallString(
             '',
@@ -541,7 +541,7 @@ function main_default($eventData)
                     'detailsbutton'.$row,
                     array(
                         'label' => $gLocale->getStr('moddetails_label'),
-                        'themeimage' => 'viewmag',
+                        'themeimage' => 'zoom',
                         'action' => $detailsAction[$data['category']][$row]->getEventsCallString(),
                         'horiz'=>'true'
                     )
@@ -563,7 +563,7 @@ function main_default($eventData)
                         'depsbutton'.$row,
                         array(
                             'label' => $gLocale->getStr('applicationdeps_label'),
-                            'themeimage' => 'view_tree',
+                            'themeimage' => 'listbulletleft',
                             'action' => $depsAction[$data['category']][$row]->getEventsCallString(),
                             'horiz'=>'true'
                         )
@@ -593,7 +593,7 @@ function main_default($eventData)
                         'removebutton'.$row,
                         array(
                             'label' => $gLocale->getStr('removeapplication_label'),
-                            'themeimage' => 'edittrash',
+                            'themeimage' => 'trash',
                             'action' => $removeAction[$data['category']][$row]->getEventsCallString(),
                             'needconfirm' => 'true',
                             'confirmmessage' => sprintf(
@@ -631,7 +631,7 @@ function main_default($eventData)
                         'logbutton'.$row,
                         array(
                             'label' => $gLocale->getStr('modlog_label'),
-                            'themeimage' => 'toggle_log',
+                            'themeimage' => 'alignjustify',
                             'action' => $logAction[$data['category']][$row]->getEventsCallString(),
                             'horiz'=>'true'
                         )
@@ -721,7 +721,7 @@ function main_default($eventData)
       <args>
         <horiz>true</horiz>
         <frame>false</frame>
-        <themeimage>edit_add</themeimage>
+        <themeimage>mathadd</themeimage>
         <formsubmit>newapplicationform</formsubmit>
         <label type="encoded">'.urlencode($gLocale->getStr('newapplication_submit')).'</label>
         <action type="encoded">'
@@ -1206,7 +1206,7 @@ function main_applicationlog($eventData)
                 'cleanlogbutton',
                 array(
                     'label' => $gLocale->getStr('cleanlog_button'),
-                    'themeimage' => 'editdelete',
+                    'themeimage' => 'documentdelete',
                     'action' => $cleanLogAction->getEventsCallString()
                 )
             );
@@ -1350,7 +1350,7 @@ function main_appcentral($eventData)
             </combobox>
     <button row="0" col="2"><name>apply</name>
       <args>
-        <themeimage>edit_add</themeimage>
+        <themeimage>mathadd</themeimage>
         <formsubmit>newrepository</formsubmit>
         <horiz>true</horiz>
         <frame>false</frame>
@@ -1433,7 +1433,7 @@ function main_appcentral($eventData)
 		  <button>
 		    <args>
 		      <label>'.WuiXml::cdata($gLocale->getStr('repository_applications.button')).'</label>
-		<themeimage>view_detailed</themeimage>
+		<themeimage>listdetailed</themeimage>
 		<horiz>true</horiz>
 		<action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
                         '',
@@ -1461,7 +1461,7 @@ function main_appcentral($eventData)
         <horizbar><name>hb</name></horizbar>
          <button><name>remove</name>
            <args>
-            <themeimage>edittrash</themeimage>
+            <themeimage>trash</themeimage>
             <horiz>true</horiz>
             <frame>false</frame>
             <action type="encoded">'
@@ -1535,7 +1535,7 @@ $gXmlDefinition .=
         <children>
         <button><name>addaccount</name>
            <args>
-             <themeimage>package_network</themeimage>
+             <themeimage>globe2</themeimage>
              <horiz>true</horiz>
              <frame>false</frame>
              <action type="encoded">'.urlencode('http://www.appcentral.it/').'</action>
@@ -1544,7 +1544,7 @@ $gXmlDefinition .=
          </button>
         <button><name>addaccount2</name>
            <args>
-            <themeimage>filenew2</themeimage>
+            <themeimage>mathadd</themeimage>
             <horiz>true</horiz>
             <frame>false</frame>
             <action type="encoded">'
@@ -1771,7 +1771,7 @@ function main_repositoryapplications($eventData)
         $toolbars .= '<button>
         		    <args>
 		      <label>'.WuiXml::cdata($gLocale->getStr('application_versions.button')).'</label>
-		<themeimage>view_detailed</themeimage>
+		<themeimage>listdetailed</themeimage>
 		<horiz>true</horiz>
 		<action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
                 '',
@@ -2195,7 +2195,7 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
         	$toolbars = '<button>
         		    <args>
 		      <label>'.WuiXml::cdata($gLocale->getStr('removekey.button')).'</label>
-		<themeimage>edittrash</themeimage>
+		<themeimage>trash</themeimage>
 		<horiz>true</horiz>
 				<needconfirm>true</needconfirm>
                     <confirmmessage>'.WuiXml::cdata($gLocale->getStr('remove_key.confirm')).'</confirmmessage>
@@ -2315,7 +2315,7 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
       <args>
         <horiz>true</horiz>
         <frame>false</frame>
-        <themeimage>edit_add</themeimage>
+        <themeimage>mathadd</themeimage>
         <formsubmit>newkey</formsubmit>
         <label type="encoded">'.urlencode($gLocale->getStr('newkey.submit')).'</label>
         <action type="encoded">'
@@ -2411,7 +2411,7 @@ $wui->addChild(
         'page',
         array(
             'pagetitle' => $gPageTitle,
-            'icon' => 'kpackage',
+            'icon' => 'listicons',
             'menu' => $gMenu,
             'toolbars' => array(
                 new WuiInnomaticToolbar(

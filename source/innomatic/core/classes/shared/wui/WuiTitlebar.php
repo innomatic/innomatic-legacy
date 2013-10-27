@@ -41,7 +41,12 @@ class WuiTitleBar extends WuiWidget
     protected function generateSource ()
     {
         if (strlen($this->mIcon)) {
-            $icon = '<img id="stoppingAjax" src="' . $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['mini'][$this->mIcon]['base'] . '/mini/' . $this->mThemeHandler->mIconsSet['mini'][$this->mIcon]['file'] . '" alt="" border="0" style="padding-left: 18px; padding-right: 8px; width: 16px; height: 16px;">';
+        	if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/icons/'.$this->mThemeHandler->mIconsSet['icons'][$this->mIcon]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mIcon]['file'])) {
+        		$iconname = $this->mIcon;
+        	} else {
+        		$iconname = 'document';
+        	}
+            $icon = '<img id="stoppingAjax" src="' . $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons'][$iconname]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$iconname]['file'] . '" alt="" border="0" style="padding-left: 11px; padding-right: 1px; width: 30px; height: 30px;">';
         } else
             $icon = '';
 
