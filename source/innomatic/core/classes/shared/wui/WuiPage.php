@@ -275,17 +275,32 @@ class WuiPage extends WuiContainerWidget
 						        $groupsquery->movenext();
 						    }
 
+						    if ($prefs_id != 0) {
+						    	
+						    }
 						}
 					}
 
 $menu = '';
 
-			foreach ($el as $group) {
+			foreach ($el as $id => $group) {
+				if ($id == $prefs_id) {
+					continue;
+				}
 				$menu .= '.|' . $group['groupname'] . "\n";
 		
 				foreach ($group['groupelements'] as $panel) {					
 					$menu .= '..|' . $panel['name'] . '|'
 		            . $panel['action'] . "\n";
+				}
+			}
+			
+			if (isset($el[$prefs_id])) {
+				$menu .= '.|' . $el[$prefs_id]['groupname'] . "\n";
+				
+				foreach ($el[$prefs_id]['groupelements'] as $panel) {
+					$menu .= '..|' . $panel['name'] . '|'
+							. $panel['action'] . "\n";
 				}
 			}
 
