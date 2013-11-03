@@ -10,6 +10,10 @@
 
 6000 6.1 -
 ---------------------
+FIXES:
+- Fixed WuiWidget::getEventsCompleteString() when generating events string with
+  multiple events. (Alex Pagnoni)
+  
 CHANGES:
 - Removed lot of unused icons in Crystal icon set. (Alex Pagnoni)
 - The menu is now opened under the menu bar. (Alex Pagnoni)

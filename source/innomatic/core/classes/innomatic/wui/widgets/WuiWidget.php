@@ -360,7 +360,7 @@ abstract class WuiWidget
 
         $string = '';
         foreach ($this->events as $eventName => $calls) {
-            $string = ' on'.$eventName.'="'.implode(';', $calls).'"';
+            $string .= ' on'.$eventName.'="'.implode(';', $calls).'"';
         }
         return $string;
     }
