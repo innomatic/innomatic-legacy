@@ -20,6 +20,7 @@ CHANGES:
 
 NEW FEATURES:
 - New Subway icon set by Pixle. (Alex Pagnoni)
+- New InnomaticContainer Environment feature. (Alex Pagnoni)
 
 DEPRECATED:
 - Old icon set, only new Subway icon set should be used from now on. (Alex Pagnoni)

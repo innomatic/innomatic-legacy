@@ -51,6 +51,7 @@ class InnomaticContainer extends Singleton
     private $_domainStarted = false;
     private $_pid;
     private $_state;
+    private $_environment;
     private $_mode = InnomaticContainer::MODE_BASE;
     private $_interface = InnomaticContainer::INTERFACE_UNKNOWN;
     private $_edition = InnomaticContainer::EDITION_SAAS;
@@ -98,6 +99,13 @@ class InnomaticContainer extends Singleton
     const STATE_PRODUCTION = 4;
     const STATE_UPGRADE = 5;
     const STATE_MAINTENANCE = 6;
+
+    // Environment type
+    
+    const ENVIRONMENT_DEVELOPMENT = 1; // Local development or shared sandbox
+    const ENVIRONMENT_INTEGRATION = 2; // Integration e.g. continuous integration
+    const ENVIRONMENT_STAGING = 3; // Multiple UAT, QA, Demo, Training/Demo environments
+    const ENVIRONMENT_PRODUCTION = 4; // Live
     
     // Output interface types
 
@@ -149,7 +157,7 @@ class InnomaticContainer extends Singleton
         $this->_config = new InnomaticSettings($configuration);
 
         // *********************************************************************
-        // Environment
+        // PHP environment
         // *********************************************************************
 
         // PHP
@@ -168,7 +176,7 @@ class InnomaticContainer extends Singleton
         );
 
         // *********************************************************************
-        // Innomatic state, mode, interface and edition
+        // Innomatic state, environment, mode, interface and edition
         // *********************************************************************
 
         // Waits until system is in upgrade phase
@@ -202,6 +210,25 @@ class InnomaticContainer extends Singleton
                     $this->_state = InnomaticContainer::STATE_PRODUCTION;
             }
         }
+        
+        // Environment
+        switch ($this->_config->Value('PlatformEnvironment')) {
+        	case 'development':
+        		$this->_environment = InnomaticContainer::ENVIRONMENT_DEVELOPMENT;
+        		break;
+        	case 'integration':
+        		$this->_environment = InnomaticContainer::ENVIRONMENT_INTEGRATION;
+        		break;
+        	case 'staging':
+        		$this->_environment = InnomaticContainer::ENVIRONMENT_STAGING;
+        		break;
+        	case 'production':
+        		$this->_environment = InnomaticContainer::ENVIRONMENT_PRODUCTION;
+        		break;
+        	default:
+        		$this->_environment = InnomaticContainer::ENVIRONMENT_PRODUCTION;
+        }
+        
         // Interface
         //$this->interface = InnomaticContainer::INTERFACE_UNKNOWN;
         // Mode
@@ -1134,6 +1161,26 @@ class InnomaticContainer extends Singleton
         }
     }
 
+    public function getEnvironment()
+    {
+    	return $this->_environment;
+    }
+    
+    public function setState($environment)
+    {
+    	switch ($environment) {
+    		case InnomaticContainer::ENVIRONMENT_DEVELOPMENT:
+    			// break was intentionally omitted
+    		case InnomaticContainer::ENVIRONMENT_INTEGRATION:
+    			// break was intentionally omitted
+    		case InnomaticContainer::ENVIRONMENT_PRODUCTION:
+    			// break was intentionally omitted
+    		case InnomaticContainer::ENVIRONMENT_STAGING:
+    			$this->_environment = $environment;
+    			break;
+    	}
+    }
+    
     public function getMode()
     {
         return $this->_mode;
