@@ -98,7 +98,7 @@ class InnomaticContainer extends Singleton
     const STATE_PRODUCTION = 4;
     const STATE_UPGRADE = 5;
     const STATE_MAINTENANCE = 6;
-
+    
     // Output interface types
 
     const INTERFACE_UNKNOWN = 1;
@@ -194,9 +194,6 @@ class InnomaticContainer extends Singleton
                     if (extension_loaded('APD')) {
                         apd_set_session_trace(35);
                     }
-                    break;
-                case 'development':
-                    $this->_state = InnomaticContainer::STATE_DEVELOPMENT;
                     break;
                 case 'production':
                     $this->_state = InnomaticContainer::STATE_PRODUCTION;
@@ -756,7 +753,6 @@ class InnomaticContainer extends Singleton
                 break;
 
             case InnomaticContainer::STATE_SETUP :
-            case InnomaticContainer::STATE_DEVELOPMENT :
                 /* For debug purposes in setup procedure add these commands:
                  $log_err[E_NOTICE]['log'] = true;
                  $log_err[E_USER_NOTICE]['log'] = true;
@@ -1125,8 +1121,6 @@ class InnomaticContainer extends Singleton
     {
         switch ($state) {
             case InnomaticContainer::STATE_SETUP:
-                // break was intentionally omitted
-            case InnomaticContainer::STATE_DEVELOPMENT:
                 // break was intentionally omitted
             case InnomaticContainer::STATE_DEBUG:
                 // break was intentionally omitted

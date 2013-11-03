@@ -16,6 +16,7 @@ CHANGES:
 - Larger header for Wui Table. (Alex Pagnoni)
 - Now the Preferences domain group is always the last one in Wui Page menu.
   (Alex Pagnoni)
+- Removed InnomaticContainer::STATE_DEVELOPMENT. (Alex Pagnoni)
 
 NEW FEATURES:
 - New Subway icon set by Pixle. (Alex Pagnoni)
