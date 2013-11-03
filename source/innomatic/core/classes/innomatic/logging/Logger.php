@@ -67,7 +67,6 @@ class Logger {
 
                     switch ($innomatic->getState()) {
                         case InnomaticContainer::STATE_DEBUG :
-                        case InnomaticContainer::STATE_DEVELOPMENT :
                         case InnomaticContainer::STATE_SETUP :
                             $log_event = true;
                     }
