@@ -94,7 +94,6 @@ class InnomaticContainer extends Singleton
     // Innomatic platform/instance state
 
     const STATE_SETUP = 1;
-    const STATE_DEVELOPMENT = 2;
     const STATE_DEBUG = 3;
     const STATE_PRODUCTION = 4;
     const STATE_UPGRADE = 5;
