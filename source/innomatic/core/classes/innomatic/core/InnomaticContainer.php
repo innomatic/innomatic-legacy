@@ -1166,7 +1166,7 @@ class InnomaticContainer extends Singleton
     	return $this->_environment;
     }
     
-    public function setState($environment)
+    public function setEnvironment($environment)
     {
     	switch ($environment) {
     		case InnomaticContainer::ENVIRONMENT_DEVELOPMENT:
