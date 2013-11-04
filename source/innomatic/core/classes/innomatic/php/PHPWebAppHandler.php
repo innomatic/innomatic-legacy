@@ -35,11 +35,27 @@ class PhpWebAppHandler extends WebAppHandler
             )->getCurrentWebApp()->getHome(), 0, -1
         ) . $req->getPathInfo();
 
+        // If this is a directory, check that a welcome file exists
+        if (is_dir($resource)) {
+        	$this->welcomeFiles = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getWelcomeFiles();
+
+        	$path = $this->getRelativePath($req);
+        	$welcomeFile = $this->findWelcomeFile($path);
+        	if ($welcomeFile != null) {
+        		$resource = $resource.$welcomeFile;
+        	} else {
+        		$res->sendError(
+        				WebAppResponse::SC_FORBIDDEN,
+        				$req->getRequestURI()
+        		);
+        		return;
+        	}
+        }
+     
         // Make sure that this path exists on disk
         if (
             $req->getPathInfo() == '/index'
             or !file_exists($resource . '.php')
-            or is_dir($resource)
         ) {
             $res->sendError(
                 WebAppResponse::SC_NOT_FOUND,
@@ -47,7 +63,7 @@ class PhpWebAppHandler extends WebAppHandler
             	);
             return;
         }
-
+        
         // Core directory is private
         if (substr($req->getPathInfo(), 0, 6) == '/core/') {
         	$res->sendError(
@@ -81,6 +97,20 @@ class PhpWebAppHandler extends WebAppHandler
     {
     }
 
+    protected function findWelcomeFile($path)
+    {
+    	if (substr($path, -1) != '/')
+    		$path .= '/';
+
+    	reset($this->welcomeFiles);
+    	foreach ($this->welcomeFiles as $welcomefile) {
+    		if (file_exists(substr(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).$path.$welcomefile.'.php'))
+    			return $welcomefile;
+    	}
+    
+    	return null;
+    }
+    
     protected function getRelativePath(WebAppRequest $request)
     {
         $result = $request->getPathInfo();

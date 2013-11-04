@@ -29,6 +29,7 @@ NEW FEATURES:
   Pagnoni)
 - Added security checks to the PHP webapp handler. (Alex Pagnoni)
 - Added classes directory to the PHP webapp skeleton. (Alex Pagnoni)
+- Added handling of welcome file in PHP webapp handler. (Alex Pagnoni)
 
 DEPRECATED:
 - Old icon set, only new Subway icon set should be used from now on. (Alex
