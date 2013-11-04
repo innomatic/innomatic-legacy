@@ -27,6 +27,7 @@ NEW FEATURES:
 - New InnomaticContainer Environment feature. (Alex Pagnoni)
 - Top menu bar remains fixed during vertical scrolling. (Duncan Midwinter, Alex
   Pagnoni)
+- Added security checks to the PHP webapp handler. (Alex Pagnoni)
 
 DEPRECATED:
 - Old icon set, only new Subway icon set should be used from now on. (Alex
