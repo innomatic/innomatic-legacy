@@ -69,7 +69,7 @@ class PHPTemplate implements Template
      */
     public function set($name, $value)
     {
-        $this->_vars[$name] = $value instanceof PhpTemplate ? $value->parse()
+        $this->_vars[$name] = $value instanceof Template ? $value->parse()
             : $value;
     }
 
