@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled 
  * with this package in the file LICENSE.
  *
- * @copyright  2013 Innoteam S.r.l.
+ * @copyright  2013 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.1
@@ -17,7 +17,7 @@ require_once 'innomatic/application/ApplicationComponent.php';
 /**
  * Module component handler.
  * 
- * @copyright  2013 Innoteam S.r.l.
+ * @copyright  2013 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.1

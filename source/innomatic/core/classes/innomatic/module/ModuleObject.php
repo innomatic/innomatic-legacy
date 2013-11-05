@@ -19,7 +19,7 @@ require_once('innomatic/dataaccess/DataAccessFactory.php');
  * situations this is the only way, like when accessing remote Modules.  
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
 abstract class ModuleObject implements Serializable {

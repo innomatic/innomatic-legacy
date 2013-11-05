@@ -13,7 +13,7 @@ require_once('innomatic/module/session/ModuleSessionGarbageCollector.php');
  * Module server socket handler and requests dispatcher.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
 class ModuleServerSocketHandler extends SocketHandler {
