@@ -484,14 +484,15 @@ function main_default($eventData)
                                 )->getBaseUrl(false).'/core/applications/'.$data['appid'].'/'.$data['iconfile']
                             )
                         ),
-                        $row, 0
+                        $row, 0, 'center'
                     );
                 }
                 $wuiApplicationsTable[$data['category']]->addChild(
                     new WuiLabel(
                         'appidlabel'.$row,
                         array(
-                            'label' => '<strong>'.$data['appid'].'</strong><br />'.$data['appdesc']
+                            'label' => '<strong>'.$data['appid'].'</strong><br />'.$data['appdesc'],
+                        	'nowrap' => 'false'
                         )
                     ),
                     $row, 1
