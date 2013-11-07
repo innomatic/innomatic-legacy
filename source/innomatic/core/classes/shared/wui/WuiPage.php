@@ -403,8 +403,12 @@ $menu = '';
 			$block .= "<table class=\"page\" border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
 			. '<thead class="page"><tr class="headerbar">'."\n" 
 			. "<td style=\"width: 100%; height: 45px; align: center; padding-left: 16px;\" align=\"left\"><img src=\"".$this->mThemeHandler->mStyle['titlelogo'] ."\" align=\"left\" width=\"25\" height=\"25\" style=\"margin-right: 15px;\" alt=\"Innomatic\"><span nowrap class=\"headerbar\" style=\"white-space: nowrap;\">".$domain_name.'</span></td>'
-							. '<td align="right" valign="middle" nowrap style="white-space: nowrap; padding-right: 10px;"><table border="0" style="margin: 0px; padding: 0px;" cellpadding="0" cellspacing="0"><tr><td><span class="headerbar" style="white-space: nowrap;">' . $user_name . "</span></td>"
-			. '<td><a href="'.$logout_events_call->getEventsCallString().'" alt="'.$innomatic_menu_locale->getStr('logout').'"><img width="25" height="25" align="right" style="margin-left: 15px;" src="'.$this->mThemeHandler->mStyle['logout'].'" alt="'.$innomatic_menu_locale->getStr('logout').'" /></a></td></tr></table>'
+							. '<td align="right" valign="middle" nowrap style="white-space: nowrap; padding-right: 10px;"><table border="0" style="margin: 0px; padding: 0px;" cellpadding="0" cellspacing="0"><tr>';
+			if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
+				$block .= '<td><span class="headerbar" style="white-space: nowrap;">' . $user_name . "</span></td>";
+				$block .= '<td><a href="'.$logout_events_call->getEventsCallString().'" alt="'.$innomatic_menu_locale->getStr('logout').'"><img width="25" height="25" align="right" style="margin-left: 15px;" src="'.$this->mThemeHandler->mStyle['logout'].'" alt="'.$innomatic_menu_locale->getStr('logout').'" /></a></td>';
+			}
+			$block .= '</tr></table>'
 			. "</td></tr>"
 			. "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: "
 			. $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\">"
