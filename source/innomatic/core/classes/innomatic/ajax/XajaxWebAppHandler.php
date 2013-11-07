@@ -26,6 +26,17 @@ class XajaxWebAppHandler extends WebAppHandler
 
     public function doGet(WebAppRequest $req, WebAppResponse $res)
     {
+    	// Start Innomatic and Domain
+    	require_once('innomatic/core/InnomaticContainer.php');
+    	require_once('innomatic/core/RootContainer.php');
+    	
+    	$innomatic = InnomaticContainer::instance('innomaticcontainer');
+    	$innomatic->setInterface(InnomaticContainer::INTERFACE_EXTERNAL);
+    	$root = RootContainer::instance('rootcontainer');
+    	$innomatic_home = $root->getHome().'innomatic/';
+    	$innomatic->bootstrap($innomatic_home, $innomatic_home.'core/conf/innomatic.ini');
+    	InnomaticContainer::instance('innomaticcontainer')->startDomain(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getName());
+
         require_once('innomatic/ajax/Xajax.php');
         require_once('innomatic/core/InnomaticContainer.php');
         
@@ -46,8 +57,10 @@ class XajaxWebAppHandler extends WebAppHandler
         		WebAppContainer::instance('webappcontainer')->getCurrentWebApp(),
         		WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'core/conf/ajax.xml');
 
-        foreach($cfg->functions as $name => $functionData) {
-        	$xajax->registerExternalFunction(array($name, $functionData['classname'], $functionData['method']), $functionData['classfile']);
+        if (isset($cfg->functions)) {
+	        foreach($cfg->functions as $name => $functionData) {
+	        	$xajax->registerExternalFunction(array($name, $functionData['classname'], $functionData['method']), $functionData['classfile']);
+	        }
         }
                 
         $xajax->processRequests();

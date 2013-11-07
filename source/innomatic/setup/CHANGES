@@ -23,6 +23,8 @@ CHANGES:
 - Removed InnomaticContainer::STATE_DEVELOPMENT. (Alex Pagnoni)
 - PHPTemplate class now supporting parsing of any Template instance as template
   variable, not only PHPTemplate ones. (Alex Pagnoni)
+- Innomatic instance and domains are initialized in Xajax webapp handler. (Alex
+  Pagnoni) 
 
 NEW FEATURES:
 - New Subway icon set by Pixle. (Alex Pagnoni)
