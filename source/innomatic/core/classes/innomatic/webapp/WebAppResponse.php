@@ -27,6 +27,7 @@ class WebAppResponse {
     private $bufferActive = false;
     private $error = false;
     private $exception = null;
+	private $redirect = false;
         
     /*
      * Server status codes; see RFC 2068.
@@ -436,7 +437,10 @@ class WebAppResponse {
         }
         $this->buffer .= ob_get_contents();
         ob_end_clean();
-        echo $this->buffer;
+
+	if (!$this->redirect) {
+	    echo $this->buffer;
+	}
         $this->bufferActive = false;
     }
 
@@ -468,7 +472,8 @@ class WebAppResponse {
         $this->resetBuffer();
         $this->setStatus(self::SC_MOVED_TEMPORARILY);
         $this->setHeader('Location', $location);
-    }
+$this->redirect = true; 
+   }
 
     public function sendError($sc, $msg = null, Exception $exception = NULL) {
         if ($this->committed) {
