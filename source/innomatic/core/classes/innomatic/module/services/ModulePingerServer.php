@@ -13,7 +13,7 @@ require_once('innomatic/module/server/ModuleServerAuthenticator.php');
  * (wait for "ping" requests from other peers and replays with "pong" message
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2013 Innoteam S.r.l.
+ * @copyright Copyright 2005-2013 Innoteam Srl
  * @since 5.1
  */
 class ModulePingerServer extends SocketHandler {

@@ -5,11 +5,22 @@ General information
 -------------------
 
 Innomatic is an advanced and easy to use cloud applications platform developed
-by Innoteam.
+by Innoteam in PHP language.
 
 It is suitable as an Internet/Intranet development and deployment
-system. It has a very strong modular architecture and allows very fast
-deployment of web based solutions.
+system, featuring a powerful modular architecture and allowing very fast
+deployment and distribution of web based solutions.
+
+Innomatic is not a framework like Symfony or similar.
+
+It is a platform aimed at building, deploying, distributing and managing
+multi-tenant applications and quickly enabling them to multiple customers
+hosted in a single Innomatic installation.
+
+It also contains a number of mini frameworks, like an MVC system to be used
+when building back office oriented applications. Over Innomatic you can also
+stack up other layered frameworks (e.g. a Content Management Framework and an
+e-Commerce platform using the CMF) and user-centric applications.
 
 
 
@@ -39,12 +50,13 @@ with the other applications, through API calls, hooks, web services and other.
 The container also provides dependencies support between
 applications.
 
-- Immediate installation and update of applications. To install an
+- Immediate deployment and update of applications. To install an
 application in the container you only need to upload the application
 file through a applications administration page. The same applies for the
-update of already installed applications.
+update of already installed applications, automatically updated for all the
+container sites.
 
-- Install applications once - use many times. When installing an
+- Deploy applications once - use many times. When installing an
 application, it can be enabled to all container sites without
 reinstalling it.
 
@@ -83,7 +95,7 @@ installed in every operating system where PHP has been ported.
 License
 -------
 
-Innomatic is released under the MPL license. See the file named LICENSE.
+Innomatic is released under the new BSD license. See the file named LICENSE.
 
 
 
@@ -122,6 +134,9 @@ To submit a bug report:
 
 To submit a support request:
     https://bitbucket.org/innoteam/innomatic/issues
+
+Would you like to participate in developing Innomatic? Send an e-mail at
+info@innoteam.it
 
 
 

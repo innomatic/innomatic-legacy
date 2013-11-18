@@ -7,7 +7,7 @@ require_once('innomatic/module/ModuleValueObject.php');
  * DAO pattern based class for accessing persistence storage.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
 class ModuleAccessObject extends DataAccessObject {

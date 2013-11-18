@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled 
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -46,10 +46,17 @@ class WuiButton extends WuiWidget
             $this->mArgs['compact'] = $this->mArgs['compact'] == 'true' ? 'true' : 'false';
         else
             $this->mArgs['compact'] = 'false';
+        
         if (! isset($this->mArgs['themeimagetype']) or ! strlen($this->mArgs['themeimagetype']))
-            $this->mArgs['themeimagetype'] = 'actions';
+        	$this->mArgs['themeimagetype'] = 'actions';
+        
         if (isset($this->mArgs['themeimage']) and strlen($this->mArgs['themeimage'])) {
-            $this->mArgs['image'] = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$this->mArgs['themeimagetype']][$this->mArgs['themeimage']]['base'] . '/' . $this->mArgs['themeimagetype'] . '/' . $this->mThemeHandler->mIconsSet[$this->mArgs['themeimagetype']][$this->mArgs['themeimage']]['file'];
+        	if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/icons/'.$this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['file'])) {
+        		$this->mArgs['image'] = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['file'];
+        	} else {        		
+        		// Fallback to old icon set style
+             	$this->mArgs['image'] = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$this->mArgs['themeimagetype']][$this->mArgs['themeimage']]['base'] . '/' . $this->mArgs['themeimagetype'] . '/' . $this->mThemeHandler->mIconsSet[$this->mArgs['themeimagetype']][$this->mArgs['themeimage']]['file'];
+        	}
         }
         if (isset($this->mArgs['confirmmessage']))
             $this->mArgs['confirmmessage'] = addslashes($this->mArgs['confirmmessage']);
@@ -81,20 +88,20 @@ class WuiButton extends WuiWidget
     protected function generateSource ()
     {
         if ($this->mArgs['themeimagetype'] == 'actions') {
-            $image_width = 22;
-            $image_height = 22;
+            $image_width = 20;
+            $image_height = 20;
         } else 
             if ($this->mArgs['themeimagetype'] == 'mini') {
-                $image_width = 16;
-                $image_height = 16;
+                $image_width = 15;
+                $image_height = 15;
             } else 
                 if ($this->mArgs['themeimagetype'] == 'big') {
-                    $image_width = 64;
-                    $image_height = 64;
+                    $image_width = 60;
+                    $image_height = 60;
                 } else 
                     if (isset($this->mArgs['themeimage']) and strlen($this->mArgs['themeimage'])) {
-                        $image_width = 32;
-                        $image_height = 32;
+                        $image_width = 30;
+                        $image_height = 30;
                     }
         $sizes = '';
         if (isset($this->mArgs['themeimage']) and strlen($this->mArgs['themeimage'])) {

@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled 
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -83,7 +83,7 @@ $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array(
         'title' => $innomaticLocale->getStr('interface_title'),
-        'icon' => 'kcontrol'
+        'icon' => 'picture'
     )
 );
 $wuiMainVertGroup->addChild($wuiTitleBar);
@@ -113,7 +113,7 @@ $wuiDefaultButton = new WuiButton(
     'defaultbutton',
     array(
         'label' => $innomaticLocale->getStr('default_button'),
-        'themeimage' => 'desktop',
+        'themeimage' => 'glasses',
         'horiz' => 'true',
         'action' => $defaultAction->getEventsCallString()
     )
@@ -126,7 +126,7 @@ $wuiCountryButton = new WuiButton(
     'countrybutton',
     array(
         'label' => $innomaticLocale->getStr('localization_button'),
-        'themeimage' => 'locale',
+        'themeimage' => 'globe2',
         'horiz' => 'true',
         'action' => $countryAction->getEventsCallString()
     )
@@ -139,7 +139,7 @@ $wuiNameButton = new WuiButton(
     'namebutton',
     array(
         'label' => $innomaticLocale->getStr('name.button'),
-        'themeimage' => 'gohome',
+        'themeimage' => 'home',
         'horiz' => 'true',
         'action' => $nameAction->getEventsCallString()
     )
@@ -162,7 +162,7 @@ if (
         'helpbutton',
         array(
             'label' => $innomaticLocale->getStr('help_button'),
-            'themeimage' => 'help',
+            'themeimage' => 'info',
             'horiz' => 'true',
             'action' => $helpAction->getEventsCallString()
         )

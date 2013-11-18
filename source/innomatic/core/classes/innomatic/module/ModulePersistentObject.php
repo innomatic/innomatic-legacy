@@ -14,7 +14,7 @@ require_once('innomatic/dataaccess/DataAccessSourceName.php');
  * A persistent Module object offers a persistence storage system.
  * 
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
 abstract class ModulePersistentObject extends ModuleObject {

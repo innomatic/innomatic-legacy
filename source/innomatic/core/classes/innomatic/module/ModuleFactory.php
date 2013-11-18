@@ -20,7 +20,7 @@ require_once('innomatic/module/util/ModuleXmlConfig.php');
  * from a remote server by parsing the given Module locator.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
 class ModuleFactory {

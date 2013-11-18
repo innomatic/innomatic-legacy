@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled 
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -275,17 +275,32 @@ class WuiPage extends WuiContainerWidget
 						        $groupsquery->movenext();
 						    }
 
+						    if ($prefs_id != 0) {
+						    	
+						    }
 						}
 					}
 
 $menu = '';
 
-			foreach ($el as $group) {
+			foreach ($el as $id => $group) {
+				if ($id == $prefs_id) {
+					continue;
+				}
 				$menu .= '.|' . $group['groupname'] . "\n";
 		
 				foreach ($group['groupelements'] as $panel) {					
 					$menu .= '..|' . $panel['name'] . '|'
 		            . $panel['action'] . "\n";
+				}
+			}
+			
+			if (isset($el[$prefs_id])) {
+				$menu .= '.|' . $el[$prefs_id]['groupname'] . "\n";
+				
+				foreach ($el[$prefs_id]['groupelements'] as $panel) {
+					$menu .= '..|' . $panel['name'] . '|'
+							. $panel['action'] . "\n";
 				}
 			}
 
@@ -329,12 +344,19 @@ $menu = '';
 			$user_name = $user_data['fname'].' '.$user_data['lname'];
 
 			$domain_name = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'];
+			
+			$logout_events_call = new WuiEventsCall(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath().'/domain');
+			$innomatic_menu_locale = new LocaleCatalog('innomatic::root_menu', InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage());
 		} else {
 			$user_name = 'root';
 			$domain_name = 'Innomatic';
-		}
 
+			$logout_events_call = new WuiEventsCall(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath().'/root');
+			$innomatic_menu_locale = new LocaleCatalog('innomatic::root_menu', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+		}
+		$logout_events_call->addEvent(new WuiEvent('login', 'logout', ''));
 		
+		// HTML
         $charset = 'UTF-8';
         //$block  = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n";
         $block = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' . "\n";
@@ -378,17 +400,23 @@ $menu = '';
 	        	$menu_footer = $mid->MakeFooter();
         	}
         	
-			$block .= "<table border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
-			. "<tr class=\"headerbar\">\n" 
+			$block .= "<table class=\"page\" border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
+			. '<thead class="page"><tr class="headerbar">'."\n" 
 			. "<td style=\"width: 100%; height: 45px; align: center; padding-left: 16px;\" align=\"left\"><img src=\"".$this->mThemeHandler->mStyle['titlelogo'] ."\" align=\"left\" width=\"25\" height=\"25\" style=\"margin-right: 15px;\" alt=\"Innomatic\"><span nowrap class=\"headerbar\" style=\"white-space: nowrap;\">".$domain_name.'</span></td>'
-							. '<td align="right" valign="middle" nowrap style="white-space: nowrap; padding-right: 10px;"><span class="headerbar" style="white-space: nowrap;">' . $user_name . "</span>"
+							. '<td align="right" valign="middle" nowrap style="white-space: nowrap; padding-right: 10px;"><table border="0" style="margin: 0px; padding: 0px;" cellpadding="0" cellspacing="0"><tr>';
+			if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
+				$block .= '<td><span class="headerbar" style="white-space: nowrap;">' . $user_name . "</span></td>";
+				$block .= '<td><a href="'.$logout_events_call->getEventsCallString().'" alt="'.$innomatic_menu_locale->getStr('logout').'"><img width="25" height="25" align="right" style="margin-left: 15px;" src="'.$this->mThemeHandler->mStyle['logout'].'" alt="'.$innomatic_menu_locale->getStr('logout').'" /></a></td>';
+			}
+			$block .= '</tr></table>'
 			. "</td></tr>"
 			. "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: "
 			. $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\">"
 			. $menu_header
 			. '</td></tr>'
-			. "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; height: 45px;\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 4px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}"
-			. "</tr></table></td></tr><tr>"
+			. "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; height: 45px; background-color: white;\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 4px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}"
+			. '</tr></table></td></tr><tr>'
+			. '</thead><tbody class="page">'
 			. "<td valign=\"top\" colspan=\"2\" style=\"\">\n";
 
 			$GLOBALS['gEnv']['runtime']['wui_menu']['header'] = true;

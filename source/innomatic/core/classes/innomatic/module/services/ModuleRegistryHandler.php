@@ -8,7 +8,7 @@ require_once('innomatic/net/socket/Socket.php');
  * Module server socket handler and requests dispatcher.
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2013 Innoteam S.r.l.
+ * @copyright Copyright 2005-2013 Innoteam Srl
  * @since 5.1
  */
 class ModuleRegistryHandler {
