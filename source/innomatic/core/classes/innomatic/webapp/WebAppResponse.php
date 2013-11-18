@@ -437,11 +437,12 @@ class WebAppResponse {
         }
         $this->buffer .= ob_get_contents();
         ob_end_clean();
-if (!$this->redirect) {
-        echo $this->buffer;
-}
+
+	if (!$this->redirect) {
+	    echo $this->buffer;
+	}
         $this->bufferActive = false;
-}
+    }
 
     public function sendHeaders() {
         if ($this->committed) {
