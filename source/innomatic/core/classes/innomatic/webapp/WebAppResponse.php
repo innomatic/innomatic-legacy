@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled 
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -27,6 +27,7 @@ class WebAppResponse {
     private $bufferActive = false;
     private $error = false;
     private $exception = null;
+	private $redirect = false;
         
     /*
      * Server status codes; see RFC 2068.
@@ -436,9 +437,11 @@ class WebAppResponse {
         }
         $this->buffer .= ob_get_contents();
         ob_end_clean();
+if (!$this->redirect) {
         echo $this->buffer;
+}
         $this->bufferActive = false;
-    }
+}
 
     public function sendHeaders() {
         if ($this->committed) {
@@ -468,7 +471,8 @@ class WebAppResponse {
         $this->resetBuffer();
         $this->setStatus(self::SC_MOVED_TEMPORARILY);
         $this->setHeader('Location', $location);
-    }
+$this->redirect = true; 
+   }
 
     public function sendError($sc, $msg = null, Exception $exception = NULL) {
         if ($this->committed) {
