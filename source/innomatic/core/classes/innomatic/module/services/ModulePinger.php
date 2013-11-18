@@ -15,7 +15,7 @@ require_once('innomatic/net/socket/SocketException.php');
  * 2) (int) n. of seconds between 2 consecutives ping cicles
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2013 Innoteam S.r.l.
+ * @copyright Copyright 2005-2013 Innoteam Srl
  * @since 5.1
  */
 class ModulePinger {
@@ -67,7 +67,7 @@ class ModulePinger {
     protected $ping_timeout;
 
    /**
-     * n° of seconds between 2 consecutives ping cicles
+     * nï¿½ of seconds between 2 consecutives ping cicles
      *
      * @var int
      * @access protected

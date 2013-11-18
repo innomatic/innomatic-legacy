@@ -8,7 +8,7 @@ require_once('innomatic/module/server/ModuleServerContext.php');
  * Controls Module server execution with service support.
  *
  * @author Alex Pagnoni 
- * @copyright Copyright 2005-2013 Innoteam S.r.l.
+ * @copyright Copyright 2005-2013 Innoteam Srl
  * @since 5.1
  */
 class ModuleServiceController extends ModuleServerController {

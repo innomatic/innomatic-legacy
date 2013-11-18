@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -27,7 +27,7 @@ require_once('innomatic/webapp/WebAppContainer.php');
  * This class provided a custom PHP error handler for the container
  * applications.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @version    Release: @package_version@
  * @link       http://www.innomatic.org
@@ -51,6 +51,7 @@ class InnomaticContainer extends Singleton
     private $_domainStarted = false;
     private $_pid;
     private $_state;
+    private $_environment;
     private $_mode = InnomaticContainer::MODE_BASE;
     private $_interface = InnomaticContainer::INTERFACE_UNKNOWN;
     private $_edition = InnomaticContainer::EDITION_SAAS;
@@ -93,12 +94,18 @@ class InnomaticContainer extends Singleton
     // Innomatic platform/instance state
 
     const STATE_SETUP = 1;
-    const STATE_DEVELOPMENT = 2;
     const STATE_DEBUG = 3;
     const STATE_PRODUCTION = 4;
     const STATE_UPGRADE = 5;
     const STATE_MAINTENANCE = 6;
 
+    // Environment type
+    
+    const ENVIRONMENT_DEVELOPMENT = 1; // Local development or shared sandbox
+    const ENVIRONMENT_INTEGRATION = 2; // Integration e.g. continuous integration
+    const ENVIRONMENT_STAGING = 3; // Multiple UAT, QA, Demo, Training/Demo environments
+    const ENVIRONMENT_PRODUCTION = 4; // Live
+    
     // Output interface types
 
     const INTERFACE_UNKNOWN = 1;
@@ -149,7 +156,7 @@ class InnomaticContainer extends Singleton
         $this->_config = new InnomaticSettings($configuration);
 
         // *********************************************************************
-        // Environment
+        // PHP environment
         // *********************************************************************
 
         // PHP
@@ -168,7 +175,7 @@ class InnomaticContainer extends Singleton
         );
 
         // *********************************************************************
-        // Innomatic state, mode, interface and edition
+        // Innomatic state, environment, mode, interface and edition
         // *********************************************************************
 
         // Waits until system is in upgrade phase
@@ -195,9 +202,6 @@ class InnomaticContainer extends Singleton
                         apd_set_session_trace(35);
                     }
                     break;
-                case 'development':
-                    $this->_state = InnomaticContainer::STATE_DEVELOPMENT;
-                    break;
                 case 'production':
                     $this->_state = InnomaticContainer::STATE_PRODUCTION;
                     break;
@@ -205,6 +209,25 @@ class InnomaticContainer extends Singleton
                     $this->_state = InnomaticContainer::STATE_PRODUCTION;
             }
         }
+        
+        // Environment
+        switch ($this->_config->Value('PlatformEnvironment')) {
+        	case 'development':
+        		$this->_environment = InnomaticContainer::ENVIRONMENT_DEVELOPMENT;
+        		break;
+        	case 'integration':
+        		$this->_environment = InnomaticContainer::ENVIRONMENT_INTEGRATION;
+        		break;
+        	case 'staging':
+        		$this->_environment = InnomaticContainer::ENVIRONMENT_STAGING;
+        		break;
+        	case 'production':
+        		$this->_environment = InnomaticContainer::ENVIRONMENT_PRODUCTION;
+        		break;
+        	default:
+        		$this->_environment = InnomaticContainer::ENVIRONMENT_PRODUCTION;
+        }
+        
         // Interface
         //$this->interface = InnomaticContainer::INTERFACE_UNKNOWN;
         // Mode
@@ -756,7 +779,6 @@ class InnomaticContainer extends Singleton
                 break;
 
             case InnomaticContainer::STATE_SETUP :
-            case InnomaticContainer::STATE_DEVELOPMENT :
                 /* For debug purposes in setup procedure add these commands:
                  $log_err[E_NOTICE]['log'] = true;
                  $log_err[E_USER_NOTICE]['log'] = true;
@@ -1126,8 +1148,6 @@ class InnomaticContainer extends Singleton
         switch ($state) {
             case InnomaticContainer::STATE_SETUP:
                 // break was intentionally omitted
-            case InnomaticContainer::STATE_DEVELOPMENT:
-                // break was intentionally omitted
             case InnomaticContainer::STATE_DEBUG:
                 // break was intentionally omitted
             case InnomaticContainer::STATE_PRODUCTION:
@@ -1140,6 +1160,26 @@ class InnomaticContainer extends Singleton
         }
     }
 
+    public function getEnvironment()
+    {
+    	return $this->_environment;
+    }
+    
+    public function setEnvironment($environment)
+    {
+    	switch ($environment) {
+    		case InnomaticContainer::ENVIRONMENT_DEVELOPMENT:
+    			// break was intentionally omitted
+    		case InnomaticContainer::ENVIRONMENT_INTEGRATION:
+    			// break was intentionally omitted
+    		case InnomaticContainer::ENVIRONMENT_PRODUCTION:
+    			// break was intentionally omitted
+    		case InnomaticContainer::ENVIRONMENT_STAGING:
+    			$this->_environment = $environment;
+    			break;
+    	}
+    }
+    
     public function getMode()
     {
         return $this->_mode;

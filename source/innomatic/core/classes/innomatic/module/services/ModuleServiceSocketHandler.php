@@ -14,7 +14,7 @@ require_once('innomatic/module/services/ModuleRegistryHandler.php');
  * Module server socket handler and requests dispatcher.
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2013 Innoteam S.r.l.
+ * @copyright Copyright 2005-2013 Innoteam Srl
  * @since 5.1
  */
 class ModuleServiceSocketHandler extends SocketHandler {
@@ -78,7 +78,7 @@ class ModuleServiceSocketHandler extends SocketHandler {
 
    /**
      * indicates the load of the local node 
-     * (indicates in real-time the n° of client served)
+     * (indicates in real-time the nï¿½ of client served)
      *
      * @var int
      * @access protected

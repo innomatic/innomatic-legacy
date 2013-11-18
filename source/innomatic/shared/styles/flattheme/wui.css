@@ -133,7 +133,11 @@ tr.headerbar {
 	border-bottom: 1px solid #457c9f;
 	background-color: #2b6991;
 }
-			
+
+table.page {margin-top:135px;}
+thead.page {position:fixed; top:0px; width: 100%}
+tbody.page {overflow: scroll;}
+
 /* Help node styles */
 
 h1 {

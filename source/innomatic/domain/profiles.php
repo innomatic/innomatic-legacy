@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled 
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -79,7 +79,7 @@ $wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
 $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array('title' => $innomaticLocale->getStr('profiles_title'),
-    'icon' => 'kuser')
+    'icon' => 'user')
 );
 $wuiMainVertGroup->addChild($wuiTitleBar);
 
@@ -92,7 +92,7 @@ $homeAction->addEvent(new WuiEvent('view', 'default', ''));
 $wuiHomeButton = new WuiButton(
     'homebutton',
     array('label' => $innomaticLocale->getStr('profiles_button'),
-        'themeimage' => 'kuser',
+        'themeimage' => 'user',
         'horiz' => 'true',
         'action' => $homeAction->getEventsCallString()
         )
@@ -105,7 +105,7 @@ $wuiNewProfileButton = new WuiButton(
     'newprofilebutton',
     array(
         'label' => $innomaticLocale->getStr('newprofile_button'),
-        'themeimage' => 'yast_group_add',
+        'themeimage' => 'useradd',
         'horiz' => 'true',
         'action' => $newProfileAction->getEventsCallString()
     )
@@ -122,7 +122,7 @@ $wuiUsersButton = new WuiButton(
     'usersbutton',
     array(
         'label' => $innomaticLocale->getStr('users_button'),
-        'themeimage' => 'personal',
+        'themeimage' => 'user',
         'horiz' => 'true',
         'action' => $usersAction->getEventsCallString()
     )
@@ -135,7 +135,7 @@ $wuiNewUserButton = new WuiButton(
     'newuserbutton',
     array(
         'label' => $innomaticLocale->getStr('newuser_button'),
-        'themeimage' => 'yast_user_add',
+        'themeimage' => 'useradd',
         'horiz' => 'true',
         'action' => $newUserAction->getEventsCallString()
     )
@@ -156,7 +156,7 @@ if (strcmp($eventName, 'help')) {
         'helpbutton',
         array(
             'label' => $innomaticLocale->getStr('help_button'),
-            'themeimage' => 'help',
+            'themeimage' => 'info',
             'horiz' => 'true',
             'action' => $helpAction->getEventsCallString()
         )
@@ -185,7 +185,7 @@ if (
         'motdbutton',
         array(
             'label' => $innomaticLocale->getStr('motd.button'),
-            'themeimage' => 'edit',
+            'themeimage' => 'documenttext',
             'horiz' => 'true',
             'action' => $motdAction->getEventsCallString()
         )
@@ -419,7 +419,7 @@ function main_default($eventData)
         while (list ($id, $profileName) = each($profiles)) {
             $wuiProfilesTable->addChild(new WuiLabel('profnamelabel'.$row, array('label' => $profileName)), $row, 0);
 
-            $wuiProfileToolbar[$row] = new WuiToolBar('applicationtoolbar'.$row);
+            $wuiProfileToolbar[$row] = new WuiHorizGroup('applicationtoolbar'.$row);
 
             $profileAction[$row] = new WuiEventsCall();
             $profileAction[$row]->addEvent(new WuiEvent('view', 'editprofile', array('profileid' => $id)));
@@ -427,7 +427,7 @@ function main_default($eventData)
                 'profilebutton'.$row,
                 array(
                     'label' => $innomaticLocale->getStr('editprofile_label'),
-                    'themeimage' => 'view_tree',
+                    'themeimage' => 'listbulletleft',
                     'themeimagetype' => 'mini',
                     'horiz' => 'true',
                     'action' => $profileAction[$row]->getEventsCallString()
@@ -441,7 +441,7 @@ function main_default($eventData)
                 'renamebutton'.$row,
                 array(
                     'label' => $innomaticLocale->getStr('renameprofile_label'),
-                    'themeimage' => 'edit',
+                    'themeimage' => 'documenttext',
                     'themeimagetype' => 'mini',
                     'horiz' => 'true',
                     'action' => $renameAction[$row]->getEventsCallString()
@@ -455,7 +455,7 @@ function main_default($eventData)
                 'removebutton'.$row,
                 array(
                     'label' => $innomaticLocale->getStr('removeprofile_label'),
-                    'themeimage' => 'edittrash',
+                    'themeimage' => 'trash',
                     'themeimagetype' => 'mini',
                     'horiz' => 'true',
                     'action' => $removeAction[$row]->getEventsCallString()
@@ -541,7 +541,7 @@ function main_editprofile($eventData)
                 $row, 1
             );
 
-            $wuiGroupToolbar[$row] = new WuiToolBar('grouptoolbar'.$row);
+            $wuiGroupToolbar[$row] = new WuiHorizGroup('grouptoolbar'.$row);
 
             if ($enabled) {
                 $disableAction[$row] = new WuiEventsCall();
@@ -661,7 +661,7 @@ function main_editprofile($eventData)
                     $row, 3
                 );
 
-                $wuiPageToolbar[$row] = new WuiToolBar('pagetoolbar'.$row);
+                $wuiPageToolbar[$row] = new WuiHorizGroup('pagetoolbar'.$row);
 
                 if ($enabled) {
                     $disableAction[$row] = new WuiEventsCall();
@@ -868,7 +868,7 @@ function main_deleteprofile($eventData)
         array(
             'label' => $innomaticLocale->getStr('okremoveprofile_button'),
             'horiz' => 'true',
-            'themeimage' => 'button_ok',
+            'themeimage' => 'buttonok',
             'action' => $removeAction->getEventsCallString()
         )
     );
@@ -899,7 +899,7 @@ function main_deleteprofile($eventData)
         array(
             'label' => $innomaticLocale->getStr('okremoveprofileandusers_button'),
             'horiz' => 'true',
-            'themeimage' => 'button_ok',
+            'themeimage' => 'buttonok',
             'action' => $remove2Action->getEventsCallString()
         )
     );
@@ -1087,7 +1087,7 @@ function main_users($eventData)
                     InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
                 )
             ) {
-                $wuiUserToolbar[$row] = new WuiToolBar('usertoolbar'.$row);
+                $wuiUserToolbar[$row] = new WuiHorizGroup('usertoolbar'.$row);
 
                 $profileAction[$row] = new WuiEventsCall();
                 $profileAction[$row]->addEvent(new WuiEvent('view', 'chprofile', array('userid' => $userData['id'])));
@@ -1095,7 +1095,7 @@ function main_users($eventData)
                     'profilebutton'.$row,
                     array(
                         'label' => $innomaticLocale->getStr('chprofile_label'),
-                        'themeimage' => 'view_tree',
+                        'themeimage' => 'listbulletleft',
                         'themeimagetype' => 'mini',
                         'horiz' => 'true',
                         'action' => $profileAction[$row]->getEventsCallString()
@@ -1117,7 +1117,7 @@ function main_users($eventData)
                     'chpasswdbutton'.$row,
                     array(
                         'label' => $innomaticLocale->getStr('chpasswd_label'),
-                        'themeimage' => 'edit',
+                        'themeimage' => 'documenttext',
                         'themeimagetype' => 'mini',
                         'horiz' => 'true', 'action' => $chPasswdAction[$row]->getEventsCallString()
                     )
@@ -1138,7 +1138,7 @@ function main_users($eventData)
                     'chdatabutton'.$row,
                     array(
                         'label' => $innomaticLocale->getStr('chdata_label'),
-                        'themeimage' => 'edit',
+                        'themeimage' => 'documenttext',
                         'themeimagetype' => 'mini',
                         'horiz' => 'true',
                         'action' => $chDataAction[$row]->getEventsCallString()
@@ -1160,7 +1160,7 @@ function main_users($eventData)
                     'removebutton'.$row,
                     array(
                         'label' => $innomaticLocale->getStr('removeuser_label'),
-                        'themeimage' => 'edittrash',
+                        'themeimage' => 'trash',
                         'themeimagetype' => 'mini',
                         'horiz' => 'true',
                         'action' => $removeAction[$row]->getEventsCallString()
@@ -1466,7 +1466,7 @@ function main_deleteuser($eventData)
         array(
             'label' => $innomaticLocale->getStr('okremoveuser_button'),
             'horiz' => 'true',
-            'themeimage' => 'button_ok',
+            'themeimage' => 'buttonok',
             'action' => $removeAction->getEventsCallString()
         )
     );
@@ -1888,7 +1888,7 @@ if (
               <args>
                 <horiz>true</horiz>
                 <frame>false</frame>
-                <themeimage>button_ok</themeimage>
+                <themeimage>buttonok</themeimage>
                 <label type="encoded">'.urlencode($innomaticLocale->getStr('set_motd.submit')).'</label>
                 <formsubmit>motd</formsubmit>
                 <action type="encoded">'

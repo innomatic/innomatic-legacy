@@ -7,7 +7,7 @@ require_once('innomatic/module/services/ModuleServiceSocketHandler.php');
  * Module service socket launcher.
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2013 Innoteam S.r.l.
+ * @copyright Copyright 2005-2013 Innoteam Srl
  * @since 5.1
  */
 class ModuleServiceSocket extends ModuleServerSocket {
