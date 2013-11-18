@@ -25,7 +25,7 @@ require_once('innomatic/domain/Domain.php');
 require_once('innomatic/config/ConfigBase.php');
 require_once('innomatic/config/ConfigFile.php');
 require_once('innomatic/config/ConfigMan.php');
-require_once('innomatic/application/AppCentralRemoteServer.php');
+require_once('innomatic/application/ApplicationMarketRemoteServer.php');
 
 global $wuiMainStatus, $wuiPage, $wuiMainVertGroup, $gStatus, $gXmlDefinition;
 global $gPageTitle, $gToolbars, $gLocale, $gPageContent, $gJavascript;
@@ -297,7 +297,7 @@ function action_newrepository($eventData)
 {
     global $gLocale, $gStatus;
 
-    $remoteAc = new AppCentralRemoteServer(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+    $remoteAc = new ApplicationMarketRemoteServer(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
     if ($remoteAc->Add($eventData['accountid'])) $gStatus = $gLocale->getStr('repository_added.status');
     else $gStatus = $gLocale->getStr('repository_not_added.status');
 }
@@ -307,7 +307,7 @@ function action_removerepository( $eventData )
 {
     global $gLocale, $gStatus;
 
-    $remoteAc = new AppCentralRemoteServer(
+    $remoteAc = new ApplicationMarketRemoteServer(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['id']
     );
     if ($remoteAc->Remove()) $gStatus = $gLocale->getStr('repository_removed.status');
@@ -322,7 +322,7 @@ function action_installapplication($eventData)
 {
     global $gLocale, $gStatus, $gJavascript;
 
-    $remoteAc = new AppCentralRemoteServer(
+    $remoteAc = new ApplicationMarketRemoteServer(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
         $eventData['id']
     );
@@ -1406,7 +1406,7 @@ function main_appcentral($eventData)
 
         $repsQuery->MoveFirst();
         while (!$repsQuery->eof) {
-            $acRemote = new AppCentralRemoteServer(
+            $acRemote = new ApplicationMarketRemoteServer(
                 InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
                 $repsQuery->getFields('id')
             );
@@ -1625,7 +1625,7 @@ function main_repositoryapplications($eventData)
     require_once('innomatic/application/ApplicationSettings.php');
     require_once('innomatic/application/ApplicationComponentRegister.php');
     
-    $acRemote = new AppCentralRemoteServer(
+    $acRemote = new ApplicationMarketRemoteServer(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
         $eventData['id']
     );
@@ -1908,7 +1908,7 @@ function main_applicationversions($eventData)
     global $gLocale, $gXmlDefinition, $gPageTitle, $gToolbars;
     require_once('innomatic/application/ApplicationDependencies.php');
     
-    $acRemote = new AppCentralRemoteServer(
+    $acRemote = new ApplicationMarketRemoteServer(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
         $eventData['id']
     );

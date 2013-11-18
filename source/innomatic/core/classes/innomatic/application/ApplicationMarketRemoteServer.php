@@ -13,7 +13,7 @@
  * @since      Class available since Release 5.0
 */
 
-class AppCentralRemoteServer
+class ApplicationMarketRemoteServer
 {
     var $mId;
     var $mrRootDb;

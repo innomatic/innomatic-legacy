@@ -304,9 +304,9 @@
 			
 		<script name="application.php" />
 
-		<!-- AppCentral -->
+		<!-- Innomatic Market -->
 
-		<class name="innomatic/application/AppCentralRemoteServer.php" />
+		<class name="innomatic/application/ApplicationMarketRemoteServer.php" />
 
 		<roottable name="applications_repositories"
 			file="applications_repositories.xml" />

@@ -54,9 +54,9 @@ UPGRADE
 -------
 
 You must upgrade Innomatic using the Applications panel in the Innomatic
-Control Panel Web interface. Please use AppCentral to obtain a newer version
-or manually upload the Innomatic archive file in the Applications panel just
-as if you were installing or upgrading a Innomatic application.
+Control Panel Web interface. Please use Innomatic Market to obtain a newer
+version or manually upload the Innomatic archive file in the Applications panel
+just as if you were installing or upgrading a Innomatic application.
 
 Overwriting your current Innomatic installation with the content of the
 Innomatic distribution archive files will result in irrecuperable damages.
