@@ -52,4 +52,13 @@ interface Template
      * @return mixed
      */
     public function parse();
+    
+    /**
+     * Returns a list of the set tag names.
+     * 
+     * @access public
+     * @since 6.1
+     * @return array
+     */
+    public function getTags();
 }
