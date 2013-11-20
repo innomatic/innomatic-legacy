@@ -86,7 +86,7 @@ class WuiString extends WuiWidget
     		//$jquery_id = 'jqautocomplete_'.$this->mName;
     		
     		$this->mLayout .= '<style>
-.ui-autocomplete-loading { background: white url(\''.$this->mThemeHandler->mStyle['ajax_mini'].'\') right center no-repeat; }
+.ui-autocomplete-loading { background: white url(\''.$this->mThemeHandler->mStyle['ajax_mini'].'\') right center no-repeat; background-size: 16px 16px;}
 .ui-autocomplete {
 max-height: 250px;
 overflow-y: auto;
