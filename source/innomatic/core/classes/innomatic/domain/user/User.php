@@ -19,11 +19,11 @@
  @abstract User management
  */
 class User {
-    private $rootDA;
-    private $domainDA;
-    private $domainserial;
-    private $userid;
-    private $username;
+    protected $rootDA;
+    protected $domainDA;
+    protected $domainserial;
+    protected $userid;
+    protected $username;
 
     /*!
      @param domainSerial integer - Domain serial number.
