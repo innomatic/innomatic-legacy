@@ -611,7 +611,7 @@ function setForwardArrowImg($forwardArrowImg) {
         return false;
     }
     $foobar = getimagesize($this->imgdir . $forwardArrowImg);
-    $this->forwardArrow = " <img src=\"" . $this->imgwww . $forwardArrowImg . "\" width=\"" . $foobar[0] . "\" height=\"" . $foobar[1] . "\" border=\"0\" alt=\" >>\" />";
+    $this->forwardArrow = " <img src=\"" . $this->imgwww . $forwardArrowImg . "\" width=\"" . ($foobar[0]/2) . "\" height=\"" . ($foobar[1]/2) . "\" border=\"0\" alt=\" >>\" />";
     return true;
 }
 
@@ -637,7 +637,7 @@ function setDownArrowImg($downArrowImg) {
         return false;
     }
     $foobar = getimagesize($this->imgdir . $downArrowImg);
-    $this->downArrow = " <img src=\"" . $this->imgwww . $downArrowImg . "\" width=\"" . $foobar[0] . "\" height=\"" . $foobar[1] . "\" border=\"0\" alt=\" >>\" />";
+    $this->downArrow = " <img src=\"" . $this->imgwww . $downArrowImg . "\" width=\"" . ($foobar[0]/2) . "\" height=\"" . ($foobar[1]/2) . "\" border=\"0\" alt=\" >>\" />";
     return true;
 }
 
@@ -972,8 +972,8 @@ function _postParse(
         } else {
             $this->tree[$cnt]["parsed_icon"] = $this->tree[$cnt]["icon"];
             $foobar = getimagesize($fooimg);
-            $this->tree[$cnt]["iconwidth"] = $foobar[0];
-            $this->tree[$cnt]["iconheight"] = $foobar[1];
+            $this->tree[$cnt]["iconwidth"] = $foobar[0] / 2;
+            $this->tree[$cnt]["iconheight"] = $foobar[1] / 2;
         }
         $this->tree[$cnt]["parsed_target"] = ($this->tree[$cnt]["target"] == "") ? "" : " target=\"" . $this->tree[$cnt]["target"] . "\"";
 //        $this->tree[$cnt]["expanded"] = ($this->tree[$cnt]["expanded"] == "") ? 0 : $this->tree[$cnt]["expanded"];

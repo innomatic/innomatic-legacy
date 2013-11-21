@@ -150,4 +150,15 @@ class PHPTemplate implements Template
         ob_end_clean();
         return $contents;
     }
+    
+	/**
+	 * Returns a list of the set tag names.
+	 * 
+	 * @access public
+	 * @since 6.1
+	 * @return array
+	 */
+	public function getTags() {
+		return array_keys($this->_vars);
+	}
 }
