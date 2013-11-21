@@ -1511,7 +1511,7 @@ $gXmlDefinition .=
                 $gToolbars['reptools'] = array(
                     'refresh' => array(
                         'label' => $gLocale->getStr('refresh.button'),
-                        'themeimage' => 'reload',
+                        'themeimage' => 'cycle',
                         'horiz' => 'true',
                         'action' => WuiEventsCall::buildEventsCallString(
                             '',
@@ -1740,12 +1740,12 @@ function main_repositoryapplications($eventData)
                 {
                 case ApplicationDependencies::VERSIONCOMPARE_EQUAL:
                     $label = $gLocale->getStr('reinstall_application.button');
-                    $icon = 'reload';
+                    $icon = 'cycle';
                     break;
 
                 case ApplicationDependencies::VERSIONCOMPARE_MORE:
                     $label = $gLocale->getStr('update_application.button');
-                    $icon = 'folder_new';
+                    $icon = 'up';
                     break;
 
                 case ApplicationDependencies::VERSIONCOMPARE_LESS:
@@ -1755,7 +1755,7 @@ function main_repositoryapplications($eventData)
                 }
             } else {
                 $label = $gLocale->getStr('install_application.button');
-                $icon = 'folder';
+                $icon = 'mathadd';
             }
         } else {
             $appInstallable = false;
@@ -1880,7 +1880,7 @@ function main_repositoryapplications($eventData)
                 $gToolbars['reptools'] = array(
                     'refresh' => array(
                         'label' => $gLocale->getStr('refresh.button'),
-                        'themeimage' => 'reload',
+                        'themeimage' => 'cycle',
                         'horiz' => 'true',
                         'action' => WuiEventsCall::buildEventsCallString(
                             '',
@@ -2114,7 +2114,7 @@ function main_applicationversions($eventData)
     $gToolbars['reptools'] = array(
         'refresh' => array(
             'label' => $gLocale->getStr('refresh.button'),
-            'themeimage' => 'reload',
+            'themeimage' => 'cycle',
             'horiz' => 'true',
             'action' => WuiEventsCall::buildEventsCallString(
                 '',
