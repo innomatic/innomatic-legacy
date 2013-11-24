@@ -28,13 +28,13 @@ require_once('innomatic/config/ConfigMan.php');
 require_once('innomatic/application/AppCentralRemoteServer.php');
 
 global $wuiMainStatus, $wuiPage, $wuiMainVertGroup, $gStatus, $gXmlDefinition;
-global $gPageTitle, $gToolbars, $gLocale, $gPageContent, $gJavascript;
+global $gPageTitle, $gToolbars, $gLocale, $gPageContent;
     
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 $gLocale = new LocaleCatalog(
     'innomatic::root_applications', InnomaticContainer::instance('innomaticcontainer')->getLanguage()
 );
-$gPageContent = $gStatus = $gToolbars = $gXmlDefinition = $gJavascript = '';
+$gPageContent = $gStatus = $gToolbars = $gXmlDefinition = '';
 
 $wui = Wui::instance('wui');
 $wui->loadWidget('button');
@@ -139,7 +139,7 @@ $gActionDispatcher = new WuiDispatcher('action');
 $gActionDispatcher->addEvent('install', 'action_install');
 function action_install($eventData)
 {
-    global $gLocale, $gLocale, $gJavascript, $gStatus;
+    global $gLocale, $gLocale, $gStatus;
 
     if (strcmp($eventData['applicationfile']['tmp_name'], 'none') != 0) {
         require_once('innomatic/application/Application.php');        
@@ -176,14 +176,12 @@ function action_install($eventData)
             $gStatus.= $gLocale->getStr('unmetsuggs_status').$unmetSuggsStr;
         }
     }
-
-    $gJavascript = "parent.frames.menu.location.reload()\n".'parent.frames.header.location.reload()';
 }
 
 $gActionDispatcher->addEvent('uninstall', 'action_uninstall');
 function action_uninstall($eventData)
 {
-    global $gLocale, $gLocale, $wuiPage, $gJavascript, $gStatus;
+    global $gLocale, $gLocale, $wuiPage, $gStatus;
     require_once('innomatic/application/Application.php');
     
     $tempApplication = new Application(
@@ -197,8 +195,6 @@ function action_uninstall($eventData)
         $gStatus = $gLocale->getStr('removeunmetdeps_status').$unmetDepsStr;
     } else
         $gStatus = $gLocale->getStr('moduninstalled_status');
-
-    $gJavascript = "parent.frames.menu.location.reload()\n".'parent.frames.header.location.reload()';
 }
 
 $gActionDispatcher->addEvent('activateapplication', 'action_activateapplication');
@@ -316,7 +312,7 @@ $gActionDispatcher->addEvent(
 );
 function action_installapplication($eventData)
 {
-    global $gLocale, $gStatus, $gJavascript;
+    global $gLocale, $gStatus;
 
     $remoteAc = new AppCentralRemoteServer(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
@@ -330,7 +326,6 @@ function action_installapplication($eventData)
         )
     ) {
             $gStatus = $gLocale->getStr('application_installed.status');
-            $gJavascript = "parent.frames.menu.location.reload()\n".'parent.frames.header.location.reload()';
     } else {
             $gStatus = $gLocale->getStr('application_not_installed.status');
     }
@@ -2418,8 +2413,7 @@ $wui->addChild(
                 )
             ),
             'maincontent' => $gPageContent,
-            'status' => $gStatus,
-            'javascript' => $gJavascript
+            'status' => $gStatus
         )
     )
 );

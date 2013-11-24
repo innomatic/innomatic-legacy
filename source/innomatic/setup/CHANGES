@@ -26,6 +26,7 @@ CHANGES:
 - Innomatic instance and domains are initialized in Xajax webapp handler. (Alex
   Pagnoni)
 - Removed InnomaticContainer::getRootWuiMenuDefinition(). (Alex Pagnoni)
+- Removed old references to html frames in desktop layout. (Alex Pagnoni)
 
 NEW FEATURES:
 - New Subway icon set by Pixle. (Alex Pagnoni)

@@ -31,10 +31,6 @@ class InterfacePanelViews extends PanelViews
                 $this->wuiMainstatus->mArgs['status'] =
                     $this->_controller->getAction()->status;
                 break;
-            case 'javascript':
-                $this->wuiPage->mArgs['javascript'] =
-                    $this->_controller->getAction()->javascript;
-                break;
         }
     }
 

@@ -85,7 +85,7 @@ $wui->loadWidget('vertframe'  );
 $wui->loadWidget('vertgroup'  );
 $wui->loadWidget('progressbar');
 
-$wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('innomaticsetup_title'), 'javascript' => "parent.frames.menu.location.reload()"));
+$wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('innomaticsetup_title')));
 $wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
 $wuiTitleBar = new WuiTitleBar('titlebar', array('title' => $innomaticLocale->getStr('innomaticsetup_title')));
 $wuiMainVertGroup->addChild($wuiTitleBar);

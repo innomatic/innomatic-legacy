@@ -88,11 +88,9 @@ require_once('innomatic/wui/dispatch/WuiDispatcher.php');
     function executesettheme2($eventData)
     {    
     	$this->status = $this->_localeCatalog->getStr('themeset_status');
-    	$this->javascript = "parent.frames.menu.location.reload();\nparent.frames.header.location.reload()";
     	
     	$this->setChanged();
     	$this->notifyObservers('status');
-    	$this->notifyObservers('javascript');
     }
     
     function executesetlanguage($eventData)
@@ -116,9 +114,7 @@ require_once('innomatic/wui/dispatch/WuiDispatcher.php');
     	) {
     		$domainSets->EditKey('desktop-language', $eventData['language']);
     	}
-    
-    	$this->javascript = 'parent.frames.menu.location.reload()';
-    
+        
     	$this->status = $this->_localeCatalog->getStr('languageset_status');
     	
     	$this->setChanged();
@@ -147,9 +143,7 @@ require_once('innomatic/wui/dispatch/WuiDispatcher.php');
     	) {
     		$domainSettings->EditKey('desktop-country', $eventData['country']);
     	}
-    
-    	$this->javascript = 'parent.frames.menu.location.reload()';
-    
+        
     	$this->status = $this->_localeCatalog->getStr('countryset_status');
     	
     	$this->setChanged();

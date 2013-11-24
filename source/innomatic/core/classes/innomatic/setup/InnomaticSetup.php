@@ -203,7 +203,6 @@ class InnomaticSetup {
         require_once('innomatic/config/ConfigFile.php');
         $innomaticcfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
         $innomaticcfg->setValue('PlatformEdition', $eventData['edition']);
-        // !!! $page->add(new HTMLScript('JavaScript1.2', 'parent.frames.menu.location.reload()', ''));
 
         return TRUE;
     }
@@ -272,7 +271,6 @@ class InnomaticSetup {
 
                             @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_dbcreated', time());
                             if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_creatingdb')) @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_creatingdb');
-                            // !!! $page->add(new HTMLScript('JavaScript1.2', 'parent.frames.menu.location.reload()', ''));
                         }
                         else $log->logevent('innomatic.root.main_php',
                                              'Unable to create root database configuration file during initialization', Logger::ERROR);
