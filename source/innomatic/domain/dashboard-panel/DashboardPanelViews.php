@@ -95,9 +95,9 @@ $this->wuiMainframe = new WuiVertFrame('mainframe');
     			// Check if the class exists
     			if (class_exists($class)) {
     				// Fetch the widget xml definition
-    				$widget = new $class;
-    				$width = $widget->getWidth() * $def_width;
-    				$height = $widget->getHeight();
+    				$widget_obj = new $class;
+    				$width = $widget_obj->getWidth() * $def_width;
+    				$height = $widget_obj->getHeight();
     			}
     			
     		}
@@ -105,7 +105,7 @@ $this->wuiMainframe = new WuiVertFrame('mainframe');
     		if ($width == 0) $width = $def_width;
     		if ($height == 0) $height = $def_height;
     		
-    		$wui_xml .= '<table row="'.$row_counter.'" col="'.$col.'" halign="left" valign="top"><args></args><children><vertgroup row="0" col="0" halign="left" valign="top"><args><width>400</width><height>100</height><groupvalign>top</groupvalign></args><children><divframe><args><id>widget_'.$widget['name'].'</id><width>300</width></args><children><void/></children></divframe></children></vertgroup></children></table>';
+    		$wui_xml .= '<table row="'.$row_counter.'" col="'.$col.'" halign="left" valign="top"><args></args><children><vertgroup row="0" col="0" halign="left" valign="top"><args><width>'.$width.'</width><height>'.$height.'</height><groupvalign>top</groupvalign></args><children><divframe><args><id>widget_'.$widget['name'].'</id><width>300</width></args><children><void/></children></divframe></children></vertgroup></children></table>';
     		
     		if (($col == $columns - 1)) {
     			$row_counter++;

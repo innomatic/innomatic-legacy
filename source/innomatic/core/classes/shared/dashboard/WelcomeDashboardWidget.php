@@ -29,6 +29,6 @@ class WelcomeDashboardWidget extends DashboardWidget {
 	}
 	
 	public function getHeight() {
-		return 120;
+		return 60;
 	}
 }

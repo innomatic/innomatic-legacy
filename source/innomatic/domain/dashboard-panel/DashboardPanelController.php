@@ -45,6 +45,7 @@ class DashboardPanelController extends PanelController
     		$widgets[] = array(
     			'name' => $widget_query->getFields('name'),
     			'file' => $widget_query->getFields('file'),
+    			'class' => $widget_query->getFields('class'),
     			'panel' => $panel,
     			'catalog' => $widget_query->getFields('catalog'),
     			'title' => $widget_query->getFields('title')
