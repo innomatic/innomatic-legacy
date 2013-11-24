@@ -19,7 +19,7 @@ require_once ('innomatic/application/ApplicationComponent.php');
  */
 class DashboardwidgetComponent extends ApplicationComponent
 {
-    public function DashboardwidgetComponent ($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
@@ -84,8 +84,8 @@ class DashboardwidgetComponent extends ApplicationComponent
     public function doEnableDomainAction ($domainid, $params) {
     	$ins = 'INSERT INTO domain_dashboards_widgets VALUES (' . $this->domainda->getNextSequenceValue('domain_dashboards_widgets_id_seq') . ',';
     	$ins .= $this->domainda->formatText($params['name']) . ',';
-    	$ins .= $this->domainda->formatText($grdata['panel']) . ',';
-    	$ins .= $this->domainda->formatText($grdata['class']) . ',';
+    	$ins .= $this->domainda->formatText($params['panel']) . ',';
+    	$ins .= $this->domainda->formatText($params['file']) . ',';
     	$ins .= $this->domainda->formatText($params['catalog']) . ',';
     	$ins .= $this->domainda->formatText($params['title']) . ',';
     	$ins .= $this->domainda->formatText($params['width']) . ')';
@@ -101,12 +101,16 @@ WHERE name = ' . $this->domainda->formatText($params['name']).' LIMIT 1');
     	return true;
     }
     				
-    public function doUpdateDomainAction ($domainid, $params) {
-		$this->domainda->execute(
-'UPDATE domain_dashboards_widgets SET
-width=' . $this->domainda->formatText($params['width']) . ', panel=' . $this->domainda->formatText($params['panel']) . ', catalog=' . $this->domainda->formatText($params['catalog']) . ', class=' . $this->domainda->formatText($params['class']) . ', title=' . $this->domainda->formatText($params['title'])
-.' WHERE name=' . $this->domainda->formatText($params['name']));
-
-		return true;
+    function doUpdateDomainAction ($domainid, $params) {
+    	$check_query = $this->domainda->execute('SELECT id FROM domain_dashboards_widgets WHERE name=' . $this->domainda->formatText($params['name']));
+    	if ($check_query->getNumberRows() > 0) {
+    		$this->domainda->execute(
+    				'UPDATE domain_dashboards_widgets SET
+width=' . $this->domainda->formatText($params['width']) . ', panel=' . $this->domainda->formatText($params['panel']) . ', catalog=' . $this->domainda->formatText($params['catalog']) . ', class=' . $this->domainda->formatText($params['file']) . ', title=' . $this->domainda->formatText($params['title'])
+    				.' WHERE name=' . $this->domainda->formatText($params['name']));
+			return true;
+    	} else {
+    		return $this->doEnableDomainAction($domainid, $params);
+    	}
     }
 }
