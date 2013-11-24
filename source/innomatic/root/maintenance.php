@@ -1806,9 +1806,6 @@ $gWui->addChild(
         'page',
         array(
             'pagetitle' => $gPageTitle,
-            'menu' => InnomaticContainer::getRootWuiMenuDefinition(
-                InnomaticContainer::instance('innomaticcontainer')->getLanguage()
-            ),
             'toolbars' => array(
                 new WuiInnomaticToolbar(
                     'view',

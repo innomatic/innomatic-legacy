@@ -76,10 +76,6 @@ $wui->LoadWidget('innomatictoolbar');
 
 $gPageTitle = $gLocale->getStr('applications_title');
 
-$gMenu = InnomaticContainer::getRootWuiMenuDefinition(
-    InnomaticContainer::instance('innomaticcontainer')->getLanguage()
-);
-
 // Help tool bar
 //
 $wuiHelpToolBar = new WuiToolBar('helpbar');
@@ -2413,7 +2409,6 @@ $wui->addChild(
         array(
             'pagetitle' => $gPageTitle,
             'icon' => 'listicons',
-            'menu' => $gMenu,
             'toolbars' => array(
                 new WuiInnomaticToolbar(
                     'view',

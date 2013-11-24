@@ -78,19 +78,6 @@ $wuiTitleBar = new WuiTitleBar(
 );
 $wuiMainVertGroup->addChild($wuiTitleBar);
 
-$menuFrame = new WuiHorizGroup('menuframe');
-$menuFrame->addChild(
-    new WuiMenu(
-        'mainmenu',
-        array(
-            'menu' => InnomaticContainer::getRootWuiMenuDefinition(
-                InnomaticContainer::instance('innomaticcontainer')->getLanguage()
-            )
-        )
-    )
-);
-$wuiMainVertGroup->addChild($menuFrame);
-
 // Profiles bar
 //
 $wuiProfilesToolBar = new WuiToolBar('profilestoolbar');

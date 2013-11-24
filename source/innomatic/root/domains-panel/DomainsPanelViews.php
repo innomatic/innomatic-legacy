@@ -90,18 +90,6 @@ class DomainsPanelViews extends PanelViews
             );
         $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
 
-        $menuFrame = new WuiHorizGroup('menuframe');
-        $menuFrame->addChild(
-            new WuiMenu(
-                'mainmenu',
-                array('menu' => InnomaticContainer::getRootWuiMenuDefinition(
-                    InnomaticContainer::instance('innomaticcontainer')->getLanguage()
-                )
-                )
-            )
-        );
-        $this->wuiMainvertgroup->addChild($menuFrame);
-
         // Main tool bar
         //
         $wuiMainToolBar = new WuiToolBar('maintoolbar');
