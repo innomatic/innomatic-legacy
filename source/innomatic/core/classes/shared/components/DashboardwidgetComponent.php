@@ -45,7 +45,6 @@ class DashboardwidgetComponent extends ApplicationComponent
     }
     
     public function doInstallAction ($args) {
-        $result = false;
         $args['file'] = $this->basedir . '/core/classes/shared/dashboard/' . basename($args['file']);
         
         // Check if the shared dashboard widgets directory exists
@@ -56,12 +55,11 @@ class DashboardwidgetComponent extends ApplicationComponent
 
         @copy($args['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . basename($args['file']));
 		@chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . basename($args['file']), 0644);
-        return $result;
+        return true;
     }
     
     function doUninstallAction ($args)
     {
-        $result = false;
         if (strlen($args['file'])) {
         	$args['file'] = $this->basedir . '/core/classes/shared/dashboard/' . basename($args['file']);
 			@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . $args['file']);
@@ -70,7 +68,6 @@ class DashboardwidgetComponent extends ApplicationComponent
     }
     
     public function doUpdateAction ($args) {
-        $result = false;
         if (strlen($args['file'])) {
 	        $args['file'] = $this->basedir . '/core/classes/shared/dashboard/' . basename($args['file']);
 	        if (file_exists($args['file'])) {
@@ -78,7 +75,7 @@ class DashboardwidgetComponent extends ApplicationComponent
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . basename($args['file']), 0644);
     	    }
         }
-        return $result;
+        return true;
     }
     
     public function doEnableDomainAction ($domainid, $params) {
@@ -91,7 +88,7 @@ class DashboardwidgetComponent extends ApplicationComponent
     	$ins .= $this->domainda->formatText($params['width']) . ')';
     	$result = $this->domainda->execute($ins);
 
-    	return $result;
+    	return true;
     }
     			
     public function doDisableDomainAction ($domainid, $params) {
