@@ -23,4 +23,12 @@ class WelcomeDashboardWidget extends DashboardWidget {
 		
 		return $xml;
 	}
+	
+	public function getWidth() {
+		return 1;
+	}
+	
+	public function getHeight() {
+		return 120;
+	}
 }

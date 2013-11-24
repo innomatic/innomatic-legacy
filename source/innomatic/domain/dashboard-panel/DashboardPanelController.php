@@ -44,6 +44,7 @@ class DashboardPanelController extends PanelController
     		// Add current widget
     		$widgets[] = array(
     			'name' => $widget_query->getFields('name'),
+    			'file' => $widget_query->getFields('file'),
     			'panel' => $panel,
     			'catalog' => $widget_query->getFields('catalog'),
     			'title' => $widget_query->getFields('title')

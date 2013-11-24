@@ -8,7 +8,6 @@
 		<field name="class" type="text" length="250" />
 		<field name="catalog" type="text" length="250" />
 		<field name="title" type="text" length="50" />
-		<field name="width" type="integer" />
 		<field name="file" type="text" length="250" />
 		<key field="id" type="unique" />
 	</table>
