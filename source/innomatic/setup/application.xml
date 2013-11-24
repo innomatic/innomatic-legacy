@@ -908,7 +908,9 @@
 		<class name="innomatic/desktop/dashboard/DashboardWidget.php" />
 		<domaintable name="domain_dashboards_widgets"
 			file="domain_dashboards_widgets.xml" />
-						
+			
+		<dashboardwidget name="welcome" panel="dashboard" file="WelcomeDashboardWidget.php" catalog="dashboard_welcome" title="welcome" width="1" />
+			
 		<!-- Modules -->
 		
 		<configurationfile name="modules.ini" keep="1" />

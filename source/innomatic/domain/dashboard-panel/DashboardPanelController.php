@@ -22,7 +22,7 @@ class DashboardPanelController extends PanelController
     }
     
     public function getWidgetsList() {
-    	$widgets['dashboard:motd'] = array('name' => 'motd', 'panel' => 'dashboard', 'ajaxcall' => 'xajax_getMotdWidget()', 'catalog' => 'innomatic::domain_dashboard', 'title' => 'motd_widget');
+    	$widgets['dashboard:motd'] = array('name' => 'motd', 'panel' => 'dashboard', 'catalog' => 'innomatic::domain_dashboard', 'title' => 'motd_widget');
     	
     	return $widgets;
     }
