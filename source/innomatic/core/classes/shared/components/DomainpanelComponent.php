@@ -113,7 +113,7 @@ class DomainpanelComponent extends ApplicationComponent
             $params['themeicon'] = '';
         if (! isset($params['themeicontype']))
             $params['themeicontype'] = '';
-        if ((! empty($params['icon']) or ! empty($params['themeicon'])) and (! isset($params['show']) or $params['show'] != 'no')) {
+        if (! isset($params['show']) or $params['show'] != 'no') {
             // If the page has no group, puts it in the generic tools group
             //
             if (empty($params['category']))
@@ -129,7 +129,7 @@ class DomainpanelComponent extends ApplicationComponent
                 $ins .= $this->domainda->formatText($params['catalog']) . ',';
                 $ins .= $this->domainda->formatText($params['themeicon']) . ',';
                 $ins .= $this->domainda->formatText($params['themeicontype']) . ')';
-                $result = &$this->domainda->execute($ins);
+                $result = $this->domainda->execute($ins);
             } else
                 $result = true;
         }
@@ -144,7 +144,7 @@ class DomainpanelComponent extends ApplicationComponent
             $params['themeicon'] = '';
         if (! isset($params['themeicontype']))
             $params['themeicontype'] = '';
-        if (! empty($params['name']) and (! empty($params['icon']) or ! empty($params['themeicon'])) and $params['show'] != 'no') {
+        if (! empty($params['name']) and $params['show'] != 'no') {
             if (! empty($params['catalog'])) {
                 $tmpquery = $this->domainda->execute('SELECT id FROM domain_panels where name = ' . $this->domainda->formatText($params['name']));
                 $tmpperm = new Permissions($this->domainda, 0);
