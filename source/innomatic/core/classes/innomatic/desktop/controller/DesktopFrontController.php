@@ -247,6 +247,7 @@ class DesktopFrontController extends Singleton
     
     public function executeDomain($resource)
     {
+    	// Check if this is the default page and if the user is allowed to access the dashboard
     	if (substr($resource, -1, 1) == '/') {
     		require_once('innomatic/domain/user/Permissions.php');
     		
