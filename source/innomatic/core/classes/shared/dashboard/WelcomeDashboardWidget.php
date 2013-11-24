@@ -15,7 +15,7 @@ class WelcomeDashboardWidget extends DashboardWidget {
 					InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
 			);
 			
-			$message = $catalog->getStr('welcome_title');
+			$message = $catalog->getStr('welcome_message');
 		}	
 		
 		require_once 'shared/wui/WuiXml.php';

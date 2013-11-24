@@ -53,7 +53,6 @@ class DashboardPanelController extends PanelController
     		
     		$widget_query->moveNext();
     	}
-    	//$widgets['dashboard:motd'] = array('name' => 'motd', 'panel' => 'dashboard', 'catalog' => 'innomatic::domain_dashboard', 'title' => 'motd_widget');
     	
     	return $widgets;
     }

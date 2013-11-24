@@ -909,7 +909,7 @@
 		<domaintable name="domain_dashboards_widgets"
 			file="domain_dashboards_widgets.xml" />
 			
-		<dashboardwidget name="welcome" panel="dashboard" file="WelcomeDashboardWidget.php" catalog="dashboard_welcome" title="welcome" class="WelcomeDashboardWidget" />
+		<dashboardwidget name="welcome" panel="dashboard" file="WelcomeDashboardWidget.php" catalog="innomatic::dashboard_welcome" title="welcome_title" class="WelcomeDashboardWidget" />
 			
 		<!-- Modules -->
 		

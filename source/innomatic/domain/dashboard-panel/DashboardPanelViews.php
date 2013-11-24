@@ -102,10 +102,20 @@ $this->wuiMainframe = new WuiVertFrame('mainframe');
     			
     		}
     		
+    		// Check width and height parameters
     		if ($width == 0) $width = $def_width;
     		if ($height == 0) $height = $def_height;
     		
-    		$wui_xml .= '<table row="'.$row_counter.'" col="'.$col.'" halign="left" valign="top"><args></args><children><vertgroup row="0" col="0" halign="left" valign="top"><args><width>'.$width.'</width><height>'.$height.'</height><groupvalign>top</groupvalign></args><children><divframe><args><id>widget_'.$widget['name'].'</id><width>300</width></args><children><void/></children></divframe></children></vertgroup></children></table>';
+    		// Widget title
+    		$widget_locale = new LocaleCatalog(
+    				$widget['catalog'],
+    				InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+    		);
+    		$headers = array();
+    		$headers[0]['label'] = $widget_locale->getStr($widget['title']);
+    		
+    		// Draw widget
+    		$wui_xml .= '<table row="'.$row_counter.'" col="'.$col.'" halign="left" valign="top"><args><headers type="array">'.WuiXml::encode($headers).'</headers></args><children><vertgroup row="0" col="0" halign="left" valign="top"><args><width>'.$width.'</width><height>'.$height.'</height><groupvalign>top</groupvalign></args><children><divframe><args><id>widget_'.$widget['name'].'</id><width>300</width></args><children><void/></children></divframe></children></vertgroup></children></table>';
     		
     		if (($col == $columns - 1)) {
     			$row_counter++;
