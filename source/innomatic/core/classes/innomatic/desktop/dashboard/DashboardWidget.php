@@ -39,4 +39,12 @@ abstract class DashboardWidget {
 	 */
 	public abstract function getHeight();
 	
+	public function getDefaultWidth() {
+		return 400;
+	}
+	
+	public function getDefaultHeight() {
+		return 250;
+	}
+	
 }
