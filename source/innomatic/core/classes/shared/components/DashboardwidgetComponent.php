@@ -82,10 +82,11 @@ class DashboardwidgetComponent extends ApplicationComponent
     	$ins = 'INSERT INTO domain_dashboards_widgets VALUES (' . $this->domainda->getNextSequenceValue('domain_dashboards_widgets_id_seq') . ',';
     	$ins .= $this->domainda->formatText($params['name']) . ',';
     	$ins .= $this->domainda->formatText($params['panel']) . ',';
-    	$ins .= $this->domainda->formatText($params['file']) . ',';
+    	$ins .= $this->domainda->formatText($params['class']) . ',';
     	$ins .= $this->domainda->formatText($params['catalog']) . ',';
     	$ins .= $this->domainda->formatText($params['title']) . ',';
-    	$ins .= $this->domainda->formatText($params['width']) . ')';
+    	$ins .= $this->domainda->formatText($params['width']) . ',';
+    	$ins .= $this->domainda->formatText($params['file']) . ')';
     	$result = $this->domainda->execute($ins);
 
     	return true;
@@ -103,7 +104,7 @@ WHERE name = ' . $this->domainda->formatText($params['name']).' LIMIT 1');
     	if ($check_query->getNumberRows() > 0) {
     		$this->domainda->execute(
     				'UPDATE domain_dashboards_widgets SET
-width=' . $this->domainda->formatText($params['width']) . ', panel=' . $this->domainda->formatText($params['panel']) . ', catalog=' . $this->domainda->formatText($params['catalog']) . ', class=' . $this->domainda->formatText($params['file']) . ', title=' . $this->domainda->formatText($params['title'])
+file=' . $this->domainda->formatText($params['file']) . ', width=' . $this->domainda->formatText($params['width']) . ', panel=' . $this->domainda->formatText($params['panel']) . ', catalog=' . $this->domainda->formatText($params['catalog']) . ', class=' . $this->domainda->formatText($params['class']) . ', title=' . $this->domainda->formatText($params['title'])
     				.' WHERE name=' . $this->domainda->formatText($params['name']));
 			return true;
     	} else {
