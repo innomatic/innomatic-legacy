@@ -22,7 +22,36 @@ class DashboardPanelController extends PanelController
     }
     
     public function getWidgetsList() {
-    	$widgets['dashboard:motd'] = array('name' => 'motd', 'panel' => 'dashboard', 'catalog' => 'innomatic::domain_dashboard', 'title' => 'motd_widget');
+		$domain_da = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess();
+
+		require_once('innomatic/domain/user/Permissions.php');
+		$perm = new Permissions($domain_da, InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
+
+		// Extract the list of all the widgets
+    	$widget_query = $domain_da->execute('SELECT * FROM domain_dashboards_widgets');
+    	
+    	while (!$widget_query->eof) {
+    		$panel = $widget_query->getFields('panel');
+    		
+    		// Do not show widgets tied to a panel when the panel is not accessible to the current user
+    		if (strlen($panel)) {
+    			$node_id = $perm->getNodeIdFromFileName($panel);
+    			if ( $perm->check( $node_id, Permissions::NODETYPE_PAGE ) == Permissions::NODE_NOTENABLED ) {
+    				continue;
+    			}
+    		}
+
+    		// Add current widget
+    		$widgets[] = array(
+    			'name' => $widget_query->getFields('name'),
+    			'panel' => $panel,
+    			'catalog' => $widget_query->getFields('catalog'),
+    			'title' => $widget_query->getFields('title')
+    		);
+    		
+    		$widget_query->moveNext();
+    	}
+    	//$widgets['dashboard:motd'] = array('name' => 'motd', 'panel' => 'dashboard', 'catalog' => 'innomatic::domain_dashboard', 'title' => 'motd_widget');
     	
     	return $widgets;
     }

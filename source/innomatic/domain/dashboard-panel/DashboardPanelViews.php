@@ -74,21 +74,22 @@ $this->wuiMainframe = new WuiVertFrame('mainframe');
     	$columns = 2;
     	 
     	$wui_xml = '<grid><children>';
+    	
     	foreach ($widgets as $widget) {
     		// Add ajax setup call
-    		Wui::instance('wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\''.$widget['panel'].'\', \''.$widget['name'].'\')');
+    		Wui::instance('wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\''.$widget['name'].'\')');
     		
     		$col = $widget_counter % $columns;
     		
-    		$wui_xml .= '<table row="'.$row_counter.'" col="'.$col.'"><args></args><children><divframe row="0" col="0"><args><id>widget_'.$widget['panel'].'_'.$widget['name'].'</id><width>300</width></args><children><void/></children></divframe></children></table>';
+    		$wui_xml .= '<table row="'.$row_counter.'" col="'.$col.'"><args></args><children><divframe row="0" col="0"><args><id>widget_'.$widget['name'].'</id><width>300</width></args><children><void/></children></divframe></children></table>';
     		
     		if (($col == $columns - 1)) {
     			$row_counter++;
     		}
     		$widget_counter++;
     	}
-    	$wui_xml .= '</children></grid>';
     	
+    	$wui_xml .= '</children></grid>';
     	
     	$this->wuiMainframe->addChild(new WuiXml('', array('definition' => $wui_xml)));
     }

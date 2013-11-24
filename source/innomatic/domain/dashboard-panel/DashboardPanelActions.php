@@ -40,17 +40,50 @@ class DashboardPanelActions extends PanelActions
     {
     }
     
-    public function ajaxGetDashboardWidget($panel, $name) {
+    public function ajaxGetDashboardWidget($name) {
     	$objResponse = new XajaxResponse();
+    	$xml = '<void/>';
 
-    	$xml = '<label><args><label>Benvenuto su Innomatic</label></args></label>';
+    	$domain_da = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess();
     	
+    	require_once('innomatic/domain/user/Permissions.php');
+    	$perm = new Permissions($domain_da, InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
+    	
+    	// Check if the widget exists in the widgets list
+    	$widget_query = $domain_da->execute('SELECT * FROM domain_dashboards_widgets WHERE name='.$domain_da->formatText($name));
+
+    	if ($widget_query->getNumberRows() > 0) {
+    		$allowed = true;
+    		$panel = $widget_query->getFields('panel');
+    		
+    		// Do not show widgets tied to a panel when the panel is not accessible to the current user
+    		if (strlen($panel)) {
+    			$node_id = $perm->getNodeIdFromFileName($panel);
+    			if ( $perm->check( $node_id, Permissions::NODETYPE_PAGE ) == Permissions::NODE_NOTENABLED ) {
+    				$allowed = false;
+    			}
+    		}
+    		
+    		if ($allowed) {
+    			// Check if the class file exists
+    			if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . $widget_query->getFields('file'))) {
+    				require_once(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . $widget_query->getFields('file'));
+
+    				$class = $widget_query->getFields('class');
+    				
+    				// Check if the class exists
+    				if (class_exists($class)) {
+    					// Fetch the widget xml definition
+    					$widget = new $class;
+    					$xml = $widget->getWidgetXml();	
+    				}
+    			}
+    		}
+    	}
+    	
+    	// Create the widget html and send it to the dashboard
     	$html = WuiXml::getContentFromXml('', $xml);
-    	
-    	//$widgets = $this->getController()->getWidgetsList();
-    	
-    	$objResponse->addAssign('widget_dashboard_motd', 'innerHTML', $html);
-    	//$objResponse->addAssign('widget_'.$panel.'_'.$name, 'innerHTML', $html);
+    	$objResponse->addAssign('widget_'.$name, 'innerHTML', $html);
     	 
     	return $objResponse;
     }
