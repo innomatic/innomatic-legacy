@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled 
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2013 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -19,6 +19,8 @@
 require_once('innomatic/logging/Logger.php');
 require_once('innomatic/locale/LocaleCatalog.php');
 require_once('innomatic/wui/Wui.php');
+require_once('innomatic/wui/dispatch/WuiEventsCall.php');
+require_once('innomatic/wui/dispatch/WuiEvent.php');
 require_once('innomatic/webservices/WebServicesAccount.php');
 require_once('innomatic/webservices/WebServicesProfile.php');
 require_once('innomatic/webservices/WebServicesUser.php');

@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled 
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2013 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -19,6 +19,8 @@
 require_once('innomatic/logging/Logger.php');
 require_once('innomatic/locale/LocaleCatalog.php');
 require_once('innomatic/wui/Wui.php');
+require_once('innomatic/wui/dispatch/WuiEventsCall.php');
+require_once('innomatic/wui/dispatch/WuiEvent.php');
 require_once('innomatic/application/Application.php');
 require_once('innomatic/application/ApplicationDependencies.php');
 require_once('innomatic/domain/Domain.php');
@@ -37,42 +39,7 @@ $gLocale = new LocaleCatalog(
 $gPageContent = $gStatus = $gToolbars = $gXmlDefinition = '';
 
 $wui = Wui::instance('wui');
-$wui->loadWidget('button');
-$wui->loadWidget('checkbox');
-$wui->loadWidget('combobox');
-$wui->loadWidget('date');
-$wui->loadWidget('empty');
-$wui->loadWidget('file');
-$wui->loadWidget('formarg');
-$wui->loadWidget('form');
-$wui->loadWidget('grid');
-$wui->loadWidget('helpnode');
-$wui->loadWidget('horizbar');
-$wui->loadWidget('horizframe');
-$wui->loadWidget('horizgroup');
-$wui->loadWidget('image');
-$wui->loadWidget('label');
-$wui->loadWidget('link');
-$wui->loadWidget('listbox');
-$wui->loadWidget('menu');
-$wui->loadWidget('page');
-$wui->loadWidget('progressbar');
-$wui->loadWidget('radio');
-$wui->loadWidget('sessionkey');
-$wui->loadWidget('statusbar');
-$wui->loadWidget('string');
-$wui->loadWidget('submit');
-$wui->loadWidget('tab');
-$wui->loadWidget('table');
-$wui->loadWidget('text');
-$wui->loadWidget('titlebar');
-$wui->loadWidget('toolbar');
-$wui->loadWidget('treemenu');
-$wui->loadWidget('vertframe');
-$wui->loadWidget('vertgroup');
-$wui->loadWidget('xml');
-$wui->LoadWidget('innomaticpage');
-$wui->LoadWidget('innomatictoolbar');
+$wui->loadAllWidgets();
 
 $gPageTitle = $gLocale->getStr('applications_title');
 
