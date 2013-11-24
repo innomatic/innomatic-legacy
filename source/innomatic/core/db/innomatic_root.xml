@@ -484,7 +484,7 @@
 		<key field="id" type="unique" />
 	</table>
 
-	<sequence name="applications_components_types_id_seq" start="38" />
+	<sequence name="applications_components_types_id_seq" start="39" />
 
 	<insert table="applications_components_types">
 		<data field="id" value="1" />
@@ -790,6 +790,14 @@
 		<data field="file" value="ModuleComponent.php" />
 	</insert>
 
+	<insert table="applications_components_types">
+		<data field="id" value="39" />
+		<data field="typename" value="dashboardwidget" />
+		<data field="priority" value="0" />
+		<data field="domain" value="1" />
+		<data field="file" value="DashboardwidgetComponent.php" />
+	</insert>
+	
 	<table name="maintenance_tasks">
 		<field name="name" type="text" length="50" notnull="1" />
 		<field name="file" type="text" length="50" notnull="1" />
