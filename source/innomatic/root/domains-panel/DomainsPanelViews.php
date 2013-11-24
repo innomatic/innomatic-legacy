@@ -361,8 +361,7 @@ class DomainsPanelViews extends PanelViews
                         array(
                             'label' => $this->_localeCatalog->getStr('accessdomain_label'),
                             'themeimage' => 'home',
-                            'action' => $accessAction[$row]->getEventsCallString(),
-                            'target' => '_top'
+                            'action' => $accessAction[$row]->getEventsCallString()
                         )
                     );
                     $wuiDomainToolBar[$row]->addChild($wuiAccessButton[$row]);
