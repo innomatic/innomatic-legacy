@@ -73,16 +73,23 @@ $this->wuiMainframe = new WuiVertFrame('mainframe');
     	$widgets = $this->getController()->getWidgetsList();
     	
     	$widget_counter = 0;
-    	$row_counter = 0;
-    	$columns = 2;
+    	$columns = 3;
     	 
-    	$wui_xml = '<grid><children>';
+    	$start_column = true;
+    	$end_column = false;
+    	$rows_per_column = floor(count($widgets) / $columns) + (count($widgets) % $columns > 0 ? 1 : 0);
+    	
+    	$wui_xml = '<horizgroup><children>';
     	
     	foreach ($widgets as $widget) {
+    		// If this is the start of a column, add the vertical group opener
+    		if ($start_column) {
+    			$wui_xml .= '<vertgroup><children>';
+    			$start_column = false;
+    		}
     		// Add ajax setup call
     		Wui::instance('wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\''.$widget['name'].'\')');
     		
-    		$col = $widget_counter % $columns;
     		$width = 0;
     		$height = 0;    		
     		
@@ -114,16 +121,30 @@ $this->wuiMainframe = new WuiVertFrame('mainframe');
     		$headers = array();
     		$headers[0]['label'] = $widget_locale->getStr($widget['title']);
     		
-    		// Draw widget
-    		$wui_xml .= '<table row="'.$row_counter.'" col="'.$col.'" halign="left" valign="top"><args><headers type="array">'.WuiXml::encode($headers).'</headers></args><children><vertgroup row="0" col="0" halign="left" valign="top"><args><width>'.$width.'</width><height>'.$height.'</height><groupvalign>top</groupvalign></args><children><divframe><args><id>widget_'.$widget['name'].'</id><width>300</width></args><children><void/></children></divframe></children></vertgroup></children></table>';
+    		// Draw the widget
+    		$wui_xml .= '<table halign="left" valign="top"><args><headers type="array">'.WuiXml::encode($headers).'</headers></args><children><vertgroup row="0" col="0" halign="left" valign="top"><args><width>'.$width.'</width><height>'.$height.'</height><groupvalign>top</groupvalign></args><children><divframe><args><id>widget_'.$widget['name'].'</id><width>300</width></args><children><void/></children></divframe></children></vertgroup></children></table>';
     		
-    		if (($col == $columns - 1)) {
-    			$row_counter++;
-    		}
     		$widget_counter++;
+    		
+    		// Check if this last widget for each column
+    		if ($widget_counter % $rows_per_column == 0) {
+    			$end_column = true;
+    		}
+    		
+    		// If this is the last widget, end the column anyway
+    		if ($widget_counter == count($widgets)) {
+    			$end_column = true;
+    		}
+    		
+    		// If this the end of a column, close the vertical group
+    		if ($end_column) {
+    			$wui_xml .= '</children></vertgroup>';
+    			$start_column = true;
+    			$end_column = false;
+    		}
     	}
-    	
-    	$wui_xml .= '</children></grid>';
+    	    	
+    	$wui_xml .= '</children></horizgroup>';
     	
     	$this->wuiMainframe->addChild(new WuiXml('', array('definition' => $wui_xml)));
     }
