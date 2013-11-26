@@ -129,10 +129,14 @@ abstract class WuiWidget
              ($this->mSessionObjectNoName == 'true' ? '' : $this->mName) .
              (strlen($this->mSessionObjectUserName) ? '_'.$this->mSessionObjectUserName : '');
 
-		// AJAX support
-		
+        // AJAX
+        $ajax_request_uri = $_SERVER['REQUEST_URI'];
+        if (strpos($ajax_request_uri, '?')) {
+        	$ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
+        }
+        
         require_once('innomatic/ajax/Xajax.php');
-        $xajax = Xajax::instance('Xajax', '');
+        $xajax = Xajax::instance('Xajax', $ajax_request_uri);
 
 		require_once('innomatic/wui/Wui.php');
         $wuiContainer = Wui::instance('wui');

@@ -482,8 +482,14 @@ class WuiPage extends WuiContainerWidget
         // Ajax support.
         require_once ('innomatic/wui/Wui.php');
         if (Wui::instance('wui')->countRegisteredAjaxCalls() > 0) {
-            require_once ('innomatic/ajax/Xajax.php');
-            $xajax = Xajax::instance('Xajax');
+	        // AJAX
+	        $ajax_request_uri = $_SERVER['REQUEST_URI'];
+	        if (strpos($ajax_request_uri, '?')) {
+	        	$ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
+	        }
+	        
+	        require_once('innomatic/ajax/Xajax.php');
+	        $xajax = Xajax::instance('Xajax', $ajax_request_uri);
             // Show the ajax loader?
             $xajax->ajaxLoader = $this->mArgs['ajaxloader'] == 'true' ?  true : false;
             
