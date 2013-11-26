@@ -168,7 +168,7 @@ class LocaleCatalog {
         if (!empty($catfile)) {
             // New way to read locale catalogs
             //
-            $this->locales = @parse_ini_file($catfile);
+            $this->locales = @parse_ini_file($catfile, false, INI_SCANNER_RAW);
 
             $result = true;
 

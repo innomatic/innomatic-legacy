@@ -21,7 +21,7 @@ class MaintenanceHandler {
         require_once('innomatic/application/ApplicationSettings.php');
         $this->mApplicationSettings = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
 
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile(), false, INI_SCANNER_RAW);
         $result = $cfg['MaintenanceInterval'];
         if (!strlen($result))
             $result = 0;
@@ -46,7 +46,7 @@ class MaintenanceHandler {
     }
 
     function getLastMaintenanceTime() {
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile(), false, INI_SCANNER_RAW);
 
         return $cfg['MaintenanceLastExecutionTime'];
     }

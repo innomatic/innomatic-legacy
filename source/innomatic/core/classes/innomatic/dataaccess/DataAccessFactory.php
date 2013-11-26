@@ -35,7 +35,7 @@ class DataAccessFactory
         global $dbtypes;
         $dbtypes = array();
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini')) {
-            $dbcfgfile = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini');
+            $dbcfgfile = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini', false, INI_SCANNER_RAW);
             if ($dbcfgfile !== FALSE) {
                 $dbtypes = (array)$dbcfgfile;
             }
@@ -44,7 +44,7 @@ class DataAccessFactory
 
     public static function getDrivers()
     {
-        return @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini');
+        return @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini', false, INI_SCANNER_RAW);
     }
 
     public function addDriver($name, $desc)

@@ -20,7 +20,7 @@ class ModuleServerConfig {
      */
 	public function __construct($configFile) {
 		if (file_exists($configFile)) {
-			$this->cfg = parse_ini_file($configFile);
+			$this->cfg = parse_ini_file($configFile, false, INI_SCANNER_RAW);
 			$this->defaults = false;
 		} else {
 			$this->defaults = true;
