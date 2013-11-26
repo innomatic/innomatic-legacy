@@ -246,12 +246,25 @@ class DesktopFrontController extends Singleton
      */
     
     public function executeDomain($resource)
-    {        
+    {
+    	// Check if this is the default page and if the user is allowed to access the dashboard
+    	if (substr($resource, -1, 1) == '/') {
+    		require_once('innomatic/domain/user/Permissions.php');
+    		
+    		$perm = new Permissions(InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
+    		$node_id = $perm->getNodeIdFromFileName('dashboard');
+    		if ( $perm->check( $node_id, Permissions::NODETYPE_PAGE ) != Permissions::NODE_NOTENABLED ) {
+    			$resource = $resource.'dashboard';
+    		}
+    	}
+    	
         if (substr($resource, -1, 1) != '/') {
             // Must exit if the user called a page for which he isn't enabled
             //
-            require_once('innomatic/domain/user/Permissions.php');
-            $perm = new Permissions(InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
+            if (!isset($perm)) {
+	            require_once('innomatic/domain/user/Permissions.php');
+	            $perm = new Permissions(InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
+            }
 
             $desktopPanel = basename($resource);
             if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {

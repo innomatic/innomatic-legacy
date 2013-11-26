@@ -38,6 +38,8 @@ NEW FEATURES:
 - Added classes directory to the PHP webapp skeleton. (Alex Pagnoni)
 - Added handling of welcome file in PHP webapp handler. (Alex Pagnoni)
 - Added getTags() method to Template interface. (Alex Pagnoni)
+- Added domain dashboard feature. (Alex Pagnoni)
+- Added dashboardwidget component. (Alex Pagnoni)
 
 DEPRECATED:
 - Old icon set, only new Subway icon set should be used from now on. (Alex

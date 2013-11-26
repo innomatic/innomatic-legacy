@@ -1,0 +1,17 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="domain_dashboards_widgets">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="50" />
+		<field name="panel" type="text" length="50" />
+		<field name="class" type="text" length="250" />
+		<field name="catalog" type="text" length="250" />
+		<field name="title" type="text" length="50" />
+		<field name="file" type="text" length="250" />
+		<key field="id" type="unique" />
+	</table>
+
+	<sequence name="domain_dashboards_widgets_id_seq" />
+
+</database>

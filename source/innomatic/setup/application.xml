@@ -97,6 +97,8 @@
 		<component name="webapphandler" file="WebapphandlerComponent.php" />
 		<component name="ajaxcall" file="AjaxcallComponent.php" />
 		<component name="module" file="ModuleComponent.php" />
+		<component name="dashboardwidget"
+			file="DashboardwidgetComponent.php" />
 
 		<!-- Installation scripts -->
 
@@ -865,10 +867,13 @@
 			class="innomatic/desktop/webapp/DesktopDomainWebAppHandler.php"
 			urlpattern="/domain/*" listings="false" />
 
+		<domaingroup name="dashboard" catalog="innomatic::domain_menu" />
 		<domaingroup name="tools" catalog="innomatic::domain_menu" />
 		<domaingroup name="preferences"
 			catalog="innomatic::domain_menu" />
 
+		<domainpanel name="dashboard" category="dashboard" catalog="innomatic::domain_menu" />
+		
 		<domainpanel name="interface" category="preferences"
 			themeicon="style" catalog="innomatic::domain_menu" />
 		<domainpanel name="password" category="preferences"
@@ -897,7 +902,15 @@
 		<class name="innomatic/desktop/panel/PanelController.php" />
 		<class name="innomatic/desktop/panel/PanelActions.php" />
 		<class name="innomatic/desktop/panel/PanelViews.php" />
-
+		
+		<!-- Dashboard -->
+		
+		<class name="innomatic/desktop/dashboard/DashboardWidget.php" />
+		<domaintable name="domain_dashboards_widgets"
+			file="domain_dashboards_widgets.xml" />
+			
+		<dashboardwidget name="welcome" panel="dashboard" file="WelcomeDashboardWidget.php" catalog="innomatic::dashboard_welcome" title="welcome_title" class="WelcomeDashboardWidget" />
+			
 		<!-- Modules -->
 		
 		<configurationfile name="modules.ini" keep="1" />

@@ -199,6 +199,7 @@ class WuiPage extends WuiContainerWidget
 						if ( $numgroups > 0 ) {
 						    $prefs_id = 0;
 						    $tools_id = 0;
+						    $dashboard_id = 0;
 
 						    $cont = 0;
 						    unset( $el );
@@ -210,8 +211,19 @@ class WuiPage extends WuiContainerWidget
 
 						        if ( $tmpperm->check( $groupdata['id'], 'group' ) != Permissions::NODE_NOTENABLED )
 						        {
-						            if ( $groupdata['name'] == 'tools' ) $tools_id = $groupdata['id'];
-						            if ( $groupdata['name'] == 'preferences' ) $prefs_id = $groupdata['id'];
+						        	switch($groupdata['name']) {
+						        		case 'tools':
+						        			$tools_id = $groupdata['id'];
+						        			break;
+						        			
+						        		case 'preferences':
+						        			$prefs_id = $groupdata['id'];
+						        			break;
+						        			
+						        		case 'dashboard':
+						        			$dashboard_id = $groupdata['id'];
+						        			break;
+						        	}
 
 						            if ( strlen( $groupdata['catalog'] ) > 0 )
 						            {
@@ -281,10 +293,24 @@ class WuiPage extends WuiContainerWidget
 						}
 					}
 
-$menu = '';
+			$menu = '';
+			
+			// Dashboard is always the first menu
+			
+			if (isset($el[$dashboard_id])) {
+				$menu .= '.|' . $el[$dashboard_id]['groupname'] . "\n";
+			
+				foreach ($el[$dashboard_id]['groupelements'] as $panel) {
+					$menu .= '..|' . $panel['name'] . '|'
+							. $panel['action'] . "\n";
+				}
+			}
 
+			// Build the menu list
+			
 			foreach ($el as $id => $group) {
-				if ($id == $prefs_id) {
+				// Skip dashboard and preferences menu
+				if ($id == $prefs_id or $id == $dashboard_id) {
 					continue;
 				}
 				$menu .= '.|' . $group['groupname'] . "\n";
@@ -294,6 +320,8 @@ $menu = '';
 		            . $panel['action'] . "\n";
 				}
 			}
+			
+			// Preferences is always the last menu
 			
 			if (isset($el[$prefs_id])) {
 				$menu .= '.|' . $el[$prefs_id]['groupname'] . "\n";
@@ -454,8 +482,14 @@ $menu = '';
         // Ajax support.
         require_once ('innomatic/wui/Wui.php');
         if (Wui::instance('wui')->countRegisteredAjaxCalls() > 0) {
-            require_once ('innomatic/ajax/Xajax.php');
-            $xajax = Xajax::instance('Xajax');
+	        // AJAX
+	        $ajax_request_uri = $_SERVER['REQUEST_URI'];
+	        if (strpos($ajax_request_uri, '?')) {
+	        	$ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
+	        }
+	        
+	        require_once('innomatic/ajax/Xajax.php');
+	        $xajax = Xajax::instance('Xajax', $ajax_request_uri);
             // Show the ajax loader?
             $xajax->ajaxLoader = $this->mArgs['ajaxloader'] == 'true' ?  true : false;
             
