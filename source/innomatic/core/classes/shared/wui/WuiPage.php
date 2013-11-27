@@ -374,7 +374,7 @@ class WuiPage extends WuiContainerWidget
 			$domain_name = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'];
 			
 			$logout_events_call = new WuiEventsCall(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath().'/domain');
-			$innomatic_menu_locale = new LocaleCatalog('innomatic::root_menu', InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage());
+			$innomatic_menu_locale = new LocaleCatalog('innomatic::domain_menu', InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage());
 		} else {
 			$user_name = 'root';
 			$domain_name = 'Innomatic';
@@ -383,6 +383,25 @@ class WuiPage extends WuiContainerWidget
 			$innomatic_menu_locale = new LocaleCatalog('innomatic::root_menu', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
 		}
 		$logout_events_call->addEvent(new WuiEvent('login', 'logout', ''));
+		
+		// Check the environment type and set the title and the header bar color
+		switch(InnomaticContainer::instance('innomaticcontainer')->getEnvironment()) {
+			case InnomaticContainer::ENVIRONMENT_DEVELOPMENT:
+				$domain_name .= ' ('.$innomatic_menu_locale->getStr('environment_development').')';
+				$env_class = 'headerbar_dev';
+				break;
+			case InnomaticContainer::ENVIRONMENT_INTEGRATION:
+				$domain_name .= ' ('.$innomatic_menu_locale->getStr('environment_integration').')';
+				$env_class = 'headerbar_integration';
+				break;
+			case InnomaticContainer::ENVIRONMENT_STAGING:
+				$domain_name .= ' ('.$innomatic_menu_locale->getStr('environment_staging').')';
+				$env_class = 'headerbar_staging';
+				break;
+			case InnomaticContainer::ENVIRONMENT_PRODUCTION:
+				$env_class = 'headerbar';
+				break;
+			}
 		
 		// HTML
         $charset = 'UTF-8';
@@ -429,7 +448,7 @@ class WuiPage extends WuiContainerWidget
         	}
         	
 			$block .= "<table class=\"page\" border=\"0\" style=\"border-bottom: 0px solid ".$this->mThemeHandler->mColorsSet['pages']['border'].";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
-			. '<thead class="page"><tr class="headerbar">'."\n" 
+			. '<thead class="page"><tr class="'.$env_class.'">'."\n" 
 			. "<td style=\"width: 100%; height: 45px; align: center; padding-left: 16px;\" align=\"left\"><img src=\"".$this->mThemeHandler->mStyle['titlelogo'] ."\" align=\"left\" width=\"25\" height=\"25\" style=\"margin-right: 15px;\" alt=\"Innomatic\"><span nowrap class=\"headerbar\" style=\"white-space: nowrap;\">".$domain_name.'</span></td>'
 							. '<td align="right" valign="middle" nowrap style="white-space: nowrap; padding-right: 10px;"><table border="0" style="margin: 0px; padding: 0px;" cellpadding="0" cellspacing="0"><tr>';
 			if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
@@ -482,14 +501,8 @@ class WuiPage extends WuiContainerWidget
         // Ajax support.
         require_once ('innomatic/wui/Wui.php');
         if (Wui::instance('wui')->countRegisteredAjaxCalls() > 0) {
-	        // AJAX
-	        $ajax_request_uri = $_SERVER['REQUEST_URI'];
-	        if (strpos($ajax_request_uri, '?')) {
-	        	$ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
-	        }
-	        
-	        require_once('innomatic/ajax/Xajax.php');
-	        $xajax = Xajax::instance('Xajax', $ajax_request_uri);
+            require_once ('innomatic/ajax/Xajax.php');
+            $xajax = Xajax::instance('Xajax');
             // Show the ajax loader?
             $xajax->ajaxLoader = $this->mArgs['ajaxloader'] == 'true' ?  true : false;
             
