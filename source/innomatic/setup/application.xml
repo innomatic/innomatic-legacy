@@ -5,7 +5,7 @@
 		<idname>innomatic</idname>
 		<release>
 			<version>6.1</version>
-			<date>2013/10/24</date>
+			<date>2013/11/27</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description><![CDATA[<strong>Innomatic 6000</strong> Cloud Applications Platform.]]></description>
