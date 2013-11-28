@@ -62,6 +62,8 @@ FIXES:
   (Alex Pagnoni)
 - Fixed readonly state for Wui checkbox widget. (Salvatore Pollaci)
 - Fixed readonly state for Wui radio widget. (Paolo Guanciarossa)
+- Added missing default value in Wui string widget when using autocomplete.
+  (Salvatore Pollaci)
 
 CHANGES:
 - Shared components now support deployment of folders too. (Alex Pagnoni)
