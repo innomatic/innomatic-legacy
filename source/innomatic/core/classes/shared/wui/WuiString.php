@@ -7,7 +7,11 @@
  * This source file is subject to the new BSD license that is bundled 
  * with this package in the file LICENSE.
  *
+<<<<<<< Updated upstream
  * @copyright  1999-2012 Innoteam Srl
+=======
+ * @copyright  1999-2013 Innoteam Srl
+>>>>>>> Stashed changes
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -47,8 +51,9 @@ class WuiString extends WuiWidget
     /*
      * id string - HTML element id
      * autocomplete boolean - JQuery autocompletion
-     * autocompleteminlength integer - Minimun lenght to activate the autocompletion, default is 3
+     * autocompleteminlength integer - Minimum length to activate the autocompletion, default is 3
      * autocompletesearchurl string - Backend url to use for searching autocompletion results
+     * autocompletevalueid integer - Optional default value id when setting value argument
      */
     public function __construct (
         $elemName,
@@ -105,7 +110,11 @@ minLength: ".$this->mArgs['autocompleteminlength']."
 });
 </script>\n";
     		
-    		$this->mLayout .= "<input type='hidden' name='".$event_data_id->getDataString()."' id='".$this->mArgs['id']."_value'>";
+    		$def_value = '';
+    		if (isset($this->mArgs['value']) and strlen($this->mArgs['value']) and isset($this->mArgs['autocompletevalueid']) and $this->mArgs['autocompletevalueid'] != '') {
+    			$def_value = ' value=\''.$this->mArgs['autocompletevalueid'].'\'';
+    		}
+    		$this->mLayout .= "<input type='hidden' name='".$event_data_id->getDataString()."' id='".$this->mArgs['id'].'_value\''.$def_value.'>';
     	}
     	
         if ((isset($this->mArgs['required']) and $this->mArgs['required'] == 'true') || (isset($this->mArgs['integer']) and $this->mArgs['integer'] == 'true') || (isset($this->mArgs['email']) and $this->mArgs['email'] == 'true')) {
