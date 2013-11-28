@@ -80,11 +80,24 @@ class WuiHorizGroup extends WuiContainerWidget
             if (!isset($this->mArgs['width'])) {
             	$this->mArgs['width'] = "100%";
             }
+            
+            if (isset($this->mArgs['scrollable'])) {
+            	switch ($this->mArgs['scrollable']) {
+            		case 'true':
+            		case 'false':
+            			break;
+            		default:
+            			$this->mArgs['scrollable'] = 'false';
+            	}
+            } else {
+            	$this->mArgs['scrollable'] = 'false';
+            }
     }
 
     protected function generateSourceBegin()
     {
         return ( $this->mComments ? '<!-- begin '.$this->mName." horizgroup -->\n" : '' ).
+        	($this->mArgs['scrollable'] == 'true' ? '<div style="'.(isset($this->mArgs['height']) ? 'height: '.$this->mArgs['height'].'px; ' : '' ).(isset($this->mArgs['width']) ? 'width: '.$this->mArgs['width'].'px; ' : '').'overflow: auto">' : '').
             '<table border="0" cellspacing="1" cellpadding="0" height="100%"'.
             ( strlen( $this->mArgs['groupalign' ]) ? ' align="'.$this->mArgs['groupalign'].'"' : '' ).
             ( strlen( $this->mArgs['groupvalign'] ) ? ' valign="'.$this->mArgs['groupvalign'].'"' : '' ).
@@ -94,7 +107,8 @@ class WuiHorizGroup extends WuiContainerWidget
 
     protected function generateSourceEnd()
     {
-        return "</tr></table>\n"
+        return "</tr></table>\n" .
+        	($this->mArgs['scrollable'] == 'true' ? '</div>' : '')
             . ($this->mComments ? '<!-- end ' . $this->mName . " horizgroup -->\n" : '');
     }
 

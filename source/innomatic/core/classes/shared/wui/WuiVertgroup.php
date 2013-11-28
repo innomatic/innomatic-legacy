@@ -81,14 +81,30 @@ class WuiVertGroup extends WuiContainerWidget
         if (!isset($this->mArgs['width'])) {
         	$this->mArgs['width'] = "100%";
         }
+        
+        if (isset($this->mArgs['scrollable'])) {
+        	switch ($this->mArgs['scrollable']) {
+        		case 'true':
+        		case 'false':
+        			break;
+        		default:
+        			$this->mArgs['scrollable'] = 'false';
+        	}
+        } else {
+        	$this->mArgs['scrollable'] = 'false';
+        }
     }
     protected function generateSourceBegin ()
     {
-        return ($this->mComments ? '<!-- begin ' . $this->mName . " vertgroup -->\n" : '') . '<table border="0" cellspacing="1" cellpadding="0"' . ((isset($this->mArgs['groupalign']) and strlen($this->mArgs['groupalign'])) ? ' align="' . $this->mArgs['groupalign'] . '"' : '') . ((isset($this->mArgs['groupvalign']) and strlen($this->mArgs['groupvalign'])) ? ' valign="' . $this->mArgs['groupvalign'] . '"' : '') . ((isset($this->mArgs['height']) and strlen($this->mArgs['height'])) ? ' height="' . $this->mArgs['height'] . '"' : '') . ((isset($this->mArgs['width']) and strlen($this->mArgs['width'])) ? ' width="' . $this->mArgs['width'] . '"' : '') . ">\n";
+        return ($this->mComments ? '<!-- begin ' . $this->mName . " vertgroup -->\n" : '') . 
+        ($this->mArgs['scrollable'] == 'true' ? '<div style="'.(isset($this->mArgs['height']) ? 'height: '.$this->mArgs['height'].'px; ' : '' ).(isset($this->mArgs['width']) ? 'width: '.$this->mArgs['width'].'px; ' : '').'overflow: auto">' : '').
+        '<table border="0" cellspacing="1" cellpadding="0"' . ((isset($this->mArgs['groupalign']) and strlen($this->mArgs['groupalign'])) ? ' align="' . $this->mArgs['groupalign'] . '"' : '') . ((isset($this->mArgs['groupvalign']) and strlen($this->mArgs['groupvalign'])) ? ' valign="' . $this->mArgs['groupvalign'] . '"' : '') . ((isset($this->mArgs['height']) and strlen($this->mArgs['height'])) ? ' height="' . $this->mArgs['height'] . '"' : '') . ((isset($this->mArgs['width']) and strlen($this->mArgs['width'])) ? ' width="' . $this->mArgs['width'] . '"' : '') . ">\n";
     }
     protected function generateSourceEnd ()
     {
-        return "</table>\n" . ($this->mComments ? "<!-- end " . $this->mName . " vertgroup -->\n" : '');
+        return "</table>\n" .
+          ($this->mArgs['scrollable'] == 'true' ? '</div>' : '').
+         ($this->mComments ? "<!-- end " . $this->mName . " vertgroup -->\n" : '');
     }
     protected function generateSourceBlockBegin ()
     {

@@ -45,12 +45,25 @@ class WuiHorizFrame extends WuiContainerWidget
 		if (!isset($this->mArgs['width'])) {
 			$this->mArgs['width'] = "100%";
 		}
+		
+		if (isset($this->mArgs['scrollable'])) {
+			switch ($this->mArgs['scrollable']) {
+				case 'true':
+				case 'false':
+					break;
+				default:
+					$this->mArgs['scrollable'] = 'false';
+			}
+		} else {
+			$this->mArgs['scrollable'] = 'false';
+		}
     }
     protected function generateSourceBegin ()
     {
         $block = ($this->mComments ? '<!-- begin ' . $this->mName . ' horizframe -->' : '');
         $block .= '<table border="0" width="100%" cellspacing="0" cellpadding="1"><tr><td bgcolor="' . $this->mThemeHandler->mColorsSet['bars']['color'] . "\">\n";
         $block .= '<table border="0" width="100%" cellspacing="0" cellpadding="1"><tr><td bgcolor="' . $this->mThemeHandler->mColorsSet['bars']['shadow'] . "\">\n";
+        $block .= ($this->mArgs['scrollable'] == 'true' ? '<div style="'.(isset($this->mArgs['height']) ? 'height: '.$this->mArgs['height'].'px; ' : '' ).(isset($this->mArgs['width']) ? 'width: '.$this->mArgs['width'].'px; ' : '').'overflow: auto">' : '');
         $block .= '<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="' . $this->mArgs['bgcolor'] . "\">\n";
         $block .= "<tr>\n";
         return $block;
@@ -58,6 +71,7 @@ class WuiHorizFrame extends WuiContainerWidget
     protected function generateSourceEnd ()
     {
         $block = '<td width="100%" bgcolor="white">&nbsp;</td></tr>' . "\n" . '</table>' . "\n";
+        $block .= ($this->mArgs['scrollable'] == 'true' ? '</div>' : '');
         $block .= '</td></tr>' . "\n" . '</table>' . "\n";
         $block .= '</td></tr>' . "\n" . '</table>' . "\n";
         $block .= ($this->mComments ? '<!-- end ' . $this->mName . " horizframe -->\n" : '');
