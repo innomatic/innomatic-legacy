@@ -50,7 +50,7 @@ class ConfigMan extends ConfigBase
         if (!empty($application))
         $this->application = $application;
         else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logdie('innomatic.configman.configman.configman', 'No application id name', LOGGER_FAULT);
         }
@@ -116,7 +116,7 @@ class ConfigMan extends ConfigBase
 
                 $result = true;
             } else {
-                require_once('innomatic/logging/Logger.php');
+                
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent(
                     'innomatic.configman.configman.addsegment',
@@ -127,7 +127,7 @@ class ConfigMan extends ConfigBase
             $this->UpdateLock();
             $this->unlockfile();
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.configman.configman.addsegment',
@@ -185,7 +185,7 @@ class ConfigMan extends ConfigBase
                     @fwrite($fhd, $buffer);
                     @fclose($fhd);
                 } else {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                     $log->logEvent(
                         'innomatic.configman.configman.removesegment',
@@ -198,7 +198,7 @@ class ConfigMan extends ConfigBase
             $this->unlockfile();
             $this->UpdateLock();
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic.configman.configman.removesegment', 'Missing segment id', \Innomatic\Logging\Logger::ERROR);
         }
@@ -215,7 +215,7 @@ class ConfigMan extends ConfigBase
             $this->removesegment($segid);
             $result = $this->addsegment($segid, $segment, $position);
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.configman.configman.changesegment',

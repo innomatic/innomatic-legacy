@@ -215,12 +215,12 @@ class User
                     if ($hook->callHooks('useredited', $this, array('domainserial' => $this->domainserial, 'userdata' => $userdata)) != Hook::RESULT_OK)
                         $result = false;
                 } else {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                     $log->logEvent('innomatic.users.users.edituser', 'Empty username or group id', \Innomatic\Logging\Logger::WARNING);
                 }
             } else {
-                require_once('innomatic/logging/Logger.php');
+                
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent('innomatic.users.users.edituser', 'Invalid user id '.$this->userid, \Innomatic\Logging\Logger::WARNING);
             }

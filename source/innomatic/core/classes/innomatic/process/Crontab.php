@@ -47,7 +47,7 @@ class Crontab
         //
         if ( !empty( $appId ) ) $this->mAppId = $appId;
         else {
-            require_once('innomatic/logging/Logger.php');
+            
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->LogDie( 'innomatic.cron.simplecron.simplecron',
                                  'No application id name' );
@@ -98,14 +98,14 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 break;
 
             default:
-            require_once('innomatic/logging/Logger.php');
+            
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent( 'innomatic.cron.simplecron.addentry',
                                       'Invalid entry type', \Innomatic\Logging\Logger::ERROR );
                 break;
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent( 'innomatic.cron.simplecron.addentry',
                                    'Empty identifier ('.$identifier.'), entry ('.$entry.') or entry type ('.$entryType.')', \Innomatic\Logging\Logger::ERROR );
@@ -146,14 +146,14 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 break;
 
             default:
-            require_once('innomatic/logging/Logger.php');
+            
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent( 'innomatic.cron.simplecron.removeentry',
                                       'Invalid entry type', \Innomatic\Logging\Logger::ERROR );
                 break;
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent( 'innomatic.cron.simplecron.removeentry',
                                    'Empty identifier ('.$identifier.') or entry type ('.$entryType.')', \Innomatic\Logging\Logger::ERROR );

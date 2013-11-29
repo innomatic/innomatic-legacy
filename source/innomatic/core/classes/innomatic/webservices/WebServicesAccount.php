@@ -13,7 +13,7 @@
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/logging/Logger.php');
+
 require_once('innomatic/process/Hook.php');
 
 /*!

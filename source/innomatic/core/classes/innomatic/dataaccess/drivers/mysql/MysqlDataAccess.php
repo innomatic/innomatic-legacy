@@ -142,7 +142,7 @@ class MysqlDataAccess extends DataAccess
         $this->lastquery = @mysql_query($query, $this->dbhandler);
         //if ( defined( 'DEBUG' ) and !$this->lastquery ) echo mysql_error();
         if (@mysql_error($this->dbhandler)) {
-            require_once('innomatic/logging/Logger.php');
+            
         $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
             $this->log->logEvent('innomatic.mysqldataaccess.mysqldataaccess._query', 'Error: '.@mysql_error($this->dbhandler), \Innomatic\Logging\Logger::ERROR);
         }

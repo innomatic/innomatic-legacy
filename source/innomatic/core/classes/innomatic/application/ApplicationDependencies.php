@@ -102,7 +102,7 @@ class ApplicationDependencies
             }
         } else {
             if (empty($appid)) {
-                require_once('innomatic/logging/Logger.php');
+                
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.appdeps.adddepsarray',
@@ -137,7 +137,7 @@ class ApplicationDependencies
                 .$this->mrRootDb->formatText($appVersion).')'
             );
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.adddep',
@@ -169,7 +169,7 @@ class ApplicationDependencies
                 .' AND deptype='.$this->mrRootDb->formatText($deptype)
             );
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.remdep',
@@ -192,7 +192,7 @@ class ApplicationDependencies
                 'DELETE FROM applications_dependencies WHERE appid='.$this->mrRootDb->formatText($modserial)
             );
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic.applications.appdeps.remalldep', 'Empty application serial', \Innomatic\Logging\Logger::ERROR);
             return false;
@@ -243,7 +243,7 @@ class ApplicationDependencies
                 }
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic.applications.appdeps.isinstalled', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
         }
@@ -285,7 +285,7 @@ class ApplicationDependencies
                     $result = $depmods;
                 }
             } else {
-                require_once('innomatic/logging/Logger.php');
+                
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.appdeps.dependson',
@@ -294,7 +294,7 @@ class ApplicationDependencies
                 );
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic.applications.appdeps.dependson', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
         }
@@ -370,7 +370,7 @@ class ApplicationDependencies
                 }
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkapplicationdeps',
@@ -421,7 +421,7 @@ class ApplicationDependencies
                 }
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdependingapplications',
@@ -481,7 +481,7 @@ class ApplicationDependencies
                 }
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.isenabled',
@@ -545,7 +545,7 @@ class ApplicationDependencies
                     $result = $unmetdeps;
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdomainapplicationdeps',
@@ -606,7 +606,7 @@ class ApplicationDependencies
             } else
                 $result = FALSE;
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdomaindependingapplications',
@@ -641,7 +641,7 @@ class ApplicationDependencies
                 $result = $endomains;
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkenableddomains',

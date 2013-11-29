@@ -799,7 +799,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         switch ($errorType) {
             case E_ERROR:
                 if ($logError[E_ERROR]['log']) {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -852,7 +852,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_PARSE :
                 if ($logError[E_PARSE]['log']) {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -878,7 +878,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_NOTICE :
                 if ($logError[E_NOTICE]['log']) {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -904,7 +904,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_CORE_ERROR :
                 if ($logError[E_CORE_ERROR]['log']) {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -930,7 +930,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_CORE_WARNING :
                 if ($logError[E_CORE_WARNING]['log']) {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -956,7 +956,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_COMPILE_ERROR :
                 if ($logError[E_COMPILE_ERROR]['log']) {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -982,7 +982,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_COMPILE_WARNING :
                 if ($logError[E_COMPILE_WARNING]['log']) {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -1008,7 +1008,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_USER_ERROR :
                 if ($logError[E_USER_ERROR]['log']) {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -1034,7 +1034,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_USER_WARNING :
                 if ($logError[E_USER_WARNING]['log']) {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -1060,7 +1060,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_USER_NOTICE :
                 if ($logError[E_USER_NOTICE]['log']) {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -1125,7 +1125,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     {
         // Initialized the logger if not started
         if (!is_object($this->_logger)) {
-            require_once('innomatic/logging/Logger.php');
+            
             $this->_logger = new \Innomatic\Logging\Logger(
                 $this->_home . 'core/log/innomatic.log'
             );
@@ -1297,7 +1297,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
                     . 'core/temp/upgrading_system_lock'
                 )
             ) {
-                require_once('innomatic/logging/Logger.php');
+                
                 $tmpLog = InnomaticContainer::instance(
                     'innomaticcontainer'
                 )->getLogger();
@@ -1421,7 +1421,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
                     'w'
                 );
                 if ($fh) {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = InnomaticContainer::instance(
                         'innomaticcontainer'
                     )->getLogger();

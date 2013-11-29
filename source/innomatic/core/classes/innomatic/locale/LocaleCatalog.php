@@ -167,7 +167,7 @@ class LocaleCatalog
         else if (file_exists($innomatic->getHome().'core/locale/catalogs/'.$base.'/en/'.$catalog.'.ini')) {
             $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/en/'.$catalog.'.ini';
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic/locale/Locale/opencatalog', 'Unable to find a catalog file for the specified catalog ('.$this->catalog.') and language ('.$this->lang.') or fallback to another language', \Innomatic\Logging\Logger::ERROR);
         }

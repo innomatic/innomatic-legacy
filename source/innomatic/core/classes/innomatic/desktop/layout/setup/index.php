@@ -56,7 +56,7 @@ function setup_entry(&$progress, $phases, $phaseMark, $phaseCompleted, $phaseNam
 
 require_once('innomatic/wui/Wui.php');
 require_once('innomatic/locale/LocaleCatalog.php');
-require_once('innomatic/logging/Logger.php');
+
 require_once('innomatic/locale/LocaleCountry.php');
 require_once('innomatic/setup/InnomaticSetup.php');
 

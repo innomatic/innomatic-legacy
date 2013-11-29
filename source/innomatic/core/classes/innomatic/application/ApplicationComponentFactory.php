@@ -75,7 +75,6 @@ class ApplicationComponentFactory
                                 .'core/classes/shared/components/'.$data['file']
                             );
                         } else {
-                            require_once('innomatic/logging/Logger.php');
                             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                             $log->logEvent(
                                 'innomatic/application/ApplicationComponentFactory::fillTypes()',
@@ -98,7 +97,6 @@ class ApplicationComponentFactory
                 }
                 $query->free();
             } else {
-                require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::fillTypes()',
@@ -156,7 +154,6 @@ class ApplicationComponentFactory
             }
         } else {
             if (!file_exists($filepath)) {
-                require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance(
                     'innomaticcontainer'
                 )->getLogger();
@@ -246,7 +243,6 @@ class ApplicationComponentFactory
             }
         } else {
             if (!file_exists($filepath)) {
-                require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::update()',
@@ -287,7 +283,7 @@ class ApplicationComponentFactory
             }
         } else {
             if (!file_exists($filepath)) {
-                require_once('innomatic/logging/Logger.php');
+                
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::uninstall()',

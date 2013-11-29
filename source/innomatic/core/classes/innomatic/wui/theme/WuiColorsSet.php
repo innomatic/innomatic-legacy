@@ -138,7 +138,7 @@ class WuiColorsSet
             $result['tables']['headerbgcolor'] = $cfg_file['COLORSET.TABLES.HEADERBGCOLOR'];
             $result['tables']['gridcolor'] = $cfg_file['COLORSET.TABLES.GRIDCOLOR'];
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic.wuithemes.wuicolorsset.getcolorsset', 'Unable to open colors set file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuicolorsset.ini', \Innomatic\Logging\Logger::ERROR);
         }

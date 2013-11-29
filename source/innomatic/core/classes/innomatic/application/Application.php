@@ -627,7 +627,6 @@ only application. */
             @unlink($tmpfilepath);
         } else {
             if (!file_exists($tmpfilepath)) {
-                require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.install',
@@ -639,7 +638,6 @@ only application. */
 
         if ($innomatic->getState() == InnomaticContainer::STATE_DEBUG) {
             $innomatic->getLoadTimer()->Mark('applicationinstallend');
-            require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
             $log->logEvent(
@@ -755,12 +753,10 @@ only application. */
                         }
 
                         if ($result == TRUE) {
-                            require_once('innomatic/logging/Logger.php');
                             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                             $log->logEvent('Innomatic', 'Uninstalled application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
                         }
                     } else {
-                        require_once('innomatic/logging/Logger.php');
                         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                         $log->logEvent(
                             'innomatic.applications.applications.uninstall',
@@ -771,7 +767,6 @@ only application. */
                         );
                     }
                 } else {
-                    require_once('innomatic/logging/Logger.php');
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                     $log->logEvent(
                         'innomatic.applications.applications.uninstall',
@@ -780,7 +775,6 @@ only application. */
                     );
                 }
             } else {
-                require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.uninstall',
@@ -791,7 +785,6 @@ only application. */
 
             $modquery->free();
         } else {
-            require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.applications.uninstall',
@@ -919,12 +912,10 @@ only application. */
                         '/'.$genconfig['ApplicationLicenseFile']
                     );
                 } else {
-                    require_once('innomatic/logging/Logger.php');
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                     $log->logEvent('Innomatic', 'Unable to install Innomatic', \Innomatic\Logging\Logger::ERROR);
                 }
                 } else {
-                    require_once('innomatic/logging/Logger.php');
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                     $log->logEvent(
                         'innomatic.applications.applications.setup',
@@ -933,7 +924,6 @@ only application. */
                     );
                 }
             } else {
-                require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.setup',
@@ -942,7 +932,6 @@ only application. */
                 );
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
             if (!file_exists($tmpdir.'setup/application.xml'))
@@ -1117,7 +1106,6 @@ only application. */
 
                             $domainquery->free();
                         } else {
-                            require_once('innomatic/logging/Logger.php');
                             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                             $log->logEvent(
                                 'innomatic.applications.applications.enable',
@@ -1128,7 +1116,6 @@ only application. */
                             );
                         }
                     } else {
-                        require_once('innomatic/logging/Logger.php');
                         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                         $log->logEvent(
                             'innomatic.applications.applications.enable',
@@ -1138,7 +1125,6 @@ only application. */
                         );
                     }
                 } else {
-                    require_once('innomatic/logging/Logger.php');
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                     $log->logEvent(
                         'innomatic.applications.applications.enable',
@@ -1149,7 +1135,6 @@ only application. */
                 }
                 $modquery->free();
             } else {
-                require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.enable',
@@ -1334,7 +1319,6 @@ only application. */
 
                             $domainquery->free();
                         } else {
-                            require_once('innomatic/logging/Logger.php');
                             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                             $log->logEvent(
                                 'innomatic.applications.applications.disable',
@@ -1345,7 +1329,6 @@ only application. */
                             );
                         }
                     } else {
-                        require_once('innomatic/logging/Logger.php');
                         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                         $log->logEvent(
                             'innomatic.applications.applications.disable',
@@ -1355,7 +1338,6 @@ only application. */
                         );
                     }
                 } else {
-                    require_once('innomatic/logging/Logger.php');
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                     $log->logEvent(
                         'innomatic.applications.applications.disable',
@@ -1365,7 +1347,6 @@ only application. */
                 }
                 $modquery->free();
             } else {
-                require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.disable',
@@ -1711,7 +1692,6 @@ only application. */
                                         $tmpcomponent->Disable($domainid, $val);
                                         break;
                                     default :
-                                        require_once('innomatic/logging/Logger.php');
                                         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                                         $log->logEvent(
                                             'innomatic.applications.applications.handlestructure',
@@ -1731,7 +1711,6 @@ only application. */
 
                                 unset($tmpcomponent);
                             } else {
-                                require_once('innomatic/logging/Logger.php');
                                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                                 $log->logEvent(
                                     'innomatic.applications.applications.handlestructure',
@@ -1744,7 +1723,6 @@ only application. */
                             }
                         }
                     } else {
-                        require_once('innomatic/logging/Logger.php');
                         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                         $log->logEvent(
                             'innomatic.applications.applications.handlestructure',
@@ -1989,7 +1967,6 @@ only application. */
 
             $result = array_merge($tmpstructure, $scripts);
         } else {
-            require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance(
                 'innomaticcontainer'
             )->getLogger();

@@ -89,7 +89,7 @@ class Wui extends \Innomatic\Util\Singleton
         $result = include_once($widgetFile);
 
         if (!$result) {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.wui.wui.loadwidget',
@@ -146,7 +146,7 @@ class Wui extends \Innomatic\Util\Singleton
                     }
 
                     if (!$result and strcmp($this->mLastError, Wui::LOADALLWIDGETS_A_WIDGET_FILE_NOT_EXISTS) == 0) {
-                        require_once('innomatic/logging/Logger.php');
+                        
                         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                         $log->logEvent('innomatic.wui.wui.loadallwidgets', 'Unable to load at least one widget handler file', \Innomatic\Logging\Logger::ERROR);
                     }
@@ -159,7 +159,7 @@ class Wui extends \Innomatic\Util\Singleton
                 throw new WuiException(WuiException::INVALID_INNOMATIC_DATAACCESS);
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic.wui.wui.loadallwidgets', 'Function unavailable during Innomatic setup phase', \Innomatic\Logging\Logger::WARNING);
             require_once('innomatic/wui/WuiException.php');
@@ -236,7 +236,7 @@ class Wui extends \Innomatic\Util\Singleton
             echo $this->mLayout;
             return true;
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic.wui.wui.render', 'Unable to render wui', \Innomatic\Logging\Logger::ERROR);
             require_once('innomatic/wui/WuiException.php');

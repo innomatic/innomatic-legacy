@@ -378,7 +378,6 @@ component not found.
                 break;
 
             default:
-                require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance(
                     'innomaticcontainer'
                 )->getLogger();

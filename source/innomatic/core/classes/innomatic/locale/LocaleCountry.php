@@ -81,7 +81,7 @@ class LocaleCountry
             $this->mCountry = $countryName;
             $this->open();
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic/locale/LocaleCountry', 'Empty country name', \Innomatic\Logging\Logger::ERROR);
         }
@@ -123,7 +123,7 @@ class LocaleCountry
 
             $result = true;
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic/locale/LocaleCountry', 'Unable to open country file '.$innomatic->getHome().'core/locale/countries/'.$this->mCountry.'.ini', \Innomatic\Logging\Logger::ERROR);
         }

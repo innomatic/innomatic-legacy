@@ -33,7 +33,7 @@ class ApplicationSettings
         if ($appname) {
             $this->_appname = $appname;
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance(
                 'innomaticcontainer'
             )->getLogger();

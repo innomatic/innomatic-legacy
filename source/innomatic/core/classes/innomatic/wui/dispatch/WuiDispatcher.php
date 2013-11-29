@@ -38,7 +38,7 @@ class WuiDispatcher
         if (strlen($dispName)) {
             $this->mName = $dispName;
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic.wui.wuidispatcher', 'Empty dispatcher name', \Innomatic\Logging\Logger::ERROR);
         }
@@ -60,7 +60,7 @@ class WuiDispatcher
             $this->mEvents[$eventName] = $functionName;
             return true;
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             if (!strlen($eventName)) {
                 $log->logEvent('innomatic.wui.wuidispatcher.addevent', 'Empty event name', \Innomatic\Logging\Logger::ERROR);
@@ -92,7 +92,7 @@ class WuiDispatcher
                     $func (isset(Wui::instance('wui')->parameters['wui'][$this->mName]['evd']) ? Wui::instance('wui')->parameters['wui'][$this->mName]['evd'] : array());
                     return true;
                 } else {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                     $log->logEvent('innomatic.wui.wuidispatcher.dispatch', 'Function '.$this->mEvents[Wui::instance('wui')->parameters['wui'][$this->mName]['evn']]." doesn't exists", \Innomatic\Logging\Logger::ERROR);
                     return false;

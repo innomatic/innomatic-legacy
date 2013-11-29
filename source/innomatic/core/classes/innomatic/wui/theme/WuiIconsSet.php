@@ -132,7 +132,7 @@ class WuiIconsSet
                 }
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open icons set file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuiiconsset.ini', \Innomatic\Logging\Logger::ERROR);
         }

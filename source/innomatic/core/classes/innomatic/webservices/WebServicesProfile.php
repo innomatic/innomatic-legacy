@@ -17,7 +17,7 @@
 // When a application is removed, all permission nodes
 // related to the application must be removed.
 
-require_once('innomatic/logging/Logger.php');
+
 require_once('innomatic/process/Hook.php');
 
 /*!

@@ -69,7 +69,7 @@ class HelpNode
                 if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/help/'.$this->_base.'/en/'.$node_name)) {
                     $help_node_file = $this->_base.'/en/'.$node_name;
                 } else {
-                    require_once('innomatic/logging/Logger.php');
+                    
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                     $log->logEvent('innomatic.txt.txt.getcontent', 'Unable to find an help node file for the specified help node ('.$node_name.') and language ('.$this->_language.') or fallback to another language', \Innomatic\Logging\Logger::ERROR);
                 }

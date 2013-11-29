@@ -56,7 +56,7 @@ class ConfigBase
         if (strlen($configFile))
         $this->_configFile = $configFile;
         else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->LogDie('innomatic.configman.configbase.configbase', 'No config file');
         }
@@ -94,7 +94,7 @@ class ConfigBase
             $result = file_get_contents($src);
             //$this->unlockfile();
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.configman.configbase.readconfig',
@@ -121,7 +121,7 @@ class ConfigBase
             fwrite($fh, $buffer);
             fclose($fh);
         } else {
-            require_once('innomatic/logging/Logger.php');
+            
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent(
                 'innomatic.configman.configbase.writeconfig',

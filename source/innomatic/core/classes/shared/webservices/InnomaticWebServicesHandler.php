@@ -22,7 +22,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler
     //
     public static function log_root_get()
     {
-        require_once('innomatic/logging/Logger.php');
+        
 
         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
@@ -33,7 +33,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler
     //
     public static function log_root_erase()
     {
-        require_once('innomatic/logging/Logger.php');
+        
 
         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
@@ -46,7 +46,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler
     {
         global $xmlrpcerruser;
 
-        require_once('innomatic/logging/Logger.php');
+        
 
         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
@@ -69,7 +69,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler
     //
     public static function log_webservices_get()
     {
-        require_once('innomatic/logging/Logger.php');
+        
 
         $log = new \Innomatic\Logging\Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
@@ -83,7 +83,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler
     //
     public static function log_webservices_erase()
     {
-        require_once('innomatic/logging/Logger.php');
+        
         $log = new \Innomatic\Logging\Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
             . 'core/log/webservices.log'
@@ -95,7 +95,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler
     //
     public static function log_webservices_logevent()
     {
-        require_once('innomatic/logging/Logger.php');
+        
 
         $log = new \Innomatic\Logging\Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
@@ -121,7 +121,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler
     //
     public static function log_db_get()
     {
-        require_once('innomatic/logging/Logger.php');
+        
         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
         return new XmlRpcResp(new XmlRpcVal($log->rawReadLog()));
     }
@@ -130,7 +130,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler
     //
     public static function log_db_erase()
     {
-        require_once('innomatic/logging/Logger.php');
+        
 
         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
@@ -141,7 +141,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler
     //
     public static function log_db_logevent()
     {
-        require_once('innomatic/logging/Logger.php');
+        
         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
         $event_caller = $m->getParam(0);

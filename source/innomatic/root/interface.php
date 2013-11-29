@@ -16,7 +16,7 @@
 // NOTE: This is an old-style panel code with a single file
 // acting as model, view and controller.
 
-require_once('innomatic/logging/Logger.php');
+
 require_once('innomatic/locale/LocaleCatalog.php');
 require_once('innomatic/config/ConfigFile.php');
 require_once('innomatic/application/ApplicationSettings.php');
