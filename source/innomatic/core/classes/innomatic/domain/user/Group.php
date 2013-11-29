@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -13,7 +13,8 @@
  * @since      Class available since Release 5.0
 */
 
-class Group {
+class Group
+{
     public $mrRootDb;
     public $mrDomainDA;
     public $domainserial;
@@ -21,10 +22,11 @@ class Group {
 
     /*!
      @function Group
-    
+
      @abstract Class constructor
      */
-    public function Group(DataAccess $rrootDb, DataAccess $rdomainDA, $domainserial, $groupid = 0) {
+    public function Group(DataAccess $rrootDb, DataAccess $rdomainDA, $domainserial, $groupid = 0)
+    {
         $this->mrRootDb = $rrootDb;
         $this->mrDomainDA = $rdomainDA;
 
@@ -39,7 +41,8 @@ class Group {
     }
 
     // Create a new group
-    public function createGroup($groupdata) {
+    public function createGroup($groupdata)
+    {
         $result = false;
 
         require_once('innomatic/process/Hook.php');
@@ -73,7 +76,8 @@ class Group {
     }
 
     // Change group data
-    public function editGroup($groupdata) {
+    public function editGroup($groupdata)
+    {
         $result = false;
 
         if (($this->groupid != 0) & (strlen($groupdata['groupname']) > 0)) {
@@ -95,7 +99,8 @@ class Group {
     }
 
     // Remove group
-    public function removeGroup($deleteuserstoo) {
+    public function removeGroup($deleteuserstoo)
+    {
         $result = false;
 
         require_once('innomatic/process/Hook.php');
@@ -140,7 +145,8 @@ class Group {
     }
 
     // Get users list
-    public function getUsersList() {
+    public function getUsersList()
+    {
         if ($this->groupid != 0) {
             return $this->mrDomainDA->execute('SELECT * FROM domain_users WHERE groupid='. (int) $this->groupid.' AND domainid='. (int) $this->domainserial);
         }

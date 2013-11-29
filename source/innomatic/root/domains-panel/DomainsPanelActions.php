@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -66,7 +66,7 @@ class DomainsPanelActions extends PanelActions
         $domainData['dataaccesstype'] = $eventData['dataaccesstype'];
         $domainData['webappskeleton'] = $eventData['webappskeleton'];
         $domainData['maxusers'] = $eventData['maxusers'];
-        
+
         if ($domain->Create($domainData, $eventData['createdomainda'] == 'on' ? true : false)) {
             $this->status = $this->_localeCatalog->getStr('domaincreated_status');
         } else {
@@ -91,7 +91,7 @@ class DomainsPanelActions extends PanelActions
             $domainQuery->getFields('domainid'),
             $null
         );
-        
+
         // Holds previous domain webapp skeleton information before updating.
         $currentWebappSkeleton = $domain->getWebappSkeleton();
 
@@ -111,7 +111,7 @@ class DomainsPanelActions extends PanelActions
         if ($domain->edit($domainData)) {
             // Changes max users limit.
             $domain->setMaxUsers($eventData['maxusers']);
-            
+
             // Applies new webapp skeleton if changed.
             if ($eventData['webappskeleton'] != $currentWebappSkeleton) {
                 $domain->setWebappSkeleton($eventData['webappskeleton']);

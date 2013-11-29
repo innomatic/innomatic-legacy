@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 require_once('innomatic/module/server/ModuleServerConfig.php');
 require_once('innomatic/util/Singleton.php');
@@ -10,7 +10,8 @@ require_once('innomatic/util/Singleton.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerContext extends Singleton {
+class ModuleServerContext extends Singleton
+{
     protected $home;
     protected $config;
 
@@ -20,9 +21,10 @@ class ModuleServerContext extends Singleton {
      * @access public
      * @since 5.1
      */
-    public function ___construct() {
-    	require_once('innomatic/core/InnomaticContainer.php');
-		$home = InnomaticContainer::instance('innomaticcontainer')->getHome();
+    public function ___construct()
+    {
+        require_once('innomatic/core/InnomaticContainer.php');
+        $home = InnomaticContainer::instance('innomaticcontainer')->getHome();
 
         if (substr($home, -1) != '/' and substr($home, -1) != '\\') {
             $home .= DIRECTORY_SEPARATOR;
@@ -39,7 +41,8 @@ class ModuleServerContext extends Singleton {
      * @access public
      * @return string Server home directory.
      */
-    public function getHome() {
+    public function getHome()
+    {
         return $this->home;
     }
 
@@ -50,7 +53,8 @@ class ModuleServerContext extends Singleton {
      * @since 5.1
      * @return ModuleServerObject Configuration.
      */
-    public function getConfig() {
+    public function getConfig()
+    {
         return $this->config;
     }
 
@@ -74,5 +78,3 @@ class ModuleServerContext extends Singleton {
         return $list;
     }
 }
-
-?>

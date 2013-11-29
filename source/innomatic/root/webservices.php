@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2013 Innoteam Srl
@@ -556,7 +556,7 @@ function main_default($eventData)
             $wuiRenameButton[$row] = new WuiButton(
                 'renamebutton'.$row,
                 array(
-                    'label' => $innomaticLocale->getStr('renameprofile_label'),  
+                    'label' => $innomaticLocale->getStr('renameprofile_label'),
                     'horiz' => 'true',
                     'themeimage' => 'documenttext',
                     'action' => $renameAction[$row]->getEventsCallString()
@@ -1512,7 +1512,7 @@ function main_chdomain($eventData)
         new WuiComboBox(
             'domainid',
             array(
-                'disp' => 'action',  
+                'disp' => 'action',
                 'elements' => $domains,
                 'default' => $userData['domainid']
             )
@@ -1920,7 +1920,7 @@ function main_updateaccount($eventData)
             'password',
             array('disp' => 'action', 'password' => 'true', 'value' => $accData['password'])
         ),
-        5, 1  
+        5, 1
     );
 
     $wuiFormGrid->addChild(

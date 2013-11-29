@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once('innomatic/module/server/ModuleServerContext.php');
 
@@ -12,7 +12,8 @@ require_once('innomatic/module/server/ModuleServerContext.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleContext {
+class ModuleContext
+{
     /**
      * Module name.
      *
@@ -20,7 +21,7 @@ class ModuleContext {
      * @var string
      * @since 5.1
      */
-	protected $location;
+    protected $location;
     /**
      * Module home directory in filesystem.
      *
@@ -28,7 +29,7 @@ class ModuleContext {
      * @var string
      * @since 5.1
      */
-	protected $home;
+    protected $home;
 
     /**
      * Object constructor.
@@ -37,11 +38,12 @@ class ModuleContext {
      * @param string $location Module name.
      * @since 5.1
      */
-	public function __construct($location) {
-		$serverContext = ModuleServerContext::instance('ModuleServerContext');
-		$this->location = $location;
-		$this->home = $serverContext->getHome().'modules'.DIRECTORY_SEPARATOR.$location.DIRECTORY_SEPARATOR;
-	}
+    public function __construct($location)
+    {
+        $serverContext = ModuleServerContext::instance('ModuleServerContext');
+        $this->location = $location;
+        $this->home = $serverContext->getHome().'modules'.DIRECTORY_SEPARATOR.$location.DIRECTORY_SEPARATOR;
+    }
 
     /**
      * Retrieves Module home directory path in filesystem.
@@ -50,9 +52,10 @@ class ModuleContext {
      * @since 5.1
      * @return string Module home directory path.
      */
-	public function getHome() {
-		return $this->home;
-	}
+    public function getHome()
+    {
+        return $this->home;
+    }
 
     /**
      * Retrieves Module name.
@@ -61,9 +64,8 @@ class ModuleContext {
      * @since 5.1
      * @return string Module name.
      */
-	public function getLocation() {
-		return $this->location;
-	}
+    public function getLocation()
+    {
+        return $this->location;
+    }
 }
-
-?>

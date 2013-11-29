@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -19,27 +19,27 @@ require_once ('innomatic/wui/theme/WuiIconsSet.php');
  */
 class WuiiconssetComponent extends ApplicationComponent
 {
-    function WuiiconssetComponent ($rootda, $domainda, $appname, $name, $basedir)
+    public function WuiiconssetComponent($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'wuiiconsset';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 0;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    function DoInstallAction ($params)
+    public function DoInstallAction($params)
     {
         $result = FALSE;
         if (strlen($params['file'])) {
@@ -118,12 +118,12 @@ class WuiiconssetComponent extends ApplicationComponent
                         }
                     }
                     if (is_array($set_components['light'])) {
-                    	while (list (, $file) = each($set_components['light'])) {
-                    		if (strlen($file['file']))
-                    			@copy($this->basedir . '/shared/icons/' . $params['name'] . '/light/' . $file['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/light/' . $file['file']);
-                    	}
+                        while (list (, $file) = each($set_components['light'])) {
+                            if (strlen($file['file']))
+                                @copy($this->basedir . '/shared/icons/' . $params['name'] . '/light/' . $file['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/light/' . $file['file']);
+                        }
                     }
-                    
+
                     $result = TRUE;
                 } else
                     $this->mLog->logEvent('innomatic.wuiiconssetcomponent.wuiiconsset.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', Logger::ERROR);
@@ -133,7 +133,7 @@ class WuiiconssetComponent extends ApplicationComponent
             $this->mLog->logEvent('innomatic.wuiiconssetcomponent.wuiiconsset.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
         return $result;
     }
-    function DoUninstallAction ($params)
+    public function DoUninstallAction($params)
     {
         $result = FALSE;
         if (strlen($params['file'])) {
@@ -177,16 +177,16 @@ class WuiiconssetComponent extends ApplicationComponent
                     }
                 }
                 if (is_array($set_components['icons'])) {
-                	while (list (, $file) = each($set_components['icons'])) {
-                		if (strlen($file['file']))
-                			@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/icons/' . $file['file']);
-                	}
+                    while (list (, $file) = each($set_components['icons'])) {
+                        if (strlen($file['file']))
+                            @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/icons/' . $file['file']);
+                    }
                 }
                 if (is_array($set_components['light'])) {
-                	while (list (, $file) = each($set_components['light'])) {
-                		if (strlen($file['file']))
-                			@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/light/' . $file['file']);
-                	}
+                    while (list (, $file) = each($set_components['light'])) {
+                        if (strlen($file['file']))
+                            @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/light/' . $file['file']);
+                    }
                 }
                 if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/actions'))
                     @rmdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/actions');
@@ -215,7 +215,7 @@ class WuiiconssetComponent extends ApplicationComponent
             $this->mLog->logEvent('innomatic.wuiiconssetcomponent.wuiiconsset.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
         return $result;
     }
-    function DoUpdateAction ($params)
+    public function DoUpdateAction($params)
     {
         $result = FALSE;
         if (strlen($params['file'])) {
@@ -294,10 +294,10 @@ class WuiiconssetComponent extends ApplicationComponent
                         }
                     }
                     if (is_array($set_components['light'])) {
-                    	while (list (, $file) = each($set_components['light'])) {
-                    		if (strlen($file['file']))
-                    			@copy($this->basedir . '/shared/icons/' . $params['name'] . '/light/' . $file['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/light/' . $file['file']);
-                    	}
+                        while (list (, $file) = each($set_components['light'])) {
+                            if (strlen($file['file']))
+                                @copy($this->basedir . '/shared/icons/' . $params['name'] . '/light/' . $file['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/light/' . $file['file']);
+                        }
                     }
                     $result = TRUE;
                 } else

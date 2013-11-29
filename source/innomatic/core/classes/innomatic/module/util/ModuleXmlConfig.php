@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 require_once('innomatic/module/ModuleConfig.php');
 
@@ -14,7 +14,8 @@ require_once('innomatic/module/ModuleConfig.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleXmlConfig extends ModuleConfig {
+class ModuleXmlConfig extends ModuleConfig
+{
     /**
      * Value object structure.
      *
@@ -23,7 +24,7 @@ class ModuleXmlConfig extends ModuleConfig {
      * @since 5.1
      */
     protected $valueObjectDefinition;
-    
+
     /**
      * Returns an instance of the class.
      *
@@ -36,7 +37,8 @@ class ModuleXmlConfig extends ModuleConfig {
      * @since 5.1
      * @return ModuleXmlConfig
      */
-    public static function getInstance($configFile) {
+    public static function getInstance($configFile)
+    {
         static $configs = array ();
         if (!isset ($configs[$configFile])) {
             $configs[$configFile] = new ModuleXmlConfig($configFile);
@@ -51,7 +53,8 @@ class ModuleXmlConfig extends ModuleConfig {
      * @param string $configFile full path of Xml configuration file.
      * @since 5.1
      */
-    public function __construct($configFile) {
+    public function __construct($configFile)
+    {
         // Checks if the configuration file exists.
         if (!file_exists($configFile)) {
             require_once('innomatic/module/ModuleException.php');
@@ -83,5 +86,3 @@ class ModuleXmlConfig extends ModuleConfig {
         }
     }
 }
-
-?>

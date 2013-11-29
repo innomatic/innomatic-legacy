@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -251,7 +251,7 @@ function pass_settheme($eventData)
 
     $wui = Wui::instance('wui');
     $wui->setTheme($eventData['theme']);
-    
+
     $log->logEvent('Innomatic', 'Changed Innomatic theme', Logger::NOTICE);
 
     WebAppContainer::instance(
@@ -361,7 +361,7 @@ function main_default($eventData)
     global $wuiMainFrame, $wuiTitleBar, $innomaticLocale, $actionDispatcher,
            $wuiMainStatus, $wuiComments, $compressedOb;
     $appCfg = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
-    
+
     $themesQuery = InnomaticContainer::instance(
         'innomaticcontainer'
     )->getDataAccess()->execute('SELECT name,catalog FROM wui_themes ');
@@ -399,10 +399,10 @@ function main_default($eventData)
         .urlencode($innomaticLocale->getStr('settheme_submit'))
         .'</caption></args></submit>
       </children></form>
-    </children></vertgroup>';    
-    
+    </children></vertgroup>';
+
     // Service provider settings
-    
+
     // Service Provider
     //
     $serviceProviderFrame = new WuiVertFrame('serviceproviderframe');
@@ -770,7 +770,7 @@ $viewDispatcher->addEvent('localization', 'main_localization');
 function main_localization($eventData)
 {
     global $wuiMainFrame, $wuiTitleBar, $innomaticLocale, $actionDispatcher, $wuiMainStatus;
-    
+
     $eventData = $actionDispatcher->getEventData();
 
     $countryLocale = new LocaleCatalog(
@@ -928,7 +928,7 @@ function main_localization($eventData)
     $wuiForm->addChild($wuiVGroup);
 
     $wuiMainFrame->addChild($wuiForm);
-    
+
     $wuiTitleBar->mTitle.= ' - '.$innomaticLocale->getStr('country_title');
 }
 
@@ -936,7 +936,7 @@ $viewDispatcher->addEvent('name', 'main_name');
 function main_name($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiTitleBar, $actionDispatcher;
-    
+
     if ($actionDispatcher->getEventName() == 'editname') {
         $pdData = $actionDispatcher->getEventData();
 
@@ -949,8 +949,8 @@ function main_name($eventData)
         $name = InnomaticContainer::instance('innomaticcontainer')->getPlatformName();
         $domain = InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup();
     }
-    
-    
+
+
     $wuiGrid = new WuiGrid('grid', array('rows' => '3', 'cols' => '2'));
 
     $wuiGrid->addChild(new WuiLabel('namelabel', array('label' => $innomaticLocale->getStr('namedesc'))), 0, 0);

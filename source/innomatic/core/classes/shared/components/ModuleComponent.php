@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  2013 Innoteam Srl
@@ -16,7 +16,7 @@ require_once 'innomatic/application/ApplicationComponent.php';
 
 /**
  * Module component handler.
- * 
+ *
  * @copyright  2013 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
@@ -24,7 +24,8 @@ require_once 'innomatic/application/ApplicationComponent.php';
  */
 class ModuleComponent extends ApplicationComponent
 {
-    function ModuleComponent($rootda, $domainda, $appname, $name, $basedir) {
+    public function ModuleComponent($rootda, $domainda, $appname, $name, $basedir)
+    {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Checks if the classes folder exists
         if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/modules/')) {
@@ -33,42 +34,49 @@ class ModuleComponent extends ApplicationComponent
             clearstatcache();
         }
     }
-    
-    public static function getType() {
+
+    public static function getType()
+    {
         return 'module';
     }
-    
-    public static function getPriority() {
+
+    public static function getPriority()
+    {
         return 100;
     }
-    
-    public static function getIsDomain() {
+
+    public static function getIsDomain()
+    {
         return false;
     }
-    
-    public static function getIsOverridable() {
+
+    public static function getIsOverridable()
+    {
         return false;
     }
-    
-    public function doInstallAction($params) {
+
+    public function doInstallAction($params)
+    {
         if (! strlen($params['name'])) {
             return false;
         }
-        
+
         require_once('innomatic/module/deploy/ModuleDeployer.php');
 
         $deployer = new ModuleDeployer();
         return $deployer->deploy($this->basedir . '/core/modules/' . $params['name']);
     }
-    
-    public function doUninstallAction($params) {        
+
+    public function doUninstallAction($params)
+    {
         require_once('innomatic/module/deploy/ModuleDeployer.php');
 
         $deployer = new ModuleDeployer();
         return $deployer->undeploy($params['name']);
     }
-    
-    public function doUpdateAction($params) {
+
+    public function doUpdateAction($params)
+    {
         require_once('innomatic/module/deploy/ModuleDeployer.php');
 
         $deployer = new ModuleDeployer();

@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -17,12 +17,13 @@ require_once('innomatic/dataaccess/DataAccess.php');
 
 /**
  * WUI style handler.
- * 
+ *
  * A WUI style definition file should have .wuistyle as suffix.
- * 
+ *
  * @package WUI
  */
-class WuiStyle {
+class WuiStyle
+{
     /*! @var mrRootDb DataAccess class - Innomatic database handler. */
     private $mrRootDb;
     /*! @var mStyleName string - Icons set name. */
@@ -35,7 +36,8 @@ class WuiStyle {
      @param rrootDb DataAccess class - Innomatic database handler.
      @param styleName string - Icons set name.
      */
-    public function __construct($rrootDb, $styleName) {
+    public function __construct($rrootDb, $styleName)
+    {
         if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
             $this->mrRootDb = $rrootDb;
         }
@@ -49,7 +51,8 @@ class WuiStyle {
      @param args array - Component arguments in the structure.
      @result True if the style has been installed.
      */
-    public function install($args) {
+    public function install($args)
+    {
         $result = FALSE;
         if ($this->mrRootDb) {
             if (strlen($args['name']) and strlen($args['file'])) {
@@ -66,7 +69,8 @@ class WuiStyle {
      @param args array - Component arguments in the structure.
      @result True if the style has been updated.
      */
-    public function update($args) {
+    public function update($args)
+    {
         $result = FALSE;
 
         if ($this->mrRootDb) {
@@ -93,12 +97,13 @@ class WuiStyle {
      @discussion Removes a Wui style.
      @result True if the style has been removed.
      */
-    public function remove() {
+    public function remove()
+    {
         $result = FALSE;
 
         if ($this->mrRootDb) {
             if (strlen($this->mStyleName)) {
-                
+
                 if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
                     $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
                     $cached_item->Destroy();
@@ -109,7 +114,8 @@ class WuiStyle {
         return $result;
     }
 
-    public function getStyle() {
+    public function getStyle()
+    {
         $result = array();
         $values = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini');
         if ($values !== FALSE) {

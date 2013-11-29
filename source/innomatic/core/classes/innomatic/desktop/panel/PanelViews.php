@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -31,19 +31,19 @@ abstract class PanelViews implements Observer
     protected $_controller;
     protected $_helper;
     protected $_wuiContainer;
-    
+
     public function __construct(PanelController $controller)
     {
         $this->_controller = $controller;
-        
+
         // Sets Wui container instance
         require_once('innomatic/wui/Wui.php');
         $this->_wuiContainer = Wui::instance('wui');
     }
-    
-    public abstract function beginHelper();
-    
-    public abstract function endHelper();
+
+    abstract public function beginHelper();
+
+    abstract public function endHelper();
 
     public function execute($view = 'default', $eventData = array())
     {
@@ -60,8 +60,8 @@ abstract class PanelViews implements Observer
         // Outputs the Wui source
         $this->_wuiContainer->render();
     }
-        
-    public abstract function viewDefault($eventData);
+
+    abstract public function viewDefault($eventData);
 
     public function update($observable, $arg = '')
     {
@@ -71,9 +71,9 @@ abstract class PanelViews implements Observer
     {
         return $this->_controller;
     }
-    
-  	public function getWuiContainer()
-  	{
-  		return $this->_wuiContainer;
-  	}
+
+      public function getWuiContainer()
+      {
+          return $this->_wuiContainer;
+      }
 }

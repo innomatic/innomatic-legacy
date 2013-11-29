@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -17,12 +17,13 @@ require_once('innomatic/dataaccess/DataAccess.php');
 
 /**
  * Wui colors set handler.
- * 
+ *
  * A WUI colors set definition file should have _wuicolorsset.ini as suffix.
- * 
+ *
  * @package WUI
  */
-class WuiColorsSet {
+class WuiColorsSet
+{
     /*! @var mrRootDb DataAccess class - Innomatic database handler. */
     private $mrRootDb;
     /*! @var mSetName string - Colors set name. */
@@ -35,7 +36,8 @@ class WuiColorsSet {
      @param rrootDb DataAccess class - Innomatic database handler.
      @param setName string - Colors set name.
      */
-    public function __construct($rrootDb, $setName) {
+    public function __construct($rrootDb, $setName)
+    {
         if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
             if (is_object($rrootDb)) {
                 $this->mrRootDb = $rrootDb;
@@ -51,7 +53,8 @@ class WuiColorsSet {
      @param args array - Component arguments in the structure.
      @result True if the colors set has been installed.
      */
-    public function install($args) {
+    public function install($args)
+    {
         $result = false;
         if ($this->mrRootDb) {
             if (strlen($args['name']) and strlen($args['file'])) {
@@ -68,7 +71,8 @@ class WuiColorsSet {
      @param args array - Component arguments in the structure.
      @result True if the colors set has been updated.
      */
-    public function update($args) {
+    public function update($args)
+    {
         $result = false;
         if ($this->mrRootDb) {
             if (strlen($this->mSetName)) {
@@ -93,11 +97,12 @@ class WuiColorsSet {
      @discussion Removes a Wui colors set.
      @result True if the colors set has been removed.
      */
-    public function remove() {
+    public function remove()
+    {
         $result = false;
         if ($this->mrRootDb) {
             if (strlen($this->mSetName)) {
-                
+
                 if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
                     $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuicolorsset-'.$this->mSetName);
                     $cached_item->Destroy();
@@ -108,7 +113,8 @@ class WuiColorsSet {
         return $result;
     }
 
-    public function getColorsSet() {
+    public function getColorsSet()
+    {
         $result = array();
         $cfg_file = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuicolorsset.ini');
         if ($cfg_file !== FALSE) {

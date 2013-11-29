@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -17,9 +17,9 @@ require_once('innomatic/webapp/WebAppHandler.php');
 
 /**
  * WebApp Handler for the control panel desktop.
- * 
+ *
  * WebApp Handler for the control panel desktop.
- * 
+ *
  * The control panel desktop supports the output buffering through the
  * CompressedOutputBuffering parameter in the core/conf/innomatic.ini
  * configuration file.
@@ -44,13 +44,13 @@ class DesktopRootWebAppHandler extends WebAppHandler
 
         // make sure that this path exists on disk
         switch (substr($resource, strrpos($resource, '/') + 1)) {
-        	/*
+            /*
             case 'main':
             case 'menu':
             case 'logo':
                 break;
                 */
-                
+
             case 'unlock':
                 $ignore_lock = true;
                 break;

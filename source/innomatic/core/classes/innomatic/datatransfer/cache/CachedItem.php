@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -119,8 +119,8 @@ class CachedItem
             $name = $this->cachePath.date('Ymd').'_cacheditem_'.rand();
 
             if (!file_exists($this->cachePath)) {
-            	require_once('innomatic/io/filesystem/DirectoryUtils.php');
-            	DirectoryUtils::mktree($this->cachePath, 0755);
+                require_once('innomatic/io/filesystem/DirectoryUtils.php');
+                DirectoryUtils::mktree($this->cachePath, 0755);
             }
             if ($fh = @fopen($name, 'w')) {
                 if (@fwrite($fh, $content)) {

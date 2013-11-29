@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -17,7 +17,7 @@ require_once ('innomatic/wui/widgets/layersmenu/XLayersMenu.php');
 /**
  * @package WUI
  */
-class WuiTreeVMenu extends WuiWidget
+class WuiTreevmenu extends WuiWidget
 {
     public $mMenu;
     public function __construct (
@@ -31,7 +31,7 @@ class WuiTreeVMenu extends WuiWidget
         if (isset($this->mArgs['menu']))
             $this->mMenu = $this->mArgs['menu'];
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         require_once ('innomatic/util/Registry.php');
         $registry = Registry::instance();

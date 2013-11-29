@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -26,7 +26,7 @@ class ScriptContainer extends Singleton
             . 'innomatic/';
         $innomatic->bootstrap($home, $home . 'core/conf/innomatic.ini');
     }
-    
+
     public static function cleanExit($status = 0)
     {
         RootContainer::instance('rootcontainer')->stop();

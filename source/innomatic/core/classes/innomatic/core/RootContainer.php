@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -21,11 +21,11 @@ require_once(dirname(__FILE__).'/../util/Singleton.php');
 /**
  * The Root Container holds the base path of Innomatic and updates the PHP
  * include path adding the Innomatic container classes directory.
- * 
+ *
  * It also tells if the application started by the Innomatic container has
  * been exited in a clean way or if it crashed, letting the Innomatic container
- * call the RootContainer::stop() method. 
- * 
+ * call the RootContainer::stop() method.
+ *
  * @copyright  2008-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @version    Release: @package_version@
@@ -58,7 +58,7 @@ class RootContainer extends Singleton
     {
         $this->_home = realpath(dirname(__FILE__).'/../../../../..').'/';
         @chdir($this->_home);
-        
+
         // This is needed in order to prevent a successive chdir() to screw
         // including classes when relying on having Innomatic root directory
         // as current directory
@@ -77,7 +77,7 @@ class RootContainer extends Singleton
     {
         return $this->_home;
     }
-    
+
     /**
      * Stops the root container, setting the clean flag to true.
      * This is useful in conjunction with a PHP shutdown function registered
@@ -89,7 +89,7 @@ class RootContainer extends Singleton
     {
         $this->_clean = true;
     }
-    
+
     /**
      * Tells if the root container is in a clean state. This can only be true
      * after a call to the RootContainer::stop() method.

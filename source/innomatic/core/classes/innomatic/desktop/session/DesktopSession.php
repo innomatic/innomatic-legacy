@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -18,9 +18,9 @@ require_once('innomatic/core/InnomaticContainer.php');
 
 /**
  * Session class for the Desktop.
- * 
+ *
  * Desktop sessions supports the default $_SESSION PHP superglobals.
- * 
+ *
  * The session lifetime is definable with the DesktopSessionLifetime parameter
  * in the core/conf/innomatic.ini configuration file.
  *
@@ -47,7 +47,7 @@ class DesktopSession implements WebAppSession
         } else {
             $this->_id = session_id();
         }
-        
+
         // This must be set before session_start
         if (
             strlen(
@@ -68,7 +68,7 @@ class DesktopSession implements WebAppSession
         }
         ini_set('session.gc_maxlifetime', $lifetime);
         ini_set('session.cookie_lifetime', $lifetime);
-                
+
         if (
             InnomaticContainer::instance('innomaticcontainer')->getState()
             != InnomaticContainer::STATE_SETUP

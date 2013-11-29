@@ -230,9 +230,9 @@
 		<rootpanel name="maintenance" catalog="innomatic::root_menu"
 			category="innomatic" themeicon="package_settings"
 			forceinstall="true" />
-			
+
 		<!-- Scripts -->
-		
+
 		<class name="innomatic/scripts/ScriptContainer.php" />
 		<script name="scripts_container.php" />
 
@@ -303,7 +303,7 @@
 			function="InnomaticWebServicesHandler::applications_application_remove"
 			handler="innomatic" catalog="innomatic::webservices"
 			forceinstall="true" unsecure="1" />
-			
+
 		<script name="application.php" />
 
 		<!-- AppCentral -->
@@ -402,7 +402,7 @@
 			forceinstall="true" />
 
 		<script name="domain.php" />
-		
+
 		<!--
 			********************************************************
 			STANDARDS
@@ -873,7 +873,7 @@
 			catalog="innomatic::domain_menu" />
 
 		<domainpanel name="dashboard" category="dashboard" catalog="innomatic::domain_menu" />
-		
+
 		<domainpanel name="interface" category="preferences"
 			themeicon="style" catalog="innomatic::domain_menu" />
 		<domainpanel name="password" category="preferences"
@@ -896,23 +896,23 @@
 		<class name="innomatic/domain/user/UserSettings.php" />
 		<class name="innomatic/domain/user/Group.php" />
 		<class name="innomatic/domain/user/Permissions.php" />
-		
+
 		<!-- Panels -->
-		
+
 		<class name="innomatic/desktop/panel/PanelController.php" />
 		<class name="innomatic/desktop/panel/PanelActions.php" />
 		<class name="innomatic/desktop/panel/PanelViews.php" />
-		
+
 		<!-- Dashboard -->
-		
+
 		<class name="innomatic/desktop/dashboard/DashboardWidget.php" />
 		<domaintable name="domain_dashboards_widgets"
 			file="domain_dashboards_widgets.xml" />
-			
+
 		<dashboardwidget name="welcome" panel="dashboard" file="WelcomeDashboardWidget.php" catalog="innomatic::dashboard_welcome" title="welcome_title" class="WelcomeDashboardWidget" />
-			
+
 		<!-- Modules -->
-		
+
 		<configurationfile name="modules.ini" keep="1" />
 		<configurationfile name="modules-users.xml" keep="1" />
 		<configurationfile name="modules-netregistry.xml" keep="1" />
@@ -955,6 +955,6 @@
 		<class name="innomatic/module/util/ModuleXmlConfig.php" />
 		<module name="helloworld" />
 		<module name="innomatic.cars" />
-		
+
 	</components>
 </application>

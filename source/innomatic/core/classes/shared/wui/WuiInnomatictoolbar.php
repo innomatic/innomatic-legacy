@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -15,10 +15,10 @@
 require_once ('shared/wui/WuiXml.php');
 /**
  * @package WUI
- * 
+ *
  * This class is deprecated.
  */
-class WuiInnomaticToolBar extends WuiXml
+class WuiInnomatictoolbar extends WuiXml
 {
     //public $mToolBars;
     //public $mFrame;
@@ -42,19 +42,19 @@ class WuiInnomaticToolBar extends WuiXml
 */
 
         if ( isset($this->mArgs['toolbar'] ) and
-        		(
-        				$this->mArgs['toolbar'] == 'true'
-        				or
-        				$this->mArgs['toolbar'] == 'false'
-        		)
+                (
+                        $this->mArgs['toolbar'] == 'true'
+                        or
+                        $this->mArgs['toolbar'] == 'false'
+                )
         ) $this->mArgs['toolbar'] = $this->mArgs['toolbar'];
         else $this->mArgs['toolbar'] = 'false';
-        
-        
+
+
         $this->mArgs['frame'] = 'false';
         $this->_fillDefinition();
     }
-    protected function _fillDefinition ()
+    protected function _fillDefinition()
     {
         $result = FALSE;
         $this->mDefinition = '';

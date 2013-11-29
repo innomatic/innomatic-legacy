@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -46,7 +46,7 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
         }
 
         InnomaticContainer::instance('innomaticcontainer')->startRoot($session->get('INNOMATIC_ROOT_AUTH_USER'));
-        
+
         return true;
     }
 
@@ -184,7 +184,7 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
 
 
 function login_login($eventData)
-{     
+{
     $fh = @fopen(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/rootpasswd.ini', 'r');
     if ($fh) {
         $cpassword = fgets($fh, 4096);

@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -369,7 +369,7 @@ if (
     )
 ) {
     $actionDispatcher->addEvent('setmotd', 'pass_setmotd');
-    function pass_setmotd($eventData)
+    public function pass_setmotd($eventData)
     {
         global $innomaticLocale, $wuiMainStatus;
 
@@ -1823,7 +1823,7 @@ if (
     )
 ) {
     $viewDispatcher->addEvent('motd', 'main_motd');
-    function main_motd($eventData)
+    public function main_motd($eventData)
     {
         global $wuiTitleBar, $wuiMainFrame, $innomaticLocale;
 
@@ -1837,7 +1837,7 @@ if (
 
         $xmlDef = '<vertgroup><name>motd</name>
           <children>
-        
+
             <form><name>motd</name>
               <args>
                 <method>post</method>
@@ -1854,17 +1854,17 @@ if (
                 .'</action>
               </args>
               <children>
-        
+
                 <grid><name>motd</name>
-        
+
                   <children>
-        
+
                     <label row="0" col="0" halign="" valign="top"><name>label</name>
                       <args>
                         <label type="encoded">'.urlencode($innomaticLocale->getStr('motd.label')).'</label>
                       </args>
                     </label>
-        
+
                     <text row="0" col="1"><name>motd</name>
                       <args>
                         <rows>10</rows>
@@ -1873,16 +1873,16 @@ if (
                         <value type="encoded">'.urlencode($domain->getMotd()).'</value>
                       </args>
                     </text>
-        
+
                   </children>
-        
+
                 </grid>
-        
+
               </children>
             </form>
-        
+
             <horizbar><name>hb</name></horizbar>
-        
+
             <button>
               <name>apply</name>
               <args>
@@ -1904,7 +1904,7 @@ if (
                 .'</action>
               </args>
             </button>
-        
+
           </children>
         </vertgroup>';
         $wuiMainFrame->addChild(new WuiXml('page', array('definition' => $xmlDef)));

@@ -1,10 +1,10 @@
-<?php 
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -13,7 +13,8 @@
  * @since      Class available since Release 5.0
 */
 
-class Archive {
+class Archive
+{
     /*! @var mFile string - Full path of archive file. */
     protected $mFile;
     /*! @var mFormat string - Archive format. */
@@ -24,27 +25,29 @@ class Archive {
 
     /*!
      @function Archive
-    
+
      @abstract Class constructor.
-    
+
      @param arcFile string - Full path of archive file.
      @param arcFormat string - Archive format.
      */
-    public function __construct($arcFile, $arcFormat) {
+    public function __construct($arcFile, $arcFormat)
+    {
         $this->mFile = $arcFile;
         $this->mFormat = $arcFormat;
     }
 
     /*!
      @function Extract
-    
+
      @abstract Extracts the archive.
-    
+
      @param destinationDir string - Full path of the destination dir for the extracted files.
-    
+
      @result TRUE if the archive has been successfully extracted.
      */
-    public function Extract($destinationDir) {
+    public function Extract($destinationDir)
+    {
         $result = FALSE;
 
         if (file_exists($destinationDir)) {

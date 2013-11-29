@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
 <<<<<<< Updated upstream
@@ -47,7 +47,7 @@ class WuiString extends WuiWidget
     //public $mBgColor;
     /*! @public mTabIndex integer - Position of the current element in the tabbing order. */
     //public $mTabIndex = 0;
-    
+
     /*
      * id string - HTML element id
      * autocomplete boolean - JQuery autocompletion
@@ -67,56 +67,56 @@ class WuiString extends WuiWidget
             $this->mArgs['tabindex'] = 0;
         if (! isset($this->mArgs['bgcolor']) or ! strlen($this->mArgs['bgcolor']))
             $this->mArgs['bgcolor'] = '';
-        
+
         if (isset($this->mArgs['autocomplete']) and $this->mArgs['autocomplete'] == 'true') {
-        	$this->mArgs['autocomplete'] = true;
+            $this->mArgs['autocomplete'] = true;
         } else {
-        	$this->mArgs['autocomplete'] = false;
+            $this->mArgs['autocomplete'] = false;
         }
-        
+
         if (!isset($this->mArgs['autocompleteminlength'])) {
-        	$this->mArgs['autocompleteminlength'] = 3;
+            $this->mArgs['autocompleteminlength'] = 3;
         }
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
-    	require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
-    	$event_data = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
-    	$event_data_id = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName.'_id');
-    	 
-    	$this->mLayout = $this->mComments ? '<!-- begin ' . $this->mName . ' string -->' : '';
-    	 
-    	// JQuery autocomplete
-    	if ($this->mArgs['autocomplete'] == true) {
-    		//$jquery_id = 'jqautocomplete_'.$this->mName;
-    		
-    		$this->mLayout .= '<style>
+        require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
+        $event_data = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
+        $event_data_id = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName.'_id');
+
+        $this->mLayout = $this->mComments ? '<!-- begin ' . $this->mName . ' string -->' : '';
+
+        // JQuery autocomplete
+        if ($this->mArgs['autocomplete'] == true) {
+            //$jquery_id = 'jqautocomplete_'.$this->mName;
+
+            $this->mLayout .= '<style>
 .ui-autocomplete-loading { background: white url(\''.$this->mThemeHandler->mStyle['ajax_mini'].'\') right center no-repeat; background-size: 16px 16px;}
 .ui-autocomplete {
 max-height: 250px;
 overflow-y: auto;
 }
 </style>';
-    		
-    		$this->mLayout .= "<script type=\"text/javascript\">
-$(document).ready(function() {
+
+            $this->mLayout .= "<script type=\"text/javascript\">
+$(document).ready(function () {
 $(\"#".$this->mArgs['id']."\").autocomplete({
 source: \"".$this->mArgs['autocompletesearchurl']."\",
-select: function( event, ui ) {
+select: function (event, ui) {
 $( \"#".$this->mArgs['id']."_value\" ).attr( \"value\", ui.item.id );
 },
 minLength: ".$this->mArgs['autocompleteminlength']."
 });
 });
 </script>\n";
-    		
-    		$def_value = '';
-    		if (isset($this->mArgs['value']) and strlen($this->mArgs['value']) and isset($this->mArgs['autocompletevalueid']) and $this->mArgs['autocompletevalueid'] != '') {
-    			$def_value = ' value=\''.$this->mArgs['autocompletevalueid'].'\'';
-    		}
-    		$this->mLayout .= "<input type='hidden' name='".$event_data_id->getDataString()."' id='".$this->mArgs['id'].'_value\''.$def_value.'>';
-    	}
-    	
+
+            $def_value = '';
+            if (isset($this->mArgs['value']) and strlen($this->mArgs['value']) and isset($this->mArgs['autocompletevalueid']) and $this->mArgs['autocompletevalueid'] != '') {
+                $def_value = ' value=\''.$this->mArgs['autocompletevalueid'].'\'';
+            }
+            $this->mLayout .= "<input type='hidden' name='".$event_data_id->getDataString()."' id='".$this->mArgs['id'].'_value\''.$def_value.'>';
+        }
+
         if ((isset($this->mArgs['required']) and $this->mArgs['required'] == 'true') || (isset($this->mArgs['integer']) and $this->mArgs['integer'] == 'true') || (isset($this->mArgs['email']) and $this->mArgs['email'] == 'true')) {
             $check_script = '
 <script language="JavaScript" type="text/javascript">

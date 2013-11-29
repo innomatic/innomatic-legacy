@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -20,37 +20,43 @@ require_once('innomatic/dataaccess/DataAccess.php');
 
 @abstract DataAccess for PostgreSQL.
 */
-class PgsqlDataAccess extends DataAccess {
-    var $driver = 'pgsql';
-    var $fmtquote = "''";
-    var $fmttrue = 't';
-    var $fmtfalse = 'f';
+class PgsqlDataAccess extends DataAccess
+{
+    public $driver = 'pgsql';
+    public $fmtquote = "''";
+    public $fmttrue = 't';
+    public $fmtfalse = 'f';
 
     //var $suppautoinc      = true;
     //var $suppblob         = true;
 
-    var $lastquery = false;
+    public $lastquery = false;
 
-    public function __construct($params) {
+    public function __construct($params)
+    {
         $this->support['affrows'] = true;
         $this->support['transactions'] = true;
 
         return parent::__construct($params);
     }
 
-    public function listDatabases() {
+    public function listDatabases()
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
 
-    public function listTables() {
+    public function listTables()
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
-    
-    public function listColumns($table) {
+
+    public function listColumns($table)
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
-    
-    public function createDB($params) {
+
+    public function createDB($params)
+    {
         $result = false;
 
         if (!empty($params['dbname']))
@@ -58,8 +64,9 @@ class PgsqlDataAccess extends DataAccess {
 
         return $result;
     }
-    
-    protected function standaloneQuery($params, $query) {
+
+    protected function standaloneQuery($params, $query)
+    {
         $result = false;
 
         if (strlen($params['dbhost']) > 0)
@@ -82,7 +89,8 @@ class PgsqlDataAccess extends DataAccess {
         return $result;
     }
 
-    public function dropDB($params) {
+    public function dropDB($params)
+    {
         if (!empty($params['dbname'])) {
             @pg_close($this->dbhandler);
             return $this->standalonequery($params, 'DROP DATABASE '.$params['dbname']);
@@ -91,7 +99,8 @@ class PgsqlDataAccess extends DataAccess {
         return false;
     }
 
-    protected function openConnection() {
+    protected function openConnection()
+    {
         $result = false;
 
         if (strlen($this->dasn->getHostSpec()) > 0)
@@ -104,7 +113,7 @@ class PgsqlDataAccess extends DataAccess {
             $options.= ' user='.$this->dasn->getUsername();
         if (strlen($this->dasn->getPassword()) > 0)
             $options.= ' password='.$this->dasn->getPassword();
-        
+
         $result = @pg_connect($options);
 
         if ($result != false) {
@@ -116,7 +125,8 @@ class PgsqlDataAccess extends DataAccess {
         return $result;
     }
 
-    protected function openPersistentConnection() {
+    protected function openPersistentConnection()
+    {
         $result = false;
 
         if (strlen($this->dasn->getHostSpec()) > 0)
@@ -129,7 +139,7 @@ class PgsqlDataAccess extends DataAccess {
             $options.= ' user='.$this->dasn->getUsername();
         if (strlen($this->dasn->getPassword()) > 0)
             $options.= ' password='.$this->dasn->getPassword();
-    
+
         $result = @pg_pconnect($options);
 
         if ($result != false) {
@@ -137,15 +147,17 @@ class PgsqlDataAccess extends DataAccess {
             if (!$this->autocommit)
                 $this->doExecute('BEGIN');
         }
-        
+
         return $result;
     }
 
-    public function dumpDB($params) {
+    public function dumpDB($params)
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
-    
-    protected function closeConnection() {
+
+    protected function closeConnection()
+    {
         if (!$this->autocommit) {
             $this->doExecute('END');
         }
@@ -153,11 +165,13 @@ class PgsqlDataAccess extends DataAccess {
         return ($this->dbhandler ? @pg_close($this->dbhandler) : true);
     }
 
-    public function createTable($params) {
+    public function createTable($params)
+    {
         return false;
     }
-    
-    public function dropTable($params) {
+
+    public function dropTable($params)
+    {
         $result = false;
 
         if (!empty($params['tablename']) and $this->opened)
@@ -165,21 +179,24 @@ class PgsqlDataAccess extends DataAccess {
 
         return $result;
     }
-    
-    protected function doExecute($query) {
+
+    protected function doExecute($query)
+    {
         $this->lastquery = @pg_exec($this->dbhandler, $query);
         return $this->lastquery;
     }
 
-    protected function doGetAffectedRowsCount() {
+    protected function doGetAffectedRowsCount()
+    {
         if ($this->lastquery != false) {
             return @pg_affected_rows($this->lastquery);
         }
-        
+
         return false;
     }
 
-    public function addColumn($params) {
+    public function addColumn($params)
+    {
         $result = FALSE;
 
         if (!empty($params['tablename']) and !empty($params['columnformat']) and $this->opened)
@@ -188,29 +205,34 @@ class PgsqlDataAccess extends DataAccess {
         return $result;
     }
 
-    public function removeColumn($params) {
+    public function removeColumn($params)
+    {
         if (!empty($params['tablename']) and !empty($params['column']) and $this->opened) {
             return $this->doExecute('ALTER TABLE '.$params['tablename'].' DROP COLUMN '.$params['column']);
         }
         return false;
     }
 
-    public function alterTable($params) {
+    public function alterTable($params)
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
 
-    protected function doSetTransactionAutocommit($autocommit) {
+    protected function doSetTransactionAutocommit($autocommit)
+    {
         if ($this->opened) {
             return $this->doExecute($autocommit ? 'END' : 'BEGIN');
         }
         return false;
     }
 
-    protected function doTansactionCommit() {
+    protected function doTansactionCommit()
+    {
         return ($this->doExecute('COMMIT') && $this->doExecute('BEGIN'));
     }
 
-    protected function doTransactionRollback() {
+    protected function doTransactionRollback()
+    {
         return ($this->doExecute('ROLLBACK') && $this->doExecute('BEGIN'));
     }
 
@@ -218,7 +240,8 @@ class PgsqlDataAccess extends DataAccess {
     // Sequences
     // ----------------------------------------------------
 
-    public function createSequence($params) {
+    public function createSequence($params)
+    {
         if (!empty($params['name']) and !empty($params['start']) and $this->opened) {
 
             return $this->doExecute($this->getCreateSequenceQuery($params));
@@ -226,21 +249,24 @@ class PgsqlDataAccess extends DataAccess {
             return false;
     }
 
-    public function getCreateSequenceQuery($params) {
+    public function getCreateSequenceQuery($params)
+    {
         if (!empty($params['name']) and !empty($params['start'])) {
             return 'CREATE SEQUENCE '.$params['name'].' INCREMENT 1'. ($params['start'] < 1 ? ' MINVALUE '.$params['start'] : '').' START '.$params['start'].';';
         } else
             return false;
     }
 
-    public function dropSequence($params) {
+    public function dropSequence($params)
+    {
         if (!empty($params['name']) and $this->opened)
             return $this->doExecute($this->getDropSequenceQuery($params));
         else
             return false;
     }
 
-    public function getDropSequenceQuery($params) {
+    public function getDropSequenceQuery($params)
+    {
         if (!empty($params['name'])) {
             return 'DROP SEQUENCE '.$params['name'].';';
         } else {
@@ -248,7 +274,8 @@ class PgsqlDataAccess extends DataAccess {
         }
     }
 
-    function getSequenceValue($name) {
+    public function getSequenceValue($name)
+    {
         if (!empty($name) and $this->opened) {
             $result = $this->doExecute($this->getSequenceValueQuery($name));
             return @pg_result($result, 0, 0);
@@ -256,14 +283,16 @@ class PgsqlDataAccess extends DataAccess {
         return false;
     }
 
-    function getSequenceValueQuery($name) {
+    public function getSequenceValueQuery($name)
+    {
         if (!empty($name)) {
             return 'SELECT last_value from '.$name;
         }
         return false;
     }
 
-    function getNextSequenceValue($name) {
+    public function getNextSequenceValue($name)
+    {
         if (!empty($name) and $this->opened) {
             $result = $this->doExecute($this->getNextSequenceValueQuery($name));
             return @pg_result($result, 0, 0);
@@ -271,7 +300,8 @@ class PgsqlDataAccess extends DataAccess {
         return false;
     }
 
-    public function getNextSequenceValueQuery($name) {
+    public function getNextSequenceValueQuery($name)
+    {
         if (!empty($name)) {
             return "SELECT NEXTVAL ( '".$name."' )";
         } else
@@ -282,40 +312,47 @@ class PgsqlDataAccess extends DataAccess {
     // SQL fields abstraction
     // ----------------------------------------------------
 
-    public function getTextFieldTypeDeclaration($name, &$field) {
+    public function getTextFieldTypeDeclaration($name, &$field)
+    {
         return ((IsSet($field['length']) ? "$name VARCHAR (".$field['length'].')' : $name.' TEXT'). (IsSet($field['default']) ? " DEFAULT '".$field['default']."'" : ''). (IsSet($field['notnull']) ? ' NOT NULL' : ''));
     }
 
-    public function getTextFieldValue($value) {
+    public function getTextFieldValue($value)
+    {
         return ("'".AddSlashes($value)."'");
     }
 
-    public function getDateFieldTypeDeclaration($name, &$field) {
+    public function getDateFieldTypeDeclaration($name, &$field)
+    {
         return ($name." DATE". (IsSet($field['default']) ? " DEFAULT '".$field['default']."'" : ''). (IsSet($field['notnull']) ? " NOT NULL" : ""));
     }
 
-    public function getTimeFieldTypeDeclaration($name, &$field) {
+    public function getTimeFieldTypeDeclaration($name, &$field)
+    {
         return ($name." TIME". (IsSet($field['default']) ? " DEFAULT '".$field['default']."'" : ""). (IsSet($field['notnull']) ? " NOT NULL" : ""));
     }
 
-    public function getFloatFieldTypeDeclaration($name, &$field) {
+    public function getFloatFieldTypeDeclaration($name, &$field)
+    {
         return ("$name FLOAT8 ". (IsSet($field['default']) ? " DEFAULT ".$this->getFloatFieldValue($field["default"]) : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
     }
 
-    /*public function getDecimalFieldTypeDeclaration( $name, &$field )
+    /*public function getDecimalFieldTypeDeclaration($name, &$field)
     {
         return( "$name INT8 ".( isset($field["default"] ) ? " DEFAULT ".$this->getDecimalFieldValue( $field["default"] ) : "" ).( isset($field["notnull"] ) ? " NOT NULL" : "" ) );
     }*/
 
-    public function getDecimalFieldTypeDeclaration($name, &$field) {
+    public function getDecimalFieldTypeDeclaration($name, &$field)
+    {
         return ("$name DECIMAL ". (IsSet($field["length"]) ? " (".$field["length"].") " : ""). (IsSet($field["default"]) ? " DEFAULT ".$this->getDecimalFieldValue($field["default"]) : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
     }
 
-    public function getFloatFieldValue($value) {
+    public function getFloatFieldValue($value)
+    {
         return (!strcmp($value, "NULL") ? "NULL" : "$value");
     }
 
-    /*public function getDecimalFieldValue( $value )
+    /*public function getDecimalFieldValue($value)
     {
         return( !strcmp( $value,"NULL" ) ? "NULL" : strval( intval( $value * $this->decimal_factor ) ) );
     }*/

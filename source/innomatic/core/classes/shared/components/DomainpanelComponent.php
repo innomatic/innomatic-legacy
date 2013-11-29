@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -18,27 +18,27 @@ require_once ('innomatic/application/ApplicationComponent.php');
  */
 class DomainpanelComponent extends ApplicationComponent
 {
-    function __construct ($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'domainpanel';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 0;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return true;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    function DoInstallAction ($params)
+    public function DoInstallAction($params)
     {
         $result = false;
         if (strlen($params['name'])) {
@@ -49,7 +49,7 @@ class DomainpanelComponent extends ApplicationComponent
                     $result = true;
                 } else
                     $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['name'] . '-panel into destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel', Logger::ERROR);
-            } else 
+            } else
                 if (file_exists($params['name'] . '.php')) {
                     if (@copy($params['name'] . '.php', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '.php')) {
                         @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '.php', 0644);
@@ -70,7 +70,7 @@ class DomainpanelComponent extends ApplicationComponent
         }
         return $result;
     }
-    function DoUninstallAction ($params)
+    public function DoUninstallAction($params)
     {
         $result = false;
         if (strlen($params['name'])) {
@@ -100,11 +100,11 @@ class DomainpanelComponent extends ApplicationComponent
         }
         return $result;
     }
-    function DoUpdateAction ($params)
+    public function DoUpdateAction($params)
     {
         return $this->DoInstallAction($params);
     }
-    function doEnableDomainAction ($domainid, $params)
+    public function doEnableDomainAction($domainid, $params)
     {
         $result = false;
         if (! isset($params['icon']))
@@ -135,7 +135,7 @@ class DomainpanelComponent extends ApplicationComponent
         }
         return $result;
     }
-    function doDisableDomainAction ($domainid, $params)
+    public function doDisableDomainAction($domainid, $params)
     {
         $result = false;
         if (! isset($params['icon']))
@@ -158,7 +158,7 @@ class DomainpanelComponent extends ApplicationComponent
             $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Both file and icon attributes of desktop application component are empty', Logger::ERROR);
         return $result;
     }
-    function doUpdateDomainAction ($domainid, $params)
+    public function doUpdateDomainAction($domainid, $params)
     {
         $result = false;
         if (empty($params['category']))

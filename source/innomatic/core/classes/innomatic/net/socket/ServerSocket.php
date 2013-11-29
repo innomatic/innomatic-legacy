@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -18,7 +18,8 @@
  * @copyright Copyright 2003-2012 Innoteam Srl
  * @since 1.0
  */
-abstract class ServerSocket {
+abstract class ServerSocket
+{
     protected $port;
     protected $bindAddr;
     protected $maxClients;
@@ -44,7 +45,8 @@ abstract class ServerSocket {
      */
     protected $clientInfo = array();
 
-    public function __construct($host, $port) {
+    public function __construct($host, $port)
+    {
         $this->bindAddr = $host;
         $this->port = (int) $port;
         $this->maxClients = -1;
@@ -53,18 +55,21 @@ abstract class ServerSocket {
         $this->maxQueue = 500;
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->shutdown();
     }
 
-    public function setHandler(SocketHandler $handler) {
+    public function setHandler(SocketHandler $handler)
+    {
         $this->handler = $handler;
         $this->handler->setServerSocket($this);
     }
 
-    public function setMaxClients($maxClients) {
+    public function setMaxClients($maxClients)
+    {
         $this->maxClients = $maxClients;
-    } 
+    }
 
     /**
      * read from a socket
@@ -73,7 +78,8 @@ abstract class ServerSocket {
      * @param integer $clientId internal id of the client to read from
      * @return string $data        data that was read
      */
-    public function readFromSocket($clientId = 0) {
+    public function readFromSocket($clientId = 0)
+    {
         $data = '';
         // read data from socket
         while ($buf = socket_read($this->clientFD[$clientId], $this->readBufSize, PHP_BINARY_READ)) {
@@ -106,29 +112,33 @@ abstract class ServerSocket {
         }
     }
 
-    public function getLastSocketError(& $fd) {
+    public function getLastSocketError(& $fd)
+    {
         if (!is_resource($fd)) {
             return '';
         }
         $lastError = socket_last_error($fd);
         return 'Msg: '.socket_strerror($lastError).' / Code: '.$lastError;
     }
-    
-    public function getClientInfo($id) {    
+
+    public function getClientInfo($id)
+    {
             if (!isset($this->clientFD[$id]) || $this->clientFD[$id] == NULL) {
             return NULL;
         }
         return $this->clientInfo[$id];
     }
-    
-    public function getPort() {
+
+    public function getPort()
+    {
         return $this->port;
     }
-    
-    public function getBindAddr() {
+
+    public function getBindAddr()
+    {
         return $this->bindAddr;
     }
-    
+
     abstract public function start();
     abstract public function isConnected($id);
     abstract public function getClients();

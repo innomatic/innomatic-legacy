@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -39,9 +39,9 @@ abstract class DataAccessResult
 
     /*!
      @function DataAccessResult
-    
+
      @abstract Class constructor
-    
+
      @param resultid integer - DataAccess->Execute return value
      */
     public function __construct($resultid)
@@ -83,7 +83,7 @@ abstract class DataAccessResult
     {
         return $this->free();
     }
-    
+
     public function isOpened()
     {
         return $this->opened;

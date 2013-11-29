@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -463,7 +463,7 @@ function main_default($eventData)
 
     $gXmlDefinition = '<vertgroup>
       <children>
-    
+
       <tab><name>general</name>
         <args>
           <tabs type="array">'.WuiXml::encode($tabs).'</tabs>
@@ -471,26 +471,26 @@ function main_default($eventData)
           <activetab>'. (isset($eventData['tab']) ? $eventData['tab'] : '').'</activetab>
         </args>
         <children>
-    
+
         <vertgroup>
           <children>
-    
+
             <label><name>status</name>
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('status.label')).'</label>
                 <bold>true</bold>
               </args>
             </label>
-    
+
         <horizgroup>
           <children>
-    
+
             <label>
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('last_maintenance.label')).'</label>
               </args>
             </label>
-    
+
             <date>
               <args>
                 <readonly>true</readonly>
@@ -498,7 +498,7 @@ function main_default($eventData)
                 <value type="array">'.WuiXml::encode($dateArray).'</value>
               </args>
             </date>
-    
+
             <date>
               <args>
                 <readonly>true</readonly>
@@ -506,10 +506,10 @@ function main_default($eventData)
                 <value type="array">'.WuiXml::encode($dateArray).'</value>
               </args>
             </date>
-    
+
           </children>
         </horizgroup>
-    
+
             <horizbar/>';
 
     $maintenanceResult = &InnomaticContainer::instance('innomaticcontainer')->getMaintenanceResult();
@@ -568,20 +568,20 @@ function main_default($eventData)
                 ).'</action>
               </args>
             </button>
-    
+
           </children>
         </vertgroup>
-    
+
         <vertgroup>
           <children>
-    
+
             <label>
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('report.label')).'</label>
                 <bold>true</bold>
               </args>
             </label>
-    
+
             <form><name>report</name>
               <args>
                 <action type="encoded">'
@@ -602,29 +602,29 @@ function main_default($eventData)
                 ).'</action>
               </args>
               <children>
-    
+
             <grid>
               <children>
-    
+
                 <label row="0" col="0">
                   <args>
                     <label type="encoded">'.urlencode($gLocale->getStr('report_enabled.label')).'</label>
                   </args>
                 </label>
-    
+
                 <checkbox row="0" col="1"><name>reportenabled</name>
                   <args>
                     <disp>action</disp>
                     <checked>'. ($main->getReportsEnableStatus() ? 'true' : 'false').'</checked>
                   </args>
                 </checkbox>
-    
+
                 <label row="1" col="0">
                   <args>
                     <label type="encoded">'.urlencode($gLocale->getStr('report_email.label')).'</label>
                   </args>
                 </label>
-    
+
                 <string row="1" col="1"><name>reportemail</name>
                   <args>
                     <disp>action</disp>
@@ -632,15 +632,15 @@ function main_default($eventData)
                     <size>25</size>
                   </args>
                 </string>
-    
+
               </children>
             </grid>
-    
+
             </children>
             </form>
-    
+
             <horizbar/>
-    
+
             <button>
               <args>
                 <themeimage>buttonok</themeimage>
@@ -666,20 +666,20 @@ function main_default($eventData)
                 ).'</action>
               </args>
             </button>
-    
+
           </children>
         </vertgroup>
-    
+
         <vertgroup>
           <children>
-    
+
             <label>
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('scheduled_tasks.label')).'</label>
                 <bold>true</bold>
               </args>
             </label>
-    
+
             <form><name>settings</name>
               <args>
                 <action type="encoded">'
@@ -700,7 +700,7 @@ function main_default($eventData)
                 ).'</action>
               </args>
               <children>
-    
+
                 <grid>
                   <children>';
 
@@ -726,12 +726,12 @@ function main_default($eventData)
 
     $gXmlDefinition.= '              </children>
                 </grid>
-    
+
               </children>
             </form>
-    
+
         <horizbar/>
-    
+
             <button>
               <args>
                 <themeimage>buttonok</themeimage>
@@ -757,13 +757,13 @@ function main_default($eventData)
                 ).'</action>
               </args>
             </button>
-    
+
           </children>
           </vertgroup>
-    
+
           </children>
         </tab>
-    
+
       </children>
     </vertgroup>';
 
@@ -788,7 +788,7 @@ function main_innomatic($eventData)
     $tabs[0]['label'] = $gLocale->getStr('innomatic_status.tab');
     $tabs[1]['label'] = $gLocale->getStr('innomatic_requirements.tab');
     $tabs[2]['label'] = $gLocale->getStr('innomatic_settings.tab');
-    
+
     $logsMain = new InnomaticLogsMaintenance();
     $cacheMain = new InnomaticCacheMaintenance();
 
@@ -799,26 +799,26 @@ function main_innomatic($eventData)
         <activetab>'. (isset($eventData['tab']) ? $eventData['tab'] : '').'</activetab>
       </args>
       <children>
-    
+
         <vertgroup><name></name>
           <children>
-    
+
             <label><name>tabtitle</name>
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('innomatic_status.label')).'</label>
                 <bold>true</bold>
               </args>
             </label>
-    
+
         <grid>
           <children>
-    
+
             <label row="0" col="0">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('systemlogs_size.label')).'</label>
               </args>
             </label>
-    
+
             <string row="0" col="1">
               <args>
                 <size>15</size>
@@ -826,7 +826,7 @@ function main_innomatic($eventData)
                 <value type="encoded">'.urlencode($country->FormatNumber($logsMain->getSystemLogsSize())).'</value>
               </args>
             </string>
-    
+
             <button row="0" col="2">
               <args>
                 <themeimage>documentdelete</themeimage>
@@ -851,13 +851,13 @@ function main_innomatic($eventData)
                 ).'</action>
               </args>
             </button>
-    
+
             <label row="1" col="0">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('domainslogs_size.label')).'</label>
               </args>
             </label>
-    
+
             <string row="1" col="1">
               <args>
                 <size>15</size>
@@ -865,7 +865,7 @@ function main_innomatic($eventData)
                 <value type="encoded">'.urlencode($country->FormatNumber($logsMain->getDomainsLogsSize())).'</value>
               </args>
             </string>
-    
+
             <button row="1" col="2">
               <args>
                 <themeimage>documentdelete</themeimage>
@@ -890,13 +890,13 @@ function main_innomatic($eventData)
                 ).'</action>
               </args>
             </button>
-    
+
             <label row="2" col="0">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('cache_size.label')).'</label>
               </args>
             </label>
-    
+
             <string row="2" col="1">
               <args>
                 <size>15</size>
@@ -904,7 +904,7 @@ function main_innomatic($eventData)
                 <value type="encoded">'.urlencode($country->FormatNumber($cacheMain->getCacheSize())).'</value>
               </args>
             </string>
-    
+
             <button row="2" col="2">
               <args>
                 <themeimage>documentdelete</themeimage>
@@ -929,13 +929,13 @@ function main_innomatic($eventData)
                 ).'</action>
               </args>
             </button>
-    
+
             <label row="3" col="0">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('sessions_size.label')).'</label>
               </args>
             </label>
-    
+
             <string row="3" col="1">
               <args>
                 <size>15</size>
@@ -943,7 +943,7 @@ function main_innomatic($eventData)
                 <value type="encoded">'.urlencode($country->FormatNumber($cacheMain->getSessionsSize())).'</value>
               </args>
             </string>
-    
+
             <button row="3" col="2">
               <args>
                 <themeimage>documentdelete</themeimage>
@@ -968,13 +968,13 @@ function main_innomatic($eventData)
                 ).'</action>
               </args>
             </button>
-    
+
             <label row="4" col="0">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('pidfiles_size.label')).'</label>
               </args>
             </label>
-    
+
             <string row="4" col="1">
               <args>
                 <size>15</size>
@@ -982,7 +982,7 @@ function main_innomatic($eventData)
                 <value type="encoded">'.urlencode($country->FormatNumber($cacheMain->getPidFilesSize())).'</value>
               </args>
             </string>
-    
+
             <button row="4" col="2">
               <args>
                 <themeimage>documentdelete</themeimage>
@@ -1007,13 +1007,13 @@ function main_innomatic($eventData)
                 ).'</action>
               </args>
             </button>
-    
+
             <label row="5" col="0">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('tempdirs_size.label')).'</label>
               </args>
             </label>
-    
+
             <string row="5" col="1">
               <args>
                 <size>15</size>
@@ -1021,7 +1021,7 @@ function main_innomatic($eventData)
                 <value type="encoded">'.urlencode($country->FormatNumber($cacheMain->getRootTempDirsSize())).'</value>
               </args>
             </string>
-    
+
             <button row="5" col="2">
               <args>
                 <themeimage>documentdelete</themeimage>
@@ -1046,13 +1046,13 @@ function main_innomatic($eventData)
                 ).'</action>
               </args>
             </button>
-    
+
             <label row="6" col="0">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('clipboard_size.label')).'</label>
               </args>
             </label>
-    
+
             <string row="6" col="1">
               <args>
                 <size>15</size>
@@ -1060,7 +1060,7 @@ function main_innomatic($eventData)
                 <value type="encoded">'.urlencode($country->FormatNumber($cacheMain->getClipboardSize())).'</value>
               </args>
             </string>
-    
+
             <button row="6" col="2">
               <args>
                 <themeimage>documentdelete</themeimage>
@@ -1085,13 +1085,13 @@ function main_innomatic($eventData)
                 ).'</action>
               </args>
             </button>
-    
+
             <label row="7" col="0">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('cleanable_size.label')).'</label>
               </args>
             </label>
-    
+
             <string row="7" col="1">
               <args>
                 <size>15</size>
@@ -1104,7 +1104,7 @@ function main_innomatic($eventData)
                 ).'</value>
               </args>
             </string>
-    
+
             <button row="7" col="2">
               <args>
                 <themeimage>documentdelete</themeimage>
@@ -1129,23 +1129,23 @@ function main_innomatic($eventData)
                 ).'</action>
               </args>
             </button>
-    
+
           </children>
         </grid>
-    
+
           </children>
         </vertgroup>
-        
+
         <vertgroup><name></name>
           <children>
-    
+
             <label><name>tabtitle</name>
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('innomatic_requirements.label')).'</label>
                 <bold>true</bold>
               </args>
             </label>
-    
+
             <table><name>sysinfotable</name>
               <children>
         ';
@@ -1259,7 +1259,7 @@ function main_innomatic($eventData)
         .urlencode($gLocale->getStr('db_test_label')).'</label></args></label>
     <label row="'.$row.'" col="3"><name>checkresult'.$row.'</name><args><label type="encoded">'
     .urlencode($checkResult).'</label></args></label>';
-    
+
     // Optional features
 
     /*
@@ -1305,7 +1305,7 @@ function main_innomatic($eventData)
     .urlencode($gLocale->getStr('xmlrpc_test_label')).'</label></args></label>
     <label row="'.$row.'" col="3"><name>checkresult'.$row.'</name><args><label type="encoded">'
     .urlencode($checkResult).'</label></args></label>';
-    
+
 
     // XMLRPC curl
     //
@@ -1327,17 +1327,17 @@ function main_innomatic($eventData)
     .urlencode($gLocale->getStr('xmlrpc_ssl_test_label')).'</label></args></label>
     <label row="'.$row.'" col="3"><name>checkresult'.$row.'</name><args><label type="encoded">'
     .urlencode($checkResult).'</label></args></label>';
-    
+
     $gXmlDefinition .= '
-    
+
               </children>
             </table>
           </children>
         </vertgroup>
-        
+
     <vertgroup><name></name>
           <children>
-    
+
             <label><name>tabtitle</name>
               <args>
                 <label type="encoded">'
@@ -1347,7 +1347,7 @@ function main_innomatic($eventData)
                 <bold>true</bold>
               </args>
             </label>
-    
+
             <form><name>settings</name>
               <args>
                 <action type="encoded">'
@@ -1371,28 +1371,28 @@ function main_innomatic($eventData)
           <children>
         <grid>
           <children>
-    
+
             <label row="0" col="0">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('action_clean.label')).'</label>
                 <bold>true</bold>
               </args>
             </label>
-    
+
             <label row="0" col="1">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('action_rotate.label')).'</label>
                 <bold>true</bold>
               </args>
             </label>
-    
+
             <label row="0" col="2">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('action_none.label')).'</label>
                 <bold>true</bold>
               </args>
             </label>
-    
+
             <radio row="1" col="0" halign="center"><name>rootlog</name>
               <args>
                 <disp>action</disp>
@@ -1400,7 +1400,7 @@ function main_innomatic($eventData)
                 <value>clean</value>
               </args>
             </radio>
-    
+
             <radio row="1" col="1" halign="center"><name>rootlog</name>
               <args>
                 <disp>action</disp>
@@ -1408,7 +1408,7 @@ function main_innomatic($eventData)
                 <value>rotate</value>
               </args>
             </radio>
-    
+
             <radio row="1" col="2" halign="center"><name>rootlog</name>
               <args>
                 <disp>action</disp>
@@ -1419,13 +1419,13 @@ function main_innomatic($eventData)
                 <value>leave</value>
               </args>
             </radio>
-    
+
             <label row="1" col="3">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('rootlog_size.label')).'</label>
               </args>
             </label>
-    
+
             <radio row="2" col="0" halign="center"><name>rootdalog</name>
               <args>
                 <disp>action</disp>
@@ -1433,7 +1433,7 @@ function main_innomatic($eventData)
                 <value>clean</value>
               </args>
             </radio>
-    
+
             <radio row="2" col="1" halign="center"><name>rootdalog</name>
               <args>
                 <disp>action</disp>
@@ -1441,7 +1441,7 @@ function main_innomatic($eventData)
                 <value>rotate</value>
               </args>
             </radio>
-    
+
             <radio row="2" col="2" halign="center"><name>rootdalog</name>
               <args>
                 <disp>action</disp>
@@ -1452,13 +1452,13 @@ function main_innomatic($eventData)
                 <value>leave</value>
               </args>
             </radio>
-    
+
             <label row="2" col="3">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('rootdalog_size.label')).'</label>
               </args>
             </label>
-    
+
             <radio row="3" col="0" halign="center"><name>accesslog</name>
               <args>
                 <disp>action</disp>
@@ -1466,7 +1466,7 @@ function main_innomatic($eventData)
                 <value>clean</value>
               </args>
             </radio>
-    
+
             <radio row="3" col="1" halign="center"><name>accesslog</name>
               <args>
                 <disp>action</disp>
@@ -1474,7 +1474,7 @@ function main_innomatic($eventData)
                 <value>rotate</value>
               </args>
             </radio>
-    
+
             <radio row="3" col="2" halign="center"><name>accesslog</name>
               <args>
                 <disp>action</disp>
@@ -1485,13 +1485,13 @@ function main_innomatic($eventData)
                 <value>leave</value>
               </args>
             </radio>
-    
+
             <label row="3" col="3">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('accesslog_size.label')).'</label>
               </args>
             </label>
-    
+
             <radio row="4" col="0" halign="center"><name>webserviceslog</name>
               <args>
                 <disp>action</disp>
@@ -1499,7 +1499,7 @@ function main_innomatic($eventData)
                 <value>clean</value>
               </args>
             </radio>
-    
+
             <radio row="4" col="1" halign="center"><name>webserviceslog</name>
               <args>
                 <disp>action</disp>
@@ -1507,7 +1507,7 @@ function main_innomatic($eventData)
                 <value>rotate</value>
               </args>
             </radio>
-    
+
             <radio row="4" col="2" halign="center"><name>webserviceslog</name>
               <args>
                 <disp>action</disp>
@@ -1518,13 +1518,13 @@ function main_innomatic($eventData)
                 <value>leave</value>
               </args>
             </radio>
-    
+
             <label row="4" col="3">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('webserviceslog_size.label')).'</label>
               </args>
             </label>
-    
+
             <radio row="5" col="0" halign="center"><name>phplog</name>
               <args>
                 <disp>action</disp>
@@ -1532,7 +1532,7 @@ function main_innomatic($eventData)
                 <value>clean</value>
               </args>
             </radio>
-    
+
             <radio row="5" col="1" halign="center"><name>phplog</name>
               <args>
                 <disp>action</disp>
@@ -1540,7 +1540,7 @@ function main_innomatic($eventData)
                 <value>rotate</value>
               </args>
             </radio>
-    
+
             <radio row="5" col="2" halign="center"><name>phplog</name>
               <args>
                 <disp>action</disp>
@@ -1551,13 +1551,13 @@ function main_innomatic($eventData)
                 <value>leave</value>
               </args>
             </radio>
-    
+
             <label row="5" col="3">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('phplog_size.label')).'</label>
               </args>
             </label>
-    
+
             <radio row="6" col="0" halign="center"><name>domainslogs</name>
               <args>
                 <disp>action</disp>
@@ -1565,7 +1565,7 @@ function main_innomatic($eventData)
                 <value>clean</value>
               </args>
             </radio>
-    
+
             <radio row="6" col="1" halign="center"><name>domainslogs</name>
               <args>
                 <disp>action</disp>
@@ -1573,7 +1573,7 @@ function main_innomatic($eventData)
                 <value>rotate</value>
               </args>
             </radio>
-    
+
             <radio row="6" col="2" halign="center"><name>domainslogs</name>
               <args>
                 <disp>action</disp>
@@ -1584,18 +1584,18 @@ function main_innomatic($eventData)
                 <value>leave</value>
               </args>
             </radio>
-    
+
             <label row="6" col="3">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('domainslogs_size.label')).'</label>
               </args>
             </label>
-    
+
           </children>
         </grid>
-    
+
         <horizbar/>
-    
+
         <grid>
           <children>
             <checkbox row="0" col="0"><name>cache</name>
@@ -1604,76 +1604,76 @@ function main_innomatic($eventData)
                 <checked>'. ($cacheMain->getCleanCache() ? 'true' : 'false').'</checked>
               </args>
             </checkbox>
-    
+
             <label row="0" col="1">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('cache_size.label')).'</label>
               </args>
             </label>
-    
+
             <checkbox row="1" col="0"><name>sessions</name>
               <args>
                 <disp>action</disp>
                 <checked>'. ($cacheMain->getCleanSessions() ? 'true' : 'false').'</checked>
               </args>
             </checkbox>
-    
+
             <label row="1" col="1">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('sessions_size.label')).'</label>
               </args>
             </label>
-    
+
             <checkbox row="2" col="0"><name>pidfiles</name>
               <args>
                 <disp>action</disp>
                 <checked>'. ($cacheMain->getCleanPidFiles() ? 'true' : 'false').'</checked>
               </args>
             </checkbox>
-    
+
             <label row="2" col="1">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('pidfiles_size.label')).'</label>
               </args>
             </label>
-    
+
             <checkbox row="3" col="0"><name>roottempdirs</name>
               <args>
                 <disp>action</disp>
                 <checked>'. ($cacheMain->getCleanRootTempDirs() ? 'true' : 'false').'</checked>
               </args>
             </checkbox>
-    
+
             <label row="3" col="1">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('tempdirs_size.label')).'</label>
               </args>
             </label>
-    
+
             <checkbox row="4" col="0"><name>clipboard</name>
               <args>
                 <disp>action</disp>
                 <checked>'. ($cacheMain->getCleanClipboard() ? 'true' : 'false').'</checked>
               </args>
             </checkbox>
-    
+
             <label row="4" col="1">
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('clipboard_size.label')).'</label>
               </args>
             </label>
-    
+
           </children>
         </grid>
-    
+
           </children>
         </vertgroup>
-    
+
               </children>
             </form>
-    
+
             <horizbar/>
-    
+
             <button>
               <args>
                 <themeimage>buttonok</themeimage>
@@ -1699,10 +1699,10 @@ function main_innomatic($eventData)
                 ).'</action>
               </args>
             </button>
-    
+
           </children>
         </vertgroup>
-    
+
       </children>
     </tab>';
 
@@ -1723,12 +1723,12 @@ function main_showrootlog($eventData)
         $cleanLogAction->addEvent(new WuiEvent('action', 'cleanrootlog', ''));
 
         $gToolbars['logs']['cleanlog'] = array(
-            'label' => $gLocale->getStr('cleanlog_button'), 
-            'themeimage' => 'documentdelete', 
-            'horiz' => 'true', 
+            'label' => $gLocale->getStr('cleanlog_button'),
+            'themeimage' => 'documentdelete',
+            'horiz' => 'true',
             'action' => $cleanLogAction->getEventsCallString()
         );
-        
+
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')) {
             $logContent = file_get_contents(
                 InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log'
@@ -1768,12 +1768,12 @@ $gWui->loadWidget('toolbars');
         $cleanLogAction->addEvent(new WuiEvent('action', 'cleanrootwebserviceslog', ''));
 
         $gToolbars['logs']['cleanlog'] = array('view' => array(
-            'label' => $gLocale->getStr('cleanlog_button'), 
-            'themeimage' => 'documentdelete', 
-            'horiz' => 'true', 
+            'label' => $gLocale->getStr('cleanlog_button'),
+            'themeimage' => 'documentdelete',
+            'horiz' => 'true',
             'action' => $cleanLogAction->getEventsCallString()
         ));
-        
+
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log')) {
             $logContent = file_get_contents(
                 InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log'

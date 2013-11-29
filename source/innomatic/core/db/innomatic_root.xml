@@ -317,7 +317,7 @@
 		<data field="name" value="alertframe" />
 		<data field="file" value="WuiAlertframe.php" />
 	</insert>
-	
+
 	<insert table="wui_widgets">
 		<data field="id" value="42" />
 		<data field="name" value="void" />
@@ -329,7 +329,7 @@
 		<data field="name" value="divframe" />
 		<data field="file" value="WuiDivframe.php" />
 	</insert>
-	
+
 	<table name="wui_validators">
 		<field name="name" type="text" length="50" notnull="1" />
 		<field name="file" type="text" length="50" notnull="1" />
@@ -397,7 +397,7 @@
 		<data field="file" value="sky_wuitheme.ini" />
 		<data field="catalog" value="innomatic::skytheme" />
 	</insert>
-	
+
 	<insert table="wui_themes">
 		<data field="id" value="3" />
 		<data field="name" value="flattheme" />
@@ -757,7 +757,7 @@
 		<data field="domain" value="0" />
 		<data field="file" value="WebappskeletonComponent.php" />
 	</insert>
-	
+
 	<insert table="applications_components_types">
 		<data field="id" value="35" />
 		<data field="typename" value="script" />
@@ -797,7 +797,7 @@
 		<data field="domain" value="1" />
 		<data field="file" value="DashboardwidgetComponent.php" />
 	</insert>
-	
+
 	<table name="maintenance_tasks">
 		<field name="name" type="text" length="50" notnull="1" />
 		<field name="file" type="text" length="50" notnull="1" />

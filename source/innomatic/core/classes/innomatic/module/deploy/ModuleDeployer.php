@@ -1,4 +1,4 @@
-<?php        
+<?php
 
 require_once('innomatic/php/PHPCodeChecker.php');
 require_once('innomatic/module/server/ModuleServerContext.php');
@@ -20,7 +20,8 @@ require_once('innomatic/io/filesystem/DirectoryUtils.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleDeployer {
+class ModuleDeployer
+{
     /**
      * Deploys a Module in the Module server.
      *
@@ -29,7 +30,8 @@ class ModuleDeployer {
      * @return boolean
      * @since 5.1
      */
-    public function deploy($module) {
+    public function deploy($module)
+    {
         $module = realpath($module);
         if (!file_exists($module)) {
             return false;
@@ -41,20 +43,20 @@ class ModuleDeployer {
         mkdir($tmp_dir, 0755, true);
 
         if (is_dir($module)) {
-        	// Copies the Module directory
-        	DirectoryUtils::dirCopy($module.'/', $tmp_dir);
+            // Copies the Module directory
+            DirectoryUtils::dirCopy($module.'/', $tmp_dir);
         } else {
-	        // Unpacks the Module archive.
-	        $arc = new Archive($module, Archive::FORMAT_TAR);
-	        if (!$arc->extract($tmp_dir)) {
-	        	DirectoryUtils::unlinkTree($tmp_dir);
-	            throw new ModuleException('Unable to extract Module');
-	        }
+            // Unpacks the Module archive.
+            $arc = new Archive($module, Archive::FORMAT_TAR);
+            if (!$arc->extract($tmp_dir)) {
+                DirectoryUtils::unlinkTree($tmp_dir);
+                throw new ModuleException('Unable to extract Module');
+            }
         }
 
         // Checks if module.xml file exists.
         if (!file_exists($tmp_dir.'setup/module.xml')) {
-			DirectoryUtils::unlinkTree($tmp_dir);
+            DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Missing module.xml configuration file');
         }
 
@@ -106,7 +108,8 @@ class ModuleDeployer {
      * @return boolean
      * @since 5.1
      */
-    public function redeploy($module) {
+    public function redeploy($module)
+    {
         $module = realpath($module);
         if (!file_exists($module)) {
             throw new ModuleException('Unable to find Module');
@@ -116,19 +119,19 @@ class ModuleDeployer {
 
         $tmp_dir = $context->getHome().'core/temp/appinst/deploy_'.rand().DIRECTORY_SEPARATOR;
         mkdir($tmp_dir, 0755, true);
-        
+
         if (is_dir($module)) {
-        	// Copies the Module directory
-        	DirectoryUtils::dirCopy($module.'/', $tmp_dir);
+            // Copies the Module directory
+            DirectoryUtils::dirCopy($module.'/', $tmp_dir);
         } else {
-        	// Unpacks the Module archive.
-        	$arc = new Archive($module, Archive::FORMAT_TAR);
-        	if (!$arc->extract($tmp_dir)) {
-        		DirectoryUtils::unlinkTree($tmp_dir);
-        		throw new ModuleException('Unable to extract Module');
-        	}
+            // Unpacks the Module archive.
+            $arc = new Archive($module, Archive::FORMAT_TAR);
+            if (!$arc->extract($tmp_dir)) {
+                DirectoryUtils::unlinkTree($tmp_dir);
+                throw new ModuleException('Unable to extract Module');
+            }
         }
-        
+
         // Checks if cmb.xml file exists.
         if (!file_exists($tmp_dir.'setup/module.xml')) {
             DirectoryUtils::unlinkTree($tmp_dir);
@@ -188,7 +191,8 @@ class ModuleDeployer {
      * @return boolean
      * @since 5.1
      */
-    public function undeploy($location) {
+    public function undeploy($location)
+    {
         // Checks if the specified Module exists.
         $context = ModuleServerContext::instance('ModuleServerContext');
         if (!is_dir($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$location)) {
@@ -212,5 +216,3 @@ class ModuleDeployer {
         return true;
     }
 }
-
-?>

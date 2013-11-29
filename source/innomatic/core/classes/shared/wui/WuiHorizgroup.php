@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -18,7 +18,7 @@ require_once('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
  */
-class WuiHorizGroup extends WuiContainerWidget
+class WuiHorizgroup extends WuiContainerWidget
 {
     /*
     public $mAlign;
@@ -76,28 +76,28 @@ class WuiHorizGroup extends WuiContainerWidget
                 }
             } else
                 $this->mArgs['groupvalign'] = 'middle';
-    
+
             if (!isset($this->mArgs['width'])) {
-            	$this->mArgs['width'] = "100%";
+                $this->mArgs['width'] = "100%";
             }
-            
+
             if (isset($this->mArgs['scrollable'])) {
-            	switch ($this->mArgs['scrollable']) {
-            		case 'true':
-            		case 'false':
-            			break;
-            		default:
-            			$this->mArgs['scrollable'] = 'false';
-            	}
+                switch ($this->mArgs['scrollable']) {
+                    case 'true':
+                    case 'false':
+                        break;
+                    default:
+                        $this->mArgs['scrollable'] = 'false';
+                }
             } else {
-            	$this->mArgs['scrollable'] = 'false';
+                $this->mArgs['scrollable'] = 'false';
             }
     }
 
     protected function generateSourceBegin()
     {
         return ( $this->mComments ? '<!-- begin '.$this->mName." horizgroup -->\n" : '' ).
-        	($this->mArgs['scrollable'] == 'true' ? '<div style="'.(isset($this->mArgs['height']) ? 'height: '.$this->mArgs['height'].'px; ' : '' ).(isset($this->mArgs['width']) ? 'width: '.$this->mArgs['width'].'px; ' : '').'overflow: auto">' : '').
+            ($this->mArgs['scrollable'] == 'true' ? '<div style="'.(isset($this->mArgs['height']) ? 'height: '.$this->mArgs['height'].'px; ' : '' ).(isset($this->mArgs['width']) ? 'width: '.$this->mArgs['width'].'px; ' : '').'overflow: auto">' : '').
             '<table border="0" cellspacing="1" cellpadding="0" height="100%"'.
             ( strlen( $this->mArgs['groupalign' ]) ? ' align="'.$this->mArgs['groupalign'].'"' : '' ).
             ( strlen( $this->mArgs['groupvalign'] ) ? ' valign="'.$this->mArgs['groupvalign'].'"' : '' ).
@@ -108,7 +108,7 @@ class WuiHorizGroup extends WuiContainerWidget
     protected function generateSourceEnd()
     {
         return "</tr></table>\n" .
-        	($this->mArgs['scrollable'] == 'true' ? '</div>' : '')
+            ($this->mArgs['scrollable'] == 'true' ? '</div>' : '')
             . ($this->mComments ? '<!-- end ' . $this->mName . " horizgroup -->\n" : '');
     }
 

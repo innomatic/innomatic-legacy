@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -236,7 +236,7 @@ class DomainsPanelViews extends PanelViews
                     new WuiImage(
                         'status'.$row, array('imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['greenball'])),
                     $row, 0
-                ); 
+                );
                 else
                 $wuiDomainsTable->addChild(
                     new WuiImage(
@@ -1727,7 +1727,7 @@ class DomainsPanelViews extends PanelViews
                     6, 3
                 );
             }
-                
+
             $wuiVGroup->addChild($wuiDomainGrid);
 
             $this->wuiMainframe->addChild($wuiVGroup);
@@ -2206,7 +2206,7 @@ class DomainsPanelViews extends PanelViews
 
                 $xmlDef = '<horizgroup>
               <children>
-            
+
                 <button>
                   <args>
                     <themeimage>buttonok</themeimage>
@@ -2239,7 +2239,7 @@ class DomainsPanelViews extends PanelViews
                     .'</action>
                   </args>
                 </button>
-            
+
                 <button>
                   <args>
                     <themeimage>buttoncancel</themeimage>
@@ -2276,7 +2276,7 @@ class DomainsPanelViews extends PanelViews
                     .'</action>
                   </args>
                 </button>
-            
+
               </children>
             </horizgroup>';
 

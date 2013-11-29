@@ -1,10 +1,10 @@
-<?php 
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2013 Innoteam Srl
@@ -21,7 +21,7 @@ require_once('innomatic/webapp/WebAppProcessor.php');
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2012-2013 Innoteam Srl
  */
-class PhpWebAppHandler extends WebAppHandler
+class PHPWebAppHandler extends WebAppHandler
 {
     public function init()
     {
@@ -37,21 +37,21 @@ class PhpWebAppHandler extends WebAppHandler
 
         // If this is a directory, check that a welcome file exists
         if (is_dir($resource)) {
-        	$this->welcomeFiles = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getWelcomeFiles();
+            $this->welcomeFiles = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getWelcomeFiles();
 
-        	$path = $this->getRelativePath($req);
-        	$welcomeFile = $this->findWelcomeFile($path);
-        	if ($welcomeFile != null) {
-        		$resource = $resource.$welcomeFile;
-        	} else {
-        		$res->sendError(
-        				WebAppResponse::SC_FORBIDDEN,
-        				$req->getRequestURI()
-        		);
-        		return;
-        	}
+            $path = $this->getRelativePath($req);
+            $welcomeFile = $this->findWelcomeFile($path);
+            if ($welcomeFile != null) {
+                $resource = $resource.$welcomeFile;
+            } else {
+                $res->sendError(
+                        WebAppResponse::SC_FORBIDDEN,
+                        $req->getRequestURI()
+                );
+                return;
+            }
         }
-     
+
         // Make sure that this path exists on disk
         if (
             $req->getPathInfo() == '/index'
@@ -60,31 +60,31 @@ class PhpWebAppHandler extends WebAppHandler
             $res->sendError(
                 WebAppResponse::SC_NOT_FOUND,
                 $req->getRequestURI()
-            	);
+                );
             return;
         }
-        
+
         // Core directory is private
         if (substr($req->getPathInfo(), 0, 6) == '/core/') {
-        	$res->sendError(
-        		WebAppResponse::SC_FORBIDDEN,
-        		$req->getRequestURI()
-        		);
-        	return;
+            $res->sendError(
+                WebAppResponse::SC_FORBIDDEN,
+                $req->getRequestURI()
+                );
+            return;
         }
-        
+
         // Resource must reside inside the webapp
         require_once('innomatic/security/SecurityManager.php');
         if (SecurityManager::isAboveBasePath($resource,  WebAppContainer::instance(
                 'webappcontainer'
             )->getCurrentWebApp()->getHome())) {
-        	$res->sendError(
-        			WebAppResponse::SC_FORBIDDEN,
-        			$req->getRequestURI()
-        	);
-        	return;
+            $res->sendError(
+                    WebAppResponse::SC_FORBIDDEN,
+                    $req->getRequestURI()
+            );
+            return;
         }
-        
+
         include($resource.'.php');
     }
 
@@ -99,18 +99,18 @@ class PhpWebAppHandler extends WebAppHandler
 
     protected function findWelcomeFile($path)
     {
-    	if (substr($path, -1) != '/')
-    		$path .= '/';
+        if (substr($path, -1) != '/')
+            $path .= '/';
 
-    	reset($this->welcomeFiles);
-    	foreach ($this->welcomeFiles as $welcomefile) {
-    		if (file_exists(substr(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).$path.$welcomefile.'.php'))
-    			return $welcomefile;
-    	}
-    
-    	return null;
+        reset($this->welcomeFiles);
+        foreach ($this->welcomeFiles as $welcomefile) {
+            if (file_exists(substr(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).$path.$welcomefile.'.php'))
+                return $welcomefile;
+        }
+
+        return null;
     }
-    
+
     protected function getRelativePath(WebAppRequest $request)
     {
         $result = $request->getPathInfo();

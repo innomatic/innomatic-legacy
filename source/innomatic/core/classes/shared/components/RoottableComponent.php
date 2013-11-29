@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -20,27 +20,27 @@ require_once ('innomatic/dataaccess/DataAccessXmlTable.php');
  */
 class RoottableComponent extends ApplicationComponent
 {
-    function RoottableComponent (&$rootda, $domainda, $appname, $name, $basedir)
+    public function RoottableComponent(&$rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'roottable';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 150;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    function DoInstallAction ($params)
+    public function DoInstallAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
@@ -60,7 +60,7 @@ class RoottableComponent extends ApplicationComponent
             $this->mLog->logEvent('innomatic.roottablecomponent.roottablecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', Logger::ERROR);
         return $result;
     }
-    function DoUninstallAction ($params)
+    public function DoUninstallAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
@@ -78,7 +78,7 @@ class RoottableComponent extends ApplicationComponent
             $this->mLog->logEvent('innomatic.roottablecomponent.roottablecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', Logger::ERROR);
         return $result;
     }
-    function DoUpdateAction ($params)
+    public function DoUpdateAction($params)
     {
         $result = true;
         if (strlen($params['file'])) {

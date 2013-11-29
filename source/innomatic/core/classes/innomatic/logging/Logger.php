@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -17,7 +17,8 @@
  @class Logger
  @abstract Logging facilities
  */
-class Logger {
+class Logger
+{
     /*! @var mLogFile string - Log file complete path. */
     private $mLogFile;
     const NOTICE = 1;
@@ -32,7 +33,8 @@ class Logger {
      @abstract Class constructor
      @param logFile string - Full path of the log file
      */
-    function Logger($logFile) {
+    public function Logger($logFile)
+    {
         if (!empty($logFile)) {
             $this->mLogFile = $logFile;
         } else {
@@ -47,7 +49,8 @@ class Logger {
      @param eventstring string - Description of the event
      @param type integer - Event type. Defaults to Logger::GENERIC
      */
-    public function logEvent($contest, $eventstring, $type = Logger::GENERIC) {
+    public function logEvent($contest, $eventstring, $type = Logger::GENERIC)
+    {
         $result = false;
         if (strlen($this->mLogFile) > 0) {
             $timestamp = time();
@@ -102,7 +105,7 @@ class Logger {
             }
 
             if ($log_event) {
-                
+
 
                 $logstr = sprintf("%04s/%02s/%02s - %02s:%02s:%02s - %s - %s : %s", $date['year'], $date['mon'], $date['mday'], $date['hours'], $date['minutes'], $date['seconds'], $evtype, $contest, $eventstring);
                 //$logstr = "$date[mday]/$date[mon]/$date[year] - $date[hours]:$date[minutes]:$date[seconds] - ".$evtype." - ".$contest." : ".$eventstring;
@@ -131,7 +134,8 @@ class Logger {
      @param eventstring string - Description of the event
      @param type integer - Event type. Defaults to Logger::FAILURE
      */
-    public function logDie($contest, $eventstring, $type = Logger::FAILURE) {
+    public function logDie($contest, $eventstring, $type = Logger::FAILURE)
+    {
         $logstring = $this->logEvent($contest, $eventstring, $type);
         InnomaticContainer::instance('innomaticcontainer')->abort($logstring);
         die('');
@@ -141,7 +145,8 @@ class Logger {
      @function CleanLog
      @abstract Erases the logfile.
      */
-    public function cleanLog() {
+    public function cleanLog()
+    {
         $result = false;
         if (file_exists($this->mLogFile)) {
             $result = @unlink($this->mLogFile);
@@ -153,7 +158,8 @@ class Logger {
      @function RawReadLog
      @abstract Reads the log file and returns it
      */
-    public function rawReadLog() {
+    public function rawReadLog()
+    {
         $result = false;
         if (file_exists($this->mLogFile)) {
             if (file_exists($this->mLogFile)) {
@@ -168,7 +174,8 @@ class Logger {
      @abstract Reads the log file and displays it to the stdout
      @discussion This function is deprecated
      */
-    public function rawDisplayLog() {
+    public function rawDisplayLog()
+    {
         if (file_exists($this->mLogFile)) {
             return @readfile($this->mLogFile);
         } else
@@ -181,7 +188,8 @@ class Logger {
      @discussion This function is deprecated
      @param filter string - Word to be contained in the log rows
      */
-    public function rawDisplayFilterLog($filter) {
+    public function rawDisplayFilterLog($filter)
+    {
         $result = false;
         if (file_exists($this->mLogFile)) {
             if ($fh = @fopen($this->mLogFile, 'r')) {
@@ -198,7 +206,8 @@ class Logger {
         return $result;
     }
 
-    public function rotate($logsNumber) {
+    public function rotate($logsNumber)
+    {
         $result = false;
         if (strlen($this->mLogFile) and is_file($this->mLogFile)) {
             $dir = dirname($this->mLogFile);

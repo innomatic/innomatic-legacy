@@ -14,7 +14,7 @@ class FileMan
      * setFile(string filename)
      * set filename for further use
      */
-    function setFile($file = '')
+    public function setFile($file = '')
     {
         if ($file != '' && file_exists($file)) {
             $this->basefile = $file;
@@ -26,7 +26,7 @@ class FileMan
     }
 
     // Do not call ! Internal function
-    function outputError($errorNo)
+    public function outputError($errorNo)
     {
         switch ($errorNo) {
             case 1 :
@@ -45,7 +45,7 @@ class FileMan
     }
 
     // Do not call ! Internal function
-    function readFileToArray()
+    public function readFileToArray()
     {
         if ($this->basefile != '') {
             $tempArray = file($this->basefile);
@@ -67,7 +67,7 @@ class FileMan
      *     returns an array containing the complete file, each arrayelement
      *     contains one line of the file
      */
-    function readEntire()
+    public function readEntire()
     {
         if ($this->basefile != '') {
             return $this->filearray;
@@ -80,7 +80,7 @@ class FileMan
      * readFirstX(int amount of lines)
      *    returns an array containing the first X Lines
      */
-    function readFirstX($amountOfLines)
+    public function readFirstX($amountOfLines)
     {
         if ($this->basefile != '') {
             $tempArray = array();
@@ -97,7 +97,7 @@ class FileMan
      * readLastX(int amount of lines)
      *    returns an array contaiing the last X lines
      */
-    function readLastX($amountOfLines)
+    public function readLastX($amountOfLines)
     {
         if ($this->basefile != '') {
             $tempArray = array();
@@ -119,7 +119,7 @@ class FileMan
      * writeEnd(string string)
      *    appends a line to the file
      */
-    function writeEnd($writeStr)
+    public function writeEnd($writeStr)
     {
         if ($this->basefile != '') {
             $fp = fopen($this->basefile, 'a');
@@ -142,7 +142,7 @@ class FileMan
      * writebegin(string string)
      *       prepends a line to the file
      */
-    function writeBegin($writeStr)
+    public function writeBegin($writeStr)
     {
         if ($this->basefile != '') {
             $fp = @fopen($this->basefile, 'w');
@@ -168,7 +168,7 @@ class FileMan
      * delLineNo(int number of line)
      *       delete a line is the file, lines begin with 1 (not 0!)
      */
-    function delLineNo($lineNo)
+    public function delLineNo($lineNo)
     {
         if ($this->basefile != '') {
             $fp = @fopen($this->basefile, 'w');
@@ -198,7 +198,7 @@ class FileMan
      * writeAfterLine(int line number, string string)
      *       insert a line after a given line number, lines begin with 1
      */
-    function writeAfterLine($lineNo, $writeStr)
+    public function writeAfterLine($lineNo, $writeStr)
     {
         if ($this->basefile != '') {
             $fp = @fopen($this->basefile, 'w');
@@ -233,7 +233,7 @@ class FileMan
      * replaceLine(int number of line, string string)
      *       replaces a line with the given sting(line), lines begin with 1
      */
-    function replaceLine($lineNo, $replaceStr)
+    public function replaceLine($lineNo, $replaceStr)
     {
         if ($this->basefile != '') {
             $fp = @fopen($this->basefile, 'w');
@@ -267,7 +267,7 @@ class FileMan
      * getLine(int number of line)
      *       returns a string containing line X of the file, lines begin with 0!
      */
-    function getLine($lineNo)
+    public function getLine($lineNo)
     {
         if ($this->basefile != '') {
             return $this->filearray[$lineNo];
@@ -280,7 +280,7 @@ class FileMan
      * getLastLine(int number of line)
      *       returns a string containing the last line of the file
      */
-    function getLastLine()
+    public function getLastLine()
     {
         if ($this->basefile != '') {
             return $this->filearray[$this->totallines];
@@ -293,7 +293,7 @@ class FileMan
      * getFirstLine(int number of line)
      *       returns a string containing the first line of the file
      */
-    function getFirstLine()
+    public function getFirstLine()
     {
         if ($this->basefile != '') {
             return $this->filearray[0];
@@ -306,7 +306,7 @@ class FileMan
      * getRandomLine()
      *       returns a string containing a random line of the file
      */
-    function getRandomLine()
+    public function getRandomLine()
     {
         if ($this->basefile != '') {
             $randInt = rand(0, $this->totallines);
@@ -321,7 +321,7 @@ class FileMan
      *       searches each line for a string or regular expression and
      *        returns an array of $linenumber => $linecontent
      */
-    function searchInLine($sStr = '')
+    public function searchInLine($sStr = '')
     {
         $tempArray = array();
         $found = false;

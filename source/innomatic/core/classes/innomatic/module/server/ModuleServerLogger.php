@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 /**
  * Logger for Module server events.
@@ -7,7 +7,8 @@
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerLogger {
+class ModuleServerLogger
+{
     /**
      * Log file name.
      *
@@ -24,7 +25,8 @@ class ModuleServerLogger {
      * @since 5.1
      * @param string $logfile Log file full path.
      */
-    public function __construct($logfile) {
+    public function __construct($logfile)
+    {
         $this->logfile = $logfile;
     }
 
@@ -36,7 +38,8 @@ class ModuleServerLogger {
      * @param string $message Message to be logged.
      * @return void
      */
-    public function logEvent($message) {
+    public function logEvent($message)
+    {
         if ($fh = fopen($this->logfile, 'a')) {
             fwrite($fh, date('Y/m/d').' - '.date('H:i:s').': '.$message."\n");
             fclose($fh);
@@ -50,10 +53,9 @@ class ModuleServerLogger {
      * @since 5.1
      * @return void
      */
-    public function eraseLog() {
+    public function eraseLog()
+    {
         if (file_exists($this->logfile))
             unlink($this->logfile);
     }
 }
-
-?>

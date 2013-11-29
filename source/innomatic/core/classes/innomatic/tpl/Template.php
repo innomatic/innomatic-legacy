@@ -1,10 +1,10 @@
-<?php 
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -33,7 +33,7 @@ interface Template
      * @param string $file Template file.
      */
     public function __construct($file);
-    
+
     /**
      * Sets the value for a certain tag.
      *
@@ -43,7 +43,7 @@ interface Template
      * @param string $value Tag value.
      */
     public function set($name, $value);
-    
+
     /**
      * Parses the given template and returns the parsed result.
      *
@@ -52,10 +52,10 @@ interface Template
      * @return mixed
      */
     public function parse();
-    
+
     /**
      * Returns a list of the set tag names.
-     * 
+     *
      * @access public
      * @since 6.1
      * @return array

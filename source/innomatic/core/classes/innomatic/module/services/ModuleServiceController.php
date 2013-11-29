@@ -1,4 +1,4 @@
-<?php        
+<?php
 
 require_once('innomatic/module/server/ModuleServerController.php');
 require_once('innomatic/module/services/ModuleServiceSocket.php');
@@ -7,19 +7,20 @@ require_once('innomatic/module/server/ModuleServerContext.php');
 /**
  * Controls Module server execution with service support.
  *
- * @author Alex Pagnoni 
+ * @author Alex Pagnoni
  * @copyright Copyright 2005-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleServiceController extends ModuleServerController {
-	
+class ModuleServiceController extends ModuleServerController
+{
    /**
      * Class constructor.
      *
      * @access public
      * @since 5.1
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->host = ModuleServerContext::instance('ModuleServerContext')->getConfig()->getKey('server_address');
         if (!$this->host) {
             $this->host = 'localhost';
@@ -39,15 +40,16 @@ class ModuleServiceController extends ModuleServerController {
      * @since 5.1
      * @return void
      */
-    public function start() {
-    	print('ModuleServiceController: start'."\n");
+    public function start()
+    {
+        print('ModuleServiceController: start'."\n");
 
-		$this->startPinger();
+        $this->startPinger();
 
         $server = new ModuleServiceSocket();
         $server->start();
     }
-    
+
     /**
      * Restarts the server.
      *
@@ -55,7 +57,8 @@ class ModuleServiceController extends ModuleServerController {
      * @since 5.1
      * @return void
      */
-    public function restart() {
+    public function restart()
+    {
         try {
             $this->shutdown();
         } catch (Exception $e) {
@@ -71,9 +74,10 @@ class ModuleServiceController extends ModuleServerController {
      * @access public
      * @since 5.1
      * @return void
-     */ 
-    public function watchDogStart() {
-    	require_once('innomatic/module/server/ModuleServerWatchDog.php');
+     */
+    public function watchDogStart()
+    {
+        require_once('innomatic/module/server/ModuleServerWatchDog.php');
         $wdog = new ModuleServerWatchDog();
         $wdog->watch('php core/scripts/moduleservices.php wstart');
     }
@@ -85,7 +89,8 @@ class ModuleServiceController extends ModuleServerController {
      * @since 5.1
      * @return void
      */
-    public function watchDogRestart() {
+    public function watchDogRestart()
+    {
         try {
             $this->shutdown();
         } catch (Exception $e) {
@@ -103,7 +108,8 @@ class ModuleServiceController extends ModuleServerController {
      * @since 5.1
      * @return void
      */
-    public function shutdown() {
+    public function shutdown()
+    {
         $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
         $this->socket->connect($this->host, $this->port);
         $request = 'SHUTDOWN Module/1.0'."\r\n";
@@ -121,8 +127,9 @@ class ModuleServiceController extends ModuleServerController {
      * @since 5.1
      * @return string Server status.
      */
-    public function status() {
-    	require_once('innomatic/net/socket/SocketException.php');
+    public function status()
+    {
+        require_once('innomatic/net/socket/SocketException.php');
         try {
             $result = '';
             $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -146,8 +153,9 @@ class ModuleServiceController extends ModuleServerController {
      * @since 5.1
      * @return string Server result string.
      */
-    public function refresh() {
-    	require_once('innomatic/net/socket/SocketException.php');
+    public function refresh()
+    {
+        require_once('innomatic/net/socket/SocketException.php');
         try {
             $result = '';
             $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -163,7 +171,7 @@ class ModuleServiceController extends ModuleServerController {
         }
         return $result;
     }
-    
+
     /**
      * pinger inizialization
      * (runs a new console that executes the piger)
@@ -173,21 +181,21 @@ class ModuleServiceController extends ModuleServerController {
      * @since 5.1
      * @return string Server result string.
      */
-    private function startPinger() {
-    	// TODO
-       	if (strtoupper(substr(PHP_OS, 0, 3) == 'WIN')) {
-	 		$context = ModuleServerContext::instance('ModuleServerContext');
-			$path = $context->getHome().'classes\\it\\innoteam\\module\\services\\';
-			$WshShell1 = new COM("WScript.Shell");
-			$WshShell2 = new COM("WScript.Shell");
-			$oExec1 = $WshShell1->Run('cmd /c carthag '.$path.'ModulePingerServer.php', 1, false);
-			$oExec2 = $WshShell2->Run('cmd /c carthag '.$path.'ModulePinger.php 5 15', 1, false);			
-    	}
-    	else {
-    		//ADD UNIX NATIVE INSTRUCTIONS HERE
-    	}  	
+    private function startPinger()
+    {
+        // TODO
+           if (strtoupper(substr(PHP_OS, 0, 3) == 'WIN')) {
+             $context = ModuleServerContext::instance('ModuleServerContext');
+            $path = $context->getHome().'classes\\it\\innoteam\\module\\services\\';
+            $WshShell1 = new COM("WScript.Shell");
+            $WshShell2 = new COM("WScript.Shell");
+            $oExec1 = $WshShell1->Run('cmd /c carthag '.$path.'ModulePingerServer.php', 1, false);
+            $oExec2 = $WshShell2->Run('cmd /c carthag '.$path.'ModulePinger.php 5 15', 1, false);
+        } else {
+            //ADD UNIX NATIVE INSTRUCTIONS HERE
+        }
     }
-    
+
     /**
      * stops the pinger
      * (starts the pinger shuting down sequence)
@@ -197,8 +205,9 @@ class ModuleServiceController extends ModuleServerController {
      * @since 5.1
      * @return string Server result string.
      */
-    private function stopPinger() { 
-    	    $result = '';
+    private function stopPinger()
+    {
+            $result = '';
             $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
             $context = ModuleServerContext::instance('ModuleServerContext');
             $this->socket->connect('127.0.0.1', $context->getConfig()->getKey('pinger_port'));
@@ -208,8 +217,6 @@ class ModuleServiceController extends ModuleServerController {
             $this->socket->write($request);
             $result = $this->socket->readAll();
             $this->socket->disconnect();
-    }   
-   
-}
+    }
 
-?>
+}

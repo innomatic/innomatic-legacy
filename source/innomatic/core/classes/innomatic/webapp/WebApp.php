@@ -1,10 +1,10 @@
-<?php         
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -18,7 +18,8 @@
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2012 Innoteam Srl
  */
-class WebApp {
+class WebApp
+{
     // Base info
     protected $name;
     protected $home;
@@ -31,9 +32,10 @@ class WebApp {
     protected $mimeMappings;
     protected $handlerMappings;
     protected $welcomeFiles;
-    protected $handlers;    
-    
-    public function __construct($home) {
+    protected $handlers;
+
+    public function __construct($home)
+    {
         $this->home = $home;
         $this->name = basename($home);
 
@@ -51,12 +53,12 @@ class WebApp {
         } else {
             $this->varDir = $this->getHome().'core/var/';
         }
-        
+
         // Make var directories
         if (!is_dir($this->varDir)) {
             @mkdir($this->varDir, 0777, true);
         }
-        
+
         // Init configuration
         // Must be called only after the cache directory has been set
         $this->parseConfig($home.'core/web.xml');
@@ -65,7 +67,8 @@ class WebApp {
     /**
      * Parses webapp configuration.
      */
-    protected function parseConfig($xmlconfig) {
+    protected function parseConfig($xmlconfig)
+    {
         require_once('innomatic/webapp/WebAppContainer.php');
         $container = WebAppContainer::instance('webappcontainer');
         if ($container->useDefaults() or !$container->isKey('webapps.cache_config') or $container->getKey('webapps.cache_config')) {
@@ -83,7 +86,7 @@ class WebApp {
         } else {
             $cfg = simplexml_load_file($xmlconfig);
         }
-        
+
         $this->displayName = sprintf('%s', $cfg->displayname);
         $this->description = sprintf('%s', $cfg->description);
         foreach ($cfg->contextparam as $param) $this->parameters[sprintf('%s', $param->paramname)] = sprintf('%s', $param->paramvalue);
@@ -98,11 +101,12 @@ class WebApp {
             }
         }
     }
-    
+
     /**
      * Checks if the given directory contains a valid webapp.
      */
-    public static function isValid($home = '') {
+    public static function isValid($home = '')
+    {
         // TODO: it should check if the web.xml is valid too
         return file_exists((strlen($home) ? $home : $this->home).'core/web.xml');
     }
@@ -110,7 +114,8 @@ class WebApp {
     /**
      * Removes webapp cache directory.
      */
-    public function refresh() {
+    public function refresh()
+    {
         if (is_dir($this->getVarDir().'cache/')) {
             require_once('innomatic/io/filesystem/DirectoryUtils.php');
             DirectoryUtils::unlinkTree($this->getVarDir());
@@ -120,14 +125,16 @@ class WebApp {
     /**
      * Returns webapp name.
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
     /**
      * Returns webapp home directory.
      */
-    public function getHome() {
+    public function getHome()
+    {
         return $this->home;
     }
 
@@ -136,70 +143,80 @@ class WebApp {
      * Depending on the configuration, it can be resident inside webapp core/var directory
      * or inside general var directory.
      */
-    public function getVarDir() {
+    public function getVarDir()
+    {
         return $this->varDir;
     }
 
     /**
      * Returns public webapp name.
      */
-    public function getDisplayName() {
+    public function getDisplayName()
+    {
         return $this->displayName;
     }
 
     /**
      * Returns webapp descriptio.
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
     /**
      * Returns the value of an init parameter.
      */
-    public function getInitParameter($param) {
+    public function getInitParameter($param)
+    {
         return isset($this->parameters[$param]) ? $this->parameters[$param] : false;
     }
 
     /**
      * Returns a list of the valid welcome files to be searched for when requesting a directory.
      */
-    public function getWelcomeFiles() {
+    public function getWelcomeFiles()
+    {
         return $this->welcomeFiles;
     }
 
     /**
      * Gets the handler corresponding to the given pattern.
      */
-    public function getHandlerMapping($pattern) {
+    public function getHandlerMapping($pattern)
+    {
         return isset($this->handlerMappings[$pattern]) ? $this->handlerMappings[$pattern] : null;
     }
 
     /**
      * Gets the complete list of handler mappings.
      */
-    public function getHandlerMappings() {
+    public function getHandlerMappings()
+    {
         return $this->handlerMappings;
     }
 
     /**
      * Removes an handler mapping.
      */
-    public function removeHandlerMapping($pattern) {
+    public function removeHandlerMapping($pattern)
+    {
         unset($this->handlerMappings[$pattern]);
     }
 
     /**
      * Returns the fully qualified class name for the given handler.
      */
-    public function getHandler($name) {
+    public function getHandler($name)
+    {
         return isset($this->handlers[$name]['class']) ? $this->handlers[$name]['class'] : null;
     }
 
     /**
-     * Returns the parameters array for the given handler. 
+     * Returns the parameters array for the given handler.
      */
-    public function getHandlerParameters($name) {
+    public function getHandlerParameters($name)
+    {
         $result = array();
         return isset($this->handlers[$name]['params']) ? $this->handlers[$name]['params'] : $result;
     }
@@ -207,7 +224,8 @@ class WebApp {
     /**
      * Returns the mime type defined for the given file.
      */
-    public function getMimeType($file) {
+    public function getMimeType($file)
+    {
         $info = pathinfo($file);
         if (!isset($info['extension']))
             return null;

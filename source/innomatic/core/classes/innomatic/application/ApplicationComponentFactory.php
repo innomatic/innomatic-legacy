@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -192,7 +192,7 @@ class ApplicationComponentFactory
                      $component['links'] = array();
                      }
                      */
-                        
+
                     $checkQuery = $this->rootda->execute(
                         'SELECT typename FROM applications_components_types WHERE typename=' .
                         $this->rootda->formatText(call_user_func(array($className, 'getType')))
