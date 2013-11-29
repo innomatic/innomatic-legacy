@@ -44,7 +44,15 @@ abstract class Singleton
 
     final public static function instance($class)
     {
-        $class = strtolower($class);
+        //$class = strtolower($class);
+        switch ($class) {
+        	case 'innomaticcontainer':
+        		$class = 'InnomaticContainer';
+        		break;
+        	case 'rootcontainer':
+        		$class = '\Innomatic\Core\RootContainer';
+        		break;
+        }
         $registry = Registry::instance();
         if (!$registry->isGlobalObject('singleton ' . $class)) {
             $singleton = new $class();
