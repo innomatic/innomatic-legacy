@@ -13,6 +13,8 @@
  * @since      Class available since Release 5.0
 */
 
+namespace Innomatic\Core;
+
 class InnomaticSettings
 {
     private $_configFile;

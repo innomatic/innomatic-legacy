@@ -15,7 +15,6 @@
 
 require_once('innomatic/core/InnomaticContainer.php');
 require_once('innomatic/dataaccess/DataAccess.php');
-require_once('innomatic/util/Singleton.php');
 
 /**
  * Web User Interface.
@@ -24,7 +23,7 @@ require_once('innomatic/util/Singleton.php');
  *
  * @package WUI
  */
-class Wui extends Singleton
+class Wui extends \Innomatic\Util\Singleton
 {
     /*! @var mrRootDb DataAccess class - Innomatic database handler. */
     private $mrRootDb;

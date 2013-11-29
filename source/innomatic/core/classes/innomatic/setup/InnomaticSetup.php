@@ -92,8 +92,7 @@ class InnomaticSetup
 
         if ($echo) echo $successString.str_pad('Components initialization (may take some time): ', 60);
 
-        require_once('innomatic/util/Registry.php');
-        $reg = Registry::instance();
+        $reg = \Innomatic\Util\Registry::instance();
         $dbArgs['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log';
 
         if (!InnomaticSetup::initializecomponents($dbArgs, $log)) {
@@ -224,8 +223,7 @@ class InnomaticSetup
     public static function createDb($eventData = '', $log = '')
     {
         $result = FALSE;
-        require_once('innomatic/util/Registry.php');
-        $reg = Registry::instance();
+        $reg = \Innomatic\Util\Registry::instance();
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
 
         require_once('innomatic/dataaccess/DataAccessSourceName.php');
@@ -268,15 +266,15 @@ class InnomaticSetup
                             @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_dbcreated', time());
                             if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_creatingdb')) @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_creatingdb');
                         } else $log->logevent('innomatic.root.main_php',
-                                             'Unable to create root database configuration file during initialization', Logger::ERROR);
+                                             'Unable to create root database configuration file during initialization', \Innomatic\Logging\Logger::ERROR);
                     } else $log->logevent('innomatic.root.main_php',
-                                         'Unable to create root database tables during initialization', Logger::ERROR);
+                                         'Unable to create root database tables during initialization', \Innomatic\Logging\Logger::ERROR);
                 } else $log->logevent('innomatic.root.main_php',
-                                     'Unable to open Innomatic structure file during initialization', Logger::ERROR);
+                                     'Unable to open Innomatic structure file during initialization', \Innomatic\Logging\Logger::ERROR);
             } else $log->logevent('innomatic.root.main_php',
-                                 'Unable to connect to root database during initialization', Logger::ERROR);
+                                 'Unable to connect to root database during initialization', \Innomatic\Logging\Logger::ERROR);
         } else $log->logevent('innomatic.root.main_php',
-                             'Unable to create root database during initialization: '.$tmpdb->getLastError(), Logger::ERROR);
+                             'Unable to create root database during initialization: '.$tmpdb->getLastError(), \Innomatic\Logging\Logger::ERROR);
 
         return $result;
     }
@@ -319,9 +317,9 @@ class InnomaticSetup
                 @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_componentsinitialized', time());
                 if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_initializingcomponents')) @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_initializingcomponents');
             } else $log->logevent('innomatic.root.main_php',
-                                'Unable to setup Innomatic during initialization', Logger::ERROR);
+                                'Unable to setup Innomatic during initialization', \Innomatic\Logging\Logger::ERROR);
         } else $log->logevent('innomatic.root.main_php',
-                            'Unable to connect to root database during initialization', Logger::ERROR);
+                            'Unable to connect to root database during initialization', \Innomatic\Logging\Logger::ERROR);
 
         return $result;
     }
@@ -370,11 +368,11 @@ class InnomaticSetup
 
                         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingpassword')) @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingpassword');
                     } else $log->logevent('innomatic.root.main_php',
-                                        'Unable to connect to Innomatic database during initialization', Logger::ERROR);
+                                        'Unable to connect to Innomatic database during initialization', \Innomatic\Logging\Logger::ERROR);
                 } else $log->logevent('innomatic.root.main_php',
-                                    'Unable to create .passwordset lock file during initialization', Logger::ERROR);
+                                    'Unable to create .passwordset lock file during initialization', \Innomatic\Logging\Logger::ERROR);
             } else $log->logevent('innomatic.root.main_php',
-                                'Unable to create root password file', Logger::ERROR);
+                                'Unable to create root password file', \Innomatic\Logging\Logger::ERROR);
         }
 
         return $result;
@@ -524,7 +522,7 @@ class InnomaticSetup
         $log->logEvent(
             'Innomatic',
             'Innomatic setup has been completed - Operating',
-            Logger::NOTICE
+            \Innomatic\Logging\Logger::NOTICE
         );
 
         return true;

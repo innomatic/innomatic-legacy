@@ -13,14 +13,12 @@
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/util/Singleton.php');
-
 /**
  * Stores a dump of the main Innomatic instance information.
  *
  * @since 5.0
  */
-class InnomaticDump extends Singleton
+class InnomaticDump extends \Innomatic\Util\Singleton
 {
     // Snapshot time filled information
 

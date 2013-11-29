@@ -14,14 +14,13 @@
 */
 
 require_once('innomatic/webapp/WebApp.php');
-require_once('innomatic/util/Singleton.php');
 
 /**
  * @since 5.0
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2005-2012 Innoteam Srl
  */
-class WebAppContainer extends Singleton
+class WebAppContainer extends \Innomatic\Util\Singleton
 {
     private $config;
     private $useDefaults;

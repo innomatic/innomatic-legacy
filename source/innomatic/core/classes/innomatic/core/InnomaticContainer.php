@@ -13,7 +13,8 @@
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/util/Singleton.php');
+namespace Innomatic\Core;
+
 require_once('innomatic/webapp/WebAppContainer.php');
 
 /**
@@ -34,7 +35,7 @@ require_once('innomatic/webapp/WebAppContainer.php');
  * @since      Class available since Release 5.0
  * @package    Core
  */
-class InnomaticContainer extends Singleton
+class InnomaticContainer extends \Innomatic\Util\Singleton
 {
     private $_home;
     /**
@@ -528,7 +529,7 @@ class InnomaticContainer extends Singleton
      */
     public function halt($status = '')
     {
-        $rootContainer = RootContainer::instance('rootcontainer');
+        $rootContainer = \Innomatic\Core\RootContainer::instance('rootcontainer');
         $rootContainer->stop();
         exit($status);
     }
@@ -562,7 +563,7 @@ class InnomaticContainer extends Singleton
                         'innomatic',
                         'Profiler total time: '
                         . $this->_loadTimer->getTotalTime(),
-                        Logger::DEBUG
+                        \Innomatic\Logging\Logger::DEBUG
                     );
 
                     $fh = @fopen(
@@ -589,7 +590,7 @@ class InnomaticContainer extends Singleton
                     'innomatic',
                     'Profiler total time: '
                     . $this->_loadTimer->getTotalTime(),
-                    Logger::DEBUG
+                    \Innomatic\Logging\Logger::DEBUG
                 );
             }
 
@@ -808,7 +809,7 @@ class InnomaticContainer extends Singleton
                         . $errorFile
                         . '. The error message was: '
                         . $errorMessage,
-                        Logger::FAILURE
+                        \Innomatic\Logging\Logger::FAILURE
                     );
                 }
                 if ($logError[E_ERROR]['die']) {
@@ -825,8 +826,7 @@ class InnomaticContainer extends Singleton
 
             case E_WARNING:
                 if ($logError[E_WARNING]['log']) {
-                    require_once('innomatic/logging/Logger.php');
-                    $log = new Logger($phpLog);
+                    $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
                         'PHP generated a WARNING at line '
@@ -835,7 +835,7 @@ class InnomaticContainer extends Singleton
                         . $errorFile
                         . '. The error message was: '
                         . $errorMessage,
-                        Logger::WARNING
+                        \Innomatic\Logging\Logger::WARNING
                     );
                 }
                 if ($logError[E_WARNING]['die']) {
@@ -862,7 +862,7 @@ class InnomaticContainer extends Singleton
                         .$errorFile
                         .'. The error message was: '
                         .$errorMessage,
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
                 if ($logError[E_PARSE]['die'])
@@ -888,7 +888,7 @@ class InnomaticContainer extends Singleton
                         .$errorFile
                         .'. The error message was: '
                         .$errorMessage,
-                        Logger::NOTICE
+                        \Innomatic\Logging\Logger::NOTICE
                     );
                 }
                 if ($logError[E_NOTICE]['die'])
@@ -914,7 +914,7 @@ class InnomaticContainer extends Singleton
                         .$errorFile
                         .'. The error message was: '
                         .$errorMessage,
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
                 if ($logError[E_CORE_ERROR]['die'])
@@ -940,7 +940,7 @@ class InnomaticContainer extends Singleton
                         .$errorFile
                         .'. The error message was: '
                         .$errorMessage,
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
                 if ($logError[E_CORE_WARNING]['die'])
@@ -966,7 +966,7 @@ class InnomaticContainer extends Singleton
                         .$errorFile
                         .'. The error message was: '
                         .$errorMessage,
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
                 if ($logError[E_COMPILE_ERROR]['die'])
@@ -992,7 +992,7 @@ class InnomaticContainer extends Singleton
                         .$errorFile
                         .'. The error message was: '
                         .$errorMessage,
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
                 if ($logError[E_COMPILE_WARNING]['die'])
@@ -1018,7 +1018,7 @@ class InnomaticContainer extends Singleton
                         .$errorFile
                         .'. The error message was: '
                         .$errorMessage,
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
                 if ($logError[E_USER_ERROR]['die'])
@@ -1044,7 +1044,7 @@ class InnomaticContainer extends Singleton
                         .$errorFile
                         .'. The error message was: '
                         .$errorMessage,
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
                 if ($logError[E_USER_WARNING]['die'])
@@ -1070,7 +1070,7 @@ class InnomaticContainer extends Singleton
                         .$errorFile
                         .'. The error message was: '
                         .$errorMessage,
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
                 if ($logError[E_USER_NOTICE]['die'])
@@ -1304,7 +1304,7 @@ class InnomaticContainer extends Singleton
                 $tmpLog->logEvent(
                     'Innomatic',
                     'Innomatic has been unlocked.',
-                    Logger::NOTICE
+                    \Innomatic\Logging\Logger::NOTICE
                 );
 
                 $message = 'System unlocked.';
@@ -1433,7 +1433,7 @@ class InnomaticContainer extends Singleton
                     $log->logEvent(
                         'Innomatic',
                         'Changed Innomatic root password',
-                        Logger::NOTICE
+                        \Innomatic\Logging\Logger::NOTICE
                     );
                 } else {
                     $result = InnomaticContainer::SETROOTPASSWORD_UNABLE_TO_WRITE_NEW_PASSWORD;

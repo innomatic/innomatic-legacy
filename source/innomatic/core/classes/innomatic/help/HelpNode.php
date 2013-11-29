@@ -43,8 +43,8 @@ class HelpNode
                 $node_name = substr($this->_node, 0, strpos($this->_node, '#'));
                 $anchor = substr($this->_node, strpos($this->_node, '#'));
             }
-            require_once('innomatic/util/Registry.php');
-            $reg = Registry::instance();
+
+            $reg = \Innomatic\Util\Registry::instance();
 
             // Tries specified language catalog
             //

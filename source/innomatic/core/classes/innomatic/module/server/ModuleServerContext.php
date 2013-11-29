@@ -1,7 +1,6 @@
 <?php
 
 require_once('innomatic/module/server/ModuleServerConfig.php');
-require_once('innomatic/util/Singleton.php');
 
 /**
  * Context where the Module server runs.
@@ -10,7 +9,7 @@ require_once('innomatic/util/Singleton.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerContext extends Singleton
+class ModuleServerContext extends \Innomatic\Util\Singleton
 {
     protected $home;
     protected $config;

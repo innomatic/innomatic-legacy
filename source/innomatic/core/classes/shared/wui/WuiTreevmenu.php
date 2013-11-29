@@ -33,8 +33,7 @@ class WuiTreevmenu extends WuiWidget
     }
     protected function generateSource()
     {
-        require_once ('innomatic/util/Registry.php');
-        $registry = Registry::instance();
+        $registry = \Innomatic\Util\Registry::instance();
         if (! $registry->isGlobalObject('singleton xlayersmenu')) {
             $mid = new XLayersMenu();
             $registry->setGlobalObject('singleton xlayersmenu', $mid);

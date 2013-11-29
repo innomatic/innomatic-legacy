@@ -13,6 +13,8 @@
  * @since      Class available since Release 5.0
 */
 
+namespace Innomatic\Util;
+
 require_once(dirname(__FILE__).'/Registry.php');
 
 /**
@@ -37,7 +39,7 @@ abstract class Singleton
 {
     public function Singleton()
     {
-        $registry = Registry::instance();
+        $registry = \Innomatic\Util\Registry::instance();
         if ($registry->isGlobalObject('singleton ' . get_class($this))) {
         }
     }
@@ -53,7 +55,7 @@ abstract class Singleton
         		$class = '\Innomatic\Core\RootContainer';
         		break;
         }
-        $registry = Registry::instance();
+        $registry = \Innomatic\Util\Registry::instance();
         if (!$registry->isGlobalObject('singleton ' . $class)) {
             $singleton = new $class();
             $registry->setGlobalObject('singleton ' . $class, $singleton);

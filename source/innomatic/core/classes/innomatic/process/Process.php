@@ -13,9 +13,7 @@
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/util/Singleton.php');
-
-class Process extends Singleton
+class Process extends \Innomatic\Util\Singleton
 {
     public $pid;
 

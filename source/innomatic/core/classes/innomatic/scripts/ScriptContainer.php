@@ -13,9 +13,7 @@
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/util/Singleton.php');
-
-class ScriptContainer extends Singleton
+class ScriptContainer extends \Innomatic\Util\Singleton
 {
     public function ___construct()
     {

@@ -13,8 +13,6 @@
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/util/Singleton.php');
-
 /**
  * Front controller for the Innomatic desktop.
  *
@@ -26,7 +24,7 @@ require_once('innomatic/util/Singleton.php');
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-class DesktopFrontController extends Singleton
+class DesktopFrontController extends \Innomatic\Util\Singleton
 {
     /**
      * Innomatic mode.

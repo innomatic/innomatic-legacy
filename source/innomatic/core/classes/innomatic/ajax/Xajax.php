@@ -1,6 +1,5 @@
 <?php
 
-require_once('innomatic/util/Singleton.php');
 require_once('innomatic/ajax/XajaxConfig.php');
 require_once('innomatic/ajax/XajaxResponse.php');
 require_once('innomatic/webapp/WebAppContainer.php');
@@ -73,7 +72,7 @@ if (!defined ('XAJAX_POST')) {
  *
  * @package xajax
  */
-class Xajax extends Singleton
+class Xajax extends \Innomatic\Util\Singleton
 {
     /**#@+
      * @access protected

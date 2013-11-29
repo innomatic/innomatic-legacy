@@ -257,8 +257,7 @@ class InnomaticLogsMaintenance extends MaintenanceTask
     public function getSystemLogsSize()
     {
         $total = 0;
-        require_once('innomatic/util/Registry.php');
-        $reg = Registry::instance();
+        $reg = \Innomatic\Util\Registry::instance();
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log');
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log');
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/access.log')) $total += filesize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/access.log');
@@ -290,8 +289,7 @@ class InnomaticLogsMaintenance extends MaintenanceTask
 
     public function cleanSystemLogs()
     {
-        require_once('innomatic/util/Registry.php');
-        $reg = Registry::instance();
+        $reg = \Innomatic\Util\Registry::instance();
 
         if (
             $this->mCleanRootLog

@@ -1,7 +1,6 @@
 <?php
 
 require_once('innomatic/module/server/ModuleServerContext.php');
-require_once('innomatic/util/Singleton.php');
 
 /**
  * Authenticates and authorizes access to a Module object against an
@@ -11,7 +10,7 @@ require_once('innomatic/util/Singleton.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerAuthenticator extends Singleton
+class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
 {
     /**
      * Users structure.

@@ -325,8 +325,7 @@ class WuiPage extends WuiContainerWidget
                 }
             }
 
-                        require_once ('innomatic/util/Registry.php');
-                        $registry = Registry::instance();
+                        $registry = \Innomatic\Util\Registry::instance();
                         if (! $registry->isGlobalObject('singleton xlayersmenu')) {
                             require_once('innomatic/wui/widgets/layersmenu/XLayersMenu.php');
                             $mid = new XLayersMenu();

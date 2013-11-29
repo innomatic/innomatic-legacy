@@ -13,6 +13,8 @@
  * @since      Class available since Release 5.0
 */
 
+namespace Innomatic\Util;
+
 /**
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2012 Innoteam Srl
