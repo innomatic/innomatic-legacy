@@ -36,7 +36,7 @@ require_once(dirname(__FILE__).'/../util/Singleton.php');
  * @since      Class available since Release 5.0
  * @package    Core
  */
-class RootContainer extends \Singleton
+class RootContainer extends \Innomatic\Util\Singleton
 {
     /**
      * Holds the root container base directory, where all the container
@@ -114,19 +114,32 @@ class RootContainer extends \Singleton
      */
     public static function autoload($class_name)
 	{
+		$file = self::getClassFile($class_name);
+
 		if( strpos($class_name, '\\') !== false )
 		{
 			$orig = $class_name;
 			$class_name = array_pop(explode('\\',$class_name));
 		}
 
-		$file = self::getClassFile($class_name);
-
 		// remember the defined classes, include the $file and detect newly declared classes
 		$pre = get_declared_classes();
+		
+		foreach( array_reverse($pre) as $c )
+		{
+			if(!(substr($c,strlen($c)-strlen($class_name)) == $class_name))
+				continue;
+			// Aliasing previously included class
+			if (isset($orig)) {
+				self::createClassAlias($c,$orig,true);
+				return;
+			}
+			break;
+		}
+		
 		require_once($file);
 		$post = array_unique(array_diff(get_declared_classes(), $pre));
-		
+
 		// loop through the new class definitions and create weak aliases if they are given with qualified names
 		foreach( $post as $cd )
 		{
@@ -140,7 +153,7 @@ class RootContainer extends \Singleton
 		
 		// get the class definition. note: we assume that there's only one class/interface in each file!
 		$def = array_pop($post);
-		if( !isset($orig) && !$def )
+		if( true or !isset($orig) && !$def )
 			// plain class requested AND file was already included, so search up the declared classes and alias
 		{
 			foreach( array_reverse($pre) as $c )
@@ -155,7 +168,7 @@ class RootContainer extends \Singleton
 		else
 		{
 			$class_name = isset($orig)?$orig:$class_name;
-			if( strtolower($def) != strtolower($class_name) && ends_iwith($def,$class_name) )
+			if( strtolower($def) != strtolower($class_name) && strtolower(substr($def,strlen($def)-strlen($class_name))) == strtolower($class_name) )
 				// no qualified classname requested but class was defined with namespace
 			{
 				// Aliasing class
