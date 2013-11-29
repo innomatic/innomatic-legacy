@@ -85,7 +85,7 @@ class ApplicationComponentFactory
                             $result = FALSE;
                         }
                         $className = ucfirst($data['typename']).'Component';
-                        if (class_exists($className)) {
+                        if (class_exists($className, false)) {
                             $this->types[call_user_func(array($className, 'getType'))] = array(
                                 'type' => call_user_func(array($className, 'getType')),
                                 'classname' => $className,
@@ -128,7 +128,7 @@ class ApplicationComponentFactory
             require_once($filepath);
 
             $className = substr(basename($filepath), 0, -4);
-            if (class_exists($className)) {
+            if (class_exists($className, false)) {
 
                 if (
                     call_user_func(array($className, 'getType'))
@@ -184,7 +184,7 @@ class ApplicationComponentFactory
         if ($this->rootda and file_exists($filepath)) {
             require_once($filepath);
             $className = substr(basename($filepath), 0, -4);
-            if (class_exists($className)) {
+            if (class_exists($className, false)) {
 
                 if (call_user_func(array($className, 'getType')) and $className) {
                     /*
@@ -271,7 +271,7 @@ class ApplicationComponentFactory
         if ($this->rootda and file_exists($filepath)) {
             require_once($filepath);
             $className = substr(basename($filepath), 0, -4);
-            if (class_exists($className)) {
+            if (class_exists($className, false)) {
 
                 if (
                     call_user_func(array($className, 'getType'))

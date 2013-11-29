@@ -103,7 +103,7 @@ class MaintenanceHandler
         while (!$tasks_query->eof) {
             if (include_once('shared/maintenance/'.$tasks_query->getFields('file'))) {
                 $class_name = substr($tasks_query->getFields('file'), 0, -4);
-                if (class_exists($class_name)) {
+                if (class_exists($class_name, false)) {
                     $obj = new $class_name;
                     $result[$tasks_query->getFields('name')] = $obj->execute();
                 }

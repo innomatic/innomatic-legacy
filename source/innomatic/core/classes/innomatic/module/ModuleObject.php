@@ -62,7 +62,7 @@ abstract class ModuleObject implements Serializable
 
         require_once($vo_fqcn.'.php');
         $vo_class = strpos($vo_fqcn, '/') ? substr($vo_fqcn, strrpos($vo_fqcn, '/') + 1) : $vo_fqcn;
-        if (!class_exists($vo_class)) {
+        if (!class_exists($vo_class, false)) {
             require_once('innomatic/module/ModuleException.php');
             throw new ModuleException('Value object class '.$vo_class.' does not exists');
         }

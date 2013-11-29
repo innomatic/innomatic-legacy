@@ -103,7 +103,7 @@ class DataAccessFactory
         require_once('innomatic/dataaccess/drivers/'.strtolower($dasn->getType()).'/'.ucfirst(strtolower($dasn->getType())).'DataAccess.php');
         require_once('innomatic/dataaccess/drivers/'.strtolower($dasn->getType()).'/'.ucfirst(strtolower($dasn->getType())).'DataAccessResult.php');
         $objname = ucfirst(strtolower(strtolower($dasn->getType()))).'DataAccess';
-        if (!class_exists($objname)) {
+        if (!class_exists($objname, false)) {
             throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
         }
         return new $objname($dasn);

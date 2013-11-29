@@ -162,7 +162,7 @@ class WuiXml extends WuiWidget
         }
         // Tries to load the widget if it wasn't loaded.
         //
-        if (! class_exists($elementType)) {
+        if (! class_exists($elementType, false)) {
             $widget_name = strtolower($element['tag']);
             if (! defined(strtoupper($widget_name . '_WUI')) and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php')) {
                 include_once (InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php');
@@ -170,7 +170,7 @@ class WuiXml extends WuiWidget
         }
         // Create the element and add children if any
         //
-        if (class_exists($elementType)) {
+        if (class_exists($elementType, false)) {
             $result = new $elementType($elementName, $elementArgs);
             // Adds the Javascript events to the widget.
             foreach ($elementEvents as $eventName => $eventCall) {

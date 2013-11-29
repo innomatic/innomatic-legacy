@@ -73,7 +73,7 @@ class DashboardPanelActions extends PanelActions
                     $class = $widget_query->getFields('class');
 
                     // Check if the class exists
-                    if (class_exists($class)) {
+                    if (class_exists($class, false)) {
                         // Fetch the widget xml definition
                         $widget = new $class;
                         $xml = $widget->getWidgetXml();

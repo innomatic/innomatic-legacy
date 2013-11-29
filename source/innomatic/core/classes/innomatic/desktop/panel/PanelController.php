@@ -79,7 +79,7 @@ abstract class PanelController implements Observer
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::MISSING_VIEWS_FILE);
         }
-        if (!class_exists($viewClassName)) {
+        if (!class_exists($viewClassName, false)) {
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::MISSING_VIEWS_CLASS);
         }
@@ -96,7 +96,7 @@ abstract class PanelController implements Observer
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::MISSING_ACTIONS_FILE);
         }
-        if (!class_exists($actionClassName)) {
+        if (!class_exists($actionClassName, false)) {
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::MISSING_ACTIONS_CLASS);
         }

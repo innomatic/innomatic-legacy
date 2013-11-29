@@ -48,7 +48,7 @@
             case 'resource':
                 return '';
             default:
-                if(class_exists($phptype)) {
+                if(class_exists($phptype, false)) {
                     return $GLOBALS['xmlrpcStruct'];
                 } else {
                     // unknown: might be any 'extended' xmlrpc type
@@ -528,7 +528,7 @@
                     $xmlrpcclassname = $prefix.'_'.preg_replace(array('/\./', '/[^a-zA-Z0-9_\x7f-\xff]/'),
                         array('_', ''), $client->server).'_client';
                 }
-                while($buildit && class_exists($xmlrpcclassname)) {
+                while($buildit && class_exists($xmlrpcclassname, false)) {
                     $xmlrpcclassname .= 'x';
                 }
 

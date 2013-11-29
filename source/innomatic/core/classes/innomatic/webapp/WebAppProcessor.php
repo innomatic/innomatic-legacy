@@ -324,7 +324,7 @@ class WebAppProcessor
 
         // Loads Webapp Handler class
         $classname = substr($fqclassname, strrpos($fqclassname, '/') + 1, -4);
-        if (!class_exists($classname)) {
+        if (!class_exists($classname, false)) {
             $this->response->sendError(WebAppResponse::SC_INTERNAL_SERVER_ERROR, 'Malformed handler found');
             return;
         }

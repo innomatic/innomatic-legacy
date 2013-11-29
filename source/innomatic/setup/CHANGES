@@ -28,6 +28,7 @@ CHANGES:
 - Removed InnomaticContainer::getRootWuiMenuDefinition(). (Alex Pagnoni)
 - Removed old references to html frames in desktop layout. (Alex Pagnoni)
 - Theme icon in domain panels is no more required. (Alex Pagnoni)
+- Supprimed autoload check in class_exists() calls. (Alex Pagnoni)
 
 NEW FEATURES:
 - New Subway icon set by Pixle. (Alex Pagnoni)

@@ -2881,7 +2881,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
                 // shall we check for proper subclass of xmlrpcval instead of
                 // presence of _php_class to detect what we can do?
                 if (in_array('decode_php_objs', $options) && $xmlrpc_val->_php_class != ''
-                    && class_exists($xmlrpc_val->_php_class))
+                    && class_exists($xmlrpc_val->_php_class, false))
                 {
                     $obj = @new $xmlrpc_val->_php_class;
                     while(list($key,$value)=$xmlrpc_val->structeach()) {

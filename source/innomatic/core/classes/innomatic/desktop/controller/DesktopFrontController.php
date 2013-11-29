@@ -192,7 +192,7 @@ class DesktopFrontController extends Singleton
                         WuiException::MISSING_CONTROLLER_FILE
                     );
                 }
-                if (!class_exists($controllerClassName)) {
+                if (!class_exists($controllerClassName, false)) {
                     require_once('innomatic/wui/WuiException.php');
                     throw new WuiException(
                         WuiException::MISSING_CONTROLLER_CLASS
@@ -300,7 +300,7 @@ class DesktopFrontController extends Singleton
                     require_once('innomatic/wui/WuiException.php');
                     throw new WuiException(WuiException::MISSING_CONTROLLER_FILE);
                 }
-                if (!class_exists($controllerClassName)) {
+                if (!class_exists($controllerClassName, false)) {
                     require_once('innomatic/wui/WuiException.php');
                     throw new WuiException(WuiException::MISSING_CONTROLLER_CLASS);
                 }

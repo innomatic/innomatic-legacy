@@ -81,7 +81,7 @@ class Wui extends Singleton
      */
     public function loadWidget($widgetName)
     {
-        if (class_exists('wui'.$widgetName)) {
+        if (class_exists('wui'.$widgetName, false)) {
             return true;
         }
 
