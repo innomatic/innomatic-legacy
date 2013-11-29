@@ -343,7 +343,7 @@ NEW FEATURES:
   Ampoliros, the private directory for the already existing users will be
   automatically created.
 - Added UserSettings class (users.library) for user settings feature.
-- Added Logger::Rotate() method (logger.library), for rotating logs.
+- Added \Innomatic\Logging\Logger::Rotate() method (logger.library), for rotating logs.
 - Added log rotation in Ampoliros log clean maintenance task.
 - Added table of all sites with the list of the enabled modules in sites
   root administration page under the "Situation" button (root/sites.php).
@@ -1111,7 +1111,7 @@ CHANGES:
   database is found now it is dropped and then recreated.
 - Now PHP_MEMORY_LIMIT is set to 16M in the Makefile during ampconfig.cfg
   creation.
-- Logger::CleanLog() (logger.library) no more recreates the log file with
+- \Innomatic\Logging\Logger::CleanLog() (logger.library) no more recreates the log file with
   zero bytes size.
 
 FIXES:
@@ -1255,7 +1255,7 @@ NEW FEATURES:
 
 CHANGES:
 - Converted some other double quotes to single quotes.
-- Logger::CleanLog() now recreate the log file after it has been deleted.
+- \Innomatic\Logging\Logger::CleanLog() now recreate the log file after it has been deleted.
 - Rewrote cron.library to PHP coding standard. Added some logging too.
 
 FIXES:
@@ -1299,7 +1299,7 @@ FIXES:
 - Fixed trouble with Hui::LoadAllWidgets() during installation in
   www/main.php when setup finishes.
 - Fixed the trouble with ConfigMan class (configman.library) when instancing
-  a new Logger class; there was a strange inclusion of libraries.
+  a new \Innomatic\Logging\Logger class; there was a strange inclusion of libraries.
 - Fixed the wrong "/ampcgi/" links to CGI_URL.
 - Fixed typo in log string in helpnode.library.
 - Added missing forceinstall="true" in defs/structure.xml to helpnode
@@ -1488,7 +1488,7 @@ CHANGES:
   changelog for details.
 - New hui look.
 - General code cleanup and revision.
-- Logger::LogEvent() now formats date and time strings.
+- \Innomatic\Logging\Logger::LogEvent() now formats date and time strings.
 - Reorganized auth.php and ampconfig.php files.
 - Reformatted CHANGES file.
 - Optimized catalog files.

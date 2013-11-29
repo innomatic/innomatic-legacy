@@ -47,18 +47,18 @@ class BinaryComponent extends ApplicationComponent
     {
         // Checks if the name is valid.
         if (! strlen($params['name'])) {
-            $this->mLog->logEvent('BinaryComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty binary file name', Logger::ERROR);
+            $this->mLog->logEvent('BinaryComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty binary file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Checks if the binary file exists in application archive.
         if (! file_exists($this->basedir . '/core/bin/' . $params['name'])) {
-            $this->mLog->logEvent('BinaryComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Missing binary file', Logger::ERROR);
+            $this->mLog->logEvent('BinaryComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Missing binary file', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Cheks that the binary file name does not contain malicious code.
         require_once ('innomatic/security/SecurityManager.php');
         if (SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/')) {
-            $this->mLog->logEvent('BinaryComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious binary file name', Logger::ERROR);
+            $this->mLog->logEvent('BinaryComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious binary file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Checks if the binary file name contains a directory.
@@ -69,7 +69,7 @@ class BinaryComponent extends ApplicationComponent
         }
         // Copies the binary file.
         if (! copy($this->basedir . '/core/bin/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/' . $params['name'])) {
-            $this->mLog->logEvent('BinaryComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy binary file', Logger::ERROR);
+            $this->mLog->logEvent('BinaryComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy binary file', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Updates file permissions.
@@ -80,22 +80,22 @@ class BinaryComponent extends ApplicationComponent
     {
         // Checks if the name is valid.
         if (! strlen($params['name'])) {
-            $this->mLog->logEvent('BinaryComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty binary file name', Logger::ERROR);
+            $this->mLog->logEvent('BinaryComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty binary file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Cheks that the binary file name does not contain malicious code.
         require_once ('innomatic/security/SecurityManager.php');
         if (SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/')) {
-            $this->mLog->logEvent('BinaryComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious binary file name', Logger::ERROR);
+            $this->mLog->logEvent('BinaryComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious binary file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Checks if the binary file exists.
         if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . '/core/bin/' . $params['name'])) {
-            $this->mLog->logEvent('BinaryComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Missing binary file', Logger::ERROR);
+            $this->mLog->logEvent('BinaryComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Missing binary file', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         if (! @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/' . $params['name'])) {
-            $this->mLog->logEvent('BinaryComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove binary file', Logger::ERROR);
+            $this->mLog->logEvent('BinaryComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove binary file', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         return true;

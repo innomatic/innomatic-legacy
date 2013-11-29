@@ -239,7 +239,7 @@ function action_cleanmodlog($eventData)
 {
     global $gLocale, $gLocale, $gStatus;
 
-    $tempLog = new Logger(
+    $tempLog = new \Innomatic\Logging\Logger(
         InnomaticContainer::instance('innomaticcontainer')->getHome().'core/applications/'.$eventData['appid']
         .'/application.log'
     );

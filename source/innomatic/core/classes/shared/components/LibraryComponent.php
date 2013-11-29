@@ -55,7 +55,7 @@ class LibraryComponent extends ApplicationComponent
                 $result = true;
             }
         } else
-            $this->mLog->logEvent('innomatic.phpcomponent.phpcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty library file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.phpcomponent.phpcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty library file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUninstallAction($params)
@@ -65,9 +65,9 @@ class LibraryComponent extends ApplicationComponent
             if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/lib/' . basename($params['file']))) {
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.phpcomponent.phpcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/lib/' . basename($params['file']), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.phpcomponent.phpcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/lib/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.phpcomponent.phpcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty library file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.phpcomponent.phpcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty library file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUpdateAction($params)

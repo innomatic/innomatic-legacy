@@ -57,7 +57,7 @@ class AjaxcallComponent extends ApplicationComponent
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['classname']) or ! strlen($params['method']) or ! strlen($params['classfile'])) {
-            $this->mLog->logEvent('AjaxcallComponent::doInstallAction', 'Empty parameters in application ' . $this->appname, Logger::ERROR);
+            $this->mLog->logEvent('AjaxcallComponent::doInstallAction', 'Empty parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
 
@@ -98,7 +98,7 @@ class AjaxcallComponent extends ApplicationComponent
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['classname']) or ! strlen($params['method']) or ! strlen($params['classfile'])) {
-            $this->mLog->logEvent('AjaxcallComponent::doUninstallAction', 'Empty parameters in application ' . $this->appname, Logger::ERROR);
+            $this->mLog->logEvent('AjaxcallComponent::doUninstallAction', 'Empty parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome()
@@ -122,7 +122,7 @@ class AjaxcallComponent extends ApplicationComponent
                 'AjaxcallComponent::doUpdateAction',
                 'Empty parameters in application '
                 . $this->appname,
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
             return false;
         }

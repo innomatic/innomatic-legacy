@@ -385,7 +385,7 @@ component not found.
                 $log->logEvent(
                     'innomatic.applications.applicationcomponent.update',
                     'Invalid update mode',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
                 break;
         }

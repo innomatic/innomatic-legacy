@@ -44,7 +44,7 @@ class LogCenter
     @param die boolean - True if Innomatic must die after logging the event.
     @result Always true
     */
-    public function logEvent($destinations, $context, $eventString, $eventType = Logger::GENERIC, $die = false)
+    public function logEvent($destinations, $context, $eventString, $eventType = \Innomatic\Logging\Logger::GENERIC, $die = false)
     {
         // Root
         //
@@ -57,7 +57,7 @@ class LogCenter
         // Root db
         //
         if (isset($destinations['rootda'])) {
-            $tmp_log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log');
+            $tmp_log = new \Innomatic\Logging\Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log');
             $tmp_log->logEvent($context, $eventString, $eventType);
             unset($tmp_log);
         }
@@ -65,7 +65,7 @@ class LogCenter
         // Web services
         //
         if (isset($destinations['webservices'])) {
-            $tmp_log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log');
+            $tmp_log = new \Innomatic\Logging\Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log');
             $tmp_log->logEvent($context, $eventString, $eventType);
             unset($tmp_log);
         }
@@ -78,7 +78,7 @@ class LogCenter
             } else {
                 $php_log = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log';
             }
-            $tmp_log = new Logger($php_log);
+            $tmp_log = new \Innomatic\Logging\Logger($php_log);
             $tmp_log->logEvent($context, $eventString, $eventType);
             unset($tmp_log);
         }
@@ -86,7 +86,7 @@ class LogCenter
         // Application
         //
         if (isset($destinations['application']) and is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/applications/'.$this->mApplication)) {
-            $tmp_log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/applications/'.$this->mApplication.'/application.log');
+            $tmp_log = new \Innomatic\Logging\Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/applications/'.$this->mApplication.'/application.log');
             $tmp_log->logEvent($context, $eventString, $eventType);
             unset($tmp_log);
         }
@@ -94,7 +94,7 @@ class LogCenter
         // Domain
         //
         if (isset($destinations['domain'])) {
-            $tmp_log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainid'].'/log/domain.log');
+            $tmp_log = new \Innomatic\Logging\Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainid'].'/log/domain.log');
             $tmp_log->logEvent($context, $eventString, $eventType);
             unset($tmp_log);
         }
@@ -102,7 +102,7 @@ class LogCenter
         // Domain dataaccess
         //
         if (isset($destinations['domainda'])) {
-            $tmp_log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainid'].'/logs/dataaccess.log');
+            $tmp_log = new \Innomatic\Logging\Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainid'].'/logs/dataaccess.log');
             $tmp_log->logEvent($context, $eventString, $eventType);
             unset($tmp_log);
         }

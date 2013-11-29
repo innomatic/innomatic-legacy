@@ -47,9 +47,9 @@ class HookComponent extends ApplicationComponent
             if ($hook->Add($params['event'], $this->appname, $params['hookhandler'], $params['hookmethod']))
                 $result = true;
             else
-                $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to add hook', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to add hook', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hook name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hook name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUninstallAction($params)
@@ -60,9 +60,9 @@ class HookComponent extends ApplicationComponent
             if ($xm->Remove($params['event'], $this->appname, $params['hookhandler'], $params['hookmethod']))
                 $result = true;
             else
-                $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove hook', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove hook', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hook name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hook name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUpdateAction($params)
@@ -73,9 +73,9 @@ class HookComponent extends ApplicationComponent
             if ($xm->Update($params['event'], $this->appname, $params['hookhandler'], $params['hookmethod']))
                 $result = true;
             else
-                $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update hook', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update hook', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hook name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hook name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
 }

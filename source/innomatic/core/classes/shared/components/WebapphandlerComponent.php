@@ -51,7 +51,7 @@ class WebapphandlerComponent extends ApplicationComponent
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['class']) or ! strlen($params['urlpattern'])) {
-            $this->mLog->logEvent('WebapphandlerComponent::doInstallAction', 'Empty webapp handler parameters in application ' . $this->appname, Logger::ERROR);
+            $this->mLog->logEvent('WebapphandlerComponent::doInstallAction', 'Empty webapp handler parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/web.xml';
@@ -105,7 +105,7 @@ class WebapphandlerComponent extends ApplicationComponent
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['class']) or ! strlen($params['urlpattern'])) {
-            $this->mLog->logEvent('WebapphandlerComponent::doUninstallAction', 'Empty webapp handler parameters in application ' . $this->appname, Logger::ERROR);
+            $this->mLog->logEvent('WebapphandlerComponent::doUninstallAction', 'Empty webapp handler parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/web.xml';
@@ -131,7 +131,7 @@ class WebapphandlerComponent extends ApplicationComponent
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['class']) or ! strlen($params['urlpattern'])) {
-            $this->mLog->logEvent('WebapphandlerComponent::doUpdateAction', 'Empty webapp handler parameters in application ' . $this->appname, Logger::ERROR);
+            $this->mLog->logEvent('WebapphandlerComponent::doUpdateAction', 'Empty webapp handler parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/web.xml';

@@ -84,7 +84,7 @@ class WuiTheme
                 } else {
                     require_once('innomatic/logging/Logger.php');
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                    $log-> LogEvent('innomatic.wuithemes.wuitheme.inittheme', 'Unable to open theme configuration file '.$this->mThemeFile, Logger::ERROR);
+                    $log-> LogEvent('innomatic.wuithemes.wuitheme.inittheme', 'Unable to open theme configuration file '.$this->mThemeFile, \Innomatic\Logging\Logger::ERROR);
                 }
             } else {
                 $this->mIconsSetName = $this->mUserSettings['iconsset'];
@@ -127,7 +127,7 @@ class WuiTheme
                     } else {
                         require_once('innomatic/logging/Logger.php');
                         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                        $log-> LogEvent('innomatic.wuithemes.wuitheme.inittheme', 'Unable to open default theme configuration file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.Wui::DEFAULT_THEME.'_wuitheme.ini', Logger::ERROR);
+                        $log-> LogEvent('innomatic.wuithemes.wuitheme.inittheme', 'Unable to open default theme configuration file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.Wui::DEFAULT_THEME.'_wuitheme.ini', \Innomatic\Logging\Logger::ERROR);
                     }
 
                     $wui_def_colors = new WuiColorsSet($this->mrRootDb, $def_colors_set_name);

@@ -334,8 +334,8 @@ class SecurityManager
     public function logAccess($user = '', $logout = false, $root = false, $ip = '')
     {
         require_once('innomatic/logging/Logger.php');
-        $log = new Logger($this->mAccessLog);
-        $log->logEvent('innomatic', ($root ? 'Root ' : 'User '.$user.' '). ($logout ? 'logged out' : 'logged in'). (strlen($ip) ? ' from address '.$ip : ''), Logger::NOTICE);
+        $log = new \Innomatic\Logging\Logger($this->mAccessLog);
+        $log->logEvent('innomatic', ($root ? 'Root ' : 'User '.$user.' '). ($logout ? 'logged out' : 'logged in'). (strlen($ip) ? ' from address '.$ip : ''), \Innomatic\Logging\Logger::NOTICE);
         return true;
     }
 
@@ -347,8 +347,8 @@ class SecurityManager
     public function logFailedAccess($user = '', $root = false, $ip = '')
     {
         require_once('innomatic/logging/Logger.php');
-        $log = new Logger($this->mAccessLog);
-        $log->logEvent('innomatic', 'Wrong access from '. ($root ? 'root ' : 'user '.$user.' '). (strlen($ip) ? 'from address '.$ip : ''), Logger::NOTICE);
+        $log = new \Innomatic\Logging\Logger($this->mAccessLog);
+        $log->logEvent('innomatic', 'Wrong access from '. ($root ? 'root ' : 'user '.$user.' '). (strlen($ip) ? 'from address '.$ip : ''), \Innomatic\Logging\Logger::NOTICE);
         return true;
     }
 
@@ -373,7 +373,7 @@ class SecurityManager
     public function eraseAccessLog()
     {
         require_once('innomatic/logging/Logger.php');
-        $log = new Logger($this->mAccessLog);
+        $log = new \Innomatic\Logging\Logger($this->mAccessLog);
         $log->cleanLog();
         return true;
     }

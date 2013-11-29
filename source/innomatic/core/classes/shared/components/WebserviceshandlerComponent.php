@@ -47,9 +47,9 @@ class WebserviceshandlerComponent extends ApplicationComponent
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/webservices/' . basename($params['file']), 0644);
                 $result = true;
             } else
-                $this->mLog->logEvent('shared.components.webserviceshandlercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy handler file', Logger::ERROR);
+                $this->mLog->logEvent('shared.components.webserviceshandlercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy handler file', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('shared.components.webserviceshandlercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty xmlrpc handler file name', Logger::ERROR);
+            $this->mLog->logEvent('shared.components.webserviceshandlercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty xmlrpc handler file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUninstallAction($params)
@@ -62,9 +62,9 @@ class WebserviceshandlerComponent extends ApplicationComponent
                 $this->rootda->execute('DELETE FROM webservices_permissions WHERE application=' . $this->rootda->formatText($this->appname));
                 $result = true;
             } else
-                $this->mLog->logEvent('shared.components.webserviceshandlercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/webservices/' . basename($params['file']), Logger::ERROR);
+                $this->mLog->logEvent('shared.components.webserviceshandlercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/webservices/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('shared.components.webserviceshandlercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty xmlrpc handler file name', Logger::ERROR);
+            $this->mLog->logEvent('shared.components.webserviceshandlercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty xmlrpc handler file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUpdateAction($params)

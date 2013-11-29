@@ -90,18 +90,18 @@ class WebServicesProfile
                                 $hook->CallHooks( 'profileadded', $this, array( 'name' => $profileName ) );
 
                                 $this->mLog->logEvent( 'Innomatic',
-                                                      'Created new web services profile', Logger::NOTICE );
+                                                      'Created new web services profile', \Innomatic\Logging\Logger::NOTICE );
                             } else {
                                 $this->mLog->logEvent( 'innomatic.webservicesprofile.add',
-                                                      'Unable to insert web services profile into webservices_profiles table', Logger::ERROR );
+                                                      'Unable to insert web services profile into webservices_profiles table', \Innomatic\Logging\Logger::ERROR );
                             }
                         }
                     } else $this->mLog->logEvent( 'innomatic.webservicesprofile.add',
-                                                'Empty profile name', Logger::ERROR );
+                                                'Empty profile name', \Innomatic\Logging\Logger::ERROR );
                 } else $this->mLog->logEvent( 'innomatic.webservicesprofile.add',
-                                            'Already assigned user for this object', Logger::ERROR );
+                                            'Already assigned user for this object', \Innomatic\Logging\Logger::ERROR );
             } else $this->mLog->logEvent( 'innomatic.webservicesprofile.add',
-                                        'Invalid Innomatic database handler', Logger::ERROR );
+                                        'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
         }
 
         return $result;
@@ -147,11 +147,11 @@ class WebServicesProfile
                     $result = true;
 
                     $this->mLog->logEvent( 'Innomatic',
-                                          'Removed web services profile', Logger::NOTICE );
+                                          'Removed web services profile', \Innomatic\Logging\Logger::NOTICE );
                 } else $this->mLog->logEvent( 'innomatic.webservicesprofile.remove',
-                                            'Object not assigned to a profile', Logger::ERROR );
+                                            'Object not assigned to a profile', \Innomatic\Logging\Logger::ERROR );
             } else $this->mLog->logEvent( 'innomatic.webservicesprofile.remove',
-                                        'Invalid Innomatic database handler', Logger::ERROR );
+                                        'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
         }
 
         return $result;
@@ -184,11 +184,11 @@ class WebServicesProfile
                         $hook->CallHooks( 'profilerenamed', $this, array( 'name' => $profileName ) );
 
                     } else $this->mLog->logEvent( 'innomatic.webservicesprofile.rename',
-                                                'Empty new profile name', Logger::ERROR );
+                                                'Empty new profile name', \Innomatic\Logging\Logger::ERROR );
                 } else $this->mLog->logEvent( 'innomatic.webservicesprofile.rename',
-                                            'Object not assigned to a profile', Logger::ERROR );
+                                            'Object not assigned to a profile', \Innomatic\Logging\Logger::ERROR );
             } else $this->mLog->logEvent( 'innomatic.webservicesprofile.rename',
-                                        'Invalid Innomatic database handler', Logger::ERROR );
+                                        'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
         }
 
         return $result;
@@ -273,13 +273,13 @@ class WebServicesProfile
                     // In that case it should remove every node relative to the application and enable a new node of application type.
 
                     if ( !$result ) $this->mLog->logEvent( 'innomatic.webservicesprofile.enablenode',
-                                                           'Unable to insert web services profile node into webservices_permissions table', Logger::ERROR );
+                                                           'Unable to insert web services profile node into webservices_permissions table', \Innomatic\Logging\Logger::ERROR );
                 } else $this->mLog->logEvent( 'innomatic.webservicesprofile.enablenode',
-                                            'Wrong parameters', Logger::ERROR );
+                                            'Wrong parameters', \Innomatic\Logging\Logger::ERROR );
             } else $this->mLog->logEvent( 'innomatic.webservicesprofile.enablenode',
-                                        'Object not assigned to a profile', Logger::ERROR );
+                                        'Object not assigned to a profile', \Innomatic\Logging\Logger::ERROR );
         } else $this->mLog->logEvent( 'innomatic.webservicesprofile.enablenode',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -367,11 +367,11 @@ class WebServicesProfile
                                                        'AND application='.$this->mRootDb->formatText( $applicationName ).' '.
                                                        ( $nodeType == WebServicesProfile::NODETYPE_METHOD ? 'AND method='.$this->mRootDb->formatText( $methodName ) : '' ) );
                 } else $this->mLog->logEvent( 'innomatic.webservicesprofile.disablenode',
-                                            'Wrong parameters', Logger::ERROR );
+                                            'Wrong parameters', \Innomatic\Logging\Logger::ERROR );
             } else $this->mLog->logEvent( 'innomatic.webservicesprofile.disablenode',
-                                        'Object not assigned to a profile', Logger::ERROR );
+                                        'Object not assigned to a profile', \Innomatic\Logging\Logger::ERROR );
         } else $this->mLog->logEvent( 'innomatic.webservicesprofile.disablenode',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -414,9 +414,9 @@ class WebServicesProfile
                     $query->moveNext();
                 }
             } else $this->mLog->logEvent( 'innomatic.webservicesprofile.availablemethods',
-                                        'Object not assigned to a profile', Logger::ERROR );
+                                        'Object not assigned to a profile', \Innomatic\Logging\Logger::ERROR );
         } else $this->mLog->logEvent( 'innomatic.webservicesprofile.availablemethods',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -477,11 +477,11 @@ class WebServicesProfile
                         else $result = WebServicesProfile::METHODNODE_NOTENABLED;
                     }
                 } else $this->mLog->logEvent( 'innomatic.webservicesprofile.applicationnodecheck',
-                                            'Wrong parameters', Logger::ERROR );
+                                            'Wrong parameters', \Innomatic\Logging\Logger::ERROR );
             } else $this->mLog->logEvent( 'innomatic.webservicesprofile.applicationnodecheck',
-                                        'Object not assigned to a profile', Logger::ERROR );
+                                        'Object not assigned to a profile', \Innomatic\Logging\Logger::ERROR );
         } else $this->mLog->logEvent( 'innomatic.webservicesprofile.applicationnodecheck',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }

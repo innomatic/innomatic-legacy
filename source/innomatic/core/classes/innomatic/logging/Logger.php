@@ -49,9 +49,9 @@ class Logger
      @abstract Logs an event in the log file
      @param contest string - Contest where the event has been generated, e.g. the name of the function.
      @param eventstring string - Description of the event
-     @param type integer - Event type. Defaults to Logger::GENERIC
+     @param type integer - Event type. Defaults to \Innomatic\Logging\Logger::GENERIC
      */
-    public function logEvent($contest, $eventstring, $type = Logger::GENERIC)
+    public function logEvent($contest, $eventstring, $type = \Innomatic\Logging\Logger::GENERIC)
     {
         $result = false;
         if (strlen($this->mLogFile) > 0) {
@@ -60,12 +60,12 @@ class Logger
             $log_event = false;
 
             switch ($type) {
-                case Logger::NOTICE :
+                case \Innomatic\Logging\Logger::NOTICE :
                     $evtype = 'NOTICE';
                     $log_event = true;
                     break;
 
-                case Logger::WARNING :
+                case \Innomatic\Logging\Logger::WARNING :
                     $evtype = 'WARNING';
                     require_once('innomatic/core/InnomaticContainer.php');
                     $innomatic = InnomaticContainer::instance('innomaticcontainer');
@@ -77,22 +77,22 @@ class Logger
                     }
                     break;
 
-                case Logger::ERROR :
+                case \Innomatic\Logging\Logger::ERROR :
                     $evtype = 'ERROR';
                     $log_event = true;
                     break;
 
-                case Logger::FAILURE :
+                case \Innomatic\Logging\Logger::FAILURE :
                     $evtype = 'FAILURE';
                     $log_event = true;
                     break;
 
-                case Logger::GENERIC :
+                case \Innomatic\Logging\Logger::GENERIC :
                     $evtype = 'GENERIC';
                     $log_event = true;
                     break;
 
-                case Logger::DEBUG :
+                case \Innomatic\Logging\Logger::DEBUG :
                     $evtype = 'DEBUG';
                     require_once('innomatic/core/InnomaticContainer.php');
                     $innomatic = InnomaticContainer::instance('innomaticcontainer');
@@ -123,7 +123,7 @@ class Logger
             }
             $result = $logstr;
 
-            if ($evtype == Logger::FAILURE)
+            if ($evtype == \Innomatic\Logging\Logger::FAILURE)
                 InnomaticContainer::instance('innomaticcontainer')->abort($logstring);
         }
         return $result;
@@ -134,9 +134,9 @@ class Logger
      @abstract Logs an event and dies
      @param contest string - Contest where the event has been generated, e.g. the name of the function.
      @param eventstring string - Description of the event
-     @param type integer - Event type. Defaults to Logger::FAILURE
+     @param type integer - Event type. Defaults to \Innomatic\Logging\Logger::FAILURE
      */
-    public function logDie($contest, $eventstring, $type = Logger::FAILURE)
+    public function logDie($contest, $eventstring, $type = \Innomatic\Logging\Logger::FAILURE)
     {
         $logstring = $this->logEvent($contest, $eventstring, $type);
         InnomaticContainer::instance('innomaticcontainer')->abort($logstring);

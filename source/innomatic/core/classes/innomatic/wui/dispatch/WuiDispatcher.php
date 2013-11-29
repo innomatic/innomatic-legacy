@@ -40,7 +40,7 @@ class WuiDispatcher
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wui.wuidispatcher', 'Empty dispatcher name', Logger::ERROR);
+            $log->logEvent('innomatic.wui.wuidispatcher', 'Empty dispatcher name', \Innomatic\Logging\Logger::ERROR);
         }
         $this->mDispatched = false;
 
@@ -63,13 +63,13 @@ class WuiDispatcher
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             if (!strlen($eventName)) {
-                $log->logEvent('innomatic.wui.wuidispatcher.addevent', 'Empty event name', Logger::ERROR);
+                $log->logEvent('innomatic.wui.wuidispatcher.addevent', 'Empty event name', \Innomatic\Logging\Logger::ERROR);
             }
             if (!strlen($functionName)) {
-                $log->logEvent('innomatic.wui.wuidispatcher.addevent', 'Empty function name', Logger::ERROR);
+                $log->logEvent('innomatic.wui.wuidispatcher.addevent', 'Empty function name', \Innomatic\Logging\Logger::ERROR);
             }
             if (isset($this->mEvents[$eventName]) and strlen($this->mEvents[$eventName])) {
-                $log->logEvent('innomatic.wui.wuidispatcher.addevent', 'Event '.$eventName.' already exists', Logger::ERROR);
+                $log->logEvent('innomatic.wui.wuidispatcher.addevent', 'Event '.$eventName.' already exists', \Innomatic\Logging\Logger::ERROR);
             }
             return false;
         }
@@ -94,7 +94,7 @@ class WuiDispatcher
                 } else {
                     require_once('innomatic/logging/Logger.php');
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                    $log->logEvent('innomatic.wui.wuidispatcher.dispatch', 'Function '.$this->mEvents[Wui::instance('wui')->parameters['wui'][$this->mName]['evn']]." doesn't exists", Logger::ERROR);
+                    $log->logEvent('innomatic.wui.wuidispatcher.dispatch', 'Function '.$this->mEvents[Wui::instance('wui')->parameters['wui'][$this->mName]['evn']]." doesn't exists", \Innomatic\Logging\Logger::ERROR);
                     return false;
                 }
             }

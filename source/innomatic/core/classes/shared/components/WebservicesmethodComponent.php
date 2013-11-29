@@ -41,7 +41,7 @@ class WebservicesmethodComponent extends ApplicationComponent
     public function doInstallAction($params)
     {
         if (! strlen($params['name']) or ! strlen($params['function']) or ! strlen($params['handler']) or ! strlen($this->appname)) {
-            $this->mLog->logEvent('shared.components.webservicesmethod.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Wrong parameters', Logger::ERROR);
+            $this->mLog->logEvent('shared.components.webservicesmethod.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Wrong parameters', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         if (! isset($params['signature']))
@@ -56,7 +56,7 @@ class WebservicesmethodComponent extends ApplicationComponent
         // The function should check if the method already exists.
         $result = $this->rootda->execute('INSERT INTO webservices_methods ' . 'VALUES (' . $this->rootda->getNextSequenceValue('webservices_methods_id_seq') . ',' . $this->rootda->formatText($params['name']) . ',' . $this->rootda->formatText($params['function']) . ',' . $this->rootda->formatText($params['signature']) . ',' . $this->rootda->formatText($params['docstring']) . ',' . $this->rootda->formatText($params['handler']) . ',' . $this->rootda->formatText($this->appname) . ',' . $this->rootda->formatText($params['unsecure'] ? $this->rootda->fmttrue : $this->rootda->fmtfalse) . ',' . $this->rootda->formatText($params['catalog']) . ')');
         if (! $result) {
-            $this->mLog->logEvent('shared.components.xmlrpccomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install xmlrpc method', Logger::ERROR);
+            $this->mLog->logEvent('shared.components.xmlrpccomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install xmlrpc method', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         return true;
@@ -64,7 +64,7 @@ class WebservicesmethodComponent extends ApplicationComponent
     public function doUninstallAction($params)
     {
         if (! strlen($params['name'])) {
-            $this->mLog->logEvent('shared.components.xmlrpccomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty xmlrpc handler file name', Logger::ERROR);
+            $this->mLog->logEvent('shared.components.xmlrpccomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty xmlrpc handler file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Removes permissions
@@ -72,7 +72,7 @@ class WebservicesmethodComponent extends ApplicationComponent
         $this->rootda->execute('DELETE FROM webservices_permissions ' . 'WHERE method=' . $this->rootda->formatText($params['name']));
         $result = $this->rootda->execute('DELETE FROM webservices_methods ' . 'WHERE name=' . $this->rootda->formatText($params['name']));
         if (! $result) {
-            $this->mLog->logEvent('innomatic.webservicesmethod.uninstall', 'Unable to remove method row from webservices_methods table', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.webservicesmethod.uninstall', 'Unable to remove method row from webservices_methods table', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         return true;
@@ -80,7 +80,7 @@ class WebservicesmethodComponent extends ApplicationComponent
     public function doUpdateAction($params)
     {
         if (! strlen($params['name']) or ! strlen($params['function']) or ! strlen($params['handler'])) {
-            $this->mLog->logEvent('shared.components.webservicesmethod.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Wrong parameters', Logger::ERROR);
+            $this->mLog->logEvent('shared.components.webservicesmethod.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Wrong parameters', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         if (! isset($params['signature']))
@@ -93,7 +93,7 @@ class WebservicesmethodComponent extends ApplicationComponent
             $params['docstring'] = '';
         $result = $this->rootda->execute('UPDATE webservices_methods ' . 'SET function=' . $this->rootda->formatText($params['function']) . ',' . 'signature=' . $this->rootda->formatText($params['signature']) . ',' . 'docstring=' . $this->rootda->formatText($params['docstring']) . ',' . 'handler=' . $this->rootda->formatText($params['handler']) . ',' . 'catalog=' . $this->rootda->formatText($params['catalog']) . ',' . 'unsecure=' . $this->rootda->formatText($params['unsecure'] ? $this->rootda->fmttrue : $this->rootda->fmtfalse) . ' WHERE name=' . $this->rootda->formatText($params['name']));
         if (! $result) {
-            $this->mLog->logEvent('shared.components.xmlrpccomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update web services method', Logger::ERROR);
+            $this->mLog->logEvent('shared.components.xmlrpccomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update web services method', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         return true;

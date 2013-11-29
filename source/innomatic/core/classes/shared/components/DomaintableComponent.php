@@ -49,9 +49,9 @@ class DomaintableComponent extends ApplicationComponent
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']), 0644);
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['file'] . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['file'] . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUninstallAction($params)
@@ -61,9 +61,9 @@ class DomaintableComponent extends ApplicationComponent
             if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']))) {
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUpdateAction($params)
@@ -78,9 +78,9 @@ class DomaintableComponent extends ApplicationComponent
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']), 0644);
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['file'] . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['file'] . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function doEnableDomainAction($domainid, $params)
@@ -92,10 +92,10 @@ class DomaintableComponent extends ApplicationComponent
             if ($this->domainda->execute($xmldb->getSQL())) {
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doenabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to create table from ' . $params['file'] . ' table file', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doenabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to create table from ' . $params['file'] . ' table file', \Innomatic\Logging\Logger::ERROR);
             $xmldb->free();
         } else
-            $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doenabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doenabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function doDisableDomainAction($domainid, $params)
@@ -107,9 +107,9 @@ class DomaintableComponent extends ApplicationComponent
             if ($this->domainda->execute($xmldb->getSQL())) {
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove table from ' . $params['file'] . ' table file', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove table from ' . $params['file'] . ' table file', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function doUpdateDomainAction($domainid, $params)
@@ -137,7 +137,7 @@ class DomaintableComponent extends ApplicationComponent
                 }
             }
         } else
-            $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
 }

@@ -40,7 +40,7 @@ class ApplicationSettings
             $log->logEvent(
                 'innomatic.applications.applicationsettings'
                 .'.applicationsettings',
-                'Empty application name', Logger::WARNING
+                'Empty application name', \Innomatic\Logging\Logger::WARNING
             );
         }
     }

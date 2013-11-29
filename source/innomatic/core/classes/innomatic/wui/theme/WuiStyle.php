@@ -132,7 +132,7 @@ class WuiStyle
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open style file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini', Logger::ERROR);
+            $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open style file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }

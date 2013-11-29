@@ -121,7 +121,7 @@ class ConfigMan extends ConfigBase
                 $log->logEvent(
                     'innomatic.configman.configman.addsegment',
                     'Unable to open destination configuration file '.$this->getdestfile(),
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
             $this->UpdateLock();
@@ -132,7 +132,7 @@ class ConfigMan extends ConfigBase
             $log->logEvent(
                 'innomatic.configman.configman.addsegment',
                 'Missing segment id and/or segment',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -190,7 +190,7 @@ class ConfigMan extends ConfigBase
                     $log->logEvent(
                         'innomatic.configman.configman.removesegment',
                         'Unable to open destination configuration file '.$this->getdestfile(),
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
             }
@@ -200,7 +200,7 @@ class ConfigMan extends ConfigBase
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.configman.configman.removesegment', 'Missing segment id', Logger::ERROR);
+            $log->logEvent('innomatic.configman.configman.removesegment', 'Missing segment id', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }
@@ -220,7 +220,7 @@ class ConfigMan extends ConfigBase
             $log->logEvent(
                 'innomatic.configman.configman.changesegment',
                 'Missing segment id and/or segment',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;

@@ -101,14 +101,14 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             require_once('innomatic/logging/Logger.php');
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent( 'innomatic.cron.simplecron.addentry',
-                                      'Invalid entry type', Logger::ERROR );
+                                      'Invalid entry type', \Innomatic\Logging\Logger::ERROR );
                 break;
             }
         } else {
             require_once('innomatic/logging/Logger.php');
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent( 'innomatic.cron.simplecron.addentry',
-                                   'Empty identifier ('.$identifier.'), entry ('.$entry.') or entry type ('.$entryType.')', Logger::ERROR );
+                                   'Empty identifier ('.$identifier.'), entry ('.$entry.') or entry type ('.$entryType.')', \Innomatic\Logging\Logger::ERROR );
         }
         return $result;
     }
@@ -149,14 +149,14 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             require_once('innomatic/logging/Logger.php');
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                 $log->logEvent( 'innomatic.cron.simplecron.removeentry',
-                                      'Invalid entry type', Logger::ERROR );
+                                      'Invalid entry type', \Innomatic\Logging\Logger::ERROR );
                 break;
             }
         } else {
             require_once('innomatic/logging/Logger.php');
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent( 'innomatic.cron.simplecron.removeentry',
-                                   'Empty identifier ('.$identifier.') or entry type ('.$entryType.')', Logger::ERROR );
+                                   'Empty identifier ('.$identifier.') or entry type ('.$entryType.')', \Innomatic\Logging\Logger::ERROR );
         }
         return $result;
     }

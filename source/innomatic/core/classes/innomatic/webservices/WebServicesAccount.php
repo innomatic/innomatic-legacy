@@ -76,13 +76,13 @@ class WebServicesAccount
     public function WebServicesAccount(&$rrootDb, $id = '')
     {
         $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-        $this->mWebServicesLog = new Logger( InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log' );
+        $this->mWebServicesLog = new \Innomatic\Logging\Logger( InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log' );
 
         $this->mId = $id;
 
         if ( is_object( $rrootDb ) ) $this->mrRootDb = &$rrootDb;
         else $this->mLog->logEvent( 'innomatic.webservicesaccount',
-                                   'Invalid Innomatic database handler', Logger::ERROR );
+                                   'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         if ( $this->mId ) {
             $acc_query = &$this->mrRootDb->execute( 'SELECT * '.
@@ -101,7 +101,7 @@ class WebServicesAccount
                 $this->mProxy       = $acc_data['proxy'];
                 $this->mProxyPort   = $acc_data['proxyport'];
             } else $this->mLog->logEvent( 'innomatic.webservicesaccount',
-                                       'Invalid account id', Logger::ERROR );
+                                       'Invalid account id', \Innomatic\Logging\Logger::ERROR );
         }
     }
 
@@ -155,7 +155,7 @@ class WebServicesAccount
                     $this->mLog->logEvent(
                         'Innomatic',
                         'Created new web services profile account',
-                        Logger::NOTICE
+                        \Innomatic\Logging\Logger::NOTICE
                         );
 
                     $this->mId = $acc_seq;
@@ -214,7 +214,7 @@ class WebServicesAccount
 
                 if ( $result ) {
                     $this->mLog->logEvent( 'Innomatic',
-                                           'Removed web services profile account', Logger::NOTICE );
+                                           'Removed web services profile account', \Innomatic\Logging\Logger::NOTICE );
 
                     if ( $hook->CallHooks( 'accountremoved', $this, array( 'id' => $this->mId ) ) != Hook::RESULT_OK ) $result = false;
                     $this->mId = '';

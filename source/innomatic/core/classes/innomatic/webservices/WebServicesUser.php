@@ -97,16 +97,16 @@ class WebServicesUser
                         $this->mDomainId = $domainId;
 
                         $this->mLog->logEvent( 'Innomatic',
-                                              'Created new web services profile user', Logger::NOTICE );
+                                              'Created new web services profile user', \Innomatic\Logging\Logger::NOTICE );
                     } else {
                         $this->mLog->logEvent( 'innomatic.webservicesuser.add',
-                                              'Unable to insert web services user into webservices_users table', Logger::ERROR );
+                                              'Unable to insert web services user into webservices_users table', \Innomatic\Logging\Logger::ERROR );
                     }
                 }
             } else $this->mLog->logEvent( 'innomatic.webservicesuser.add',
-                                        'Already assigned user for this object', Logger::ERROR );
+                                        'Already assigned user for this object', \Innomatic\Logging\Logger::ERROR );
         } else $this->mLog->logEvent( 'innomatic.webservicesuser.add',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -147,9 +147,9 @@ class WebServicesUser
                     $result = $this->mUserId;
                 }
             } else $this->mLog->logEvent( 'innomatic.webservicesuser.setbyaccount',
-                                        'Already assigned user for this object', Logger::ERROR );
+                                        'Already assigned user for this object', \Innomatic\Logging\Logger::ERROR );
         } else $this->mLog->logEvent( 'innomatic.webservicesuser.setbyaccount',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -174,9 +174,9 @@ class WebServicesUser
                     $result = $query->getFields( 'profileid' );
                 }
             } else $this->mLog->logEvent( 'innomatic.webservicesuser.profileid',
-                                        'Object not assigned to an user', Logger::ERROR );
+                                        'Object not assigned to an user', \Innomatic\Logging\Logger::ERROR );
         } else $this->mLog->logEvent( 'innomatic.webservicesuser.profileid',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -199,15 +199,15 @@ class WebServicesUser
 
                 if ( $result ) {
                     $this->mLog->logEvent( 'Innomatic',
-                                          'Removed web services profile user', Logger::NOTICE );
+                                          'Removed web services profile user', \Innomatic\Logging\Logger::NOTICE );
                 } else {
                     $this->mLog->logEvent( 'innomatic.webservicesuser.remove',
-                                          'Unable to remove web services user from webservices_users table', Logger::ERROR );
+                                          'Unable to remove web services user from webservices_users table', \Innomatic\Logging\Logger::ERROR );
                 }
             } else $this->mLog->logEvent( 'innomatic.webservicesuser.remove',
-                                        'Object not assigned to an user', Logger::ERROR );
+                                        'Object not assigned to an user', \Innomatic\Logging\Logger::ERROR );
         } else $this->mLog->logEvent( 'innomatic.webservicesuser.remove',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -233,15 +233,15 @@ class WebServicesUser
 
                 if ( $result ) {
                     $this->mLog->logEvent( 'Innomatic',
-                                          'Change web services profile user password', Logger::NOTICE );
+                                          'Change web services profile user password', \Innomatic\Logging\Logger::NOTICE );
                 } else {
                     $this->mLog->logEvent( 'innomatic.webservicesuser.changepassword',
-                                          'Unable to update web services user password into webservices_users table', Logger::ERROR );
+                                          'Unable to update web services user password into webservices_users table', \Innomatic\Logging\Logger::ERROR );
                 }
             } else $this->mLog->logEvent( 'innomatic.webservicesuser.changepassword',
-                                        'Object not assigned to an user', Logger::ERROR );
+                                        'Object not assigned to an user', \Innomatic\Logging\Logger::ERROR );
         } else $this->mLog->logEvent( 'innomatic.webservicesuser.changepassword',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -267,9 +267,9 @@ class WebServicesUser
 
                 if ( $query->getNumberRows() ) $result = true;
             } else $this->mLog->logEvent( 'innomatic.webservicesuser.checkpassword',
-                                        'Object not assigned to an user', Logger::ERROR );
+                                        'Object not assigned to an user', \Innomatic\Logging\Logger::ERROR );
         } else $this->mLog->logEvent( 'innomatic.webservicesuser.checkpassword',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -295,13 +295,13 @@ class WebServicesUser
                                                            'WHERE id='.(int)$this->mUserId ) ) $result = true;
 
                     else  $this->mLog->logEvent( 'innomatic.webservicesuser.assignprofile',
-                                                 'Unable to update profile id in webservices_users table', Logger::ERROR );
+                                                 'Unable to update profile id in webservices_users table', \Innomatic\Logging\Logger::ERROR );
                 } else $this->mLog->logEvent( 'innomatic.webservicesuser.assignprofile',
-                                            'Empty profile id', Logger::ERROR );
+                                            'Empty profile id', \Innomatic\Logging\Logger::ERROR );
             } else $this->mLog->logEvent( 'innomatic.webservicesuser.assignprofile',
-                                        'Object not assigned to an user', Logger::ERROR );
+                                        'Object not assigned to an user', \Innomatic\Logging\Logger::ERROR );
         } else $this->mLog->logEvent( 'innomatic.webservicesuser.assignprofile',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }

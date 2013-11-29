@@ -48,11 +48,11 @@ class WuiwidgetComponent extends ApplicationComponent
                 if ($this->rootda->execute('INSERT INTO wui_widgets VALUES (' . $this->rootda->getNextSequenceValue('wui_widgets_id_seq') . ',' . $this->rootda->formatText($params['name']) . ',' . $this->rootda->formatText(basename($params['file'])) . ')')) {
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.wuiwidget.wuiwidget.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.wuiwidget.wuiwidget.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', \Innomatic\Logging\Logger::ERROR);
             } else
-                $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/' . basename($params['file']) . ')', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUninstallAction($params)
@@ -64,9 +64,9 @@ class WuiwidgetComponent extends ApplicationComponent
                     $result = true;
                 }
             } else
-                $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to uninstall component', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to uninstall component', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUpdateAction($params)
@@ -83,12 +83,12 @@ class WuiwidgetComponent extends ApplicationComponent
                     $result = $this->rootda->execute('INSERT INTO wui_widgets VALUES (' . $this->rootda->getNextSequenceValue('wui_widgets_id_seq') . ',' . $this->rootda->formatText($params['name']) . ',' . $this->rootda->formatText(basename($params['file'])) . ')');
                 }
                 if (! $result) {
-                    $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update component', Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update component', \Innomatic\Logging\Logger::ERROR);
                 }
             } else
-                $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/' . basename($params['file']) . ')', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
 }

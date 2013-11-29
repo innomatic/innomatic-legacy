@@ -63,12 +63,12 @@ class Group
                 } else {
                     require_once('innomatic/logging/Logger.php');
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                    $log->logEvent('innomatic.users.group.creategroup', 'Attempted to create an already existing group', Logger::ERROR);
+                    $log->logEvent('innomatic.users.group.creategroup', 'Attempted to create an already existing group', \Innomatic\Logging\Logger::ERROR);
                 }
             } else {
                 require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                $log->logEvent('innomatic.users.group.creategroup', 'Invalid groupname or access to a member for a not initialized group object', Logger::ERROR);
+                $log->logEvent('innomatic.users.group.creategroup', 'Invalid groupname or access to a member for a not initialized group object', \Innomatic\Logging\Logger::ERROR);
             }
         }
 
@@ -88,12 +88,12 @@ class Group
             } else {
                 require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                $log->logEvent('innomatic.users.group.editgroup', 'No groups with specified name ('.$groupdata['groupname'].') exists', Logger::ERROR);
+                $log->logEvent('innomatic.users.group.editgroup', 'No groups with specified name ('.$groupdata['groupname'].') exists', \Innomatic\Logging\Logger::ERROR);
             }
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.users.group.editgroup', 'Invalid group id ('.$this->groupid.') or groupname ('.$groupdata['groupname'].')', Logger::ERROR);
+            $log->logEvent('innomatic.users.group.editgroup', 'Invalid group id ('.$this->groupid.') or groupname ('.$groupdata['groupname'].')', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }
@@ -137,7 +137,7 @@ class Group
             } else {
                 require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                $log->logEvent('innomatic.users.group.removegroup', "Attempted to call a member of an object that doesn't refer to any group", Logger::ERROR);
+                $log->logEvent('innomatic.users.group.removegroup', "Attempted to call a member of an object that doesn't refer to any group", \Innomatic\Logging\Logger::ERROR);
             }
         }
 

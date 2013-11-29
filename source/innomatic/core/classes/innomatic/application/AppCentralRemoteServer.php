@@ -160,19 +160,19 @@ class AppCentralRemoteServer
                         array( 'root' => '' ),
                         'appcentral-client.appcentral-client.appcentralremoteserver.listavailablerepositories',
                         'Not an array from server',
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 } else $this->mLogCenter->logEvent(
                     array( 'root' => '' ),
                     'appcentral-client.appcentral-client.appcentralremoteserver.listavailablerepositories',
                     'Error in response from server: '.$xmlrpcResp->FaultString(),
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             } else $this->mLogCenter->logEvent(
                 array( 'root' => '' ),
                 'appcentral-client.appcentral-client.appcentralremoteserver.listavailablerepositories',
                 'Invalid response from server',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
 
@@ -223,19 +223,19 @@ class AppCentralRemoteServer
                         array('root' => ''),
                         'appcentral-client.appcentral-client.appcentralremoteserver.listavailableapplications',
                         'Not an array from server',
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 } else $this->mLogCenter->logEvent(
                     array('root' => ''),
                     'appcentral-client.appcentral-client.appcentralremoteserver.listavailableapplications',
                     'Error in response from server: '.$xmlrpcResp->FaultString(),
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             } else $this->mLogCenter->logEvent(
                 array('root' => ''),
                 'appcentral-client.appcentral-client.appcentralremoteserver.listavailableapplications',
                 'Invalid response from server',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
 
@@ -285,19 +285,19 @@ class AppCentralRemoteServer
                         array('root' => ''),
                         'appcentral-client.appcentral-client.appcentralremoteserver.listavailableapplications',
                         'Not an array from server',
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 } else $this->mLogCenter->logEvent(
                     array('root' => ''),
                     'appcentral-client.appcentral-client.appcentralremoteserver.listavailableapplications',
                     'Error in response from server: '.$xmlrpcResp->FaultString(),
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             } else $this->mLogCenter->logEvent(
                 array('root' => ''),
                 'appcentral-client.appcentral-client.appcentralremoteserver.listavailableapplications',
                 'Invalid response from server',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
 
@@ -343,13 +343,13 @@ class AppCentralRemoteServer
                 array('root' => ''),
                 'appcentral-client.appcentral-client.appcentralremoteserver.retrieveapplication',
                 'Error in response from server: '.$xmlrpcResp->FaultString(),
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         } else $this->mLogCenter->logEvent(
             array('root' => ''),
             'appcentral-client.appcentral-client.appcentralremoteserver.retrieveapplication',
             'Invalid response from server',
-            Logger::ERROR
+            \Innomatic\Logging\Logger::ERROR
         );
 
         return $result;

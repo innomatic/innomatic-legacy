@@ -107,7 +107,7 @@ class ApplicationDependencies
                 $log->logEvent(
                     'innomatic.applications.appdeps.adddepsarray',
                     'Empty application id',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         }
@@ -143,7 +143,7 @@ class ApplicationDependencies
                 'innomatic.applications.appdeps.adddep',
                 'Empty application serial ('.$modSerial.') or application id ('.$appId.') '
                 .'or dependency type ('.$depType.')',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
             return false;
         }
@@ -174,7 +174,7 @@ class ApplicationDependencies
             $log->logEvent(
                 'innomatic.applications.appdeps.remdep',
                 'Empty application serial ('.$modserial.') or application id ('.$appid.') or dependency type',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
             return false;
         }
@@ -194,7 +194,7 @@ class ApplicationDependencies
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.applications.appdeps.remalldep', 'Empty application serial', Logger::ERROR);
+            $log->logEvent('innomatic.applications.appdeps.remalldep', 'Empty application serial', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
     }
@@ -245,7 +245,7 @@ class ApplicationDependencies
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.applications.appdeps.isinstalled', 'Empty application id', Logger::ERROR);
+            $log->logEvent('innomatic.applications.appdeps.isinstalled', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
         }
         return false;
     }
@@ -290,13 +290,13 @@ class ApplicationDependencies
                 $log->logEvent(
                     'innomatic.applications.appdeps.dependson',
                     'Application $appid is not installed',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.applications.appdeps.dependson', 'Empty application id', Logger::ERROR);
+            $log->logEvent('innomatic.applications.appdeps.dependson', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }
@@ -375,7 +375,7 @@ class ApplicationDependencies
             $log->logEvent(
                 'innomatic.applications.appdeps.checkapplicationdeps',
                 'Empty application id ('.$appid.') and dependency type or dependencies array',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -426,7 +426,7 @@ class ApplicationDependencies
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdependingapplications',
                 'Empty application id',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -486,7 +486,7 @@ class ApplicationDependencies
             $log->logEvent(
                 'innomatic.applications.appdeps.isenabled',
                 'Empty application id ('.$appid.') or domain id ('.$domainid.')',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -550,7 +550,7 @@ class ApplicationDependencies
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdomainapplicationdeps',
                 'Empty application id ('.$appid.') or domain id ('.$domainid.') or dependency type',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -611,7 +611,7 @@ class ApplicationDependencies
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdomaindependingapplications',
                 'Empty application id ('.$appid.') or domain id ('.$domainid.')',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -646,7 +646,7 @@ class ApplicationDependencies
             $log->logEvent(
                 'innomatic.applications.appdeps.checkenableddomains',
                 'Empty application serial',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;

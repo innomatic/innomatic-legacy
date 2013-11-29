@@ -55,7 +55,7 @@ class ExtrasComponent extends ApplicationComponent
                 }
             }
         } else
-            $this->mLog->logEvent('innomatic.extrascomponent.extrascomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty extras file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.extrascomponent.extrascomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty extras file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUninstallAction($params)
@@ -72,7 +72,7 @@ class ExtrasComponent extends ApplicationComponent
                 }
             }
         } else
-            $this->mLog->logEvent('innomatic.extrascomponent.extrascomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty extras file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.extrascomponent.extrascomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty extras file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUpdateAction($params)
@@ -101,7 +101,7 @@ class ExtrasComponent extends ApplicationComponent
                 }
             }
         } else
-            $this->mLog->logEvent('innomatic.extrascomponent.extrascomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty extras file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.extrascomponent.extrascomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty extras file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
 }

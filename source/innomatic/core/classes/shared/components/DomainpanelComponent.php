@@ -48,14 +48,14 @@ class DomainpanelComponent extends ApplicationComponent
                 if (DirectoryUtils::dirCopy($params['name'] . '-panel/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel/')) {
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['name'] . '-panel into destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel', Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['name'] . '-panel into destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel', \Innomatic\Logging\Logger::ERROR);
             } else
                 if (file_exists($params['name'] . '.php')) {
                     if (@copy($params['name'] . '.php', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '.php')) {
                         @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '.php', 0644);
                         $result = true;
                     } else
-                        $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['name'] . ' into destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']), Logger::ERROR);
+                        $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['name'] . ' into destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']), \Innomatic\Logging\Logger::ERROR);
                 }
         }
         if (! isset($params['icon']))
@@ -66,7 +66,7 @@ class DomainpanelComponent extends ApplicationComponent
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['icon']), 0644);
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['icon'] . ' into destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['icon']), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['icon'] . ' into destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['icon']), \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }
@@ -80,14 +80,14 @@ class DomainpanelComponent extends ApplicationComponent
                 if (DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel')) {
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel', Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel', \Innomatic\Logging\Logger::ERROR);
             }
             // Removes the old style application
             if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '.php')) {
                 if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '.php')) {
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']), Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']), \Innomatic\Logging\Logger::ERROR);
             }
         }
         if (! isset($params['icon']))
@@ -96,7 +96,7 @@ class DomainpanelComponent extends ApplicationComponent
             if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['icon']))) {
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['icon']), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['icon']), \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }
@@ -151,11 +151,11 @@ class DomainpanelComponent extends ApplicationComponent
                 $tmpperm->RemoveNodes($tmpquery->getFields('id'), 'page');
                 $result = &$this->domainda->execute('delete from domain_panels where name = ' . $this->domainda->formatText($params['name']));
                 if (! $result)
-                    $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove desktop application from domain_panels table', Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove desktop application from domain_panels table', \Innomatic\Logging\Logger::ERROR);
             } else
                 $result = true;
         } else
-            $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Both file and icon attributes of desktop application component are empty', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Both file and icon attributes of desktop application component are empty', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function doUpdateDomainAction($domainid, $params)
@@ -180,9 +180,9 @@ class DomainpanelComponent extends ApplicationComponent
                 }
                 // !!! nodes
             } else
-                $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to find a suitable admin group for desktop application ' . $params['name'], Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to find a suitable admin group for desktop application ' . $params['name'], \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to execute select query for desktop application ' . $params['name'], Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to execute select query for desktop application ' . $params['name'], \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
 }

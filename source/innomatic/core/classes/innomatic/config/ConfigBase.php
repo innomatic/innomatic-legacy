@@ -99,7 +99,7 @@ class ConfigBase
             $log->logEvent(
                 'innomatic.configman.configbase.readconfig',
                 'Unable to open configuration file',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         $this->UnLockFile();
@@ -126,7 +126,7 @@ class ConfigBase
             $log->logEvent(
                 'innomatic.configman.configbase.writeconfig',
                 'Unable to open destination configuration file '.$this->getdestfile(),
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         $this->UpdateLock();

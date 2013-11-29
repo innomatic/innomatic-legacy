@@ -217,7 +217,7 @@ function pass_setserviceprovider($eventData)
         }
     }
 
-    $log->logEvent('Innomatic', 'Changed Service Provider settings', Logger::NOTICE);
+    $log->logEvent('Innomatic', 'Changed Service Provider settings', \Innomatic\Logging\Logger::NOTICE);
 
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('iconsset_status');
 }
@@ -234,7 +234,7 @@ function pass_setenabledicons($eventData)
     $appCfg->setKey('innomatic-biglogo-disabled', $eventData['innomaticbigicon'] == 'on' ? 0 : 1);
     $appCfg->setKey('serviceprovider-biglogo-disabled', $eventData['serviceproviderbigicon'] == 'on' ? 0 : 1);
 
-    $log->logEvent('Innomatic', 'Changed Innomatic interface settings', Logger::NOTICE);
+    $log->logEvent('Innomatic', 'Changed Innomatic interface settings', \Innomatic\Logging\Logger::NOTICE);
 
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('iconsset_status');
 }
@@ -252,7 +252,7 @@ function pass_settheme($eventData)
     $wui = Wui::instance('wui');
     $wui->setTheme($eventData['theme']);
 
-    $log->logEvent('Innomatic', 'Changed Innomatic theme', Logger::NOTICE);
+    $log->logEvent('Innomatic', 'Changed Innomatic theme', \Innomatic\Logging\Logger::NOTICE);
 
     WebAppContainer::instance(
         'webappcontainer'
@@ -294,7 +294,7 @@ function pass_setadvanced($eventData)
     if ($eventData['compressed-ob'] == 'on')
         $compressedOb = 'true';
 
-    $log->logEvent('Innomatic', 'Changed Innomatic advanced interface settings', Logger::NOTICE);
+    $log->logEvent('Innomatic', 'Changed Innomatic advanced interface settings', \Innomatic\Logging\Logger::NOTICE);
 
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('advancedset_status');
 }
@@ -310,7 +310,7 @@ function pass_setlanguage($eventData)
     $innomaticConfig->setValue('RootLanguage', $eventData['language']);
     InnomaticContainer::instance('innomaticcontainer')->getConfig()->refresh();
 
-    $log->logEvent('Innomatic', 'Changed Innomatic root language', Logger::NOTICE);
+    $log->logEvent('Innomatic', 'Changed Innomatic root language', \Innomatic\Logging\Logger::NOTICE);
 
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('languageset_status');
 }
@@ -325,7 +325,7 @@ function pass_setcountry($eventData)
     $innomaticConfig = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
     $innomaticConfig->setValue('RootCountry', $eventData['country']);
     InnomaticContainer::instance('innomaticcontainer')->getConfig()->refresh();
-    $log->logEvent('Innomatic', 'Changed Innomatic root country', Logger::NOTICE);
+    $log->logEvent('Innomatic', 'Changed Innomatic root country', \Innomatic\Logging\Logger::NOTICE);
 
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('countryset_status');
 }
@@ -341,7 +341,7 @@ function pass_editname($eventData)
     $innomaticcfg->setValue('PlatformName', $eventData['name']);
     $innomaticcfg->setValue('PlatformGroup', $eventData['domain']);
 
-    $log->logEvent('Innomatic', 'Changed Innomatic network settings', Logger::NOTICE);
+    $log->logEvent('Innomatic', 'Changed Innomatic network settings', \Innomatic\Logging\Logger::NOTICE);
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('datachanged');
 }
 $actionDispatcher->Dispatch();

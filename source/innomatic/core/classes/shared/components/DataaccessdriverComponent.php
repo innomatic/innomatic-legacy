@@ -47,7 +47,7 @@ class DataaccessdriverComponent extends ApplicationComponent
             $db_fact->addDriver($params['name'], $params['desc']);
             $result = true;
         } else
-            $this->mLog->logEvent('innomatic.dataaccessdrivercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty DataAccess driver file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.dataaccessdrivercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty DataAccess driver file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUninstallAction($params)
@@ -58,7 +58,7 @@ class DataaccessdriverComponent extends ApplicationComponent
             $db_fact->removeDriver($params['name']);
             $result = true;
         } else
-            $this->mLog->logEvent('innomatic.dataaccessdrivercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty DataAccess driver file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.dataaccessdrivercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty DataAccess driver file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUpdateAction($params)
@@ -69,7 +69,7 @@ class DataaccessdriverComponent extends ApplicationComponent
             $db_fact->updateDriver($params['name'], $params['desc']);
             $result = true;
         } else
-            $this->mLog->logEvent('innomatic.dataaccessdrivercomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty DataAccess driver file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.dataaccessdrivercomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty DataAccess driver file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
 }

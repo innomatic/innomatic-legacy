@@ -57,7 +57,7 @@ class RootpanelComponent extends ApplicationComponent
                     @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), 0644);
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy root application icon ' . $params['icon'] . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy root application icon ' . $params['icon'] . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), \Innomatic\Logging\Logger::ERROR);
             }
             $params['name'] = $this->basedir . '/root/' . $params['name'];
             $result = false;
@@ -83,13 +83,13 @@ class RootpanelComponent extends ApplicationComponent
                     $ins = 'INSERT INTO root_panels VALUES (' . $this->rootda->getNextSequenceValue('root_panels_id_seq') . ',' . $this->rootda->formatText($name) . ',' . $this->rootda->formatText(basename($params['icon'])) . ',' . $this->rootda->formatText($params['catalog']) . ',' . $this->rootda->formatText($group_id) . ',' . $this->rootda->formatText($params['themeicon']) . ',' . $this->rootda->formatText($params['themeicontype']) . ')';
                     $result = $this->rootda->execute($ins);
                     if (! $result)
-                        $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to insert root application in root_panels table', Logger::ERROR);
+                        $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to insert root application in root_panels table', \Innomatic\Logging\Logger::ERROR);
                 } else
                     $result = true;
             } else
-                $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to copy root application ' . $name . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to copy root application ' . $name . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']), \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Empty application file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Empty application file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUninstallAction($params)
@@ -108,7 +108,7 @@ class RootpanelComponent extends ApplicationComponent
                 if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']))) {
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove icon file ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove icon file ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), \Innomatic\Logging\Logger::ERROR);
             }
             if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php')) {
                 $result = @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php');
@@ -118,16 +118,16 @@ class RootpanelComponent extends ApplicationComponent
                 $result = DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel');
             }
             if (! $result) {
-                $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove root application file ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove root application file ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']), \Innomatic\Logging\Logger::ERROR);
             }
             if ($params['show'] != 'no') {
                 $result = &$this->rootda->execute('DELETE FROM root_panels WHERE name = ' . $this->rootda->formatText($params['name']));
                 if (! $result)
-                    $this->mLog->logEvent('innomatic.rootpanelcomponen.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove root application from root_panels table', Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.rootpanelcomponen.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove root application from root_panels table', \Innomatic\Logging\Logger::ERROR);
             } else
                 $result = true;
         } else
-            $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty application file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty application file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUpdateAction($params)
@@ -149,7 +149,7 @@ class RootpanelComponent extends ApplicationComponent
                     @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), 0644);
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy root application icon ' . $params['icon'] . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy root application icon ' . $params['icon'] . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), \Innomatic\Logging\Logger::ERROR);
             }
             $params['name'] = $this->basedir . '/root/' . $params['name'];
             $result = false;
@@ -182,11 +182,11 @@ class RootpanelComponent extends ApplicationComponent
                     $group_id = '';
                 $result = &$this->rootda->execute('UPDATE root_panels SET iconfile=' . $this->rootda->formatText(basename($params['icon'])) . ',' . 'catalog=' . $this->rootda->formatText($params['catalog']) . ',' . 'themeicon=' . $this->rootda->formatText($params['themeicon']) . ',' . 'themeicontype=' . $this->rootda->formatText($params['themeicontype']) . ($group_id ? ',groupid=' . $group_id : '') . ' WHERE name=' . $this->rootda->formatText($name));
                 if (! $result)
-                    $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to update root application in root_panels table', Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to update root application in root_panels table', \Innomatic\Logging\Logger::ERROR);
             } else
-                $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to copy root application file ' . $name . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($name), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to copy root application file ' . $name . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($name), \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Empty application file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Empty application file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
 }

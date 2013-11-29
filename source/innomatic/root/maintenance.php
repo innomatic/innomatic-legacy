@@ -422,7 +422,7 @@ function action_cleanrootwebserviceslog($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    $tempLog = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log');
+    $tempLog = new \Innomatic\Logging\Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log');
 
     if ($tempLog->cleanLog()) {
         $gPageStatus = $gLocale->getStr('logcleaned_status');

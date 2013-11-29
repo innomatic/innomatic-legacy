@@ -46,7 +46,7 @@ class DomainsettingsComponent extends ApplicationComponent
             $domain_cfg = new DomainSettings($this->domainda);
             $domain_cfg->setKey($params['key'], isset($params['value']) ? $params['value'] : '');
         } else
-            $this->mLog->logEvent('innomatic.domainsettingscomponent.domainsettingscomponent.doenabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domainsettingscomponent.domainsettingscomponent.doenabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function doDisableDomainAction($params)
@@ -59,7 +59,7 @@ class DomainsettingsComponent extends ApplicationComponent
                 $domain_cfg->DeleteKey($params['key']);
             }
         } else
-            $this->mLog->logEvent('innomatic.domainsettingscomponent.domainsettingscomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domainsettingscomponent.domainsettingscomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function doUpdateDomainAction($params)
@@ -72,7 +72,7 @@ class DomainsettingsComponent extends ApplicationComponent
                 $domain_cfg->setKey($params['key'], isset($params['value']) ? $params['value'] : '');
             }
         } else
-            $this->mLog->logEvent('innomatic.domainsettingscomponent.domainsettingscomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domainsettingscomponent.domainsettingscomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
 }

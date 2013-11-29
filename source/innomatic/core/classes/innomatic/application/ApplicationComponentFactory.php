@@ -80,7 +80,7 @@ class ApplicationComponentFactory
                             $log->logEvent(
                                 'innomatic/application/ApplicationComponentFactory::fillTypes()',
                                 'Component file '.$data['file']." doesn't exists in components directory",
-                                Logger::WARNING
+                                \Innomatic\Logging\Logger::WARNING
                             );
                             $result = FALSE;
                         }
@@ -103,7 +103,7 @@ class ApplicationComponentFactory
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::fillTypes()',
                     'Unable to select component types from table',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
                 $result = FALSE;
             }
@@ -163,7 +163,7 @@ class ApplicationComponentFactory
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::install()',
                     'Given file (' . $filepath . ') does not exists',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         }
@@ -251,7 +251,7 @@ class ApplicationComponentFactory
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::update()',
                     'Given file (' . $filepath . ') does not exists',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         }
@@ -292,7 +292,7 @@ class ApplicationComponentFactory
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::uninstall()',
                     'Given file (' . $filepath . ') does not exists',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         }

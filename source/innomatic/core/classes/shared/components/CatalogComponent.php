@@ -41,7 +41,7 @@ class CatalogComponent extends ApplicationComponent
     public function doInstallAction($params)
     {
         if (! strlen($params['name'])) {
-            $this->mLog->logEvent('innomatic.catalogcomponent.catalogcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty catalog name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.catalogcomponent.catalogcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty catalog name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         $catalog = $this->basedir . '/core/locale/catalogs/' . $params['name'];
@@ -59,7 +59,7 @@ class CatalogComponent extends ApplicationComponent
     {
         $result = false;
         if (! strlen($params['name'])) {
-            $this->mLog->logEvent('innomatic.catalogcomponent.catalogcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty catalog name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.catalogcomponent.catalogcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty catalog name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         require_once ('innomatic/io/filesystem/DirectoryUtils.php');

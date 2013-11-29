@@ -42,7 +42,7 @@ class RootgroupComponent extends ApplicationComponent
     {
         $result = &$this->rootda->execute('INSERT INTO root_panels_groups VALUES (' . $this->rootda->getNextSequenceValue('root_panels_groups_id_seq') . ',' . $this->rootda->formatText($params['name']) . ',' . $this->rootda->formatText($params['catalog']) . ')');
         if (! $result)
-            $this->mLog->logEvent('innomatic.rootgroupcomponent.rootgroupcomponent.doenabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to insert rootgroup into root_panels_groups table', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.rootgroupcomponent.rootgroupcomponent.doenabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to insert rootgroup into root_panels_groups table', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUninstallAction($params)
@@ -54,7 +54,7 @@ class RootgroupComponent extends ApplicationComponent
         */
         $result = &$this->rootda->execute('DELETE FROM root_panels_groups ' . 'WHERE name = ' . $this->rootda->formatText($params['name']));
         if (! $result)
-            $this->mLog->logEvent('innomatic.rootgroupcomponent.rootgroupcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove rootgroup from root_panels_groups table', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.rootgroupcomponent.rootgroupcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove rootgroup from root_panels_groups table', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUpdateAction($params)
@@ -63,7 +63,7 @@ class RootgroupComponent extends ApplicationComponent
         if ($this->rootda->execute('UPDATE root_panels_groups SET catalog=' . $this->rootda->formatText($params['catalog']) . ' WHERE name=' . $this->rootda->formatText($params['name']))) {
             $result = TRUE;
         } else {
-            $this->mLog->logEvent('innomatic.rootgroupcomponent.rootgroupcomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update root_panels_groups table for domainid ' . $domainid, Logger::ERROR);
+            $this->mLog->logEvent('innomatic.rootgroupcomponent.rootgroupcomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update root_panels_groups table for domainid ' . $domainid, \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }

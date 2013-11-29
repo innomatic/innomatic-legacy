@@ -213,7 +213,7 @@ if (InnomaticSetup::check_lock_files()) {
     $log->logEvent(
         'innomatic.root.main_php',
         'Unable to remove lock file during initialization',
-        Logger::ERROR);
+        \Innomatic\Logging\Logger::ERROR);
     }
 }
 
@@ -672,7 +672,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
             $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('rootcountry_title');
         } else $log->logEvent('innomatic.root.main_php',
-                                'Unable to connect to root database during initialization', Logger::ERROR);
+                                'Unable to connect to root database during initialization', \Innomatic\Logging\Logger::ERROR);
     }
     // Root administration language
     //
@@ -757,7 +757,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
             $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('rootlanguage_title');
         } else $log->logEvent('innomatic.root.main_php',
-                                'Unable to connect to root database during initialization', Logger::ERROR);
+                                'Unable to connect to root database during initialization', \Innomatic\Logging\Logger::ERROR);
     }
     // Password choice
     //

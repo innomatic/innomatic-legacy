@@ -71,7 +71,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler
     {
         require_once('innomatic/logging/Logger.php');
 
-        $log = new Logger(
+        $log = new \Innomatic\Logging\Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
             . 'core/log/webservices.log'
         );
@@ -84,7 +84,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler
     public static function log_webservices_erase()
     {
         require_once('innomatic/logging/Logger.php');
-        $log = new Logger(
+        $log = new \Innomatic\Logging\Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
             . 'core/log/webservices.log'
         );
@@ -97,7 +97,7 @@ class InnomaticWebServicesHandler extends WebServicesHandler
     {
         require_once('innomatic/logging/Logger.php');
 
-        $log = new Logger(
+        $log = new \Innomatic\Logging\Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
             . 'core/log/webservices.log'
         );

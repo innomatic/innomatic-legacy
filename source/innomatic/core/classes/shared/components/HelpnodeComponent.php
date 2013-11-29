@@ -55,7 +55,7 @@ class HelpnodeComponent extends ApplicationComponent
                 $result = true;
             }
         } else
-            $this->mLog->logEvent('innomatic.helpnodecomponent.helpnodecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty helpnode file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.helpnodecomponent.helpnodecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty helpnode file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUninstallAction($params)
@@ -66,7 +66,7 @@ class HelpnodeComponent extends ApplicationComponent
                 $result = true;
             }
         } else
-            $this->mLog->logEvent('innomatic.helpnodecomponent.helpnodecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty helpnode file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.helpnodecomponent.helpnodecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty helpnode file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUpdateAction($params)

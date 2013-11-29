@@ -27,7 +27,6 @@ class DomainsPanelActions extends PanelActions
 
     public function beginHelper()
     {
-        require_once('innomatic/logging/Logger.php');
         require_once('innomatic/locale/LocaleCatalog.php');
         require_once('innomatic/domain/Domain.php');
         require_once('innomatic/config/ConfigBase.php');
@@ -366,7 +365,7 @@ class DomainsPanelActions extends PanelActions
 
     public function executeCleandomainlog($eventData)
     {
-        $tempLog = new Logger(
+        $tempLog = new \Innomatic\Logging\Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
             .'core/domains/'.$eventData['domainid'].'/log/domain.log'
         );
@@ -386,7 +385,7 @@ class DomainsPanelActions extends PanelActions
             'SELECT domainid FROM domains WHERE id='.$eventData['domainid']
         );
 
-        $tempLog = new Logger(
+        $tempLog = new \Innomatic\Logging\Logger(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
             .'core/domains/'.$query->getFields('domainid').'/log/dataaccess.log'
         );

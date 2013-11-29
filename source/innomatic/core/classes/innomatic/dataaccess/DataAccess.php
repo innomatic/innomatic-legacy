@@ -126,8 +126,8 @@ abstract class DataAccess
         } else {
             $this->lastError = 'Unable to connect to database '.$this->dbname;
             require_once('innomatic/logging/Logger.php');
-            $this->log = new Logger($this->dasn->getOption('logfile'));
-            $this->log->logEvent('innomatic.dataaccess.connect', $this->lastError, Logger::ERROR);
+            $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
+            $this->log->logEvent('innomatic.dataaccess.connect', $this->lastError, \Innomatic\Logging\Logger::ERROR);
             throw new DataAccessException(DataAccessException::ERROR_CONNECT_FAILED);
         }
 
@@ -162,14 +162,14 @@ abstract class DataAccess
             } else {
                 $this->lastError = 'Unable to close database';
                 require_once('innomatic/logging/Logger.php');
-                $this->log = new Logger($this->dasn->getOption('logfile'));
-                $this->log->logEvent('innomatic.dataaccess.close', $this->lastError, Logger::ERROR);
+                $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
+                $this->log->logEvent('innomatic.dataaccess.close', $this->lastError, \Innomatic\Logging\Logger::ERROR);
             }
         } else {
             $this->lastError = 'Tried to close an already closed database';
             require_once('innomatic/logging/Logger.php');
-            $this->log = new Logger($this->dasn->getOption('logfile'));
-            $this->log->logEvent('innomatic.dataaccess.close', $this->lastError, Logger::ERROR);
+            $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
+            $this->log->logEvent('innomatic.dataaccess.close', $this->lastError, \Innomatic\Logging\Logger::ERROR);
             $result = true;
         }
 
@@ -370,16 +370,16 @@ abstract class DataAccess
 
                     if ($this->debug == true) {
                         require_once('innomatic/logging/Logger.php');
-                        $this->log = new Logger($this->dasn->getOption('logfile'));
-                        $this->log->logEvent('innomatic.dataaccess.execute', 'Executed query '.$pieces[$i], Logger::DEBUG);
+                        $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
+                        $this->log->logEvent('innomatic.dataaccess.execute', 'Executed query '.$pieces[$i], \Innomatic\Logging\Logger::DEBUG);
                     }
                 } else $resid = $this->doExecute($pieces[$i]);
 
                 if ($resid == false) {
                     $this->lastError = 'Unable to execute query '.$pieces[$i];
                     require_once('innomatic/logging/Logger.php');
-                    $this->log = new Logger($this->dasn->getOption('logfile'));
-                    $this->log->logEvent('innomatic.dataaccess.execute', $this->lastError, Logger::ERROR);
+                    $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
+                    $this->log->logEvent('innomatic.dataaccess.execute', $this->lastError, \Innomatic\Logging\Logger::ERROR);
                     $result = false;
                 } elseif (($i == count($pieces) - 1) and ($resid != 1)) {
                     $rsname = $this->driver.'DataAccessResult';
@@ -393,8 +393,8 @@ abstract class DataAccess
         } else {
             $this->lastError = 'Database not connected';
             require_once('innomatic/logging/Logger.php');
-            $this->log = new Logger($this->dasn->getOption('logfile'));
-            $this->log->logEvent('innomatic.dataaccess.execute', $this->lastError, Logger::ERROR);
+            $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
+            $this->log->logEvent('innomatic.dataaccess.execute', $this->lastError, \Innomatic\Logging\Logger::ERROR);
         }
 
         return $result;

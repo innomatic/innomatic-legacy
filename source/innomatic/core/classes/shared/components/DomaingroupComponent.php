@@ -45,7 +45,7 @@ class DomaingroupComponent extends ApplicationComponent
     {
         $result = &$this->domainda->execute('INSERT INTO domain_panels_groups VALUES (' . $this->domainda->getNextSequenceValue('domain_panels_groups_id_seq') . ',' . $this->domainda->formatText($params['name']) . ',' . $this->domainda->formatText($params['catalog']) . ')');
         if (! $result)
-            $this->mLog->logEvent('innomatic.domaingroupcomponent.domaingroupcomponent.doenabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to insert desktop group into domain_panels_groups table', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domaingroupcomponent.domaingroupcomponent.doenabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to insert desktop group into domain_panels_groups table', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function doDisableDomainAction($domainid, $params)
@@ -55,7 +55,7 @@ class DomaingroupComponent extends ApplicationComponent
         $tmpperm->RemoveNodes($tmpquery->getFields('id'), 'group');
         $result = &$this->domainda->execute('DELETE FROM domain_panels_groups WHERE name = ' . $this->domainda->formatText($params['name']));
         if (! $result)
-            $this->mLog->logEvent('innomatic.domaingroupcomponent.domaingroupcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove desktop group from domain_panels_groups table', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domaingroupcomponent.domaingroupcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove desktop group from domain_panels_groups table', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function doUpdateDomainAction($domainid, $params)
@@ -64,7 +64,7 @@ class DomaingroupComponent extends ApplicationComponent
         if ($this->domainda->execute('UPDATE domain_panels_groups SET catalog=' . $this->domainda->formatText($params['catalog']) . ' WHERE name=' . $this->domainda->formatText($params['name']))) {
             $result = TRUE;
         } else {
-            $this->mLog->logEvent('innomatic.domaingroupcomponent.domaingroupcomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update domain_panels_groups table for domainid ' . $domainid, Logger::ERROR);
+            $this->mLog->logEvent('innomatic.domaingroupcomponent.domaingroupcomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update domain_panels_groups table for domainid ' . $domainid, \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }

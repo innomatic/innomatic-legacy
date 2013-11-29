@@ -47,9 +47,9 @@ class HookhandlerComponent extends ApplicationComponent
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/hooks/' . basename($params['file']), 0644);
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.hookhandlercomponent.hookhandlercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy handler file', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.hookhandlercomponent.hookhandlercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy handler file', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.hookhandlercomponent.hookhandlercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hook handler file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.hookhandlercomponent.hookhandlercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hook handler file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUninstallAction($params)
@@ -59,9 +59,9 @@ class HookhandlerComponent extends ApplicationComponent
             if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/hooks/' . basename($params['file']))) {
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.hookhandlercomponent.hookhandlercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/hooks/' . basename($params['file']), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.hookhandlercomponent.hookhandlercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/hooks/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.hookhandlercomponent.hookhandlercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hook handler file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.hookhandlercomponent.hookhandlercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hook handler file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function DoUpdateAction($params)

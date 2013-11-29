@@ -800,7 +800,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             case E_ERROR:
                 if ($logError[E_ERROR]['log']) {
                     require_once('innomatic/logging/Logger.php');
-                    $log = new Logger($phpLog);
+                    $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
                         'PHP generated an ERROR at line '
@@ -853,7 +853,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             case E_PARSE :
                 if ($logError[E_PARSE]['log']) {
                     require_once('innomatic/logging/Logger.php');
-                    $log = new Logger($phpLog);
+                    $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
                         'PHP generated a PARSE error at line '
@@ -879,7 +879,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             case E_NOTICE :
                 if ($logError[E_NOTICE]['log']) {
                     require_once('innomatic/logging/Logger.php');
-                    $log = new Logger($phpLog);
+                    $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
                         'PHP generated a notice at line '
@@ -905,7 +905,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             case E_CORE_ERROR :
                 if ($logError[E_CORE_ERROR]['log']) {
                     require_once('innomatic/logging/Logger.php');
-                    $log = new Logger($phpLog);
+                    $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
                         'PHP generated a CORE ERROR at line '
@@ -931,7 +931,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             case E_CORE_WARNING :
                 if ($logError[E_CORE_WARNING]['log']) {
                     require_once('innomatic/logging/Logger.php');
-                    $log = new Logger($phpLog);
+                    $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
                         'PHP generated a CORE WARNING at line '
@@ -957,7 +957,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             case E_COMPILE_ERROR :
                 if ($logError[E_COMPILE_ERROR]['log']) {
                     require_once('innomatic/logging/Logger.php');
-                    $log = new Logger($phpLog);
+                    $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
                         'PHP generated a COMPILE ERROR at line '
@@ -983,7 +983,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             case E_COMPILE_WARNING :
                 if ($logError[E_COMPILE_WARNING]['log']) {
                     require_once('innomatic/logging/Logger.php');
-                    $log = new Logger($phpLog);
+                    $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
                         'PHP generated a COMPILE WARNING at line '
@@ -1009,7 +1009,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             case E_USER_ERROR :
                 if ($logError[E_USER_ERROR]['log']) {
                     require_once('innomatic/logging/Logger.php');
-                    $log = new Logger($phpLog);
+                    $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
                         'PHP generated an USER ERROR at line '
@@ -1035,7 +1035,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             case E_USER_WARNING :
                 if ($logError[E_USER_WARNING]['log']) {
                     require_once('innomatic/logging/Logger.php');
-                    $log = new Logger($phpLog);
+                    $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
                         'PHP generated an USER WARNING at line '
@@ -1061,7 +1061,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             case E_USER_NOTICE :
                 if ($logError[E_USER_NOTICE]['log']) {
                     require_once('innomatic/logging/Logger.php');
-                    $log = new Logger($phpLog);
+                    $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
                         'PHP generated an USER NOTICE at line '
@@ -1126,7 +1126,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         // Initialized the logger if not started
         if (!is_object($this->_logger)) {
             require_once('innomatic/logging/Logger.php');
-            $this->_logger = new Logger(
+            $this->_logger = new \Innomatic\Logging\Logger(
                 $this->_home . 'core/log/innomatic.log'
             );
         }

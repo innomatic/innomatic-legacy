@@ -47,18 +47,18 @@ class ConfigurationfileComponent extends ApplicationComponent
     {
         // Checks if the name is valid.
         if (! strlen($params['name'])) {
-            $this->mLog->logEvent('ConfigurationfileComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty configuration file name', Logger::ERROR);
+            $this->mLog->logEvent('ConfigurationfileComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty configuration file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Checks if the configuration file exists in application archive.
         if (! file_exists($this->basedir . '/core/conf/' . $params['name'])) {
-            $this->mLog->logEvent('ConfigurationfileComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Missing configuration file', Logger::ERROR);
+            $this->mLog->logEvent('ConfigurationfileComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Missing configuration file', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Cheks that the configuration file name does not contain malicious code.
         require_once ('innomatic/security/SecurityManager.php');
         if (SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/')) {
-            $this->mLog->logEvent('ConfigurationfileComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious configuration file name', Logger::ERROR);
+            $this->mLog->logEvent('ConfigurationfileComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious configuration file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Checks if the configuration file name contains a directory.
@@ -69,7 +69,7 @@ class ConfigurationfileComponent extends ApplicationComponent
         }
         // Copies the configuration file.
         if (! copy($this->basedir . '/core/conf/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/' . $params['name'])) {
-            $this->mLog->logEvent('ConfigurationfileComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy configuration file', Logger::ERROR);
+            $this->mLog->logEvent('ConfigurationfileComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy configuration file', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Updates file permissions.
@@ -80,22 +80,22 @@ class ConfigurationfileComponent extends ApplicationComponent
     {
         // Checks if the name is valid.
         if (! strlen($params['name'])) {
-            $this->mLog->logEvent('ConfigurationfileComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty configuration file name', Logger::ERROR);
+            $this->mLog->logEvent('ConfigurationfileComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty configuration file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Cheks that the configuration file name does not contain malicious code.
         require_once ('innomatic/security/SecurityManager.php');
         if (SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/')) {
-            $this->mLog->logEvent('ConfigurationfileComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious configuration file name', Logger::ERROR);
+            $this->mLog->logEvent('ConfigurationfileComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious configuration file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Checks if the configuration file exists.
         if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . '/core/conf/' . $params['name'])) {
-            $this->mLog->logEvent('ConfigurationfileComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Missing configuration file', Logger::ERROR);
+            $this->mLog->logEvent('ConfigurationfileComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Missing configuration file', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         if (! @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/' . $params['name'])) {
-            $this->mLog->logEvent('ConfigurationfileComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove configuration file', Logger::ERROR);
+            $this->mLog->logEvent('ConfigurationfileComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove configuration file', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         return true;

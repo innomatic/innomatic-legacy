@@ -187,7 +187,7 @@ class WuiXml extends WuiWidget
         } else {
             require_once ('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.xml_wui.wuixml.getelementstructure', 'Element of type ' . $elementType . ' is not defined', Logger::WARNING);
+            $log->logEvent('innomatic.xml_wui.wuixml.getelementstructure', 'Element of type ' . $elementType . ' is not defined', \Innomatic\Logging\Logger::WARNING);
         }
         return $result;
     }

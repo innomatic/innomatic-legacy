@@ -96,7 +96,7 @@ class Wui extends \Innomatic\Util\Singleton
                 'Unable to load widget handler file '
                 . InnomaticContainer::instance('innomaticcontainer')->getHome()
                 . 'core/classes/shared/wui/Wui'
-                . ucfirst($widgetName) . '.php', Logger::ERROR
+                . ucfirst($widgetName) . '.php', \Innomatic\Logging\Logger::ERROR
             );
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::MISSING_WIDGET_FILE);
@@ -148,7 +148,7 @@ class Wui extends \Innomatic\Util\Singleton
                     if (!$result and strcmp($this->mLastError, Wui::LOADALLWIDGETS_A_WIDGET_FILE_NOT_EXISTS) == 0) {
                         require_once('innomatic/logging/Logger.php');
                         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                        $log->logEvent('innomatic.wui.wui.loadallwidgets', 'Unable to load at least one widget handler file', Logger::ERROR);
+                        $log->logEvent('innomatic.wui.wui.loadallwidgets', 'Unable to load at least one widget handler file', \Innomatic\Logging\Logger::ERROR);
                     }
                 } else {
                     require_once('innomatic/wui/WuiException.php');
@@ -161,7 +161,7 @@ class Wui extends \Innomatic\Util\Singleton
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wui.wui.loadallwidgets', 'Function unavailable during Innomatic setup phase', Logger::WARNING);
+            $log->logEvent('innomatic.wui.wui.loadallwidgets', 'Function unavailable during Innomatic setup phase', \Innomatic\Logging\Logger::WARNING);
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::LOADALLWIDGETS_UNAVAILABLE);
         }
@@ -238,7 +238,7 @@ class Wui extends \Innomatic\Util\Singleton
         } else {
             require_once('innomatic/logging/Logger.php');
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wui.wui.render', 'Unable to render wui', Logger::ERROR);
+            $log->logEvent('innomatic.wui.wui.render', 'Unable to render wui', \Innomatic\Logging\Logger::ERROR);
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::UNABLE_TO_RENDER);
         }

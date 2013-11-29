@@ -361,9 +361,8 @@ only application. */
                                     $this->Enable($domainsQuery->getFields('id'));
                                 }
                             }
-                            require_once('innomatic/logging/Logger.php');
                             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                            $log->logEvent('Innomatic', 'Installed application '.$this->appname, Logger::NOTICE);
+                            $log->logEvent('Innomatic', 'Installed application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
                         }
                     }
                 } else {
@@ -588,37 +587,34 @@ only application. */
                                 }
 
                                 if ($result == TRUE) {
-                                    require_once('innomatic/logging/Logger.php');
                                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                                    $log->logEvent('Innomatic', 'Updated application '.$this->appname, Logger::NOTICE);
+                                    $log->logEvent('Innomatic', 'Updated application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
                                 }
                             }
                         }
                         /*
                          else $this->mLog->logEvent( 'innomatic.applications.applications.install',
                          'Structure definition file for application '.$this->appname.
-                         ' does not exists', Logger::ERROR );
+                         ' does not exists', \Innomatic\Logging\Logger::ERROR );
                          */
                     } else {
-                        require_once('innomatic/logging/Logger.php');
                         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
                         $log->logEvent(
                             'innomatic.applications.applications.install',
                             'Empty application serial',
-                            Logger::ERROR
+                            \Innomatic\Logging\Logger::ERROR
                         );
                     }
                 }
             } else {
-                require_once('innomatic/logging/Logger.php');
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
                 if (!file_exists($tmpdir.'/setup/application.xml'))
                 $log->logEvent(
                     'innomatic.applications.applications.install',
                     'Application structure file '.$tmpdir.'/setup/application.xml'.' not found',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
 
@@ -636,7 +632,7 @@ only application. */
                 $log->logEvent(
                     'innomatic.applications.applications.install',
                     'Temporary application file ('.$tmpfilepath.') does not exists',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         }
@@ -650,7 +646,7 @@ only application. */
                 'innomatic.applications.application.install',
                 'Application installation load time: '.
                 $innomatic->getLoadTimer()->getSectionLoad('applicationinstallend'),
-                Logger::DEBUG
+                \Innomatic\Logging\Logger::DEBUG
             );
         }
 
@@ -761,7 +757,7 @@ only application. */
                         if ($result == TRUE) {
                             require_once('innomatic/logging/Logger.php');
                             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                            $log->logEvent('Innomatic', 'Uninstalled application '.$this->appname, Logger::NOTICE);
+                            $log->logEvent('Innomatic', 'Uninstalled application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
                         }
                     } else {
                         require_once('innomatic/logging/Logger.php');
@@ -771,7 +767,7 @@ only application. */
                             'Structure file '.InnomaticContainer::instance('innomaticcontainer')->getHome().
                             'core/applications/'.$appdata['appid'].'/application.xml'.' for application '.
                             $appdata['appid'].' was not found',
-                            Logger::ERROR
+                            \Innomatic\Logging\Logger::ERROR
                         );
                     }
                 } else {
@@ -780,7 +776,7 @@ only application. */
                     $log->logEvent(
                         'innomatic.applications.applications.uninstall',
                         'Cannot uninstall Innomatic',
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
             } else {
@@ -789,7 +785,7 @@ only application. */
                 $log->logEvent(
                     'innomatic.applications.applications.uninstall',
                     'A application with serial '.$this->serial.' was not found in applications table',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
 
@@ -800,7 +796,7 @@ only application. */
             $log->logEvent(
                 'innomatic.applications.applications.uninstall',
                 'Empty application serial',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -925,7 +921,7 @@ only application. */
                 } else {
                     require_once('innomatic/logging/Logger.php');
                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                    $log->logEvent('Innomatic', 'Unable to install Innomatic', Logger::ERROR);
+                    $log->logEvent('Innomatic', 'Unable to install Innomatic', \Innomatic\Logging\Logger::ERROR);
                 }
                 } else {
                     require_once('innomatic/logging/Logger.php');
@@ -933,7 +929,7 @@ only application. */
                     $log->logEvent(
                         'innomatic.applications.applications.setup',
                         'Unable to insert Innomatic application row in applications table',
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
             } else {
@@ -942,7 +938,7 @@ only application. */
                 $log->logEvent(
                     'innomatic.applications.applications.setup',
                     'Attempted to resetup Innomatic',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         } else {
@@ -953,7 +949,7 @@ only application. */
             $log->logEvent(
                 'innomatic.applications.applications.setup',
                 'Innomatic structure file '.$tmpdir.'setup/application.xml not found',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -1116,7 +1112,7 @@ only application. */
                             //if ( $result == TRUE ) $this->mLog->logEvent(
                             //    'Innomatic',
                             //    'Uninstalled application '.$this->appname,
-                            //    Logger::NOTICE
+                            //    \Innomatic\Logging\Logger::NOTICE
                             //);
 
                             $domainquery->free();
@@ -1128,7 +1124,7 @@ only application. */
                                 'Structure file '.InnomaticContainer::instance('innomaticcontainer')->getHome().
                                 'core/applications/'.$appdata['appid'].'/application.xml'.' for application '.
                                 $appdata['appid'].' was not found',
-                                Logger::ERROR
+                                \Innomatic\Logging\Logger::ERROR
                             );
                         }
                     } else {
@@ -1138,7 +1134,7 @@ only application. */
                             'innomatic.applications.applications.enable',
                             'Tried to enable application '.$appdata['appid'].
                             ', but it is an extension only application',
-                            Logger::ERROR
+                            \Innomatic\Logging\Logger::ERROR
                         );
                     }
                 } else {
@@ -1148,7 +1144,7 @@ only application. */
                         'innomatic.applications.applications.enable',
                         'A application with serial '.$this->serial.
                         ' was not found in applications table',
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
                 $modquery->free();
@@ -1158,7 +1154,7 @@ only application. */
                 $log->logEvent(
                     'innomatic.applications.applications.enable',
                     'Empty application serial',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         }
@@ -1333,7 +1329,7 @@ only application. */
                             //if ( $result == TRUE ) $this->mLog->logEvent(
                             //    'Innomatic',
                             //    'Uninstalled application '.$this->appname,
-                            //    Logger::NOTICE
+                            //    \Innomatic\Logging\Logger::NOTICE
                             //);
 
                             $domainquery->free();
@@ -1345,7 +1341,7 @@ only application. */
                                 'Structure file '.InnomaticContainer::instance('innomaticcontainer')->getHome().
                                 'core/applications/'.$appdata['appid'].'/application.xml'.' for application '.
                                 $appdata['appid'].' was not found',
-                                Logger::ERROR
+                                \Innomatic\Logging\Logger::ERROR
                             );
                         }
                     } else {
@@ -1355,7 +1351,7 @@ only application. */
                             'innomatic.applications.applications.disable',
                             'Tried to disable application '.$appdata['appid'].
                             ', but it is an extension only application',
-                            Logger::ERROR
+                            \Innomatic\Logging\Logger::ERROR
                         );
                     }
                 } else {
@@ -1364,7 +1360,7 @@ only application. */
                     $log->logEvent(
                         'innomatic.applications.applications.disable',
                         'A application with serial '.$this->serial.' was not found in applications table',
-                        Logger::ERROR
+                        \Innomatic\Logging\Logger::ERROR
                     );
                 }
                 $modquery->free();
@@ -1374,7 +1370,7 @@ only application. */
                 $log->logEvent(
                     'innomatic.applications.applications.disable',
                     'Empty application serial',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         }
@@ -1666,7 +1662,7 @@ only application. */
                                  } else $this->mLog->logEvent(
                                     'innomatic.applications.applicationcomponentfactory.filltypes',
                                     'Component file '.$data['file'].' doesn't exists in handlers directory',
-                                    Logger::WARNING
+                                    \Innomatic\Logging\Logger::WARNING
                                 );
 
                                  $this->types[$component['type']] = $component;
@@ -1722,7 +1718,7 @@ only application. */
                                             'Invalid installation method for component of '
                                             . $eltype . ' type in ' .$this->appname
                                             . ' application',
-                                            Logger::ERROR
+                                            \Innomatic\Logging\Logger::ERROR
                                         );
                                         break;
                                 }
@@ -1743,7 +1739,7 @@ only application. */
                                     . ') for component ' . $eltype
                                     . ' in ' . $this->appname
                                     . " application doesn't exists",
-                                    Logger::WARNING
+                                    \Innomatic\Logging\Logger::WARNING
                                 );
                             }
                         }
@@ -1755,7 +1751,7 @@ only application. */
                             'Component handler for component ' . $eltype
                             . ' in ' . $this->appname
                             . " application doesn't exists",
-                            Logger::WARNING
+                            \Innomatic\Logging\Logger::WARNING
                         );
                     }
                     break;
@@ -2002,14 +1998,14 @@ only application. */
             $log->logEvent(
                 'innomatic.applications.application.mergestructurefiles',
                 'Structure file ' . $filea . ' not found',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
 
             if (!file_exists($fileb))
             $log->logEvent(
                 'innomatic.applications.application.mergestructurefiles',
                 'Structure file ' . $fileb . ' not found',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
 
