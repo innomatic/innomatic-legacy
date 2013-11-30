@@ -1,8 +1,5 @@
 <?php
-
-require_once('innomatic/ajax/XajaxConfig.php');
-require_once('innomatic/ajax/XajaxResponse.php');
-require_once('innomatic/webapp/WebAppContainer.php');
+namespace Innomatic\Ajax;
 
 /**
  * xajax.inc.php :: Main xajax class and setup file
@@ -823,7 +820,7 @@ class Xajax extends \Innomatic\Util\Singleton
             if (!file_exists($srcFile)) {
                 trigger_error("The xajax uncompressed Javascript file could not be found in the <b>" . dirname($realJsFile) . "</b> folder. Error ", E_USER_ERROR);
             }
-            require_once('core/xajax/classes/XajaxCompressJavascript.php');
+            
             //require(dirname(__FILE__)."/xajaxCompress.php");
             $javaScript = implode('', file($srcFile));
             $compressedScript = XajaxCompressJavascript($javaScript);

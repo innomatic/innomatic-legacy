@@ -12,9 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Maintenance;
 
-require_once('innomatic/util/Command.php');
-
-abstract class MaintenanceTask implements Command
+abstract class MaintenanceTask implements \Innomatic\Util\Command
 {
 }

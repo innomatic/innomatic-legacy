@@ -12,8 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/dataaccess/DataAccess.php');
+namespace Innomatic\Application;
 
 /*!
  @class Application
@@ -59,7 +58,7 @@ only application. */
      @param rootda DataAccess class - Innomatic database handler.
      @param modserial int - serial number of the application.
      */
-    public function Application(DataAccess $rootda, $modserial = 0)
+    public function __construct(DataAccess $rootda, $modserial = 0)
     {
         $this->rootda = $rootda;
         $this->serial = $modserial;

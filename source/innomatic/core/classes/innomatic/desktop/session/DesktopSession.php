@@ -12,8 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Desktop\Session;
 
-require_once('innomatic/webapp/WebAppSession.php');
 require_once('innomatic/core/InnomaticContainer.php');
 
 /**
@@ -30,7 +30,7 @@ require_once('innomatic/core/InnomaticContainer.php');
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-class DesktopSession implements WebAppSession
+class DesktopSession implements \Innomatic\Webapp\WebAppSession
 {
     /**
      * Unique id of the session.

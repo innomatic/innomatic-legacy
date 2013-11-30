@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Util;
 
 /**
  * Classes that implement the Observer interface get notified when

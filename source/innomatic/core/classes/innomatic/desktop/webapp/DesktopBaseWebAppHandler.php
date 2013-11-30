@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Desktop\Webapp;
 
 require_once('innomatic/webapp/WebAppHandler.php');
 require_once('innomatic/webapp/WebAppProcessor.php');

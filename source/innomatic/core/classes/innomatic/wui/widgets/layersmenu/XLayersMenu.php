@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Wui\Widgets\Layersmenu;
 
 require_once('innomatic/wui/widgets/layersmenu/LayersTemplate.php');
 require_once('innomatic/wui/widgets/layersmenu/LayersMenu.php');
@@ -65,9 +66,9 @@ public $_horizontalPlainMenu;
 * The constructor method; it initializates some variables
 * @return void
 */
-function XLayersMenu()
+function __construct()
 {
-    $this->LayersMenu();
+    parent::__construct();
     $this->phpTreeMenuDefaultExpansion = "";
     $this->_phpTreeMenu = array();
 

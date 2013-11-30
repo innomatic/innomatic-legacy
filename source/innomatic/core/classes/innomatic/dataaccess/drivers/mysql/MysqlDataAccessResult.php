@@ -12,8 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/dataaccess/DataAccessResult.php');
+namespace Innomatic\Dataaccess\Drivers\Mysql;
 
 class MysqlDataAccessResult extends DataAccessResult
 {

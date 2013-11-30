@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Services;
 
 require_once('innomatic/module/server/ModuleServerContext.php');
 require_once('innomatic/net/socket/SocketException.php');

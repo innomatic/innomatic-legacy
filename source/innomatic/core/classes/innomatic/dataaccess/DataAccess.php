@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Dataaccess;
 
 require_once('innomatic/dataaccess/DataAccessResult.php');
 require_once('innomatic/dataaccess/DataAccessException.php');
@@ -268,7 +269,7 @@ abstract class DataAccess
                     }
                     // Backquotes or no backslashes before quotes: it's indeed the
                     // end of the string->exit the loop
-                    else if ($stringStart == '`' || $sql[$i -1] != '\\') {
+                    elseif ($stringStart == '`' || $sql[$i -1] != '\\') {
                         $stringStart = '';
                         $inString = false;
                         break;
@@ -382,7 +383,7 @@ abstract class DataAccess
                     $this->log->logEvent('innomatic.dataaccess.execute', $this->lastError, \Innomatic\Logging\Logger::ERROR);
                     $result = false;
                 } elseif (($i == count($pieces) - 1) and ($resid != 1)) {
-                    $rsname = $this->driver.'DataAccessResult';
+                    $rsname = ucfirst(strtolower($this->driver)).'DataAccessResult';
                     $result = new $rsname($resid);
                     $this->lastError = '';
                 } else {

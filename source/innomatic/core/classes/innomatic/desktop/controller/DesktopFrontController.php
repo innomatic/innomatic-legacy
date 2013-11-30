@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Desktop\Controller;
 
 /**
  * Front controller for the Innomatic desktop.
@@ -190,7 +191,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
                         WuiException::MISSING_CONTROLLER_FILE
                     );
                 }
-                if (!class_exists($controllerClassName, false)) {
+                if (!class_exists($controllerClassName, true)) {
                     require_once('innomatic/wui/WuiException.php');
                     throw new WuiException(
                         WuiException::MISSING_CONTROLLER_CLASS
@@ -298,7 +299,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
                     require_once('innomatic/wui/WuiException.php');
                     throw new WuiException(WuiException::MISSING_CONTROLLER_FILE);
                 }
-                if (!class_exists($controllerClassName, false)) {
+                if (!class_exists($controllerClassName, true)) {
                     require_once('innomatic/wui/WuiException.php');
                     throw new WuiException(WuiException::MISSING_CONTROLLER_CLASS);
                 }

@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Server;
 
 require_once('innomatic/net/socket/Socket.php');
 require_once('innomatic/module/server/ModuleServerContext.php');
@@ -82,7 +83,7 @@ class ModuleServerController
     {
         try {
             $this->shutdown();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             print('Module server was not running.'."\n");
         }
         $this->start();
@@ -113,7 +114,7 @@ class ModuleServerController
     {
         try {
             $this->shutdown();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             print('Module server was not running.'."\n");
         }
         require_once('innomatic/module/server/ModuleServerWatchDog.php');

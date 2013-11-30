@@ -122,7 +122,7 @@ try {
             print('Usage: php innomatic/core/scripts/domain.php command'."\n");
             print('Type domain.php -h for a list of supported commands'."\n");
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     echo $e;
 }
 

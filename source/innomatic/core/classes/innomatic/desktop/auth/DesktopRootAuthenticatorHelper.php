@@ -12,8 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/desktop/auth/DesktopAuthenticatorHelper.php');
+namespace Innomatic\Desktop\Auth;
 
 /**
  * @package Desktop

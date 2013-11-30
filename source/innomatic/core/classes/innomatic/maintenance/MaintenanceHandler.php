@@ -12,13 +12,14 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Maintenance;
 
 class MaintenanceHandler
 {
     public $mApplicationSettings;
     public $mMaintenanceInterval;
 
-    public function MaintenanceHandler()
+    public function __construct()
     {
         require_once('innomatic/application/ApplicationSettings.php');
         $this->mApplicationSettings = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
@@ -103,7 +104,7 @@ class MaintenanceHandler
         while (!$tasks_query->eof) {
             if (include_once('shared/maintenance/'.$tasks_query->getFields('file'))) {
                 $class_name = substr($tasks_query->getFields('file'), 0, -4);
-                if (class_exists($class_name, false)) {
+                if (class_exists($class_name, true)) {
                     $obj = new $class_name;
                     $result[$tasks_query->getFields('name')] = $obj->execute();
                 }

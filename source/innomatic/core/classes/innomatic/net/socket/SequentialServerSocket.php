@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Net\Socket;
 
 require_once('innomatic/net/socket/ServerSocket.php');
 
@@ -39,7 +40,7 @@ class SequentialServerSocket extends ServerSocket
     {
         $this->initFD = @socket_create(AF_INET, SOCK_STREAM, 0);
         if (!$this->initFD) {
-            throw new RuntimeException('Could not create socket.');
+            throw new \RuntimeException('Could not create socket.');
         }
         // adress may be reused
         socket_setopt($this->initFD, SOL_SOCKET, SO_REUSEADDR, 1);
@@ -47,13 +48,13 @@ class SequentialServerSocket extends ServerSocket
         if (!@socket_bind($this->initFD, $this->bindAddr, $this->port)) {
             $error = $this->getLastSocketError($this->initFd);
             @socket_close($this->initFD);
-            throw new RuntimeException("Could not bind socket to ".$this->bindAddr." on port ".$this->port." (".$error.").");
+            throw new \RuntimeException("Could not bind socket to ".$this->bindAddr." on port ".$this->port." (".$error.").");
         }
         // listen on selected port
         if (!@socket_listen($this->initFD, $this->maxQueue)) {
             $error = $this->getLastSocketError($this->initFd);
             @socket_close($this->initFD);
-            throw new RuntimeException("Could not listen (".$error.").");
+            throw new \RuntimeException("Could not listen (".$error.").");
         }
 
         // this allows the shutdown function to check whether the server is already shut down
@@ -193,7 +194,7 @@ class SequentialServerSocket extends ServerSocket
     public function closeConnection($id = 0)
     {
         if (!isset ($this->clientFD[$id])) {
-            throw new RuntimeException("Connection already has been closed.");
+            throw new \RuntimeException("Connection already has been closed.");
         }
 
         $this->handler->onClose($id);

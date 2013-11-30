@@ -58,7 +58,7 @@ try {
             print('Usage: php innomatic/core/scripts/application.php command'."\n");
             print('Type application.php -h for a list of supported commands'."\n");
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     echo $e;
 }
 

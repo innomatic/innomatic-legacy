@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Wui\Widgets;
 
 require_once('innomatic/wui/Wui.php');
 require_once('innomatic/wui/theme/WuiTheme.php');
@@ -142,11 +143,11 @@ abstract class WuiWidget
         $wuiContainer = Wui::instance('wui');
 
         // Register action ajax calls
-        $theObject = new ReflectionObject($this);
+        $theObject = new \ReflectionObject($this);
         $methods = $theObject->getMethods();
         foreach ($methods as $method) {
             // Ignore private methods
-            $theMethod = new ReflectionMethod($theObject->getName(), $method->getName());
+            $theMethod = new \ReflectionMethod($theObject->getName(), $method->getName());
             if (!$theMethod->isPublic()) {
                 continue;
             }

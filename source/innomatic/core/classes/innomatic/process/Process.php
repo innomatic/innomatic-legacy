@@ -12,12 +12,13 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Process;
 
 class Process extends \Innomatic\Util\Singleton
 {
     public $pid;
 
-    public function Process()
+    public function __construct()
     {
         $this->pid = posix_getpid();
 

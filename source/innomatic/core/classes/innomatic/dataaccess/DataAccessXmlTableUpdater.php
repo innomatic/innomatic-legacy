@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Dataaccess;
 
 require_once('innomatic/dataaccess/DataAccessXmlTable.php');
 
@@ -46,7 +47,7 @@ class DataAccessXmlTableUpdater
      @param oldTable string - Full path of the old XSQL table file.
      @param newTable string - Full path of the new XSQL table file.
      */
-    public function DataAccessXmlTableUpdater(DataAccess $rDb, $oldTable, $newTable)
+    public function __construct(DataAccess $rDb, $oldTable, $newTable)
     {
         $this->mrDb = $rDb;
         if (file_exists($oldTable)) {

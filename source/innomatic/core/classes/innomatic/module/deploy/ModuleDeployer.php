@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Deploy;
 
 require_once('innomatic/php/PHPCodeChecker.php');
 require_once('innomatic/module/server/ModuleServerContext.php');

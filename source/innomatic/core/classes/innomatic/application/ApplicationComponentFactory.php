@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Application;
 
 /*!
  @class ApplicationComponentFactory
@@ -84,7 +85,7 @@ class ApplicationComponentFactory
                             $result = false;
                         }
                         $className = ucfirst($data['typename']).'Component';
-                        if (class_exists($className, false)) {
+                        if (class_exists($className, true)) {
                             $this->types[call_user_func(array($className, 'getType'))] = array(
                                 'type' => call_user_func(array($className, 'getType')),
                                 'classname' => $className,
@@ -126,7 +127,7 @@ class ApplicationComponentFactory
             require_once($filepath);
 
             $className = substr(basename($filepath), 0, -4);
-            if (class_exists($className, false)) {
+            if (class_exists($className, true)) {
 
                 if (
                     call_user_func(array($className, 'getType'))
@@ -181,7 +182,7 @@ class ApplicationComponentFactory
         if ($this->rootda and file_exists($filepath)) {
             require_once($filepath);
             $className = substr(basename($filepath), 0, -4);
-            if (class_exists($className, false)) {
+            if (class_exists($className, true)) {
 
                 if (call_user_func(array($className, 'getType')) and $className) {
                     /*
@@ -267,7 +268,7 @@ class ApplicationComponentFactory
         if ($this->rootda and file_exists($filepath)) {
             require_once($filepath);
             $className = substr(basename($filepath), 0, -4);
-            if (class_exists($className, false)) {
+            if (class_exists($className, true)) {
 
                 if (
                     call_user_func(array($className, 'getType'))

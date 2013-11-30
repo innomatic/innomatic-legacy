@@ -12,8 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/config/FileMan.php');
+namespace Innomatic\Config;
 
 /*!
  @class ConfigFile
@@ -31,7 +30,7 @@ class ConfigFile
     /*! @var mOpened boolean - True if the given file exists and has been opened. */
     public $mOpened = false;
 
-    public function configFile($fileName, $create = false)
+    public function __construct($fileName, $create = false)
     {
         // Checks to see if the file is there
         if (!$create and !file_exists($fileName)) {

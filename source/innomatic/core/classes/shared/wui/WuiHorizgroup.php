@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Shared\Wui;
 
 require_once('innomatic/wui/widgets/WuiContainerWidget.php');
 
@@ -34,7 +35,7 @@ class WuiHorizgroup extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget(
+        parent::__construct(
             $elemName,
             $elemArgs,
             $elemTheme,

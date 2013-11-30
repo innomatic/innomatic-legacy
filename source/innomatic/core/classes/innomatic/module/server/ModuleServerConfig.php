@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Server;
 
 /**
  * Accesses Module server configuration.

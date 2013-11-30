@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Services;
 
 require_once('innomatic/module/server/ModuleServerController.php');
 require_once('innomatic/module/services/ModuleServiceSocket.php');
@@ -61,7 +62,7 @@ class ModuleServiceController extends ModuleServerController
     {
         try {
             $this->shutdown();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             print('Module: services-extension was not running.'."\n");
         }
         $this->start();
@@ -93,7 +94,7 @@ class ModuleServiceController extends ModuleServerController
     {
         try {
             $this->shutdown();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             print('Module: services-extension was not running.'."\n");
         }
         require_once('innomatic/module/server/ModuleServerWatchDog.php');

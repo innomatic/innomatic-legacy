@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Wui\Widgets\Layersmenu;
 
 //require_once "PEAR.php";
 
@@ -76,7 +77,7 @@ class LayersTemplate
      * @param  string template root directory
      * @param  string how to handle unknown variables
      */
-    public function LayersTemplate($root = ".", $unknowns = "remove")
+    public function __construct($root = ".", $unknowns = "remove")
     {
         $this->setRoot($root);
         $this->setUnknowns($unknowns);

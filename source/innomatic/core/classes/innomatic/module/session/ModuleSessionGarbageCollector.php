@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Session;
 
 require_once('innomatic/module/server/ModuleServerContext.php');
 

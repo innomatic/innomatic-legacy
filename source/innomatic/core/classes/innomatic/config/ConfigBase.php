@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Config;
 
 /*!
  @class ConfigBase
@@ -43,14 +44,13 @@ class ConfigBase
 
      @abstract Class constructor.
      */
-    public function configBase(
+    public function __construct(
         $configFile,
         $configMode = ConfigBase::MODE_ROOT,
         $autoCommit = false,
         $application = '',
         $entry = ''
-    )
-    {
+    ) {
         // Arguments check
         //
         if (strlen($configFile))

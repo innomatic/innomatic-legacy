@@ -12,6 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.1
  */
+namespace Shared\Wui;
+
 require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI

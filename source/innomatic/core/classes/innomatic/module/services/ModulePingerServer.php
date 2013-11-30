@@ -1,6 +1,5 @@
 <?php
-
-require 'carthag.php';
+namespace Innomatic\Module\Services;
 
 require_once('innomatic/net/socket/SocketHandler.php');
 require_once('innomatic/module/server/ModuleServerContext.php');

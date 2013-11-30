@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Domain\User;
 
 class Group
 {
@@ -25,7 +26,7 @@ class Group
 
      @abstract Class constructor
      */
-    public function Group(DataAccess $rrootDb, DataAccess $rdomainDA, $domainserial, $groupid = 0)
+    public function __construct(DataAccess $rrootDb, DataAccess $rdomainDA, $domainserial, $groupid = 0)
     {
         $this->mrRootDb = $rrootDb;
         $this->mrDomainDA = $rdomainDA;

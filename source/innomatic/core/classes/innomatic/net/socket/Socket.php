@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Net\Socket;
 
 require_once('innomatic/net/socket/SocketException.php');
 
@@ -67,7 +68,7 @@ class Socket
      *
      * @access public
      */
-    public function Socket()
+    public function __construct()
     {
         //$this->PEAR();
     }

@@ -12,8 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once 'innomatic/config/ConfigBase.php';
+namespace Innomatic\Config;
 
 /*!
  @class ConfigMan
@@ -37,7 +36,7 @@ class ConfigMan extends ConfigBase
     // string $appid:      application id name, used to mark the segments
     // string $configfile: path of the configuration file
     //
-    public function ConfigMan(
+    public function __construct(
         $application,
         $configfile,
         $configmode = ConfigBase::MODE_ROOT,

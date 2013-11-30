@@ -1,4 +1,6 @@
 <?php
+namespace Innomatic\Module;
+
 /**
  * Object containing the indicator for locating a Module.
  *

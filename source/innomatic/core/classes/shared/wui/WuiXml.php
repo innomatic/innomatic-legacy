@@ -12,12 +12,13 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/xml/XMLParser.php');
-require_once ('innomatic/wui/widgets/WuiWidget.php');
+namespace Shared\Wui;
+
+use \Innomatic\Xml\XMLParser;
 /**
  * @package WUI
  */
-class WuiXml extends WuiWidget
+class WuiXml extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mDefinition string - XML definition of the widget. */
     public $mDefinition;
@@ -63,7 +64,7 @@ class WuiXml extends WuiWidget
      @param $element xml node - Element node.
      @result An Wui element object.
      */
-    private function &getElementStructure (&$element)
+    protected function &getElementStructure (&$element)
     {
         $result = false;
         $elementType = 'Wui' . strtolower($element['tag']);
@@ -162,7 +163,7 @@ class WuiXml extends WuiWidget
         }
         // Tries to load the widget if it wasn't loaded.
         //
-        if (! class_exists($elementType, false)) {
+        if (! class_exists($elementType, true)) {
             $widget_name = strtolower($element['tag']);
             if (! defined(strtoupper($widget_name . '_WUI')) and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php')) {
                 include_once (InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php');
@@ -170,7 +171,7 @@ class WuiXml extends WuiWidget
         }
         // Create the element and add children if any
         //
-        if (class_exists($elementType, false)) {
+        if (class_exists($elementType, true)) {
             $result = new $elementType($elementName, $elementArgs);
             // Adds the Javascript events to the widget.
             foreach ($elementEvents as $eventName => $eventCall) {

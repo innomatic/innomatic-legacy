@@ -12,8 +12,9 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Dataaccess;
 
-class DataAccessException extends RuntimeException
+class DataAccessException extends \RuntimeException
 {
     private $_errcode;
     const OK = 1;

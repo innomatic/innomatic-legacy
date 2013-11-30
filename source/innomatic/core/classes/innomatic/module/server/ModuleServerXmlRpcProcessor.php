@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Server;
 
 require_once('innomatic/module/ModuleFactory.php');
 require_once('innomatic/module/ModuleException.php');
@@ -55,7 +56,7 @@ class ModuleServerXmlRpcProcessor
         } catch (ModuleException $e) {
             $response->sendWarning(ModuleServerResponse::SC_INTERNAL_SERVER_ERROR, $e->__toString());
             return;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response->sendWarning(ModuleServerResponse::SC_INTERNAL_SERVER_ERROR, $e->__toString());
             return;
         }
@@ -65,11 +66,11 @@ class ModuleServerXmlRpcProcessor
             return;
         }
 
-        $theClass = new ReflectionObject($this->module);
+        $theClass = new \ReflectionObject($this->module);
         $methods = $theClass->getMethods();
         foreach ($methods as $method) {
             // Ignore private methods
-            $theMethod = new ReflectionMethod($theClass->getName(), $method->getName());
+            $theMethod = new \ReflectionMethod($theClass->getName(), $method->getName());
             if (!$theMethod->isPublic()) {
                 continue;
             }
@@ -85,7 +86,7 @@ class ModuleServerXmlRpcProcessor
             $buffer = xmlrpc_server_call_method($xmlrpc_server, $request->getPayload(), '', array ('output_type' => 'xml'));
             $response->addHeader('Module/1.0 '.ModuleServerResponse::SC_OK);
             $response->setBuffer($buffer);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response->addHeader('Module/1.0 '.ModuleServerResponse::SC_INTERNAL_ERROR);
             $response->setBuffer($buffer);
         }

@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Shared\Webservices;
 
 require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
 require_once('innomatic/webservices/WebServicesHandler.php');

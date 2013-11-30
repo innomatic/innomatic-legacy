@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module;
 
 /**
  * Exception thrown by Module objects and other Module classes.
@@ -7,6 +8,6 @@
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleException extends RuntimeException
+class ModuleException extends \RuntimeException
 {
 }

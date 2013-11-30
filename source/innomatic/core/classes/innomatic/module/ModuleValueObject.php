@@ -1,4 +1,6 @@
 <?php
+namespace Innomatic\Module;
+
 /**
  * Value object class.
  *
@@ -18,7 +20,7 @@
  * @copyright Copyright 2004-2013 Alex Pagnoni
  * @since 5.1
  */
-abstract class ModuleValueObject implements Serializable
+abstract class ModuleValueObject implements \Serializable
 {
     /**
      * Returns value for a field.
@@ -75,7 +77,7 @@ abstract class ModuleValueObject implements Serializable
      */
     public function flush()
     {
-        $obj = new ReflectionObject($this);
+        $obj = new \ReflectionObject($this);
         $properties = $obj->getProperties();
 
         foreach ($properties as $property) {

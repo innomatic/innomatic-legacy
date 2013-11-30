@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Net\Socket;
 
 /**
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
@@ -105,7 +106,7 @@ abstract class ServerSocket
     public function sendData($clientId, $data)
     {
         if (!isset($this->clientFD[$clientId]) || $this->clientFD[$clientId] == null) {
-            throw new RuntimeException("Client does not exist.");
+            throw new \RuntimeException("Client does not exist.");
         }
 
         if (!@socket_write($this->clientFD[$clientId], $data)) {

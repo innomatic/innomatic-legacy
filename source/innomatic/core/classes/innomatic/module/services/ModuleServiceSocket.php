@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Services;
 
 require_once('innomatic/net/socket/SequentialServerSocket.php');
 require_once('innomatic/module/services/ModuleServiceSocketHandler.php');

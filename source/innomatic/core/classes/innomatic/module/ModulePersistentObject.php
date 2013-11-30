@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module;
 
 require_once('innomatic/module/ModuleObject.php');
 require_once('innomatic/module/ModuleConfig.php');
@@ -6,7 +7,6 @@ require_once('innomatic/module/persist/ModuleAccessObject.php');
 require_once('innomatic/module/ModuleValueObject.php');
 require_once('innomatic/dataaccess/DataAccessFactory.php');
 require_once('innomatic/dataaccess/DataAccessSourceName.php');
-
 
 /**
  * Module persistent object.
@@ -125,7 +125,7 @@ abstract class ModulePersistentObject extends ModuleObject
     {
         $sql = 'SELECT * FROM '.$this->config->getTable();
         $where = array ();
-        $obj = new ReflectionObject($this->valueObject);
+        $obj = new \ReflectionObject($this->valueObject);
         $properties = $obj->getProperties();
 
         foreach ($properties as $property) {

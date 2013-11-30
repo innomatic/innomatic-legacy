@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Server;
 
 /**
  * Logger for Module server events.

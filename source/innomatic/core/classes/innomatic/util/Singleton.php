@@ -12,7 +12,6 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
 namespace Innomatic\Util;
 
 require_once(dirname(__FILE__).'/Registry.php');

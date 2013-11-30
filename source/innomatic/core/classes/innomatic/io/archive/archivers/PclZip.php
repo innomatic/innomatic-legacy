@@ -22,6 +22,7 @@
 //   this software the author can not be responsible.
 //   The use of this software is at the risk of the user.
 //
+namespace Innomatic\Io\Archive\Archivers;
 
   // ----- Constants
   define('PCLZIP_READ_BLOCK_SIZE', 2048);

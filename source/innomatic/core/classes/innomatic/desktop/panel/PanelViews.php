@@ -12,8 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Desktop\Panel;
 
-require_once('innomatic/util/Observer.php');
 require_once('innomatic/desktop/panel/PanelController.php');
 
 /**
@@ -26,7 +26,7 @@ require_once('innomatic/desktop/panel/PanelController.php');
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-abstract class PanelViews implements Observer
+abstract class PanelViews implements \Innomatic\Util\Observer
 {
     protected $_controller;
     protected $_helper;

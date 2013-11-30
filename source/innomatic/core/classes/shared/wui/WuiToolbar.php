@@ -12,6 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
+namespace Shared\Wui;
+
 require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
@@ -26,7 +28,7 @@ class WuiToolbar extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget($elemName, $elemArgs, $elemTheme, $dispEvents);
+        parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
         if (! isset($this->mArgs['bgcolor']) or ! strlen($this->mArgs['bgcolor'])) {
             $this->mArgs['bgcolor'] = 'white';
         }

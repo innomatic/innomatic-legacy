@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Dataaccess;
 
 require_once('innomatic/xml/XMLParser.php');
 

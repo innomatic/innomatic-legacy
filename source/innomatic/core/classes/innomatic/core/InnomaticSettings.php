@@ -12,21 +12,20 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
 namespace Innomatic\Core;
 
 class InnomaticSettings
 {
-    private $_configFile;
-    private $_configValues = array();
-    private $_opened = false;
+    private $configFile;
+    private $configValues = array();
+    private $opened = false;
 
     /*!
      @param configFile string - Innomatic configuration file full path.
      */
     public function __construct($configFile)
     {
-        $this->_configFile = $configFile;
+        $this->configFile = $configFile;
         $this->refresh();
     }
 
@@ -37,11 +36,11 @@ class InnomaticSettings
     public function refresh()
     {
         // Checks to see if the file is there
-        if (file_exists($this->_configFile)) {
-            $fp = @fopen($this->_configFile, 'r');
+        if (file_exists($this->configFile)) {
+            $fp = @fopen($this->configFile, 'r');
             if ($fp) {
-                $this->_opened = true;
-                $this->_configValues = array();
+                $this->opened = true;
+                $this->configValues = array();
 
                 while ($fl = @fgets($fp)) {
                     $trimmedline = trim($fl);
@@ -60,17 +59,17 @@ class InnomaticSettings
                             $trimmedline,
                             (strpos($trimmedline, '=') + 1)
                         );
-                        $this->_configValues[trim($key)] = trim($value);
+                        $this->configValues[trim($key)] = trim($value);
                     }
                 }
                 @fclose($fp);
             } else {
-                throw new Exception('Could not open '.$this->_configFile);
+                throw new \Exception('Could not open '.$this->configFile);
             }
         } else {
-            throw new Exception(
+            throw new \Exception(
                 'Configuration file '
-                . $this->_configFile." doesn't exists"
+                . $this->configFile." doesn't exists"
             );
         }
     }
@@ -90,12 +89,12 @@ class InnomaticSettings
     public function getKey($keyName)
     {
         return isset(
-            $this->_configValues[$keyName]
-        ) ? trim($this->_configValues[$keyName]): '';
+            $this->configValues[$keyName]
+        ) ? trim($this->configValues[$keyName]): '';
     }
 
     public function setVolatileKey($keyName, $value)
     {
-        $this->_configValues[$keyName] = $value;
+        $this->configValues[$keyName] = $value;
     }
 }

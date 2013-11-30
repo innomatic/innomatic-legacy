@@ -12,6 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
+namespace Shared\Components;
+
 require_once ('innomatic/application/ApplicationComponent.php');
 require_once ('innomatic/dataaccess/DataAccessFactory.php');
 /**
@@ -19,7 +21,7 @@ require_once ('innomatic/dataaccess/DataAccessFactory.php');
  */
 class DataaccessdriverComponent extends ApplicationComponent
 {
-    public function DataaccessdriverComponent(&$rootda, $domainda, $appname, $name, $basedir)
+    public function __construct(&$rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }

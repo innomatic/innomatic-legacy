@@ -12,15 +12,14 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/webapp/WebAppSession.php');
+namespace Innomatic\Php;
 
 /**
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2012 Innoteam Srl
  * @since 1.0
  */
-class PHPSession implements WebAppSession
+class PHPSession implements \Innomatic\Webapp\WebAppSession
 {
     protected $_id;
 

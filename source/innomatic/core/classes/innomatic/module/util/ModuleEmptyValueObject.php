@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Util;
 
 /**
  * @since 5.1

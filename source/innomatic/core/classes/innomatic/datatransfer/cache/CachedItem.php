@@ -12,8 +12,9 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Datatransfer\Cache;
 
-require_once('innomatic/dataaccess/DataAccess.php');
+use Innomatic\Core\InnomaticContainer;
 
 /*!
  @class CachedItem
@@ -54,7 +55,7 @@ class CachedItem
      @param application string - Application id name.
      @param itemId string - Item id.
      */
-    public function CachedItem(DataAccess $rrootDb, $application, $itemId, $domainId = 0, $userId = 0)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $rrootDb, $application, $itemId, $domainId = 0, $userId = 0)
     {
         $this->cachePath = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/cache/';
         $domainId = (int) $domainId;

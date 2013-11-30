@@ -1,4 +1,5 @@
 <?php
+namespace Shared\Dashboard;
 
 require_once 'innomatic/desktop/dashboard/DashboardWidget.php';
 

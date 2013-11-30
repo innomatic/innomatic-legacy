@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module;
 
 require_once('innomatic/dataaccess/DataAccessSourceName.php');
 

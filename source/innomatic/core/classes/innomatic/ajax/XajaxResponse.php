@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Ajax;
 
 /**
  * xajaxResponse.inc.php :: xajax XML response class
@@ -100,7 +101,7 @@ class XajaxResponse
      *                converted to HTML entities
      *
      */
-    public function XajaxResponse($sEncoding=XAJAX_DEFAULT_CHAR_ENCODING, $bOutputEntities=false)
+    public function __construct($sEncoding=XAJAX_DEFAULT_CHAR_ENCODING, $bOutputEntities=false)
     {
         $this->setCharEncoding($sEncoding);
         $this->bOutputEntities = $bOutputEntities;

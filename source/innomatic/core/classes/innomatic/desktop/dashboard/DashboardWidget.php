@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 6.1
  */
+namespace Innomatic\Desktop\Dashboard;
 
 abstract class DashboardWidget
 {

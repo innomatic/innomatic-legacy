@@ -12,8 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/dataaccess/DataAccess.php');
+namespace Innomatic\Dataaccess\Drivers\Pgsql;
 
 /*!
 @class PgsqlDataAccess

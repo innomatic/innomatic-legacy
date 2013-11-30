@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Desktop\Panel;
 
 require_once('innomatic/util/Observable.php');
 require_once('innomatic/desktop/panel/PanelController.php');

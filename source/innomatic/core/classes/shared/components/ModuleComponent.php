@@ -12,6 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.1
  */
+namespace Shared\Components;
+
 require_once 'innomatic/application/ApplicationComponent.php';
 
 /**
@@ -24,7 +26,7 @@ require_once 'innomatic/application/ApplicationComponent.php';
  */
 class ModuleComponent extends ApplicationComponent
 {
-    public function ModuleComponent($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Checks if the classes folder exists

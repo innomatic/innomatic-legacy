@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Ajax;
 
 /**
  * xajaxCompress.php :: function to compress Javascript
@@ -68,7 +69,7 @@ function xajaxCompressJavascript($sJS)
             $d = substr($line,$j,2);
 
             //look for start of quote
-            if(!$inQuote && !$inComment) {
+            if (!$inQuote && !$inComment) {
                 //is this character a quote or a comment
                 if(($c=="\"" || $c=="'") && !$inComment && !$inNormalComment) {
                     $inQuote = true;
@@ -76,14 +77,14 @@ function xajaxCompressJavascript($sJS)
                     $escaped = false;
                     $quoteChar = $c;
                     $literal = $c;
-                } else if($d=="/*" && !$inNormalComment) {
+                } elseif ($d=="/*" && !$inNormalComment) {
                     $inQuote = false;
                     $inComment = true;
                     $escaped = false;
                     $quoteChar = $d;
                     $literal = $d;
                     $j++;
-                } else if($d=="//") { //ignore string markers that are found inside comments
+                } elseif ($d=="//") { //ignore string markers that are found inside comments
                     $inNormalComment = true;
                     $clean .= $c;
                 } else {
@@ -100,7 +101,7 @@ function xajaxCompressJavascript($sJS)
                     //push the string onto our array
                     array_push($literal_strings,$literal);
 
-                } else if($inComment && $d=="*/") {
+                } elseif ($inComment && $d=="*/") {
                     $inComment = false;
                     $literal .= $d;
 
@@ -111,7 +112,7 @@ function xajaxCompressJavascript($sJS)
                     array_push($literal_strings,$literal);
 
                     $j++;
-                } else if($c == "\\" && !$escaped)
+                } elseif ($c == "\\" && !$escaped)
                     $escaped = true;
                 else
                     $escaped = false;

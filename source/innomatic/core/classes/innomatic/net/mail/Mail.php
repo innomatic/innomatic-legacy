@@ -1,4 +1,6 @@
 <?php
+namespace Innomatic\Net\Mail;
+
 /*
 
 
@@ -86,7 +88,7 @@ class Mail
 
 */
 
-function Mail()
+function __construct()
 {
         $this->autoCheck( true );
         $this->boundary= "--" . md5( microtime() ); // :INNOMATICPATCH:

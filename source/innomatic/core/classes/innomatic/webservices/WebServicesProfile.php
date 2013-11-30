@@ -12,8 +12,9 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Webservices;
 
-// TODO Alex Pagnoni 010711
+// @todoAlex Pagnoni 010711
 // When a application is removed, all permission nodes
 // related to the application must be removed.
 
@@ -46,7 +47,7 @@ class WebServicesProfile
      @param rootDb DataAccess class - Innomatic database handler.
      @param profileId integer - Profile serial.
      */
-    public function WebServicesProfile(&$innomaticDb, $profileId = '')
+    public function __construct(&$innomaticDb, $profileId = '')
     {
         $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 

@@ -12,15 +12,16 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Net\Socket;
 
 /**
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2003-2012 Innoteam Srl
  * @since 1.0
  */
-class SocketException extends RuntimeException
+class SocketException extends \RuntimeException
 {
-    public function SocketException($exception)
+    public function __construct($exception)
     {
         parent::__construct($exception);
     }

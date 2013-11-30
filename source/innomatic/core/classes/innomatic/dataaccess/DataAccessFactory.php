@@ -12,10 +12,9 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Dataaccess;
 
-require_once('innomatic/dataaccess/DataAccess.php');
-require_once('innomatic/dataaccess/DataAccessException.php');
-require_once('innomatic/dataaccess/DataAccessSourceName.php');
+use \Innomatic\Core;
 
 global $dbtypes;
 $dbtypes = array();
@@ -24,9 +23,6 @@ class DataAccessFactory
 {
     public function __construct()
     {
-        require_once('innomatic/config/ConfigBase.php');
-        require_once('innomatic/config/ConfigFile.php');
-        require_once('innomatic/config/ConfigMan.php');
         $this->retrieveAvailableDrivers();
     }
 
@@ -89,7 +85,6 @@ class DataAccessFactory
         // Checks for database driver type
         //
         if (!strlen($dasn->getType())) {
-            require_once('innomatic/core/InnomaticContainer.php');
             $innomatic = InnomaticContainer::instance('innomaticcontainer');
             if ($innomatic->getState() != InnomaticContainer::STATE_SETUP) {
                 $dasn->setType(InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseType'));
@@ -100,10 +95,11 @@ class DataAccessFactory
 
         // Creates a new instance of the specified database driver object
         //
-        require_once('innomatic/dataaccess/drivers/'.strtolower($dasn->getType()).'/'.ucfirst(strtolower($dasn->getType())).'DataAccess.php');
-        require_once('innomatic/dataaccess/drivers/'.strtolower($dasn->getType()).'/'.ucfirst(strtolower($dasn->getType())).'DataAccessResult.php');
+        
+        $dataaccess = '\\Innomatic\\Dataaccess\\Drivers\\'.ucfirst(strtolower($dasn->getType())).'\\'.ucfirst(strtolower($dasn->getType())).'DataAccess';
+        $dataaccessresult = '\\Innomatic\\Dataaccess\\Drivers\\'.ucfirst(strtolower($dasn->getType())).'\\'.ucfirst(strtolower($dasn->getType())).'DataAccessResult';
         $objname = ucfirst(strtolower(strtolower($dasn->getType()))).'DataAccess';
-        if (!class_exists($objname, false)) {
+        if (!class_exists($objname, true)) {
             throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
         }
         return new $objname($dasn);

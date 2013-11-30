@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Process;
 
 /**
  * Questa classe fornisce un meccanismo di controllo delle risorse
@@ -41,7 +42,7 @@ class Semaphore
      * @param string $resourceType tipo di risorsa da controllare.
      * @param string $resource identificativo della risorsa da controllare.
      */
-    public function Semaphore($resourceType, $resource)
+    public function __construct($resourceType, $resource)
     {
         $this->mResourceType = $resourceType;
         $this->mResource = $resource;

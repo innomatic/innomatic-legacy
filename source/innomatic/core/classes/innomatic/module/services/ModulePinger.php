@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Services;
 
 require_once('innomatic/module/services/ModuleRegistryHandler.php');
 require_once('innomatic/module/server/ModuleServerAuthenticator.php');

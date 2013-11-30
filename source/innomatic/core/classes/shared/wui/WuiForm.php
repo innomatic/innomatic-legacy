@@ -12,6 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
+namespace Shared\Wui;
+
 require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
@@ -31,7 +33,7 @@ class WuiForm extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget($elemName, $elemArgs, $elemTheme, $dispEvents);
+        parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
         if (isset($this->mArgs['method']) and (strtolower($this->mArgs['method']) == 'get' or strtolower($this->mArgs['method']) == 'post'))
             $this->mArgs['method'] = $this->mArgs['method'];
         else

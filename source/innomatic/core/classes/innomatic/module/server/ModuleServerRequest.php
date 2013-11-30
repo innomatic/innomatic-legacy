@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Server;
 
 /**
  * Class that represents an incoming request to the Module server.

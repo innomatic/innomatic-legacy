@@ -12,7 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
+namespace Innomatic\Webservices;
 
 require_once('innomatic/process/Hook.php');
 
@@ -73,7 +73,7 @@ class WebServicesAccount
      @param rrootDb DataAccess class - Innomatic database handler.
      @param id integer - Account id.
      */
-    public function WebServicesAccount(&$rrootDb, $id = '')
+    public function __construct(&$rrootDb, $id = '')
     {
         $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
         $this->mWebServicesLog = new \Innomatic\Logging\Logger( InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log' );

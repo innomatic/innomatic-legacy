@@ -12,6 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
+namespace Innomatic\Validator;
+
 require_once ('innomatic/validator/Validator.php');
 /**
  * This class runs a suite of validators collecting error results.

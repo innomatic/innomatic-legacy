@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Wui\Theme;
 
 require_once('innomatic/datatransfer/cache/CachedItem.php');
 require_once('innomatic/dataaccess/DataAccess.php');

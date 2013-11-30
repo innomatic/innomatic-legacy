@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Persist;
 
 require_once('innomatic/dataaccess/DataAccessObject.php');
 require_once('innomatic/module/ModuleValueObject.php');
@@ -99,7 +100,7 @@ class ModuleAccessObject extends DataAccessObject
         $sequence_value = $this->_dataAccess->getNextSequenceValue($this->config->getTable().'_'.$this->config->getIdField().'_seq');
         $this->valueObject->setValue($this->config->getIdField(), $sequence_value);
 
-        $obj = new ReflectionObject($this->valueObject);
+        $obj = new \ReflectionObject($this->valueObject);
         $properties = $obj->getProperties();
         foreach ($properties as $property) {
             $name = $property->getName();
@@ -126,7 +127,7 @@ class ModuleAccessObject extends DataAccessObject
         }
 
         $fields = array();
-        $obj = new ReflectionObject($this->valueObject);
+        $obj = new \ReflectionObject($this->valueObject);
         $properties = $obj->getProperties();
         foreach ($properties as $property) {
             $name = $property->getName();

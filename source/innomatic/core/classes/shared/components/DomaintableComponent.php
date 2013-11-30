@@ -12,6 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
+namespace Shared\Components;
+
 require_once ('innomatic/application/ApplicationComponent.php');
 require_once ('innomatic/dataaccess/DataAccess.php');
 require_once ('innomatic/dataaccess/DataAccessXmlTable.php');
@@ -20,7 +22,7 @@ require_once ('innomatic/dataaccess/DataAccessXmlTable.php');
  */
 class DomaintableComponent extends ApplicationComponent
 {
-    public function DomaintableComponent($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }

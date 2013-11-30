@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module\Persist;
 
 require_once('innomatic/module/ModuleObject.php');
 require_once('innomatic/dataaccess/DataAccessResult.php');
@@ -21,7 +22,7 @@ class ModuleReadOnlyResultSet
     {
         $row = $this->resultSet->getFields();
 
-        $class = new ReflectionObject($businessObject->moduleGetVO());
+        $class = new \ReflectionObject($businessObject->moduleGetVO());
         $properties = $class->getProperties();
 
         for ($i = 0; $i < count($properties); $i ++) {

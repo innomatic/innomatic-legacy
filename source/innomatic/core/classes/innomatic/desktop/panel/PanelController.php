@@ -12,8 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/util/Observer.php');
+namespace Innomatic\Desktop\Panel;
 
 /**
  * Abstract class for implementing a controller in a Desktop Panel following
@@ -25,7 +24,7 @@ require_once('innomatic/util/Observer.php');
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-abstract class PanelController implements Observer
+abstract class PanelController implements \Innomatic\Util\Observer
 {
     protected $_application;
     protected $_mode;
@@ -79,7 +78,7 @@ abstract class PanelController implements Observer
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::MISSING_VIEWS_FILE);
         }
-        if (!class_exists($viewClassName, false)) {
+        if (!class_exists($viewClassName, true)) {
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::MISSING_VIEWS_CLASS);
         }
@@ -96,7 +95,7 @@ abstract class PanelController implements Observer
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::MISSING_ACTIONS_FILE);
         }
-        if (!class_exists($actionClassName, false)) {
+        if (!class_exists($actionClassName, true)) {
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::MISSING_ACTIONS_CLASS);
         }
@@ -117,11 +116,11 @@ abstract class PanelController implements Observer
         $xajax->setLogFile(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/ajax.log');
 
         // Register action ajax calls
-        $theClass = new ReflectionClass($actionClassName);
+        $theClass = new \ReflectionClass($actionClassName);
         $methods = $theClass->getMethods();
         foreach ($methods as $method) {
             // Ignore private methods
-            $theMethod = new ReflectionMethod($theClass->getName(), $method->getName());
+            $theMethod = new \ReflectionMethod($theClass->getName(), $method->getName());
             if (!$theMethod->isPublic()) {
                 continue;
             }

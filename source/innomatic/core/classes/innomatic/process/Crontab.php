@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Process;
 
 /*!
  @class Crontab
@@ -41,7 +42,7 @@ class Crontab
 
      @param appId string - Application id name.
      */
-    public function Crontab($appId)
+    public function __construct($appId)
     {
         // Arguments check
         //

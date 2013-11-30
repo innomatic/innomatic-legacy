@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Application;
 
 /*!
  @abstract Application configuration handling.
@@ -27,7 +28,7 @@ class ApplicationSettings
      @param rootda DataAccess class - Innomatic database handler.
      @param appname string - Application name.
      */
-    public function ApplicationSettings($rootda, $appname)
+    public function __construct($rootda, $appname)
     {
         $this->_rootda = $rootda;
         if ($appname) {

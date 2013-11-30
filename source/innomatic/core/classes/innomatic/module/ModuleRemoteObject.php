@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Module;
 
 require_once('innomatic/module/ModuleLocator.php');
 require_once('innomatic/module/ModuleException.php');

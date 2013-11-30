@@ -12,13 +12,15 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
+namespace Shared\Components;
+
 require_once ('innomatic/application/ApplicationComponent.php');
 /**
  * Webservicesmethod component handler.
  */
 class WebservicesmethodComponent extends ApplicationComponent
 {
-    public function WebservicesmethodComponent($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }

@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Wui\Widgets;
 
 require_once('innomatic/wui/widgets/WuiWidget.php');
 require_once('innomatic/wui/dispatch/WuiDispatcher.php');
@@ -36,7 +37,7 @@ abstract class WuiContainerWidget extends WuiWidget
     Currently unuseful.
      @param dispEvents array - Dispatcher events.
      */
-    public function WuiContainerWidget(
+    public function __construct(
         $elemName,
         $elemArgs = '',
         $elemTheme = '',

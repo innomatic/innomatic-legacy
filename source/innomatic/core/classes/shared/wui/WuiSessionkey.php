@@ -12,11 +12,12 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiSessionkey extends WuiWidget
+class WuiSessionkey extends \Innomatic\Wui\Widgets\WuiWidget
 {
     public $mValue;
     public function __construct (

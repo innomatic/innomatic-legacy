@@ -12,8 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-
+namespace Innomatic\Webservices;
 
 /*!
  @class WebServicesUser
@@ -36,7 +35,7 @@ class WebServicesUser
      @param rootDb DataAccess class - Innomatic database handler.
      @param userId integer - User id serial.
      */
-    public function WebServicesUser($rootda, $userId = '')
+    public function __construct($rootda, $userId = '')
     {
         $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 

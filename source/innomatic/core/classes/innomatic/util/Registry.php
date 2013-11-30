@@ -12,7 +12,6 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
 namespace Innomatic\Util;
 
 /**
@@ -22,7 +21,7 @@ namespace Innomatic\Util;
  */
 final class Registry
 {
-    private $_globalObjects = array();
+    private $globalObjects = array();
 
     public static function instance()
     {
@@ -43,7 +42,7 @@ final class Registry
      */
     public function setGlobalObject($key, $item)
     {
-        $this->_globalObjects[$key] = $item;
+        $this->globalObjects[$key] = $item;
     }
 
     /**
@@ -54,8 +53,8 @@ final class Registry
      */
     public function getGlobalObject($key)
     {
-        if (isset($this->_globalObjects[$key])) {
-            return $this->_globalObjects[$key];
+        if (isset($this->globalObjects[$key])) {
+            return $this->globalObjects[$key];
         } else {
             return null;
         }
@@ -69,6 +68,6 @@ final class Registry
      */
     public function isGlobalObject($key)
     {
-        return (isset($this->_globalObjects[$key]));
+        return (isset($this->globalObjects[$key]));
     }
 }

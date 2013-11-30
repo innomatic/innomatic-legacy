@@ -12,7 +12,6 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
 namespace Innomatic\Logging;
 
 /*!
@@ -35,7 +34,7 @@ class Logger
      @abstract Class constructor
      @param logFile string - Full path of the log file
      */
-    public function Logger($logFile)
+    public function __construct($logFile)
     {
         if (!empty($logFile)) {
             $this->mLogFile = $logFile;

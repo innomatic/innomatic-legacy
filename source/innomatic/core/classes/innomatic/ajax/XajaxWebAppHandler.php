@@ -12,8 +12,9 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Ajax;
 
-require_once('innomatic/webapp/WebAppHandler.php');
+use \Innomatic\Webapp;
 
 class XajaxWebAppHandler extends WebAppHandler
 {

@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Xml;
 
 /*!
  @discussion XML parser class provides XML parsing OO functions. It server as a base

@@ -12,6 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
+namespace Shared\Wui;
+
 require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
@@ -25,7 +27,7 @@ class WuiEmpty extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget(
+        parent::__construct(
             $elemName, $elemArgs, $elemTheme, $dispEvents
         );
     }

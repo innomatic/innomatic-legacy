@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Webapp;
 
 require_once('innomatic/webapp/WebAppRequest.php');
 require_once('innomatic/webapp/WebAppResponse.php');
@@ -45,7 +46,7 @@ class WebAppProcessor
             $this->response->startBuffer();
             try {
                 $handler->service($this->request, $this->response);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->response->sendError(WebAppResponse::SC_INTERNAL_SERVER_ERROR, get_class($e), $e);
             }
         }
@@ -324,7 +325,7 @@ class WebAppProcessor
 
         // Loads Webapp Handler class
         $classname = substr($fqclassname, strrpos($fqclassname, '/') + 1, -4);
-        if (!class_exists($classname, false)) {
+        if (!class_exists($classname, true)) {
             $this->response->sendError(WebAppResponse::SC_INTERNAL_SERVER_ERROR, 'Malformed handler found');
             return;
         }

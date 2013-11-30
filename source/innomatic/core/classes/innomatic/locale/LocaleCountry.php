@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Locale;
 
 require_once('innomatic/core/InnomaticContainer.php');
 
@@ -75,7 +76,7 @@ class LocaleCountry
 
      @param countryName string - Country name in English language.
      */
-    public function LocaleCountry($countryName)
+    public function __construct($countryName)
     {
         if (strlen($countryName)) {
             $this->mCountry = $countryName;

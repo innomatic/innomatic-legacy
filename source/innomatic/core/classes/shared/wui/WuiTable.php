@@ -12,6 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
+namespace Shared\Wui;
+
 require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
@@ -38,7 +40,7 @@ class WuiTable extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget($elemName, $elemArgs, $elemTheme, $dispEvents);
+        parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
         $tmp_sess = $this->RetrieveSession();
         //if ( isset($this->mArgs['headers'] ) ) $this->mArgs['headers']        = $this->mArgs['headers'];
         $this->mRows = $this->mCols = 0;

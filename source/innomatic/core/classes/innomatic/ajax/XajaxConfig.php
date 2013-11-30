@@ -12,14 +12,13 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/webapp/WebApp.php');
+namespace Innomatic\Ajax;
 
 class XajaxConfig
 {
     public $functions;
 
-    public static function getInstance(WebApp $wa, $xmlconfig)
+    public static function getInstance(\Innomatic\Webapp\WebApp $wa, $xmlconfig)
     {
         if (file_exists($wa->getVarDir().'cache/XajaxConfig.ser')) {
             return unserialize(file_get_contents($wa->getVarDir().'cache/XajaxConfig.ser'));
@@ -57,7 +56,7 @@ class XajaxConfig
         }
     }
 
-    public function flushCache(WebApp $wa)
+    public function flushCache(\Innomatic\Webapp\WebApp $wa)
     {
         if (file_exists($wa->getVarDir().'cache/XajaxConfig.ser')) {
             unlink($wa->getVarDir().'cache/XajaxConfig.ser');

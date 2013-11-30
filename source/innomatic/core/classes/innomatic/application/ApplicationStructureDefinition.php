@@ -12,8 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/xml/XMLParser.php');
+namespace Innomatic\Application;
 
 /*!
  @class ApplicationStructureDefinition

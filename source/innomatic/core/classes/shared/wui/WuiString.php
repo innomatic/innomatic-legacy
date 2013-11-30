@@ -7,15 +7,13 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
-<<<<<<< Updated upstream
- * @copyright  1999-2012 Innoteam Srl
-=======
  * @copyright  1999-2013 Innoteam Srl
->>>>>>> Stashed changes
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
+namespace Shared\Wui;
+
 require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI

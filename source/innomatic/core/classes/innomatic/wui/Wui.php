@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Wui;
 
 require_once('innomatic/core/InnomaticContainer.php');
 require_once('innomatic/dataaccess/DataAccess.php');
@@ -73,14 +74,15 @@ class Wui extends \Innomatic\Util\Singleton
         }
     }
 
-    /*!
-     @discussion Loads the handler for a widget class.
-     @param widgetName string - widget class name to load.
-     @result True if the widget has been loaded. May return false if the widget handler file doesn't exists.
+    /**
+     * Loads the handler for a widget class.
+     * @param widgetName string - widget class name to load.
+     * @return True if the widget has been loaded. May return false if the widget handler file doesn't exists.
+     * @deprecated
      */
     public function loadWidget($widgetName)
     {
-        if (class_exists('wui'.$widgetName, false)) {
+        if (class_exists('wui'.$widgetName, true)) {
             return true;
         }
 
@@ -106,11 +108,13 @@ class Wui extends \Innomatic\Util\Singleton
         return true;
     }
 
-    /*!
-     @abstract Loads all the widgets.
-     @discussion Loads all the widgets in the wui_widgets table.
-     Not functional during Innomatic setup phase.
-     @result True if the widgets have been loaded.
+    /**
+     * Loads all the widgets in the wui_widgets table.
+     * Not functional during Innomatic setup phase.
+     * 
+     * @abstract Loads all the widgets.
+     * @return True if the widgets have been loaded.
+     * @deprecated
      */
     public function loadAllWidgets()
     {
@@ -171,10 +175,10 @@ class Wui extends \Innomatic\Util\Singleton
         return $result;
     }
 
-    /*!
-     @discussion Adds a child widget to the structure.
-     @param rchildWidget class WuiWidget - Adds a child widget to the structure.
-     @result Always true.
+    /**
+     * Adds a child widget to the structure.
+     * @param rchildWidget class WuiWidget - Adds a child widget to the structure.
+     * @return Always true.
      */
     public function addChild(WuiWidget $rchildWidget)
     {

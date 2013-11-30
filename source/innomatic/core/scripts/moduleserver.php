@@ -66,7 +66,7 @@ require_once('innomatic/module/server/ModuleServerController.php');
                     print('Usage: php innomatic/core/scripts/moduleserver.php command'."\n");
                     print('Type moduleserver.php -h for a list of supported commands'."\n");
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo $e;
         }
 

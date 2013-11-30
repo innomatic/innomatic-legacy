@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Domain\User;
 
 /*!
  @class Permissions
@@ -29,7 +30,7 @@ class Permissions
     const NODE_PARTIALLYENABLED = 2;
     const NODE_NOTENABLED = 3;
 
-    public function Permissions(DataAccess $domainda, $gid)
+    public function __construct(DataAccess $domainda, $gid)
     {
         $this->db = $domainda;
         $this->gid = $gid;

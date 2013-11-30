@@ -12,6 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 6.1
  */
+namespace Shared\Components;
+
 require_once ('innomatic/application/ApplicationComponent.php');
 
 /**

@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Wui\Widgets\Layersmenu;
 
 require_once('innomatic/wui/widgets/layersmenu/LayersTemplate.php');
 
@@ -349,7 +350,7 @@ public $_tmpArray = array();
 * The constructor method; it initializates the menu system
 * @return void
 */
-function LayersMenu(
+function __construct(
     $abscissaStep = 140,
     $ordinateStep = 28,
     $thresholdY = 20

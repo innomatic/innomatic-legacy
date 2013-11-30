@@ -1,4 +1,6 @@
 <?php
+namespace Innomatic\Module;
+
 require_once('innomatic/module/server/ModuleServerContext.php');
 require_once('innomatic/module/server/ModuleServerAuthenticator.php');
 require_once('innomatic/module/ModuleConfig.php');

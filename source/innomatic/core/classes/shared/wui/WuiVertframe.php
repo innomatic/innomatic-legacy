@@ -12,6 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
+namespace Shared\Wui;
+
 require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
@@ -30,7 +32,7 @@ class WuiVertframe extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget($elemName, $elemArgs, $elemTheme, $dispEvents);
+        parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
         if (isset($this->mArgs['align'])) {
             switch ($this->mArgs['align']) {
                 case 'left':

@@ -1,4 +1,6 @@
 <?php
+namespace Innomatic\Webservices\Xmlrpc;
+
 /**
  * PHP-XMLRPC "wrapper" functions
  * Generate stubs to transparently access xmlrpc methods as php functions and viceversa
@@ -182,7 +184,7 @@
             }
 
             // start to introspect PHP code
-            $func = new ReflectionFunction($funcname);
+            $func = new \ReflectionFunction($funcname);
             if($func->isInternal())
             {
                 // Note: from PHP 5.1.0 onward, we will possibly be able to use invokeargs

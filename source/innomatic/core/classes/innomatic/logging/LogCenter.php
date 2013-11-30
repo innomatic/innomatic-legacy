@@ -12,8 +12,7 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-
+namespace Innomatic\Logging;
 
 /*!
 @class LogCenter
@@ -28,7 +27,7 @@ class LogCenter
     @function LogCenter
     @abstract Class constructor.
     */
-    public function LogCenter($application = '')
+    public function __construct($application = '')
     {
         $this->mApplication = $application;
     }
