@@ -117,9 +117,6 @@
 
 		<class name="innomatic/setup/InnomaticSetup.php" />
 		<class name="innomatic/desktop/layout/setup/index.php" />
-		<class name="innomatic/desktop/layout/setup/logo.php" />
-		<class name="innomatic/desktop/layout/setup/main.php" />
-		<class name="innomatic/desktop/layout/setup/menu.php" />
 		<script name="kickstart.php" />
 		<configurationfile name="kickstart.ini" />
 
@@ -560,6 +557,13 @@
 
 		<class name="innomatic/logging/Logger.php" />
 		<class name="innomatic/logging/LogCenter.php" />
+
+        <!-- Configuration -->
+
+        <class name="innomatic/config/ConfigBase.php" />
+        <class name="innomatic/config/ConfigFile.php" />
+        <class name="innomatic/config/ConfigMan.php" />
+        <class name="innomatic/config/FileMan.php" />
 
 		<!-- Cache -->
 
