@@ -59,9 +59,9 @@ class RootgroupComponent extends ApplicationComponent
     }
     public function DoUpdateAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if ($this->rootda->execute('UPDATE root_panels_groups SET catalog=' . $this->rootda->formatText($params['catalog']) . ' WHERE name=' . $this->rootda->formatText($params['name']))) {
-            $result = TRUE;
+            $result = true;
         } else {
             $this->mLog->logEvent('innomatic.rootgroupcomponent.rootgroupcomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update root_panels_groups table for domainid ' . $domainid, \Innomatic\Logging\Logger::ERROR);
         }

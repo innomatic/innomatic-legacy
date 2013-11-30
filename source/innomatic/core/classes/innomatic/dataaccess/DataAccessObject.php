@@ -43,7 +43,7 @@ abstract class DataAccessObject
         if (!$this->_dataAccess->isError()) {
             return $result;
         }
-        return NULL;
+        return null;
     }
 
     public function update($query)

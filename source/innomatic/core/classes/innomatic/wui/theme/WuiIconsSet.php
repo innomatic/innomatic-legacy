@@ -55,7 +55,7 @@ class WuiIconsSet
      */
     public function install($args)
     {
-        $result = FALSE;
+        $result = false;
         if ($this->mrRootDb) {
             if (strlen($args['name']) and strlen($args['file'])) {
                 $result = $this->mrRootDb->execute('INSERT INTO wui_iconssets VALUES ('.$this->mrRootDb->getNextSequenceValue('wui_iconssets_id_seq').','.$this->mrRootDb->formatText($args['name']).','.$this->mrRootDb->formatText($args['file']).','.$this->mrRootDb->formatText($args['catalog']).')');
@@ -73,7 +73,7 @@ class WuiIconsSet
      */
     public function update($args)
     {
-        $result = FALSE;
+        $result = false;
         if ($this->mrRootDb) {
             if (strlen($this->mSetName)) {
                 $check_query = $this->mrRootDb->execute('SELECT name FROM wui_iconssets WHERE name='.$this->mrRootDb->formatText($this->mSetName));
@@ -99,7 +99,7 @@ class WuiIconsSet
      */
     public function remove()
     {
-        $result = FALSE;
+        $result = false;
         if ($this->mrRootDb) {
             if (strlen($this->mSetName)) {
 
@@ -117,7 +117,7 @@ class WuiIconsSet
     {
         $result = array();
         $values = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuiiconsset.ini');
-        if ($values !== FALSE) {
+        if ($values !== false) {
             while (list ($key, $val) = each($values)) {
                 $key = trim($key);
                 $val = trim($val);

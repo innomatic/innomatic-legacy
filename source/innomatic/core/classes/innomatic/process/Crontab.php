@@ -73,11 +73,11 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
      @param entry string - Entry content, the command to be executed.
      @param entryType integer - Crontab::TYPE_REGULAR if a regular cron tab entry, Crontab::TYPE_TEMPORARY if a temporary cron tab entry.
 
-     @result TRUE if the entry has been added.
+     @result true if the entry has been added.
      */
     public function AddEntry($identifier, $entry, $entryType)
     {
-        $result = FALSE;
+        $result = false;
 
         if (
             strlen( $identifier )
@@ -123,11 +123,11 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
      @param identifier string - Entry identifier.
      @param entryType integer - Crontab::TYPE_REGULAR if a regular cron tab entry, Crontab::TYPE_TEMPORARY if a temporary cron tab entry.
 
-     @result TRUE if the entry has been removed.
+     @result true if the entry has been removed.
      */
     public function RemoveEntry($identifier, $entryType)
     {
-        $result = FALSE;
+        $result = false;
 
         if (
             strlen( $identifier )

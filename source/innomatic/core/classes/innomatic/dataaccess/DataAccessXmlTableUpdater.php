@@ -38,8 +38,8 @@ class DataAccessXmlTableUpdater
     public $mDiffNewColumns = array();
     /*! @var mDiffOldColumns array - Array of the old columns. */
     public $mDiffOldColumns = array();
-    /*! @var mParse boolean - TRUE when the tables have been parsed. */
-    public $mParsed = FALSE;
+    /*! @var mParse boolean - true when the tables have been parsed. */
+    public $mParsed = false;
 
     /*!
      @param rDb DataAccess class - Database handler.
@@ -72,11 +72,11 @@ class DataAccessXmlTableUpdater
 
     /*!
      @discussion Checks the differences between the XSQL tables.
-     @result TRUE if the check has been performed.
+     @result true if the check has been performed.
      */
     public function checkDiffs()
     {
-        $result = FALSE;
+        $result = false;
 
         if (strlen($this->mOldTable) and strlen($this->mNewTable)) {
             $this->mOldTableHandler->Parse($this->mOldTableHandler->mData);
@@ -98,7 +98,7 @@ class DataAccessXmlTableUpdater
                 }
             }
 
-            $this->mParsed = $result = TRUE;
+            $this->mParsed = $result = true;
         } else {
             
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
@@ -113,7 +113,7 @@ class DataAccessXmlTableUpdater
      */
     public function getOldColumns()
     {
-        $result = FALSE;
+        $result = false;
         if ($this->mParsed) {
             $result = $this->mDiffOldColumns;
         }
@@ -126,7 +126,7 @@ class DataAccessXmlTableUpdater
      */
     public function getNewColumns()
     {
-        $result = FALSE;
+        $result = false;
         if ($this->mParsed) {
             $result = $this->mDiffNewColumns;
         }

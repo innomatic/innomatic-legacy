@@ -89,7 +89,7 @@ class CachedItem
      @discussion Stores the item in the cache.
      @param $content string - Item content.
      @param $validator string - Optional validator.
-     @result TRUE if the item has been stored.
+     @result true if the item has been stored.
      */
     public function store($content, $validator = '')
     {
@@ -196,7 +196,7 @@ class CachedItem
      @abstract Checks if the optional validator is equal to a given one.
      @discussion Checks if the optional validator is equal to a given one.
      @param validator string - Validator to be checked.
-     @result TRUE if the validators are equals.
+     @result true if the validators are equals.
      */
     public function checkValidator($validator)
     {
@@ -212,7 +212,7 @@ class CachedItem
      @function Destroy
      @abstract Destroys the item from the cache.
      @discussion Destroys the item from the cache.
-     @result TRUE if the item has been destroyed.
+     @result true if the item has been destroyed.
      */
     public function destroy()
     {
@@ -236,7 +236,7 @@ class CachedItem
      @abstract Checks if the md5 of the cached item is equal to the md5 of a given item.
      @discussion Checks if the md5 of the cached item is equal to the md5 of a given item.
      @param itemContent string - Content of the item to be checked.
-     @result TRUE if the md5 of the items are equals.
+     @result true if the md5 of the items are equals.
      */
     public function compareMd5($itemContent)
     {

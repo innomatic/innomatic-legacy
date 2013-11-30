@@ -36,7 +36,7 @@ abstract class ApplicationComponent
     /*! @public basedir string - Application temporary directory path, where the
     application has been extracted. */
     public $basedir;
-    /*! @public setup bool - Setup flag, TRUE when in Innomatic setup phase. */
+    /*! @public setup bool - Setup flag, true when in Innomatic setup phase. */
     public $setup = false;
     public $mLog;
     const OVERRIDE_NONE = 'false';
@@ -107,9 +107,9 @@ structure.
                 '',
                 '',
                 $override
-            ) == FALSE
+            ) == false
         ) {
-            //if ( isset($params['donotinstall'] ) or $this->setup ) $result = TRUE;
+            //if ( isset($params['donotinstall'] ) or $this->setup ) $result = true;
             if (
                 (
                     isset($params['donotinstall'])
@@ -150,12 +150,12 @@ structure.
 the application register.
      @param params array - Array of the parameters in the component definition
 structure.
-     @result True if successfully uninstalled and unregistered, FALSE if
+     @result True if successfully uninstalled and unregistered, false if
 component not found.
      */
     public function uninstall($params)
     {
-        $result = FALSE;
+        $result = false;
         $override = self::OVERRIDE_NONE;
         if (isset($params['override'])) {
             switch($params['override']) {
@@ -173,7 +173,7 @@ component not found.
                 '',
                 $this->appname,
                 $override
-            ) != FALSE
+            ) != false
         ) {
             if (
                 $this->applicationsComponentsRegister->checkRegisterComponent(
@@ -182,8 +182,8 @@ component not found.
                     '',
                     $this->appname,
                     $override,
-                    TRUE
-                ) == FALSE
+                    true
+                ) == false
             ) {
                 $result = $this->doUninstallAction($params);
                 $this->applicationsComponentsRegister->unregisterComponent(
@@ -217,7 +217,7 @@ component not found.
     public function update($updatemode, $params, $domainprescript = '', $domainpostscript = '')
     {
         require_once('innomatic/application/Application.php');
-        $result = FALSE;
+        $result = false;
 
         if ($this->getIsDomain() or (isset($params['override']) and $params['override'] == self::OVERRIDE_DOMAIN)) {
             $domainsquery = $this->rootda->execute('SELECT * FROM domains');
@@ -230,7 +230,7 @@ component not found.
         switch ($updatemode) {
             case Application::UPDATE_MODE_ADD :
                 if ($this->DoInstallAction($params)) {
-                    $result = TRUE;
+                    $result = true;
 
                     if (
                         $this->getIsDomain()
@@ -256,7 +256,7 @@ component not found.
                                     )->getCurrentDomain()->getDataAccess();
 
                                     if (!$this->Enable($domainsquery->getFields('id'), $params)) {
-                                        $result = FALSE;
+                                        $result = false;
                                     }
 
                                     InnomaticContainer::instance('innomaticcontainer')->stopDomain();
@@ -272,7 +272,7 @@ component not found.
 
             case Application::UPDATE_MODE_REMOVE :
                 if ($this->DoUninstallAction($params)) {
-                    $result = TRUE;
+                    $result = true;
 
                     if (
                         $this->getIsDomain()
@@ -299,7 +299,7 @@ component not found.
 
 
                                     if (!$this->Disable($domainsquery->getFields('id'), $params)) {
-                                        $result = FALSE;
+                                        $result = false;
                                     }
 
                                     InnomaticContainer::instance('innomaticcontainer')->stopDomain();
@@ -316,7 +316,7 @@ component not found.
 
             case Application::UPDATE_MODE_CHANGE :
                 if ($this->DoUpdateAction($params)) {
-                    $result = TRUE;
+                    $result = true;
 
                     if (
                         $this->getIsDomain()
@@ -354,7 +354,7 @@ component not found.
                                             $params
                                         )
                                     ) {
-                                        $result = FALSE;
+                                        $result = false;
                                     }
 
                                     if (
@@ -436,7 +436,7 @@ component not found.
                     $domainid,
                     '',
                     $override
-                ) == FALSE
+                ) == false
             ) {
                 if ($this->doEnableDomainAction($domainid, $params)) {
                     $this->applicationsComponentsRegister->registerComponent(
@@ -446,7 +446,7 @@ component not found.
                         $domainid,
                         $override
                     );
-                    $result = TRUE;
+                    $result = true;
                 }
             } else {
                 $result = $this->applicationsComponentsRegister->registerComponent(
@@ -455,11 +455,11 @@ component not found.
                     $this->name,
                     $domainid,
                     $override,
-                    TRUE
+                    true
                 );
             }
         } else {
-            $result = TRUE;
+            $result = true;
         }
         return $result;
     }
@@ -473,7 +473,7 @@ structure.
      */
     public function disable($domainid, $params)
     {
-        $result = FALSE;
+        $result = false;
         $override = self::OVERRIDE_NONE;
         if (isset($params['override'])) {
             switch($params['override']) {
@@ -498,7 +498,7 @@ structure.
                     $domainid,
                     $this->appname,
                     $override
-                ) != FALSE
+                ) != false
             ) {
                 if (
                     $this->applicationsComponentsRegister->checkRegisterComponent(
@@ -507,8 +507,8 @@ structure.
                         $domainid,
                         $this->appname,
                         $override,
-                        TRUE
-                    ) == FALSE
+                        true
+                    ) == false
                 ) {
                     $result = $this->doDisableDomainAction($domainid, $params);
                     $this->applicationsComponentsRegister->unregisterComponent(
@@ -529,7 +529,7 @@ structure.
                 }
             }
         } else {
-            $result = TRUE;
+            $result = true;
         }
         return $result;
     }
@@ -544,7 +544,7 @@ structure
      */
     public function doInstallAction($params)
     {
-        return TRUE;
+        return true;
     }
 
     /*!
@@ -557,7 +557,7 @@ structure.
      */
     public function doUninstallAction($params)
     {
-        return TRUE;
+        return true;
     }
 
     /*!
@@ -570,7 +570,7 @@ structure.
      */
     public function doUpdateAction($params)
     {
-        return TRUE;
+        return true;
     }
 
     /*!
@@ -584,7 +584,7 @@ structure.
      */
     public function doEnableDomainAction($domainid, $params)
     {
-        return TRUE;
+        return true;
     }
 
     /*!
@@ -598,7 +598,7 @@ structure.
      */
     public function doDisableDomainAction($domainid, $params)
     {
-        return TRUE;
+        return true;
     }
 
     /*!
@@ -612,7 +612,7 @@ structure.
      */
     public function doUpdateDomainAction($domainid, $params)
     {
-        return TRUE;
+        return true;
     }
 
     /**

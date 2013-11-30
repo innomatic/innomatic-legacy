@@ -38,7 +38,7 @@ class WuiInnomaticpage extends WuiXml
     }
     protected function _fillDefinition()
     {
-        $result = FALSE;
+        $result = false;
         $this->mDefinition = '
 <page>
   <name>page</name>

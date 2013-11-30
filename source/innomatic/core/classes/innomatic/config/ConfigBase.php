@@ -46,7 +46,7 @@ class ConfigBase
     public function configBase(
         $configFile,
         $configMode = ConfigBase::MODE_ROOT,
-        $autoCommit = FALSE,
+        $autoCommit = false,
         $application = '',
         $entry = ''
     )
@@ -240,7 +240,7 @@ class ConfigBase
             InnomaticContainer::instance('innomaticcontainer')->getHome()
             .'core/temp/'.md5($this->_configFile).'.'.basename($this->_configFile).ConfigBase::LOCKEXT
         )
-        : TRUE;
+        : true;
 
         return $result;
     }

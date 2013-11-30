@@ -269,7 +269,7 @@ class Thread
      * Get a variable from the shared memory segment
      *
      * @see PHP_Fork::setVariable()
-     * @return mixed the requested variable (or NULL if it doesn't exists).
+     * @return mixed the requested variable (or null if it doesn't exists).
      */
     public function getVariable($name)
     {

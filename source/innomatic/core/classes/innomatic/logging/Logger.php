@@ -181,7 +181,7 @@ class Logger
         if (file_exists($this->mLogFile)) {
             return @readfile($this->mLogFile);
         } else
-            return FALSE;
+            return false;
     }
 
     /*!

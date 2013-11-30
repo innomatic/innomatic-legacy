@@ -417,7 +417,7 @@ class WuiPage extends WuiContainerWidget
         $block .= "<title>" . Wui::utf8_entities($this->mArgs['title']) . "</title>\n";
         $block .= ((isset($this->mArgs['javascript']) and strlen($this->mArgs['javascript'])) ? "<script language=\"JavaScript\">\n<!--\n" . $this->mArgs['javascript'] . "\n//-->\n</script>\n" : '');
         $block .= '<meta http-equiv="Content-Type" content="text/html; charset=' . $charset . '">' . "\n";
-        $block .= '<meta name="MSSmartTagsPreventParsing" content="TRUE">' . "\n";
+        $block .= '<meta name="MSSmartTagsPreventParsing" content="true">' . "\n";
         if ($this->mArgs['refresh'])
             $block .= '<meta http-equiv="refresh" content="' . $this->mArgs['refresh'] . '">' . "\n";
         $block .= "</head>\n";

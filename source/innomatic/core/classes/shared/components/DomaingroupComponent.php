@@ -62,7 +62,7 @@ class DomaingroupComponent extends ApplicationComponent
     {
         $result = false;
         if ($this->domainda->execute('UPDATE domain_panels_groups SET catalog=' . $this->domainda->formatText($params['catalog']) . ' WHERE name=' . $this->domainda->formatText($params['name']))) {
-            $result = TRUE;
+            $result = true;
         } else {
             $this->mLog->logEvent('innomatic.domaingroupcomponent.domaingroupcomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update domain_panels_groups table for domainid ' . $domainid, \Innomatic\Logging\Logger::ERROR);
         }

@@ -98,7 +98,7 @@ class LocaleCountry
 
         require_once('innomatic/config/ConfigFile.php');
         $country_file = @parse_ini_file($innomatic->getHome().'core/locale/countries/'.$this->mCountry.'.ini', false, INI_SCANNER_RAW);
-        if ($country_file !== FALSE) {
+        if ($country_file !== false) {
             $this->mCountryShort = $country_file['COUNTRYSHORT'];
             $this->mLanguage = $country_file['LANGUAGE'];
             $this->mDecimalSeparator = $country_file['DECIMALSEPARATOR'];

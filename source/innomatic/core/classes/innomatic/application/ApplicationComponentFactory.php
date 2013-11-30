@@ -43,7 +43,7 @@ class ApplicationComponentFactory
      */
     public function fillTypes()
     {
-        $result = TRUE;
+        $result = true;
 
         // Flushes current types
         //
@@ -81,7 +81,7 @@ class ApplicationComponentFactory
                                 'Component file '.$data['file']." doesn't exists in components directory",
                                 \Innomatic\Logging\Logger::WARNING
                             );
-                            $result = FALSE;
+                            $result = false;
                         }
                         $className = ucfirst($data['typename']).'Component';
                         if (class_exists($className, false)) {
@@ -103,9 +103,9 @@ class ApplicationComponentFactory
                     'Unable to select component types from table',
                     \Innomatic\Logging\Logger::ERROR
                 );
-                $result = FALSE;
+                $result = false;
             }
-            $result = FALSE;
+            $result = false;
         }
 
         return $result;
@@ -119,7 +119,7 @@ class ApplicationComponentFactory
      */
     public function install($componentData)
     {
-        $result = FALSE;
+        $result = false;
         $filepath = $componentData['filepath'];
 
         if ($this->rootda and file_exists($filepath)) {
@@ -175,7 +175,7 @@ class ApplicationComponentFactory
      */
     public function update($componentData)
     {
-        $result = FALSE;
+        $result = false;
         $filepath = $componentData['filepath'];
 
         if ($this->rootda and file_exists($filepath)) {
@@ -262,7 +262,7 @@ class ApplicationComponentFactory
      */
     public function uninstall($componentData)
     {
-        $result = FALSE;
+        $result = false;
         $filepath = $componentData['filepath'];
         if ($this->rootda and file_exists($filepath)) {
             require_once($filepath);

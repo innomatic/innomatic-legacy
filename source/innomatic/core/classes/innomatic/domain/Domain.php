@@ -301,7 +301,7 @@ class Domain
         if (!file_exists($dirname))
         return @mkdir($dirname, 0755);
         else
-        return TRUE;
+        return true;
     }
 
     private function defOpt($option, $defaultopt)
@@ -1028,7 +1028,7 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
 
         $pos = strpos($hostname, '.');
 
-        if ($pos === FALSE) {
+        if ($pos === false) {
             $domain_guess = $hostname;
         } else {
             $domain_guess = substr($hostname, 0, $pos);

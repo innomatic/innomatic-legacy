@@ -77,7 +77,7 @@ class WuiTheme
                 }
                 $cfg_file = @parse_ini_file($this->mThemeFile);
 
-                if ($cfg_file !== FALSE) {
+                if ($cfg_file !== false) {
                     $this->mIconsSetName = $cfg_file['THEME.ICONSSET'];
                     $this->mColorsSetName = $cfg_file['THEME.COLORSSET'];
                     $this->mStyleName = $cfg_file['THEME.STYLE'];
@@ -120,7 +120,7 @@ class WuiTheme
                 } else {
                     $def_cfg_file = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.Wui::DEFAULT_THEME.'_wuitheme.ini');
 
-                    if ($def_cfg_file !== FALSE) {
+                    if ($def_cfg_file !== false) {
                         $def_icons_set_name = $def_cfg_file['THEME.ICONSSET'];
                         $def_colors_set_name = $def_cfg_file['THEME.COLORSSET'];
                         $def_style_name = $def_cfg_file['THEME.STYLE'];

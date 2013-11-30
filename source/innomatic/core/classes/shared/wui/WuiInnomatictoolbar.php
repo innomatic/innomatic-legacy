@@ -56,7 +56,7 @@ class WuiInnomatictoolbar extends WuiXml
     }
     protected function _fillDefinition()
     {
-        $result = FALSE;
+        $result = false;
         $this->mDefinition = '';
         if ($this->mArgs['frame'] == 'true')
             $this->mDefinition .= '<horizframe><name>toolbarframe</name><children>';

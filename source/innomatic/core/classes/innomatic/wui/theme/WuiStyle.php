@@ -53,7 +53,7 @@ class WuiStyle
      */
     public function install($args)
     {
-        $result = FALSE;
+        $result = false;
         if ($this->mrRootDb) {
             if (strlen($args['name']) and strlen($args['file'])) {
                 $result = $this->mrRootDb->execute('INSERT INTO wui_styles VALUES ('.$this->mrRootDb->getNextSequenceValue('wui_styles_id_seq').','.$this->mrRootDb->formatText($args['name']).','.$this->mrRootDb->formatText($args['file']).','.$this->mrRootDb->formatText($args['catalog']).')');
@@ -71,7 +71,7 @@ class WuiStyle
      */
     public function update($args)
     {
-        $result = FALSE;
+        $result = false;
 
         if ($this->mrRootDb) {
             if (strlen($this->mStyleName)) {
@@ -99,7 +99,7 @@ class WuiStyle
      */
     public function remove()
     {
-        $result = FALSE;
+        $result = false;
 
         if ($this->mrRootDb) {
             if (strlen($this->mStyleName)) {
@@ -118,7 +118,7 @@ class WuiStyle
     {
         $result = array();
         $values = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini');
-        if ($values !== FALSE) {
+        if ($values !== false) {
             while (list ($key, $val) = each($values)) {
                 $key = trim($key);
                 $val = trim($val);

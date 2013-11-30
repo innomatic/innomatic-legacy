@@ -264,7 +264,7 @@ class LayersTemplate
      *
      * Parses handle $handle into $target, eventually
      * appending handle at $target if $append is defined
-     * as TRUE.
+     * as true.
      *
      * @access public
      * @param  string target handle to parse into
@@ -476,7 +476,7 @@ class LayersTemplate
      *
      * @access private
      * @param  string handle
-     * @return bool   FALSE if error, true if all is ok
+     * @return bool   false if error, true if all is ok
      */
     public function _loadFile($handle)
     {

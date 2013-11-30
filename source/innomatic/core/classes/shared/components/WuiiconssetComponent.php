@@ -41,7 +41,7 @@ class WuiiconssetComponent extends ApplicationComponent
     }
     public function DoInstallAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
@@ -124,7 +124,7 @@ class WuiiconssetComponent extends ApplicationComponent
                         }
                     }
 
-                    $result = TRUE;
+                    $result = true;
                 } else
                     $this->mLog->logEvent('innomatic.wuiiconssetcomponent.wuiiconsset.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', \Innomatic\Logging\Logger::ERROR);
             } else
@@ -135,7 +135,7 @@ class WuiiconssetComponent extends ApplicationComponent
     }
     public function DoUninstallAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if (strlen($params['file'])) {
             $wui_component = new WuiIconsSet($this->rootda, $params['name']);
             if ($wui_component->Remove($params)) {
@@ -207,7 +207,7 @@ class WuiiconssetComponent extends ApplicationComponent
                 if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name']))
                     @rmdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name']);
                 if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
-                    $result = TRUE;
+                    $result = true;
                 }
             } else
                 $this->mLog->logEvent('innomatic.wuiiconssetcomponent.wuiiconsset.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to uninstall component', \Innomatic\Logging\Logger::ERROR);
@@ -217,7 +217,7 @@ class WuiiconssetComponent extends ApplicationComponent
     }
     public function DoUpdateAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
@@ -299,7 +299,7 @@ class WuiiconssetComponent extends ApplicationComponent
                                 @copy($this->basedir . '/shared/icons/' . $params['name'] . '/light/' . $file['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/icons/' . $params['name'] . '/light/' . $file['file']);
                         }
                     }
-                    $result = TRUE;
+                    $result = true;
                 } else
                     $this->mLog->logEvent('innomatic.wuiiconssetcomponent.wuiiconsset.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update component', \Innomatic\Logging\Logger::ERROR);
             } else

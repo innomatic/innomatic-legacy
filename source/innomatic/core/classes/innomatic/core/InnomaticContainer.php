@@ -166,7 +166,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             $timelimit = 0;
         }
         set_time_limit($timelimit);
-        ignore_user_abort(TRUE);
+        ignore_user_abort(true);
         //set_magic_quotes_runtime(0);
 
         // Adds global override classes folder to the include path.

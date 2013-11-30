@@ -41,7 +41,7 @@ class WuistyleComponent extends ApplicationComponent
     }
     public function DoInstallAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
@@ -63,7 +63,7 @@ class WuistyleComponent extends ApplicationComponent
                         if (strlen($file['value']))
                             @copy($this->basedir . '/shared/styles/' . $params['name'] . '/' . $file['value'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/styles/' . $params['name'] . '/' . $file['value']);
                     }
-                    $result = TRUE;
+                    $result = true;
                 } else
                     $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', \Innomatic\Logging\Logger::ERROR);
             } else
@@ -74,7 +74,7 @@ class WuistyleComponent extends ApplicationComponent
     }
     public function DoUninstallAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if (strlen($params['file'])) {
             $wui_component = new WuiStyle($this->rootda, $params['name']);
             if ($wui_component->Remove($params)) {
@@ -86,7 +86,7 @@ class WuistyleComponent extends ApplicationComponent
                 if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/styles/' . $params['name']))
                     @rmdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/styles/' . $params['name']);
                 if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
-                    $result = TRUE;
+                    $result = true;
                 }
             } else
                 $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to uninstall component', \Innomatic\Logging\Logger::ERROR);
@@ -96,7 +96,7 @@ class WuistyleComponent extends ApplicationComponent
     }
     public function DoUpdateAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
@@ -118,7 +118,7 @@ class WuistyleComponent extends ApplicationComponent
                         if (strlen($file['value']))
                             @copy($this->basedir . '/shared/styles/' . $params['name'] . '/' . $file['value'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/styles/' . $params['name'] . '/' . $file['value']);
                     }
-                    $result = TRUE;
+                    $result = true;
                 } else
                     $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update component', \Innomatic\Logging\Logger::ERROR);
             } else

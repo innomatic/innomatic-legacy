@@ -44,11 +44,11 @@ class Archive
 
      @param destinationDir string - Full path of the destination dir for the extracted files.
 
-     @result TRUE if the archive has been successfully extracted.
+     @result true if the archive has been successfully extracted.
      */
     public function Extract($destinationDir)
     {
-        $result = FALSE;
+        $result = false;
 
         if (file_exists($destinationDir)) {
             $old_dir = getcwd();
@@ -57,7 +57,7 @@ class Archive
                 switch ($this->mFormat) {
                     case self::FORMAT_TAR :
                     case self::FORMAT_TGZ :
-                        $result = TRUE;
+                        $result = true;
                         require_once('innomatic/io/archive/archivers/Tar.php');
                         $tar = new tar();
                         if ($tar->openTar($this->mFile)) {
@@ -82,7 +82,7 @@ class Archive
                                             $mode = substr($information['mode'], -5);
                                             @chmod($information['name'], octdec($mode));
                                         } else
-                                            $result = FALSE;
+                                            $result = false;
                                     }
                                 }
                             }

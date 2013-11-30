@@ -84,6 +84,6 @@ class WuiLink extends WuiWidget
             '</strong>' : '') . '</a>' : $this->mArgs['label'])
             . '</td></tr></table>' . ($this->mComments ? '<!-- end '
             . $this->mName . " link -->\n" : '');
-        return TRUE;
+        return true;
     }
 }

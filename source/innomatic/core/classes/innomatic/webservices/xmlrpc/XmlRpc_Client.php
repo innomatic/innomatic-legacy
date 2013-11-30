@@ -244,7 +244,7 @@
     /// @deprecated
     $GLOBALS['xmlrpc_backslash']=chr(92).chr(92);
 
-    // set to TRUE to enable correct decoding of <NIL/> values
+    // set to true to enable correct decoding of <NIL/> values
     $GLOBALS['xmlrpc_null_extension']=false;
 
     // used to store state during parsing
@@ -1393,7 +1393,7 @@
             $ipd='';
             while($data=fread($fp, 32768))
             {
-                // shall we check for $data === FALSE?
+                // shall we check for $data === false?
                 // as per the manual, it signals an error
                 $ipd.=$data;
             }
@@ -1689,7 +1689,7 @@
         * the fact that multicall is unsupported, so there is no way to reliably
         * distinguish between that and a temporary failure.
         * If you are sure that server supports multicall and do not want to
-        * fallback to using many single calls, set the fourth parameter to FALSE.
+        * fallback to using many single calls, set the fourth parameter to false.
         *
         * NB: trying to shoehorn extra functionality into existing syntax has resulted
         * in pretty much convoluted code...

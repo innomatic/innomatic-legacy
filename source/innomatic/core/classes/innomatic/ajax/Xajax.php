@@ -639,7 +639,7 @@ class Xajax extends \Innomatic\Util\Singleton
                 if (is_a($sResponse, "xajaxResponse")) {
                     $sResponse = $sResponse->getXML();
                 }
-                if (!is_string($sResponse) || strpos($sResponse, "<xjx>") === FALSE) {
+                if (!is_string($sResponse) || strpos($sResponse, "<xjx>") === false) {
                     $objResponse = new xajaxResponse();
                     $objResponse->addAlert("No XML Response Was Returned By Function $sFunctionName.");
                     $sResponse = $objResponse->getXML();
@@ -706,7 +706,7 @@ class Xajax extends \Innomatic\Util\Singleton
      *               engine located within the xajax installation folder.
      *               Defaults to xajax_js/xajax.js.
      */
-    public function printJavascript($sJsURI="", $sJsFile=NULL)
+    public function printJavascript($sJsURI="", $sJsFile=null)
     {
         print $this->getJavascript($sJsURI, $sJsFile);
     }
@@ -735,7 +735,7 @@ class Xajax extends \Innomatic\Util\Singleton
      *               Defaults to xajax_js/xajax.js.
      * @return string
      */
-    public function getJavascript($sJsURI="", $sJsFile=NULL)
+    public function getJavascript($sJsURI="", $sJsFile=null)
     {
         $html = $this->getJavascriptConfig();
         $html .= $this->getJavascriptInclude($sJsURI, $sJsFile);
@@ -785,9 +785,9 @@ class Xajax extends \Innomatic\Util\Singleton
      *               Defaults to xajax_js/xajax.js.
      * @return string
      */
-    public function getJavascriptInclude($sJsURI="", $sJsFile=NULL)
+    public function getJavascriptInclude($sJsURI="", $sJsFile=null)
     {
-        if ($sJsFile == NULL) $sJsFile = "xajax_js/xajax.js";
+        if ($sJsFile == null) $sJsFile = "xajax_js/xajax.js";
 
         if ($sJsURI != "" && substr($sJsURI, -1) != "/") $sJsURI .= "/";
 
@@ -806,7 +806,7 @@ class Xajax extends \Innomatic\Util\Singleton
      * @param string an optional argument containing the full server file path
      *               of xajax.js.
      */
-    public function autoCompressJavascript($sJsFullFilename=NULL)
+    public function autoCompressJavascript($sJsFullFilename=null)
     {
         $sJsFile = "xajax_js/xajax.js";
 
@@ -1122,7 +1122,7 @@ class Xajax extends \Innomatic\Util\Singleton
     {
         $sValue = $sData;
         if ($this->bDecodeUTF8Input) {
-            $sFuncToUse = NULL;
+            $sFuncToUse = null;
 
             if (function_exists('iconv')) {
                 $sFuncToUse = "iconv";

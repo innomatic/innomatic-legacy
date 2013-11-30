@@ -117,7 +117,7 @@ class WuiColorsSet
     {
         $result = array();
         $cfg_file = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuicolorsset.ini');
-        if ($cfg_file !== FALSE) {
+        if ($cfg_file !== false) {
             $result['pages']['bgcolor'] = $cfg_file['COLORSET.PAGES.BGCOLOR'];
             $result['pages']['border'] = $cfg_file['COLORSET.PAGES.BORDER'];
             $result['buttons']['text'] = $cfg_file['COLORSET.BUTTONS.TEXT'];

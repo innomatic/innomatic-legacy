@@ -56,7 +56,7 @@ class ApplicationSettings
     public function setKey($key, $val)
     {
         if ($this->_rootda and !empty($key)) {
-            if ($this->checkkey($key) != FALSE) {
+            if ($this->checkkey($key) != false) {
                 // A key with the same name already exists, it will be updated
                 //
                 return $this->_rootda->execute(

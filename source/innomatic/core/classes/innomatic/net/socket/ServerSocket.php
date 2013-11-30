@@ -85,7 +85,7 @@ abstract class ServerSocket
         while ($buf = socket_read($this->clientFD[$clientId], $this->readBufSize, PHP_BINARY_READ)) {
             $data .= $buf;
 
-            if ($buf == NULL || strlen($buf) < $this->readBufSize) {
+            if ($buf == null || strlen($buf) < $this->readBufSize) {
                 break;
             }
 
@@ -123,8 +123,8 @@ abstract class ServerSocket
 
     public function getClientInfo($id)
     {
-            if (!isset($this->clientFD[$id]) || $this->clientFD[$id] == NULL) {
-            return NULL;
+            if (!isset($this->clientFD[$id]) || $this->clientFD[$id] == null) {
+            return null;
         }
         return $this->clientInfo[$id];
     }

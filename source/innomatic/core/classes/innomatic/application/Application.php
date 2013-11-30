@@ -38,7 +38,7 @@ class Application
     public $serial;
     /*! @public onlyextension bool - True if the application is an extension
 only application. */
-    public $onlyextension = TRUE;
+    public $onlyextension = truerue;
     public $basedir;
 
     const INSTALL_MODE_INSTALL = 0;
@@ -90,7 +90,7 @@ only application. */
             return false;
         }
 
-        $result = FALSE;
+        $result = false;
 
         require_once('innomatic/core/InnomaticContainer.php');
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
@@ -127,7 +127,7 @@ only application. */
             //
             if (!@is_dir($tmpdir.'/setup')) {
                 $dhandle = opendir($tmpdir);
-                while (FALSE != ($file = readdir($dhandle))) {
+                while (false != ($file = readdir($dhandle))) {
                     if (
                         $file != '.' && $file != '..' && (
                             is_dir($tmpdir.'/'.$file.'/setup') or is_dir($tmpdir.'/'.$file.'/innomatic/setup')
@@ -150,14 +150,14 @@ only application. */
             //
             if (file_exists($tmpdir.'/setup/bundle.ini')) {
                 $applicationsArray = file($tmpdir.'/setup/bundle.ini');
-                $result = TRUE;
+                $result = true;
 
                 while (list (, $application) = each($applicationsArray)) {
                     $application = trim($application);
                     if (strlen($application) and file_exists($tmpdir.'/applications/'.$application)) {
                         $tempApplication = new Application($this->rootda);
                         if (!$tempApplication->Install($tmpdir.'/applications/'.$application))
-                        $result = FALSE;
+                        $result = false;
                     }
                 }
             } elseif (file_exists($tmpdir.'/setup/application.xml')) {
@@ -186,15 +186,15 @@ only application. */
                     $deps = $appdeps->explodeDependencies($genconfig['ApplicationDependencies']);
                     $suggs = $appdeps->explodeDependencies($genconfig['ApplicationSuggestions']);
 
-                    if ($deps != FALSE) {
+                    if ($deps != false) {
                         $this->unmetdeps = $appdeps->checkApplicationDependencies(0, '', $deps);
                     } else {
-                        $this->unmetdeps = FALSE;
+                        $this->unmetdeps = false;
                     }
 
                     // Suggestions check
                     //
-                    if ($suggs != FALSE) {
+                    if ($suggs != false) {
                         $unmetsuggs = $appdeps->checkApplicationDependencies(0, '', $suggs);
                         if (is_array($unmetsuggs))
                         $this->unmetsuggs = $unmetsuggs;
@@ -202,7 +202,7 @@ only application. */
 
                     // If dependencies are ok, go on
                     //
-                    if ($this->unmetdeps == FALSE) {
+                    if ($this->unmetdeps == false) {
                         // Gets serial number for the application
                         //
                         $this->serial = $this->rootda->getNextSequenceValue(
@@ -245,7 +245,7 @@ only application. */
                         // Defs files
                         //
                         if ($dhandle = @opendir($tmpdir.'/setup')) {
-                            while (FALSE != ($file = readdir($dhandle))) {
+                            while (false != ($file = readdir($dhandle))) {
                                 if ($file != '.' && $file != '..' && is_file($tmpdir.'/setup/'.$file)) {
                                     @copy(
                                         $tmpdir . '/setup/' . $file,
@@ -322,10 +322,10 @@ only application. */
 
                         if ($genconfig['ApplicationIsExtension'] == 'y') {
                             $ext = $this->rootda->fmttrue;
-                            $this->onlyextension = TRUE;
+                            $this->onlyextension = true;
                         } elseif ($genconfig['ApplicationIsExtension'] == 'n') {
                             $ext = $this->rootda->fmtfalse;
-                            $this->onlyextension = FALSE;
+                            $this->onlyextension = false;
                         } elseif ($this->onlyextension) {
                             $ext = $this->rootda->fmttrue;
                         }
@@ -334,7 +334,7 @@ only application. */
                             'UPDATE applications SET onlyextension='.$this->rootda->formatText($ext)
                             .' WHERE appid='.$this->rootda->formatText($this->appname)
                         );
-                        $result = TRUE;
+                        $result = true;
 
                         if (
                             InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value(
@@ -382,15 +382,15 @@ only application. */
                         $deps = $appdeps->explodeDependencies($genconfig['ApplicationDependencies']);
                         $suggs = $appdeps->explodeDependencies($genconfig['ApplicationSuggestions']);
 
-                        if ($deps != FALSE) {
+                        if ($deps != false) {
                             $this->unmetdeps = $appdeps->checkApplicationDependencies(0, '', $deps);
                         } else {
-                            $this->unmetdeps = FALSE;
+                            $this->unmetdeps = false;
                         }
 
                         // Suggestions check
                         //
-                        if ($suggs != FALSE) {
+                        if ($suggs != false) {
                             $unmetsuggs = $appdeps->checkApplicationDependencies(0, '', $suggs);
                             if (is_array($unmetsuggs))
                             $this->unmetsuggs = $unmetsuggs;
@@ -398,7 +398,7 @@ only application. */
 
                         // If dependencies are ok, go on
                         //
-                        if ($this->unmetdeps == FALSE) {
+                        if ($this->unmetdeps == false) {
                             // Creates lock file
                             //
                             touch(
@@ -453,7 +453,7 @@ only application. */
                             // Script files - only before handlestructure
                             //
                             if ($dhandle = @opendir($tmpdir.'/setup')) {
-                                while (FALSE != ($file = readdir($dhandle))) {
+                                while (false != ($file = readdir($dhandle))) {
                                     if (
                                         $file != '.'
                                         and $file != '..'
@@ -523,11 +523,11 @@ only application. */
 
                             if ($genconfig['ApplicationIsExtension'] == 'y') {
                                 $ext = $this->rootda->fmttrue;
-                                $this->onlyextension = TRUE;
+                                $this->onlyextension = true;
                             } elseif (
                                 $genconfig['ApplicationIsExtension'] == 'n') {
                                 $ext = $this->rootda->fmtfalse;
-                                $this->onlyextension = FALSE;
+                                $this->onlyextension = false;
                             } elseif (
                                 $this->onlyextension) {
                                 $ext = $this->rootda->fmttrue;
@@ -559,12 +559,12 @@ only application. */
                                 );
                             }
 
-                            $result = TRUE;
+                            $result = true;
 
                             if (function_exists('apc_reset_cache'))
                             apc_reset_cache();
 
-                            if ($updateOnce == FALSE) {
+                            if ($updateOnce == false) {
                                 $this->Install($tmpfilepath, true);
 
                                 // Removes lock file
@@ -586,7 +586,7 @@ only application. */
                                     unset($innomaticSecurity);
                                 }
 
-                                if ($result == TRUE) {
+                                if ($result == true) {
                                     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                                     $log->logEvent('Innomatic', 'Updated application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
                                 }
@@ -660,7 +660,7 @@ only application. */
      */
     public function uninstall()
     {
-        $result = FALSE;
+        $result = false;
 
         if ($this->serial) {
             // Checks if the application exists in applications table
@@ -692,7 +692,7 @@ only application. */
 
                         // If dependencies are ok, go on
                         //
-                        if ($pendingdeps == FALSE) {
+                        if ($pendingdeps == false) {
                             if ($appdata['onlyextension'] != $this->rootda->fmttrue)
                             $this->disableFromAllDomains($appdata['appid']);
 
@@ -752,7 +752,7 @@ only application. */
                             $this->unmetdeps = $pendingdeps;
                         }
 
-                        if ($result == TRUE) {
+                        if ($result == true) {
                             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                             $log->logEvent('Innomatic', 'Uninstalled application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
                         }
@@ -824,7 +824,7 @@ only application. */
      */
     public function setup($tmpdir)
     {
-        $result = FALSE;
+        $result = false;
 
         // Checks for definition and structure files
         //
@@ -885,7 +885,7 @@ only application. */
                 //
                 $dhandle = @opendir($tmpdir.'/setup');
                 if ($dhandle) {
-                    while (FALSE != ($file = readdir($dhandle))) {
+                    while (false != ($file = readdir($dhandle))) {
                         if ($file != '.' && $file != '..' && is_file($tmpdir.'/setup/'.$file)) {
                             @copy(
                                 $tmpdir.'/setup/'.$file,
@@ -898,7 +898,7 @@ only application. */
                 }
 
                 $result = $this->HandleStructure(
-                    $tmpdir.'setup/application.xml', Application::INSTALL_MODE_INSTALL, $tmpdir, 0, TRUE
+                    $tmpdir.'setup/application.xml', Application::INSTALL_MODE_INSTALL, $tmpdir, 0, true
                 );
 
                 if (
@@ -955,7 +955,7 @@ only application. */
      */
     public function enable($domainid)
     {
-        $result = FALSE;
+        $result = false;
         require_once('innomatic/process/Hook.php');
         $hook = new Hook($this->rootda, 'innomatic', 'application.enable');
         if (
@@ -1052,7 +1052,7 @@ only application. */
 
                             // If dependencies are ok, go on
                             //
-                            if ($unmetdeps == FALSE and !$modenabled) {
+                            if ($unmetdeps == false and !$modenabled) {
                                 $result = $this->HandleStructure(
                                     InnomaticContainer::instance('innomaticcontainer')->getHome().
                                     'core/applications/'.$appdata['appid'].'/application.xml',
@@ -1098,7 +1098,7 @@ only application. */
                             } else {
                                 $this->unmetdeps = $unmetdeps;
                             }
-                            //if ( $result == TRUE ) $this->mLog->logEvent(
+                            //if ( $result == true ) $this->mLog->logEvent(
                             //    'Innomatic',
                             //    'Uninstalled application '.$this->appname,
                             //    \Innomatic\Logging\Logger::NOTICE
@@ -1155,7 +1155,7 @@ only application. */
      */
     public function enableToAllDomains()
     {
-        $result = FALSE;
+        $result = false;
 
         $domainsquery = $this->rootda->execute('SELECT id FROM domains');
 
@@ -1182,7 +1182,7 @@ only application. */
      */
     public function disable($domainid)
     {
-        $result = FALSE;
+        $result = false;
 
         require_once('innomatic/process/Hook.php');
         $hook = new Hook($this->rootda, 'innomatic', 'application.disable');
@@ -1258,13 +1258,13 @@ only application. */
                             $pendingdeps = $appdeps->checkDomainDependingApplications(
                                 $this->appname,
                                 $domaindata['domainid'],
-                                FALSE
+                                false
                             );
                             $modenabled = $appdeps->IsEnabled($this->appname, $domaindata['domainid']);
 
                             // If dependencies are ok, go on
                             //
-                            if (($pendingdeps == FALSE) and ($modenabled == TRUE)) {
+                            if (($pendingdeps == false) and ($modenabled == true)) {
                                 $result = $this->HandleStructure(
                                     InnomaticContainer::instance('innomaticcontainer')->getHome().
                                     'core/applications/'.$appdata['appid'].'/application.xml',
@@ -1307,11 +1307,11 @@ only application. */
                                     ) != Hook::RESULT_OK
                                 )
                                 $result = false;
-                            } elseif ($modenabled == FALSE) {
+                            } elseif ($modenabled == false) {
                             } else {
                                 $this->unmetdeps = $pendingdeps;
                             }
-                            //if ( $result == TRUE ) $this->mLog->logEvent(
+                            //if ( $result == true ) $this->mLog->logEvent(
                             //    'Innomatic',
                             //    'Uninstalled application '.$this->appname,
                             //    \Innomatic\Logging\Logger::NOTICE
@@ -1368,7 +1368,7 @@ only application. */
      */
     public function disableFromAllDomains()
     {
-        $result = FALSE;
+        $result = false;
 
         $domainsquery = $this->rootda->execute('SELECT id FROM domains');
 
@@ -1498,11 +1498,11 @@ only application. */
 
      @result True.
      */
-    public function handleStructure($deffilepath, $installmode, $tmpdir, $domainid = 0, $setup = FALSE)
+    public function handleStructure($deffilepath, $installmode, $tmpdir, $domainid = 0, $setup = false)
     {
         require_once('innomatic/application/ApplicationComponent.php');
-        $result = FALSE;
-        $this->onlyextension = TRUE;
+        $result = false;
+        $this->onlyextension = true;
 
         // Installation mode depending variables initializazion
         //
@@ -1742,7 +1742,7 @@ only application. */
             include($scriptdir.$structure[$postscript]);
         }
 
-        $result = TRUE;
+        $result = true;
 
         return $result;
     }
@@ -1863,11 +1863,11 @@ only application. */
                     //
                     while (list ($keya, $vala) = each($arraycontenta)) {
                         reset($arraycontentb);
-                        $found = FALSE;
+                        $found = false;
 
                         while (list ($keyb, $valb) = each($arraycontentb)) {
                             if ($valb['name'] == $vala['name']) {
-                                $found = TRUE;
+                                $found = true;
                                 $tmpkey = $keyb;
                             }
                         }
@@ -1921,13 +1921,13 @@ only application. */
                     // component type
                     while (list ($keyb, $valb) = each($arraycontentb)) {
                         reset($arraycontenta);
-                        $found = FALSE;
+                        $found = false;
 
                         // This is just a check
                         //
                         while (list ($keya, $vala) = each($arraycontenta)) {
                             if ($vala['file'] == $valb['file']) {
-                                $found = TRUE;
+                                $found = true;
                             }
                         }
 

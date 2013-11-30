@@ -164,7 +164,7 @@ class ModuleServiceSocketHandler extends SocketHandler
      * @access public
      * @since 5.1
      */
-    public function onConnect($clientId = NULL)
+    public function onConnect($clientId = null)
     {
     }
 
@@ -176,7 +176,7 @@ class ModuleServiceSocketHandler extends SocketHandler
      * @access public
      * @since 5.1
      */
-    public function onConnectionRefused($clientId = NULL)
+    public function onConnectionRefused($clientId = null)
     {
     }
 
@@ -188,7 +188,7 @@ class ModuleServiceSocketHandler extends SocketHandler
      * @access public
      * @since 5.1
      */
-    public function onClose($clientId = NULL)
+    public function onClose($clientId = null)
     {
     }
 
@@ -206,7 +206,7 @@ class ModuleServiceSocketHandler extends SocketHandler
      * @access public
      * @since 5.1
      */
-    public function onReceiveData($clientId = NULL, $data = NULL)
+    public function onReceiveData($clientId = null, $data = null)
     {
         $response = new ModuleServerResponse();
         $raw_request = explode("\n", $data);

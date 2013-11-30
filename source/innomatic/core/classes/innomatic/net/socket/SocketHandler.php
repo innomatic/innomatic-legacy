@@ -36,11 +36,11 @@ abstract class SocketHandler
 
     abstract public function onShutDown();
 
-    abstract public function onConnect($clientId = NULL);
+    abstract public function onConnect($clientId = null);
 
-    abstract public function onConnectionRefused($clientId = NULL);
+    abstract public function onConnectionRefused($clientId = null);
 
-    abstract public function onClose($clientId = NULL);
+    abstract public function onClose($clientId = null);
 
-    abstract public function onReceiveData($clientId = NULL, $data = NULL);
+    abstract public function onReceiveData($clientId = null, $data = null);
 }

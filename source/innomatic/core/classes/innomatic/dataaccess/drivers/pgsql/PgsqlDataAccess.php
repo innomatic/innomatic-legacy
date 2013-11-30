@@ -197,7 +197,7 @@ class PgsqlDataAccess extends DataAccess
 
     public function addColumn($params)
     {
-        $result = FALSE;
+        $result = false;
 
         if (!empty($params['tablename']) and !empty($params['columnformat']) and $this->opened)
             $result = $this->doExecute('ALTER TABLE '.$params['tablename'].' ADD COLUMN '.$params['columnformat']);

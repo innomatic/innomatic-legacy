@@ -41,7 +41,7 @@ class WuicolorssetComponent extends ApplicationComponent
     }
     public function DoInstallAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
@@ -54,7 +54,7 @@ class WuicolorssetComponent extends ApplicationComponent
                 $wui_component = new WuiColorsSet($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Install($params)) {
-                    $result = TRUE;
+                    $result = true;
                 } else
                     $this->mLog->logEvent('innomatic.wuicolorssetcomponent.wuicolorsset.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', \Innomatic\Logging\Logger::ERROR);
             } else
@@ -65,12 +65,12 @@ class WuicolorssetComponent extends ApplicationComponent
     }
     public function DoUninstallAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if (strlen($params['file'])) {
             $wui_component = new WuiColorsSet($this->rootda, $params['name']);
             if ($wui_component->Remove($params)) {
                 if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
-                    $result = TRUE;
+                    $result = true;
                 }
             } else
                 $this->mLog->logEvent('innomatic.wuicolorssetcomponent.wuicolorsset.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to uninstall component', \Innomatic\Logging\Logger::ERROR);
@@ -80,7 +80,7 @@ class WuicolorssetComponent extends ApplicationComponent
     }
     public function DoUpdateAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
@@ -93,7 +93,7 @@ class WuicolorssetComponent extends ApplicationComponent
                 $wui_component = new WuiColorsSet($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Update($params)) {
-                    $result = TRUE;
+                    $result = true;
                 } else
                     $this->mLog->logEvent('innomatic.wuicolorssetcomponent.wuicolorsset.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update component', \Innomatic\Logging\Logger::ERROR);
             } else

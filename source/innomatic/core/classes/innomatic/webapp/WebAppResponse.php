@@ -506,7 +506,7 @@ class WebAppResponse
 $this->redirect = true;
    }
 
-    public function sendError($sc, $msg = null, Exception $exception = NULL)
+    public function sendError($sc, $msg = null, Exception $exception = null)
     {
         if ($this->committed) {
             return;

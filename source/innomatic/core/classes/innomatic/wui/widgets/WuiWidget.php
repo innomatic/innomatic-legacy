@@ -38,10 +38,10 @@ abstract class WuiWidget
     public $mThemeHandler;
     /*! @var mDispEvents array - Dispatcher events. */
     public $mDispEvents = array();
-    /*! @var mComments boolean - Set to TRUE if element should contain comment
+    /*! @var mComments boolean - Set to true if element should contain comment
     blocks. */
     public $mComments;
-    /*! @var mUseSession boolean - TRUE if the widget should use the stored
+    /*! @var mUseSession boolean - true if the widget should use the stored
     session parameters. */
     public $mUseSession;
     /*! @var mSessionObjectName string - Name of this widget as object

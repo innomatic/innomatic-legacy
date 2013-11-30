@@ -53,7 +53,7 @@ class ApplicationComponentRegister
         $componentname,
         $domainid = '',
         $override = ApplicationComponent::OVERRIDE_NONE,
-        $ignoreduplicate = FALSE
+        $ignoreduplicate = false
     )
     {
         if (
@@ -64,7 +64,7 @@ class ApplicationComponentRegister
                     $domainid,
                     '',
                     $override
-                ) == FALSE
+                ) == false
             ) or $ignoreduplicate == TRU
         ) {
             $tmpquery = $this->rootda->execute(
@@ -105,7 +105,7 @@ class ApplicationComponentRegister
         $exclude = false
     )
     {
-        $result = FALSE;
+        $result = false;
 
         $catquery = $this->rootda->execute(
             'SELECT id FROM applications_components_types WHERE typename='
@@ -156,7 +156,7 @@ class ApplicationComponentRegister
             $appname,
             $override
         );
-        if ($regdata != FALSE) {
+        if ($regdata != false) {
             $catquery = $this->rootda->execute(
                 'SELECT id FROM applications_components_types WHERE typename='
                 . $this->rootda->formatText($category)

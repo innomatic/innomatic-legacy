@@ -61,11 +61,11 @@ class ModuleRegistryHandler
      * @since 5.1
      * @return void
      */
-    public function parseRegistry($host = NULL, $port = NULL)
+    public function parseRegistry($host = null, $port = null)
     {
         $context = ModuleServerContext::instance('ModuleServerContext');
         $mode = $context->getConfig()->getKey('load_services_register');
-         if($host == NULL || $port == NULL) {//loading registry for the first time
+         if($host == null || $port == null) {//loading registry for the first time
             if ($mode == 'local') {
                 print('Module: services-extension loading netregistry locally'."\n");
                 $this->loadLocalRegistry('modules-netregistry.xml');

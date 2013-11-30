@@ -359,7 +359,7 @@ class User
             }
             return false;
         }
-        if (strpos($username, '@') !== FALSE) {
+        if (strpos($username, '@') !== false) {
             return substr($username, strpos($username, '@') + 1);
         }
         return false;

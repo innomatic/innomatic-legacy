@@ -57,7 +57,7 @@ final class Registry
         if (isset($this->_globalObjects[$key])) {
             return $this->_globalObjects[$key];
         } else {
-            return NULL;
+            return null;
         }
     }
 

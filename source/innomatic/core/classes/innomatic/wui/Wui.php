@@ -39,7 +39,7 @@ class Wui extends \Innomatic\Util\Singleton
     public $mLoadedWidgets = array();
     /*! @var mLastError integer - Last error id. */
     public $mLastError;
-    /*! @var mForceSetup boolean - TRUE if the check for setup phase must be skipped. Useful only for Innomatic. */
+    /*! @var mForceSetup boolean - true if the check for setup phase must be skipped. Useful only for Innomatic. */
     private $mForceSetup;
     public $parameters;
     private $mThemeName = '';
@@ -51,7 +51,7 @@ class Wui extends \Innomatic\Util\Singleton
 
     /*!
      @param rrootDb DataAccess class - Innomatic database handler.
-     @param forceSetup boolean - TRUE if the check for setup phase must be skipped. Useful only for Innomatic.
+     @param forceSetup boolean - true if the check for setup phase must be skipped. Useful only for Innomatic.
      */
     public function ___construct($forceSetup = false)
     {

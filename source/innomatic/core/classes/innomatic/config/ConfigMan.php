@@ -41,7 +41,7 @@ class ConfigMan extends ConfigBase
         $application,
         $configfile,
         $configmode = ConfigBase::MODE_ROOT,
-        $autoCommit = FALSE, $entry = ''
+        $autoCommit = false, $entry = ''
         )
     {
         $this->ConfigBase($configfile, $configmode, $autoCommit, $application, $entry);

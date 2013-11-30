@@ -25,7 +25,7 @@ abstract class DataAccess
     // Internal properties
     //
     protected $driver;
-    protected $dbhandler = NULL;
+    protected $dbhandler = null;
     protected $opened = false;
     public $persistent = false;
     public $autocommit = true;

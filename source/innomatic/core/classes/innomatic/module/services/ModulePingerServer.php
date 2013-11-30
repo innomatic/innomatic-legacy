@@ -65,19 +65,19 @@ class ModulePingerServer extends SocketHandler
     {
     }
 
-    public function onConnect($clientId = NULL)
+    public function onConnect($clientId = null)
     {
     }
 
-    public function onConnectionRefused($clientId = NULL)
+    public function onConnectionRefused($clientId = null)
     {
     }
 
-    public function onClose($clientId = NULL)
+    public function onClose($clientId = null)
     {
     }
 
-    public function onReceiveData($clientId = NULL, $data = NULL)
+    public function onReceiveData($clientId = null, $data = null)
     {
 //print('dati ricevuti');
         $response = new ModuleServerResponse();

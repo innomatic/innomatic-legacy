@@ -253,15 +253,15 @@ class ApplicationDependencies
     /*!
      @abstract Lists the applications a certain application depends on.
      @param appid string - id name of the application.
-     @result Array of the applications the application depends on or FALSE if it does not have dependencies.
+     @result Array of the applications the application depends on or false if it does not have dependencies.
      */
     public function dependsOn($appid)
     {
-        $result = FALSE;
+        $result = false;
 
         if (!empty($appid)) {
             $mquery = $this->IsInstalled($appid);
-            if ($mquery != FALSE) {
+            if ($mquery != false) {
                 $mdata = $mquery->getFields();
 
                 $mdquery = $this->mrRootDb->execute(
@@ -319,17 +319,17 @@ class ApplicationDependencies
     since it is passed an array of applications with no information about if they are suggestions or deps.
 
     @result False if the dependencies are met, an array of the unmet deps if them are not all met
-                  or TRUE if something went wrong.
+                  or true if something went wrong.
     */
     public function checkApplicationDependencies($appid, $deptype = '', $depsarray = '')
     {
-        $result = TRUE;
+        $result = true;
 
         if (!empty($depsarray) or (!(empty($appid) and empty($deptype)))) {
             if (empty($depsarray)) {
                 $appdeps = $this->DependsOn($appid);
-                if ($appdeps == FALSE) {
-                    $result = FALSE;
+                if ($appdeps == false) {
+                    $result = false;
                 }
             } else
                 $appdeps = $depsarray;
@@ -339,12 +339,12 @@ class ApplicationDependencies
             // If there are no dependencies, automatically these are
             // assumed to be met
             //
-            if ($result != FALSE) {
-                // We must set this to be TRUE in case all deps are instead
+            if ($result != false) {
+                // We must set this to be true in case all deps are instead
                 // only suggestions, or viceversa. useful when $deftype is not
                 // DEFTYPE_ALL
                 //
-                $inst = TRUE;
+                $inst = true;
                 $unmetdeps = array();
 
                 foreach ($appdeps as $appID => $appVersion) {
@@ -387,15 +387,15 @@ class ApplicationDependencies
      @param appid string - id name of the application to check.
      @param deptype int - type of dependency (defined).
      @result False if no application depends on this one, the array of the applications which depends on
-                   this one if some application depends on this one or TRUE if something is not ok.
+                   this one if some application depends on this one or true if something is not ok.
      */
     public function checkDependingApplications($appid, $deptype = ApplicationDependencies::TYPE_DEPENDENCY)
     {
-        $result = TRUE;
+        $result = true;
 
         if (!empty($appid)) {
             $modquery = $this->IsInstalled($appid);
-            if ($modquery != FALSE) {
+            if ($modquery != false) {
                 $dquery = $this->mrRootDb->execute(
                     'SELECT * FROM applications_dependencies WHERE moddep='.$this->mrRootDb->formatText($appid)
                     .' AND deptype='.$this->mrRootDb->formatText($deptype)
@@ -404,7 +404,7 @@ class ApplicationDependencies
                 if ($dquery->getNumberRows() == 0) {
                     // No dependencies
                     //
-                    $result = FALSE;
+                    $result = false;
                 } else {
                     $pendingdeps = array();
                     $d = 0;
@@ -443,15 +443,15 @@ class ApplicationDependencies
      @param domainid string - id name of the domain to be checked.
      @result True if the application has been enabled to the given domain.
      */
-    public function isEnabled($appid, $domainid, $considerExtensions = TRUE)
+    public function isEnabled($appid, $domainid, $considerExtensions = true)
     {
-        $result = FALSE;
+        $result = false;
 
         if (!empty($appid) and !empty($domainid)) {
             // Looks if the given application has been installed
             //
             $modquery = $this->IsInstalled($appid);
-            if ($modquery != FALSE) {
+            if ($modquery != false) {
                 $appdata = $modquery->getFields();
 
                 // If the application is a global extension, we can be sure
@@ -511,27 +511,27 @@ class ApplicationDependencies
      @param domainid string - id name of the domain to check.
      @param deptype int - type of dep: dependency, suggestion or both (defined).
      @result False if dependencies are met, an array of the unmet deps if them are not all met
-             or TRUE if something went wrong.
+             or true if something went wrong.
      */
     public function checkDomainApplicationDependencies($appid, $domainid, $deptype)
     {
-        $result = TRUE;
+        $result = true;
 
         if (!empty($appid) and !empty($domainid) and !empty($deptype)) {
             $appdeps = $this->DependsOn($appid);
 
-            if ($appdeps == FALSE)
-                $result = FALSE;
+            if ($appdeps == false)
+                $result = false;
 
-            if ($result != FALSE) {
-                $inst = TRUE;
+            if ($result != false) {
+                $inst = true;
                 $unmetdeps = array();
 
                 while (list (, $deps) = each($appdeps)) {
                     if (($deps['deptype'] == $deptype) or ($deptype == ApplicationDependencies::TYPE_ALL)) {
                         $tmpInst = $this->IsEnabled($deps['moddep'], $domainid);
-                        if ($tmpInst == FALSE) {
-                            $inst = FALSE;
+                        if ($tmpInst == false) {
+                            $inst = false;
                             $unmetdeps[] = $deps['moddep'];
                         }
                     }
@@ -539,8 +539,8 @@ class ApplicationDependencies
 
                 // All applications are installed
                 //
-                if ($inst != FALSE)
-                    $result = FALSE;
+                if ($inst != false)
+                    $result = false;
                 else
                     $result = $unmetdeps;
             }
@@ -560,17 +560,17 @@ class ApplicationDependencies
      @abstract Checks which applications enabled on this domain depends on specified application.
      @param appid string - id name of the application to check.
      @param domainid string - id name of the domain to check.
-     @result Array of depending applications, FALSE if not enabled or no dependency found or TRUE if wrong appid.
+     @result Array of depending applications, false if not enabled or no dependency found or true if wrong appid.
      */
-    public function checkDomainDependingApplications($appid, $domainid, $considerExtensions = TRUE)
+    public function checkDomainDependingApplications($appid, $domainid, $considerExtensions = true)
     {
             // :KLUDGE: evil 20020507: strange appid type
         // It should be an int, but it's used as string
-        $result = TRUE;
+        $result = true;
 
         if (!empty($appid)) {
             $modquery = $this->IsEnabled($appid, $domainid);
-            if ($modquery != FALSE) {
+            if ($modquery != false) {
                 $dquery = $this->mrRootDb->execute(
                     'SELECT * FROM applications_dependencies WHERE moddep='.$this->mrRootDb->formatText($appid)
                     .' AND deptype='.$this->mrRootDb->formatText(ApplicationDependencies::TYPE_DEPENDENCY)
@@ -579,7 +579,7 @@ class ApplicationDependencies
                 if ($dquery->getNumberRows() == 0) {
                     // No dependencies
                     //
-                    $result = FALSE;
+                    $result = false;
                 } else {
                     $pendingdeps = array();
                     $d = 0;
@@ -599,12 +599,12 @@ class ApplicationDependencies
                     }
 
                     if (count($pendingdeps) == 0)
-                        $result = FALSE;
+                        $result = false;
                     else
                         $result = $pendingdeps;
                 }
             } else
-                $result = FALSE;
+                $result = false;
         } else {
             
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
@@ -620,11 +620,11 @@ class ApplicationDependencies
     /*!
      @abstract Checks the domains having a certain application enabled.
      @param modserial integer - serial id of the application to check.
-     @result An array of the enabled domains if any, FALSE if there aren't domains with that applications enabled.
+     @result An array of the enabled domains if any, false if there aren't domains with that applications enabled.
      */
     public function checkEnabledDomains($modserial)
     {
-        $result = FALSE;
+        $result = false;
 
         if (!empty($modserial)) {
             $endomains = array();

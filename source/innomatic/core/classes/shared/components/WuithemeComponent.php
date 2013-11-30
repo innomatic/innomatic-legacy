@@ -40,7 +40,7 @@ class WuithemeComponent extends ApplicationComponent
     }
     public function DoInstallAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
@@ -52,7 +52,7 @@ class WuithemeComponent extends ApplicationComponent
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
                 $params['file'] = basename($params['file']);
                 if ($this->rootda->execute('INSERT INTO wui_themes VALUES (' . $this->rootda->getNextSequenceValue('wui_themes_id_seq') . ',' . $this->rootda->formatText($params['name']) . ',' . $this->rootda->formatText($params['file']) . ',' . $this->rootda->formatText($params['catalog']) . ')')) {
-                    $result = TRUE;
+                    $result = true;
                 } else
                     $this->mLog->logEvent('shared.components.wuithemecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', \Innomatic\Logging\Logger::ERROR);
             } else
@@ -63,7 +63,7 @@ class WuithemeComponent extends ApplicationComponent
     }
     public function DoUninstallAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if (strlen($params['file'])) {
             if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                 $result = $this->rootda->execute('DELETE FROM wui_themes WHERE name=' . $this->rootda->formatText($params['name']));
@@ -75,7 +75,7 @@ class WuithemeComponent extends ApplicationComponent
     }
     public function DoUpdateAction($params)
     {
-        $result = FALSE;
+        $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
