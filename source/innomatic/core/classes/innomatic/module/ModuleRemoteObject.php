@@ -136,7 +136,7 @@ abstract class ModuleRemoteObject
         if (isset ($response_headers['Session']))
             $this->sessionId = $response_headers['Session'];
 
-        $return_value = php_xmlrpc_decode($response_body);
+        $return_value = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($response_body);
         if ($return_value == null) {
             throw new ModuleException('XML-RPC decode failed, invalid XML-RPC response from Module server');
         }

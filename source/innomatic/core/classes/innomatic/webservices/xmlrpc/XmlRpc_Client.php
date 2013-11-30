@@ -37,39 +37,6 @@ namespace Innomatic\Webservices\Xmlrpc;
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-    if(!function_exists('xml_parser_create'))
-    {
-        // For PHP 4 onward, XML functionality is always compiled-in on windows:
-        // no more need to dl-open it. It might have been compiled out on *nix...
-        if(strtoupper(substr(PHP_OS, 0, 3) != 'WIN'))
-        {
-            dl('xml.so');
-        }
-    }
-
-    // Try to be backward compat with php < 4.2 (are we not being nice ?)
-    $phpversion = phpversion();
-    if($phpversion[0] == '4' && $phpversion[2] < 2)
-    {
-        // give an opportunity to user to specify where to include other files from
-        if(!defined('PHP_XMLRPC_COMPAT_DIR'))
-        {
-            define('PHP_XMLRPC_COMPAT_DIR',dirname(__FILE__).'/compat/');
-        }
-        if($phpversion[2] == '0')
-        {
-            if($phpversion[4] < 6)
-            {
-                include(PHP_XMLRPC_COMPAT_DIR.'is_callable.php');
-            }
-            include(PHP_XMLRPC_COMPAT_DIR.'is_scalar.php');
-            include(PHP_XMLRPC_COMPAT_DIR.'array_key_exists.php');
-            include(PHP_XMLRPC_COMPAT_DIR.'version_compare.php');
-        }
-        include(PHP_XMLRPC_COMPAT_DIR.'var_export.php');
-        include(PHP_XMLRPC_COMPAT_DIR.'is_a.php');
-    }
-
     // G. Giunta 2005/01/29: declare global these variables,
     // so that xmlrpc.inc will work even if included from within a function
     // Milosch: 2005/08/07 - explicitly request these via $GLOBALS where used.
@@ -2437,6 +2404,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
                                 }
                                 else
                                 {
+                                	
                                     error_log('XML-RPC: xmlrpcmsg::parseResponse: errors occurred when trying to decode the deflated data received from server');
                                     $r = new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['decompress_fail'], $GLOBALS['xmlrpcstr']['decompress_fail']);
                                     return $r;
@@ -2444,6 +2412,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
                             }
                             else
                             {
+                            	
                                 error_log('XML-RPC: xmlrpcmsg::parseResponse: the server sent deflated data. Your php install must have the Zlib extension compiled in to support this.');
                                 $r = new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['cannot_decompress'], $GLOBALS['xmlrpcstr']['cannot_decompress']);
                                 return $r;
@@ -2584,15 +2553,15 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 
             if ($return_type == 'phpvals')
             {
-                xml_set_element_handler($parser, 'xmlrpc_se', 'xmlrpc_ee_fast');
+                xml_set_element_handler($parser, '\Innomatic\Webservices\Xmlrpc\xmlrpc_se', '\Innomatic\Webservices\Xmlrpc\xmlrpc_ee_fast');
             }
             else
             {
-                xml_set_element_handler($parser, 'xmlrpc_se', 'xmlrpc_ee');
+                xml_set_element_handler($parser, '\Innomatic\Webservices\Xmlrpc\xmlrpc_se', '\Innomatic\Webservices\Xmlrpc\xmlrpc_ee');
             }
 
-            xml_set_character_data_handler($parser, 'xmlrpc_cd');
-            xml_set_default_handler($parser, 'xmlrpc_dh');
+            xml_set_character_data_handler($parser, '\Innomatic\Webservices\Xmlrpc\xmlrpc_cd');
+            xml_set_default_handler($parser, '\Innomatic\Webservices\Xmlrpc\xmlrpc_dh');
 
             // first error check: xml not well formed
             if(!xml_parse($parser, $data, count($data)))
@@ -3312,18 +3281,6 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
             }
     }
 
-    // This constant left here only for historical reasons...
-    // it was used to decide if we have to define xmlrpc_encode on our own, but
-    // we do not do it anymore
-    if(function_exists('xmlrpc_decode'))
-    {
-        define('XMLRPC_EPI_ENABLED','1');
-    }
-    else
-    {
-        define('XMLRPC_EPI_ENABLED','0');
-    }
-
     /**
     * Takes native php types and encodes them into xmlrpc PHP object format.
     * It will not re-encode xmlrpcval objects.
@@ -3478,9 +3435,9 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
         {
             xml_parser_set_option($parser, XML_OPTION_TARGET_ENCODING, $GLOBALS['xmlrpc_internalencoding']);
         }
-        xml_set_element_handler($parser, 'xmlrpc_se_any', 'xmlrpc_ee');
-        xml_set_character_data_handler($parser, 'xmlrpc_cd');
-        xml_set_default_handler($parser, 'xmlrpc_dh');
+        xml_set_element_handler($parser, '\Innomatic\Webservices\Xmlrpc\xmlrpc_se_any', '\Innomatic\Webservices\Xmlrpc\xmlrpc_ee');
+        xml_set_character_data_handler($parser, '\Innomatic\Webservices\Xmlrpc\xmlrpc_cd');
+        xml_set_default_handler($parser, '\Innomatic\Webservices\Xmlrpc\xmlrpc_dh');
         if(!xml_parse($parser, $xml_val, 1))
         {
             $errstr = sprintf('XML error: %s at line %d, column %d',

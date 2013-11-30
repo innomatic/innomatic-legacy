@@ -2176,7 +2176,7 @@ function main_showmethods($eventData)
         if (!$xmlrpcResp->FaultCode()) {
             $xv = $xmlrpcResp->Value();
             if (is_object($xv)) {
-                $methods = php_xmlrpc_decode($xv);
+                $methods = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($xv);
                 //$methods_val = $xv->scalarVal();
 
                 if (is_array($methods)) {

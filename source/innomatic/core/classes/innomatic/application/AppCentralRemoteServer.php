@@ -150,7 +150,7 @@ class AppCentralRemoteServer
 
                 if ( !$xmlrpcResp->FaultCode() ) {
 
-                    $xv = php_xmlrpc_decode($xmlrpcResp->Value());
+                    $xv = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($xmlrpcResp->Value());
 
                     if ( is_array($xv) ) {
 
@@ -214,7 +214,7 @@ class AppCentralRemoteServer
 
             if ( $xmlrpcResp ) {
                 if ( !$xmlrpcResp->FaultCode() ) {
-                    $xv = php_xmlrpc_decode($xmlrpcResp->Value());
+                    $xv = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($xmlrpcResp->Value());
 
                     if ( is_array($xv) ) {
                         $cachedItem->Store(serialize($xv));
@@ -277,7 +277,7 @@ class AppCentralRemoteServer
 
             if ( $xmlrpcResp ) {
                 if ( !$xmlrpcResp->FaultCode() ) {
-                    $xv = php_xmlrpc_decode($xmlrpcResp->Value());
+                    $xv = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($xmlrpcResp->Value());
 
                     if ( is_array($xv) ) {
                         $cachedItem->Store(serialize($xv));
