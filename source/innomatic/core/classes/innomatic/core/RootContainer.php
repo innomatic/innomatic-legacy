@@ -1,7 +1,4 @@
 <?php
-
-namespace Innomatic\Core;
-
 /**
  * Innomatic
  *
@@ -15,6 +12,7 @@ namespace Innomatic\Core;
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Core;
 
 // This require uses the absolute path because at this time the PHP include path
 // is still the default one and doesn't include the Innomatic container classes
@@ -44,14 +42,14 @@ class RootContainer extends \Innomatic\Util\Singleton
      *
      * @var string
      */
-    private $_home;
+    private $home;
     /**
      * The clean state is false until explicitly changed to true calling the
      * RootContainer::stop() method.
      *
      * @var boolean
      */
-    private $_clean = false;
+    private $clean = false;
 
     /**
      * RootContainer constructor.
@@ -59,14 +57,14 @@ class RootContainer extends \Innomatic\Util\Singleton
      */
     public function ___construct()
     {
-        $this->_home = realpath(dirname(__FILE__).'/../../../../..').'/';
-        @chdir($this->_home);
+        $this->home = realpath(dirname(__FILE__).'/../../../../..').'/';
+        @chdir($this->home);
 
         // This is needed in order to prevent a successive chdir() to screw
         // including classes when relying on having Innomatic root directory
         // as current directory
         set_include_path(
-            get_include_path() . PATH_SEPARATOR . $this->_home
+            get_include_path() . PATH_SEPARATOR . $this->home
             . 'innomatic/core/classes/'
         );
         
@@ -80,7 +78,7 @@ class RootContainer extends \Innomatic\Util\Singleton
      */
     public function getHome()
     {
-        return $this->_home;
+        return $this->home;
     }
 
     /**
@@ -92,7 +90,7 @@ class RootContainer extends \Innomatic\Util\Singleton
      */
     public function stop()
     {
-        $this->_clean = true;
+        $this->clean = true;
     }
 
     /**
@@ -103,7 +101,7 @@ class RootContainer extends \Innomatic\Util\Singleton
      */
     public function isClean()
     {
-        return $this->_clean;
+        return $this->clean;
     }
     
     /**
@@ -124,7 +122,8 @@ class RootContainer extends \Innomatic\Util\Singleton
 	    
 	    // remember the defined classes, include the $file and detect newly declared classes
 	    $pre = get_declared_classes();
-	    require_once($file);
+	    //require_once($file);
+	    include_once($file);
 	    $post = array_unique(array_diff(get_declared_classes(), $pre));
 	    
 	    // loop through the new class definitions and create weak aliases if they are given with qualified names
@@ -183,10 +182,31 @@ class RootContainer extends \Innomatic\Util\Singleton
 				$path = "{$class['name']}";
 				$elements = explode('/', $path);
 				$class = str_replace('.php', '', array_pop($elements));
-				array_walk($elements, function(&$match, $key) {$match = ucfirst($match);});
+				array_walk(
+					$elements,
+					function (&$match, $key) {
+						$match = ucfirst($match);
+					}
+				);
+				
 				$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
+				$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+			}
 			
-				$GLOBALS['system_classes'][$class] = array('path' => $path, 'fqcn' => $fqcn);
+			foreach($file->components->wuiwidget as $class)
+			{
+				$path = "shared/wui/{$class['file']}";
+				$elements = explode('/', $path);
+				$class = str_replace('.php', '', array_pop($elements));
+				array_walk(
+				$elements,
+				function (&$match, $key) {
+					$match = ucfirst($match);
+				}
+				);
+			
+				$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
+				$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
 			}
 		}
 		
@@ -199,9 +219,9 @@ class RootContainer extends \Innomatic\Util\Singleton
 			$fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
 		}
 		
-		if (isset($GLOBALS['system_classes'][$className]))
+		if (isset($GLOBALS['system_classes'][strtolower($className)]))
 		{
-			$fileName = $GLOBALS['system_classes'][$className]['path'];
+			$fileName = $GLOBALS['system_classes'][strtolower($className)]['path'];
 		}
 		else 
 		{
