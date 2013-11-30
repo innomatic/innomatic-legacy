@@ -8,7 +8,7 @@
                                 CHANGES
                                 =======
 
-6000 6.1 - - "Namespaces, Retina icons, Environment, Dashboard"
+6000 6.1 - - "Namespaces, Retina icons, Environment, Dashboard, PSR standards"
 ---------------------
 FIXES:
 - Fixed WuiWidget::getEventsCompleteString() when generating events string with
@@ -29,6 +29,8 @@ CHANGES:
 - Removed old references to html frames in desktop layout. (Alex Pagnoni)
 - Theme icon in domain panels is no more required. (Alex Pagnoni)
 - Supprimed autoload check in class_exists() calls. (Alex Pagnoni)
+- Started using PSR-0, PSR-1 and PSR-2 standards. (Alex Pagnoni)
+- PHP minimum version is now 5.3.0. (Alex Pagnoni)
 
 NEW FEATURES:
 - New Subway icon set by Pixle. (Alex Pagnoni)
