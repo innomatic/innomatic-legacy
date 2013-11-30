@@ -558,6 +558,13 @@
 		<class name="innomatic/logging/Logger.php" />
 		<class name="innomatic/logging/LogCenter.php" />
 
+        <!-- Configuration -->
+
+        <class name="innomatic/config/ConfigBase.php" />
+        <class name="innomatic/config/ConfigFile.php" />
+        <class name="innomatic/config/ConfigMan.php" />
+        <class name="innomatic/config/FileMan.php" />
+
 		<!-- Cache -->
 
 		<class name="innomatic/datatransfer/cache/CachedItem.php" />
