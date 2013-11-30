@@ -129,6 +129,7 @@
 		<class name="innomatic/core/InnomaticContainer.php" />
 		<class name="innomatic/core/InnomaticSettings.php" />
 		<class name="innomatic/debug/InnomaticDump.php" />
+        <class name="innomatic/debug/LoadTime.php" />
 
 		<catalog name="innomatic" />
 
