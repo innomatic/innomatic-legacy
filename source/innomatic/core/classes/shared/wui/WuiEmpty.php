@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
  */
-class WuiEmpty extends WuiContainerWidget
+class WuiEmpty extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     public function __construct (
         $elemName,

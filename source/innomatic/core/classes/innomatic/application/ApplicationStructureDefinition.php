@@ -49,7 +49,6 @@ class ApplicationStructureDefinition extends XMLParser
     public function __construct($rootda, $basedir = '')
     {
         $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-        require_once('innomatic/application/ApplicationComponentFactory.php');
         $this->eltypes = new ApplicationComponentFactory($rootda);
         $this->eltypes->fillTypes();
         parent::__construct();

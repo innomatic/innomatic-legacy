@@ -14,8 +14,6 @@
 */
 namespace Innomatic\Php;
 
-require_once('innomatic/tpl/Template.php');
-
 /**
  * PHP based template engine.
  *
@@ -32,7 +30,7 @@ require_once('innomatic/tpl/Template.php');
  * @copyright Copyright 2012 Innoteam Srl
  * @since 1.1
  */
-class PHPTemplate implements Template
+class PHPTemplate implements Innomatic\Tpl\Template
 {
     private $_file;
     private $_vars;

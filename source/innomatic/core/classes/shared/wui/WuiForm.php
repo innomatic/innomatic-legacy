@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
  */
-class WuiForm extends WuiContainerWidget
+class WuiForm extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     /*
      * action string - Submit URL

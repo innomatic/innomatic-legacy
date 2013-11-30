@@ -14,8 +14,6 @@
 */
 namespace Innomatic\Webapp;
 
-require_once('innomatic/webapp/WebApp.php');
-
 /**
  * @since 5.0
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
@@ -41,7 +39,6 @@ class WebAppContainer extends \Innomatic\Util\Singleton
         } else {
             $this->useDefaults = true;
         }
-        require_once('innomatic/webapp/WebAppProcessor.php');
         $this->processor = new WebAppProcessor();
     }
 

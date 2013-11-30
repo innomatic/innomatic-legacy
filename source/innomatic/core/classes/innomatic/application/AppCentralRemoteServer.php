@@ -26,8 +26,7 @@ class AppCentralRemoteServer
     public function __construct($rrootDb, $repId)
     {
         $this->mrRootDb = $rrootDb;
-        require_once('innomatic/logging/LogCenter.php');
-        $this->mLogCenter = new LogCenter('appcentral-client');
+        $this->mLogCenter = new \Innomatic\Logging\LogCenter('appcentral-client');
 
         if ( $repId ) {
             $repQuery = $this->mrRootDb->execute(
@@ -44,14 +43,12 @@ class AppCentralRemoteServer
 
     public function SetClient()
     {
-        require_once('innomatic/webservices/WebServicesAccount.php');
-        $this->mXAccount = new WebServicesAccount(
+        $this->mXAccount = new \Innomatic\Webservices\WebServicesAccount(
             $this->mrRootDb,
             $this->mAccountId
         );
 
-        require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
-        $this->mXClient = new XmlRpc_Client(
+        $this->mXClient = new \Innomatic\Webservices\Xmlrpc\XmlRpc_Client(
             $this->mXAccount->mPath,
             $this->mXAccount->mHost,
             $this->mXAccount->mPort
@@ -102,8 +99,7 @@ class AppCentralRemoteServer
                     'WHERE id='.$this->mId
                 )
             ) {
-                require_once('innomatic/datatransfer/cache/CachedItem.php');
-                $cachedItem = new CachedItem(
+                $cachedItem = new \Innomatic\Datatransfer\Cache\CachedItem(
                     $this->mrRootDb,
                     'appcentral-client',
                     'repositories-'.$this->mId );
@@ -122,8 +118,7 @@ class AppCentralRemoteServer
     {
         $result = false;
 
-        require_once('innomatic/datatransfer/cache/CachedItem.php');
-        $cachedItem = new CachedItem(
+        $cachedItem = new \Innomatic\Datatransfer\Cache\CachedItem(
             $this->mrRootDb,
             'appcentral-client',
             'repositories-'.$this->mId );
@@ -184,8 +179,7 @@ class AppCentralRemoteServer
     {
         $result = false;
 
-        require_once('innomatic/datatransfer/cache/CachedItem.php');
-        $cachedItem = new CachedItem(
+        $cachedItem = new \Innomatic\Datatransfer\Cache\CachedItem(
             $this->mrRootDb,
             'appcentral-client',
             'repository_applications-'.$this->mId.'-'.$repId
@@ -247,8 +241,7 @@ class AppCentralRemoteServer
     {
         $result = false;
 
-        require_once('innomatic/datatransfer/cache/CachedItem.php');
-        $cachedItem = new CachedItem(
+        $cachedItem = new \Innomatic\Datatransfer\Cache\CachedItem(
             $this->mrRootDb,
             'appcentral-client',
             'repository_application_versions-'.$this->mId.'-'.$repId.'-'.$applicationId );
@@ -329,15 +322,13 @@ class AppCentralRemoteServer
 
                 $fh = fopen($tmpFilename, 'wb');
                 if ( $fh ) {
-                    require_once('innomatic/application/Application.php');
-
                     fputs($fh, $xv->scalarVal());
                     fclose($fh);
 
                     unset($xv);
                     unset($xmlrpcResp);
 
-                    $tmpApplication = new Application($this->mrRootDb, '');
+                    $tmpApplication = new \Innomatic\Application\Application($this->mrRootDb, '');
                     if ( $tmpApplication->Install($tmpFilename) ) $result = true;
                 }
             } else $this->mLogCenter->logEvent(

@@ -152,7 +152,6 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
         // Reads the configuration
         $this->configurationFile = $configuration;
-        require_once('innomatic/core/InnomaticSettings.php');
         $this->config = new InnomaticSettings($configuration);
 
         // *********************************************************************

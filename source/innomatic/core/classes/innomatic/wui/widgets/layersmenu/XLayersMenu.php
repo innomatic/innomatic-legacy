@@ -1,9 +1,6 @@
 <?php
 namespace Innomatic\Wui\Widgets\Layersmenu;
 
-require_once('innomatic/wui/widgets/layersmenu/LayersTemplate.php');
-require_once('innomatic/wui/widgets/layersmenu/LayersMenu.php');
-
 /**
 * This is an extension of the base class of the PHP Layers Menu system.
 *

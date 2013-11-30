@@ -62,7 +62,6 @@ only application. */
     {
         $this->rootda = $rootda;
         $this->serial = $modserial;
-        require_once('innomatic/application/ApplicationComponentFactory.php');
         $this->eltypes = new ApplicationComponentFactory($rootda);
         $this->eltypes->FillTypes();
         if (!get_cfg_var('safe_mode')) {
@@ -180,7 +179,6 @@ only application. */
                     $this->unmetdeps = array();
                     $this->unmetsuggs = array();
 
-                    require_once('innomatic/application/ApplicationDependencies.php');
                     $appdeps = new ApplicationDependencies($this->rootda);
                     $deps = $appdeps->explodeDependencies($genconfig['ApplicationDependencies']);
                     $suggs = $appdeps->explodeDependencies($genconfig['ApplicationSuggestions']);
@@ -375,7 +373,6 @@ only application. */
                         //
                         $this->unmetdeps = array();
                         $this->unmetsuggs = array();
-                        require_once('innomatic/application/ApplicationDependencies.php');
 
                         $appdeps = new ApplicationDependencies($this->rootda);
                         $deps = $appdeps->explodeDependencies($genconfig['ApplicationDependencies']);
@@ -684,8 +681,6 @@ only application. */
 
                         // Checks if there are depengind applications
                         //
-                        require_once('innomatic/application/ApplicationDependencies.php');
-
                         $appdeps = new ApplicationDependencies($this->rootda);
                         $pendingdeps = $appdeps->CheckDependingApplications($appdata['appid']);
 
@@ -1028,8 +1023,6 @@ only application. */
                             $this->unmetdeps = array();
                             $this->unmetsuggs = array();
 
-                            require_once('innomatic/application/ApplicationDependencies.php');
-
                             $appdeps = new ApplicationDependencies($this->rootda);
                             $modenabled = $appdeps->IsEnabled($this->appname, $domaindata['domainid']);
 
@@ -1251,7 +1244,6 @@ only application. */
                             //
                             $this->unmetdeps = array();
                             $this->unmetsuggs = array();
-                            require_once('innomatic/application/ApplicationDependencies.php');
 
                             $appdeps = new ApplicationDependencies($this->rootda);
                             $pendingdeps = $appdeps->checkDomainDependingApplications(
@@ -1499,7 +1491,6 @@ only application. */
      */
     public function handleStructure($deffilepath, $installmode, $tmpdir, $domainid = 0, $setup = false)
     {
-        require_once('innomatic/application/ApplicationComponent.php');
         $result = false;
         $this->onlyextension = true;
 
@@ -1559,7 +1550,6 @@ only application. */
                 break;
 
             default:
-                require_once('innomatic/application/ApplicationStructureDefinition.php');
                 $deffile = new ApplicationStructureDefinition($this->rootda, $tmpdir);
                 $deffile->load_DefFile($deffilepath);
                 $structure = $deffile->getStructure();
@@ -1789,8 +1779,6 @@ only application. */
         if (file_exists($filea) and file_exists($fileb)) {
             // Load structure files
             //
-            require_once('innomatic/application/ApplicationStructureDefinition.php');
-
             $deffilea = new ApplicationStructureDefinition(
                 $this->rootda,
                 $tmpdir

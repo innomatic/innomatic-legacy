@@ -14,10 +14,6 @@
 */
 namespace Innomatic\Webapp;
 
-require_once('innomatic/webapp/WebAppRequest.php');
-require_once('innomatic/webapp/WebAppResponse.php');
-require_once('innomatic/webapp/WebApp.php');
-
 class WebAppProcessor
 {
     private $webapp;
@@ -73,8 +69,7 @@ class WebAppProcessor
             $statusReports[sprintf('%s', $status->statuscode)] = sprintf('%s', $status->statusreport);
         }
 
-        require_once('innomatic/php/PHPTemplate.php');
-        $tpl = new PHPTemplate(RootContainer::instance('rootcontainer')->getHome().'innomatic/core/conf/webapp/report.tpl.php');
+        $tpl = new \Innomatic\Php\PHPTemplate(RootContainer::instance('rootcontainer')->getHome().'innomatic/core/conf/webapp/report.tpl.php');
         $tpl->set('status_code', $res->getStatus());
         $tpl->set('message', htmlspecialchars($res->getMessage()));
         $tpl->set('report', str_replace('{0}', $res->getMessage(), isset($statusReports[$res->getStatus()]) ? $statusReports[$res->getStatus()] : ''));

@@ -1,8 +1,6 @@
 <?php
 namespace Innomatic\Webservices\Xmlrpc;
 
-require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
-
 // by Edd Dumbill (C) 1999-2002
 // <edd@usefulinc.com>
 // $Id: xmlrpcs.inc,v 1.69 2007/09/20 20:14:25 ggiunta Exp $

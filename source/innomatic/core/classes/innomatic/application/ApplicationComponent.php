@@ -76,7 +76,6 @@ abstract class ApplicationComponent
             $this->basedir = $basedir;
         }
 
-        require_once('innomatic/application/ApplicationComponentRegister.php');
         $this->applicationsComponentsRegister = new ApplicationComponentRegister($this->rootda);
         $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
     }
@@ -217,7 +216,6 @@ component not found.
      */
     public function update($updatemode, $params, $domainprescript = '', $domainpostscript = '')
     {
-        require_once('innomatic/application/Application.php');
         $result = false;
 
         if ($this->getIsDomain() or (isset($params['override']) and $params['override'] == self::OVERRIDE_DOMAIN)) {

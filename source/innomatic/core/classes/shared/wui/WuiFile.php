@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiFile extends WuiWidget
+class WuiFile extends \Innomatic\Wui\Widgets\WuiWidget
 {
     //public $mHint;
     //public $mDisp;

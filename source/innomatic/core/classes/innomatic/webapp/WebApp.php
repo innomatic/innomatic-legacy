@@ -47,7 +47,6 @@ class WebApp
         }
 
         // Sets var directory
-        require_once('innomatic/webapp/WebAppContainer.php');
         $container = WebAppContainer::instance('webappcontainer');
         if ($container->useDefaults() or !$container->isKey('webapps.var_dir') or $container->getKey('webapps.var_dir') == 'shared') {
             $this->varDir = RootContainer::instance('rootcontainer')->getHome().'innomatic/core/domains/'.$this->getName().'/var/';
@@ -70,7 +69,6 @@ class WebApp
      */
     protected function parseConfig($xmlconfig)
     {
-        require_once('innomatic/webapp/WebAppContainer.php');
         $container = WebAppContainer::instance('webappcontainer');
         if ($container->useDefaults() or !$container->isKey('webapps.cache_config') or $container->getKey('webapps.cache_config')) {
             $cache_dir = $this->getVarDir().'cache/';

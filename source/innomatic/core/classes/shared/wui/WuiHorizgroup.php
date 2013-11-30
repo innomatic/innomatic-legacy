@@ -14,12 +14,10 @@
 */
 namespace Shared\Wui;
 
-require_once('innomatic/wui/widgets/WuiContainerWidget.php');
-
 /**
  * @package WUI
  */
-class WuiHorizgroup extends WuiContainerWidget
+class WuiHorizgroup extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     /*
     public $mAlign;

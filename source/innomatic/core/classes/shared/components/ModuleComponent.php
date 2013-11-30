@@ -63,25 +63,19 @@ class ModuleComponent extends ApplicationComponent
             return false;
         }
 
-        require_once('innomatic/module/deploy/ModuleDeployer.php');
-
-        $deployer = new ModuleDeployer();
+        $deployer = new \Innomatic\Module\Deploy\ModuleDeployer();
         return $deployer->deploy($this->basedir . '/core/modules/' . $params['name']);
     }
 
     public function doUninstallAction($params)
     {
-        require_once('innomatic/module/deploy/ModuleDeployer.php');
-
-        $deployer = new ModuleDeployer();
+        $deployer = new \Innomatic\Module\Deploy\ModuleDeployer();
         return $deployer->undeploy($params['name']);
     }
 
     public function doUpdateAction($params)
     {
-        require_once('innomatic/module/deploy/ModuleDeployer.php');
-
-        $deployer = new ModuleDeployer();
+        $deployer = new \Innomatic\Module\Deploy\ModuleDeployer();
         return $deployer->redeploy($this->basedir . '/core/modules/' . $params['name']);
     }
 }

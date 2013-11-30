@@ -14,9 +14,6 @@
 */
 namespace Innomatic\Dataaccess;
 
-require_once('innomatic/dataaccess/DataAccessResult.php');
-require_once('innomatic/dataaccess/DataAccessException.php');
-
 /*!
  @class DataAccess
  @abstract Database access abstraction
@@ -69,8 +66,7 @@ abstract class DataAccess
     public function __construct(DataAccessSourceName $dasn)
     {
         $this->dasn = $dasn;
-        require_once('innomatic/core/InnomaticContainer.php');
-        $this->innomatic = InnomaticContainer::instance('innomaticcontainer');
+        $this->innomatic = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer');
         if ($this->innomatic->getConfig()->value('RootDatabaseDebug') == '1') {
             $this->debug = true;
         }

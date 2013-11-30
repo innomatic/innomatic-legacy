@@ -560,7 +560,7 @@ class Xajax extends \Innomatic\Util\Singleton
         if ($this->sPreFunction) {
             if (!$this->_isFunctionCallable($this->sPreFunction)) {
                 $bFoundFunction = false;
-                $objResponse = new xajaxResponse();
+                $objResponse = new XajaxResponse();
                 $objResponse->addAlert("Unknown Pre-Function ". $this->sPreFunction);
                 $sResponse = $objResponse->getXML();
             }
@@ -580,13 +580,13 @@ class Xajax extends \Innomatic\Util\Singleton
                     $bFunctionIsCatchAll = true;
                 } else {
                     $bFoundFunction = false;
-                    $objResponse = new xajaxResponse();
+                    $objResponse = new XajaxResponse();
                     $objResponse->addAlert("Unknown Function $sFunctionName.");
                     $sResponse = $objResponse->getXML();
                 }
             } elseif ($this->aFunctionRequestTypes[$sFunctionName] != $requestMode) {
                 $bFoundFunction = false;
-                $objResponse = new xajaxResponse();
+                $objResponse = new XajaxResponse();
                 $objResponse->addAlert("Incorrect Request Type.");
                 $sResponse = $objResponse->getXML();
             }
@@ -624,7 +624,7 @@ class Xajax extends \Innomatic\Util\Singleton
 
             if (!$bEndRequest) {
                 if (!$this->_isFunctionCallable($sFunctionName)) {
-                    $objResponse = new xajaxResponse();
+                    $objResponse = new XajaxResponse();
                     $objResponse->addAlert("The Registered Function $sFunctionName Could Not Be Found.");
                     $sResponse = $objResponse->getXML();
                 } else {
@@ -637,11 +637,11 @@ class Xajax extends \Innomatic\Util\Singleton
                     $sResponse = $sResponse->getXML();
                 }
                 if (!is_string($sResponse) || strpos($sResponse, "<xjx>") === false) {
-                    $objResponse = new xajaxResponse();
+                    $objResponse = new XajaxResponse();
                     $objResponse->addAlert("No XML Response Was Returned By Function $sFunctionName.");
                     $sResponse = $objResponse->getXML();
                 } elseif ($sPreResponse != "") {
-                    $sNewResponse = new xajaxResponse($this->sEncoding, $this->bOutputEntities);
+                    $sNewResponse = new XajaxResponse($this->sEncoding, $this->bOutputEntities);
                     $sNewResponse->loadXML($sPreResponse);
                     $sNewResponse->loadXML($sResponse);
                     $sResponse = $sNewResponse->getXML();
@@ -654,7 +654,7 @@ class Xajax extends \Innomatic\Util\Singleton
             $sContentHeader .= " charset=".$this->sEncoding;
         header($sContentHeader);
         if ($this->bErrorHandler && !empty( $GLOBALS['xajaxErrorHandlerText'] )) {
-            $sErrorResponse = new xajaxResponse();
+            $sErrorResponse = new XajaxResponse();
             $sErrorResponse->addAlert("** PHP Error Messages: **" . $GLOBALS['xajaxErrorHandlerText']);
             if ($this->sLogFile) {
                 $fH = @fopen($this->sLogFile, "a");

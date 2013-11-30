@@ -32,16 +32,10 @@ class DesktopAuthenticatorHelperFactory
     {
         switch ($mode) {
             case InnomaticContainer::MODE_BASE:
-                require_once(
-                    'innomatic/desktop/auth/DesktopBaseAuthenticatorHelper.php'
-                );
                 return new DesktopBaseAuthenticatorHelper();
                 break;
 
             case InnomaticContainer::MODE_DOMAIN:
-                require_once(
-                    'innomatic/desktop/auth/DesktopDomainAuthenticatorHelper.php'
-                );
                 return new DesktopDomainAuthenticatorHelper();
                 break;
 
@@ -49,9 +43,6 @@ class DesktopAuthenticatorHelperFactory
                 // break was intentionally omitted
 
             default:
-                require_once(
-                    'innomatic/desktop/auth/DesktopRootAuthenticatorHelper.php'
-                );
                 return new DesktopRootAuthenticatorHelper();
                 break;
         }

@@ -14,6 +14,8 @@
  */
 namespace Shared\Wui;
 
+use \Innomatic\Locale\LocaleCatalog;
+
 require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
@@ -80,7 +82,6 @@ class WuiPage extends WuiContainerWidget
                         require_once('innomatic/wui/dispatch/WuiEvent.php');
                         require_once('innomatic/wui/dispatch/WuiEventsCall.php');
                         require_once('innomatic/domain/user/Permissions.php');
-                        require_once('innomatic/locale/LocaleCatalog.php');
 
                         if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
                         if (!InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {

@@ -14,7 +14,6 @@
 */
 namespace Innomatic\Wui\Widgets;
 
-require_once('innomatic/wui/widgets/WuiWidget.php');
 require_once('innomatic/wui/dispatch/WuiDispatcher.php');
 
 /**

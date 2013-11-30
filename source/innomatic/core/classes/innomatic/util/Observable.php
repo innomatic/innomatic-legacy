@@ -14,8 +14,6 @@
 */
 namespace Innomatic\Util;
 
-require_once('innomatic/util/Observer.php');
-
 /**
  * Questa classe rappresenta un oggetto osservabile.
  *

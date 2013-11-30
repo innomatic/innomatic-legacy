@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
  */
-class WuiDivframe extends WuiContainerWidget
+class WuiDivframe extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     /*
      * align

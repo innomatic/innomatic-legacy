@@ -14,6 +14,8 @@
 */
 namespace Innomatic\Wui\Dispatch;
 
+use \Innomatic\Wui\Wui;
+
 /**
  * WUI events dispatcher.
  *
@@ -86,7 +88,6 @@ class WuiDispatcher
     public function dispatch()
     {
         if (!$this->mDispatched) {
-            require_once('innomatic/wui/Wui.php');
             if (count($this->mEvents) and isset(Wui::instance('wui')->parameters['wui'][$this->mName]['evn']) and isset($this->mEvents[Wui::instance('wui')->parameters['wui'][$this->mName]['evn']])) {
                 if (function_exists($this->mEvents[Wui::instance('wui')->parameters['wui'][$this->mName]['evn']])) {
                     $func = $this->mEvents[Wui::instance('wui')->parameters['wui'][$this->mName]['evn']];
@@ -110,7 +111,6 @@ class WuiDispatcher
      */
     public function getEventName()
     {
-        require_once('innomatic/wui/Wui.php');
         return isset(Wui::instance('wui')->parameters['wui'][$this->mName]['evn']) ? Wui::instance('wui')->parameters['wui'][$this->mName]['evn'] : '';
     }
 
@@ -122,13 +122,11 @@ class WuiDispatcher
      */
     public function getEventData()
     {
-        require_once('innomatic/wui/Wui.php');
         return isset(Wui::instance('wui')->parameters['wui'][$this->mName]['evd']) ? Wui::instance('wui')->parameters['wui'][$this->mName]['evd'] : '';
     }
 
     public static function dispatchersList()
     {
-        require_once('innomatic/wui/Wui.php');
         $result = array();
         if (isset(Wui::instance('wui')->parameters['wui']) and is_array(Wui::instance('wui')->parameters['wui'])) {
             reset(Wui::instance('wui')->parameters['wui']);

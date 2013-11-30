@@ -14,8 +14,6 @@
 */
 namespace Innomatic\Dataaccess;
 
-require_once('innomatic/dataaccess/DataAccessXmlTable.php');
-
 /*!
  @class DataAccessXmlTableUpdater
 

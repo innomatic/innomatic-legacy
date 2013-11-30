@@ -14,14 +14,12 @@
 */
 namespace Innomatic\Dataaccess;
 
-require_once('innomatic/xml/XMLParser.php');
-
 /*!
 @class DataAccessXmlTable
 
 @abstract Xml DataAccess class provides parsing of XSQL xml files.
 */
-class DataAccessXmlTable extends XMLParser
+class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
 {
     /*! @var mLog log handler */
     public $mLog;

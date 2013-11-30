@@ -12,8 +12,7 @@ class WelcomeDashboardWidget extends DashboardWidget
 
         // Check if the motd is empty. If it is empty, get the generic welcome message
         if (!strlen($message)) {
-            require_once('innomatic/locale/LocaleCatalog.php');
-            $catalog = new LocaleCatalog(
+            $catalog = new \Innomatic\Locale\LocaleCatalog(
                     'innomatic::dashboard_welcome',
                     InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
             );
