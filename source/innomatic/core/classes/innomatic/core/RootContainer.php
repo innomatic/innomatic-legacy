@@ -112,8 +112,7 @@ class RootContainer extends \Innomatic\Util\Singleton
      */
     public static function autoload($class_name)
 	{
-	    if( strpos($class_name, '\\') !== false )
-	    {
+	    if (strpos($class_name, '\\') !== false) {
 	        $orig = $class_name;
 	        $class_name = array_pop(explode('\\',$class_name));
 	    }
@@ -127,11 +126,9 @@ class RootContainer extends \Innomatic\Util\Singleton
 	    $post = array_unique(array_diff(get_declared_classes(), $pre));
 	    
 	    // loop through the new class definitions and create weak aliases if they are given with qualified names
-	    foreach( $post as $cd )
-	    {
+	    foreach ($post as $cd) {
 	        $d = explode('\\',$cd);
-	        if( count($d) > 1 )
-	        {
+	        if (count($d) > 1) {
 	            // Aliasing full qualified classnames to their simple ones. Note: weak alias!
 	            self::createClassAlias($cd,array_pop($d));
 	        }
@@ -142,24 +139,19 @@ class RootContainer extends \Innomatic\Util\Singleton
 	    if (!isset($orig) && !$def)
 	    // plain class requested AND file was already included, so search up the declared classes and alias
 	    {
-
-	        foreach( array_reverse($pre) as $c )
-	        {
-	            if(!(substr($c,strlen($c)-strlen($class_name)) == $class_name))
+	        foreach( array_reverse($pre) as $c ) {
+	            if (!(strtolower(substr($c,strlen($c)-strlen($class_name))) == strtolower($class_name))) {
 	                continue;
+	            }
 	            // Aliasing previously included class
 	            self::createClassAlias($c,$class_name,true);
 	            break;
 	        }
-	    }
-	    elseif (isset($orig) && !$def)
-	    {
+	    } elseif (isset($orig) && !$def) {
 	    	self::createClassAlias($class_name,$orig,true);
-	    }
-	    else
-	    {
+	    } else {
 	        $class_name = isset($orig)?$orig:$class_name;
-	        if( strtolower($def) != strtolower($class_name) && strtolower(substr($def,strlen($def)-strlen($class_name))) == strtolower($class_name) )
+	        if (strtolower($def) != strtolower($class_name) && strtolower(substr($def,strlen($def)-strlen($class_name))) == strtolower($class_name))
 	        // no qualified classname requested but class was defined with namespace
 	        {
 	            // Aliasing class
@@ -171,14 +163,12 @@ class RootContainer extends \Innomatic\Util\Singleton
 	public static function getClassFile($className)
 	{
 		// Backwards compatibility system
-		if (!isset($GLOBALS['system_classes']))
-		{
+		if (!isset($GLOBALS['system_classes'])) {
 			$xml = file_get_contents('innomatic/core/applications/innomatic/application.xml');
 			$file = new \SimpleXMLElement($xml);
 			$classes = array();
 			
-			foreach($file->components->class as $class)
-			{
+			foreach($file->components->class as $class) {
 				$path = "{$class['name']}";
 				$elements = explode('/', $path);
 				$class = str_replace('.php', '', array_pop($elements));
@@ -193,8 +183,7 @@ class RootContainer extends \Innomatic\Util\Singleton
 				$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
 			}
 			
-			foreach($file->components->wuiwidget as $class)
-			{
+			foreach($file->components->wuiwidget as $class) {
 				$path = "shared/wui/{$class['file']}";
 				$elements = explode('/', $path);
 				$class = str_replace('.php', '', array_pop($elements));
