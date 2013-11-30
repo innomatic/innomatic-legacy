@@ -10,7 +10,7 @@ namespace Innomatic\Core;
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2013 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -70,7 +70,7 @@ class RootContainer extends \Innomatic\Util\Singleton
             . 'innomatic/core/classes/'
         );
         
-        spl_autoload_register('\Innomatic\Core\RootContainer::autoload');
+        spl_autoload_register('\Innomatic\Core\RootContainer::autoload', true, true);
     }
 
     /**
@@ -114,71 +114,82 @@ class RootContainer extends \Innomatic\Util\Singleton
      */
     public static function autoload($class_name)
 	{
-		$file = self::getClassFile($class_name);
+	    if( strpos($class_name, '\\') !== false )
+	    {
+	        $orig = $class_name;
+	        $class_name = array_pop(explode('\\',$class_name));
+	    }
+	    // use some function to find the file that declares the class requested
+	    $file = self::getClassFile($class_name);
+	    
+	    // remember the defined classes, include the $file and detect newly declared classes
+	    $pre = get_declared_classes();
+	    require_once($file);
+	    $post = array_unique(array_diff(get_declared_classes(), $pre));
+	    
+	    // loop through the new class definitions and create weak aliases if they are given with qualified names
+	    foreach( $post as $cd )
+	    {
+	        $d = explode('\\',$cd);
+	        if( count($d) > 1 )
+	        {
+	            // Aliasing full qualified classnames to their simple ones. Note: weak alias!
+	            self::createClassAlias($cd,array_pop($d));
+	        }
+	    }
+	    
+	    // get the class definition. note: we assume that there's only one class/interface in each file!
+	    $def = array_pop($post);
+	    if (!isset($orig) && !$def)
+	    // plain class requested AND file was already included, so search up the declared classes and alias
+	    {
 
-		if( strpos($class_name, '\\') !== false )
-		{
-			$orig = $class_name;
-			$class_name = array_pop(explode('\\',$class_name));
-		}
-
-		// remember the defined classes, include the $file and detect newly declared classes
-		$pre = get_declared_classes();
-		
-		foreach( array_reverse($pre) as $c )
-		{
-			if(!(substr($c,strlen($c)-strlen($class_name)) == $class_name))
-				continue;
-			// Aliasing previously included class
-			if (isset($orig)) {
-				self::createClassAlias($c,$orig,true);
-				return;
-			}
-			break;
-		}
-		
-		require_once($file);
-		$post = array_unique(array_diff(get_declared_classes(), $pre));
-
-		// loop through the new class definitions and create weak aliases if they are given with qualified names
-		foreach( $post as $cd )
-		{
-			$d = explode('\\',$cd);
-			if( count($d) > 1 )
-			{
-				// Aliasing full qualified classnames to their simple ones. Note: weak alias!
-				self::createClassAlias($cd,array_pop($d));
-			}
-		}
-		
-		// get the class definition. note: we assume that there's only one class/interface in each file!
-		$def = array_pop($post);
-		if( true or !isset($orig) && !$def )
-			// plain class requested AND file was already included, so search up the declared classes and alias
-		{
-			foreach( array_reverse($pre) as $c )
-			{
-				if(!(substr($c,strlen($c)-strlen($class_name)) == $class_name))
-					continue;
-				// Aliasing previously included class
-				self::createClassAlias($c,$class_name,true);
-				break;
-			}
-		}
-		else
-		{
-			$class_name = isset($orig)?$orig:$class_name;
-			if( strtolower($def) != strtolower($class_name) && strtolower(substr($def,strlen($def)-strlen($class_name))) == strtolower($class_name) )
-				// no qualified classname requested but class was defined with namespace
-			{
-				// Aliasing class
-				self::createClassAlias($def,$class_name,true);
-			}
-		}
+	        foreach( array_reverse($pre) as $c )
+	        {
+	            if(!(substr($c,strlen($c)-strlen($class_name)) == $class_name))
+	                continue;
+	            // Aliasing previously included class
+	            self::createClassAlias($c,$class_name,true);
+	            break;
+	        }
+	    }
+	    elseif (isset($orig) && !$def)
+	    {
+	    	self::createClassAlias($class_name,$orig,true);
+	    }
+	    else
+	    {
+	        $class_name = isset($orig)?$orig:$class_name;
+	        if( strtolower($def) != strtolower($class_name) && strtolower(substr($def,strlen($def)-strlen($class_name))) == strtolower($class_name) )
+	        // no qualified classname requested but class was defined with namespace
+	        {
+	            // Aliasing class
+	            self::createClassAlias($def,$class_name,true);
+	        }
+	    }
 	}
 
 	public static function getClassFile($className)
 	{
+		// Backwards compatibility system
+		if (!isset($GLOBALS['system_classes']))
+		{
+			$xml = file_get_contents('innomatic/core/applications/innomatic/application.xml');
+			$file = new \SimpleXMLElement($xml);
+			$classes = array();
+			
+			foreach($file->components->class as $class)
+			{
+				$path = "{$class['name']}";
+				$elements = explode('/', $path);
+				$class = str_replace('.php', '', array_pop($elements));
+				array_walk($elements, function(&$match, $key) {$match = ucfirst($match);});
+				$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
+			
+				$GLOBALS['system_classes'][$class] = array('path' => $path, 'fqcn' => $fqcn);
+			}
+		}
+		
 		$className = ltrim($className, '\\');
 		$fileName  = '';
 		$namespace = '';
@@ -187,7 +198,15 @@ class RootContainer extends \Innomatic\Util\Singleton
 			$className = substr($className, $lastNsPos + 1);
 			$fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
 		}
-		$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+		
+		if (isset($GLOBALS['system_classes'][$className]))
+		{
+			$fileName = $GLOBALS['system_classes'][$className]['path'];
+		}
+		else 
+		{
+			$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+		}
 		
 		return $fileName;
 	}
@@ -195,8 +214,10 @@ class RootContainer extends \Innomatic\Util\Singleton
 	public static function createClassAlias($original,$alias,$strong=false)
 	{
 		// if strong create a real alias known to PHP
-		if( $strong )
+		if ($strong)
+		{
 			class_alias($original,$alias);
+		}
 	
 		// In any case store the alias in a global variable
 		$alias = strtolower($alias);
