@@ -100,7 +100,7 @@ $this->wuiMainframe = new WuiVertFrame('mainframe');
                 $class = $widget['class'];
 
                 // Check if the class exists
-                if (class_exists($class, false)) {
+                if (class_exists($class, true)) {
                     // Fetch the widget xml definition
                     $widget_obj = new $class;
                     $width = $widget_obj->getWidth() * $def_width;
