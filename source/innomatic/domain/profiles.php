@@ -369,7 +369,7 @@ if (
     )
 ) {
     $actionDispatcher->addEvent('setmotd', 'pass_setmotd');
-    public function pass_setmotd($eventData)
+    function pass_setmotd($eventData)
     {
         global $innomaticLocale, $wuiMainStatus;
 
@@ -1823,7 +1823,7 @@ if (
     )
 ) {
     $viewDispatcher->addEvent('motd', 'main_motd');
-    public function main_motd($eventData)
+    function main_motd($eventData)
     {
         global $wuiTitleBar, $wuiMainFrame, $innomaticLocale;
 
