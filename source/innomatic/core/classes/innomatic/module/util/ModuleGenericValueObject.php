@@ -1,5 +1,5 @@
 <?php
-namespace Innomatic\Module\Services;
+namespace Innomatic\Module\Util;
 
 require_once('innomatic/module/ModuleValueObject.php');
 

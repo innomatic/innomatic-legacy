@@ -14,8 +14,6 @@
 */
 namespace Innomatic\Wui\Theme;
 
-use \Innomatic\Core\InnomaticContainer;
-
 /**
  * Wui colors set handler.
  *
@@ -39,7 +37,7 @@ class WuiColorsSet
      */
     public function __construct($rrootDb, $setName)
     {
-        if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
+        if (!(\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
             if (is_object($rrootDb)) {
                 $this->rootdataaccess = $rrootDb;
             }
@@ -80,7 +78,7 @@ class WuiColorsSet
                 $check_query = $this->rootdataaccess->execute('SELECT name FROM wui_colorssets WHERE name='.$this->rootdataaccess->formatText($this->setname));
 
                 if ($check_query->getNumberRows()) {
-                    if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
+                    if (\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
                         $cached_item = new CachedItem($this->rootdataaccess, 'innomatic', 'wuicolorsset-'.$this->setname);
                         $cached_item->Destroy();
                     }
@@ -104,7 +102,7 @@ class WuiColorsSet
         if ($this->rootdataaccess) {
             if (strlen($this->setname)) {
 
-                if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
+                if (\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
                     $cached_item = new CachedItem($this->rootdataaccess, 'innomatic', 'wuicolorsset-'.$this->setname);
                     $cached_item->Destroy();
                 }
@@ -117,7 +115,7 @@ class WuiColorsSet
     public function getColorsSet()
     {
         $result = array();
-        $cfg_file = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->setname.'_wuicolorsset.ini');
+        $cfg_file = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->setname.'_wuicolorsset.ini');
         if ($cfg_file !== false) {
             $result['pages']['bgcolor'] = $cfg_file['COLORSET.PAGES.BGCOLOR'];
             $result['pages']['border'] = $cfg_file['COLORSET.PAGES.BORDER'];
@@ -140,8 +138,8 @@ class WuiColorsSet
             $result['tables']['gridcolor'] = $cfg_file['COLORSET.TABLES.GRIDCOLOR'];
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wuithemes.wuicolorsset.getcolorsset', 'Unable to open colors set file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->setname.'_wuicolorsset.ini', \Innomatic\Logging\Logger::ERROR);
+            $log = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log->logEvent('innomatic.wuithemes.wuicolorsset.getcolorsset', 'Unable to open colors set file '.\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->setname.'_wuicolorsset.ini', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }

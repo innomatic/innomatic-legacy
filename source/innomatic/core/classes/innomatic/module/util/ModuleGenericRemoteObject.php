@@ -1,5 +1,5 @@
 <?php
-namespace Innomatic\Module\Services;
+namespace Innomatic\Module\Util;
 
 /**
  * A generic remote object, with no custom client methods.

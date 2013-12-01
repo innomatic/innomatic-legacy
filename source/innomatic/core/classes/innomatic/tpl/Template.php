@@ -12,7 +12,8 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-//namespace Innomatic\Template;
+
+namespace Innomatic\Tpl;
 
 /**
  * Generic template interface.
