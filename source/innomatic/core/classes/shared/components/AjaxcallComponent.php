@@ -150,7 +150,7 @@ class AjaxcallComponent extends \Innomatic\Application\ApplicationComponent
     }
     private function simplexml_addChild($parent, $name, $value = '')
     {
-        $new_child = new SimpleXMLElement("<$name>$value</$name>");
+        $new_child = new \SimpleXMLElement("<$name>$value</$name>");
         $node1 = dom_import_simplexml($parent);
         $dom_sxe = dom_import_simplexml($new_child);
         $node2 = $node1->ownerDocument->importNode($dom_sxe, true);
