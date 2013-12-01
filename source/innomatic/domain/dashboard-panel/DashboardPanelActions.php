@@ -66,18 +66,13 @@ class DashboardPanelActions extends PanelActions
             }
 
             if ($allowed) {
-                // Check if the class file exists
-                if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . $widget_query->getFields('file'))) {
-                    require_once(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . $widget_query->getFields('file'));
+            	$class = $widget_query->getFields('class');
 
-                    $class = $widget_query->getFields('class');
-
-                    // Check if the class exists
-                    if (class_exists($class, true)) {
-                        // Fetch the widget xml definition
-                        $widget = new $class;
-                        $xml = $widget->getWidgetXml();
-                    }
+                // Check if the class exists
+                if (class_exists($class, true)) {
+                    // Fetch the widget xml definition
+                    $widget = new $class;
+                    $xml = $widget->getWidgetXml();
                 }
             }
         }

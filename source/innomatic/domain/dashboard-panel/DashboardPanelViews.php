@@ -93,20 +93,14 @@ $this->wuiMainframe = new WuiVertFrame('mainframe');
             $width = 0;
             $height = 0;
 
-            // Check if the class file exists
-            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . $widget['file'])) {
-                require_once(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . $widget['file']);
+            $class = $widget['class'];
 
-                $class = $widget['class'];
-
-                // Check if the class exists
-                if (class_exists($class, true)) {
-                    // Fetch the widget xml definition
-                    $widget_obj = new $class;
-                    $width = $widget_obj->getWidth() * $def_width;
-                    $height = $widget_obj->getHeight();
-                }
-
+            // Check if the class exists
+            if (class_exists($class, true)) {
+                // Fetch the widget xml definition
+                $widget_obj = new $class;
+                $width = $widget_obj->getWidth() * $def_width;
+                $height = $widget_obj->getHeight();
             }
 
             // Check width and height parameters
