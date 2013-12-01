@@ -13,7 +13,8 @@
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Wui\Theme;
-namespace Innomatic\Wui;
+
+use Innomatic\Wui;
 
 /**
  * WUI themes handler.
