@@ -19,7 +19,7 @@ namespace Innomatic\Dataaccess\Drivers\Mysql;
 
 @abstract DataAccess for MySql.
 */
-class MysqlDataAccess extends DataAccess
+class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 {
     public $driver = 'mysql';
     public $fmtquote = "''";

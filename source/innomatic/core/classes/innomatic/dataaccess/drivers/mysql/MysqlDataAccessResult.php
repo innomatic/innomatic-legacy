@@ -14,7 +14,7 @@
 */
 namespace Innomatic\Dataaccess\Drivers\Mysql;
 
-class MysqlDataAccessResult extends DataAccessResult
+class MysqlDataAccessResult extends \Innomatic\Dataaccess\DataAccessResult
 {
     public $suppseek = true;
     private $_start = false;

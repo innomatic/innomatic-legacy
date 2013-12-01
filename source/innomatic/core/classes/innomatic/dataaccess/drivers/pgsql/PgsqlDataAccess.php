@@ -19,7 +19,7 @@ namespace Innomatic\Dataaccess\Drivers\Pgsql;
 
 @abstract DataAccess for PostgreSQL.
 */
-class PgsqlDataAccess extends DataAccess
+class PgsqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 {
     public $driver = 'pgsql';
     public $fmtquote = "''";

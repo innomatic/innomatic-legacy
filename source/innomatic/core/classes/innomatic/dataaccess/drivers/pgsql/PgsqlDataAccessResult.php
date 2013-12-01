@@ -14,7 +14,7 @@
 */
 namespace Innomatic\Dataaccess\Drivers\Pgsql;
 
-class PgsqlDataAccessResult extends DataAccessResult
+class PgsqlDataAccessResult extends \Innomatic\Dataaccess\DataAccessResult
 {
     public $suppseek = true;
     public $_start = false;
