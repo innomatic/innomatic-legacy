@@ -14,8 +14,8 @@
 */
 namespace Innomatic\Desktop\Webapp;
 
-require_once('innomatic/webapp/WebAppHandler.php');
-require_once('innomatic/webapp/WebAppProcessor.php');
+use \Innomatic\Webapp;
+use \Innomatic\Core\InnomaticContainer;
 
 /**
  * WebApp Handler for the base desktop.
@@ -60,7 +60,6 @@ class DesktopBaseWebAppHandler extends WebAppHandler
         }
 
         // Bootstraps Innomatic
-        require_once('innomatic/core/InnomaticContainer.php');
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
 
         // Sets Innomatic base URL
@@ -87,8 +86,7 @@ class DesktopBaseWebAppHandler extends WebAppHandler
             }
         }
 
-        require_once('innomatic/desktop/controller/DesktopFrontController.php');
-        DesktopFrontController::instance('desktopfrontcontroller')->execute(InnomaticContainer::MODE_BASE, $resource);
+        \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->execute(InnomaticContainer::MODE_BASE, $resource);
     }
 
     public function doPost(WebAppRequest $req, WebAppResponse $res)

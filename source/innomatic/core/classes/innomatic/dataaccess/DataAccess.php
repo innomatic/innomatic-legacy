@@ -353,7 +353,7 @@ abstract class DataAccess
         if ($this->opened) {
             $pieces = $this->splitSQL($query);
             for ($i = 0; $i < count($pieces); $i ++) {
-                if ($this->innomatic->getState() == InnomaticContainer::STATE_DEBUG) {
+                if ($this->innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
                     $dump = \Innomatic\Debug\InnomaticDump::instance('innomaticdump');
                     $dump->dataAccess['queries'][] = $pieces[$i];
 

@@ -13,12 +13,7 @@
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Wui\Theme;
-
-require_once('innomatic/datatransfer/cache/CachedItem.php');
-require_once('innomatic/dataaccess/DataAccess.php');
-require_once('innomatic/wui/theme/WuiStyle.php');
-require_once('innomatic/wui/theme/WuiIconsSet.php');
-require_once('innomatic/wui/theme/WuiColorsSet.php');
+namespace Innomatic\Wui;
 
 /**
  * WUI themes handler.
@@ -104,9 +99,9 @@ class WuiTheme
             $wui_style = new WuiStyle($this->mrRootDb, $this->mStyleName);
 
             if ($innomatic->getState() != InnomaticContainer::STATE_SETUP) {
-                $cached_iconsset = new CachedItem($this->mrRootDb, 'innomatic', 'wuiiconsset-'.$this->mIconsSetName);
-                $cached_colorsset = new CachedItem($this->mrRootDb, 'innomatic', 'wuicolorsset-'.$this->mColorsSetName);
-                $cached_style = new CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
+                $cached_iconsset = new \Innomatic\Datatransfer\Cache\CachedItem($this->mrRootDb, 'innomatic', 'wuiiconsset-'.$this->mIconsSetName);
+                $cached_colorsset = new \Innomatic\Datatransfer\Cache\CachedItem($this->mrRootDb, 'innomatic', 'wuicolorsset-'.$this->mColorsSetName);
+                $cached_style = new \Innomatic\Datatransfer\Cache\CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
 
                 $this->mIconsSet = unserialize($cached_iconsset->Retrieve());
                 $this->mColorsSet = unserialize($cached_colorsset->Retrieve());
@@ -179,8 +174,7 @@ class WuiTheme
     {
         require_once('innomatic/wui/Wui.php');
         if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
-            require_once('innomatic/application/ApplicationSettings.php');
-            $app_cfg = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+            $app_cfg = new \Innomatic\Application\ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
 
             if (strlen($app_cfg->getKey('wui-root-theme'))) {
                 Wui::instance('wui')->setTheme($app_cfg->getKey('wui-root-theme'));
@@ -205,8 +199,7 @@ class WuiTheme
         require_once('innomatic/wui/Wui.php');
 
         if (!strlen($user_theme)) {
-            require_once('innomatic/application/ApplicationSettings.php');
-            $app_cfg = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+            $app_cfg = new \Innomatic\Application\ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
             if (strlen($app_cfg->getKey('wui-root-theme'))) {
                 $user_theme = $app_cfg->getKey('wui-root-theme');
                 if (!strlen($user_theme)) {

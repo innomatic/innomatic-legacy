@@ -54,7 +54,7 @@ class DataAccessXmlTableUpdater
             $this->mOldTableHandler->load_DefFile($this->mOldTable);
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic.db.xmldbupdater.xmlupdater', 'Old table file ('.$oldTable.') does not exists', \Innomatic\Logging\Logger::WARNING);
         }
 
@@ -64,7 +64,7 @@ class DataAccessXmlTableUpdater
             $this->mNewTableHandler->load_DefFile($this->mNewTable);
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic.db.xmldbupdater.xmlupdater', 'New table file ('.$newTable.') does not exists', \Innomatic\Logging\Logger::WARNING);
         }
     }
@@ -100,7 +100,7 @@ class DataAccessXmlTableUpdater
             $this->mParsed = $result = true;
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent('innomatic.db.xmldbupdater.checkdiffs', 'Old and new table files not specified', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
