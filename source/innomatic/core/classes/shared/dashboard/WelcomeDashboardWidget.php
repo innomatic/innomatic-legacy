@@ -1,9 +1,9 @@
 <?php
 namespace Shared\Dashboard;
 
-require_once 'innomatic/desktop/dashboard/DashboardWidget.php';
+use \Innomatic\Core\InnomaticContainer;
 
-class WelcomeDashboardWidget extends DashboardWidget
+class WelcomeDashboardWidget extends \Innomatic\Desktop\Dashboard\DashboardWidget
 {
     public function getWidgetXml()
     {
