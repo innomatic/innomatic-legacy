@@ -14,11 +14,12 @@
 */
 namespace Innomatic\Scripts;
 
+use \Innomatic\Core;
+
 class ScriptContainer extends \Innomatic\Util\Singleton
 {
     public function ___construct()
     {
-        require_once('innomatic/core/InnomaticContainer.php');
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
         $innomatic->setInterface(InnomaticContainer::INTERFACE_CONSOLE);
         $home = RootContainer::instance('rootcontainer')->getHome()

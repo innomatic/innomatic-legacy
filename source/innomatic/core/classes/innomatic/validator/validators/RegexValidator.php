@@ -14,14 +14,13 @@
  */
 namespace Innomatic\Validator\Validators;
 
-require_once ('innomatic/validator/Validator.php');
 /**
  * This validator validates strings with a regex.
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2012 Innoteam Srl
  * @since 1.0
  */
-class RegexValidator extends Validator
+class RegexValidator extends \Innomatic\Validator\Validator
 {
     public function validate()
     {

@@ -124,8 +124,6 @@ class ApplicationComponentFactory
         $filepath = $componentData['filepath'];
 
         if ($this->rootda and file_exists($filepath)) {
-            require_once($filepath);
-
             $className = substr(basename($filepath), 0, -4);
             if (class_exists($className, true)) {
 

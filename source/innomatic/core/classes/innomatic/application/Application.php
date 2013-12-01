@@ -715,9 +715,8 @@ only application. */
 
                             // Remove cached items
                             //
-                            require_once('innomatic/datatransfer/cache/CacheGarbageCollector.php');
-                            $cacheGC = new CacheGarbageCollector();
-                            $cacheGC->RemoveApplicationItems($appdata['appid']);
+                            $cacheGC = new \Innomatic\Datatransfer\Cache\CacheGarbageCollector();
+                            $cacheGC->removeApplicationItems($appdata['appid']);
 
                             // Remove dependencies
                             //
@@ -990,8 +989,6 @@ only application. */
                                 $args['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().
                                 'core/domains/'.$domaindata['domainid'].'/log/dataaccess.log';
 
-                                require_once('innomatic/dataaccess/DataAccessFactory.php');
-                                require_once('innomatic/dataaccess/DataAccessSourceName.php');
                                 $dasnString = $args['dbtype'].'://'.
                                 $args['dbuser'].':'.
                                 $args['dbpass'].'@'.
@@ -1000,8 +997,8 @@ only application. */
                                 $args['dbname'].'?'.
                                 'logfile='.$args['dblog'];
 
-                                $this->domainda = DataAccessFactory::getDataAccess(
-                                    new DataAccessSourceName($dasnString)
+                                $this->domainda = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(
+                                    new \Innomatic\Dataaccess\DataAccessSourceName($dasnString)
                                 );
                                 $this->domainda->connect();
                             } else {
@@ -1209,8 +1206,6 @@ only application. */
                                 $args['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().
                                 'core/domains/'.$domaindata['domainid'].'/log/dataaccess.log';
 
-                                require_once('innomatic/dataaccess/DataAccessFactory.php');
-                                require_once('innomatic/dataaccess/DataAccessSourceName.php');
                                 $dasnString = $args['dbtype'].'://'.
                                 $args['dbuser'].':'.
                                 $args['dbpass'].'@'.
@@ -1219,8 +1214,8 @@ only application. */
                                 $args['dbname'].'?'.
                         'logfile='.$args['dblog'];
 
-                                $this->domainda = DataAccessFactory::getDataAccess(
-                                    new DataAccessSourceName($dasnString)
+                                $this->domainda = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(
+                                    new \Innomatic\Dataaccess\DataAccessSourceName($dasnString)
                                 );
                                 $this->domainda->Connect();
                             } else {
@@ -1238,7 +1233,7 @@ only application. */
                                 $domaindata['domainid'],
                                 false
                             );
-                            $modenabled = $appdeps->IsEnabled($this->appname, $domaindata['domainid']);
+                            $modenabled = $appdeps->isEnabled($this->appname, $domaindata['domainid']);
 
                             // If dependencies are ok, go on
                             //
@@ -1270,7 +1265,7 @@ only application. */
                                     ) == '1'
                                 ) {
                                     $innomaticSecurity = new \Innomatic\Security\SecurityManager();
-                                    $innomaticSecurity->SendAlert(
+                                    $innomaticSecurity->sendAlert(
                                         'Application '.$appdata['appid'].' has been disabled from domain '.
                                         $domaindata['domainid']
                                     );

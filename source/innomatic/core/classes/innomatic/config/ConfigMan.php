@@ -14,6 +14,8 @@
 */
 namespace Innomatic\Config;
 
+use Innomatic\Core\Container;
+
 /*!
  @class ConfigMan
 
@@ -29,9 +31,8 @@ class ConfigMan extends ConfigBase
     const POSITION_TOP = 1;
     const POSITION_BOTTOM = 2;
 
-
     /*! @var mCommentPrefix string - Optional comment prefix, useful for non standard comments. */
-    private $_commentPrefix;
+    protected $commentPrefix;
 
     // string $appid:      application id name, used to mark the segments
     // string $configfile: path of the configuration file
@@ -51,16 +52,16 @@ class ConfigMan extends ConfigBase
         else {
             
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logdie('innomatic.configman.configman.configman', 'No application id name', LOGGER_FAULT);
+            $log->logDie('innomatic.configman.configman.configman', 'No application id name', LOGGER_FAULT);
         }
-        $this->_commentPrefix = '';
+        $this->commentPrefix = '';
     }
 
     // Public methods
 
     // Adds a new segment
     //
-    public function AddSegment($segid, $segment, $position = ConfigMan::POSITION_BOTTOM)
+    public function addSegment($segid, $segment, $position = ConfigMan::POSITION_BOTTOM)
     {
         $result = false;
 
@@ -95,14 +96,14 @@ class ConfigMan extends ConfigBase
                 // Writes segment block
                 //
                 @fputs(
-                    $fh, $this->_commentPrefix.self::TAGDELIMITER
-                    .$this->mApplication.self::BEGINTAG.$segid
+                    $fh, $this->commentPrefix.self::TAGDELIMITER
+                    .$this->application.self::BEGINTAG.$segid
                     .self::TAGDELIMITER."\n"
                 );
                 @fputs($fh, $segment); // !! it should check for EOL
                 @fputs(
                     $fh,
-                    $this->_commentPrefix.self::TAGDELIMITER.$this->mApplication
+                    $this->commentPrefix.self::TAGDELIMITER.$this->application
                     .self::ENDTAG.$segid.self::TAGDELIMITER."\n"
                 );
 
@@ -139,7 +140,7 @@ class ConfigMan extends ConfigBase
 
     // Removes a segment
     //
-    public function RemoveSegment($segid)
+    public function removeSegment($segid)
     {
         $result = false;
 
@@ -160,8 +161,8 @@ class ConfigMan extends ConfigBase
                     if (
                         strcmp(
                             $currline,
-                            $this->_commentPrefix.ConfigMan::TAGDELIMITER
-                            .$this->mApplication.ConfigMan::BEGINTAG
+                            $this->commentPrefix.ConfigMan::TAGDELIMITER
+                            .$this->application.ConfigMan::BEGINTAG
                             .$segid.ConfigMan::TAGDELIMITER."\n"
                         ) == 0
                     )
@@ -171,8 +172,8 @@ class ConfigMan extends ConfigBase
                     if (
                         strcmp(
                             $currline,
-                            $this->_commentPrefix.ConfigMan::TAGDELIMITER
-                            .$this->mApplication.ConfigMan::ENDTAG
+                            $this->commentPrefix.ConfigMan::TAGDELIMITER
+                            .$this->application.ConfigMan::ENDTAG
                             .$segid.ConfigMan::TAGDELIMITER."\n"
                         ) == 0
                     )
@@ -206,7 +207,7 @@ class ConfigMan extends ConfigBase
 
     // Changes a segment
     //
-    public function ChangeSegment($segid, $segment, $position = ConfigMan::POSITION_BOTTOM)
+    public function changeSegment($segid, $segment, $position = ConfigMan::POSITION_BOTTOM)
     {
         $result = false;
 

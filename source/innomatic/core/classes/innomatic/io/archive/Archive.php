@@ -59,8 +59,7 @@ class Archive
                     case self::FORMAT_TAR :
                     case self::FORMAT_TGZ :
                         $result = true;
-                        require_once('innomatic/io/archive/archivers/Tar.php');
-                        $tar = new tar();
+                        $tar = new \Innomatic\Io\Archive\Archivers\Tar();
                         if ($tar->openTar($this->mFile)) {
                             if ($tar->numDirectories > 0) {
                                 foreach ($tar->directories as $id => $information) {
@@ -93,8 +92,7 @@ class Archive
 
                     case self::FORMAT_ZIP :
                         $result = true;
-                        require_once('innomatic/io/archive/archivers/PclZip.php');
-                        $zip = new PclZip($this->mFile);
+                        $zip = new \Innomatic\Io\Archive\Archivers\PclZip($this->mFile);
                         $list = $zip->extract(PCLZIP_OPT_PATH, $destinationDir);
                         break;
                 }

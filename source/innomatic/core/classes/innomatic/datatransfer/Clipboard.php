@@ -91,9 +91,8 @@ class Clipboard
     public function store(&$item)
     {
         $result = false;
-        require_once('innomatic/process/Semaphore.php');
-        $sem = new Semaphore('clipboard', $this->_fileName);
-        $sem->WaitGreen();
+        $sem = new \Innomatic\Process\Semaphore('clipboard', $this->_fileName);
+        $sem->waitGreen();
         $sem->setRed();
 
         $fh = fopen($this->_fileName, 'wb');
@@ -140,9 +139,8 @@ class Clipboard
     public function retrieve()
     {
         $result = '';
-        require_once('innomatic/process/Semaphore.php');
-        $sem = new Semaphore('clipboard', $this->_fileName);
-        $sem->WaitGreen();
+        $sem = new \Innomatic\Process\Semaphore('clipboard', $this->_fileName);
+        $sem->waitGreen();
 
         if ($this->IsValid()) {
             $sem->setRed();
@@ -181,9 +179,8 @@ class Clipboard
     {
         $result = false;
         if ($this->IsValid()) {
-            require_once('innomatic/process/Semaphore.php');
-            $sem = new Semaphore('clipboard', $this->_fileName);
-            $sem->WaitGreen();
+            $sem = new \Innomatic\Process\Semaphore('clipboard', $this->_fileName);
+            $sem->waitGreen();
             $sem->setRed();
             $result = unlink($this->_fileName);
             $sem->setGreen();

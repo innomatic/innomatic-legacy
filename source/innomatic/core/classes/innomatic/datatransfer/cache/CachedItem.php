@@ -102,9 +102,8 @@ class CachedItem
         }
 
         $goon = false;
-        require_once('innomatic/process/Semaphore.php');
-        $sem = new Semaphore('cache', $this->mItemFile);
-        $sem->WaitGreen();
+        $sem = new \Innomatic\Process\Semaphore('cache', $this->mItemFile);
+        $sem->waitGreen();
         $sem->setRed();
 
         if (strlen($this->mItemFile) and file_exists($this->mItemFile)) {
@@ -164,9 +163,8 @@ class CachedItem
     public function retrieve($md5 = '')
     {
         $result = false;
-        require_once('innomatic/process/Semaphore.php');
-        $sem = new Semaphore('cache', $this->mItemFile);
-        $sem->WaitGreen();
+        $sem = new \Innomatic\Process\Semaphore('cache', $this->mItemFile);
+        $sem->waitGreen();
 
         if (strlen($this->mItemFile) and file_exists($this->mItemFile)) {
             $sem->setRed();
@@ -217,9 +215,8 @@ class CachedItem
     public function destroy()
     {
         $result = false;
-        require_once('innomatic/process/Semaphore.php');
-        $sem = new Semaphore('cache', $this->mItemFile);
-        $sem->WaitGreen();
+        $sem = new \Innomatic\Process\Semaphore('cache', $this->mItemFile);
+        $sem->waitGreen();
         $sem->setRed();
         if (strlen($this->mItemFile) and file_exists($this->mItemFile)) {
             $result = @unlink($this->mItemFile);

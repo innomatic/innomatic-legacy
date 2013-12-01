@@ -14,8 +14,7 @@
 */
 namespace Innomatic\Php;
 
-require_once('innomatic/webapp/WebAppHandler.php');
-require_once('innomatic/webapp/WebAppProcessor.php');
+use \Innomatic\Webapp;
 
 /**
  * @since 5.0
@@ -75,8 +74,7 @@ class PHPWebAppHandler extends WebAppHandler
         }
 
         // Resource must reside inside the webapp
-        require_once('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath($resource,  WebAppContainer::instance(
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath($resource, WebAppContainer::instance(
                 'webappcontainer'
             )->getCurrentWebApp()->getHome())) {
             $res->sendError(

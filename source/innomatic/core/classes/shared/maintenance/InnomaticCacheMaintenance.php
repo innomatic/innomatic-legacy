@@ -143,9 +143,8 @@ class InnomaticCacheMaintenance extends MaintenanceTask
 
     public function cleanCache()
     {
-        require_once('innomatic/datatransfer/cache/CacheGarbageCollector.php');
-        $gc = new CacheGarbageCollector();
-        return $gc->EmptyCache();
+        $gc = new \Innomatic\Datatransfer\Cache\CacheGarbageCollector();
+        return $gc->emptyCache();
     }
 
     public function getSessionsSize()

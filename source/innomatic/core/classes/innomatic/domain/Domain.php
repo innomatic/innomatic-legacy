@@ -637,14 +637,12 @@ class Domain
             }
 
             // Removes cached items.
-            require_once('innomatic/datatransfer/cache/CacheGarbageCollector.php');
-            $cache_gc = new CacheGarbageCollector();
+            $cache_gc = new \Innomatic\Datatransfer\Cache\CacheGarbageCollector();
             $cache_gc->removeDomainItems((int)$data['id']);
 
             // Removes domain from root database.
             $this->rootda->execute('DELETE FROM domains WHERE id='. (int) $data['id']);
             $this->rootda->execute('DELETE FROM applications_options_disabled WHERE domainid='.$this->domainserial);
-
             
             $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent($data['domainid'], 'Removed domain '.$data['domainid'], \Innomatic\Logging\Logger::NOTICE);
@@ -923,7 +921,6 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
     public function getMotd()
     {
         if (is_object($this->dataAccess)) {
-            require_once('innomatic/domain/DomainSettings.php');
             $sets = new DomainSettings($this->dataAccess);
             return $sets->getKey('domain-motd');
         }
@@ -933,7 +930,6 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
     public function setMotd($motd)
     {
         if (is_object($this->dataAccess)) {
-            require_once('innomatic/domain/DomainSettings.php');
             $sets = new DomainSettings($this->dataAccess);
             return $sets->setKey('domain-motd', $motd);
         }
@@ -943,7 +939,6 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
     public function cleanMotd()
     {
         if (is_object($this->dataAccess)) {
-            require_once('innomatic/domain/DomainSettings.php');
             $sets = new DomainSettings($this->dataAccess);
             return $sets->DeleteKey('domain-motd');
         }
@@ -983,7 +978,6 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
 
     public function getLanguage()
     {
-        require_once('innomatic/domain/DomainSettings.php');
         $domain_settings = new DomainSettings(
         $this->dataAccess);
         $key = $domain_settings->getKey('desktop-language');
@@ -992,7 +986,6 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
 
     public function getCountry()
     {
-        require_once('innomatic/domain/DomainSettings.php');
         $domain_settings = new DomainSettings(
         $this->dataAccess);
         $key = $domain_settings->getKey('desktop-country');

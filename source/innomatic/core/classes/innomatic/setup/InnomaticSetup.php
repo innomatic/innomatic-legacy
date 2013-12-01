@@ -14,19 +14,11 @@
 */
 namespace Innomatic\Setup;
 
-require_once('innomatic/core/InnomaticContainer.php');
+use \Innomatic\Core\InnomaticContainer;
 
 if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
     return;
 }
-require_once('innomatic/dataaccess/DataAccessFactory.php');
-require_once('innomatic/dataaccess/DataAccessXmlTable.php');
-//require_once('innomatic/db.DataAccessXmlTableParser');
-require_once('innomatic/application/ApplicationDependencies.php');
-require_once('innomatic/application/ApplicationSettings.php');
-require_once('innomatic/application/ApplicationComponentRegister.php');
-require_once('innomatic/application/ApplicationComponent.php');
-require_once('innomatic/application/Application.php');
 
 class InnomaticSetup
 {
@@ -34,8 +26,6 @@ class InnomaticSetup
     {
         $successString = "[  \033[1;32mOK\033[0;39m  ]\n";
         $failureString = "[\033[1;31mFAILED\033[0;39m]\n";
-
-        require_once('innomatic/config/ConfigFile.php');
 
         if (strlen($configFile) and file_exists($configFile)) {
             $configFileName = $configFile;
@@ -202,8 +192,7 @@ class InnomaticSetup
     {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_editionset', time());
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingedition')) @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingedition');
-        require_once('innomatic/config/ConfigFile.php');
-        $innomaticcfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $innomaticcfg = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
         $innomaticcfg->setValue('PlatformEdition', $eventData['edition']);
 
         return true;
@@ -211,7 +200,7 @@ class InnomaticSetup
 
     public static function dataaccessdrivers($eventData = '', $log = '')
     {
-        $daf = new DataAccessFactory();
+        $daf = new \Innomatic\Dataaccess\DataAccessFactory();
         $daf->addDriver('mysql', 'MySQL 3.22+');
         $daf->addDriver('pgsql', 'PostgreSQL 7.0+');
 
@@ -227,7 +216,6 @@ class InnomaticSetup
         $reg = \Innomatic\Util\Registry::instance();
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
 
-        require_once('innomatic/dataaccess/DataAccessSourceName.php');
         $dasn_string = $eventData['dbtype'].'://'.
             $eventData['dbuser'].':'.
             $eventData['dbpass'].'@'.
@@ -235,7 +223,7 @@ class InnomaticSetup
             $eventData['dbport'].'/'.
             $eventData['dbname'].'?'.
             'logfile='.$innomatic->getHome().'core/log/innomatic_root_db.log';
-        $tmpdb = DataAccessFactory::getDataAccess(new DataAccessSourceName($dasn_string));
+        $tmpdb = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(new \Innomatic\Dataaccess\DataAccessSourceName($dasn_string));
 
         if ($tmpdb->Connect()) {
             $tmpdb->DropDB($eventData);
@@ -246,7 +234,7 @@ class InnomaticSetup
             if ($tmpdb->Connect()) {
                 // Tables creation
                 //
-                $xmldb = new DataAccessXmlTable($tmpdb, DataAccessXmlTable::SQL_CREATE);
+                $xmldb = new \Innomatic\Dataaccess\DataAccessXmlTable($tmpdb, \Innomatic\Dataaccess\DataAccessXmlTable::SQL_CREATE);
                 if ($xmldb->load_DefFile(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/db/innomatic_root.xml')) {
                     if ($tmpdb->execute($xmldb->getSQL())) {
                         // Database configuration file creation
@@ -295,7 +283,6 @@ class InnomaticSetup
             $args['dbtype'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseType');
             $args['dblog']  = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log';
         }
-                            require_once('innomatic/dataaccess/DataAccessSourceName.php');
                     $dasn_string = $args['dbtype'].'://'.
                         $args['dbuser'].':'.
                         $args['dbpass'].'@'.
@@ -303,15 +290,15 @@ class InnomaticSetup
                         $args['dbport'].'/'.
                         $args['dbname'].'?'.
                         'logfile='.$args['dblog'];
-        $tmpdb = DataAccessFactory::getDataAccess(new DataAccessSourceName($dasn_string));
-        if ($tmpdb->Connect()) {
+        $tmpdb = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(new \Innomatic\Dataaccess\DataAccessSourceName($dasn_string));
+        if ($tmpdb->connect()) {
             // Components initialization
             //
-            $innomaticmod = new Application($tmpdb);
+            $innomaticmod = new \Innomatic\Application\Application($tmpdb);
             if ($innomaticmod->setup(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/innomatic/')) {
-                $modreg = new ApplicationComponentRegister($tmpdb);
-                $modreg->registerComponent('innomatic', 'configurationfile', 'innomatic.ini', '', ApplicationComponent::OVERRIDE_NONE);
-                $modreg->registerComponent('innomatic', 'configurationfile', 'dataaccessdrivers.ini', '', ApplicationComponent::OVERRIDE_NONE);
+                $modreg = new \Innomatic\Application\ApplicationComponentRegister($tmpdb);
+                $modreg->registerComponent('innomatic', 'configurationfile', 'innomatic.ini', '', \Innomatic\Application\ApplicationComponent::OVERRIDE_NONE);
+                $modreg->registerComponent('innomatic', 'configurationfile', 'dataaccessdrivers.ini', '', \Innomatic\Application\ApplicationComponent::OVERRIDE_NONE);
 
                 $result = true;
 
@@ -351,7 +338,6 @@ class InnomaticSetup
                         $args['dblog']  = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log';
                     }
 
-                    require_once('innomatic/dataaccess/DataAccessSourceName.php');
                     $dasn_string = $args['dbtype'].'://'.
                         $args['dbuser'].':'.
                         $args['dbpass'].'@'.
@@ -359,11 +345,11 @@ class InnomaticSetup
                         $args['dbport'].'/'.
                         $args['dbname'].'?'.
                         'logfile='.$args['dblog'];
-                    $root_db = DataAccessFactory::getDataAccess(new DataAccessSourceName($dasn_string));
+                    $root_db = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(new \Innomatic\Dataaccess\DataAccessSourceName($dasn_string));
 
                     if ($root_db->connect()) {
-                        $modreg = new ApplicationComponentRegister($root_db);
-                        $modreg->registerComponent('innomatic', 'configurationfile', 'rootpasswd.ini', '', ApplicationComponent::OVERRIDE_NONE);
+                        $modreg = new \Innomatic\Application\ApplicationComponentRegister($root_db);
+                        $modreg->registerComponent('innomatic', 'configurationfile', 'rootpasswd.ini', '', \Innomatic\Application\ApplicationComponent::OVERRIDE_NONE);
 
                         $result = true;
 
@@ -384,8 +370,7 @@ class InnomaticSetup
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_innomatichostset', time());
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinginnomatichost')) @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinginnomatichost');
 
-        require_once('innomatic/config/ConfigFile.php');
-        $innomaticcfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $innomaticcfg = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
         $innomaticcfg->setValue('PlatformName', $eventData['innomatichost']);
         $innomaticcfg->setValue('PlatformGroup', $eventData['innomaticgroup']);
 
@@ -396,8 +381,7 @@ class InnomaticSetup
     {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_countryset', time());
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingcountry')) @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingcountry');
-        require_once('innomatic/config/ConfigFile.php');
-        $innomaticcfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $innomaticcfg = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
         $innomaticcfg->setValue('RootCountry', $eventData['country']);
 
         return true;
@@ -407,8 +391,7 @@ class InnomaticSetup
     {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_languageset', time());
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinglanguage')) @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinglanguage');
-        require_once('innomatic/config/ConfigFile.php');
-        $innomaticcfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $innomaticcfg = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
         $innomaticcfg->setValue('RootLanguage', $eventData['language']);
 
         return true;
@@ -417,11 +400,9 @@ class InnomaticSetup
     public static function appcentral($eventData, $log = '')
     {
         if (isset($eventData['appcentral']) and $eventData['appcentral'] == 'on') {
-            require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
-
-            $xmlrpc_client = new XmlRpc_Client(
-                '/innomatic/webservices/',
-                'appcentral.innomatic.org',
+            $xmlrpc_client = new \Innomatic\Webservices\Xmlrpc\XmlRpc_Client(
+                '/webservices/',
+                'stable.innomatic.org',
                 80
                );
 
@@ -439,8 +420,6 @@ class InnomaticSetup
 
                     $fh = fopen($tmp_filename, 'wb');
                     if ($fh) {
-                        require_once('innomatic/application/Application.php');
-
                         fputs($fh, $xv->scalarVal());
                         fclose($fh);
 
@@ -455,7 +434,6 @@ class InnomaticSetup
                         $args['dbtype'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseType');
                         $args['dblog']  = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log';
 
-                    require_once('innomatic/dataaccess/DataAccessSourceName.php');
                     $dasn_string = $args['dbtype'].'://'.
                         $args['dbuser'].':'.
                         $args['dbpass'].'@'.
@@ -463,9 +441,9 @@ class InnomaticSetup
                         $args['dbport'].'/'.
                         $args['dbname'].'?'.
                         'logfile='.$args['dblog'];
-                        $root_db = DataAccessFactory::getDataAccess(new DataAccessSourceName($dasn_string));
+                        $root_db = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(new \Innomatic\Dataaccess\DataAccessSourceName($dasn_string));
                         if ($root_db->connect()) {
-                            $tmp_application = new Application($root_db, '');
+                            $tmp_application = new \Innomatic\Application\Application($root_db, '');
                             $tmp_application->Install($tmp_filename);
 
                             @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_appcentralset', time());

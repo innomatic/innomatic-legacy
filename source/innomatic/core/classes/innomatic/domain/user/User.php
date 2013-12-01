@@ -319,10 +319,8 @@ class User
                 }
 
                 // Remove cached items
-
-                require_once('innomatic/datatransfer/cache/CacheGarbageCollector.php');
-                $cache_gc = new CacheGarbageCollector();
-                $cache_gc->RemoveUserItems((int) $this->userid);
+                $cache_gc = new \Innomatic\Datatransfer\Cache\CacheGarbageCollector();
+                $cache_gc->removeUserItems((int) $this->userid);
 
                 //$this->htp->remuser( $this->username );
                 if ($hook->CallHooks('userremoved', $this, array('domainserial' => $this->domainserial, 'userid' => $this->userid)) != Hook::RESULT_OK)

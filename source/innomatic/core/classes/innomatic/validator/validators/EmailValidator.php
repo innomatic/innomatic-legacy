@@ -14,14 +14,13 @@
  */
 namespace Innomatic\Validator\Validators;
 
-require_once ('innomatic/validator/Validator.php');
 /**
  * This validator validates email addresses.
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2012 Innoteam Srl
  * @since 1.0
  */
-class EmailValidator extends Validator
+class EmailValidator extends \Innomatic\Validator\Validator
 {
     public function validate()
     {

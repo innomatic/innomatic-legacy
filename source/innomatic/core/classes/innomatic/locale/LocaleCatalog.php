@@ -14,7 +14,7 @@
 */
 namespace Innomatic\Locale;
 
-require_once('innomatic/core/InnomaticContainer.php');
+use \Innomatic\Core\InnomaticContainer;
 
 /*!
  @class Locale

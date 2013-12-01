@@ -14,6 +14,8 @@
 */
 namespace Innomatic\Process;
 
+use \Innomatic\Core\InnomaticContainer;
+
 /*!
  @class Crontab
 
@@ -58,9 +60,8 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
         else $this->mLog->logdie( 'innomatic.configman.configman.configman', '' );
         */
 
-        require_once('innomatic/config/ConfigMan.php');
-        $this->mRegCron  = new ConfigMan( $this->mAppId, InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/crontab_regular', ConfigBase::MODE_DIRECT );
-        $this->mTempCron = new ConfigMan( $this->mAppId, InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/crontab_temporary', ConfigBase::MODE_DIRECT );
+        $this->mRegCron  = new \Innomatic\Config\ConfigMan( $this->mAppId, InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/crontab_regular', \Innomatic\Config\ConfigBase::MODE_DIRECT );
+        $this->mTempCron = new \Innomatic\Config\ConfigMan( $this->mAppId, InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/crontab_temporary', \Innomatic\Config\ConfigBase::MODE_DIRECT );
     }
 
     /*!

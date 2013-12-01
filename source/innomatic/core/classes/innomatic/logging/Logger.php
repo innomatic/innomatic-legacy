@@ -14,6 +14,8 @@
 */
 namespace Innomatic\Logging;
 
+use \Innomatic\Core\InnomaticContainer;
+
 /*!
  @class Logger
  @abstract Logging facilities
@@ -66,7 +68,6 @@ class Logger
 
                 case \Innomatic\Logging\Logger::WARNING :
                     $evtype = 'WARNING';
-                    require_once('innomatic/core/InnomaticContainer.php');
                     $innomatic = InnomaticContainer::instance('innomaticcontainer');
 
                     switch ($innomatic->getState()) {
@@ -93,7 +94,6 @@ class Logger
 
                 case \Innomatic\Logging\Logger::DEBUG :
                     $evtype = 'DEBUG';
-                    require_once('innomatic/core/InnomaticContainer.php');
                     $innomatic = InnomaticContainer::instance('innomaticcontainer');
                     if ($innomatic->getState() == InnomaticContainer::STATE_DEBUG)
                         $log_event = true;
@@ -112,11 +112,9 @@ class Logger
                 //$logstr = "$date[mday]/$date[mon]/$date[year] - $date[hours]:$date[minutes]:$date[seconds] - ".$evtype." - ".$contest." : ".$eventstring;
                 @error_log($logstr."\n", 3, $this->mLogFile);
 
-                require_once('innomatic/core/InnomaticContainer.php');
                 $innomatic = InnomaticContainer::instance('innomaticcontainer');
                 if ($innomatic->getState() == InnomaticContainer::STATE_DEBUG) {
-                    require_once('innomatic/debug/InnomaticDump.php');
-                    $dump = InnomaticDump::instance('innomaticdump');
+                    $dump = \Innomatic\Debug\InnomaticDump::instance('innomaticdump');
                     $dump->logs[$this->mLogFile][] = $logstr;
                 }
             }

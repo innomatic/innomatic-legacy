@@ -14,7 +14,6 @@
  */
 namespace Innomatic\Validator;
 
-require_once ('innomatic/validator/Validator.php');
 /**
  * This class runs a suite of validators collecting error results.
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>

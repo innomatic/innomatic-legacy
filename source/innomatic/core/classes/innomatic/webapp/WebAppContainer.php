@@ -29,8 +29,7 @@ class WebAppContainer extends \Innomatic\Util\Singleton
 
     public function ___construct()
     {
-        require_once('innomatic/core/RootContainer.php');
-        $root_home = RootContainer::instance('rootcontainer')->getHome();
+        $root_home = \Innomatic\Core\RootContainer::instance('rootcontainer')->getHome();
         $this->home = $root_home;
         $this->config = array();
         if (file_exists($root_home.'innomatic/core/conf/webapp.ini')) {
@@ -134,8 +133,7 @@ class WebAppContainer extends \Innomatic\Util\Singleton
         $skeleton = basename($skeleton);
 
         // Checks that the webapp name doesn't contain a malicious path.
-        require_once('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath($home.$webappName, $home)) {
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath($home.$webappName, $home)) {
             return false;
         }
 
@@ -169,8 +167,7 @@ class WebAppContainer extends \Innomatic\Util\Singleton
         }
 
         // Checks that the webapp name doesn't contain a malicious path.
-        require_once('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath($home.$webappName, $home)) {
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath($home.$webappName, $home)) {
             return false;
         }
 
@@ -191,8 +188,7 @@ class WebAppContainer extends \Innomatic\Util\Singleton
         $home = WebAppContainer::instance('webappcontainer')->getHome();
 
         // Checks that the webapp name doesn't contain a malicious path.
-        require_once('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath($home.$webappName, $home)) {
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath($home.$webappName, $home)) {
             return false;
         }
 
