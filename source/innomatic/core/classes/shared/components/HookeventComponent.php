@@ -14,12 +14,11 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 require_once ('innomatic/process/Hook.php');
 /**
  * Hookevent component handler.
  */
-class HookeventComponent extends ApplicationComponent
+class HookeventComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

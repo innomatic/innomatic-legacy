@@ -14,11 +14,10 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 /**
  * Configurationfile component handler.
  */
-class ConfigurationfileComponent extends ApplicationComponent
+class ConfigurationfileComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

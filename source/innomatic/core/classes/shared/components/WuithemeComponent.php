@@ -14,11 +14,10 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 /**
  * Wuitheme component handler.
  */
-class WuithemeComponent extends ApplicationComponent
+class WuithemeComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

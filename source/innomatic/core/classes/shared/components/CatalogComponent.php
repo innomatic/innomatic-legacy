@@ -14,11 +14,10 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 /**
  * Catalog component handler.
  */
-class CatalogComponent extends ApplicationComponent
+class CatalogComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

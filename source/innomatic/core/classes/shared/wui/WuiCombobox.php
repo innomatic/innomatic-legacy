@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiCombobox extends WuiWidget
+class WuiCombobox extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mElements array - Array of the elements. */
     //public $mElements;
@@ -44,8 +43,7 @@ class WuiCombobox extends WuiWidget
     {
         $result = false;
         if (isset($this->mArgs['elements']) and is_array($this->mArgs['elements']) and count($this->mArgs['elements'])) {
-            require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
-            $event_data = new WuiEventRawData($this->mArgs['disp'], $this->mName);
+            $event_data = new \Innomatic\Wui\Dispatch\WuiEventRawData($this->mArgs['disp'], $this->mName);
             $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . " combobox -->\n" : '') . '<select'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : ''). $this->getEventsCompleteString() .' ' . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mArgs['hint']) . '\');" onMouseOut="wuiUnHint();" ' : '') . 'name="' . $event_data->getDataString() . "\"" . ' tabindex="' . $this->mArgs['tabindex'] . '"' . ">\n";
             reset($this->mArgs['elements']);
             while (list ($key, $val) = each($this->mArgs['elements'])) {

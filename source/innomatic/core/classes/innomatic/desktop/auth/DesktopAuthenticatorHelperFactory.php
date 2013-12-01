@@ -14,8 +14,6 @@
 */
 namespace Innomatic\Desktop\Auth;
 
-require_once('innomatic/core/InnomaticContainer.php');
-
 /**
  * Factory for DesktopAuthenticator classes.
  *
@@ -31,15 +29,15 @@ class DesktopAuthenticatorHelperFactory
     public static function getAuthenticatorHelper($mode)
     {
         switch ($mode) {
-            case InnomaticContainer::MODE_BASE:
+            case \Innomatic\Core\InnomaticContainer::MODE_BASE:
                 return new DesktopBaseAuthenticatorHelper();
                 break;
 
-            case InnomaticContainer::MODE_DOMAIN:
+            case \Innomatic\Core\InnomaticContainer::MODE_DOMAIN:
                 return new DesktopDomainAuthenticatorHelper();
                 break;
 
-            case InnomaticContainer::MODE_ROOT:
+            case \Innomatic\Core\InnomaticContainer::MODE_ROOT:
                 // break was intentionally omitted
 
             default:

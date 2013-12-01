@@ -14,11 +14,10 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 /**
  * Shared component handler.
  */
-class SharedComponent extends ApplicationComponent
+class SharedComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

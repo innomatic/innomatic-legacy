@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiSubmit extends WuiWidget
+class WuiSubmit extends \Innomatic\Wui\Widgets\WuiWidget
 {
     //public $mCaption;
     //public $mHint;

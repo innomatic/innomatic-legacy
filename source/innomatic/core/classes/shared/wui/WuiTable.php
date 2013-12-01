@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
  */
-class WuiTable extends WuiContainerWidget
+class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     //public $mHeaders;
     //public $mCells;

@@ -14,14 +14,12 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
-require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
-require_once ('innomatic/locale/LocaleCatalog.php');
-require_once ('innomatic/locale/LocaleCountry.php');
+use \Innomatic\Locale;
+
 /**
  * @package WUI
  */
-class WuiDate extends WuiWidget
+class WuiDate extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mHint string - Help string for this element. */
     public $mHint;
@@ -104,7 +102,7 @@ class WuiDate extends WuiWidget
     protected function generateSource()
     {
         $result = false;
-        $event_data = new WuiEventRawData($this->mDisp, $this->mName);
+        $event_data = new \Innomatic\Wui\Dispatch\WuiEventRawData($this->mDisp, $this->mName);
         $calendar_dateformat = str_replace('/', '\\/', $this->mLocaleCountryHandler->ShortDateFormat());
         $calendar_dateformat = str_replace('d', 'DD', $calendar_dateformat);
         $calendar_dateformat = str_replace('m', 'MM', $calendar_dateformat);

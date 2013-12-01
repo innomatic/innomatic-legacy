@@ -1,8 +1,6 @@
 <?php
 namespace Innomatic\Wui\Widgets\Layersmenu;
 
-//require_once "PEAR.php";
-
 /**
  * Converted PHPLIB Template class
  *

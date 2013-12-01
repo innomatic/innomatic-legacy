@@ -14,12 +14,11 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 require_once ('innomatic/process/Hook.php');
 /**
  * Hook component handler.
  */
-class HookComponent extends ApplicationComponent
+class HookComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
@@ -46,7 +45,7 @@ class HookComponent extends ApplicationComponent
         $result = false;
         if (strlen($params['name'])) {
             $hook = new Hook($this->rootda, $params['functionapplication'], $params['function']);
-            if ($hook->Add($params['event'], $this->appname, $params['hookhandler'], $params['hookmethod']))
+            if ($hook->add($params['event'], $this->appname, $params['hookhandler'], $params['hookmethod']))
                 $result = true;
             else
                 $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to add hook', \Innomatic\Logging\Logger::ERROR);
@@ -59,7 +58,7 @@ class HookComponent extends ApplicationComponent
         $result = false;
         if (strlen($params['name'])) {
             $xm = new Hook($this->rootda, $params['functionapplication'], $params['function']);
-            if ($xm->Remove($params['event'], $this->appname, $params['hookhandler'], $params['hookmethod']))
+            if ($xm->remove($params['event'], $this->appname, $params['hookhandler'], $params['hookmethod']))
                 $result = true;
             else
                 $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove hook', \Innomatic\Logging\Logger::ERROR);
@@ -72,7 +71,7 @@ class HookComponent extends ApplicationComponent
         $result = false;
         if (strlen($params['name'])) {
             $xm = new Hook($this->rootda, $params['functionapplication'], $params['function']);
-            if ($xm->Update($params['event'], $this->appname, $params['hookhandler'], $params['hookmethod']))
+            if ($xm->update($params['event'], $this->appname, $params['hookhandler'], $params['hookmethod']))
                 $result = true;
             else
                 $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update hook', \Innomatic\Logging\Logger::ERROR);

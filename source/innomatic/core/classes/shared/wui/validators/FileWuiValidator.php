@@ -32,7 +32,6 @@ if (
     $args[2] = 'tmp_name';
     $args[3] = 'size';
 
-    require_once('innomatic/wui/Wui.php');
     for ($i = 0; $i < 4; $i ++) {
         reset($disps);
         reset($_FILES);
@@ -41,7 +40,7 @@ if (
                 list ($eventdataname, $eventdatacontent)
                 = each($_FILES['wuifiles'][$args[$i]][$disp]['evd'])
             ) {
-                Wui::instance(
+                \Innomatic\Wui\Wui::instance(
                     'wui'
                 )->parameters['wui'][$disp]['evd'][$eventdataname][$args[$i]]
                 = $eventdatacontent;

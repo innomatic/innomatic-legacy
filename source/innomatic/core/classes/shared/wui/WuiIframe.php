@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiIframe extends WuiWidget
+class WuiIframe extends \Innomatic\Wui\Widgets\WuiWidget
 {
     public $mSource;
     public $mWidth;

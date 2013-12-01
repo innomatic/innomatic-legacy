@@ -14,18 +14,16 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 /**
  * Component component handler.
  */
-class ComponentComponent extends ApplicationComponent
+class ComponentComponent extends \Innomatic\Application\ApplicationComponent
 {
     public $eltype;
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
-        require_once ('innomatic/application/ApplicationComponentFactory.php');
-        $this->eltype = new ApplicationComponentFactory($rootda);
+        $this->eltype = new \Innomatic\Application\ApplicationComponentFactory($rootda);
     }
     public static function getType()
     {

@@ -40,8 +40,7 @@ class WuiFormarg extends \Innomatic\Wui\Widgets\WuiWidget
     }
     protected function generateSource()
     {
-        require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
-        $eventData = new WuiEventRawData($this->mArgs['disp'], $this->mName);
+        $eventData = new \Innomatic\Wui\Dispatch\WuiEventRawData($this->mArgs['disp'], $this->mName);
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName
             . ' string -->' : '') . '<input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' type="hidden" name="'
             . $eventData->getDataString() . '"'

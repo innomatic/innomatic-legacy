@@ -14,8 +14,6 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
-
 /**
  * Library component handler.
  *
@@ -25,7 +23,7 @@ require_once ('innomatic/application/ApplicationComponent.php');
  * @since      Class available since Release 5.0
  * @deprecated Class deprecated in Release 5.0
  */
-class LibraryComponent extends ApplicationComponent
+class LibraryComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

@@ -14,12 +14,11 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 require_once ('innomatic/dataaccess/DataAccessFactory.php');
 /**
  * DataAccess driver component handler.
  */
-class DataaccessdriverComponent extends ApplicationComponent
+class DataaccessdriverComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct(&$rootda, $domainda, $appname, $name, $basedir)
     {

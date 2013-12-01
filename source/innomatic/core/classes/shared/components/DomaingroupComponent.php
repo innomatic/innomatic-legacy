@@ -14,14 +14,13 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 require_once ('innomatic/domain/user/Group.php');
 require_once ('innomatic/domain/user/Permissions.php');
 require_once ('innomatic/domain/user/User.php');
 /**
  * Domaingroup component handler.
  */
-class DomaingroupComponent extends ApplicationComponent
+class DomaingroupComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

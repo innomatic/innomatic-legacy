@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiProgressbar extends WuiWidget
+class WuiProgressbar extends \Innomatic\Wui\Widgets\WuiWidget
 {
     //public $mTotalSteps = 100;
     //public $mProgress = 0;

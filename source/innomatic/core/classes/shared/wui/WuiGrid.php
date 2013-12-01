@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
  */
-class WuiGrid extends WuiContainerWidget
+class WuiGrid extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     //public $mCells;
     //public $mRows;

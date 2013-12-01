@@ -14,12 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
-require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
 /**
  * @package WUI
  */
-class WuiRadio extends WuiWidget
+class WuiRadio extends \Innomatic\Wui\Widgets\WuiWidget
 {
     public $mValue;
     public $mDisp;
@@ -56,7 +54,7 @@ class WuiRadio extends WuiWidget
     protected function generateSource()
     {
         $result = false;
-        $event_data = new WuiEventRawData($this->mDisp, $this->mName);
+        $event_data = new \Innomatic\Wui\Dispatch\WuiEventRawData($this->mDisp, $this->mName);
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' radio -->' : '') . '<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').$this->getEventsCompleteString().' class="normal" ' . (strlen($this->mHint) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mHint) . '\');" onMouseOut="wuiUnHint();" ' : '') . 'type="radio" ' . 'name="' . $event_data->getDataString() . '"' . (strlen($this->mValue) ? ' value="' . $this->mValue . '"' : '') . ' tabindex="' . $this->mTabIndex . '"' . (strlen($this->mReadOnly) ? ' disabled' : '') . ($this->mChecked == 'true' ? ' checked' : '') . '></td><td valign="middle">' . Wui::utf8_entities($this->mLabel) . '</td></tr></table>' . ($this->mComments ? '<!-- end ' . $this->mName . " radio -->\n" : '');
         $result = true;
         return $result;

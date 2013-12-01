@@ -14,12 +14,11 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 require_once ('innomatic/wui/theme/WuiStyle.php');
 /**
  * Wuistyle component handler.
  */
-class WuistyleComponent extends ApplicationComponent
+class WuistyleComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

@@ -13,24 +13,12 @@
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/application/ApplicationSettings.php');
-require_once('innomatic/domain/Domain.php');
+use \Shared\Wui;
+use \Innomatic\Core\InnomaticContainer;
 
-$wui = Wui::instance('wui');
-$wui->loadWidget('button');
-$wui->loadWidget('empty');
-$wui->loadWidget('grid');
-$wui->loadWidget('horizframe');
-$wui->loadWidget('horizgroup');
-$wui->loadWidget('image');
-$wui->loadWidget('label');
-$wui->loadWidget('link');
-$wui->loadWidget('page');
-$wui->loadWidget('vertframe');
-$wui->loadWidget('vertgroup');
+$wui = \Innomatic\Wui\Wui::instance('wui');
 
-$app_cfg = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+$app_cfg = new \Innomatic\Application|ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
 
 $wuiPage = new WuiPage('page', array('title' => 'Innomatic'));
 $wui_vertgroup = new WuiVertGroup('vertgroup', array('align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%'));

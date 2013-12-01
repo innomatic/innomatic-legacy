@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiString extends WuiWidget
+class WuiString extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mHint string - Help string for this element. */
     //public $mHint;
@@ -78,9 +77,8 @@ class WuiString extends WuiWidget
     }
     protected function generateSource()
     {
-        require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
-        $event_data = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
-        $event_data_id = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName.'_id');
+        $event_data = new \Innomatic\Wui\Dispatch\WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
+        $event_data_id = new \Innomatic\Wui\Dispatch\WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName.'_id');
 
         $this->mLayout = $this->mComments ? '<!-- begin ' . $this->mName . ' string -->' : '';
 

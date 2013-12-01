@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiTitlebar extends WuiWidget
+class WuiTitlebar extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mTitle string - Title shown in the title bar. */
     //public $mTitle;

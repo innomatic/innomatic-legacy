@@ -14,12 +14,11 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 require_once ('innomatic/locale/LocaleCatalog.php');
 /**
  * Language component handler.
  */
-class LanguageComponent extends ApplicationComponent
+class LanguageComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

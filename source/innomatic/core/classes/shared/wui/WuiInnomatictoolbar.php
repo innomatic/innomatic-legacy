@@ -14,13 +14,12 @@
  */
 namespace Shared\Wui;
 
-require_once ('shared/wui/WuiXml.php');
 /**
  * @package WUI
  *
  * This class is deprecated.
  */
-class WuiInnomatictoolbar extends WuiXml
+class WuiInnomatictoolbar extends \Innomatic\Wui\Widgets\WuiXml
 {
     //public $mToolBars;
     //public $mFrame;

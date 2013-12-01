@@ -14,13 +14,12 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 /**
  * Help node component handler.
  */
-class HelpnodeComponent extends ApplicationComponent
+class HelpnodeComponent extends \Innomatic\Application\ApplicationComponent
 {
-    public function __construct(&$rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }

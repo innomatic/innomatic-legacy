@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiImage extends WuiWidget
+class WuiImage extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mImageUrl string - Url of the image. */
     //public $mImageUrl;

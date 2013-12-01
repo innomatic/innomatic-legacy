@@ -14,9 +14,7 @@
 */
 namespace Shared\Maintenance;
 
-require_once('innomatic/maintenance/MaintenanceTask.php');
-
-class InnomaticLogsMaintenance extends MaintenanceTask
+class InnomaticLogsMaintenance extends \Innomatic\Maintenance\MaintenanceTask
 {
     public $mApplicationSettings;
 
@@ -35,9 +33,7 @@ class InnomaticLogsMaintenance extends MaintenanceTask
 
     public function __construct()
     {
-        require_once('innomatic/application/ApplicationSettings.php');
-
-        $this->mApplicationSettings = new ApplicationSettings(
+        $this->mApplicationSettings = new \Innomatic\Application\ApplicationSettings(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             'innomatic'
            );

@@ -20,8 +20,7 @@ class WelcomeDashboardWidget extends \Innomatic\Desktop\Dashboard\DashboardWidge
             $message = $catalog->getStr('welcome_message');
         }
 
-        require_once 'shared/wui/WuiXml.php';
-        $xml = '<label><args><label>'.WuiXml::cdata($message).'</label></args></label>';
+        $xml = '<label><args><label>'.\Shared\Wui\WuiXml::cdata($message).'</label></args></label>';
 
         return $xml;
     }

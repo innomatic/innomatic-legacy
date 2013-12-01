@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
  */
-class WuiVertgroup extends WuiContainerWidget
+class WuiVertgroup extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     /*! @public mAlign string - Alignment of group elements. */
     //public $mAlign;

@@ -14,9 +14,9 @@
 */
 namespace Shared\Maintenance;
 
-require_once('innomatic/maintenance/MaintenanceTask.php');
+use \Innomatic\Core\InnomaticContainer;
 
-class InnomaticCacheMaintenance extends MaintenanceTask
+class InnomaticCacheMaintenance extends \Innomatic\Maintenance\MaintenanceTask
 {
     public $mApplicationSettings;
     public $mCleanCache;
@@ -27,9 +27,7 @@ class InnomaticCacheMaintenance extends MaintenanceTask
 
     public function __construct()
     {
-        require_once('innomatic/application/ApplicationSettings.php');
-
-        $this->mApplicationSettings = new ApplicationSettings(
+        $this->mApplicationSettings = new \Innomatic\Application\ApplicationSettings(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             'innomatic'
            );
@@ -167,19 +165,18 @@ class InnomaticCacheMaintenance extends MaintenanceTask
     public function getPidFilesSize()
     {
         return $this->dirSize(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome()
             . 'core/temp/pids'
        );
     }
 
     public function cleanPidFiles()
     {
-        require_once('innomatic/core/InnomaticContainer.php');
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer');
         return $this->eraseDirContent(
-            InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/pids',
+            \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/pids',
             $innomatic->getPid()
-           );
+        );
     }
 
     public function getRootTempDirsSize()

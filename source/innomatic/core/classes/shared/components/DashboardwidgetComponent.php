@@ -14,12 +14,10 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
-
 /**
  * Dashboard widget component handler.
  */
-class DashboardwidgetComponent extends ApplicationComponent
+class DashboardwidgetComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

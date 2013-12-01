@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
  */
-class WuiTab extends WuiContainerWidget
+class WuiTab extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     //public $mTabs;
     //public $mActiveTab;

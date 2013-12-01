@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('shared/wui/WuiXml.php');
 /**
  * @package WUI
  */
-class WuiInnomaticpage extends WuiXml
+class WuiInnomaticpage extends \Innomatic\Wui\Widgets\WuiXml
 {
     //public $mPageTitle;
     //public $mMenu;

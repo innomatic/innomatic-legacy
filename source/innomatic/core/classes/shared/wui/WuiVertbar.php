@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiVertbar extends WuiWidget
+class WuiVertbar extends \Innomatic\Wui\Widgets\WuiWidget
 {
     public function __construct (
         $elemName,

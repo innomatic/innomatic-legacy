@@ -16,11 +16,10 @@ namespace Shared\Wui;
 
 use \Innomatic\Locale\LocaleCatalog;
 
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
  */
-class WuiPage extends WuiContainerWidget
+class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     /*! @public mTitle string - Page title. */
     //public $mTitle;

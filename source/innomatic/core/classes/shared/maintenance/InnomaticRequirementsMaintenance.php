@@ -14,9 +14,7 @@
 */
 namespace Shared\Maintenance;
 
-require_once('innomatic/maintenance/MaintenanceTask.php');
-
-class InnomaticRequirementsMaintenance extends MaintenanceTask
+class InnomaticRequirementsMaintenance extends \Innomatic\Maintenance\MaintenanceTask
 {
     public function execute()
     {

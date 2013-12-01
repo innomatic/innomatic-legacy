@@ -14,13 +14,12 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 require_once ('innomatic/dataaccess/DataAccess.php');
 require_once ('innomatic/dataaccess/DataAccessXmlTable.php');
 /**
  * Domaintable component handler.
  */
-class DomaintableComponent extends ApplicationComponent
+class DomaintableComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

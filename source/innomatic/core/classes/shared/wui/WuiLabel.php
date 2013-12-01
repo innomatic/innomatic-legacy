@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiLabel extends WuiWidget
+class WuiLabel extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mLabel string - Label text. */
     //public $mLabel;

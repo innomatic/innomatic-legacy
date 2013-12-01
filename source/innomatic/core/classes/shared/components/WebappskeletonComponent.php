@@ -14,8 +14,6 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
-
 /**
  * Webappskeleton component handler.
  *
@@ -27,7 +25,7 @@ require_once ('innomatic/application/ApplicationComponent.php');
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-class WebappskeletonComponent extends ApplicationComponent
+class WebappskeletonComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

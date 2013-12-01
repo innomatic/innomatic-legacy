@@ -14,14 +14,13 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 require_once ('innomatic/wui/theme/WuiColorsSet.php');
 /**
  * Wuicolorsset component handler.
  */
-class WuicolorssetComponent extends ApplicationComponent
+class WuicolorssetComponent extends \Innomatic\Application\ApplicationComponent
 {
-    public function __construct(&$rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }

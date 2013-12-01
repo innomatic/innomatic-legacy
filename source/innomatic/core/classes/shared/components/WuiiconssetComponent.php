@@ -14,12 +14,11 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 require_once ('innomatic/wui/theme/WuiIconsSet.php');
 /**
  * Wuiiconsset component handler.
  */
-class WuiiconssetComponent extends ApplicationComponent
+class WuiiconssetComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

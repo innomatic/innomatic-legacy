@@ -14,12 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
-require_once ('innomatic/wui/widgets/layersmenu/XLayersMenu.php');
 /**
  * @package WUI
  */
-class WuiTreevmenu extends WuiWidget
+class WuiTreevmenu extends \Innomatic\Wui\Widgets\WuiWidget
 {
     public $mMenu;
     public function __construct (
@@ -37,7 +35,7 @@ class WuiTreevmenu extends WuiWidget
     {
         $registry = \Innomatic\Util\Registry::instance();
         if (! $registry->isGlobalObject('singleton xlayersmenu')) {
-            $mid = new XLayersMenu();
+            $mid = new \Innomatic\Wui\Widgets\Layersmenu\XLayersMenu();
             $registry->setGlobalObject('singleton xlayersmenu', $mid);
         } else {
             $mid = $registry->getGlobalObject('singleton xlayersmenu');

@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiLink extends WuiWidget
+class WuiLink extends \Innomatic\Wui\Widgets\WuiWidget
 {
     //public $mLink;
     //public $mLabel;

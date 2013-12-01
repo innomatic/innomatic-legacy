@@ -14,12 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
-require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
 /**
  * @package WUI
  */
-class WuiText extends WuiWidget
+class WuiText extends \Innomatic\Wui\Widgets\WuiWidget
 {
     //public $mHint;
     /*! @public mValue string - Default value. */
@@ -55,7 +53,7 @@ class WuiText extends WuiWidget
     protected function generateSource()
     {
         $result = false;
-        $event_data = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
+        $event_data = new \Innomatic\Wui\Dispatch\WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
         $check_script = '';
         if ((isset($this->mArgs['required']) and $this->mArgs['required'] == 'true') || (isset($this->mArgs['integer']) and $this->mArgs['integer'] == 'true') || (isset($this->mArgs['email']) and $this->mArgs['email'] == 'true')) {
             $check_script = '

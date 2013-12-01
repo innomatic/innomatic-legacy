@@ -14,14 +14,12 @@
 */
 namespace Innomatic\Net\Socket;
 
-require_once('innomatic/net/socket/ServerSocket.php');
-
 /**
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2003-2012 Innoteam Srl
  * @since 1.0
  */
-class SequentialServerSocket extends ServerSocket
+class SequentialServerSocket extends \Innomatic\Net\Socket\ServerSocket
 {
     protected $clients = 0;
     protected $initFD;

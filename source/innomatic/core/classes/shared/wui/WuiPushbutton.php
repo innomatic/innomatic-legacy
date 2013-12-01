@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiPushbutton extends WuiWidget
+class WuiPushbutton extends \Innomatic\Wui\Widgets\WuiWidget
 {
     public $mValue;
     public $mDisp;

@@ -14,15 +14,14 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
 require_once ('innomatic/dataaccess/DataAccess.php');
 require_once ('innomatic/dataaccess/DataAccessXmlTable.php');
 /**
  * Roottable component handler.
  */
-class RoottableComponent extends ApplicationComponent
+class RoottableComponent extends \Innomatic\Application\ApplicationComponent
 {
-    public function __construct(&$rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }

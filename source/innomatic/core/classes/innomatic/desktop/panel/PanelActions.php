@@ -14,9 +14,6 @@
 */
 namespace Innomatic\Desktop\Panel;
 
-require_once('innomatic/util/Observable.php');
-require_once('innomatic/desktop/panel/PanelController.php');
-
 /**
  * Abstract class for implementing a set of actions in a Desktop Panel following
  * the MVC design pattern.
@@ -27,7 +24,7 @@ require_once('innomatic/desktop/panel/PanelController.php');
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-abstract class PanelActions extends Observable
+abstract class PanelActions extends \Innomatic\Util\Observable
 {
     protected $_controller;
 

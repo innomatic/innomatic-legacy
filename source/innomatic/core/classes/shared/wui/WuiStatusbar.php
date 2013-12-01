@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiStatusbar extends WuiWidget
+class WuiStatusbar extends \Innomatic\Wui\Widgets\WuiWidget
 {
     //public $mStatus;
     public function __construct (

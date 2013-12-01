@@ -14,10 +14,9 @@
 */
 namespace Shared\Webservices;
 
-require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
-require_once('innomatic/webservices/WebServicesHandler.php');
+use \Innomatic\Core\InnomaticContainer;
 
-class InnomaticWebServicesHandler extends WebServicesHandler
+class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHandler
 {
     // Returns Innomatic main log file content
     //

@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiTreemenu extends WuiWidget
+class WuiTreemenu extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mElements array - Array of the treemenu elements. */
     public $mElements;

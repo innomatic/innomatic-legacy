@@ -14,8 +14,6 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/application/ApplicationComponent.php');
-
 /**
  * Ajaxcall component handler.
  *
@@ -24,7 +22,7 @@ require_once ('innomatic/application/ApplicationComponent.php');
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-class AjaxcallComponent extends ApplicationComponent
+class AjaxcallComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {

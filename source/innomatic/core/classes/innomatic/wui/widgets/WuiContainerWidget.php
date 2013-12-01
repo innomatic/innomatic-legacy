@@ -14,8 +14,6 @@
 */
 namespace Innomatic\Wui\Widgets;
 
-require_once('innomatic/wui/dispatch/WuiDispatcher.php');
-
 /**
  * Base widget containers class.
  *
@@ -68,7 +66,7 @@ abstract class WuiContainerWidget extends WuiWidget
      @param rwuiDisp WuiDispatcher class - Wui internal dispatcher handler.
      @result True if the structure has been built by the member.
      */
-    public function build(WuiDispatcher $rwuiDisp)
+    public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $result = false;
         $this->mrWuiDisp = $rwuiDisp;

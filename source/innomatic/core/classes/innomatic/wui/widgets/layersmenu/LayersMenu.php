@@ -23,9 +23,6 @@ namespace Innomatic\Wui\Widgets\Layersmenu;
 //
 
 
-//require_once "PEAR.php";
-//require_once "DB.php";
-
 /**
 * This is the base class of the PHP Layers Menu system.
 *

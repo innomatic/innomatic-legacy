@@ -14,11 +14,10 @@
  */
 namespace Shared\Wui;
 
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
 /**
  * @package WUI
  */
-class WuiToolbar extends WuiContainerWidget
+class WuiToolbar extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     //public $mBgColor;
     public function __construct (

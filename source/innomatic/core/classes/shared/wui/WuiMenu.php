@@ -15,11 +15,10 @@
 namespace Shared\Wui;
 
 require_once ('innomatic/wui/widgets/layersmenu/XLayersMenu.php');
-require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiMenu extends WuiWidget
+class WuiMenu extends \Innomatic\Wui\Widgets\WuiWidget
 {
     //public $mMenu;
     /*!
