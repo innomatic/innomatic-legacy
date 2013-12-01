@@ -19,7 +19,7 @@ namespace Shared\Wui;
  *
  * This class is deprecated.
  */
-class WuiInnomatictoolbar extends \Innomatic\Wui\Widgets\WuiXml
+class WuiInnomatictoolbar extends \Shared\Wui\WuiXml
 {
     //public $mToolBars;
     //public $mFrame;

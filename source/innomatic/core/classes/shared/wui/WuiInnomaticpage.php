@@ -17,7 +17,7 @@ namespace Shared\Wui;
 /**
  * @package WUI
  */
-class WuiInnomaticpage extends \Innomatic\Wui\Widgets\WuiXml
+class WuiInnomaticpage extends \Shared\Wui\WuiXml
 {
     //public $mPageTitle;
     //public $mMenu;
