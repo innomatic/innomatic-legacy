@@ -14,8 +14,8 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/dataaccess/DataAccess.php');
-require_once ('innomatic/dataaccess/DataAccessXmlTable.php');
+use \Innomatic\Dataaccess;
+
 /**
  * Domaintable component handler.
  */
@@ -118,7 +118,6 @@ class DomaintableComponent extends \Innomatic\Application\ApplicationComponent
         $result = true;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/db/' . $params['file'];
-            require_once ('innomatic/dataaccess/DataAccessXmlTableUpdater.php');
             $xml_upd = new DataAccessXmlTableUpdater($this->domainda, InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']) . '.old', $params['file']);
             $xml_upd->CheckDiffs();
             $old_columns = $xml_upd->getOldColumns();

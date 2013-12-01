@@ -13,9 +13,7 @@
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/desktop/panel/PanelActions.php');
-
-class DomainsPanelActions extends PanelActions
+class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 {
     private $_localeCatalog;
     public $status;

@@ -13,9 +13,7 @@
  * @since      Class available since Release 6.1
 */
 
-require_once('innomatic/desktop/panel/PanelController.php');
-
-class DashboardPanelController extends PanelController
+class DashboardPanelController extends \Innomatic\Desktop\Panel\PanelController
 {
     public function update($observable, $arg = '')
     {

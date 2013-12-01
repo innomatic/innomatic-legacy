@@ -16,52 +16,52 @@
 // Updates the front receiver file.
 @copy(
     $tmpdir.'/../index.php',
-    RootContainer::instance('rootcontainer')->getHome()
+    \Innomatic\Core\RootContainer::instance('rootcontainer')->getHome()
     . 'index.php'
 );
-@chmod(RootContainer::instance('rootcontainer')->getHome() . 'index.php', 0644);
+@chmod(\Innomatic\Core\RootContainer::instance('rootcontainer')->getHome() . 'index.php', 0644);
 
 /*
 @copy($tmpdir . '/core/web.xml',
-      InnomaticContainer::instance('innomaticcontainer')->getHome()
+      \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome()
       . 'core/web.xml');
 
-@chmod(InnomaticContainer::instance('innomaticcontainer')->getHome()
+@chmod(\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome()
        . 'core/web.xml', 0644);
 */
 
 @copy(
     $tmpdir . '/index.php',
-    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome()
     . 'index.php'
 );
 @chmod(
-    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome()
     . 'index.php', 0644
 );
 
 @copy(
     $tmpdir . '/favicon.png',
-    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome()
     . 'favicon.png'
 );
 @chmod(
-    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome()
     . 'favicon.png', 0644
 );
 
 // Innomatic dependencies fix
 //
-$appQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+$appQuery = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
     'SELECT id
     FROM
         applications
     WHERE
         appid='
-    . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText('innomatic')
+    . \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText('innomatic')
 );
 
-InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
     'DELETE FROM
         applications_dependencies
     WHERE
@@ -71,16 +71,16 @@ InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
 // Innomatic auto reupdate
 //
 /*
-$app_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+$app_query = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
     'SELECT appfile '.
     'FROM applications '.
     'WHERE appid='
-    . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText('innomatic'));
+    . \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText('innomatic'));
 
 @copy(
-    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome()
     . 'core/applications/'.$app_query->getFields( 'appfile' ),
-    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome()
     . 'core/temp/appinst/reupdate'
 );
 */

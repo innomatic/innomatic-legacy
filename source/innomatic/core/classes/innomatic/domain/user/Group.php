@@ -14,6 +14,8 @@
 */
 namespace Innomatic\Domain\User;
 
+use \Innomatic\Process\Hook;
+
 class Group
 {
     public $mrRootDb;
@@ -46,7 +48,6 @@ class Group
     {
         $result = false;
 
-        require_once('innomatic/process/Hook.php');
         $hook = new Hook($this->mrRootDb, 'innomatic', 'domain.group.add');
         if ($hook->CallHooks('calltime', $this, array('domainserial' => $this->domainserial, 'groupdata' => $groupdata)) == Hook::RESULT_OK) {
             if (($this->groupid == 0) & (strlen($groupdata['groupname']) > 0)) {
@@ -104,7 +105,6 @@ class Group
     {
         $result = false;
 
-        require_once('innomatic/process/Hook.php');
         $hook = new Hook($this->mrRootDb, 'innomatic', 'domain.group.remove');
         if ($hook->CallHooks('calltime', $this, array('domainserial' => $this->domainserial, 'groupid' => $this->groupid)) == Hook::RESULT_OK) {
             if ($this->groupid != 0) {
@@ -119,7 +119,6 @@ class Group
                             while (!$usersquery->eof) {
                                 $usdata = $usersquery->getFields();
 
-                                require_once('innomatic/domain/user/User.php');
                                 $tmpuser = new User($this->domainserial, $usdata['id']);
                                 $tmpuser->remove();
 

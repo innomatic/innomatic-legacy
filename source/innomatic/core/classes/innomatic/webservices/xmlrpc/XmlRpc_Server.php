@@ -38,7 +38,6 @@ namespace Innomatic\Webservices\Xmlrpc;
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
     // XML RPC Server class
-    // requires: xmlrpc.inc
 
     $GLOBALS['xmlrpcs_capabilities'] = array(
         // xmlrpc spec: always supported

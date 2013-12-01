@@ -14,8 +14,6 @@
 */
 namespace Innomatic\Webservices;
 
-require_once('innomatic/process/Hook.php');
-
 /*!
  @class WebServicesAccount
 
@@ -134,8 +132,8 @@ class WebServicesAccount
     {
         $result = false;
 
-        $hook = new Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.create' );
-        if ( $hook->CallHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == Hook::RESULT_OK ) {
+        $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.create' );
+        if ( $hook->callHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( strlen( $name ) ) {
                 $acc_seq = $this->mrRootDb->getNextSequenceValue( 'webservices_accounts_id_seq' );
 
@@ -169,7 +167,7 @@ class WebServicesAccount
                     $this->mProxyPort = $proxyPort;
 
                     if (
-                        $hook->CallHooks(
+                        $hook->callHooks(
                             'accountcreated',
                             $this,
                             array(
@@ -183,7 +181,7 @@ class WebServicesAccount
                                 'proxyport' => $proxyPort,
                                 'id' => $this->mId
                                 )
-                            ) != Hook::RESULT_OK
+                            ) != \Innomatic\Process\Hook::RESULT_OK
                         ) $result = false;
                 } else $result = WebServicesAccount::CREATE_UNABLE_TO_INSERT_ACCOUNT;
             } else {
@@ -207,8 +205,8 @@ class WebServicesAccount
     {
         $result = false;
 
-        $hook = new Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.remove' );
-        if ( $hook->CallHooks( 'calltime', $this, array( 'id' => $this->mId ) ) == Hook::RESULT_OK ) {
+        $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.remove' );
+        if ( $hook->callHooks( 'calltime', $this, array( 'id' => $this->mId ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mId ) {
                 $result = &$this->mrRootDb->execute( 'DELETE FROM webservices_accounts WHERE id='.(int)$this->mId );
 
@@ -216,7 +214,7 @@ class WebServicesAccount
                     $this->mLog->logEvent( 'Innomatic',
                                            'Removed web services profile account', \Innomatic\Logging\Logger::NOTICE );
 
-                    if ( $hook->CallHooks( 'accountremoved', $this, array( 'id' => $this->mId ) ) != Hook::RESULT_OK ) $result = false;
+                    if ( $hook->callHooks( 'accountremoved', $this, array( 'id' => $this->mId ) ) != \Innomatic\Process\Hook::RESULT_OK ) $result = false;
                     $this->mId = '';
                 } else $result = WebServicesAccount::REMOVE_UNABLE_TO_REMOVE_ACCOUNT;
             } else $result = WebServicesAccount::REMOVE_EMPTY_ACCOUNT_ID;
@@ -243,8 +241,8 @@ class WebServicesAccount
     {
         $result = false;
 
-        $hook = new Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.update' );
-        if ( $hook->CallHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == Hook::RESULT_OK ) {
+        $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.update' );
+        if ( $hook->callHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mId ) {
                 if ( strlen( $name ) ) {
                     $result = &$this->mrRootDb->execute( 'UPDATE webservices_accounts '.
@@ -260,7 +258,7 @@ class WebServicesAccount
                                                         'WHERE id='.(int)$this->mId );
 
                     if ( $result ) {
-                        if ( $hook->CallHooks( 'accountudpated', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password, 'id' => $this->mId ) ) != Hook::RESULT_OK ) $result = false;
+                        if ( $hook->callHooks( 'accountudpated', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password, 'id' => $this->mId ) ) != \Innomatic\Process\Hook::RESULT_OK ) $result = false;
                     } else $result = WebServicesAccount::UPDATE_UNABLE_TO_UPDATE_ACCOUNT;
                 } else {
                     $result = WebServicesAccount::UPDATE_EMPTY_ACCOUNT_NAME;

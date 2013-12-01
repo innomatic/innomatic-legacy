@@ -14,9 +14,8 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/domain/user/Group.php');
-require_once ('innomatic/domain/user/Permissions.php');
-require_once ('innomatic/domain/user/User.php');
+use \Innomatic\Domain\User;
+
 /**
  * Domaingroup component handler.
  */

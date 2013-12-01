@@ -13,9 +13,15 @@
  * @since      Class available since Release 6.1
 */
 
-require_once('innomatic/desktop/panel/PanelActions.php');
+use \Innomatic\Core\InnomaticContainer;
+use \Innomatic\Wui\Wui;
+use \Innomatic\Wui\Widgets;
+use \Innomatic\Wui\Dispatch;
+use \Innomatic\Locale\LocaleCatalog;
+use \Innomatic\Domain\User;
+use \Shared\Wui;
 
-class DashboardPanelActions extends PanelActions
+class DashboardPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 {
     private $_localeCatalog;
 
@@ -26,10 +32,6 @@ class DashboardPanelActions extends PanelActions
 
     public function beginHelper()
     {
-        require_once('innomatic/locale/LocaleCatalog.php');
-        require_once('innomatic/wui/Wui.php');
-        require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-        require_once('innomatic/wui/dispatch/WuiEvent.php');
         $this->_localeCatalog = new LocaleCatalog(
             'innomatic::domain_dashboard',
             InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
@@ -47,7 +49,6 @@ class DashboardPanelActions extends PanelActions
 
         $domain_da = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess();
 
-        require_once('innomatic/domain/user/Permissions.php');
         $perm = new Permissions($domain_da, InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
 
         // Check if the widget exists in the widgets list

@@ -14,6 +14,8 @@
  */
 namespace Shared\Components;
 
+use \Innomatic\Core\InnomaticContainer;
+
 /**
  * Ajaxcall component handler.
  *
@@ -31,10 +33,9 @@ class AjaxcallComponent extends \Innomatic\Application\ApplicationComponent
     public function __destruct()
     {
         // Flushes the xajax call function list cache.
-        require_once ('innomatic/ajax/XajaxConfig.php');
-        $ajax_cfg = new XajaxConfig();
+        $ajax_cfg = new \Innomatic\Ajax\XajaxConfig();
         $ajax_cfg->flushCache(
-            WebAppContainer::instance('webappcontainer')->getCurrentWebApp()
+            \Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getCurrentWebApp()
         );
     }
     public static function getType()

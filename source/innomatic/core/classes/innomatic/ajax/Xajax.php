@@ -821,7 +821,6 @@ class Xajax extends \Innomatic\Util\Singleton
                 trigger_error("The xajax uncompressed Javascript file could not be found in the <b>" . dirname($realJsFile) . "</b> folder. Error ", E_USER_ERROR);
             }
             
-            //require(dirname(__FILE__)."/xajaxCompress.php");
             $javaScript = implode('', file($srcFile));
             $compressedScript = XajaxCompressJavascript($javaScript);
             $fH = @fopen($realJsFile, "w");

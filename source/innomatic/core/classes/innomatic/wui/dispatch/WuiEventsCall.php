@@ -109,7 +109,6 @@ class WuiEventsCall
     {
         $tmp_action = new WuiEventsCall($eventsCallUrl);
         if (is_array($eventsArray)) {
-            require_once('innomatic/wui/dispatch/WuiEvent.php');
             while (list (, $event) = each($eventsArray)) {
                 $tmp_action->addEvent(new WuiEvent($event[0], $event[1], isset($event[2]) ? $event[2] : ''));
             }

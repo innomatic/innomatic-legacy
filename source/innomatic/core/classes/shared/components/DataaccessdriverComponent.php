@@ -14,7 +14,8 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/dataaccess/DataAccessFactory.php');
+use \Innomatic\Dataaccess\DataAccessFactory;
+
 /**
  * DataAccess driver component handler.
  */

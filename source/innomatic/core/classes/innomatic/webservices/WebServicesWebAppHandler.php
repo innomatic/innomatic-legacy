@@ -14,11 +14,10 @@
 */
 namespace Innomatic\Webservices;
 
-/**
- * @since 5.0
- */
-
-require_once('innomatic/webapp/WebAppHandler.php');
+use \Innomatic\Webapp;
+use \Innomatic\Core\InnomaticContainer;
+use \Innomatic\Webservices;
+use \Innomatic\Webservices\Xmlrpc;
 
 /**
  * @since 5.0
@@ -40,8 +39,6 @@ class WebServicesWebAppHandler extends WebAppHandler
         $container = WebAppContainer::instance('webappcontainer');
         $home = $container->getCurrentWebApp()->getHome();
 
-        require_once('innomatic/core/InnomaticContainer.php');
-
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
         $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
         $innomatic->setMode(InnomaticContainer::MODE_ROOT);
@@ -50,11 +47,6 @@ class WebServicesWebAppHandler extends WebAppHandler
         if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP) {
             $innomatic->abort('Setup phase');
         }
-
-        require_once('innomatic/webservices/WebServicesUser.php');
-        require_once('innomatic/webservices/WebServicesProfile.php');
-        require_once('innomatic/webservices/xmlrpc/XmlRpc_Server.php');
-        require_once('innomatic/dataaccess/DataAccess.php');
 
         $xuser = new WebServicesUser(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
         if ($xuser->setByAccount($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
@@ -74,9 +66,8 @@ class WebServicesWebAppHandler extends WebAppHandler
             $container->setWebServicesMethods($xprofile->AvailableMethods());
         } else {
             if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value('SecurityAlertOnWrongWebServicesLogin') == '1') {
-                require_once('innomatic/security/SecurityManager.php');
-                $innomatic_security = new SecurityManager();
-                $innomatic_security->SendAlert('Wrong web services login for user '.$_SERVER['PHP_AUTH_USER'].' from remote address '.$_SERVER['REMOTE_ADDR']);
+                $innomatic_security = new \Innomatic\Security\SecurityManager();
+                $innomatic_security->sendAlert('Wrong web services login for user '.$_SERVER['PHP_AUTH_USER'].' from remote address '.$_SERVER['REMOTE_ADDR']);
                 unset($innomatic_security);
             }
         }

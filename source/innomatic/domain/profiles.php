@@ -16,18 +16,13 @@
 // NOTE: This is an old-style panel code with a single file
 // acting as model, view and controller.
 
-require_once('innomatic/locale/LocaleCatalog.php');
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/wui/widgets/WuiWidget.php');
-require_once('innomatic/wui/widgets/WuiContainerWidget.php');
-require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-require_once('innomatic/wui/dispatch/WuiEvent.php');
-require_once('innomatic/wui/dispatch/WuiEventRawData.php');
-require_once('innomatic/wui/dispatch/WuiDispatcher.php');
-require_once('innomatic/domain/user/Group.php');
-require_once('innomatic/domain/user/Permissions.php');
-require_once('innomatic/domain/user/User.php');
-require_once('innomatic/domain/user/UserSettings.php');
+use \Innomatic\Core\InnomaticContainer;
+use \Innomatic\Wui\Wui;
+use \Innomatic\Wui\Widgets;
+use \Innomatic\Wui\Dispatch;
+use \Innomatic\Locale\LocaleCatalog;
+use \Innomatic\Domain\User;
+use \Shared\Wui;
 
 global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 

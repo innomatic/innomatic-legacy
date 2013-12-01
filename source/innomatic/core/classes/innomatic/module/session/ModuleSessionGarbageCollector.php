@@ -1,7 +1,7 @@
 <?php
 namespace Innomatic\Module\Session;
 
-require_once('innomatic/module/server/ModuleServerContext.php');
+use \Innomatic\Module\Server;
 
 /**
  * Collects garbage sessions file and removes them.

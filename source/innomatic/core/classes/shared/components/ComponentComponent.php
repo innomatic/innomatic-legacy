@@ -46,7 +46,6 @@ class ComponentComponent extends \Innomatic\Application\ApplicationComponent
         $result = false;
         /*
         if (strlen($params['class'])) {
-            require_once('innomatic/application.components.ClassComponent');
             $class_elem = new ClassComponent($this->rootda,$this->domainda,$this->appname,$params['class'],$params['class'],$this->basedir);
             $class_params['name'] = $class_params['file'] = $params['class'];
             $class_elem->Install($class_params);

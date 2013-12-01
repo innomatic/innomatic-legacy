@@ -14,6 +14,8 @@
 */
 namespace Innomatic\Desktop\Controller;
 
+use \Innomatic\Core\InnomaticContainer;
+
 /**
  * Front controller for the Innomatic desktop.
  *
@@ -45,28 +47,22 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
      */
     public function ___construct()
     {
-        require_once('innomatic/desktop/session/DesktopSession.php');
-        $this->session = new DesktopSession();
+        $this->session = new \Innomatic\Desktop\Session\DesktopSession();
         $this->session->start();
     }
 
     public function execute($mode, $resource)
     {
-        require_once('innomatic/wui/WuiException.php');
-
         $this->mode = $mode;
-        require_once('innomatic/desktop/auth/DesktopAuthenticatorHelperFactory.php');
-        require_once('innomatic/wui/theme/WuiTheme.php');
 
         // Sets root theme.
-        WuiTheme::setRootTheme();
+        \Innomatic\Wui\Theme\WuiTheme::setRootTheme();
 
         // Authenticates the user.
-        $auth = DesktopAuthenticatorHelperFactory::getAuthenticatorHelper($mode);
+        $auth = \Innomatic\Desktop\Auth\DesktopAuthenticatorHelperFactory::getAuthenticatorHelper($mode);
         if ($auth->authenticate()) {
             // Validates WUI widgets input.
-            require_once('innomatic/wui/validation/WuiValidatorHelper.php');
-            $validator = new WuiValidatorHelper();
+            $validator = new \Innomatic\Wui\Validation\WuiValidatorHelper();
             $validator->validate();
 
             // TODO Put authorizer here
@@ -90,9 +86,9 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
                     break;
             }
 
-            // TODO Verify whose panel has been called
+            // @todo Verify whose panel has been called
 
-            // TODO Verificare se esiste e se � valida, altrimenti mandare 404 di WebApp
+            // @todo Verificare se esiste e se è valida, altrimenti mandare 404 di WebApp
         }
 
         /**
@@ -123,8 +119,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
         $path = 'base';
         // TODO verificare se e' ancora necessario dopo aver creato Wui::setTheme()
         if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
-            require_once('innomatic/application/ApplicationSettings.php');
-            $appCfg = new ApplicationSettings(
+            $appCfg = new \Innomatic\Application\ApplicationSettings(
                 InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
                 'innomatic'
             );
@@ -144,7 +139,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
                 . $path . '/' . basename($resource) . '.php'
             );
         } else {
-            WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader(
+            \Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader(
                 'P3P', 'CP="CUR ADM OUR NOR STA NID"'
             );
             include('innomatic/desktop/layout/' . $path . '/index.php');
@@ -174,8 +169,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
                 InnomaticContainer::instance('innomaticcontainer')->getState()
                 == InnomaticContainer::STATE_DEBUG
             ) {
-                require_once('innomatic/debug/InnomaticDump.php');
-                $dump = InnomaticDump::instance('innomaticdump');
+                $dump = \Innomatic\Debug\InnomaticDump::instance('innomaticdump');
                 $dump->desktopApplication = $desktopPanel;
             }
 
@@ -186,15 +180,13 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
 
                 // Checks if view file and definition exist
                 if (!include_once($panelHome.$controllerClassName . '.php')) {
-                    require_once('innomatic/wui/WuiException.php');
-                    throw new WuiException(
-                        WuiException::MISSING_CONTROLLER_FILE
+                    throw new \Innomatic\Wui\WuiException(
+                        \Innomatic\Wui\WuiException::MISSING_CONTROLLER_FILE
                     );
                 }
                 if (!class_exists($controllerClassName, true)) {
-                    require_once('innomatic/wui/WuiException.php');
-                    throw new WuiException(
-                        WuiException::MISSING_CONTROLLER_CLASS
+                    throw new \Innomatic\Wui\WuiException(
+                        \Innomatic\Wui\WuiException::MISSING_CONTROLLER_CLASS
                     );
                 }
                 $controller = new $controllerClassName(
@@ -225,7 +217,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
             }
         } else {
             if (strlen($this->session->get('INNOMATIC_ROOT_AUTH_USER'))) {
-                WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"' );
+                \Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"' );
                 include('innomatic/desktop/layout/root/index.php');
             }
         }
@@ -247,9 +239,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
     {
         // Check if this is the default page and if the user is allowed to access the dashboard
         if (substr($resource, -1, 1) == '/') {
-            require_once('innomatic/domain/user/Permissions.php');
-
-            $perm = new Permissions(InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
+            $perm = new \Innomatic\Domain\User\Permissions(InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
             $node_id = $perm->getNodeIdFromFileName('dashboard');
             if ( $perm->check( $node_id, Permissions::NODETYPE_PAGE ) != Permissions::NODE_NOTENABLED ) {
                 $resource = $resource.'dashboard';
@@ -260,13 +250,12 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
             // Must exit if the user called a page for which he isn't enabled
             //
             if (!isset($perm)) {
-                require_once('innomatic/domain/user/Permissions.php');
-                $perm = new Permissions(InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
+                $perm = new \Innomatic\Domain\User\Permissions(InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
             }
 
             $desktopPanel = basename($resource);
             if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
-                $dump = InnomaticDump::instance('innomaticdump');
+                $dump = \Innomatic\Debug\InnomaticDump::instance('innomaticdump');
                 $dump->desktopApplication = $desktopPanel;
             }
 
@@ -278,14 +267,12 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
                     $node_id = $perm->getNodeIdFromFileName($desktopPanel);
 
                     if ($node_id) {
-                        if ($perm->Check($node_id, Permissions::NODETYPE_PAGE) == Permissions::NODE_NOTENABLED) {
-                            require_once('innomatic/locale/LocaleCatalog.php');
-                            $adloc = new LocaleCatalog('innomatic::authentication', InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage());
+                        if ($perm->check($node_id, Permissions::NODETYPE_PAGE) == Permissions::NODE_NOTENABLED) {
+                            $adloc = new \Innomatic\Locale\LocaleCatalog('innomatic::authentication', InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage());
                             InnomaticContainer::instance('innomaticcontainer')->abort($adloc->getStr('nopageauth'));
                         }
                     } else {
-                        require_once('innomatic/locale/LocaleCatalog.php');
-                        $adloc = new LocaleCatalog('innomatic::authentication', InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage());
+                        $adloc = new \Innomatic\Locale\LocaleCatalog('innomatic::authentication', InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage());
                         InnomaticContainer::instance('innomaticcontainer')->abort($adloc->getStr('nopageauth'));
                     }
             }
@@ -296,12 +283,10 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
 
                 // Checks if view file and definition exist
                 if (!include_once($panelHome . $controllerClassName . '.php')) {
-                    require_once('innomatic/wui/WuiException.php');
-                    throw new WuiException(WuiException::MISSING_CONTROLLER_FILE);
+                    throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_CONTROLLER_FILE);
                 }
                 if (!class_exists($controllerClassName, true)) {
-                    require_once('innomatic/wui/WuiException.php');
-                    throw new WuiException(WuiException::MISSING_CONTROLLER_CLASS);
+                    throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_CONTROLLER_CLASS);
                 }
                 $controller = new $controllerClassName(InnomaticContainer::MODE_DOMAIN, $panelName);
             } else {
@@ -320,7 +305,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
             }
         } else {
             if (strlen($this->session->get('INNOMATIC_AUTH_USER'))) {
-                WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"' );
+                \Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"' );
                 include('innomatic/desktop/layout/domain/index.php');
             }
         }

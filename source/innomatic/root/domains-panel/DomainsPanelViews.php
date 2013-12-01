@@ -13,9 +13,7 @@
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/desktop/panel/PanelViews.php');
-
-class DomainsPanelViews extends PanelViews
+class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 {
     public $wuiPage;
     public $wuiMainvertgroup;

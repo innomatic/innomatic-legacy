@@ -17,8 +17,6 @@ namespace Innomatic\Webservices\Xmlrpc;
  * @todo implement self-parsing of php code for PHP <= 4
  */
 
-    // requires: xmlrpc.inc
-
     /**
     * Given a string defining a php type or phpxmlrpc type (loosely defined: strings
     * accepted come from javadoc blocks), return corresponding phpxmlrpc type.

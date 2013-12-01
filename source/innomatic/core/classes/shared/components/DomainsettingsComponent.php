@@ -14,6 +14,8 @@
  */
 namespace Shared\Components;
 
+use \Innomatic\Domain\DomainSettings;
+
 /**
  * Domainsettings component handler.
  */
@@ -43,7 +45,6 @@ class DomainsettingsComponent extends \Innomatic\Application\ApplicationComponen
     {
         $result = false;
         if (strlen($params['file']) and isset($params['key'])) {
-            require_once ('innomatic/domain/DomainSettings.php');
             $domain_cfg = new DomainSettings($this->domainda);
             $domain_cfg->setKey($params['key'], isset($params['value']) ? $params['value'] : '');
         } else
@@ -55,7 +56,6 @@ class DomainsettingsComponent extends \Innomatic\Application\ApplicationComponen
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {
             if (! (isset($params['keep']) and $params['keep'] = 'true')) {
-                require_once ('innomatic/domain/DomainSettings.php');
                 $domain_cfg = new DomainSettings($this->domainda);
                 $domain_cfg->DeleteKey($params['key']);
             }
@@ -67,7 +67,6 @@ class DomainsettingsComponent extends \Innomatic\Application\ApplicationComponen
     {
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {
-            require_once ('innomatic/domain/DomainSettings.php');
             $domain_cfg = new DomainSettings($this->domainda);
             if (! (isset($params['keep']) and $params['keep'] = 'true' and $domain_cfg->CheckKey($params['key']))) {
                 $domain_cfg->setKey($params['key'], isset($params['value']) ? $params['value'] : '');

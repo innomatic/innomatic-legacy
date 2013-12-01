@@ -1,8 +1,6 @@
 <?php
 namespace Innomatic\Module\Services;
 
-require_once('innomatic/module/ModuleRemoteObject.php');
-
 /**
  * A generic remote object, with no custom client methods.
  *
@@ -10,6 +8,6 @@ require_once('innomatic/module/ModuleRemoteObject.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleGenericRemoteObject extends ModuleRemoteObject
+class ModuleGenericRemoteObject extends \Innomatic\Module\ModuleRemoteObject
 {
 }

@@ -14,8 +14,6 @@
 */
 namespace Innomatic\Desktop\Panel;
 
-require_once('innomatic/desktop/panel/PanelController.php');
-
 /**
  * Abstract class for implementing a set of views in a Desktop Panel following
  * the MVC design pattern.
@@ -37,8 +35,7 @@ abstract class PanelViews implements \Innomatic\Util\Observer
         $this->_controller = $controller;
 
         // Sets Wui container instance
-        require_once('innomatic/wui/Wui.php');
-        $this->_wuiContainer = Wui::instance('wui');
+        $this->_wuiContainer = \Innomatic\Wui\Wui::instance('wui');
     }
 
     abstract public function beginHelper();

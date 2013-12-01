@@ -14,6 +14,9 @@
 */
 namespace Innomatic\Desktop\Auth;
 
+use \Innomatic\Core\InnomaticContainer;
+use \Innomatic\Wui\Dispatch;
+
 /**
  * @package Desktop
  */
@@ -21,13 +24,10 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
 {
     public function authenticate()
     {
-        require_once('innomatic/wui/Wui.php');
-        require_once('innomatic/wui/dispatch/WuiDispatcher.php');
-        require_once('innomatic/desktop/controller/DesktopFrontController.php');
-        $session = DesktopFrontController::instance('desktopfrontcontroller')->session;
+        $session = \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->session;
 
-        if (isset(Wui::instance('wui')->parameters['wui']['login'])) {
-            $loginDispatcher = new WuiDispatcher('login');
+        if (isset(\Innomatic\Wui\Wui::instance('wui')->parameters['wui']['login'])) {
+            $loginDispatcher = new \Innomatic\Wui\Dispatch\WuiDispatcher('login');
             $loginDispatcher->addEvent('logout', '\Innomatic\Desktop\Auth\login_logout');
             $loginDispatcher->addEvent('login', '\Innomatic\Desktop\Auth\login_login');
             $loginDispatcher->Dispatch();
@@ -39,18 +39,16 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
             }
         }
 
-        require_once('innomatic/desktop/controller/DesktopFrontController.php');
-        if (!DesktopFrontController::instance('desktopfrontcontroller')->session->isValid('INNOMATIC_AUTH_USER')) {
+        if (!\Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->session->isValid('INNOMATIC_AUTH_USER')) {
             self::doAuth();
         }
 
-        require_once('innomatic/domain/user/User.php');
-        $domainsquery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('SELECT id FROM domains WHERE domainid='.InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText(User::extractDomainID($session->get('INNOMATIC_AUTH_USER'))));
+        $domainsquery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('SELECT id FROM domains WHERE domainid='.InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText(\Innomatic\Domain\User\User::extractDomainID($session->get('INNOMATIC_AUTH_USER'))));
         if ($domainsquery->getNumberRows() == 0) {
             self::doAuth();
         } else {
             $domainsquery->free();
-            InnomaticContainer::instance('innomaticcontainer')->startDomain(User::extractDomainID($session->get('INNOMATIC_AUTH_USER')), $session->get('INNOMATIC_AUTH_USER'));
+            InnomaticContainer::instance('innomaticcontainer')->startDomain(\Innomatic\Domain\User\User::extractDomainID($session->get('INNOMATIC_AUTH_USER')), $session->get('INNOMATIC_AUTH_USER'));
         }
 
         if ($session->isValid('domain_login_attempts')) {
@@ -68,13 +66,11 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
 
     public static function doAuth($wrong = false, $reason = '')
     {
-        require_once('innomatic/wui/Wui.php');
-        require_once('innomatic/locale/LocaleCatalog.php');
-        $innomaticLocale = new LocaleCatalog('innomatic::authentication', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+        $innomaticLocale = new \Innomatic\Locale\LocaleCatalog('innomatic::authentication', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
 
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
 
-        $wui = Wui::instance('wui');
+        $wui = \Innomatic\Wui\Wui::instance('wui');
         $wui->loadWidget('button');
         $wui->loadWidget('formarg');
         $wui->loadWidget('form');
@@ -117,8 +113,6 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
         $wuiVGroup->addChild($wuiGrid);
         $wuiVGroup->addChild(new WuiSubmit('submit', array('caption' => $innomaticLocale->getStr('enter'))));
 
-        require_once('innomatic/wui/dispatch/WuiEvent.php');
-        require_once('innomatic/wui/dispatch/WuiEventsCall.php');
         $formEventsCall = new WuiEventsCall();
         $formEventsCall->addEvent(new WuiEvent('login', 'login', ''));
         $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
@@ -134,18 +128,16 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
 
         // Wrong account check
         //
-        require_once('innomatic/desktop/controller/DesktopFrontController.php');
-        $session = DesktopFrontController::instance('desktopfrontcontroller')->session;
+        $session = \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->session;
 
         if ($wrong) {
             if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('SecurityAlertOnWrongLocalUserLogin') == '1') {
-                require_once('innomatic/security/SecurityManager.php');
-                $loginDispatcher = new WuiDispatcher('login');
+                $loginDispatcher = new \Innomatic\Wui\Dispatch\WuiDispatcher('login');
                 $eventData = $loginDispatcher->getEventData();
 
-                $innomaticSecurity = new SecurityManager();
-                $innomaticSecurity->SendAlert('Wrong user local login for user '.$eventData['username'].' from remote address '.$_SERVER['REMOTE_ADDR']);
-                $innomaticSecurity->LogFailedAccess($eventData['username'], false, $_SERVER['REMOTE_ADDR']);
+                $innomaticSecurity = new \Innomatic\Security\SecurityManager();
+                $innomaticSecurity->sendAlert('Wrong user local login for user '.$eventData['username'].' from remote address '.$_SERVER['REMOTE_ADDR']);
+                $innomaticSecurity->logFailedAccess($eventData['username'], false, $_SERVER['REMOTE_ADDR']);
 
                 unset($innomaticSecurity);
             }
@@ -201,13 +193,11 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
 function login_login($eventData)
 {
     $username = $eventData['username'];
-    require_once('innomatic/domain/Domain.php');
-    require_once('innomatic/domain/user/User.php');
-    $domainId = User::extractDomainID($username);
+    $domainId = \Innomatic\Domain\User\User::extractDomainID($username);
 
     // Checks it it can find the domain by hostname
     if (!strlen($domainId)) {
-        $domainId = Domain::getDomainByHostname();
+        $domainId = \Innomatic\Domain\Domain::getDomainByHostname();
         if (strlen($domainId)) {
             $username .= '@'.$domainId;
         }
@@ -218,7 +208,7 @@ function login_login($eventData)
     if (!strlen($domainId)) {
         DesktopDomainAuthenticatorHelper::doAuth(true);
     }
-    $tmpDomain = new Domain(
+    $tmpDomain = new \Innomatic\Domain\Domain(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
         $domainId,
         null
@@ -232,18 +222,15 @@ function login_login($eventData)
     );
 
     if ($userQuery->getNumberRows()) {
-        require_once('innomatic/desktop/controller/DesktopFrontController.php');
-        DesktopFrontController::instance(
+        \Innomatic\Desktop\Controller\DesktopFrontController::instance(
             'desktopfrontcontroller'
         )->session->put(
             'INNOMATIC_AUTH_USER',
             $username
         );
 
-        require_once('innomatic/security/SecurityManager.php');
-
-        $innomaticSecurity = new SecurityManager();
-        $innomaticSecurity->LogAccess(
+        $innomaticSecurity = new \Innomatic\Security\SecurityManager();
+        $innomaticSecurity->logAccess(
             $username,
             false,
             false,
@@ -260,19 +247,16 @@ function login_login($eventData)
 
 function login_logout($eventData)
 {
-    require_once('innomatic/security/SecurityManager.php');
-    require_once('innomatic/desktop/controller/DesktopFrontController.php');
-
-    DesktopFrontController::instance(
+    \Innomatic\Desktop\Controller\DesktopFrontController::instance(
         'desktopfrontcontroller'
     )->session->put(
         'INNOMATIC_AUTH_USER',
         $eventData['username']
     );
 
-    $innomaticSecurity = new SecurityManager();
-    $innomaticSecurity->LogAccess(
-        DesktopFrontController::instance(
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
+    $innomaticSecurity->logAccess(
+        \Innomatic\Desktop\Controller\DesktopFrontController::instance(
             'desktopfrontcontroller'
         )->session->get(
             'INNOMATIC_AUTH_USER'
@@ -282,7 +266,7 @@ function login_logout($eventData)
         $_SERVER['REMOTE_ADDR']
     );
 
-    DesktopFrontController::instance('desktopfrontcontroller')->session->remove(
+    \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->session->remove(
         'INNOMATIC_AUTH_USER'
     );
     unset($innomaticSecurity);

@@ -1,8 +1,7 @@
 <?php
 namespace Innomatic\Module\Session;
 
-require_once('innomatic/module/ModuleContext.php');
-require_once('innomatic/module/ModuleObject.php');
+use \Innomatic\Module;
 
 /**
  * Object for storing a ModuleObject's object value in a session.

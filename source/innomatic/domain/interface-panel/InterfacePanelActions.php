@@ -13,9 +13,16 @@
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/desktop/panel/PanelActions.php');
+use \Innomatic\Core\InnomaticContainer;
+use \Innomatic\Wui\Wui;
+use \Innomatic\Wui\Widgets;
+use \Innomatic\Wui\Dispatch;
+use \Innomatic\Locale\LocaleCatalog;
+use \Innomatic\Domain\User;
+use \Innomatic\Domain;
+use \Shared\Wui;
 
-class InterfacePanelActions extends PanelActions
+class InterfacePanelActions extends \Innomatic\Desktop\Panel\PanelActions
 {
     private $_localeCatalog;
     public $status;
@@ -28,16 +35,6 @@ class InterfacePanelActions extends PanelActions
 
     public function beginHelper()
     {
-require_once('innomatic/locale/LocaleCatalog.php');
-require_once('innomatic/domain/user/UserSettings.php');
-require_once('innomatic/domain/DomainSettings.php');
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/wui/widgets/WuiWidget.php');
-require_once('innomatic/wui/widgets/WuiContainerWidget.php');
-require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-require_once('innomatic/wui/dispatch/WuiEvent.php');
-require_once('innomatic/wui/dispatch/WuiEventRawData.php');
-require_once('innomatic/wui/dispatch/WuiDispatcher.php');
         $this->_localeCatalog = new LocaleCatalog(
             'innomatic::domain_interface',
             InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()

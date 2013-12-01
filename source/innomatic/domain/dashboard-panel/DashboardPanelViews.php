@@ -12,12 +12,15 @@
  * @link       http://www.innomatic.org
  * @since      Class available since Release 6.1
 */
-
-require_once('innomatic/desktop/panel/PanelViews.php');
-
+use \Innomatic\Core\InnomaticContainer;
+use \Innomatic\Wui\Wui;
+use \Innomatic\Wui\Widgets;
+use \Innomatic\Wui\Dispatch;
+use \Innomatic\Locale\LocaleCatalog;
+use \Innomatic\Domain\User;
 use \Shared\Wui;
 
-class DashboardPanelViews extends PanelViews
+class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 {
     public $wuiPage;
     public $wuiMainvertgroup;
@@ -32,14 +35,6 @@ class DashboardPanelViews extends PanelViews
 
     public function beginHelper()
     {
-        require_once('innomatic/locale/LocaleCatalog.php');
-        require_once('innomatic/wui/Wui.php');
-        require_once('innomatic/wui/widgets/WuiWidget.php');
-        require_once('innomatic/wui/widgets/WuiContainerWidget.php');
-        require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-        require_once('innomatic/wui/dispatch/WuiEvent.php');
-        require_once('innomatic/wui/dispatch/WuiEventRawData.php');
-        require_once('innomatic/wui/dispatch/WuiDispatcher.php');
         $this->localeCatalog = new LocaleCatalog(
             'innomatic::domain_dashboard',
             InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()

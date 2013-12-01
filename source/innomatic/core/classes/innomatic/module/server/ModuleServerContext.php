@@ -1,8 +1,6 @@
 <?php
 namespace Innomatic\Module\Server;
 
-require_once('innomatic/module/server/ModuleServerConfig.php');
-
 /**
  * Context where the Module server runs.
  *
@@ -23,15 +21,14 @@ class ModuleServerContext extends \Innomatic\Util\Singleton
      */
     public function ___construct()
     {
-        require_once('innomatic/core/InnomaticContainer.php');
-        $home = InnomaticContainer::instance('innomaticcontainer')->getHome();
+        $home = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome();
 
         if (substr($home, -1) != '/' and substr($home, -1) != '\\') {
             $home .= DIRECTORY_SEPARATOR;
         }
 
         $this->home = $home;
-        $this->config = new ModuleServerConfig($this->home.'core/conf/modules.ini');
+        $this->config = new \Innomatic\Module\Server\ModuleServerConfig($this->home.'core/conf/modules.ini');
     }
 
     /**

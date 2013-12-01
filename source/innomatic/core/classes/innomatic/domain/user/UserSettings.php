@@ -33,8 +33,7 @@ class UserSettings
             if ($key_query->getNumberRows()) {
                 return $key_query->getFields('val');
             } elseif ($fallbackToDomainSetting == true) {
-                require_once('innomatic/domain/DomainSettings.php');
-                $sets = new DomainSettings($this->mrDomainDA);
+                $sets = new \Innomatic\Domain\DomainSettings($this->mrDomainDA);
                 return $sets->getKey($key);
             }
         }
