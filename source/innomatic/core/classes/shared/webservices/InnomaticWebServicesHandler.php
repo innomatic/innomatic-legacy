@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -16,7 +16,8 @@
 require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
 require_once('innomatic/webservices/WebServicesHandler.php');
 
-class InnomaticWebServicesHandler extends WebServicesHandler {
+class InnomaticWebServicesHandler extends WebServicesHandler
+{
     // Returns Innomatic main log file content
     //
     public static function log_root_get()
@@ -160,7 +161,8 @@ class InnomaticWebServicesHandler extends WebServicesHandler {
 
     // Returns Innomatic version
     //
-    public static function version() {
+    public static function version()
+    {
         $result = '';
 
         $query = InnomaticContainer::instance(
@@ -204,7 +206,8 @@ class InnomaticWebServicesHandler extends WebServicesHandler {
 
     // Installs a new Application
     //
-    public static function applications_application_install($m) {
+    public static function applications_application_install($m)
+    {
         //return new XmlRpcResp(
         //  new XmlRpcVal($innomatic->InstallApplication($appfile))
         //);
@@ -239,7 +242,8 @@ class InnomaticWebServicesHandler extends WebServicesHandler {
 
     // Returns the list of current domains
     //
-    public static function domains_list() {
+    public static function domains_list()
+    {
         $result = array();
         $query = InnomaticContainer::instance(
             'innomaticcontainer'
@@ -259,7 +263,8 @@ class InnomaticWebServicesHandler extends WebServicesHandler {
 
     // Returns the list of the applications enabled to a given domain
     //
-    public static function domains_domain_enabledapplications($m) {
+    public static function domains_domain_enabledapplications($m)
+    {
         global $xmlrpcerruser;
 
         $domainid = $m->getParam(0);

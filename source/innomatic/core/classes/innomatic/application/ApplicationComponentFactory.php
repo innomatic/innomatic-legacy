@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -85,7 +85,7 @@ class ApplicationComponentFactory
                             $result = FALSE;
                         }
                         $className = ucfirst($data['typename']).'Component';
-                        if (class_exists($className)) {
+                        if (class_exists($className, false)) {
                             $this->types[call_user_func(array($className, 'getType'))] = array(
                                 'type' => call_user_func(array($className, 'getType')),
                                 'classname' => $className,
@@ -128,7 +128,7 @@ class ApplicationComponentFactory
             require_once($filepath);
 
             $className = substr(basename($filepath), 0, -4);
-            if (class_exists($className)) {
+            if (class_exists($className, false)) {
 
                 if (
                     call_user_func(array($className, 'getType'))
@@ -184,7 +184,7 @@ class ApplicationComponentFactory
         if ($this->rootda and file_exists($filepath)) {
             require_once($filepath);
             $className = substr(basename($filepath), 0, -4);
-            if (class_exists($className)) {
+            if (class_exists($className, false)) {
 
                 if (call_user_func(array($className, 'getType')) and $className) {
                     /*
@@ -192,7 +192,7 @@ class ApplicationComponentFactory
                      $component['links'] = array();
                      }
                      */
-                        
+
                     $checkQuery = $this->rootda->execute(
                         'SELECT typename FROM applications_components_types WHERE typename=' .
                         $this->rootda->formatText(call_user_func(array($className, 'getType')))
@@ -271,7 +271,7 @@ class ApplicationComponentFactory
         if ($this->rootda and file_exists($filepath)) {
             require_once($filepath);
             $className = substr(basename($filepath), 0, -4);
-            if (class_exists($className)) {
+            if (class_exists($className, false)) {
 
                 if (
                     call_user_func(array($className, 'getType'))

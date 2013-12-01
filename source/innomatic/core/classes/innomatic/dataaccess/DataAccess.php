@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -65,7 +65,7 @@ abstract class DataAccess
      @discussion It should be called through DataAccessFactory::getDataAccess() method
      @param params array - Database parameters
      */
-    function __construct(DataAccessSourceName $dasn)
+    public function __construct(DataAccessSourceName $dasn)
     {
         $this->dasn = $dasn;
         require_once('innomatic/core/InnomaticContainer.php');
@@ -360,7 +360,7 @@ abstract class DataAccess
                     require_once('innomatic/debug/InnomaticDump.php');
                     $dump = InnomaticDump::instance('innomaticdump');
                     $dump->dataAccess['queries'][] = $pieces[$i];
-                    
+
                     $debugCounter = $this->innomatic->getDbLoadTimer()->AdvanceCounter();
                     $this->innomatic->getDbLoadTimer()->Start($debugCounter.': '.$pieces[$i]);
 
@@ -373,8 +373,7 @@ abstract class DataAccess
                         $this->log = new Logger($this->dasn->getOption('logfile'));
                         $this->log->logEvent('innomatic.dataaccess.execute', 'Executed query '.$pieces[$i], Logger::DEBUG);
                     }
-                }
-                else $resid = $this->doExecute($pieces[$i]);
+                } else $resid = $this->doExecute($pieces[$i]);
 
                 if ($resid == false) {
                     $this->lastError = 'Unable to execute query '.$pieces[$i];
@@ -382,7 +381,7 @@ abstract class DataAccess
                     $this->log = new Logger($this->dasn->getOption('logfile'));
                     $this->log->logEvent('innomatic.dataaccess.execute', $this->lastError, Logger::ERROR);
                     $result = false;
-                } else if (($i == count($pieces) - 1) and ($resid != 1)) {
+                } elseif (($i == count($pieces) - 1) and ($resid != 1)) {
                     $rsname = $this->driver.'DataAccessResult';
                     $result = new $rsname($resid);
                     $this->lastError = '';
@@ -497,7 +496,8 @@ abstract class DataAccess
         return date($this->fmttime, $time);
     }
 
-    public function formatUnixTimestamp($timestamp) {
+    public function formatUnixTimestamp($timestamp)
+    {
         return date($this->fmttimestamp, $timestamp);
     }
 

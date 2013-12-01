@@ -35,8 +35,8 @@ require_once('innomatic/wui/widgets/layersmenu/LayersTemplate.php');
 * @version 2.3.5
  * @package WUI
  */
-class LayersMenu {
-
+class LayersMenu
+{
 /**
 * The name of the package
 * @access private
@@ -404,7 +404,8 @@ function LayersMenu(
 * @access public
 * @return void
 */
-function setAbscissaStep($abscissaStep) {
+function setAbscissaStep($abscissaStep)
+{
     $this->abscissaStep = $abscissaStep;
 }
 
@@ -413,7 +414,8 @@ function setAbscissaStep($abscissaStep) {
 * @access public
 * @return void
 */
-function setOrdinateStep($ordinateStep) {
+function setOrdinateStep($ordinateStep)
+{
     $this->ordinateStep = $ordinateStep;
 }
 
@@ -422,7 +424,8 @@ function setOrdinateStep($ordinateStep) {
 * @access public
 * @return void
 */
-function setThresholdY($thresholdY) {
+function setThresholdY($thresholdY)
+{
     $this->thresholdY = $thresholdY;
 }
 
@@ -431,7 +434,8 @@ function setThresholdY($thresholdY) {
 * @access public
 * @return boolean
 */
-function setPrependedUrl($prependedUrl) {
+function setPrependedUrl($prependedUrl)
+{
     // We do not perform any check
     $this->prependedUrl = $prependedUrl;
     return true;
@@ -442,7 +446,8 @@ function setPrependedUrl($prependedUrl) {
 * @access public
 * @return boolean
 */
-function setDirroot($dirroot) {
+function setDirroot($dirroot)
+{
     if (!is_dir($dirroot)) {
         $this->error("setDirroot: $dirroot is not a directory.");
         return false;
@@ -459,7 +464,8 @@ function setDirroot($dirroot) {
 * @access public
 * @return boolean
 */
-function setLibdir($libdir) {
+function setLibdir($libdir)
+{
     if (substr($libdir, -1) == "/") {
         $libdir = substr($libdir, 0, -1);
     }
@@ -479,7 +485,8 @@ function setLibdir($libdir) {
 * @access public
 * @return void
 */
-function setLibwww($libwww) {
+function setLibwww($libwww)
+{
     if (substr($libwww, -1) != "/") {
         $libwww .= "/";
     }
@@ -491,7 +498,8 @@ function setLibwww($libwww) {
 * @access public
 * @return boolean
 */
-function setTpldir($tpldir) {
+function setTpldir($tpldir)
+{
     if (substr($tpldir, -1) == "/") {
         $tpldir = substr($tpldir, 0, -1);
     }
@@ -511,7 +519,8 @@ function setTpldir($tpldir) {
 * @access public
 * @return boolean
 */
-function setImgdir($imgdir) {
+function setImgdir($imgdir)
+{
     if (substr($imgdir, -1) == "/") {
         $imgdir = substr($imgdir, 0, -1);
     }
@@ -531,7 +540,8 @@ function setImgdir($imgdir) {
 * @access public
 * @return void
 */
-function setImgwww($imgwww) {
+function setImgwww($imgwww)
+{
     if (substr($imgwww, -1) != "/") {
         $imgwww .= "/";
     }
@@ -543,7 +553,8 @@ function setImgwww($imgwww) {
 * @access public
 * @return boolean
 */
-function setHorizontalMenuTpl($horizontalMenuTpl) {
+function setHorizontalMenuTpl($horizontalMenuTpl)
+{
     if (str_replace("/", "", $horizontalMenuTpl) == $horizontalMenuTpl) {
         $horizontalMenuTpl = $this->tpldir . $horizontalMenuTpl;
     }
@@ -560,7 +571,8 @@ function setHorizontalMenuTpl($horizontalMenuTpl) {
 * @access public
 * @return boolean
 */
-function setVerticalMenuTpl($verticalMenuTpl) {
+function setVerticalMenuTpl($verticalMenuTpl)
+{
     if (str_replace("/", "", $verticalMenuTpl) == $verticalMenuTpl) {
         $verticalMenuTpl = $this->tpldir . $verticalMenuTpl;
     }
@@ -577,7 +589,8 @@ function setVerticalMenuTpl($verticalMenuTpl) {
 * @access public
 * @return boolean
 */
-function setSubMenuTpl($subMenuTpl) {
+function setSubMenuTpl($subMenuTpl)
+{
     if (str_replace("/", "", $subMenuTpl) == $subMenuTpl) {
         $subMenuTpl = $this->tpldir . $subMenuTpl;
     }
@@ -595,7 +608,8 @@ function setSubMenuTpl($subMenuTpl) {
 * @param string $forwardArrow the forward arrow HTML code
 * @return void
 */
-function setForwardArrow($forwardArrow) {
+function setForwardArrow($forwardArrow)
+{
     $this->forwardArrow = $forwardArrow;
 }
 
@@ -605,13 +619,14 @@ function setForwardArrow($forwardArrow) {
 * @param string $forwardArrowImg the forward arrow image filename
 * @return boolean
 */
-function setForwardArrowImg($forwardArrowImg) {
+function setForwardArrowImg($forwardArrowImg)
+{
     if (!file_exists($this->imgdir . $forwardArrowImg)) {
         $this->error("setForwardArrowImg: file " . $this->imgdir . $forwardArrowImg . " does not exist.");
         return false;
     }
     $foobar = getimagesize($this->imgdir . $forwardArrowImg);
-    $this->forwardArrow = " <img src=\"" . $this->imgwww . $forwardArrowImg . "\" width=\"" . $foobar[0] . "\" height=\"" . $foobar[1] . "\" border=\"0\" alt=\" >>\" />";
+    $this->forwardArrow = " <img src=\"" . $this->imgwww . $forwardArrowImg . "\" width=\"" . ($foobar[0]/2) . "\" height=\"" . ($foobar[1]/2) . "\" border=\"0\" alt=\" >>\" />";
     return true;
 }
 
@@ -621,7 +636,8 @@ function setForwardArrowImg($forwardArrowImg) {
 * @param string $downArrow the down arrow HTML code
 * @return void
 */
-function setDownArrow($downArrow) {
+function setDownArrow($downArrow)
+{
     $this->downArrow = $downArrow;
 }
 
@@ -631,13 +647,14 @@ function setDownArrow($downArrow) {
 * @param string $downArrowImg the down arrow image filename
 * @return boolean
 */
-function setDownArrowImg($downArrowImg) {
+function setDownArrowImg($downArrowImg)
+{
     if (!file_exists($this->imgdir . $downArrowImg)) {
         $this->error("setDownArrowImg: file " . $this->imgdir . $downArrowImg . " does not exist.");
         return false;
     }
     $foobar = getimagesize($this->imgdir . $downArrowImg);
-    $this->downArrow = " <img src=\"" . $this->imgwww . $downArrowImg . "\" width=\"" . $foobar[0] . "\" height=\"" . $foobar[1] . "\" border=\"0\" alt=\" >>\" />";
+    $this->downArrow = " <img src=\"" . $this->imgwww . $downArrowImg . "\" width=\"" . ($foobar[0]/2) . "\" height=\"" . ($foobar[1]/2) . "\" border=\"0\" alt=\" >>\" />";
     return true;
 }
 
@@ -647,7 +664,8 @@ function setDownArrowImg($downArrowImg) {
 * @param string $tree_file the menu structure file
 * @return boolean
 */
-function setMenuStructureFile($tree_file) {
+function setMenuStructureFile($tree_file)
+{
     if (!($fd = fopen($tree_file, "r"))) {
         $this->error("setMenuStructureFile: unable to open file $tree_file.");
         return false;
@@ -671,7 +689,8 @@ function setMenuStructureFile($tree_file) {
 * @param string $tree_string the menu structure string
 * @return boolean
 */
-function setMenuStructureString($tree_string) {
+function setMenuStructureString($tree_string)
+{
     $this->menuStructure = ereg_replace(chr(13), "", $tree_string);    // Microsoft Stupidity Suppression
     if ($this->menuStructure == "") {
         $this->error("setMenuStructureString: empty string.");
@@ -685,7 +704,8 @@ function setMenuStructureString($tree_string) {
 * @access public
 * @return void
 */
-function setSeparator($separator) {
+function setSeparator($separator)
+{
     $this->separator = $separator;
 }
 
@@ -696,7 +716,8 @@ function setSeparator($separator) {
 * @param bool $persistent DB connections are either persistent or not persistent
 * @return boolean
 */
-function setDBConnParms($dsn, $persistent=false) {
+function setDBConnParms($dsn, $persistent=false)
+{
     if (!is_string($dsn)) {
         $this->error("initdb: \$dsn is not an string.");
         return false;
@@ -716,7 +737,8 @@ function setDBConnParms($dsn, $persistent=false) {
 * @param string
 * @return boolean
 */
-function setTableName($tableName) {
+function setTableName($tableName)
+{
     if (!is_string($tableName)) {
         $this->error("setTableName: \$tableName is not a string.");
         return false;
@@ -731,7 +753,8 @@ function setTableName($tableName) {
 * @param string
 * @return boolean
 */
-function setTableName_i18n($tableName_i18n) {
+function setTableName_i18n($tableName_i18n)
+{
     if (!is_string($tableName_i18n)) {
         $this->error("setTableName_i18n: \$tableName_i18n is not a string.");
         return false;
@@ -746,7 +769,8 @@ function setTableName_i18n($tableName_i18n) {
 * @param array
 * @return boolean
 */
-function setTableFields($tableFields) {
+function setTableFields($tableFields)
+{
     if (!is_array($tableFields)) {
         $this->error("setTableFields: \$tableFields is not an array.");
         return false;
@@ -768,7 +792,8 @@ function setTableFields($tableFields) {
 * @param array
 * @return boolean
 */
-function setTableFields_i18n($tableFields_i18n) {
+function setTableFields_i18n($tableFields_i18n)
+{
     if (!is_array($tableFields_i18n)) {
         $this->error("setTableFields_i18n: \$tableFields_i18n is not an array.");
         return false;
@@ -912,7 +937,8 @@ echo "TIME ELAPSED = " . $time . "\n<br>";
     $this->_postParse($menu_name);
 }
 
-function _getmicrotime() {
+function _getmicrotime()
+{
     list($usec, $sec) = explode(" ", microtime());
     return ((float) $usec + (float) $sec);
 }
@@ -929,7 +955,8 @@ function _getmicrotime() {
 * @param integer $level the hierarchical level of children to be searched for
 * @return void
 */
-function _depthFirstSearch($tmpArray, $menu_name, $parent_id=1, $level) {
+function _depthFirstSearch($tmpArray, $menu_name, $parent_id=1, $level)
+{
     reset ($tmpArray);
     while (list($id, $foobar) = each($tmpArray)) {
         if ($foobar["parent_id"] == $parent_id) {
@@ -972,8 +999,8 @@ function _postParse(
         } else {
             $this->tree[$cnt]["parsed_icon"] = $this->tree[$cnt]["icon"];
             $foobar = getimagesize($fooimg);
-            $this->tree[$cnt]["iconwidth"] = $foobar[0];
-            $this->tree[$cnt]["iconheight"] = $foobar[1];
+            $this->tree[$cnt]["iconwidth"] = $foobar[0] / 2;
+            $this->tree[$cnt]["iconheight"] = $foobar[1] / 2;
         }
         $this->tree[$cnt]["parsed_target"] = ($this->tree[$cnt]["target"] == "") ? "" : " target=\"" . $this->tree[$cnt]["target"] . "\"";
 //        $this->tree[$cnt]["expanded"] = ($this->tree[$cnt]["expanded"] == "") ? 0 : $this->tree[$cnt]["expanded"];
@@ -1294,7 +1321,8 @@ function newVerticalMenu(
 * @access public
 * @return string
 */
-function makeHeader() {
+function makeHeader()
+{
     $t = new LayersTemplate();
     $t->setFile("tplfile", $this->tpldir . "layersmenu-header.ijs"); // :PATCH: Alex Pagnoni 20030412: Innomatic patch
     $t->setVar(array(
@@ -1320,7 +1348,8 @@ function makeHeader() {
 * @access public
 * @return string
 */
-function getHeader() {
+function getHeader()
+{
     return $this->header;
 }
 
@@ -1329,7 +1358,8 @@ function getHeader() {
 * @access public
 * @return void
 */
-function printHeader() {
+function printHeader()
+{
     $this->makeHeader();
     print $this->header;
 }
@@ -1341,7 +1371,8 @@ function printHeader() {
 *   has to be returned
 * @return string
 */
-function getMenu($menu_name) {
+function getMenu($menu_name)
+{
     return $this->_firstLevelMenu[$menu_name];
 }
 
@@ -1352,7 +1383,8 @@ function getMenu($menu_name) {
 *   has to be printed
 * @return void
 */
-function printMenu($menu_name) {
+function printMenu($menu_name)
+{
     print $this->_firstLevelMenu[$menu_name];
 }
 
@@ -1365,7 +1397,8 @@ function printMenu($menu_name) {
 * @access public
 * @return string
 */
-function makeFooter() {
+function makeFooter()
+{
     $t = new LayersTemplate();
     $t->setFile("tplfile", $this->tpldir . "layersmenu-footer.ijs"); // :PATCH: Alex Pagnoni 20030412: Innomatic patch
     $t->setVar(array(
@@ -1385,7 +1418,8 @@ function makeFooter() {
 * @access public
 * @return string
 */
-function getFooter() {
+function getFooter()
+{
     return $this->footer;
 }
 
@@ -1394,7 +1428,8 @@ function getFooter() {
 * @access public
 * @return void
 */
-function printFooter() {
+function printFooter()
+{
     $this->makeFooter();
     print $this->footer;
 }
@@ -1404,7 +1439,8 @@ function printFooter() {
 * @access public
 * @return void
 */
-function setTreeMenuSeparator($treeMenuSeparator) {
+function setTreeMenuSeparator($treeMenuSeparator)
+{
     $this->treeMenuSeparator = $treeMenuSeparator;
 }
 
@@ -1413,7 +1449,8 @@ function setTreeMenuSeparator($treeMenuSeparator) {
 * @access public
 * @return void
 */
-function setTreeMenuImagesType($treeMenuImagesType) {
+function setTreeMenuImagesType($treeMenuImagesType)
+{
     $this->treeMenuImagesType = $treeMenuImagesType;
 }
 
@@ -1606,7 +1643,8 @@ function newTreeMenu(
 *   has to be returned
 * @return string
 */
-function getTreeMenu($menu_name) {
+function getTreeMenu($menu_name)
+{
     return $this->_treeMenu[$menu_name];
 }
 
@@ -1617,7 +1655,8 @@ function getTreeMenu($menu_name) {
 *   has to be printed
 * @return void
 */
-function printTreeMenu($menu_name) {
+function printTreeMenu($menu_name)
+{
     print $this->_treeMenu[$menu_name];
 }
 
@@ -1627,7 +1666,8 @@ function printTreeMenu($menu_name) {
 * @param string $errormsg the error message
 * @return void
 */
-function error($errormsg) {
+function error($errormsg)
+{
     print "<b>LayersMenu Error:</b> " . $errormsg . "<br>\n";
     if ($this->haltOnError == "yes") {
         die("<b>Halted.</b><br>\n");

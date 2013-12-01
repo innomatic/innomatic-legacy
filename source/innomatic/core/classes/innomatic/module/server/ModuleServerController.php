@@ -1,4 +1,4 @@
-<?php     
+<?php
 
 require_once('innomatic/net/socket/Socket.php');
 require_once('innomatic/module/server/ModuleServerContext.php');
@@ -9,17 +9,18 @@ require_once('innomatic/module/server/ModuleServerAuthenticator.php');
  * Controls Module server execution.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerController {
+class ModuleServerController
+{
     /**
      * Server socket.
      *
      * @var Socket
      * @access protected
      * @since 5.1
-     */     
+     */
     protected $socket;
     /**
      * Hostname bound to the server.
@@ -44,7 +45,8 @@ class ModuleServerController {
      * @access public
      * @since 5.1
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->host = ModuleServerContext::instance('ModuleServerContext')->getConfig()->getKey('server_address');
         if (!$this->host) {
             $this->host = 'localhost';
@@ -63,7 +65,8 @@ class ModuleServerController {
      * @since 5.1
      * @return void
      */
-    public function start() {
+    public function start()
+    {
         $server = new ModuleServerSocket();
         $server->start();
     }
@@ -75,7 +78,8 @@ class ModuleServerController {
      * @since 5.1
      * @return void
      */
-    public function restart() {
+    public function restart()
+    {
         try {
             $this->shutdown();
         } catch (Exception $e) {
@@ -90,9 +94,10 @@ class ModuleServerController {
      * @access public
      * @since 5.1
      * @return void
-     */ 
-    public function watchDogStart() {
-    	require_once('innomatic/module/server/ModuleServerWatchDog.php');
+     */
+    public function watchDogStart()
+    {
+        require_once('innomatic/module/server/ModuleServerWatchDog.php');
         $wdog = new ModuleServerWatchDog();
         $wdog->watch('php innomatic/core/scripts/moduleserver.php wstart');
     }
@@ -104,7 +109,8 @@ class ModuleServerController {
      * @since 5.1
      * @return void
      */
-    public function watchDogRestart() {
+    public function watchDogRestart()
+    {
         try {
             $this->shutdown();
         } catch (Exception $e) {
@@ -122,7 +128,8 @@ class ModuleServerController {
      * @since 5.1
      * @return void
      */
-    public function shutdown() {
+    public function shutdown()
+    {
         $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
         $this->socket->connect($this->host, $this->port);
         $request = 'SHUTDOWN Module/1.0'."\r\n";
@@ -139,8 +146,9 @@ class ModuleServerController {
      * @since 5.1
      * @return string Server status.
      */
-    public function status() {
-    	require_once('innomatic/net/socket/SocketException.php');
+    public function status()
+    {
+        require_once('innomatic/net/socket/SocketException.php');
         try {
             $result = '';
             $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -164,7 +172,8 @@ class ModuleServerController {
      * @since 5.1
      * @return string Server result string.
      */
-    public function refresh() {
+    public function refresh()
+    {
         require_once('innomatic/net/socket/SocketException.php');
         try {
             $result = '';
@@ -182,5 +191,3 @@ class ModuleServerController {
         return $result;
     }
 }
-
-?>

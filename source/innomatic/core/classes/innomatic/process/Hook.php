@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -23,7 +23,8 @@ require_once('innomatic/dataaccess/DataAccess.php');
  @discussion Provides hook functionality. An hook is a method to automatically call functions not defined
  at the moment of the code writing when a certain function is a called.
  */
-class Hook {
+class Hook
+{
     /*! @var mRootDb DataAccess class - Innomatic database handler. */
     private $mRootDb;
     /*! @var mApplication string - Application of the function containing the hook. */
@@ -42,7 +43,8 @@ class Hook {
      @param application string - Application of the function containing the hook.
      @param function string - Name of the function containing the hook.
      */
-    public function __construct(DataAccess $innomaticDb, $application, $function) {
+    public function __construct(DataAccess $innomaticDb, $application, $function)
+    {
         $this->mRootDb = $innomaticDb;
         $this->mApplication = $application;
         $this->mFunction = $function;
@@ -57,7 +59,8 @@ class Hook {
      @param args array - Array of the arguments of the function containing the hook.
      @result True if the function associated to the hook event have been called.
      */
-    public function callHooks($event, $obj, $args = '') {
+    public function callHooks($event, $obj, $args = '')
+    {
         $result = false;
         if ($this->mRootDb) {
             $query = $this->mRootDb->execute(
@@ -109,7 +112,8 @@ class Hook {
      @param hookMethod string - Name of the function that handles the hook event.
      @result True if the hook event has been added.
      */
-    public function add($event, $hookApplication, $hookHandler, $hookMethod) {
+    public function add($event, $hookApplication, $hookHandler, $hookMethod)
+    {
         $result = false;
         if ($event and $hookApplication and $hookHandler and $hookMethod) {
             // :TODO: Alex Pagnoni 020114: add check
@@ -135,7 +139,8 @@ class Hook {
      @param hookApplication string - Name of the application containing the function with the hook.
      @result True if the hook has been removed.
      */
-    public function remove($event, $hookApplication) {
+    public function remove($event, $hookApplication)
+    {
         if ($event) {
             return $this->mRootDb->execute(
                 'DELETE FROM hooks WHERE functionapplication='.$this->mRootDb->formatText($this->mApplication).
@@ -152,7 +157,8 @@ class Hook {
      @param event string - Name of the event to be updated.
      @result True if the hook has been updated.
      */
-    public function update($event, $hookApplication, $hookHandler, $hookMethod) {
+    public function update($event, $hookApplication, $hookHandler, $hookMethod)
+    {
         if ($hookMethod and $hookHandler) {
             return $this->mRootDb->execute(
                 'UPDATE hooks SET hookhandler='.$this->mRootDb->formatText($hookHandler).
@@ -172,7 +178,8 @@ class Hook {
      @param event string - Event name.
      @result True if the event has been added into the list.
      */
-    public function addEvent($event) {
+    public function addEvent($event)
+    {
         $result = false;
         if ($event) {
             // :TODO: Alex Pagnoni 020114: add check
@@ -193,7 +200,8 @@ class Hook {
      @param event string - Event name.
      @result True if the hook event has been removed.
      */
-    public function removeEvent($event) {
+    public function removeEvent($event)
+    {
         $result = false;
         if ($event) {
             $result = $this->mRootDb->execute(

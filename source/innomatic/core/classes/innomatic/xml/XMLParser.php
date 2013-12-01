@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -17,12 +17,14 @@
  @discussion XML parser class provides XML parsing OO functions. It server as a base
  for other classes, extending this one.
  */
-abstract class XMLParser {
+abstract class XMLParser
+{
     protected $parser = false;
     protected $positions = array();
     protected $path = '';
 
-    function __construct() {
+    public function __construct()
+    {
         if ( function_exists( 'xml_parser_create' ) ) {
             $this->parser = xml_parser_create();
         }
@@ -33,7 +35,7 @@ abstract class XMLParser {
      @param data string - the data to be parsed.
      @result True if the data has been succesfully parsed.
      */
-    function parse( $data )
+    public function parse($data)
     {
         // The following statements arent' located in the constructor
         // due to a PHP bug
@@ -53,17 +55,14 @@ abstract class XMLParser {
      @param tag string - tag name.
      @param attributes array - tag attributes
      */
-    function tagOpen( $parser, $tag, &$attributes )
+    public function tagOpen($parser, $tag, &$attributes)
     {
-        if ( strcmp( $this->path, '' ) )
-        {
+        if ( strcmp( $this->path, '' ) ) {
             $element = $this->structure[$this->path]['Components'];
             $this->structure[$this->path]['Components']++;
             $this->path .= ','.$element;
             //echo $this->path;
-        }
-        else
-        {
+        } else {
             $element = 0;
             $this->path = '0';
         }
@@ -79,7 +78,7 @@ abstract class XMLParser {
 
     // Close tag handler
     //
-    function tagClose( $parser, $tag )
+    public function tagClose($parser, $tag)
     {
         $this->path = ( ( $position = strrpos( $this->path, ',' ) ) ? substr( $this->path, 0, $position ) : '' );
 
@@ -88,13 +87,12 @@ abstract class XMLParser {
 
     // Character data handler
     //
-    function cdata( $parser, $data )
+    public function cdata($parser, $data)
     {
         $element = $this->structure[$this->path]['Components'];
         $previous = $this->path.','.strval( $element - 1 );
         if ( $element > 0 && GetType( $this->structure[$previous] ) == 'string' ) $this->structure[$previous] .= $data;
-        else
-        {
+        else {
             $this->setelementdata( $this->path.','.$element, $data );
             $this->structure[$this->path]['Components']++;
         }
@@ -104,14 +102,15 @@ abstract class XMLParser {
 
     // Sets element data
     //
-    public function setElementData( $path, $data )
+    public function setElementData($path, $data)
     {
         $this->structure[$path] = $data;
     }
 
     // Sets a xml option
     //
-    public function setOption($option, $value) {
+    public function setOption($option, $value)
+    {
         return ( $this->parser ? xml_parser_set_option( $this->parser, $option, $value ) : false );
     }
 
@@ -124,16 +123,13 @@ abstract class XMLParser {
 
     // Frees the parser
     //
-    function free()
+    public function free()
     {
-        if ( $this->parser )
-        {
-            if ( xml_parser_free( $this->parser ) )
-            {
+        if ( $this->parser ) {
+            if ( xml_parser_free( $this->parser ) ) {
                 $this->parser = false;
                 return true;
-            }
-            else return false;
+            } else return false;
         }
     }
 
@@ -163,10 +159,8 @@ abstract class XMLParser {
         $vals[$i]['value']
         );
 
-        while ( ++$i < count($vals) )
-        {
-            switch ( $vals[$i]['type'] )
-            {
+        while ( ++$i < count($vals) ) {
+            switch ( $vals[$i]['type'] ) {
                 case 'cdata':
                     array_push(
                     $children,
@@ -202,7 +196,7 @@ abstract class XMLParser {
         }
     }
 
-    public static function getXmlTree( $data )
+    public static function getXmlTree($data)
     {
         $p = xml_parser_create();
         xml_parser_set_option($p, XML_OPTION_SKIP_WHITE, 1);
@@ -215,10 +209,9 @@ abstract class XMLParser {
         );
 
         $error = xml_get_error_code( $p );
-        if ( $error != XML_ERROR_NONE )
-        {
+        if ( $error != XML_ERROR_NONE ) {
             $pieces = explode( "\n", $data );
-            
+
             /*
             $errorstring = xml_error_string( $error );
             $linenumber = xml_get_current_line_number( $p );

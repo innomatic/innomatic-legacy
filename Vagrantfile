@@ -38,7 +38,7 @@ Vagrant::Config.run do |config|
   # folder, and the third is the path on the host to the actual folder.
   # config.vm.share_folder "v-data", "/vagrant_data", "../data"
   # config.vm.share_folder "www-data", "/vagrant", "."
-  config.vm.share_folder("v-root", "/vagrant", ".", :extra => 'dmode=777,fmode=777')
+  config.vm.share_folder("vagrant-root", "/vagrant", ".", :mount_options => ['dmode=777,fmode=777'])
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.

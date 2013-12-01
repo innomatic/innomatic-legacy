@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -41,7 +41,7 @@ abstract class WuiWidget
     /*! @var mComments boolean - Set to TRUE if element should contain comment
     blocks. */
     public $mComments;
-    /*! @var mUseSession boolean - TRUE if the widget should use the stored 
+    /*! @var mUseSession boolean - TRUE if the widget should use the stored
     session parameters. */
     public $mUseSession;
     /*! @var mSessionObjectName string - Name of this widget as object
@@ -82,7 +82,7 @@ abstract class WuiWidget
         $currentWuiTheme = Wui::instance('wui')->getThemeName();
         if (strlen($elemTheme) and $elemTheme != $currentWuiTheme) {
             $this->mTheme = $elemTheme;
-            
+
             $this->mThemeHandler = new WuiTheme(
                 InnomaticContainer::instance(
                     'innomaticcontainer'
@@ -129,33 +129,37 @@ abstract class WuiWidget
              ($this->mSessionObjectNoName == 'true' ? '' : $this->mName) .
              (strlen($this->mSessionObjectUserName) ? '_'.$this->mSessionObjectUserName : '');
 
-		// AJAX support
-		
-        require_once('innomatic/ajax/Xajax.php');
-        $xajax = Xajax::instance('Xajax', '');
+        // AJAX
+        $ajax_request_uri = $_SERVER['REQUEST_URI'];
+        if (strpos($ajax_request_uri, '?')) {
+            $ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
+        }
 
-		require_once('innomatic/wui/Wui.php');
+        require_once('innomatic/ajax/Xajax.php');
+        $xajax = Xajax::instance('Xajax', $ajax_request_uri);
+
+        require_once('innomatic/wui/Wui.php');
         $wuiContainer = Wui::instance('wui');
 
         // Register action ajax calls
         $theObject = new ReflectionObject($this);
         $methods = $theObject->getMethods();
         foreach ($methods as $method) {
-        	// Ignore private methods
-        	$theMethod = new ReflectionMethod($theObject->getName(), $method->getName());
-        	if (!$theMethod->isPublic()) {
-        		continue;
-        	}
+            // Ignore private methods
+            $theMethod = new ReflectionMethod($theObject->getName(), $method->getName());
+            if (!$theMethod->isPublic()) {
+                continue;
+            }
 
-        	// Expose only methods beginning with "ajax" prefix
-        	if (!(substr($method->getName(), 0, 4) == 'ajax')) {
-        		continue;
-        	}
+            // Expose only methods beginning with "ajax" prefix
+            if (!(substr($method->getName(), 0, 4) == 'ajax')) {
+                continue;
+            }
 
-        	// Register the ajax call
-        	$call_name = substr($method->getName(), 4);
-        	$wuiContainer->registerAjaxCall($call_name);
-        	$xajax->registerExternalFunction(array($call_name, get_class($this), $method->getName()), 'shared/wui/'.get_class($this).'.php');
+            // Register the ajax call
+            $call_name = substr($method->getName(), 4);
+            $wuiContainer->registerAjaxCall($call_name);
+            $xajax->registerExternalFunction(array($call_name, get_class($this), $method->getName()), 'shared/wui/'.get_class($this).'.php');
         }
     }
 
@@ -246,7 +250,7 @@ abstract class WuiWidget
     }
 
     // --- Javascript Events --------------------------------------------------
-    
+
     /**
       * Adds a Javascript event.
      * @param string $event Event name, without the "on" prefix, e.g. "onclick" must be given as "click".
@@ -266,10 +270,11 @@ abstract class WuiWidget
      * @param string $event Name of the event.
      * @return mixed Option value.
      */
-    public function getEvent($event) {
-    	return isset($this->events[$event]) ? $this->events[$event] : false;
+    public function getEvent($event)
+    {
+        return isset($this->events[$event]) ? $this->events[$event] : false;
     }
-    
+
     /**
      * Gets all javascript events.
      *
@@ -278,11 +283,12 @@ abstract class WuiWidget
      * @since 5.1
      * @return array Events.
      */
-    public function getEvents() {
-    	return $this->events;
+    public function getEvents()
+    {
+        return $this->events;
     }
-    
-    
+
+
     /**
      * Tells if a javascript event has been set.
      *
@@ -290,20 +296,22 @@ abstract class WuiWidget
      * @param string $event Name of the event.
      * @return boolean
      */
-    public function isEvent($event) {
-    	return isset($this->events[$event]);
+    public function isEvent($event)
+    {
+        return isset($this->events[$event]);
     }
-    
+
     /**
      * Tells the number of javascript events.
      *
      * @since 5.1
      * @return integer
      */
-    public function hasEvents() {
-    	return count($this->events);
+    public function hasEvents()
+    {
+        return count($this->events);
     }
-    
+
     /**
      * Unsets a javascript event.
      *
@@ -311,12 +319,13 @@ abstract class WuiWidget
      * @param string $event Name of the event.
      * @return boolean
      */
-    public function unsetEvent($event) {
-    	if (isset($this->events[$event])) {
-    		unset($this->events[$event]);
-    	}
+    public function unsetEvent($event)
+    {
+        if (isset($this->events[$event])) {
+            unset($this->events[$event]);
+        }
     }
-    
+
     /**
      * Builds the event content string, e.g. action_a();action_b().
      * @param string $event Event name.
@@ -360,7 +369,7 @@ abstract class WuiWidget
 
         $string = '';
         foreach ($this->events as $eventName => $calls) {
-            $string = ' on'.$eventName.'="'.implode(';', $calls).'"';
+            $string .= ' on'.$eventName.'="'.implode(';', $calls).'"';
         }
         return $string;
     }

@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -18,7 +18,7 @@ require_once ('innomatic/application/ApplicationComponent.php');
  */
 class ConfigurationfileComponent extends ApplicationComponent
 {
-    function __construct ($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Creates the configuration directory if it doesn't exists.
@@ -27,23 +27,23 @@ class ConfigurationfileComponent extends ApplicationComponent
             DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/', 0755);
         }
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'configurationfile';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 0;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    public function doInstallAction ($params)
+    public function doInstallAction($params)
     {
         // Checks if the name is valid.
         if (! strlen($params['name'])) {
@@ -61,7 +61,7 @@ class ConfigurationfileComponent extends ApplicationComponent
             $this->mLog->logEvent('ConfigurationfileComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious configuration file name', Logger::ERROR);
             return false;
         }
-        // Checks if the configuration file name contains a directory. 
+        // Checks if the configuration file name contains a directory.
         $dirname = dirname($params['name']);
         if ($dirname != '.') {
             require_once ('innomatic/io/filesystem/DirectoryUtils.php');
@@ -76,7 +76,7 @@ class ConfigurationfileComponent extends ApplicationComponent
         chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/' . $params['name'], 0644);
         return true;
     }
-    public function doUninstallAction ($params)
+    public function doUninstallAction($params)
     {
         // Checks if the name is valid.
         if (! strlen($params['name'])) {
@@ -100,7 +100,7 @@ class ConfigurationfileComponent extends ApplicationComponent
         }
         return true;
     }
-    public function doUpdateAction ($params)
+    public function doUpdateAction($params)
     {
         // Checks if the "keep" parameter is set to true.
         // If so, the configuration file will not be overwritten.

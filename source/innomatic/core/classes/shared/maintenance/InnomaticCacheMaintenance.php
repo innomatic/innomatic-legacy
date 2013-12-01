@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -15,7 +15,8 @@
 
 require_once('innomatic/maintenance/MaintenanceTask.php');
 
-class InnomaticCacheMaintenance extends MaintenanceTask {
+class InnomaticCacheMaintenance extends MaintenanceTask
+{
     public $mApplicationSettings;
     public $mCleanCache;
     public $mCleanSessions;
@@ -258,10 +259,9 @@ class InnomaticCacheMaintenance extends MaintenanceTask {
         $dirstream = @opendir($dir);
         if ($dirstream) {
             require_once('innomatic/io/filesystem/DirectoryUtils.php');
-            
+
             while (false !== ($filename = readdir($dirstream))) {
-                if ($filename != '.' && $filename != '..' && $filename != $preserveFile)
-                {
+                if ($filename != '.' && $filename != '..' && $filename != $preserveFile) {
                     if (is_file($dir.'/'.$filename)) {
                         unlink($dir.'/'.$filename);
                     }

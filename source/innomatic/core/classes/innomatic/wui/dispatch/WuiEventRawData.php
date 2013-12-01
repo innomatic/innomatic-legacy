@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -17,7 +17,8 @@
  * Event raw data handler.
  * @package WUI
  */
-class WuiEventRawData {
+class WuiEventRawData
+{
     private $mDispatcherName;
     private $mKey;
     private $mType;
@@ -25,7 +26,8 @@ class WuiEventRawData {
     /*!
      @function WuiEventRawData
      */
-    public function __construct($dispName, $key, $type = '') {
+    public function __construct($dispName, $key, $type = '')
+    {
         $this->setDispatcherName($dispName);
         $this->setKey($key);
         $this->setType($type);
@@ -38,7 +40,8 @@ class WuiEventRawData {
      @param eventDispatcherName string - Name of the dispatcher that handles this event.
      @result Always true.
      */
-    public function setDispatcherName($eventDispatcherName) {
+    public function setDispatcherName($eventDispatcherName)
+    {
         $this->mDispatcherName = $eventDispatcherName;
         return true;
     }
@@ -50,7 +53,8 @@ class WuiEventRawData {
      @param key string - Name of the event key.
      @result Always true.
      */
-    public function setKey($key) {
+    public function setKey($key)
+    {
         $this->mKey = $key;
         return true;
     }
@@ -62,12 +66,14 @@ class WuiEventRawData {
      @param type string - Type.
      @result Always true.
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->mType = $type;
         return true;
     }
 
-    public function getDataString() {
+    public function getDataString()
+    {
         $result = 'wui';
         if ($this->mType == 'file') {
             $result .= 'files';

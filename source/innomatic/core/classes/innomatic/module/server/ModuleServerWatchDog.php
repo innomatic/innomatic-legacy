@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once('innomatic/module/server/ModuleServerContext.php');
 require_once('innomatic/module/server/ModuleServerLogger.php');
@@ -8,10 +8,11 @@ require_once('innomatic/module/server/ModuleServerLogger.php');
  * of failure.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerWatchDog {
+class ModuleServerWatchDog
+{
     /**
      * Launches a server process and watches it.
      *
@@ -20,7 +21,8 @@ class ModuleServerWatchDog {
      * @param string $command Command for launching server to be watched.
      * @return void
      */
-    public function watch($command) {
+    public function watch($command)
+    {
         print('Module server started and monitored by watch dog.'."\n");
         while (true) {
             $result = $this->run($command);
@@ -46,7 +48,8 @@ class ModuleServerWatchDog {
      * @param string $command Command to be executed.
      * @return string Command output.
      */
-    protected function run($command) {
+    protected function run($command)
+    {
         ob_start();
         system($command);
         $result = ob_get_contents();
@@ -54,5 +57,3 @@ class ModuleServerWatchDog {
         return $result;
     }
 }
-
-?>

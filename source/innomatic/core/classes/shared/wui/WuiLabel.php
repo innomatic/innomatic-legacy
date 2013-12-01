@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -64,7 +64,7 @@ class WuiLabel extends WuiWidget
             $this->mArgs['align'] = 'left';
         }
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' label -->' : '') . '<table'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' ' . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mArgs['hint']) . '\');" onMouseOut="wuiUnHint(); ' : '') . ' border="0" ' . ($this->mArgs['nowrap'] == 'true' ? 'width="0%"' : '') . ' height="0%"' . ((isset($this->mArgs['compact']) and $this->mArgs['compact'] == 'true') ? ' cellpadding="1" cellspacing="0"' : '') . '><tr><td align="' . $this->mArgs['align'] . '" class="'.((isset($this->mArgs['bold']) and $this->mArgs['bold'] == 'true') ? 'bold' : 'normal').'" ' . ($this->mArgs['nowrap'] == 'true' ? 'nowrap style="white-space: nowrap"' : '') . '>' . ((isset($this->mArgs['underline']) and $this->mArgs['underline'] == 'true') ? '<u>' : '') . (isset($this->mArgs['color']) ? '<font color="' . $this->mArgs['color'] . '">' : '') . $this->mArgs['label'] . (isset($this->mArgs['color']) ? '</font>' : '') . ((isset($this->mArgs['underline']) and $this->mArgs['underline'] == 'true') ? '</u>' : '') . '</td></tr></table>' . ($this->mComments ? '<!-- end ' . $this->mName . " label -->\n" : '');
         return true;

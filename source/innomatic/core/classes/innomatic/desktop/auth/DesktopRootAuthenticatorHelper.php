@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -46,7 +46,7 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
         }
 
         InnomaticContainer::instance('innomaticcontainer')->startRoot($session->get('INNOMATIC_ROOT_AUTH_USER'));
-        
+
         return true;
     }
 
@@ -111,7 +111,7 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
         $wui_form = new WuiForm('form', array('action' => $form_events_call->getEventsCallString()));
 
         $wui_hgroup = new WuiHorizGroup('horizgroup', array('align' => 'middle'));
-        $wui_hgroup->addChild(new WuiButton('password', array('themeimage' => 'password', 'themeimagetype' => 'big', 'action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/', 'highlight' => false)));
+        $wui_hgroup->addChild(new WuiButton('password', array('themeimage' => 'keyhole', 'themeimagetype' => 'big', 'action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/', 'highlight' => false)));
         $wui_hgroup->addChild($wui_vgroup);
 
         $wui_form->addChild($wui_hgroup);
@@ -184,7 +184,7 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
 
 
 function login_login($eventData)
-{     
+{
     $fh = @fopen(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/rootpasswd.ini', 'r');
     if ($fh) {
         $cpassword = fgets($fh, 4096);

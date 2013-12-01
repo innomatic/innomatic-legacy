@@ -1,13 +1,13 @@
-<?php   
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -28,7 +28,7 @@ require_once('innomatic/tpl/Template.php');
  * Multiple templates are supported.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2012 Innoteam S.r.l.
+ * @copyright Copyright 2012 Innoteam Srl
  * @since 1.1
  */
 class PHPTemplate implements Template
@@ -69,7 +69,7 @@ class PHPTemplate implements Template
      */
     public function set($name, $value)
     {
-        $this->_vars[$name] = $value instanceof PhpTemplate ? $value->parse()
+        $this->_vars[$name] = $value instanceof Template ? $value->parse()
             : $value;
     }
 
@@ -143,11 +143,23 @@ class PHPTemplate implements Template
         if (is_array($this->_vars)) {
             extract($this->_vars);
         }
-        
+
         ob_start();
         include($this->_file);
         $contents = ob_get_contents();
         ob_end_clean();
         return $contents;
+    }
+
+    /**
+     * Returns a list of the set tag names.
+     *
+     * @access public
+     * @since 6.1
+     * @return array
+     */
+    public function getTags()
+    {
+        return array_keys($this->_vars);
     }
 }

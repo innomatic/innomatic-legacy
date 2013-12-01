@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -35,7 +35,7 @@ class DataAccessFactory
         global $dbtypes;
         $dbtypes = array();
         if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini')) {
-            $dbcfgfile = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini');
+            $dbcfgfile = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini', false, INI_SCANNER_RAW);
             if ($dbcfgfile !== FALSE) {
                 $dbtypes = (array)$dbcfgfile;
             }
@@ -44,7 +44,7 @@ class DataAccessFactory
 
     public static function getDrivers()
     {
-        return @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini');
+        return @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini', false, INI_SCANNER_RAW);
     }
 
     public function addDriver($name, $desc)
@@ -103,7 +103,7 @@ class DataAccessFactory
         require_once('innomatic/dataaccess/drivers/'.strtolower($dasn->getType()).'/'.ucfirst(strtolower($dasn->getType())).'DataAccess.php');
         require_once('innomatic/dataaccess/drivers/'.strtolower($dasn->getType()).'/'.ucfirst(strtolower($dasn->getType())).'DataAccessResult.php');
         $objname = ucfirst(strtolower(strtolower($dasn->getType()))).'DataAccess';
-        if (!class_exists($objname)) {
+        if (!class_exists($objname, false)) {
             throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
         }
         return new $objname($dasn);

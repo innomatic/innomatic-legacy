@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -21,10 +21,11 @@ require_once('innomatic/wui/theme/WuiColorsSet.php');
 
 /**
  * WUI themes handler.
- * 
+ *
  * @package WUI
  */
-class WuiTheme {
+class WuiTheme
+{
     private $mrRootDb;
     /*! @var mTheme string - Theme name. */
     private $mTheme;
@@ -47,7 +48,8 @@ class WuiTheme {
     public $mStyleDir;
     public $mStyle = array();
 
-    public function __construct($rrootDb, $themeName = 'default', $userSettings = '') {
+    public function __construct($rrootDb, $themeName = 'default', $userSettings = '')
+    {
         $this->mrRootDb = $rrootDb;
         if (strlen($themeName)) {
             $this->mTheme = $themeName;
@@ -56,10 +58,11 @@ class WuiTheme {
         $this->mUserSettings = $userSettings;
     }
 
-    public function initTheme() {
+    public function initTheme()
+    {
         $result = false;
         if (strlen($this->mTheme)) {
-                
+
             require_once('innomatic/core/InnomaticContainer.php');
             $innomatic = InnomaticContainer::instance('innomaticcontainer');
 
@@ -150,7 +153,8 @@ class WuiTheme {
         return $result;
     }
 
-    public function defOpts($defaultSet, $givenSet) {
+    public function defOpts($defaultSet, $givenSet)
+    {
         $result = array();
         while (list ($key, $val) = each($defaultSet)) {
             if (is_array($val)) {
@@ -170,7 +174,8 @@ class WuiTheme {
         return $result;
     }
 
-    public static function setRootTheme() {
+    public static function setRootTheme()
+    {
         require_once('innomatic/wui/Wui.php');
         if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
             require_once('innomatic/application/ApplicationSettings.php');
@@ -186,7 +191,8 @@ class WuiTheme {
         }
     }
 
-    public static function setDomainTheme() {
+    public static function setDomainTheme()
+    {
         // Wui theme
         //
         require_once('innomatic/domain/user/UserSettings.php');

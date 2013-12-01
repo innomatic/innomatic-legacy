@@ -1,13 +1,13 @@
-<?php 
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -31,7 +31,7 @@ require_once(dirname(__FILE__).'/Registry.php');
  *
  * @since 1.0
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2012 Innoteam S.r.l.
+ * @copyright Copyright 2012 Innoteam Srl
  */
 abstract class Singleton
 {
@@ -42,14 +42,14 @@ abstract class Singleton
         }
     }
 
-    static public final function instance($class)
+    final public static function instance($class)
     {
         $class = strtolower($class);
         $registry = Registry::instance();
         if (!$registry->isGlobalObject('singleton ' . $class)) {
             $singleton = new $class();
             $registry->setGlobalObject('singleton ' . $class, $singleton);
-            
+
             // Checks if the class has a ___construct method, that is the
             // real constructor for the object in place of the __construct one.
             if (method_exists($singleton, '___construct')) {
@@ -59,7 +59,7 @@ abstract class Singleton
                     // one, that is the name of the singleton class.
                     $args = func_get_args();
                     unset($args[0]);
-                    
+
                     // Calls the real class constructor.
                     call_user_func_array(
                         array($singleton, '___construct'),
@@ -73,14 +73,14 @@ abstract class Singleton
         }
         return $registry->getGlobalObject('singleton '.$class);
     }
-    
+
     /*
      * A singleton cannot be cloned, so the __clone method is overriden and
      * declared final.
-     * 
+     *
      * @since 1.2
      */
-    protected final function __clone()
+    final protected function __clone()
     {
     }
 }

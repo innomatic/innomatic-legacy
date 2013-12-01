@@ -93,8 +93,8 @@ function Mail()
 }
 
 
-function Content_type($contenttype){
-
+function Content_type($contenttype)
+{
     $this->content_type=$contenttype;
     //echo $this->content_type;
     //echo '<br>';
@@ -110,7 +110,7 @@ by default autoCheck feature is on
 @param boolean        $bool set to true to turn on the auto validation
 @access public
 */
-function autoCheck( $bool )
+function autoCheck($bool)
 {
         if( $bool )
                 $this->checkAddress = true;
@@ -125,7 +125,7 @@ Define the subject line of the email
 @param string $subject any monoline string
 
 */
-function Subject( $subject )
+function Subject($subject)
 {
         $this->xheaders['Subject'] = strtr( $subject, "\r\n" , "  " );
 }
@@ -138,7 +138,7 @@ set the sender of the mail
 
 */
 
-function From( $from )
+function From($from)
 {
 
         if( ! is_string($from) ) {
@@ -153,7 +153,7 @@ function From( $from )
  @param string $email should be an email address
 
 */
-function ReplyTo( $address )
+function ReplyTo($address)
 {
 
         if( ! is_string($address) )
@@ -184,7 +184,7 @@ set the mail recipient
 
 */
 
-function To( $to )
+function To($to)
 {
 
         // TODO : test validit� sur to
@@ -204,7 +204,7 @@ function To( $to )
  *                $cc : email address(es), accept both array and string
  */
 
-function Cc( $cc )
+function Cc($cc)
 {
         if( is_array($cc) )
                 $this->acc= $cc;
@@ -223,7 +223,7 @@ function Cc( $cc )
  *                $bcc : email address(es), accept both array and string
  */
 
-function Bcc( $bcc )
+function Bcc($bcc)
 {
         if( is_array($bcc) ) {
                 $this->abcc = $bcc;
@@ -242,7 +242,7 @@ function Bcc( $bcc )
  *                default to us-ascii
  *                $mail->Body( "m�l en fran�ais avec des accents", "iso-8859-1" );
  */
-function Body( $body, $charset="" )
+function Body($body, $charset="")
 {
         $this->body = $body;
 
@@ -258,7 +258,7 @@ function Body( $body, $charset="" )
  *                set the Organization header
  */
 
-function Organization( $org )
+function Organization($org)
 {
         if( trim( $org != "" )  )
                 $this->xheaders['Organization'] = $org;
@@ -271,7 +271,7 @@ function Organization( $org )
  *                ex: $mail->Priority(1) ; => Highest
  */
 
-function Priority( $priority )
+function Priority($priority)
 {
         if( ! intval( $priority ) )
                 return false;
@@ -425,7 +425,7 @@ function ValidEmail($address)
 
  */
 
-function CheckAdresses( $aad )
+function CheckAdresses($aad)
 {
         for($i=0;$i< count( $aad); $i++ ) {
                 if( ! $this->ValidEmail( $aad[$i]) ) {

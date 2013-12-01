@@ -1,4 +1,4 @@
-<?php            
+<?php
 
 require_once('innomatic/module/ModuleFactory.php');
 require_once('innomatic/module/ModuleException.php');
@@ -12,10 +12,11 @@ require_once('innomatic/module/server/ModuleServerResponse.php');
  * Processor for Module server XmlRpc messages.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerXmlRpcProcessor {
+class ModuleServerXmlRpcProcessor
+{
     /**
      * Module object.
      *
@@ -34,7 +35,8 @@ class ModuleServerXmlRpcProcessor {
      * @param ModuleServerResponse $response Outcoming response.
      * @return void
      */
-    public function process(ModuleServerRequest $request, ModuleServerResponse $response) {
+    public function process(ModuleServerRequest $request, ModuleServerResponse $response)
+    {
         $command = explode(' ', $request->getCommand());
         $module_location = $command[1];
         if (!strlen($module_location)) {
@@ -88,7 +90,7 @@ class ModuleServerXmlRpcProcessor {
             $response->setBuffer($buffer);
         }
         xmlrpc_server_destroy($xmlrpc_server);
-        
+
         $context = new ModuleContext($module_location);
         $session = new ModuleSession($context, $sessionId);
         $session->save($this->module);
@@ -105,7 +107,8 @@ class ModuleServerXmlRpcProcessor {
      * @param string $app_data
      * return mixed Module method result.
      */
-    private function xmlrpcGateway($method_name, $params, $app_data) {
+    private function xmlrpcGateway($method_name, $params, $app_data)
+    {
         return call_user_func_array(array ($this->module, $method_name), $params);
     }
 
@@ -119,8 +122,9 @@ class ModuleServerXmlRpcProcessor {
      * @since 5.1
      * @param array $userData
      * @return mixed
-     */ 
-    private function introspectionGateway($userData) {
+     */
+    private function introspectionGateway($userData)
+    {
         if (method_exists($this->module, 'moduleIntrospect')) {
             return $this->module->moduleIntrospect();
         }
@@ -128,5 +132,3 @@ class ModuleServerXmlRpcProcessor {
     }
 
 }
-
-?>

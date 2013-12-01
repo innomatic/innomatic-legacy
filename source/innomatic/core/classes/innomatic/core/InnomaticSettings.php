@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -27,7 +27,7 @@ class InnomaticSettings
         $this->_configFile = $configFile;
         $this->refresh();
     }
-    
+
     /**
      * Refreshes InnomaticSettings values, rereading the configuration file.
      *
@@ -84,14 +84,14 @@ class InnomaticSettings
     {
         return $this->getKey($keyName);
     }
-    
+
     public function getKey($keyName)
     {
         return isset(
             $this->_configValues[$keyName]
         ) ? trim($this->_configValues[$keyName]): '';
     }
-    
+
     public function setVolatileKey($keyName, $value)
     {
         $this->_configValues[$keyName] = $value;

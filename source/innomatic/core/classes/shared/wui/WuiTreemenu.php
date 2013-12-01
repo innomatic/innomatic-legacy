@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -16,7 +16,7 @@ require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiTreeMenu extends WuiWidget
+class WuiTreemenu extends WuiWidget
 {
     /*! @public mElements array - Array of the treemenu elements. */
     public $mElements;
@@ -53,7 +53,7 @@ class WuiTreeMenu extends WuiWidget
             $this->StoreSession(array('activegroup' => $this->mActiveGroup));
         }
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         if ($this->mrWuiDisp->getEventName() == 'treemenu-' . $this->mName) {
             $disp_data = $this->mrWuiDisp->getEventData();

@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 require_once('innomatic/module/server/ModuleServerContext.php');
 require_once('innomatic/util/Singleton.php');
@@ -8,10 +8,11 @@ require_once('innomatic/util/Singleton.php');
  * username/password couple.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerAuthenticator extends Singleton {
+class ModuleServerAuthenticator extends Singleton
+{
     /**
      * Users structure.
      *
@@ -27,7 +28,8 @@ class ModuleServerAuthenticator extends Singleton {
      * @access public
      * @since 5.1
      */
-    public function ___construct() {
+    public function ___construct()
+    {
         $this->parseConfig();
     }
 
@@ -38,7 +40,8 @@ class ModuleServerAuthenticator extends Singleton {
      * @since 5.1
      * @return void
      */
-    public function parseConfig() {
+    public function parseConfig()
+    {
         $context = ModuleServerContext::instance('ModuleServerContext');
         $xmldoc = simplexml_load_file($context->getHome().'core/conf/modules-users.xml');
         $this->structure = array ();
@@ -75,7 +78,8 @@ class ModuleServerAuthenticator extends Singleton {
      * @param string $password Password.
      * @return boolean
      */
-    public function authenticate($user, $password) {
+    public function authenticate($user, $password)
+    {
         if (isset ($this->structure[$user]) and $this->structure[$user]['password'] == $password) {
             return true;
         } else {
@@ -92,7 +96,8 @@ class ModuleServerAuthenticator extends Singleton {
      * @param string $action Action to be authorized.
      * @return boolean
      */
-    public function authorizeAction($user, $action) {
+    public function authorizeAction($user, $action)
+    {
         if (isset ($this->structure[$user]['actions'][$action])) {
             return true;
         } else {
@@ -109,7 +114,8 @@ class ModuleServerAuthenticator extends Singleton {
      * @param string $location Name of the Module.
      * @return boolean
      */
-    public function authorizeModule($user, $location) {
+    public function authorizeModule($user, $location)
+    {
         if (isset ($this->structure[$user]['modules'][$location])) {
             return true;
         } else {
@@ -125,7 +131,8 @@ class ModuleServerAuthenticator extends Singleton {
      * @param $user Username.
      * @return boolean
      */
-    public function getPassword($user) {
+    public function getPassword($user)
+    {
         return isset ($this->structure[$user]) ? $this->structure[$user]['password'] : false;
     }
 
@@ -138,7 +145,8 @@ class ModuleServerAuthenticator extends Singleton {
      * @param $location Module name.
      * @return string Data Access Source Name.
      */
-    public function getDASN($user, $location) {
+    public function getDASN($user, $location)
+    {
         return isset ($this->structure[$user]['modules'][$location]) ? $this->structure[$user]['modules'][$location] : false;
     }
 
@@ -150,7 +158,8 @@ class ModuleServerAuthenticator extends Singleton {
      * @param $user Username.
      * @return array
      */
-    public function getAuthorizedModuleS($user) {
+    public function getAuthorizedModuleS($user)
+    {
         return isset ($this->structure[$user]['modules']) ? $this->structure[$user]['modules'] : array ();
     }
 
@@ -162,9 +171,8 @@ class ModuleServerAuthenticator extends Singleton {
      * @param string $user Username.
      * @return array
      */
-    public function getAuthorizedActions($user) {
+    public function getAuthorizedActions($user)
+    {
         return isset ($this->structure[$user]['actions']) ? $this->structure[$user]['actions'] : array ();
     }
 }
-
-?>
