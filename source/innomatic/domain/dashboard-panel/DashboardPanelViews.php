@@ -48,14 +48,14 @@ class DashboardPanelViews extends PanelViews
         $this->_wuiContainer->loadAllWidgets();
 
 $this->wuiPage = new WuiPage('page', array('title' => $this->localeCatalog->getStr('dashboard_pagetitle')));
-$this->wuiMainvertgroup = new WuiVertGroup('mainvertgroup');
+$this->wuiMainvertgroup = new WuiVertgroup('mainvertgroup');
 $this->wuiTitlebar = new WuiTitleBar(
                                'titlebar',
                                array('title' => $this->localeCatalog->getStr('dashboard_title'), 'icon' => 'elements')
                               );
 $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
 
-$this->wuiMainframe = new WuiVertFrame('mainframe');
+$this->wuiMainframe = new WuiVertframe('mainframe');
     }
 
     public function endHelper()

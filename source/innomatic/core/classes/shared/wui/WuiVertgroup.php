@@ -30,7 +30,7 @@ class WuiVertgroup extends \Innomatic\Wui\Widgets\WuiContainerWidget
     /*! @public mWidth string - Group width. */
     //public $mWidth;
     /*!
-     @function WuiVertGroup
+     @function WuiVertgroup
 
      @abstract Class constructor.
 

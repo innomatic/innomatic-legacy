@@ -70,7 +70,7 @@ $wui->loadWidget('vertgroup');
 $wui->loadWidget('xml');
 
 $wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('xmlrpc_title')));
-$wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
+$wuiMainVertGroup = new WuiVertgroup('mainvertgroup');
 $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array(
@@ -201,7 +201,7 @@ if (strcmp($eventName, 'help')) {
 
 // Toolbar frame
 //
-$wuiToolBarFrame = new WuiHorizGroup('toolbarframe');
+$wuiToolBarFrame = new WuiHorizgroup('toolbarframe');
 
 $wuiToolBarFrame->addChild($wuiProfilesToolBar);
 $wuiToolBarFrame->addChild($wuiUsersToolBar);
@@ -209,7 +209,7 @@ $wuiToolBarFrame->addChild($wuiAccountsToolBar);
 $wuiToolBarFrame->addChild($wuiHelpToolBar);
 $wuiMainVertGroup->addChild($wuiToolBarFrame);
 
-$wuiMainFrame = new WuiHorizFrame('mainframe');
+$wuiMainFrame = new WuiHorizframe('mainframe');
 $wuiMainStatus = new WuiStatusBar('mainstatusbar');
 
 // Pass dispatcher
@@ -537,7 +537,7 @@ function main_default($eventData)
         while (list ($id, $profileName) = each($profiles)) {
             $wuiProfilesTable->addChild(new WuiLabel('profnamelabel'.$row, array('label' => $profileName)), $row, 0);
 
-            $wuiProfileToolBar[$row] = new WuiHorizGroup('applicationtoolbar'.$row);
+            $wuiProfileToolBar[$row] = new WuiHorizgroup('applicationtoolbar'.$row);
 
             $profileAction[$row] = new WuiEventsCall();
             $profileAction[$row]->addEvent(new WuiEvent('view', 'editprofile', array('profileid' => $id)));
@@ -597,7 +597,7 @@ function main_newprofile($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiTitleBar;
 
-    $wuiVertGroup = new WuiVertGroup('vgroup');
+    $wuiVertGroup = new WuiVertgroup('vgroup');
 
     $wuiProfileGrid = new WuiGrid('newprofilegrid', array('rows' => '2', 'cols' => '2'));
 
@@ -663,7 +663,7 @@ function main_renameprofile($eventData)
 
     $profileData = $profilesQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiProfileGrid = new WuiGrid('renprofilegrid', array('rows' => '2', 'cols' => '2'));
 
@@ -822,7 +822,7 @@ function main_editprofile($eventData)
             $wuiMethodsTable->addChild(new WuiImage('statusimage'.$row, array('imageurl' => $icon)), $row, 0);
             $wuiMethodsTable->addChild(new WuiLabel('applicationlabel'.$row, array('label' => $application)), $row, 1);
 
-            $wuiApplicationToolBar[$row] = new WuiHorizGroup('applicationtoolbar'.$row);
+            $wuiApplicationToolBar[$row] = new WuiHorizgroup('applicationtoolbar'.$row);
 
             if ($enabled) {
                 $disableAction[$row] = new WuiEventsCall();
@@ -932,7 +932,7 @@ function main_editprofile($eventData)
                     $row, 5
                 );
 
-                $wuiMethodToolbar[$row] = new WuiHorizGroup('methodtoolbar'.$row);
+                $wuiMethodToolbar[$row] = new WuiHorizgroup('methodtoolbar'.$row);
 
                 if ($enabled) {
                     $disableAction[$row] = new WuiEventsCall();
@@ -1099,7 +1099,7 @@ function main_users($eventData)
                 $row, 2
             );
 
-            $wuiUserToolbar[$row] = new WuiHorizGroup('usertoolbar'.$row);
+            $wuiUserToolbar[$row] = new WuiHorizgroup('usertoolbar'.$row);
 
             $profileAction[$row] = new WuiEventsCall();
             $profileAction[$row]->addEvent(
@@ -1224,7 +1224,7 @@ function main_newuser($eventData)
         $domainsQuery->moveNext();
     }
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiUserGrid = new WuiGrid('newusergrid', array('rows' => '4', 'cols' => '2'));
 
@@ -1343,7 +1343,7 @@ function main_chpassword($eventData)
 
     $userData = $userQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiUserGrid = new WuiGrid('chpasswdgrid', array('rows' => '2', 'cols' => '2'));
 
@@ -1418,7 +1418,7 @@ function main_chprofile($eventData)
         $profQuery->moveNext();
     }
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiUserGrid = new WuiGrid('chprofilegrid', array('rows' => '2', 'cols' => '2'));
 
@@ -1491,7 +1491,7 @@ function main_chdomain($eventData)
         $domainsQuery->moveNext();
     }
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiUserGrid = new WuiGrid(
         'chprofilegrid',
@@ -1609,7 +1609,7 @@ function main_accounts($eventData)
                 $row, 1
             );
 
-            $wuiAccountToolbar[$row] = new WuiHorizGroup('accounttoolbar'.$row);
+            $wuiAccountToolbar[$row] = new WuiHorizgroup('accounttoolbar'.$row);
 
             $showAction[$row] = new WuiEventsCall();
             $showAction[$row]->addEvent(
@@ -1707,7 +1707,7 @@ function main_newaccount($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiFormGrid = new WuiGrid('newaccountgrid', array('rows' => '6', 'cols' => '2'));
 
@@ -1829,7 +1829,7 @@ function main_updateaccount($eventData)
 
     $accData = $accQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiFormGrid = new WuiGrid('newaccountgrid', array('rows' => '6', 'cols' => '2'));
 
@@ -1998,7 +1998,7 @@ function main_showaccount($eventData)
 
     $accData = $accQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiFormGrid = new WuiGrid('newaccountgrid', array('rows' => '6', 'cols' => '2'));
 
@@ -2159,7 +2159,7 @@ function main_showmethods($eventData)
 
     $accData = $accQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $xmlrpcAccount = new WebServicesAccount(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),

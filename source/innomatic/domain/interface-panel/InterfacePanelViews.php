@@ -87,7 +87,7 @@ require_once('innomatic/wui/dispatch/WuiDispatcher.php');
         $this->_wuiContainer->loadWidget('xml');
 
 $this->wuiPage = new WuiPage('page', array('title' => $this->_localeCatalog->getStr('interface_pagetitle')));
-$this->wuiMainvertgroup = new WuiVertGroup('mainvertgroup');
+$this->wuiMainvertgroup = new WuiVertgroup('mainvertgroup');
 $this->wuiTitlebar = new WuiTitleBar(
                                'titlebar',
                                array('title' => $this->_localeCatalog->getStr('interface_title'), 'icon' => 'picture')
@@ -149,13 +149,13 @@ if (strcmp($eventName, 'help')) {
 
 // Toolbar frame
 //
-$wuiToolBarFrame = new WuiHorizGroup('toolbarframe');
+$wuiToolBarFrame = new WuiHorizgroup('toolbarframe');
 
 $wuiToolBarFrame->addChild($wuiMainToolbar);
 $wuiToolBarFrame->addChild($wuiHelpToolBar);
 $this->wuiMainvertgroup->addChild($wuiToolBarFrame);
 
-$this->wuiMainframe = new WuiVertFrame('mainframe');
+$this->wuiMainframe = new WuiVertframe('mainframe');
 $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
     }
 
@@ -239,7 +239,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
             $selectedCountry = $eventData['country'];
         }
 
-        $wuiVGroup = new WuiVertGroup('vgroup');
+        $wuiVGroup = new WuiVertgroup('vgroup');
 
         $countryQuery = InnomaticContainer::instance(
                 'innomaticcontainer'
@@ -312,7 +312,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
             $selectedLanguage = $eventData['language'];
         }
 
-        $wuiVGroup = new WuiVertGroup('vgroup');
+        $wuiVGroup = new WuiVertgroup('vgroup');
 
         $languageQuery = InnomaticContainer::instance(
                 'innomaticcontainer'
@@ -401,7 +401,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
             $selectedLanguage = $selectedLanguage['language'];
         }
 
-        $wuiVGroup = new WuiVertGroup('vgroup');
+        $wuiVGroup = new WuiVertgroup('vgroup');
 
         $languageQuery = InnomaticContainer::instance(
                 'innomaticcontainer'

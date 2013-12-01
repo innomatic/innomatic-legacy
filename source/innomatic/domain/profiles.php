@@ -75,7 +75,7 @@ $wui->loadWidget('vertgroup');
 $wui->loadWidget('xml');
 
 $wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('profiles_title')));
-$wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
+$wuiMainVertGroup = new WuiVertgroup('mainvertgroup');
 $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array('title' => $innomaticLocale->getStr('profiles_title'),
@@ -167,7 +167,7 @@ if (strcmp($eventName, 'help')) {
 
 // Toolbar frame
 //
-$wuiToolBarFrame = new WuiHorizGroup('toolbarframe');
+$wuiToolBarFrame = new WuiHorizgroup('toolbarframe');
 
 $wuiToolBarFrame->addChild($wuiProfilesToolBar);
 $wuiToolBarFrame->addChild($wuiUsersToolBar);
@@ -199,7 +199,7 @@ $wuiToolBarFrame->addChild($wuiHelpToolBar);
 
 $wuiMainVertGroup->addChild($wuiToolBarFrame);
 
-$wuiMainFrame = new WuiHorizFrame('mainframe');
+$wuiMainFrame = new WuiHorizframe('mainframe');
 $wuiMainStatus = new WuiStatusBar('mainstatusbar');
 
 // Pass dispatcher
@@ -419,7 +419,7 @@ function main_default($eventData)
         while (list ($id, $profileName) = each($profiles)) {
             $wuiProfilesTable->addChild(new WuiLabel('profnamelabel'.$row, array('label' => $profileName)), $row, 0);
 
-            $wuiProfileToolbar[$row] = new WuiHorizGroup('applicationtoolbar'.$row);
+            $wuiProfileToolbar[$row] = new WuiHorizgroup('applicationtoolbar'.$row);
 
             $profileAction[$row] = new WuiEventsCall();
             $profileAction[$row]->addEvent(new WuiEvent('view', 'editprofile', array('profileid' => $id)));
@@ -541,7 +541,7 @@ function main_editprofile($eventData)
                 $row, 1
             );
 
-            $wuiGroupToolbar[$row] = new WuiHorizGroup('grouptoolbar'.$row);
+            $wuiGroupToolbar[$row] = new WuiHorizgroup('grouptoolbar'.$row);
 
             if ($enabled) {
                 $disableAction[$row] = new WuiEventsCall();
@@ -661,7 +661,7 @@ function main_editprofile($eventData)
                     $row, 3
                 );
 
-                $wuiPageToolbar[$row] = new WuiHorizGroup('pagetoolbar'.$row);
+                $wuiPageToolbar[$row] = new WuiHorizgroup('pagetoolbar'.$row);
 
                 if ($enabled) {
                     $disableAction[$row] = new WuiEventsCall();
@@ -751,7 +751,7 @@ function main_newprofile($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiProfileGrid = new WuiGrid('newgroupgrid', array('rows' => '2', 'cols' => '2'));
 
@@ -821,9 +821,9 @@ function main_deleteprofile($eventData)
 
     $profData = $profQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('removereqvgroup', array('halign' => 'center', 'groupalign' => 'center'));
+    $wuiVGroup = new WuiVertgroup('removereqvgroup', array('halign' => 'center', 'groupalign' => 'center'));
 
-    $wuiHGroup1 = new WuiHorizGroup('removereqhgroup', array('align' => 'middle', 'width' => '0%'));
+    $wuiHGroup1 = new WuiHorizgroup('removereqhgroup', array('align' => 'middle', 'width' => '0%'));
     $wuiHGroup1->addChild(
         new WuiLabel(
             'removereqlabel',
@@ -838,7 +838,7 @@ function main_deleteprofile($eventData)
 
     $wuiVGroup->addChild($wuiHGroup1);
 
-    $wuiHGroup2 = new WuiHorizGroup(
+    $wuiHGroup2 = new WuiHorizgroup(
         'removereqhgroup',
         array(
             'align' => 'middle',
@@ -949,7 +949,7 @@ function main_renameprofile($eventData)
 
     $profData = $profQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiProfileGrid = new WuiGrid('renprofilegrid', array('rows' => '2', 'cols' => '2'));
 
@@ -1087,7 +1087,7 @@ function main_users($eventData)
                     InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
                 )
             ) {
-                $wuiUserToolbar[$row] = new WuiHorizGroup('usertoolbar'.$row);
+                $wuiUserToolbar[$row] = new WuiHorizgroup('usertoolbar'.$row);
 
                 $profileAction[$row] = new WuiEventsCall();
                 $profileAction[$row]->addEvent(new WuiEvent('view', 'chprofile', array('userid' => $userData['id'])));
@@ -1198,7 +1198,7 @@ function main_newuser($eventData)
         $profQuery->moveNext();
     }
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiUserGrid = new WuiGrid('newusergrid', array('rows' => '7', 'cols' => '2'));
 
@@ -1421,7 +1421,7 @@ function main_deleteuser($eventData)
 
     $userData = $userQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup(
+    $wuiVGroup = new WuiVertgroup(
         'removereqvgroup',
         array(
             'halign' => 'center',
@@ -1429,7 +1429,7 @@ function main_deleteuser($eventData)
         )
     );
 
-    $wuiHGroup1 = new WuiHorizGroup(
+    $wuiHGroup1 = new WuiHorizgroup(
         'removereqhgroup',
         array(
             'align' => 'middle',
@@ -1450,7 +1450,7 @@ function main_deleteuser($eventData)
 
     $wuiVGroup->addChild($wuiHGroup1);
 
-    $wuiHGroup2 = new WuiHorizGroup(
+    $wuiHGroup2 = new WuiHorizgroup(
         'removereqhgroup',
         array(
             'align' => 'middle',
@@ -1519,7 +1519,7 @@ function main_edituser($eventData)
         $profQuery->moveNext();
     }
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiUserGrid = new WuiGrid('editusergrid', '');
 
@@ -1664,7 +1664,7 @@ function main_chpassword($eventData)
     );
     $userData = $userQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiUserGrid = new WuiGrid('chpasswdgrid', array('rows' => '2', 'cols' => '2'));
 
@@ -1757,7 +1757,7 @@ function main_chprofile($eventData)
         $profQuery->moveNext();
     }
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiUserGrid = new WuiGrid('chprofilegrid', array('rows' => '2', 'cols' => '2'));
 

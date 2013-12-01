@@ -96,7 +96,7 @@ $gToolbars['view'] = array(
     )
 );
 
-    $wuiMainFrame = new WuiHorizFrame('mainframe');
+    $wuiMainFrame = new WuiHorizframe('mainframe');
 //$wui_mainstatus = new WuiStatusBar('mainstatusbar');
 
 // Pass dispatcher
@@ -484,7 +484,7 @@ function main_default($eventData)
                     $row, 4
                 );
 
-                $wuiApplicationToolbar[$data['category']][$row] = new WuiHorizGroup('applicationtoolbar'.$row);
+                $wuiApplicationToolbar[$data['category']][$row] = new WuiHorizgroup('applicationtoolbar'.$row);
 
                 $detailsAction[$data['category']][$row] = new WuiEventsCall();
                 $detailsAction[$data['category']][$row]->addEvent(
@@ -726,7 +726,7 @@ function main_details($eventData)
 
     $applicationData = $query->getFields();
 
-    $gPageContent = new WuiVertGroup('vgroup');
+    $gPageContent = new WuiVertgroup('vgroup');
 
     $detailsGrid = new WuiGrid(
         'applicationdetailsgrid',
@@ -1132,7 +1132,7 @@ function main_applicationlog($eventData)
 
     $applicationData = $query->getFields();
 
-    $gPageContent = new WuiVertGroup('vgroup');
+    $gPageContent = new WuiVertgroup('vgroup');
 
     $appLogContent = '';
 
@@ -1171,7 +1171,7 @@ function main_applicationlog($eventData)
             );
 
             $logToolbar->addChild($cleanLogButton);
-            $logFrame = new WuiHorizFrame('logframe');
+            $logFrame = new WuiHorizframe('logframe');
             $logFrame->addChild($logToolbar);
             $wuiMainVertGroup->addChild($logFrame);
 

@@ -77,7 +77,7 @@ $wuiPage = new WuiPage(
     'page',
     array('title' => $innomaticLocale->getStr('password_title'))
 );
-$wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
+$wuiMainVertGroup = new WuiVertgroup('mainvertgroup');
 $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array(
@@ -131,13 +131,13 @@ if (strcmp($eventName, 'help')) {
 
 // Toolbar frame
 //
-$wuiToolBarFrame = new WuiHorizGroup('toolbarframe');
+$wuiToolBarFrame = new WuiHorizgroup('toolbarframe');
 
 $wuiToolBarFrame->addChild($wuiMainToolbar);
 $wuiToolBarFrame->addChild($wuiHelpToolBar);
 $wuiMainVertGroup->addChild($wuiToolBarFrame);
 
-$wuiMainFrame = new WuiHorizFrame('mainframe');
+$wuiMainFrame = new WuiHorizframe('mainframe');
 $wuiMainStatus = new WuiStatusBar('mainstatusbar');
 
 // Pass dispatcher
@@ -232,7 +232,7 @@ function main_default($eventData)
     );
     $wuiGrid->addChild(new WuiString('newpasswordb', array('disp' => 'action', 'password' => 'true')), 2, 1);
 
-    $wuiVGroup = new WuiVertGroup('vertgroup', array('align' => 'center'));
+    $wuiVGroup = new WuiVertgroup('vertgroup', array('align' => 'center'));
     $wuiVGroup->addChild($wuiGrid);
 
     $wuiVGroup->addChild(

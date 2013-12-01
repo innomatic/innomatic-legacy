@@ -78,7 +78,7 @@ $wuiComments = '';
 $compressedOb = '';
 
 $wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('interface_pagetitle')));
-$wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
+$wuiMainVertGroup = new WuiVertgroup('mainvertgroup');
 $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array(
@@ -158,13 +158,13 @@ if (
 
 // Toolbar frame
 //
-$wuiToolBarFrame = new WuiHorizGroup('toolbarframe');
+$wuiToolBarFrame = new WuiHorizgroup('toolbarframe');
 
 $wuiToolBarFrame->addChild($wuiMainToolbar);
 $wuiToolBarFrame->addChild($wuiHelpToolBar);
 $wuiMainVertGroup->addChild($wuiToolBarFrame);
 
-$wuiMainFrame = new WuiVertFrame('mainframe');
+$wuiMainFrame = new WuiVertframe('mainframe');
 $wuiMainStatus = new WuiStatusBar('mainstatusbar');
 
 // Pass dispatcher
@@ -405,9 +405,9 @@ function main_default($eventData)
 
     // Service Provider
     //
-    $serviceProviderFrame = new WuiVertFrame('serviceproviderframe');
+    $serviceProviderFrame = new WuiVertframe('serviceproviderframe');
 
-    $serviceProviderVGroup = new WuiVertGroup('serviceprovidervgroup', array('width' => '100%'));
+    $serviceProviderVGroup = new WuiVertgroup('serviceprovidervgroup', array('width' => '100%'));
 
     $serviceProviderVGroup->addChild(
         new WuiLabel(
@@ -522,7 +522,7 @@ function main_default($eventData)
 
     // Enabled icons
     //
-    $enableVGroup = new WuiVertGroup('enablevgroup', array('width' => '100%'));
+    $enableVGroup = new WuiVertgroup('enablevgroup', array('width' => '100%'));
 
     $enableVGroup->addChild(
         new WuiLabel(
@@ -645,7 +645,7 @@ function main_default($eventData)
 
     // Advanced settings
     //
-    $advancedVGroup = new WuiVertGroup('enablevgroup', array('width' => '100%'));
+    $advancedVGroup = new WuiVertgroup('enablevgroup', array('width' => '100%'));
 
     $advancedVGroup->addChild(
         new WuiLabel(
@@ -783,7 +783,7 @@ function main_localization($eventData)
         $selectedCountry = $eventData['country'];
     }
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $countryQuery = InnomaticContainer::instance(
         'innomaticcontainer'
@@ -857,7 +857,7 @@ function main_localization($eventData)
         $selectedLanguage = $eventData['language'];
     }
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $languageQuery = InnomaticContainer::instance(
         'innomaticcontainer'
@@ -959,7 +959,7 @@ function main_name($eventData)
     $wuiGrid->addChild(new WuiLabel('domainlabel', array('label' => $innomaticLocale->getStr('domaindesc'))), 1, 0);
     $wuiGrid->addChild(new WuiString('domain', array('value' => $domain, 'disp' => 'action')), 1, 1);
 
-    $wuiVGroup = new WuiVertGroup('vertgroup', array('align' => 'center'));
+    $wuiVGroup = new WuiVertgroup('vertgroup', array('align' => 'center'));
     $wuiVGroup->addChild($wuiGrid);
     $wuiVGroup->addChild(new WuiSubmit('submit', array('caption' => $innomaticLocale->getStr('submit'))));
 

@@ -44,9 +44,9 @@ function main_page()
     $page_params['border'] = 'false';
 
     $wui_page = new WuiPage( 'page', $page_params );
-    $wui_vertgroup = new WuiVertGroup( 'vertgroup', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%', 'width' => '0%' ) );
-    $wui_center_group = new WuiVertGroup('center_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%'));
-    $wui_buttons_group = new WuiHorizGroup('buttons', array('align' => 'middle', 'groupalign' => 'center', 'width' => '0%'));
+    $wui_vertgroup = new WuiVertgroup( 'vertgroup', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%', 'width' => '0%' ) );
+    $wui_center_group = new WuiVertgroup('center_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%'));
+    $wui_buttons_group = new WuiHorizgroup('buttons', array('align' => 'middle', 'groupalign' => 'center', 'width' => '0%'));
 
     $query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('SELECT count(id) AS domains FROM domains');
     if ($query->getFields('domains') > 0) {
@@ -85,7 +85,7 @@ function main_page()
         }
     }
 
-    $wui_logos_group = new WuiVertGroup( 'buttons_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%' ) );
+    $wui_logos_group = new WuiVertgroup( 'buttons_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%' ) );
     if ( $innomatic_logo_disabled != '1' ) {
         if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ) $edition = '_asp';
         else $edition = '_enterprise';

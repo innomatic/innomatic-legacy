@@ -86,12 +86,12 @@ $wui->loadWidget('vertgroup'  );
 $wui->loadWidget('progressbar');
 
 $wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('innomaticsetup_title')));
-$wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
+$wuiMainVertGroup = new WuiVertgroup('mainvertgroup');
 $wuiTitleBar = new WuiTitleBar('titlebar', array('title' => $innomaticLocale->getStr('innomaticsetup_title')));
 $wuiMainVertGroup->addChild($wuiTitleBar);
 
-$wui_mainframe1 = new WuiHorizFrame('mainframe', array('width' => '100%'));
-$wuiMainFrame = new WuiVertGroup('mainvertgroup2');
+$wui_mainframe1 = new WuiHorizframe('mainframe', array('width' => '100%'));
+$wuiMainFrame = new WuiVertgroup('mainvertgroup2');
 
 // Pass dispatcher
 //
@@ -225,7 +225,7 @@ clearstatcache();
 
 // Progressbar
 
-$progress_vert_group = new WuiVertGroup('mainvertgroup', array('width' => '0%'));
+$progress_vert_group = new WuiVertgroup('mainvertgroup', array('width' => '0%'));
 
 $progress_headers[1]['label'] = $innomaticLocale->getStr('setupphase_header');
 
@@ -412,7 +412,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $wui_info_table->addChild(new WuiLabel('shared'.$row, array('label' => $innomaticLocale->getStr('xmlrpc_ssl_test_label'))), $row, 2);
         $wui_info_table->addChild(new WuiLabel('checkresult'.$row, array('label' => $check_result)), $row, 3);
 
-        $wui_vgroup = new WuiVertGroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
+        $wui_vgroup = new WuiVertgroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
         $wui_vgroup->addChild($wui_info_table);
 
         if ($systemok) {
@@ -445,7 +445,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_editionset')) {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingedition', time());
 
-        $wui_vgroup = new WuiVertGroup('vgroup');
+        $wui_vgroup = new WuiVertgroup('vgroup');
 
         $editions['asp'] = $innomaticLocale->getStr('asp_edition_label');
         $editions['enterprise'] = $innomaticLocale->getStr('enterprise_edition_label');
@@ -471,7 +471,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $next_action->addEvent(new WuiEvent('view', 'edition', ''));
         $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'edition', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.'icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
-        $wui_vgroup2 = new WuiVertGroup('vgroup2');
+        $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
         $wui_vgroup2->addChild($wui_form);
         $wui_vgroup2->addChild(new WuiHorizBar('hr'));
@@ -498,7 +498,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('dbcreation_title');
 
-        $wui_vgroup = new WuiVertGroup('vgroup');
+        $wui_vgroup = new WuiVertgroup('vgroup');
         $wui_vgroup->addChild(new WuiLabel('phaselabel', array('label' => $innomaticLocale->getStr('dbcreation_phase_label'))));
 
         $wui_domain_grid = new WuiGrid('dbgrid', array('rows' => '6', 'cols' => '2'));
@@ -536,7 +536,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $next_action->addEvent(new WuiEvent('action', 'createdb', ''));
         $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'createdb', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.'icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
-        $wui_vgroup2 = new WuiVertGroup('vgroup2');
+        $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
         $wui_vgroup2->addChild($wui_form);
         $wui_vgroup2->addChild(new WuiHorizBar('hr'));
@@ -553,8 +553,8 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('components_title');
 
-        $wui_vgroup = new WuiVertGroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
-        $wui_hgroup1 = new WuiHorizGroup('nexthgroup', array('align' => 'middle', 'groupalign' => 'center'));
+        $wui_vgroup = new WuiVertgroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
+        $wui_hgroup1 = new WuiHorizgroup('nexthgroup', array('align' => 'middle', 'groupalign' => 'center'));
         $wui_hgroup1->addChild(new WuiLabel('nextlabel', array('label' => $innomaticLocale->getStr('components_phase_label'))));
         $wui_vgroup->addChild($wui_hgroup1);
 
@@ -574,7 +574,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('innomatichost_title');
 
-        $wui_vgroup = new WuiVertGroup('vgroup');
+        $wui_vgroup = new WuiVertgroup('vgroup');
         $wui_vgroup->addChild(new WuiLabel('phaselabel', array('label' => $innomaticLocale->getStr('innomatichost_phase_label'))));
 
         $wui_domain_grid = new WuiGrid('hostgrid');
@@ -597,7 +597,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $next_action->addEvent(new WuiEvent('action', 'setinnomatichost', ''));
         $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'setinnomatichost', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
-        $wui_vgroup2 = new WuiVertGroup('vgroup2');
+        $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
         $wui_vgroup2->addChild($wui_form);
         $wui_vgroup2->addChild(new WuiHorizBar('hr'));
@@ -636,7 +636,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
             $country_locale = new LocaleCatalog('innomatic::localization', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
 
-            $wui_vgroup = new WuiVertGroup('vgroup');
+            $wui_vgroup = new WuiVertgroup('vgroup');
 
             while (!$country_query->eof) {
                 $countries[$country_query->getFields('countryname')] = $country_locale->getStr($country_query->getFields('countryname'));
@@ -660,7 +660,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
             $next_action->addEvent(new WuiEvent('action', 'setcountry', ''));
             $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'country', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
-            $wui_vgroup2 = new WuiVertGroup('vgroup2');
+            $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
             $wui_vgroup2->addChild($wui_form);
             $wui_vgroup2->addChild(new WuiHorizBar('hr'));
@@ -715,7 +715,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
                 $selected_language = false;
             }
 
-            $wui_vgroup = new WuiVertGroup('vgroup');
+            $wui_vgroup = new WuiVertgroup('vgroup');
 
             $language_query = &$tmpdb->execute('SELECT * FROM locale_languages');
 
@@ -745,7 +745,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
             $next_action->addEvent(new WuiEvent('view', 'language', ''));
             $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'language', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
-            $wui_vgroup2 = new WuiVertGroup('vgroup2');
+            $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
             $wui_vgroup2->addChild($wui_form);
             $wui_vgroup2->addChild(new WuiHorizBar('hr'));
@@ -772,7 +772,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $wui_grid->addChild(new WuiLabel('passwordblabel', array('label' => $innomaticLocale->getStr('rootpasswordb_label'))), 1, 0);
         $wui_grid->addChild(new WuiString('passwordb', array('disp' => 'action', 'password' => 'true')), 1, 1);
 
-        $wui_vgroup = new WuiVertGroup('vertgroup', array('align' => 'center'));
+        $wui_vgroup = new WuiVertgroup('vertgroup', array('align' => 'center'));
         $wui_vgroup->addChild(new WuiLabel('phaselabel', array('label' => $innomaticLocale->getStr('password_phase_label'))));
         $wui_vgroup->addChild($wui_grid);
 
@@ -786,7 +786,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $next_action->addEvent(new WuiEvent('action', 'setpassword', ''));
         $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'password', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
-        $wui_vgroup2 = new WuiVertGroup('vgroup2');
+        $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
         $wui_vgroup2->addChild($wui_form);
         $wui_vgroup2->addChild(new WuiHorizBar('hr'));
@@ -804,7 +804,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_appcentralset')) {
     @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingappcentral', time());
 
-    $wui_vgroup = new WuiVertGroup('vgroup');
+    $wui_vgroup = new WuiVertgroup('vgroup');
 
     $wui_appcentral_grid = new WuiGrid('grid');
 
@@ -825,7 +825,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     $next_action->addEvent(new WuiEvent('action', 'setappcentral', ''));
     $next_button = new WuiButton('nextbutton', array('label' => $innomatic_locale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'appcentral', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.'icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
-    $wui_vgroup2 = new WuiVertGroup('vgroup2');
+    $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
     $wui_vgroup2->addChild($wui_form);
     $wui_vgroup2->addChild(new WuiHorizBar('hr'));
@@ -845,8 +845,8 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('cleanup_title');
 
-        $wui_vgroup = new WuiVertGroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
-        $wui_hgroup1 = new WuiHorizGroup('nexthgroup', array('align' => 'middle', 'groupalign' => 'center'));
+        $wui_vgroup = new WuiVertgroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
+        $wui_hgroup1 = new WuiHorizgroup('nexthgroup', array('align' => 'middle', 'groupalign' => 'center'));
         $wui_hgroup1->addChild(new WuiLabel('nextlabel', array('label' => $innomaticLocale->getStr('cleanup_label'))));
         $wui_vgroup->addChild($wui_hgroup1);
 
@@ -861,8 +861,8 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     } elseif (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_done')) {
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('finish_title');
 
-        $wui_vgroup = new WuiVertGroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
-        $wui_hgroup1 = new WuiHorizGroup('nexthgroup', array('align' => 'middle', 'groupalign' => 'center'));
+        $wui_vgroup = new WuiVertgroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
+        $wui_hgroup1 = new WuiHorizgroup('nexthgroup', array('align' => 'middle', 'groupalign' => 'center'));
         $wui_hgroup1->addChild(new WuiLabel('nextlabel', array('label' => $innomaticLocale->getStr('finish_label'))));
         $wui_vgroup->addChild($wui_hgroup1);
 
@@ -880,7 +880,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     //
     $wui_mainframe1->addChild($wuiMainFrame);
 
-    $horiz_frame = new WuiHorizGroup('', array('groupvalign' => 'top'));
+    $horiz_frame = new WuiHorizgroup('', array('groupvalign' => 'top'));
 
     $horiz_frame->addChild($progress_vert_group);
     $horiz_frame->addChild($wui_mainframe1);

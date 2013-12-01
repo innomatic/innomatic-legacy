@@ -81,7 +81,7 @@ class DomainsPanelViews extends PanelViews
         $this->_wuiContainer->loadWidget('xml');
 
         $this->wuiPage = new WuiPage('page', array('title' => $this->_localeCatalog->getStr('domains_title')));
-        $this->wuiMainvertgroup = new WuiVertGroup('mainvertgroup');
+        $this->wuiMainvertgroup = new WuiVertgroup('mainvertgroup');
         $this->wuiTitlebar = new WuiTitleBar(
             'titlebar',
             array(
@@ -168,14 +168,14 @@ class DomainsPanelViews extends PanelViews
 
         // Toolbar frame
         //
-        $wuiToolbarFrame = new WuiHorizGroup('toolbarframe');
+        $wuiToolbarFrame = new WuiHorizgroup('toolbarframe');
 
         $wuiToolbarFrame->addChild($wuiMainToolBar);
         $wuiToolbarFrame->addChild($wuiSitToolbar);
         $wuiToolbarFrame->addChild($wuiHelpToolbar);
         $this->wuiMainvertgroup->addChild($wuiToolbarFrame);
 
-        $this->wuiMainframe = new WuiHorizFrame('mainframe');
+        $this->wuiMainframe = new WuiHorizframe('mainframe');
         $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
     }
 
@@ -277,9 +277,9 @@ class DomainsPanelViews extends PanelViews
                 //$wui_domains_table->addChild(
                 //  new WuiLabel( 'domainlabel'.$row, array( 'label' => $data['domainid'] ) ), $row, 4 );
 
-                //$wui_buttons = new WuiHorizGroup( 'buttons'.$row );
+                //$wui_buttons = new WuiHorizgroup( 'buttons'.$row );
 
-                $wuiDomainToolBar[$row] = new WuiHorizGroup('domaintoolbar'.$row);
+                $wuiDomainToolBar[$row] = new WuiHorizgroup('domaintoolbar'.$row);
 
                 $showAction[$row] = new WuiEventsCall();
                 $showAction[$row]->addEvent(
@@ -593,7 +593,7 @@ class DomainsPanelViews extends PanelViews
         }
         asort($skeletons);
 
-        $wuiVgroup = new WuiVertGroup('vgroup');
+        $wuiVgroup = new WuiVertgroup('vgroup');
 
         $wuiDomainGrid = new WuiGrid('newdomaingrid');
 
@@ -995,7 +995,7 @@ class DomainsPanelViews extends PanelViews
             }
             asort($skeletons);
 
-            $wuiVgroup = new WuiVertGroup('vgroup');
+            $wuiVgroup = new WuiVertgroup('vgroup');
             $wuiDomainGrid = new WuiGrid('newdomaingrid', array('rows' => '6', 'cols' => '4'));
             $tabIndex = 1;
 
@@ -1455,7 +1455,7 @@ class DomainsPanelViews extends PanelViews
             InnomaticContainer::instance('innomaticcontainer')->getLanguage());
             $skeletonName = $tmpLocale->getStr($domainData['webappskeleton']);
 
-            $wuiVGroup = new WuiVertGroup('vgroup');
+            $wuiVGroup = new WuiVertgroup('vgroup');
             $wuiDomainGrid = new WuiGrid('showdomaingrid', array('rows' => '6', 'cols' => '4'));
 
             // Domain fields
@@ -1745,7 +1745,7 @@ class DomainsPanelViews extends PanelViews
         if ($query->getNumberRows()) {
             $domainData = $query->getFields();
 
-            $wuiVgroup = new WuiVertGroup('vgroup');
+            $wuiVgroup = new WuiVertgroup('vgroup');
 
             $domainLogContent = '';
 
@@ -1827,7 +1827,7 @@ class DomainsPanelViews extends PanelViews
         if ($query->getNumberRows()) {
             $domainData = $query->getFields();
 
-            $wuiVgroup = new WuiVertGroup('vgroup');
+            $wuiVgroup = new WuiVertgroup('vgroup');
 
             $dbLogContent = '';
 
@@ -1961,8 +1961,8 @@ class DomainsPanelViews extends PanelViews
                             .$eventData['domainid'].' AND applicationid = '.$applicationsData['id']
                         );
 
-                        $wuiEnGroup[$row] = new WuiVertGroup('enable');
-                        $wuiDomainApplicationsToolbar[$row] = new WuiHorizGroup('domainapplicationstoolbar'.$row);
+                        $wuiEnGroup[$row] = new WuiVertgroup('enable');
+                        $wuiDomainApplicationsToolbar[$row] = new WuiHorizgroup('domainapplicationstoolbar'.$row);
                         $appDep = new ApplicationDependencies(
                             InnomaticContainer::instance('innomaticcontainer')->getDataAccess()
                         );
@@ -2280,7 +2280,7 @@ class DomainsPanelViews extends PanelViews
               </children>
             </horizgroup>';
 
-                $wuiMainVGroup = new WuiVertGroup('');
+                $wuiMainVGroup = new WuiVertgroup('');
 
                 $wuiMainVGroup->addChild($wuiDomainApplicationsTable);
                 $wuiMainVGroup->addChild(new WuiHorizBar(''));

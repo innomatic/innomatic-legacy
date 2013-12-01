@@ -95,11 +95,11 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
         $wui->loadWidget('vertgroup');
 
         $wuiPage = new WuiPage('loginpage', array('title' => $innomaticLocale->getStr('desktoplogin'), 'border' => 'false', 'align' => 'center', 'valign' => 'middle'));
-        $wuiTopGroup = new WuiVertGroup('topgroup', array('align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%', 'width' => '0%'));
-        $wuiMainGroup = new WuiVertGroup('maingroup', array('align' => 'center'));
+        $wuiTopGroup = new WuiVertgroup('topgroup', array('align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%', 'width' => '0%'));
+        $wuiMainGroup = new WuiVertgroup('maingroup', array('align' => 'center'));
         $wuiTitleBar = new WuiTitleBar('titlebar', array('title' => $innomaticLocale->getStr('desktoplogin')));
-        $wuiMainBFrame = new WuiVertFrame('vframe', array('align' => 'center'));
-        $wuiMainFrame = new WuiHorizGroup('horizframe');
+        $wuiMainBFrame = new WuiVertframe('vframe', array('align' => 'center'));
+        $wuiMainFrame = new WuiHorizgroup('horizframe');
         $wuiMainStatus = new WuiStatusBar('mainstatusbar');
 
         // Main frame
@@ -112,7 +112,7 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
         $wuiGrid->addChild(new WuiLabel('passwordlabel', array('label' => $innomaticLocale->getStr('password'))), 1, 0);
         $wuiGrid->addChild(new WuiString('password', array('disp' => 'login', 'password' => 'true')), 1, 1);
 
-        $wuiVGroup = new WuiVertGroup('vertgroup', array('align' => 'center'));
+        $wuiVGroup = new WuiVertgroup('vertgroup', array('align' => 'center'));
         //$wui_vgroup->addChild( new WuiLabel( 'titlelabel', array( 'label' => $innomatic_locale->getStr( 'rootlogin' ) ) ) );
         $wuiVGroup->addChild($wuiGrid);
         $wuiVGroup->addChild(new WuiSubmit('submit', array('caption' => $innomaticLocale->getStr('enter'))));
@@ -125,7 +125,7 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
 
         $wuiForm = new WuiForm('form', array('action' => $formEventsCall->getEventsCallString()));
 
-        $wuiHGroup = new WuiHorizGroup('horizgroup', array('align' => 'middle'));
+        $wuiHGroup = new WuiHorizgroup('horizgroup', array('align' => 'middle'));
         $wuiHGroup->addChild(new WuiButton('password', array('themeimage' => 'keyhole', 'themeimagetype' => 'big', 'action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/', 'highlight' => false)));
         $wuiHGroup->addChild($wuiVGroup);
 
