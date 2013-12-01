@@ -15,6 +15,8 @@
 
 require_once('innomatic/desktop/panel/PanelViews.php');
 
+use \Shared\Wui;
+
 class DashboardPanelViews extends PanelViews
 {
     public $wuiPage;
@@ -22,7 +24,7 @@ class DashboardPanelViews extends PanelViews
     public $wuiMainframe;
     public $wuiMainstatus;
     public $wuiTitlebar;
-    protected $_localeCatalog;
+    protected $localeCatalog;
 
     public function update($observable, $arg = '')
     {
@@ -38,18 +40,18 @@ class DashboardPanelViews extends PanelViews
         require_once('innomatic/wui/dispatch/WuiEvent.php');
         require_once('innomatic/wui/dispatch/WuiEventRawData.php');
         require_once('innomatic/wui/dispatch/WuiDispatcher.php');
-        $this->_localeCatalog = new LocaleCatalog(
+        $this->localeCatalog = new LocaleCatalog(
             'innomatic::domain_dashboard',
             InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
         );
 
         $this->_wuiContainer->loadAllWidgets();
 
-$this->wuiPage = new WuiPage('page', array('title' => $this->_localeCatalog->getStr('dashboard_pagetitle')));
+$this->wuiPage = new WuiPage('page', array('title' => $this->localeCatalog->getStr('dashboard_pagetitle')));
 $this->wuiMainvertgroup = new WuiVertGroup('mainvertgroup');
 $this->wuiTitlebar = new WuiTitleBar(
                                'titlebar',
-                               array('title' => $this->_localeCatalog->getStr('dashboard_title'), 'icon' => 'elements')
+                               array('title' => $this->localeCatalog->getStr('dashboard_title'), 'icon' => 'elements')
                               );
 $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
 
@@ -88,14 +90,14 @@ $this->wuiMainframe = new WuiVertFrame('mainframe');
                 $start_column = false;
             }
             // Add ajax setup call
-            Wui::instance('wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\''.$widget['name'].'\')');
+            \Innomatic\Wui\Wui::instance('wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\''.$widget['name'].'\')');
 
             $width = 0;
             $height = 0;
 
             $class = $widget['class'];
 
-            // Check if the class exists
+            // Check if the class exists            
             if (class_exists($class, true)) {
                 // Fetch the widget xml definition
                 $widget_obj = new $class;
