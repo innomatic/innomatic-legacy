@@ -45,7 +45,8 @@ NEW FEATURES:
   development, integration, staging, production). (Alex Pagnoni)
 - Added "scrollable" parameter with optional width and height to Wui Horizgroup,
   Horizframe, Vertgroup and Vertframe widgets. (Alex Pagnoni)
-
+- Predisposition for namespace support in next Innomatic version. (Alex Pagnoni)
+ 
 DEPRECATED:
 - Old icon set, only new Subway icon set should be used from now on. (Alex
   Pagnoni)
