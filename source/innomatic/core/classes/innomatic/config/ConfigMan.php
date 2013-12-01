@@ -43,7 +43,7 @@ class ConfigMan extends ConfigBase
         $autoCommit = false, $entry = ''
         )
     {
-        $this->ConfigBase($configfile, $configmode, $autoCommit, $application, $entry);
+        parent::__construct($configfile, $configmode, $autoCommit, $application, $entry);
         // Arguments check
         //
         if (!empty($application))
