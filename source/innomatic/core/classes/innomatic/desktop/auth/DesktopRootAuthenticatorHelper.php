@@ -25,8 +25,8 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
         require_once('innomatic/desktop/controller/DesktopFrontController.php');
 
         $login_disp = new WuiDispatcher('login');
-        $login_disp->addEvent('login', 'login_login');
-        $login_disp->addEvent('logout', 'login_logout');
+        $login_disp->addEvent('login', '\Innomatic\Desktop\Auth\login_login');
+        $login_disp->addEvent('logout', '\Innomatic\Desktop\Auth\login_logout');
         $login_disp->Dispatch();
 
         if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value('SecurityOnlyHttpsRootAccessAllowed') == '1') {

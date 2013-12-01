@@ -28,8 +28,8 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
 
         if (isset(Wui::instance('wui')->parameters['wui']['login'])) {
             $loginDispatcher = new WuiDispatcher('login');
-            $loginDispatcher->addEvent('logout', 'login_logout');
-            $loginDispatcher->addEvent('login', 'login_login');
+            $loginDispatcher->addEvent('logout', '\Innomatic\Desktop\Auth\login_logout');
+            $loginDispatcher->addEvent('login', '\Innomatic\Desktop\Auth\login_login');
             $loginDispatcher->Dispatch();
         }
 
