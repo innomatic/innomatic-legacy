@@ -8,7 +8,22 @@
                                 CHANGES
                                 =======
 
-6000 6.1 - - "Namespaces, Retina icons, Environment, Dashboard, PSR standards"
+6000 - 6.2 - "Namespaces"
+---------------------
+SECURITY:
+FIXES:
+CHANGES:
+NEW FEATURES:
+- Added namespace support compliant with autoloading standard PSR-0. (Alex
+  Pagnoni)
+- Added autoloader compatibility mode for applications without new namespaces
+  support. (Alex Pagnoni)
+
+DEPRECATED:
+
+
+
+6000 6.1 - 2013/12/01 - "Retina icons, Environment, Dashboard, PSR standards"
 ---------------------
 FIXES:
 - Fixed WuiWidget::getEventsCompleteString() when generating events string with
@@ -47,10 +62,7 @@ NEW FEATURES:
   development, integration, staging, production). (Alex Pagnoni)
 - Added "scrollable" parameter with optional width and height to Wui Horizgroup,
   Horizframe, Vertgroup and Vertframe widgets. (Alex Pagnoni)
-- Added namespace support compliant with autoloading standard PSR-0. (Alex
-  Pagnoni)
-- Added autoloader compatibility mode for applications without new namespaces
-  support. (Alex Pagnoni)
+- Predisposition for namespace support in next Innomatic version. (Alex Pagnoni)
 
 DEPRECATED:
 - Old icon set, only new Subway icon set should be used from now on. (Alex

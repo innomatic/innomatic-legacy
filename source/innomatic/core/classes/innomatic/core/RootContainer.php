@@ -67,7 +67,7 @@ class RootContainer extends \Innomatic\Util\Singleton
             get_include_path() . PATH_SEPARATOR . $this->home
             . 'innomatic/core/classes/'
         );
-        
+
         spl_autoload_register('\Innomatic\Core\RootContainer::autoload', true, true);
     }
 
