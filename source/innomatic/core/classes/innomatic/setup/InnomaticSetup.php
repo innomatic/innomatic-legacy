@@ -501,9 +501,8 @@ class InnomaticSetup
 
     public static function cleanup($eventData = '', $log = '')
     {
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/innomatic/');
-        DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'setup');
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/innomatic/');
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'setup');
         //@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/kickstart.ini');
         //@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/bin/kickstart.php');
 

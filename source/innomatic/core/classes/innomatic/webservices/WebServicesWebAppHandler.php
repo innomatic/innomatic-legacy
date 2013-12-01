@@ -116,8 +116,7 @@ class WebServicesWebAppHandler extends WebAppHandler
     protected function getRelativePath(WebAppRequest $request)
     {
         $result = $request->getPathInfo();
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        return DirectoryUtils::normalize(strlen($result) ? $result : '/');
+        return \Innomatic\Io\Filesystem\DirectoryUtils::normalize(strlen($result) ? $result : '/');
     }
 
     /**

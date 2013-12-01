@@ -14,6 +14,8 @@
 */
 namespace Innomatic\Application;
 
+use \Innomatic\Core\Container;
+
 /*!
  @class Application
  @abstract Application handling.
@@ -90,7 +92,6 @@ only application. */
 
         $result = false;
 
-        require_once('innomatic/core/InnomaticContainer.php');
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
 
         if ($innomatic->getState() == InnomaticContainer::STATE_DEBUG) {
@@ -98,8 +99,6 @@ only application. */
         }
 
         if (file_exists($tmpfilepath)) {
-            require_once('innomatic/io/archive/Archive.php');
-
             // Moves temp file to applications repository and extracts it
             //
             $fname = InnomaticContainer::instance('innomaticcontainer')->getHome()
@@ -112,13 +111,13 @@ only application. */
             @chdir($tmpdir);
             //@system( escapeshellcmd( 'tar zxf '.$fname ) );
 
-            $archiveFormat = Archive::FORMAT_TGZ;
+            $archiveFormat = \Innomatic\Io\Archive\Archive::FORMAT_TGZ;
 
             if (substr($fname, -4) == '.zip') {
-                $archiveFormat = Archive::FORMAT_ZIP;
+                $archiveFormat = \Innomatic\Io\Archive\Archive::FORMAT_ZIP;
             }
 
-            $appArchive = new Archive($fname, $archiveFormat);
+            $appArchive = new \Innomatic\Io\Archive\Archive($fname, $archiveFormat);
             $appArchive->Extract($tmpdir);
 
             // Checks if the files are into a directory instead of the root
@@ -338,9 +337,7 @@ only application. */
                                 'SecurityAlertOnApplicationOperation'
                             ) == '1'
                         ) {
-                            require_once('innomatic/security/SecurityManager.php');
-
-                            $innomaticSecurity = new SecurityManager();
+                            $innomaticSecurity = new \Innomatic\Security\SecurityManager();
                             $innomaticSecurity->SendAlert('Application '.$this->appname.' has been installed');
                             unset($innomaticSecurity);
                         }
@@ -575,9 +572,7 @@ only application. */
                                         'innomaticcontainer'
                                     )->getConfig()->Value('SecurityAlertOnApplicationOperation') == '1'
                                 ) {
-                                    require_once('innomatic/security/SecurityManager.php');
-
-                                    $innomaticSecurity = new SecurityManager();
+                                    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
                                     $innomaticSecurity->SendAlert('Application '.$this->appname.' has been updated');
                                     unset($innomaticSecurity);
                                 }
@@ -616,9 +611,8 @@ only application. */
 
             // Cleans up temp stuff
             //
-            require_once('innomatic/io/filesystem/DirectoryUtils.php');
             @chdir($olddir);
-            DirectoryUtils::unlinkTree($basetmpdir);
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($basetmpdir);
             if (file_exists($tmpfilepath))
             @unlink($tmpfilepath);
         } else {
@@ -710,8 +704,7 @@ only application. */
                                     'core/applications/'.$appdata['appfile']
                                 );
                             }
-                            require_once('innomatic/io/filesystem/DirectoryUtils.php');
-                            DirectoryUtils::unlinkTree(
+                            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(
                                 InnomaticContainer::instance('innomaticcontainer')->getHome().
                                 'core/applications/'.$appdata['appid']
                             );
@@ -736,9 +729,7 @@ only application. */
                                 InnomaticContainer::instance('innomaticcontainer')->getConfig()
                                 ->Value('SecurityAlertOnApplicationOperation') == '1'
                             ) {
-                                require_once('innomatic/security/SecurityManager.php');
-
-                                $innomaticSecurity = new SecurityManager();
+                                $innomaticSecurity = new \Innomatic\Security\SecurityManager();
                                 $innomaticSecurity->SendAlert('Application '.$appdata['appid'].' has been removed');
                                 unset($innomaticSecurity);
                             }
@@ -950,17 +941,16 @@ only application. */
     public function enable($domainid)
     {
         $result = false;
-        require_once('innomatic/process/Hook.php');
-        $hook = new Hook($this->rootda, 'innomatic', 'application.enable');
+        $hook = new \Innomatic\Process\Hook($this->rootda, 'innomatic', 'application.enable');
         if (
-            $hook->CallHooks(
+            $hook->callHooks(
                 'calltime',
                 $this,
                 array(
                     'domainserial' => $domainid,
                     'modserial' => $this->serial
                 )
-            ) == Hook::RESULT_OK
+            ) == \Innomatic\Process\Hook::RESULT_OK
         ) {
             if ($this->serial) {
                 // Checks if the application exists in applications table
@@ -1069,9 +1059,7 @@ only application. */
                                         'innomaticcontainer'
                                     )->getConfig()->Value('SecurityAlertOnApplicationDomainOperation') == '1'
                                 ) {
-                                    require_once('innomatic/security/SecurityManager.php');
-
-                                    $innomaticSecurity = new SecurityManager();
+                                    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
                                     $innomaticSecurity->SendAlert(
                                         'Application '.$appdata['appid'].' has been enabled to domain '.
                                         $domaindata['domainid']
@@ -1084,7 +1072,7 @@ only application. */
                                         'applicationenabled',
                                         $this,
                                         array('domainserial' => $domainid, 'modserial' => $this->serial)
-                                    ) != Hook::RESULT_OK
+                                    ) != \Innomatic\Process\Hook::RESULT_OK
                                 )
                                 $result = false;
                             } else {
@@ -1176,14 +1164,13 @@ only application. */
     {
         $result = false;
 
-        require_once('innomatic/process/Hook.php');
-        $hook = new Hook($this->rootda, 'innomatic', 'application.disable');
+        $hook = new \Innomatic\Process\Hook($this->rootda, 'innomatic', 'application.disable');
         if (
-            $hook->CallHooks(
+            $hook->callHooks(
                 'calltime',
                 $this,
                 array('domainserial' => $domainid, 'modserial' => $this->serial)
-            ) == Hook::RESULT_OK
+            ) == \Innomatic\Process\Hook::RESULT_OK
         ) {
             if ($this->serial) {
                 // Checks if the application exists in applications table
@@ -1282,8 +1269,7 @@ only application. */
                                         'SecurityAlertOnApplicationDomainOperation'
                                     ) == '1'
                                 ) {
-                                    require_once('innomatic/security/SecurityManager.php');
-                                    $innomaticSecurity = new SecurityManager();
+                                    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
                                     $innomaticSecurity->SendAlert(
                                         'Application '.$appdata['appid'].' has been disabled from domain '.
                                         $domaindata['domainid']
@@ -1292,10 +1278,10 @@ only application. */
                                 }
 
                                 if (
-                                    $hook->CallHooks(
+                                    $hook->callHooks(
                                         'applicationdisabled',
                                         $this, array('domainserial' => $domainid, 'modserial' => $this->serial)
-                                    ) != Hook::RESULT_OK
+                                    ) != \Innomatic\Process\Hook::RESULT_OK
                                 )
                                 $result = false;
                             } elseif ($modenabled == false) {

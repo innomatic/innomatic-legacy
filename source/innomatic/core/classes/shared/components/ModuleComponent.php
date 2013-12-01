@@ -31,8 +31,7 @@ class ModuleComponent extends ApplicationComponent
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Checks if the classes folder exists
         if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/modules/')) {
-            require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-            DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/modules/', 0755);
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/modules/', 0755);
             clearstatcache();
         }
     }

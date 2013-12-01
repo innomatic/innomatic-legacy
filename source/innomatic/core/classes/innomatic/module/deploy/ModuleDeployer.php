@@ -9,7 +9,6 @@ require_once('innomatic/module/util/ModuleXmlConfig.php');
 require_once('innomatic/module/ModuleFactory.php');
 require_once('innomatic/module/ModuleException.php');
 require_once('innomatic/io/archive/Archive.php');
-require_once('innomatic/io/filesystem/DirectoryUtils.php');
 
 /**
  * Module deployer class.
@@ -45,47 +44,47 @@ class ModuleDeployer
 
         if (is_dir($module)) {
             // Copies the Module directory
-            DirectoryUtils::dirCopy($module.'/', $tmp_dir);
+            \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($module.'/', $tmp_dir);
         } else {
             // Unpacks the Module archive.
             $arc = new Archive($module, Archive::FORMAT_TAR);
             if (!$arc->extract($tmp_dir)) {
-                DirectoryUtils::unlinkTree($tmp_dir);
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
                 throw new ModuleException('Unable to extract Module');
             }
         }
 
         // Checks if module.xml file exists.
         if (!file_exists($tmp_dir.'setup/module.xml')) {
-            DirectoryUtils::unlinkTree($tmp_dir);
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Missing module.xml configuration file');
         }
 
         // Parses Module configuration.
         $cfg = ModuleXmlConfig::getInstance($tmp_dir.'setup/module.xml');
         if (!strlen($cfg->getName())) {
-            DirectoryUtils::unlinkTree($tmp_dir);
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Missing Module name in module.xml');
         }
 
         // Checks if a Module with that name already exists.
         if (is_dir($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName())) {
-            DirectoryUtils::unlinkTree($tmp_dir);
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('A Module with that name already exists');
         }
 
         // Checks Module code.
         $code_checker = new PHPCodeChecker();
         if (!$code_checker->checkDirectory($tmp_dir)) {
-            DirectoryUtils::unlinkTree($tmp_dir);
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Module contains errors in code');
         }
 
         // Deploys the Module.
         $module_dir = $context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName().DIRECTORY_SEPARATOR;
         mkdir($module_dir, 0755, true);
-        DirectoryUtils::dirCopy($tmp_dir.'/', $module_dir);
-        DirectoryUtils::unlinkTree($tmp_dir);
+        \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($tmp_dir.'/', $module_dir);
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
 
         // Runs Module deploy hooked actions.
         //$auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -123,52 +122,52 @@ class ModuleDeployer
 
         if (is_dir($module)) {
             // Copies the Module directory
-            DirectoryUtils::dirCopy($module.'/', $tmp_dir);
+            \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($module.'/', $tmp_dir);
         } else {
             // Unpacks the Module archive.
             $arc = new Archive($module, Archive::FORMAT_TAR);
             if (!$arc->extract($tmp_dir)) {
-                DirectoryUtils::unlinkTree($tmp_dir);
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
                 throw new ModuleException('Unable to extract Module');
             }
         }
 
         // Checks if cmb.xml file exists.
         if (!file_exists($tmp_dir.'setup/module.xml')) {
-            DirectoryUtils::unlinkTree($tmp_dir);
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Missing module.xml configuration file');
         }
 
         // Parses Module configuration.
         $cfg = ModuleXmlConfig::getInstance($tmp_dir.'setup/module.xml');
         if (!strlen($cfg->getName())) {
-            DirectoryUtils::unlinkTree($tmp_dir);
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Missing Module name in module.xml');
         }
 
         // Checks if the Module to be redeployed exists in modules directory.
         if (!is_dir($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName())) {
-            DirectoryUtils::unlinkTree($tmp_dir);
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Module to be redeployed does not exists');
         }
 
         // Checks Module code.
         $code_checker = new PHPCodeChecker();
         if (!$code_checker->checkDirectory($tmp_dir)) {
-            DirectoryUtils::unlinkTree($tmp_dir);
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
             throw new ModuleException('Module contains errors in code');
         }
 
         // Removes old Module.
         if (is_dir($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName())) {
-            DirectoryUtils::unlinkTree($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName());
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName());
         }
 
         // Deploys new Module.
         $module_dir = $context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$cfg->getName().DIRECTORY_SEPARATOR;
         mkdir($module_dir, 0755, true);
-        DirectoryUtils::dirCopy($tmp_dir.'/', $module_dir);
-        DirectoryUtils::unlinkTree($tmp_dir);
+        \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($tmp_dir.'/', $module_dir);
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
 
         // Executes Module redeploy hooked actions.
         //$auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -206,7 +205,7 @@ class ModuleDeployer
         $module->undeploy();
 
         // Removes Module.
-        DirectoryUtils::unlinkTree($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$location);
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$location);
 
         // Logs undeployment.
         if ($context->getConfig()->getKey('log_deployer_events') == 1 or $context->getConfig()->useDefaults()) {

@@ -52,8 +52,7 @@ class DashboardwidgetComponent extends ApplicationComponent
 
         // Check if the shared dashboard widgets directory exists
         if (!is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/')) {
-            require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-            DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/', 0755);
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/', 0755);
         }
 
         @copy($args['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . basename($args['file']));

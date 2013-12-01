@@ -66,9 +66,8 @@ class WebappskeletonComponent extends ApplicationComponent
         // Destination folder.
         $skeleton_destination = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
         // Copies the skeleton folder to the destination.
-        require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-        $result = DirectoryUtils::dirCopy($skeleton_source, $skeleton_destination);
-        if (! $result) {
+        $result = \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($skeleton_source, $skeleton_destination);
+        if (!$result) {
             $this->mLog->logEvent('WebappskeletonComponent::doInstallAction', 'Unable to copy webapp skeleton source folder (' . $skeleton_source . ') to its destination (' . $skeleton_destination . ') in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
@@ -90,9 +89,8 @@ class WebappskeletonComponent extends ApplicationComponent
         // Skeleton folder.
         $skeleton_folder = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel';
         // Removes skeleton directory.
-        require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-        $result = DirectoryUtils::unlinkTree($skeleton_folder);
-        if (! $result) {
+        $result = \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($skeleton_folder);
+        if (!$result) {
             $this->mLog->logEvent('WebappskeletonComponent::doUninstallAction', 'Unable to remove webapp skeleton folder (' . $skeleton_folder . ') in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             // The execution continues even if it is unable to remove webapps folder
         // in order to remove the row from the webapps_skeletons table.
@@ -122,11 +120,9 @@ class WebappskeletonComponent extends ApplicationComponent
         // Destination folder.
         $skeleton_destination = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
         // Removes previous skeleton directory.
-        require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-        DirectoryUtils::unlinkTree($skeleton_folder);
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($skeleton_folder);
         // Copies the skeleton folder to the destination.
-        require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-        $result = DirectoryUtils::dirCopy($skeleton_source, $skeleton_destination);
+        $result = \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($skeleton_source, $skeleton_destination);
         if (! $result) {
             $this->mLog->logEvent('WebappskeletonComponent::doUdpateAction', 'Unable to copy webapp skeleton source folder (' . $skeleton_source . ') to its destination (' . $skeleton_destination . ') in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;

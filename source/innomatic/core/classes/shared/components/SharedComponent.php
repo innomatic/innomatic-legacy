@@ -46,8 +46,7 @@ class SharedComponent extends ApplicationComponent
         if (strlen($params['name'])) {
             $file = $this->basedir . '/shared/' . $params['name'];
             if (is_dir($file)) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                if (DirectoryUtils::dirCopy($file.'/', InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/'.basename($file).'/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($file.'/', InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/'.basename($file).'/')) {
                     $result = true;
                 }
             } else {
@@ -65,8 +64,7 @@ class SharedComponent extends ApplicationComponent
         $result = false;
         if (strlen($params['name'])) {
             if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']));
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']));
                 $result = true;
             } else {
                 if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
@@ -81,8 +79,7 @@ class SharedComponent extends ApplicationComponent
     {
         if (strlen($params['name'])) {
             if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']));
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']));
                 $result = true;
             } else {
                 if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
@@ -92,8 +89,7 @@ class SharedComponent extends ApplicationComponent
 
             $file = $this->basedir . '/shared/' . $params['name'];
             if (is_dir($file)) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                if (DirectoryUtils::dirCopy($file.'/', InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/'.basename($file).'/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($file.'/', InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/'.basename($file).'/')) {
                     $result = true;
                 }
             } else {

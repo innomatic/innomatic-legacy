@@ -259,8 +259,6 @@ class InnomaticCacheMaintenance extends MaintenanceTask
     {
         $dirstream = @opendir($dir);
         if ($dirstream) {
-            require_once('innomatic/io/filesystem/DirectoryUtils.php');
-
             while (false !== ($filename = readdir($dirstream))) {
                 if ($filename != '.' && $filename != '..' && $filename != $preserveFile) {
                     if (is_file($dir.'/'.$filename)) {
@@ -268,7 +266,7 @@ class InnomaticCacheMaintenance extends MaintenanceTask
                     }
 
                     if (is_dir($dir.'/'.$filename)) {
-                        DirectoryUtils::unlinkTree($dir.'/'.$filename);
+                        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($dir.'/'.$filename);
                     }
                 }
             }

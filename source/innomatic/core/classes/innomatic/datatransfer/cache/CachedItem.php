@@ -120,8 +120,7 @@ class CachedItem
             $name = $this->cachePath.date('Ymd').'_cacheditem_'.rand();
 
             if (!file_exists($this->cachePath)) {
-                require_once('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::mktree($this->cachePath, 0755);
+                \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->cachePath, 0755);
             }
             if ($fh = @fopen($name, 'w')) {
                 if (@fwrite($fh, $content)) {

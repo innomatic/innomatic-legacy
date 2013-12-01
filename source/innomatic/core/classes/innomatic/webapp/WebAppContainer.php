@@ -148,8 +148,7 @@ class WebAppContainer extends \Innomatic\Util\Singleton
         }
 
         // Copies the skeleton to the webapp directory.
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        return DirectoryUtils::dirCopy(
+        return \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy(
               $home.'innomatic/core/conf/skel/webapps/'.$skeleton.'-skel/',
             $home.$webappName.'/');
     }
@@ -176,8 +175,7 @@ class WebAppContainer extends \Innomatic\Util\Singleton
         }
 
         // Removes the webapp.
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        DirectoryUtils::unlinkTree($home.$webappName);
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($home.$webappName);
     }
 
     /**
@@ -207,8 +205,7 @@ class WebAppContainer extends \Innomatic\Util\Singleton
         }
 
         // Copies the skeleton to the webapp directory, overwriting previos skeleton.
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        return DirectoryUtils::dirCopy(
+        return \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy(
               $home.'innomatic/core/conf/skel/webapps/'.$skeletonName.'-skel/',
             $home.$webappName.'/');
     }

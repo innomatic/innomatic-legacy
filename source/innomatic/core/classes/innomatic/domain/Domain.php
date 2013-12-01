@@ -652,9 +652,8 @@ class Domain
             if (!empty($data['domainid']) and !in_array($data['domainid'], $this->reservedNames) ) {
                 require_once('innomatic/security/SecurityManager.php');
                 if (!SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$data['domainid'], InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/')) {
-                    require_once('innomatic/io/filesystem/DirectoryUtils.php');
                     // Removes domain directory inside Innomatic webapp
-                    DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$data['domainid']);
+                    \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$data['domainid']);
                 }
                 // Removes domain webapp
                 require_once('innomatic/webapp/WebAppContainer.php');

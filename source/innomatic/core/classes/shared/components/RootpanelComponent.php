@@ -64,8 +64,7 @@ class RootpanelComponent extends ApplicationComponent
             $params['name'] = $this->basedir . '/root/' . $params['name'];
             $result = false;
             if (is_dir($params['name'] . '-panel')) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                if (DirectoryUtils::dirCopy($params['name'] . '-panel/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($params['name'] . '-panel/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel/')) {
                     $result = true;
                 }
             } else
@@ -116,8 +115,7 @@ class RootpanelComponent extends ApplicationComponent
                 $result = @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php');
             }
             if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel')) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                $result = DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel');
+                $result = \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel');
             }
             if (! $result) {
                 $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove root application file ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']), \Innomatic\Logging\Logger::ERROR);
@@ -159,12 +157,10 @@ class RootpanelComponent extends ApplicationComponent
                 @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php');
             }
             if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel')) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel');
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel');
             }
             if (is_dir($params['name'] . '-panel')) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                if (DirectoryUtils::dirCopy($params['name'] . '-panel/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($params['name'] . '-panel/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel/')) {
                     $result = true;
                 }
             } else

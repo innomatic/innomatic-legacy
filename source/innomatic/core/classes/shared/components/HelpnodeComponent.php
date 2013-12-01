@@ -52,7 +52,7 @@ class HelpnodeComponent extends ApplicationComponent
                 @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/help/', 0755);
                 umask($old_umask);
             }
-            if (DirectoryUtils::dirCopy($params['file'] . '/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/help/' . basename($params['file']) . '/')) {
+            if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($params['file'] . '/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/help/' . basename($params['file']) . '/')) {
                 //@chmod( InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/help/'.basename( $params['file'] ), 0644 );
                 $result = true;
             }
@@ -64,7 +64,7 @@ class HelpnodeComponent extends ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            if (DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/help/' . basename($params['file']))) {
+            if (\Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/help/' . basename($params['file']))) {
                 $result = true;
             }
         } else
@@ -73,7 +73,7 @@ class HelpnodeComponent extends ApplicationComponent
     }
     public function DoUpdateAction($params)
     {
-        DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/help/' . basename($params['file']));
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/help/' . basename($params['file']));
         return $this->DoInstallAction($params);
     }
 }

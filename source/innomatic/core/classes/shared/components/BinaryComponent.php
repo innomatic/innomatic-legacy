@@ -24,9 +24,8 @@ class BinaryComponent extends ApplicationComponent
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Creates the binaries directory if it doesn't exists.
-        if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/')) {
-            require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-            DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/', 0755);
+        if (!is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/')) {
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/', 0755);
         }
     }
     public static function getType()
@@ -66,8 +65,7 @@ class BinaryComponent extends ApplicationComponent
         // Checks if the binary file name contains a directory.
         $dirname = dirname($params['name']);
         if ($dirname != '.') {
-            require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-            DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/' . $params['name'], 0755);
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/' . $params['name'], 0755);
         }
         // Copies the binary file.
         if (! copy($this->basedir . '/core/bin/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/bin/' . $params['name'])) {

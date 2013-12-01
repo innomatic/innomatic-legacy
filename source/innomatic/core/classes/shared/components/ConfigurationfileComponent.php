@@ -24,9 +24,8 @@ class ConfigurationfileComponent extends ApplicationComponent
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Creates the configuration directory if it doesn't exists.
-        if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/')) {
-            require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-            DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/', 0755);
+        if (!is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/')) {
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/', 0755);
         }
     }
     public static function getType()
@@ -66,8 +65,7 @@ class ConfigurationfileComponent extends ApplicationComponent
         // Checks if the configuration file name contains a directory.
         $dirname = dirname($params['name']);
         if ($dirname != '.') {
-            require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-            DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/' . $params['name'], 0755);
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/' . $params['name'], 0755);
         }
         // Copies the configuration file.
         if (! copy($this->basedir . '/core/conf/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/' . $params['name'])) {

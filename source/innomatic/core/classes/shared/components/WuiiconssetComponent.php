@@ -47,9 +47,8 @@ class WuiiconssetComponent extends ApplicationComponent
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
-            if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/')) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/', 0755);
+            if (!is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/')) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/', 0755);
             }
             if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
@@ -223,9 +222,8 @@ class WuiiconssetComponent extends ApplicationComponent
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
-            if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/')) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/', 0755);
+            if (!is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/')) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/', 0755);
             }
             if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);

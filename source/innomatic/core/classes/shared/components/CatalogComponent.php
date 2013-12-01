@@ -54,8 +54,7 @@ class CatalogComponent extends ApplicationComponent
             @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/catalogs/', 0755);
             umask($old_umask);
         }
-        require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-        return DirectoryUtils::dirCopy($catalog . '/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/catalogs/' . basename($catalog) . '/');
+        return \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($catalog . '/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/catalogs/' . basename($catalog) . '/');
     }
     public function doUninstallAction($params)
     {
@@ -64,13 +63,11 @@ class CatalogComponent extends ApplicationComponent
             $this->mLog->logEvent('innomatic.catalogcomponent.catalogcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty catalog name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-        return DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/catalogs/' . basename($params['name']));
+        return \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/catalogs/' . basename($params['name']));
     }
     public function doUpdateAction($params)
     {
-        require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-        DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/catalogs/' . basename($params['name']));
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/catalogs/' . basename($params['name']));
         return $this->DoInstallAction($params);
     }
 }

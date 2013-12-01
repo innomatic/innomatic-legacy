@@ -113,8 +113,7 @@ class WebAppProcessor
         }
 
         $requestURI = $url_path.$path_info;
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        $normalizedURI = DirectoryUtils::normalize($requestURI);
+        $normalizedURI = \Innomatic\Io\Filesystem\DirectoryUtils::normalize($requestURI);
         if ($url_path != '/' && $url_path == $normalizedURI) {
             $normalizedURI .= '/';
         }

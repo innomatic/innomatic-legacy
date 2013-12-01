@@ -46,8 +46,7 @@ class DomainpanelComponent extends ApplicationComponent
         if (strlen($params['name'])) {
             $params['name'] = $this->basedir . '/domain/' . $params['name'];
             if (is_dir($params['name'] . '-panel')) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                if (DirectoryUtils::dirCopy($params['name'] . '-panel/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($params['name'] . '-panel/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel/')) {
                     $result = true;
                 } else
                     $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['name'] . '-panel into destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel', \Innomatic\Logging\Logger::ERROR);
@@ -78,8 +77,7 @@ class DomainpanelComponent extends ApplicationComponent
         if (strlen($params['name'])) {
             // Removes the new style application
             if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel')) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                if (DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel')) {
                     $result = true;
                 } else
                     $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'domain/' . basename($params['name']) . '-panel', \Innomatic\Logging\Logger::ERROR);

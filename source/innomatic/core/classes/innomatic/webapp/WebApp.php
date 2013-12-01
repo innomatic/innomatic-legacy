@@ -116,8 +116,7 @@ class WebApp
     public function refresh()
     {
         if (is_dir($this->getVarDir().'cache/')) {
-            require_once('innomatic/io/filesystem/DirectoryUtils.php');
-            DirectoryUtils::unlinkTree($this->getVarDir());
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($this->getVarDir());
         }
     }
 
