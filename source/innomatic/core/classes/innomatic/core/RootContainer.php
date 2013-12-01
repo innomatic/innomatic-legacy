@@ -115,9 +115,12 @@ class RootContainer extends \Innomatic\Util\Singleton
 	    if (strpos($class_name, '\\') !== false) {
 	        $orig = $class_name;
 	        $class_name = array_pop(explode('\\',$class_name));
+	        $file = self::getClassFile($orig);
+	    } else {
+	    	$file = self::getClassFile($class_name);
 	    }
 	    // use some function to find the file that declares the class requested
-	    $file = self::getClassFile($class_name);
+	    
 	    
 	    // remember the defined classes, include the $file and detect newly declared classes
 	    $pre = get_declared_classes();
