@@ -46,7 +46,9 @@ NEW FEATURES:
 - Added "scrollable" parameter with optional width and height to Wui Horizgroup,
   Horizframe, Vertgroup and Vertframe widgets. (Alex Pagnoni)
 - Predisposition for namespace support in next Innomatic version. (Alex Pagnoni)
- 
+- During Innomatic setup, get the default country based on HTTP_ACCEPT_LANGUAGE
+  header. (Luca Ferri)
+
 DEPRECATED:
 - Old icon set, only new Subway icon set should be used from now on. (Alex
   Pagnoni)
