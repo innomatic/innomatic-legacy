@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -17,14 +17,14 @@ require_once('innomatic/webapp/WebAppHandler.php');
 
 /**
  * WebApp Handler for the domain desktop.
- * 
+ *
  * WebApp Handler for the domain desktop.
- * 
+ *
  * The domain desktop supports the output buffering through the
  * CompressedOutputBuffering parameter in the core/conf/innomatic.ini
  * configuration file.
  *
- * @copyright  2000-2012 Innoteam S.r.l.
+ * @copyright  2000-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -43,7 +43,7 @@ class DesktopDomainWebAppHandler extends WebAppHandler
 
         // make sure that this path exists on disk
         switch (substr($resource, strrpos($resource, '/') + 1)) {
-        	/*
+            /*
             case 'main':
             case 'menu':
             case 'logo':

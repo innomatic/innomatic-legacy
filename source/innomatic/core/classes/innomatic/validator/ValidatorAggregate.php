@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -16,7 +16,7 @@ require_once ('innomatic/validator/Validator.php');
 /**
  * This class runs a suite of validators collecting error results.
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2012 Innoteam S.r.l.
+ * @copyright Copyright 2012 Innoteam Srl
  * @since 1.0
  */
 class ValidatorAggregate
@@ -41,7 +41,7 @@ class ValidatorAggregate
      * @access public
      * @since 1.0
      */
-    public function addValidator (Validator $validator)
+    public function addValidator(Validator $validator)
     {
         $this->_validators[] = $validator;
     }
@@ -50,7 +50,7 @@ class ValidatorAggregate
      * @access public
      * @since 1.0
      */
-    public function validate ()
+    public function validate()
     {
         foreach ($this->_validators as $validator) {
             $validator->validate();
@@ -65,7 +65,7 @@ class ValidatorAggregate
      * @access public
      * @since 1.0
      */
-    public function getError ()
+    public function getError()
     {
         return array_pop($this->_errors);
     }
@@ -74,7 +74,7 @@ class ValidatorAggregate
      * @access public
      * @since 1.0
      */
-    public function isValid ()
+    public function isValid()
     {
         return count($this->_errors) ? false : true;
     }

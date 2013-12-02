@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -16,18 +16,19 @@ require_once ('innomatic/application/ApplicationComponent.php');
 
 /**
  * Class component handler.
- * 
+ *
  * A class component is a PHP file containing a PHP class, to be deployed
  * in core/classes directory.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
 class ClassComponent extends ApplicationComponent
 {
-    function ClassComponent($rootda, $domainda, $appname, $name, $basedir) {
+    public function ClassComponent($rootda, $domainda, $appname, $name, $basedir)
+    {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Checks if the classes folder exists
         if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/')) {
@@ -42,24 +43,29 @@ class ClassComponent extends ApplicationComponent
             clearstatcache();
         }
     }
-    
-    public static function getType() {
+
+    public static function getType()
+    {
         return 'class';
     }
-    
-    public static function getPriority() {
+
+    public static function getPriority()
+    {
         return 110;
     }
-    
-    public static function getIsDomain() {
+
+    public static function getIsDomain()
+    {
         return false;
     }
-    
-    public static function getIsOverridable() {
+
+    public static function getIsOverridable()
+    {
         return true;
     }
-    
-    public function doInstallAction($params) {
+
+    public function doInstallAction($params)
+    {
         if (! strlen($params['name'])) {
             return false;
         }
@@ -101,8 +107,9 @@ class ClassComponent extends ApplicationComponent
             return copy($this->basedir . '/core/classes/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/' . $params['name']);
         }
     }
-    
-    public function doUninstallAction($params) {
+
+    public function doUninstallAction($params)
+    {
         $result = false;
         if (isset($params['override']) and ($params['override'] == self::OVERRIDE_DOMAIN or $params['override'] == self::OVERRIDE_GLOBAL)) {
             if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/overrides/classes/' . $params['name'])) {
@@ -118,11 +125,12 @@ class ClassComponent extends ApplicationComponent
         }
         return $result;
     }
-    
-    public function doUpdateAction($params) {
+
+    public function doUpdateAction($params)
+    {
         $result = $this->DoInstallAction($params);
     }
-    
+
     /**
      * Used only when the component is a domain override.
      *
@@ -130,7 +138,8 @@ class ClassComponent extends ApplicationComponent
      * @param unknown_type $params
      * @return bool
      */
-    public function doEnableDomainAction($domainid, $params) {
+    public function doEnableDomainAction($domainid, $params)
+    {
         if (! strlen($params['name'])) {
             return false;
         }
@@ -154,7 +163,7 @@ class ClassComponent extends ApplicationComponent
         }
         return copy(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/' . $params['name']);
     }
-    
+
     /**
      * Used only when the component is a domain override.
      *
@@ -162,7 +171,8 @@ class ClassComponent extends ApplicationComponent
      * @param unknown_type $params
      * @return bool
      */
-    public function doDisableDomainAction($domainid, $params) {
+    public function doDisableDomainAction($domainid, $params)
+    {
         if (! strlen($params['name'])) {
             return false;
         }
@@ -180,7 +190,7 @@ class ClassComponent extends ApplicationComponent
         }
         return false;
     }
-    
+
     /**
      * Used only when the component is a domain override.
      *
@@ -188,7 +198,8 @@ class ClassComponent extends ApplicationComponent
      * @param unknown_type $params
      * @return bool
      */
-    public function doUpdateDomainAction($domainid, $params) {
+    public function doUpdateDomainAction($domainid, $params)
+    {
         return $this->doEnableDomainAction();
     }
 }

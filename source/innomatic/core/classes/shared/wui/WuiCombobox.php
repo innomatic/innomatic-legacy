@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -16,7 +16,7 @@ require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiComboBox extends WuiWidget
+class WuiCombobox extends WuiWidget
 {
     /*! @public mElements array - Array of the elements. */
     //public $mElements;
@@ -38,7 +38,7 @@ class WuiComboBox extends WuiWidget
         if (! isset($this->mArgs['tabindex']))
             $this->mArgs['tabindex'] = 0;
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         $result = false;
         if (isset($this->mArgs['elements']) and is_array($this->mArgs['elements']) and count($this->mArgs['elements'])) {

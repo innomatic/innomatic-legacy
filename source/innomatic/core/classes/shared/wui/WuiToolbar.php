@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -31,15 +31,15 @@ class WuiToolbar extends WuiContainerWidget
             $this->mArgs['bgcolor'] = 'white';
         }
     }
-    protected function generateSourceBegin ()
+    protected function generateSourceBegin()
     {
-		$block = '<![WUITOOLBAR[';
+        $block = '<![WUITOOLBAR[';
         $block .= ($this->mComments ? '<!-- begin ' . $this->mName . " toolbar -->\n" : '');
         $block .= '<td><table border="0" cellspacing="0" cellpadding="0"><tr><td width="0%"' . ">\n";
         $block .= '<table class="toolbar" border="0" width="100%" cellspacing="0" cellpadding="0"' . ">\n";
         $block .= "<tr>\n";
         $block .= '<td bgcolor="' . $this->mThemeHandler->mColorsSet['toolbars']['separator'] . '" width="1" style="width: 1px; padding: 0px; spacing: 0px"><img src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/clear.gif" alt=""></td>' . "\n";
-		/*
+        /*
         $block .= '<td bgcolor="' . $this->mThemeHandler->mColorsSet['toolbars']['separator'] . '" width="1" style="width: 1px; padding: 0px; spacing: 0px"><img src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/clear.gif" alt=""></td>' . "\n";
         $block .= '<td bgcolor="' . $this->mArgs['bgcolor'] . '" width="1" style="width: 1px; padding: 0px; spacing: 0px"><img src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/clear.gif" alt=""></td>' . "\n";
         $block .= '<td bgcolor="' . $this->mThemeHandler->mColorsSet['toolbars']['separator'] . '" width="1" style="width: 1px; padding: 0px; spacing: 0px"><img src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/clear.gif" alt=""></td>' . "\n";
@@ -47,19 +47,19 @@ class WuiToolbar extends WuiContainerWidget
 */
         return $block;
     }
-    protected function generateSourceEnd ()
+    protected function generateSourceEnd()
     {
         $block = "</tr>\n</table>\n";
         $block .= "</td></tr>\n</table>\n</td>";
         $block .= ($this->mComments ? '<!-- end ' . $this->mName . " toolbar -->\n" : '');
-		$block .= ']]>';
+        $block .= ']]>';
         return $block;
     }
-    protected function generateSourceBlockBegin ()
+    protected function generateSourceBlockBegin()
     {
         return '<td width="0%">' . "\n";
     }
-    protected function generateSourceBlockEnd ()
+    protected function generateSourceBlockEnd()
     {
         return "</td>\n";
     }

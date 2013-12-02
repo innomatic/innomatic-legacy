@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2013 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -19,6 +19,8 @@
 require_once('innomatic/logging/Logger.php');
 require_once('innomatic/locale/LocaleCatalog.php');
 require_once('innomatic/wui/Wui.php');
+require_once('innomatic/wui/dispatch/WuiEventsCall.php');
+require_once('innomatic/wui/dispatch/WuiEvent.php');
 require_once('innomatic/webservices/WebServicesAccount.php');
 require_once('innomatic/webservices/WebServicesProfile.php');
 require_once('innomatic/webservices/WebServicesUser.php');
@@ -73,23 +75,10 @@ $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array(
         'title' => $innomaticLocale->getStr('xmlrpc_title'),
-        'icon' => 'network'
+        'icon' => 'globe2'
     )
 );
 $wuiMainVertGroup->addChild($wuiTitleBar);
-
-$menuFrame = new WuiHorizGroup('menuframe');
-$menuFrame->addChild(
-    new WuiMenu(
-        'mainmenu',
-        array(
-            'menu' => InnomaticContainer::getRootWuiMenuDefinition(
-                InnomaticContainer::instance('innomaticcontainer')->getLanguage()
-            )
-        )
-    )
-);
-$wuiMainVertGroup->addChild($menuFrame);
 
 // Profiles bar
 //
@@ -101,7 +90,7 @@ $wuiHomeButton = new WuiButton(
     'homebutton',
     array(
         'label' => $innomaticLocale->getStr('profiles_button'),
-        'themeimage' => 'kuser',
+        'themeimage' => 'user',
         'horiz' => 'true',
         'action' => $homeAction->getEventsCallString()
     )
@@ -114,7 +103,7 @@ $wuiNewProfileButton = new WuiButton(
     'newprofilebutton',
     array(
         'label' => $innomaticLocale->getStr('newprofile_button'),
-        'themeimage' => 'yast_group_add',
+        'themeimage' => 'useradd',
         'horiz' => 'true',
         'action' => $newProfileAction->getEventsCallString()
     )
@@ -131,7 +120,7 @@ $wuiUsersButton = new WuiButton(
     'usersbutton',
     array(
         'label' => $innomaticLocale->getStr('users_button'),
-        'themeimage' => 'personal',
+        'themeimage' => 'user',
         'horiz' => 'true',
         'action' => $usersAction->getEventsCallString()
     )
@@ -144,7 +133,7 @@ $wuiNewUserButton = new WuiButton(
     'newuserbutton',
     array(
         'label' => $innomaticLocale->getStr('newuser_button'),
-        'themeimage' => 'yast_user_add',
+        'themeimage' => 'useradd',
         'horiz' => 'true',
         'action' => $newUserAction->getEventsCallString()
     )
@@ -161,7 +150,7 @@ $wuiAccountsButton = new WuiButton(
     'accountsbutton',
     array(
         'label' => $innomaticLocale->getStr('accounts_button'),
-        'themeimage' => 'network',
+        'themeimage' => 'globe2',
         'horiz' => 'true',
         'action' => $accountsAction->getEventsCallString()
     )
@@ -180,7 +169,7 @@ $wuiNewAccountButton = new WuiButton(
     'newaccountbutton',
     array(
         'label' => $innomaticLocale->getStr('newaccount_button'),
-        'themeimage' => 'filenew',
+        'themeimage' => 'mathadd',
         'horiz' => 'true',
         'action' => $newAccountAction->getEventsCallString()
     )
@@ -201,7 +190,7 @@ if (strcmp($eventName, 'help')) {
         'helpbutton',
         array(
             'label' => $innomaticLocale->getStr('help_button'),
-            'themeimage' => 'help',
+            'themeimage' => 'info',
             'horiz' => 'true',
             'action' => $helpAction->getEventsCallString()
         )
@@ -556,7 +545,7 @@ function main_default($eventData)
                 'profilebutton'.$row,
                 array('label' => $innomaticLocale->getStr('editprofile_label'),
                       'horiz' => 'true',
-                      'themeimage' => 'view_tree',
+                      'themeimage' => 'listbulletleft',
                       'action' => $profileAction[$row]->getEventsCallString()
                 )
             );
@@ -567,9 +556,9 @@ function main_default($eventData)
             $wuiRenameButton[$row] = new WuiButton(
                 'renamebutton'.$row,
                 array(
-                    'label' => $innomaticLocale->getStr('renameprofile_label'),  
+                    'label' => $innomaticLocale->getStr('renameprofile_label'),
                     'horiz' => 'true',
-                    'themeimage' => 'edit',
+                    'themeimage' => 'documenttext',
                     'action' => $renameAction[$row]->getEventsCallString()
                 )
             );
@@ -583,7 +572,7 @@ function main_default($eventData)
                 array(
                     'label' => $innomaticLocale->getStr('removeprofile_label'),
                     'horiz' => 'true',
-                    'themeimage' => 'edittrash',
+                    'themeimage' => 'trash',
                     'action' => $removeAction[$row]->getEventsCallString(),
                     'needconfirm' => 'true',
                     'confirmmessage' => sprintf($innomaticLocale->getStr('removeprofilequestion_label'), $profileName)
@@ -922,11 +911,11 @@ function main_editprofile($eventData)
 
                 $wuiMethodsTable->addChild(new WuiImage('statusimage'.$row, array('imageurl' => $icon)), $row, 2);
                 $wuiMethodsTable->addChild(new WuiLabel('methodlabel'.$row, array('label' => $method)), $row, 3);
-                $img = ($sec[$application][$method] == true ? 'button_ok' : 'button_cancel');
+                $img = ($sec[$application][$method] == true ? 'buttonok' : 'buttoncancel');
 
                 $secureImage = $wuiMethodsTable->mThemeHandler->mIconsBase
-                .$wuiMethodsTable->mThemeHandler->mIconsSet['mini'][$img]['base']
-                .'/mini/'.$wuiMethodsTable->mThemeHandler->mIconsSet['actions'][$img]['file'];
+                .$wuiMethodsTable->mThemeHandler->mIconsSet['icons'][$img]['base']
+                .'/icons/'.$wuiMethodsTable->mThemeHandler->mIconsSet['icons'][$img]['file'];
 
                 $wuiMethodsTable->addChild(
                     new WuiLabel(
@@ -938,7 +927,7 @@ function main_editprofile($eventData)
                 $wuiMethodsTable->addChild(
                     new WuiImage(
                         'secure'.$row,
-                        array('imageurl' => $secureImage)
+                        array('imageurl' => $secureImage, 'width' => 20, 'heigth' => 20)
                         ),
                     $row, 5
                 );
@@ -1127,7 +1116,7 @@ function main_users($eventData)
                 array(
                     'label' => $innomaticLocale->getStr('chprofile_label'),
                     'horiz' => 'true',
-                    'themeimage' => 'view_tree',
+                    'themeimage' => 'listbulletleft',
                     'action' => $profileAction[$row]->getEventsCallString()
                 )
             );
@@ -1148,7 +1137,7 @@ function main_users($eventData)
                 array(
                     'label' => $innomaticLocale->getStr('chdomain_label'),
                     'horiz' => 'true',
-                    'themeimage' => 'view_tree',
+                    'themeimage' => 'listbulletleft',
                     'action' => $domainAction[$row]->getEventsCallString()
                 )
             );
@@ -1169,7 +1158,7 @@ function main_users($eventData)
                 array(
                     'label' => $innomaticLocale->getStr('chpasswd_label'),
                     'horiz' => 'true',
-                    'themeimage' => 'edit',
+                    'themeimage' => 'documenttext',
                     'action' => $chpasswdAction[$row]->getEventsCallString()
                 )
             );
@@ -1183,7 +1172,7 @@ function main_users($eventData)
                 array(
                     'label' => $innomaticLocale->getStr('removeuser_label'),
                     'horiz' => 'true',
-                    'themeimage' => 'edittrash',
+                    'themeimage' => 'trash',
                     'action' => $removeAction[$row]->getEventsCallString(),
                     'needconfirm' => 'true',
                     'confirmmessage' => sprintf(
@@ -1523,7 +1512,7 @@ function main_chdomain($eventData)
         new WuiComboBox(
             'domainid',
             array(
-                'disp' => 'action',  
+                'disp' => 'action',
                 'elements' => $domains,
                 'default' => $userData['domainid']
             )
@@ -1636,7 +1625,7 @@ function main_accounts($eventData)
                 array(
                     'label' => $innomaticLocale->getStr('showaccount_label'),
                     'horiz' => 'true',
-                    'themeimage' => 'viewmag',
+                    'themeimage' => 'zoom',
                     'action' => $showAction[$row]->getEventsCallString()
                 )
             );
@@ -1656,7 +1645,7 @@ function main_accounts($eventData)
                 array(
                     'label' => $innomaticLocale->getStr('showmethods_label'),
                     'horiz' => 'true',
-                    'themeimage' => 'view_tree',
+                    'themeimage' => 'listbulletleft',
                     'action' => $methodsAction[$row]->getEventsCallString()
                 )
             );
@@ -1669,7 +1658,7 @@ function main_accounts($eventData)
                 array(
                     'label' => $innomaticLocale->getStr('editaccount_label'),
                     'horiz' => 'true',
-                    'themeimage' => 'edit',
+                    'themeimage' => 'documenttext',
                     'action' => $editAction[$row]->getEventsCallString()
                 )
             );
@@ -1689,7 +1678,7 @@ function main_accounts($eventData)
                 array(
                     'label' => $innomaticLocale->getStr('removeaccount_label'),
                     'horiz' => 'true',
-                    'themeimage' => 'edittrash',
+                    'themeimage' => 'trash',
                     'action' => $removeAction[$row]->getEventsCallString(),
                     'needconfirm' => 'true',
                     'confirmmessage' => sprintf(
@@ -1931,7 +1920,7 @@ function main_updateaccount($eventData)
             'password',
             array('disp' => 'action', 'password' => 'true', 'value' => $accData['password'])
         ),
-        5, 1  
+        5, 1
     );
 
     $wuiFormGrid->addChild(

@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -29,15 +29,15 @@ class ConfigMan extends ConfigBase
     const ENDTAG = '-END-';
     const POSITION_TOP = 1;
     const POSITION_BOTTOM = 2;
-     
-     
+
+
     /*! @var mCommentPrefix string - Optional comment prefix, useful for non standard comments. */
     private $_commentPrefix;
 
     // string $appid:      application id name, used to mark the segments
     // string $configfile: path of the configuration file
     //
-    function ConfigMan(
+    public function ConfigMan(
         $application,
         $configfile,
         $configmode = ConfigBase::MODE_ROOT,
@@ -61,7 +61,7 @@ class ConfigMan extends ConfigBase
 
     // Adds a new segment
     //
-    function AddSegment($segid, $segment, $position = ConfigMan::POSITION_BOTTOM)
+    public function AddSegment($segid, $segment, $position = ConfigMan::POSITION_BOTTOM)
     {
         $result = false;
 
@@ -140,7 +140,7 @@ class ConfigMan extends ConfigBase
 
     // Removes a segment
     //
-    function RemoveSegment($segid)
+    public function RemoveSegment($segid)
     {
         $result = false;
 
@@ -207,7 +207,7 @@ class ConfigMan extends ConfigBase
 
     // Changes a segment
     //
-    function ChangeSegment($segid, $segment, $position = ConfigMan::POSITION_BOTTOM)
+    public function ChangeSegment($segid, $segment, $position = ConfigMan::POSITION_BOTTOM)
     {
         $result = false;
 

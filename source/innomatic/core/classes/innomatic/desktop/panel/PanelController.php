@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -19,7 +19,7 @@ require_once('innomatic/util/Observer.php');
  * Abstract class for implementing a controller in a Desktop Panel following
  * the MVC design pattern.
  *
- * @copyright  2000-2012 Innoteam S.r.l.
+ * @copyright  2000-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -79,7 +79,7 @@ abstract class PanelController implements Observer
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::MISSING_VIEWS_FILE);
         }
-        if (!class_exists($viewClassName)) {
+        if (!class_exists($viewClassName, false)) {
             require_once('innomatic/wui/WuiException.php');
             throw new WuiException(WuiException::MISSING_VIEWS_CLASS);
         }
@@ -90,56 +90,56 @@ abstract class PanelController implements Observer
 
         // Action initialization
         $actionClassName = ucfirst($this->_application).'PanelActions';
-        
+
         // Checks if class file and definition exist
         if (!include_once($this->_applicationHome.$actionClassName.'.php')) {
-        	require_once('innomatic/wui/WuiException.php');
-        	throw new WuiException(WuiException::MISSING_ACTIONS_FILE);
+            require_once('innomatic/wui/WuiException.php');
+            throw new WuiException(WuiException::MISSING_ACTIONS_FILE);
         }
-        if (!class_exists($actionClassName)) {
-        	require_once('innomatic/wui/WuiException.php');
-        	throw new WuiException(WuiException::MISSING_ACTIONS_CLASS);
+        if (!class_exists($actionClassName, false)) {
+            require_once('innomatic/wui/WuiException.php');
+            throw new WuiException(WuiException::MISSING_ACTIONS_CLASS);
         }
-        
+
         // AJAX
         $ajax_request_uri = $_SERVER['REQUEST_URI'];
         if (strpos($ajax_request_uri, '?')) {
-        	$ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
+            $ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
         }
-        
+
         require_once('innomatic/ajax/Xajax.php');
         $xajax = Xajax::instance('Xajax', $ajax_request_uri);
-        
+
         // Set debug mode
         if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
-        	$xajax->debugOn();
+            $xajax->debugOn();
         }
         $xajax->setLogFile(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/ajax.log');
-        
+
         // Register action ajax calls
         $theClass = new ReflectionClass($actionClassName);
         $methods = $theClass->getMethods();
         foreach ($methods as $method) {
-        	// Ignore private methods
-        	$theMethod = new ReflectionMethod($theClass->getName(), $method->getName());
-        	if (!$theMethod->isPublic()) {
-        		continue;
-        	}
+            // Ignore private methods
+            $theMethod = new ReflectionMethod($theClass->getName(), $method->getName());
+            if (!$theMethod->isPublic()) {
+                continue;
+            }
 
-        	// Expose only methods beginning with "ajax" prefix
-        	if (!(substr($method->getName(), 0, 4) == 'ajax')) {
-        		continue;
-        	}
-        	
-        	// Register the ajax call
-        	$call_name = substr($method->getName(), 4);
-        	$this->_view->getWuiContainer()->registerAjaxCall($call_name);
-        	$xajax->registerExternalFunction(array($call_name, $actionClassName, $method->getName()), $this->_applicationHome.$actionClassName.'.php');
+            // Expose only methods beginning with "ajax" prefix
+            if (!(substr($method->getName(), 0, 4) == 'ajax')) {
+                continue;
+            }
+
+            // Register the ajax call
+            $call_name = substr($method->getName(), 4);
+            $this->_view->getWuiContainer()->registerAjaxCall($call_name);
+            $xajax->registerExternalFunction(array($call_name, $actionClassName, $method->getName()), $this->_applicationHome.$actionClassName.'.php');
         }
-        
+
         // Process ajax requests, if any (if so, then it exits)
         $xajax->processRequests();
-        
+
         // Action execution, if set
         $actionDispatcher = new WuiDispatcher('action');
         $actionEvent = $actionDispatcher->getEventName();

@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -15,10 +15,12 @@
 
 require_once('innomatic/util/Singleton.php');
 
-class Process extends Singleton {
-    var $pid;
+class Process extends Singleton
+{
+    public $pid;
 
-    public function Process() {
+    public function Process()
+    {
         $this->pid = posix_getpid();
 
         pcntl_signal(SIGTERM, array($this, 'SignalHandler'));
@@ -26,24 +28,27 @@ class Process extends Singleton {
         pcntl_signal(SIGCHLD, array($this, 'SignalHandler'));
     }
 
-    public function instance() {
+    public function instance()
+    {
         return Singleton::instance('process');
     }
 
-    public function getPid() {
+    public function getPid()
+    {
         return $this->pid;
     }
 
-    public function start() {
+    public function start()
+    {
     }
 
-    public function fork() {
+    public function fork()
+    {
         $child = pcntl_fork();
 
         if ($child == -1) {
             echo "Unable to fork\n";
-        }
-        else if ($child) {
+        } elseif ($child) {
             // Parent
         } else {
             // Child
@@ -54,7 +59,8 @@ class Process extends Singleton {
         return $child;
     }
 
-    public function signalHandler($signal) {
+    public function signalHandler($signal)
+    {
         switch ($signal) {
             case SIGTERM :
                 $this->Shutdown();
@@ -75,18 +81,22 @@ class Process extends Singleton {
         return true;
     }
 
-    public function shutdown() {
+    public function shutdown()
+    {
         exit;
     }
 
-    public function restart() {
+    public function restart()
+    {
     }
 
-    public function waitChildren() {
+    public function waitChildren()
+    {
         while (pcntl_waitpid(-1, $status, WUNTRACED) > 0) {
         }
     }
 
-    public function _startChild() {
+    public function _startChild()
+    {
     }
 }

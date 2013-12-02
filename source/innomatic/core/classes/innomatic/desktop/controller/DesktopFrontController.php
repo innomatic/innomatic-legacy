@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -17,10 +17,10 @@ require_once('innomatic/util/Singleton.php');
 
 /**
  * Front controller for the Innomatic desktop.
- * 
+ *
  * This is the real front controller for the Innomatic desktop.
  *
- * @copyright  2000-2012 Innoteam S.r.l.
+ * @copyright  2000-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -69,30 +69,30 @@ class DesktopFrontController extends Singleton
             require_once('innomatic/wui/validation/WuiValidatorHelper.php');
             $validator = new WuiValidatorHelper();
             $validator->validate();
-            
+
             // TODO Put authorizer here
-                
+
             // Sets domain theme, if the system is in domain mode.
             if ($mode == InnomaticContainer::MODE_DOMAIN) {
                 WuiTheme::setDomainTheme();
             }
-                
+
             switch ($mode) {
                 case InnomaticContainer::MODE_BASE:
                     $this->executeBase($resource);
                     break;
-                        
+
                 case InnomaticContainer::MODE_DOMAIN:
                     $this->executeDomain($resource);
                     break;
-                        
+
                 case InnomaticContainer::MODE_ROOT:
                     $this->executeRoot($resource);
                     break;
             }
-                
+
             // TODO Verify whose panel has been called
-                
+
             // TODO Verificare se esiste e se � valida, altrimenti mandare 404 di WebApp
         }
 
@@ -157,18 +157,18 @@ class DesktopFrontController extends Singleton
      *
      * If the panel name is "main" then
      * no real panel is launched, a root desktop layout file is included instead.
-     * 
+     *
      * Root desktop layout files are stored in the folder
      * core/classes/innomatic/desktop/layout/root.
-     * 
+     *
      * If the panel name is "unlock", a special routine for unlocking a blocked
      * Innomatic container (such as when an application update failed) is
      * launched, after a standard root authentication.
-     * 
+     *
      * @param string $resource Panel name.
      */
     public function executeRoot($resource)
-    {        
+    {
         if (substr($resource, -1, 1) != '/') {
             $desktopPanel = basename($resource);
             if (
@@ -192,7 +192,7 @@ class DesktopFrontController extends Singleton
                         WuiException::MISSING_CONTROLLER_FILE
                     );
                 }
-                if (!class_exists($controllerClassName)) {
+                if (!class_exists($controllerClassName, false)) {
                     require_once('innomatic/wui/WuiException.php');
                     throw new WuiException(
                         WuiException::MISSING_CONTROLLER_CLASS
@@ -218,15 +218,14 @@ class DesktopFrontController extends Singleton
                         $innomatic->setInterface(InnomaticContainer::INTERFACE_WEB);
                         $innomatic->unlock();
                         break;
-                        
+
                     default:
                         include($resource.'.php');
                 }
 
             }
         } else {
-            if (strlen($this->session->get('INNOMATIC_ROOT_AUTH_USER')))
-            {
+            if (strlen($this->session->get('INNOMATIC_ROOT_AUTH_USER'))) {
                 WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"' );
                 include('innomatic/desktop/layout/root/index.php');
             }
@@ -238,20 +237,33 @@ class DesktopFrontController extends Singleton
      *
      * If the panel name is one "main" then
      * no real panel is launched, a domain  desktop layout file is included.
-     * 
+     *
      * Domain desktop layout files are stored in the folder
      * core/classes/innomatic/desktop/layout/domain.
-     * 
+     *
      * @param string $resource Panel name.
      */
-    
+
     public function executeDomain($resource)
-    {        
+    {
+        // Check if this is the default page and if the user is allowed to access the dashboard
+        if (substr($resource, -1, 1) == '/') {
+            require_once('innomatic/domain/user/Permissions.php');
+
+            $perm = new Permissions(InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
+            $node_id = $perm->getNodeIdFromFileName('dashboard');
+            if ( $perm->check( $node_id, Permissions::NODETYPE_PAGE ) != Permissions::NODE_NOTENABLED ) {
+                $resource = $resource.'dashboard';
+            }
+        }
+
         if (substr($resource, -1, 1) != '/') {
             // Must exit if the user called a page for which he isn't enabled
             //
-            require_once('innomatic/domain/user/Permissions.php');
-            $perm = new Permissions(InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
+            if (!isset($perm)) {
+                require_once('innomatic/domain/user/Permissions.php');
+                $perm = new Permissions(InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup());
+            }
 
             $desktopPanel = basename($resource);
             if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
@@ -288,7 +300,7 @@ class DesktopFrontController extends Singleton
                     require_once('innomatic/wui/WuiException.php');
                     throw new WuiException(WuiException::MISSING_CONTROLLER_FILE);
                 }
-                if (!class_exists($controllerClassName)) {
+                if (!class_exists($controllerClassName, false)) {
                     require_once('innomatic/wui/WuiException.php');
                     throw new WuiException(WuiException::MISSING_CONTROLLER_CLASS);
                 }
@@ -308,8 +320,7 @@ class DesktopFrontController extends Singleton
                 }
             }
         } else {
-            if (strlen($this->session->get('INNOMATIC_AUTH_USER')))
-            {
+            if (strlen($this->session->get('INNOMATIC_AUTH_USER'))) {
                 WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"' );
                 include('innomatic/desktop/layout/domain/index.php');
             }

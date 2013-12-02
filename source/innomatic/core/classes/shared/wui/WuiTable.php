@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -51,7 +51,7 @@ class WuiTable extends WuiContainerWidget
             //if ( isset($this->mArgs['width'] ) ) $this->mArgs['width'] = $elemArgs['width'];
         if (isset($this->mArgs['pagenumber']) and strlen($this->mArgs['pagenumber']))
             $this->mPageNumber = $this->mArgs['pagenumber'];
-        else 
+        else
             if (isset($tmp_sess['pagenumber']) and strlen($tmp_sess['pagenumber']))
                 $this->mPageNumber = $tmp_sess['pagenumber'];
             else
@@ -61,7 +61,7 @@ class WuiTable extends WuiContainerWidget
             $this->mArgs['pagesactionfunction'] = $this->mArgs['pagesactionfunction'];
             if (isset($this->mArgs['rowsperpage']))
                 $this->mRowsPerPage = $this->mArgs['rowsperpage'];
-            else 
+            else
                 if (isset($tmp_sess['rowsperpage']))
                     $this->mRowsPerPage = $tmp_sess['rowsperpage'];
         }
@@ -77,25 +77,25 @@ class WuiTable extends WuiContainerWidget
         }
         if (isset($this->mArgs['sortby']) and strlen($this->mArgs['sortby']))
             $this->mArgs['sortby'] = $this->mArgs['sortby'];
-        else 
+        else
             if (isset($tmp_sess['sortby']) and strlen($tmp_sess['sortby']))
                 $this->mArgs['sortby'] = $tmp_sess['sortby'];
             else
                 $this->mArgs['sortby'] = '';
         if (isset($this->mArgs['sortdirection']) and strlen($this->mArgs['sortdirection']))
             $this->mArgs['sortdirection'] = $this->mArgs['sortdirection'];
-        else 
+        else
             if (isset($tmp_sess['sortdirection']) and strlen($tmp_sess['sortdirection']))
                 $this->mArgs['sortdirection'] = $tmp_sess['sortdirection'];
             else
                 $this->mArgs['sortdirection'] = 'down';
         $this->StoreSession(array('pagenumber' => $this->mPageNumber , 'sortby' => $this->mArgs['sortby'] , 'sortdirection' => $this->mArgs['sortdirection']));
 
-		if (!isset($this->mArgs['width'])) {
-			$this->mArgs['width'] = "100%";
-		}
+        if (!isset($this->mArgs['width'])) {
+            $this->mArgs['width'] = "100%";
+        }
     }
-    public function addChild (WuiWidget $childWidget, $row, $col, $halign = '', $valign = '', $nowrap = 'false', $width = '')
+    public function addChild(WuiWidget $childWidget, $row, $col, $halign = '', $valign = '', $nowrap = 'false', $width = '')
     {
         if ($row >= $this->mRows)
             $this->mRows = $row + 1;
@@ -110,7 +110,7 @@ class WuiTable extends WuiContainerWidget
         $this->mArgs['cells'][$row][$col]['width'] = $width;
         return true;
     }
-    public function build (WuiDispatcher $rwuiDisp)
+    public function build(WuiDispatcher $rwuiDisp)
     {
         $result = false;
         $this->mrWuiDisp = $rwuiDisp;
@@ -124,9 +124,9 @@ class WuiTable extends WuiContainerWidget
             if (isset($this->mArgs['headers']) and count($this->mArgs['headers'])) {
                 $this->mLayout .= "<tr>\n";
                 for ($col = 0; $col < $this->mCols; $col ++) {
-                    $this->mLayout .= '<td valign="top"><table cellpadding="0" cellspacing="1" width="100%"><tr>';
+                    $this->mLayout .= '<td valign="top"><table cellpadding="4" cellspacing="1" width="100%"><tr>';
                     if (isset($this->mArgs['headers'][$col]['link']) and strlen($this->mArgs['headers'][$col]['link'])) {
-                        $this->mLayout .= '<td valign="top" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['headerbgcolor'] . '"><a href="' . $this->mArgs['headers'][$col]['link'] . '"><img src="' . ($this->mArgs['sortby'] == $col ? ($this->mArgs['sortdirection'] == 'up' ? $this->mThemeHandler->mStyle['arrowup'] : $this->mThemeHandler->mStyle['arrowdown']) : $this->mThemeHandler->mStyle['arrowrightshadow']) . '" border="0"></a></td>';
+                        $this->mLayout .= '<td valign="top" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['headerbgcolor'] . '"><a href="' . $this->mArgs['headers'][$col]['link'] . '"><img src="' . ($this->mArgs['sortby'] == $col ? ($this->mArgs['sortdirection'] == 'up' ? $this->mThemeHandler->mStyle['arrowup'] : $this->mThemeHandler->mStyle['arrowdown']) : $this->mThemeHandler->mStyle['arrowrightshadow']) . '" border="0" style="width: 11px; height: 11px;"></a></td>';
                     } else {
                         $this->mLayout .= '<td></td>';
                     }

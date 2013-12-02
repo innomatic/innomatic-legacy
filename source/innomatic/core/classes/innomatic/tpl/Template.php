@@ -1,13 +1,13 @@
-<?php 
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -20,7 +20,7 @@
  * templates system is available by default.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2012 Innoteam S.r.l.
+ * @copyright Copyright 2012 Innoteam Srl
  * @since 1.1
  */
 interface Template
@@ -33,7 +33,7 @@ interface Template
      * @param string $file Template file.
      */
     public function __construct($file);
-    
+
     /**
      * Sets the value for a certain tag.
      *
@@ -43,7 +43,7 @@ interface Template
      * @param string $value Tag value.
      */
     public function set($name, $value);
-    
+
     /**
      * Parses the given template and returns the parsed result.
      *
@@ -52,4 +52,13 @@ interface Template
      * @return mixed
      */
     public function parse();
+
+    /**
+     * Returns a list of the set tag names.
+     *
+     * @access public
+     * @since 6.1
+     * @return array
+     */
+    public function getTags();
 }

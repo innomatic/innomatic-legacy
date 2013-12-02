@@ -1,13 +1,13 @@
-<?php    
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -19,7 +19,7 @@ require_once('innomatic/webapp/WebAppProcessor.php');
 /**
  * @since 5.0
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2012 Innoteam S.r.l.
+ * @copyright Copyright 2012 Innoteam Srl
  */
 class DefaultWebAppHandler extends WebAppHandler
 {
@@ -103,9 +103,9 @@ class DefaultWebAppHandler extends WebAppHandler
 
         // identify the requested resource path
         $path = $this->getRelativePath($request);
-        
+
         $resource = substr(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).$path;
-        
+
         // make sure that this path exists on disk
         if (!file_exists($resource)) {
             $response->sendError(WebAppResponse::SC_NOT_FOUND, $request->getRequestURI());
@@ -159,7 +159,7 @@ class DefaultWebAppHandler extends WebAppHandler
      * in each time, then pages which would otherwise be caught by other webapps reveal their code,
      * such as PSP files.
      */
-    function renderListing($request, $webAppPath, $path, $resource)
+    public function renderListing($request, $webAppPath, $path, $resource)
     {
         $container = WebAppContainer::instance('webappcontainer');
         $processor = $container->getProcessor();
@@ -271,7 +271,7 @@ class DefaultWebAppHandler extends WebAppHandler
      *
      * @param int $size The size in bytes
      */
-    function renderSize($size)
+    public function renderSize($size)
     {
         return (round(($size / 1024) * 10) / 10).' kb';
     }

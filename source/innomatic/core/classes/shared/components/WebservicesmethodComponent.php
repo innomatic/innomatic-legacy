@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -18,27 +18,27 @@ require_once ('innomatic/application/ApplicationComponent.php');
  */
 class WebservicesmethodComponent extends ApplicationComponent
 {
-    function WebservicesmethodComponent ($rootda, $domainda, $appname, $name, $basedir)
+    public function WebservicesmethodComponent($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'webservicesmethod';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 0;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    public function doInstallAction ($params)
+    public function doInstallAction($params)
     {
         if (! strlen($params['name']) or ! strlen($params['function']) or ! strlen($params['handler']) or ! strlen($this->appname)) {
             $this->mLog->logEvent('shared.components.webservicesmethod.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Wrong parameters', Logger::ERROR);
@@ -61,7 +61,7 @@ class WebservicesmethodComponent extends ApplicationComponent
         }
         return true;
     }
-    public function doUninstallAction ($params)
+    public function doUninstallAction($params)
     {
         if (! strlen($params['name'])) {
             $this->mLog->logEvent('shared.components.xmlrpccomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty xmlrpc handler file name', Logger::ERROR);
@@ -77,7 +77,7 @@ class WebservicesmethodComponent extends ApplicationComponent
         }
         return true;
     }
-    public function doUpdateAction ($params)
+    public function doUpdateAction($params)
     {
         if (! strlen($params['name']) or ! strlen($params['function']) or ! strlen($params['handler'])) {
             $this->mLog->logEvent('shared.components.webservicesmethod.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Wrong parameters', Logger::ERROR);

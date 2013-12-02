@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -17,7 +17,8 @@
  * WUI event.
  * @package WUI
  */
-class WuiEvent {
+class WuiEvent
+{
     /*! @var mDispatcherName string - Dispatcher name for this event. */
     private $mDispatcherName;
     /*! @var mName string - Event name. */
@@ -33,7 +34,8 @@ class WuiEvent {
     @param eventName string - Name of the event.
     @param eventData array - Event key value pairs array.
     */
-    public function __construct($eventDispatcherName, $eventName, $eventData = '') {
+    public function __construct($eventDispatcherName, $eventName, $eventData = '')
+    {
         $this->setDispatcherName($eventDispatcherName);
         $this->setName($eventName);
         $this->setData($eventData);
@@ -46,7 +48,8 @@ class WuiEvent {
     @param eventDispatcherName string - Name of the dispatcher that handles this event.
     @result Always true.
     */
-    public function setDispatcherName($eventDispatcherName) {
+    public function setDispatcherName($eventDispatcherName)
+    {
         $this->mDispatcherName = $eventDispatcherName;
     }
 
@@ -57,7 +60,8 @@ class WuiEvent {
     @param eventName string - Name of the event.
     @result Always true.
     */
-    public function setName($eventName) {
+    public function setName($eventName)
+    {
         $this->mName = $eventName;
     }
 
@@ -68,7 +72,8 @@ class WuiEvent {
     @param eventData array - Event key value pairs array.
     @result Always true.
     */
-    public function setData($eventData) {
+    public function setData($eventData)
+    {
         if (is_array($eventData)) {
             $this->mData = $eventData;
         }
@@ -80,7 +85,8 @@ class WuiEvent {
     @discussion Gets event string.
     @result Event string.
     */
-    public function getEventString() {
+    public function getEventString()
+    {
         $result = false;
 
         if (strlen($this->mDispatcherName) and strlen($this->mName)) {

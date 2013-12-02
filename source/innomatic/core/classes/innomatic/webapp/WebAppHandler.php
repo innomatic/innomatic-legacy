@@ -1,13 +1,13 @@
-<?php    
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -16,22 +16,26 @@
 /**
  * @since 1.0
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2012 Innoteam S.r.l.
+ * @copyright Copyright 2012 Innoteam Srl
  */
-abstract class WebAppHandler {
+abstract class WebAppHandler
+{
     protected $parameters;
 
-    public function getInitParameter($param) {
+    public function getInitParameter($param)
+    {
         return isset($this->parameters[$param]) ? $this->parameters[$param] : null;
     }
 
-    public function setInitParameters(&$params) {
+    public function setInitParameters(&$params)
+    {
         $this->parameters = &$params;
     }
 
-    public abstract function init();
+    abstract public function init();
 
-    public function service(WebAppRequest $req, WebAppResponse $res) {
+    public function service(WebAppRequest $req, WebAppResponse $res)
+    {
         switch ($req->getMethod()) {
             case 'GET':
                 $this->doGet($req, $res);
@@ -45,9 +49,9 @@ abstract class WebAppHandler {
         }
     }
 
-    public abstract function doGet(WebAppRequest $req, WebAppResponse $res);
+    abstract public function doGet(WebAppRequest $req, WebAppResponse $res);
 
-    public abstract function doPost(WebAppRequest $req, WebAppResponse $res);
+    abstract public function doPost(WebAppRequest $req, WebAppResponse $res);
 
-    public abstract function destroy();
+    abstract public function destroy();
 }

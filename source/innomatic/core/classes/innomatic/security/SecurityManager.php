@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -634,7 +634,7 @@ class SecurityManager
 
             if ($secCheck['rootdapasswordcheck'] == true) {
                 $rootDbPasswordCheck = 'Root database password should be safe'."\n";
-            } else { 
+            } else {
                 $rootDbPasswordCheck = 'Root database password is NOT safe'."\n";
             }
 
@@ -783,7 +783,7 @@ class SecurityManager
         $base = self::getAbsolutePath($base);
         return 0 !== strncmp($path, $base, strlen($base));
     }
-    
+
     public static function getAbsolutePath($path)
     {
         $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);

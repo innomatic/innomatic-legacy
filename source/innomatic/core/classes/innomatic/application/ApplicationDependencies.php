@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -30,7 +30,7 @@ class ApplicationDependencies
     const TYPE_ALL = 0; // Both dependency or suggestion
     const TYPE_DEPENDENCY = 1; // Dependency
     const TYPE_SUGGESTION = 2; // Suggestion
-    
+
     /*!
      @param rrootDb DataAccess class - Innomatic database handler.
      */
@@ -220,7 +220,7 @@ class ApplicationDependencies
                 $applicationCheck->currfields['id'] = '0';
                 $applicationCheck->currfields['appversion'] = PHP_VERSION;
                 $applicationCheck->currfields['onlyextension'] = $this->mrRootDb->fmtfalse;
-            } else if (
+            } elseif (
                 strpos($appID, '.extension')
             ) {
                 $appID = substr($appID, 0, strpos($appID, '.extension'));
@@ -308,23 +308,23 @@ class ApplicationDependencies
 
     /*!
     @function CheckApplicationDeps
-    
+
     @abstract Checks if all dependencies or suggestions are met.
-    
+
     @param appid string - id name of the application to check.
     @param deptype int - type of dep: dependency, suggestion or both (defined).
                          Not meaningful when using $depsarray argument.
     @param depsarray string - array of the deps. Used when checking deps before installing. Defaults to nothing.
     If used, it takes precedence over $deptype. It doesn't understand difference between dep and suggestion,
     since it is passed an array of applications with no information about if they are suggestions or deps.
-    
+
     @result False if the dependencies are met, an array of the unmet deps if them are not all met
                   or TRUE if something went wrong.
     */
     public function checkApplicationDependencies($appid, $deptype = '', $depsarray = '')
     {
         $result = TRUE;
-        
+
         if (!empty($depsarray) or (!(empty($appid) and empty($deptype)))) {
             if (empty($depsarray)) {
                 $appdeps = $this->DependsOn($appid);
@@ -346,7 +346,7 @@ class ApplicationDependencies
                 //
                 $inst = TRUE;
                 $unmetdeps = array();
-                
+
                 foreach ($appdeps as $appID => $appVersion) {
                     if (
                         !empty($depsarray) or $deptype == ApplicationDependencies::TYPE_ALL
@@ -651,7 +651,7 @@ class ApplicationDependencies
         }
         return $result;
     }
-    
+
     public static function compareVersionNumbers($a, $b)
     {
         $a = strtr($a, '-', '.');

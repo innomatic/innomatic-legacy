@@ -1,13 +1,14 @@
-<?php 
+<?php
 
 /**
  * Class that represents an outcoming response from the Module server.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerResponse {
+class ModuleServerResponse
+{
     /**
      * Response buffer.
      *
@@ -97,7 +98,8 @@ class ModuleServerResponse {
      * @param string $buffer Buffer content.
      * @return void
      */
-    public function setBuffer($buffer) {
+    public function setBuffer($buffer)
+    {
         $this->buffer = $buffer;
     }
 
@@ -120,7 +122,8 @@ class ModuleServerResponse {
      * @param string $header Header to be added.
      * @return void
      */
-    public function addHeader($header) {
+    public function addHeader($header)
+    {
         $this->headers[] = $header;
     }
 
@@ -132,7 +135,8 @@ class ModuleServerResponse {
      * @since 5.1
      * @return string
      */
-    public function getHeaders() {
+    public function getHeaders()
+    {
         $headers = '';
         // !!! optimize with php functions
         foreach ($this->headers as $header) {
@@ -149,7 +153,8 @@ class ModuleServerResponse {
      * @since 5.1
      * @return string
      */
-    public function getResponse() {
+    public function getResponse()
+    {
         return $this->getHeaders()."\n".$this->getBuffer();
     }
 
@@ -163,7 +168,8 @@ class ModuleServerResponse {
      * @param integer $errcode Error code, as in ModuleServerResponse::ERROR_* constants.
      * @return void
      */
-    public function sendWarning($status, $errstr, $errcode = self::ERROR_UNKOWN) {
+    public function sendWarning($status, $errstr, $errcode = self::ERROR_UNKOWN)
+    {
         $this->addHeader('Module/1.0 '.$status);
         $buffer = "<?xml version=\"1.0\"?>\n";
         $buffer .= "<methodResponse>\n";
@@ -185,5 +191,3 @@ class ModuleServerResponse {
         $this->setBuffer($buffer);
     }
 }
-
-?>

@@ -33,45 +33,46 @@ require_once('innomatic/net/socket/SocketException.php');
  * @author Stig Bakken <ssb@fast.no>
  * @author Chuck Hagenbuch <chuck@horde.org>
  */
-class Socket {
-    
+class Socket
+{
     // {{{ properties
-    
+
     /** Socket file pointer. */
     public $fp = null;
-    
+
     /** Whether the socket is blocking. */
     public $blocking = true;
-    
+
     /** Whether the socket is persistent. */
     public $persistent = false;
-    
+
     /** The IP address to connect to. */
     public $addr = '';
-    
+
     /** The port number to connect to. */
     public $port = 0;
-    
+
     /** Number of seconds to wait on socket connections before
         assuming there's no more data. */
     public $timeout = false;
-    
+
     /** Number of bytes to read at a time in readLine() and
         readAll(). */
     public $lineLength = 2048;
     // }}}
-    
+
     // {{{ constructor
     /**
      * Constructs a new Net_Socket object.
      *
      * @access public
      */
-    public function Socket() {
+    public function Socket()
+    {
         //$this->PEAR();
     }
     // }}}
-    
+
     // {{{ connect()
     /**
      * Connect to the specified port. If called when the socket is
@@ -85,12 +86,13 @@ class Socket {
      * @access public
      * @return mixed true on success or error object
      */
-    public function connect($addr, $port, $persistent = null, $timeout = null) {
+    public function connect($addr, $port, $persistent = null, $timeout = null)
+    {
         if (is_resource($this->fp)) {
             @fclose($this->fp);
             $this->fp = null;
         }
-        
+
         if (strspn($addr, '.0123456789') == strlen($addr)) {
             $this->addr = $addr;
         } else {
@@ -111,18 +113,18 @@ class Socket {
         } else {
             $fp = $openfunc($this->addr, $this->port, $errno, $errstr);
         }
-        
+
         if (!$fp) {
             throw new SocketException($errstr.' '.$errno);
             //return $this->raiseError($errstr, $errno);
         }
 
         $this->fp = $fp;
-        
+
         return $this->setBlocking($this->blocking);
     }
     // }}}
-    
+
     // {{{ disconnect()
     /**
      * Disconnects from the peer, closes the socket.
@@ -130,7 +132,8 @@ class Socket {
      * @access public
      * @return mixed true on success or an error object otherwise
      */
-    public function disconnect() {
+    public function disconnect()
+    {
         if (is_resource($this->fp)) {
             fclose($this->fp);
             $this->fp = null;
@@ -140,7 +143,7 @@ class Socket {
         //return $this->raiseError("not connected");
     }
     // }}}
-    
+
     // {{{ isBlocking()
     /**
      * Find out if the socket is in blocking mode.
@@ -148,11 +151,12 @@ class Socket {
      * @access public
      * @return bool the current blocking mode.
      */
-    public function isBlocking() {
+    public function isBlocking()
+    {
         return $this->blocking;
     }
     // }}}
-    
+
     // {{{ setBlocking()
     /**
      * Sets whether the socket connection should be blocking or
@@ -164,7 +168,8 @@ class Socket {
      * @access public
      * @return mixed true on success or an error object otherwise
      */
-    public function setBlocking($mode) {
+    public function setBlocking($mode)
+    {
         if (is_resource($this->fp)) {
             $this->blocking = $mode;
             socket_set_blocking($this->fp, $this->blocking);
@@ -177,7 +182,7 @@ class Socket {
 
     // {{{ setTimeout()
     /**
-     * Sets the timeout value on socket descriptor, 
+     * Sets the timeout value on socket descriptor,
      * expressed in the sum of seconds and microseconds
      *
      * @param $seconds int seconds
@@ -185,7 +190,8 @@ class Socket {
      * @access public
      * @return mixed true on success or an error object otherwise
      */
-    public function setTimeout($seconds, $microseconds) {
+    public function setTimeout($seconds, $microseconds)
+    {
         if (is_resource($this->fp)) {
             socket_set_timeout($this->fp, $seconds, $microseconds);
             return true;
@@ -197,8 +203,8 @@ class Socket {
 
     // {{{ getStatus()
     /**
-     * Returns information about an existing socket resource. 
-     * Currently returns four entries in the result array: 
+     * Returns information about an existing socket resource.
+     * Currently returns four entries in the result array:
      *
      * <p>
      * timed_out (bool) - The socket timed out waiting for data<br>
@@ -210,7 +216,8 @@ class Socket {
      * @access public
      * @return mixed Array containing information about existing socket resource or an error object otherwise
      */
-    public function getStatus() {
+    public function getStatus()
+    {
         if (is_resource($this->fp)) {
             return socket_get_status($this->fp);
         }
@@ -218,7 +225,7 @@ class Socket {
         //return $this->raiseError("not connected");
     }
     // }}}
-    
+
     // {{{ gets()
     /**
      * Get a specified line of data
@@ -227,7 +234,8 @@ class Socket {
      * @return $size bytes of data from the socket, or a PEAR_Error if
      *         not connected.
      */
-    public function gets($size) {
+    public function gets($size)
+    {
         if (is_resource($this->fp)) {
             return fgets($this->fp, $size);
         }
@@ -235,7 +243,7 @@ class Socket {
         //return $this->raiseError("not connected");
     }
     // }}}
-    
+
     // {{{ read()
     /**
      * Read a specified amount of data. This is guaranteed to return,
@@ -248,7 +256,8 @@ class Socket {
      * @return $size bytes of data from the socket, or a PEAR_Error if
      *         not connected.
      */
-    public function read($size) {
+    public function read($size)
+    {
         if (is_resource($this->fp)) {
             return fread($this->fp, $size);
         }
@@ -256,7 +265,7 @@ class Socket {
         //return $this->raiseError("not connected");
     }
     // }}}
-    
+
     // {{{ write()
     /**
      * Write a specified amount of data.
@@ -264,7 +273,8 @@ class Socket {
      * @access public
      * @return mixed true on success or an error object otherwise
      */
-    public function write($data) {
+    public function write($data)
+    {
         if (is_resource($this->fp)) {
             return fwrite($this->fp, $data);
         }
@@ -272,7 +282,7 @@ class Socket {
         //return $this->raiseError("not connected");
     }
     // }}}
-    
+
     // {{{ writeLine()
     /**
      * Write a line of data to the socket, followed by a trailing "\r\n".
@@ -280,7 +290,8 @@ class Socket {
      * @access public
      * @return mixed fputs result, or an error
      */
-    public function writeLine ($data) {
+    public function writeLine($data)
+    {
         if (is_resource($this->fp)) {
             return $this->write($data . "\r\n");
         }
@@ -288,7 +299,7 @@ class Socket {
         //return $this->raiseError("not connected");
     }
     // }}}
-    
+
     // {{{ eof()
     /**
      * Tests for end-of-file on a socket descriptor
@@ -296,11 +307,12 @@ class Socket {
      * @access public
      * @return bool
      */
-    public function eof() {
+    public function eof()
+    {
         return (is_resource($this->fp) && feof($this->fp));
     }
     // }}}
-    
+
     // {{{ readByte()
     /**
      * Reads a byte of data
@@ -309,7 +321,8 @@ class Socket {
      * @return 1 byte of data from the socket, or a PEAR_Error if
      *         not connected.
      */
-    public function readByte() {
+    public function readByte()
+    {
         if (is_resource($this->fp)) {
             return ord($this->read(1));
         }
@@ -317,7 +330,7 @@ class Socket {
         //return $this->raiseError("not connected");
     }
     // }}}
-    
+
     // {{{ readWord()
     /**
      * Reads a word of data
@@ -326,7 +339,8 @@ class Socket {
      * @return 1 word of data from the socket, or a PEAR_Error if
      *         not connected.
      */
-    public function readWord() {
+    public function readWord()
+    {
         if (is_resource($this->fp)) {
             $buf = $this->read(2);
             return (ord($buf[0]) + (ord($buf[1]) << 8));
@@ -335,7 +349,7 @@ class Socket {
         //return $this->raiseError("not connected");
     }
     // }}}
-    
+
     // {{{ readInt()
     /**
      * Reads an int of data
@@ -344,7 +358,8 @@ class Socket {
      * @return 1 int of data from the socket, or a PEAR_Error if
      *         not connected.
      */
-    public function readInt() {
+    public function readInt()
+    {
         if (is_resource($this->fp)) {
             $buf = $this->read(4);
             return (ord($buf[0]) + (ord($buf[1]) << 8) +
@@ -354,7 +369,7 @@ class Socket {
         //return $this->raiseError("not connected");
     }
     // }}}
-    
+
     // {{{ readString()
     /**
      * Reads a zeroterminated string of data
@@ -363,7 +378,8 @@ class Socket {
      * @return string, or a PEAR_Error if
      *         not connected.
      */
-    public function readString() {
+    public function readString()
+    {
         if (is_resource($this->fp)) {
             $string = '';
             while (($char = $this->read(1)) != "\x00")  {
@@ -375,7 +391,7 @@ class Socket {
         //return $this->raiseError("not connected");
     }
     // }}}
-    
+
     // {{{ readIPAddress()
     /**
      * Reads an IP Address and returns it in a dot formated string
@@ -384,7 +400,8 @@ class Socket {
      * @return Dot formated string, or a PEAR_Error if
      *         not connected.
      */
-    public function readIPAddress() {
+    public function readIPAddress()
+    {
         if (is_resource($this->fp)) {
             $buf = $this->read(4);
             return sprintf("%s.%s.%s.%s", ord($buf[0]), ord($buf[1]),
@@ -394,7 +411,7 @@ class Socket {
         //return $this->raiseError("not connected");
     }
     // }}}
-    
+
     // {{{ readLine()
     /**
      * Read until either the end of the socket or a newline, whichever
@@ -405,7 +422,8 @@ class Socket {
      *         newline, or until the end of the socket, or a PEAR_Error if
      *         not connected.
      */
-    public function readLine() {
+    public function readLine()
+    {
         if (is_resource($this->fp)) {
             $line = '';
             $timeout = time() + $this->timeout;
@@ -423,7 +441,7 @@ class Socket {
         //return $this->raiseError("not connected");
     }
     // }}}
-    
+
     // {{{ readAll()
     /**
      * Read until the socket closes. THIS FUNCTION WILL NOT EXIT if the
@@ -433,7 +451,8 @@ class Socket {
      * @return All data until the socket closes, or a PEAR_Error if
      *         not connected.
      */
-    public function readAll() {
+    public function readAll()
+    {
         if (is_resource($this->fp)) {
             $data = '';
             while (!$this->eof())

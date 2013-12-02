@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -19,27 +19,27 @@ require_once ('innomatic/locale/LocaleCatalog.php');
  */
 class LanguageComponent extends ApplicationComponent
 {
-    function LanguageComponent ($rootda, $domainda, $appname, $name, $basedir)
+    public function LanguageComponent($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'language';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 0;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    function DoInstallAction ($params)
+    public function DoInstallAction($params)
     {
         $result = false;
         if (strlen($params['name']) and strlen($params['short'])) {
@@ -48,7 +48,7 @@ class LanguageComponent extends ApplicationComponent
             $this->mLog->logEvent('innomatic.languagecomponent.languagecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty language name (' . $params['name'] . ') or short name (' . $params['short'] . ')', Logger::ERROR);
         return $result;
     }
-    function DoUninstallAction ($params)
+    public function DoUninstallAction($params)
     {
         $result = false;
         if (strlen($params['name']) and strlen($params['short'])) {
@@ -57,7 +57,7 @@ class LanguageComponent extends ApplicationComponent
             $this->mLog->logEvent('innomatic.languagecomponent.languagecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty language name (' . $params['name'] . ') or short name (' . $params['short'] . ')', Logger::ERROR);
         return $result;
     }
-    function DoUpdateAction ($params)
+    public function DoUpdateAction($params)
     {
         $result = false;
         if (strlen($params['name']) and strlen($params['short'])) {

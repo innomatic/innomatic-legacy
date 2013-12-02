@@ -4,14 +4,14 @@
 
    Innomatic build file
 
-   Copyright (c) 2008-2013 Innoteam S.r.l.. All rights reserved.
+   Copyright (c) 2008-2013 Innoteam Srl. All rights reserved.
 
   =======================================================================
 -->
 <project name="Innomatic" default="build">
 
 	<property name="name" value="innomatic" />
-	<property name="version" value="6.0" />
+	<property name="version" value="6.1" />
 
     <!--
     Helper target that initializes the CruiseControl project and creates the base

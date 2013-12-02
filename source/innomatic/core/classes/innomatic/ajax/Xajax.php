@@ -29,11 +29,11 @@ require_once('innomatic/webapp/WebAppContainer.php');
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  * @package xajax
  * @version $Id: Xajax.php,v 1.2 2006/06/04 08:40:40 alex Exp $
  * @copyright Copyright (c) 2005-2006  by Jared White & J. Max Wilson
@@ -66,112 +66,114 @@ if (!defined ('XAJAX_POST')) {
 }
 
 /**
- * The xajax class generates the xajax javascript for your page including the 
+ * The xajax class generates the xajax javascript for your page including the
  * Javascript wrappers for the PHP functions that you want to call from your page.
  * It also handles processing and executing the command messages in the XML responses
  * sent back to your page from your PHP functions.
- * 
+ *
  * @package xajax
- */ 
-class Xajax extends Singleton {    
+ */
+class Xajax extends Singleton
+{
     /**#@+
      * @access protected
      */
     /**
      * @var array Array of PHP functions that will be callable through javascript wrappers
      */
-    var $aFunctions;
+    public $aFunctions;
     /**
      * @var array Array of object callbacks that will allow Javascript to call PHP methods (key=function name)
      */
-    var $aObjects;
+    public $aObjects;
     /**
      * @var array Array of RequestTypes to be used with each function (key=function name)
      */
-    var $aFunctionRequestTypes;
+    public $aFunctionRequestTypes;
     /**
      * @var array Array of Include Files for any external functions (key=function name)
      */
-    var $aFunctionIncludeFiles;
+    public $aFunctionIncludeFiles;
     /**
      * @var string Name of the PHP function to call if no callable function was found
      */
-    var $sCatchAllFunction;
+    public $sCatchAllFunction;
     /**
      * @var string Name of the PHP function to call before any other function
      */
-    var $sPreFunction;
+    public $sPreFunction;
     /**
      * @var string The URI for making requests to the xajax object
      */
-    var $sRequestURI;
+    public $sRequestURI;
     /**
      * @var string The prefix to prepend to the javascript wraper function name
      */
-    var $sWrapperPrefix;
+    public $sWrapperPrefix;
     /**
      * @var boolean Show debug messages (default false)
      */
-    var $bDebug;
+    public $bDebug;
     /**
      * @var boolean Show messages in the client browser's status bar (default false)
      */
-    var $bStatusMessages;    
+    public $bStatusMessages;
     /**
      * @var boolean Allow xajax to exit after processing a request (default true)
      */
-    var $bExitAllowed;
+    public $bExitAllowed;
     /**
      * @var boolean Use wait cursor in browser (default true)
      */
-    var $bWaitCursor;
+    public $bWaitCursor;
     /**
      * @var boolean Use an special xajax error handler so the errors are sent to the browser properly (default false)
      */
-    var $bErrorHandler;
+    public $bErrorHandler;
     /**
      * @var string Specify what, if any, file xajax should log errors to (and more information in a future release)
      */
-    var $sLogFile;
+    public $sLogFile;
     /**
      * @var boolean Clean all output buffers before outputting response (default false)
      */
-    var $bCleanBuffer;
+    public $bCleanBuffer;
     /**
      * @var string String containing the character encoding used
      */
-    var $sEncoding;
+    public $sEncoding;
     /**
      * @var boolean Decode input request args from UTF-8 (default false)
      */
-    var $bDecodeUTF8Input;
+    public $bDecodeUTF8Input;
     /**
      * @var boolean Convert special characters to HTML entities (default false)
      */
-    var $bOutputEntities;
+    public $bOutputEntities;
     /**
      * @var array Array for parsing complex objects
      */
-    var $aObjArray;
+    public $aObjArray;
     /**
      * @var integer Position in $aObjArray
      */
-    var $iPos;
-    
+    public $iPos;
+
     public $ajaxLoader = true;
-    
+
     /**#@-*/
-    
+
     /**
      * Constructor. You can set some extra xajax options right away or use
      * individual methods later to set options.
-     * 
+     *
      * @param string  defaults to the current browser URI
      * @param string  defaults to "xajax_";
      * @param string  defaults to XAJAX_DEFAULT_CHAR_ENCODING defined above
      * @param boolean defaults to false
      */
-    public function ___construct($sRequestURI='',$sWrapperPrefix="xajax_",$sEncoding=XAJAX_DEFAULT_CHAR_ENCODING,$bDebug=false) {
+    public function ___construct($sRequestURI='',$sWrapperPrefix="xajax_",$sEncoding=XAJAX_DEFAULT_CHAR_ENCODING,$bDebug=false)
+    {
         $this->aFunctions = array();
         $this->aObjects = array();
         $this->aFunctionIncludeFiles = array();
@@ -190,15 +192,15 @@ class Xajax extends Singleton {
         $this->bDecodeUTF8Input = false;
         $this->bOutputEntities = false;
     }
-        
+
     /**
      * Sets the URI to which requests will be made.
      * <i>Usage:</i> <kbd>$xajax->setRequestURI("http://www.xajaxproject.org");</kbd>
-     * 
+     *
      * @param string the URI (can be absolute or relative) of the PHP script
      *               that will be accessed when an xajax request occurs
      */
-    function setRequestURI($sRequestURI)
+    public function setRequestURI($sRequestURI)
     {
         $this->sRequestURI = $sRequestURI;
     }
@@ -206,87 +208,87 @@ class Xajax extends Singleton {
     /**
      * Sets the prefix that will be appended to the Javascript wrapper
      * functions (default is "xajax_").
-     * 
+     *
      * @param string
-     */ 
-    // 
-    function setWrapperPrefix($sPrefix)
+     */
+    //
+    public function setWrapperPrefix($sPrefix)
     {
         $this->sWrapperPrefix = $sPrefix;
     }
-    
+
     /**
      * Enables debug messages for xajax.
      * */
-    function debugOn()
+    public function debugOn()
     {
         $this->bDebug = true;
     }
-    
+
     /**
      * Disables debug messages for xajax (default behavior).
      */
-    function debugOff()
+    public function debugOff()
     {
         $this->bDebug = false;
     }
-        
+
     /**
      * Enables messages in the browser's status bar for xajax.
      */
-    function statusMessagesOn()
+    public function statusMessagesOn()
     {
         $this->bStatusMessages = true;
     }
-    
+
     /**
      * Disables messages in the browser's status bar for xajax (default behavior).
      */
-    function statusMessagesOff()
+    public function statusMessagesOff()
     {
         $this->bStatusMessages = false;
     }
-    
+
     /**
      * Enables the wait cursor to be displayed in the browser (default behavior).
      */
-    function waitCursorOn()
+    public function waitCursorOn()
     {
         $this->bWaitCursor = true;
     }
-    
+
     /**
      * Disables the wait cursor to be displayed in the browser.
      */
-    function waitCursorOff()
+    public function waitCursorOff()
     {
         $this->bWaitCursor = false;
-    }    
-    
+    }
+
     /**
      * Enables xajax to exit immediately after processing a request and
      * sending the response back to the browser (default behavior).
      */
-    function exitAllowedOn()
+    public function exitAllowedOn()
     {
         $this->bExitAllowed = true;
     }
-    
+
     /**
      * Disables xajax's default behavior of exiting immediately after
      * processing a request and sending the response back to the browser.
      */
-    function exitAllowedOff()
+    public function exitAllowedOff()
     {
         $this->bExitAllowed = false;
     }
-    
+
     /**
      * Turns on xajax's error handling system so that PHP errors that occur
      * during a request are trapped and pushed to the browser in the form of
      * a Javascript alert.
      */
-    function errorHandlerOn()
+    public function errorHandlerOn()
     {
         $this->bErrorHandler = true;
     }
@@ -294,18 +296,18 @@ class Xajax extends Singleton {
     /**
      * Turns off xajax's error handling system (default behavior).
      */
-    function errorHandlerOff()
+    public function errorHandlerOff()
     {
         $this->bErrorHandler = false;
     }
-    
+
     /**
      * Specifies a log file that will be written to by xajax during a request
      * (used only by the error handling system at present). If you don't invoke
      * this method, or you pass in "", then no log file will be written to.
      * <i>Usage:</i> <kbd>$xajax->setLogFile("/xajax_logs/errors.log");</kbd>
      */
-    function setLogFile($sFilename)
+    public function setLogFile($sFilename)
     {
         $this->sLogFile = $sFilename;
     }
@@ -314,18 +316,18 @@ class Xajax extends Singleton {
      * Causes xajax to clean out all output buffers before outputting a
      * response (default behavior).
      */
-    function cleanBufferOn()
+    public function cleanBufferOn()
     {
         $this->bCleanBuffer = true;
     }
     /**
      * Turns off xajax's output buffer cleaning.
      */
-    function cleanBufferOff()
+    public function cleanBufferOff()
     {
         $this->bCleanBuffer = false;
     }
-    
+
     /**
      * Sets the character encoding for the HTTP output based on
      * <kbd>$sEncoding</kbd>, which is a string containing the character
@@ -336,7 +338,7 @@ class Xajax extends Singleton {
      *
      * @param string the encoding type to use (utf-8, iso-8859-1, etc.)
      */
-    function setCharEncoding($sEncoding)
+    public function setCharEncoding($sEncoding)
     {
         $this->sEncoding = $sEncoding;
     }
@@ -346,7 +348,7 @@ class Xajax extends Singleton {
      * encoding if possible. Either the iconv or mb_string extension must be
      * present for optimal functionality.
      */
-    function decodeUTF8InputOn()
+    public function decodeUTF8InputOn()
     {
         $this->bDecodeUTF8Input = true;
     }
@@ -354,29 +356,29 @@ class Xajax extends Singleton {
     /**
      * Turns off decoding the input request args from UTF-8 (default behavior).
      */
-    function decodeUTF8InputOff()
+    public function decodeUTF8InputOff()
     {
         $this->bDecodeUTF8Input = false;
     }
-    
+
     /**
      * Tells the response object to convert special characters to HTML entities
      * automatically (only works if the mb_string extension is available).
      */
-    function outputEntitiesOn()
+    public function outputEntitiesOn()
     {
         $this->bOutputEntities = true;
     }
-    
+
     /**
      * Tells the response object to output special characters intact. (default
      * behavior).
      */
-    function outputEntitiesOff()
+    public function outputEntitiesOff()
     {
         $this->bOutputEntities = false;
     }
-                
+
     /**
      * Registers a PHP function or method to be callable through xajax in your
      * Javascript. If you want to register a function, pass in the name of that
@@ -388,53 +390,51 @@ class Xajax extends Singleton {
      * to pass the object by reference). Note: the function name is what you
      * call via Javascript, so it can be anything as long as it doesn't
      * conflict with any other registered function name.
-     * 
+     *
      * <i>Usage:</i> <kbd>$xajax->registerFunction("myFunction");</kbd>
      * or: <kbd>$xajax->registerFunction(array("myFunctionName", &$myObject, "myMethod"));</kbd>
-     * 
+     *
      * @param mixed  contains the function name or an object callback array
-     * @param mixed  request type (XAJAX_GET/XAJAX_POST) that should be used 
+     * @param mixed  request type (XAJAX_GET/XAJAX_POST) that should be used
      *               for this function.  Defaults to XAJAX_POST.
      */
-    function registerFunction($mFunction,$sRequestType=XAJAX_POST)
+    public function registerFunction($mFunction,$sRequestType=XAJAX_POST)
     {
         if (is_array($mFunction)) {
             $this->aFunctions[$mFunction[0]] = 1;
             $this->aFunctionRequestTypes[$mFunction[0]] = $sRequestType;
             $this->aObjects[$mFunction[0]] = array_slice($mFunction, 1);
-        }    
-        else {
+        } else {
             $this->aFunctions[$mFunction] = 1;
             $this->aFunctionRequestTypes[$mFunction] = $sRequestType;
         }
     }
-    
+
     /**
      * Registers a PHP function to be callable through xajax which is located
      * in some other file.  If the function is requested the external file will
      * be included to define the function before the function is called.
-     * 
+     *
      * <i>Usage:</i> <kbd>$xajax->registerExternalFunction("myFunction","myFunction.inc.php",XAJAX_POST);</kbd>
-     * 
+     *
      * @param string contains the function name or an object callback array
      *               ({@link xajax::registerFunction() see registerFunction} for
      *               more info on object callback arrays)
      * @param string contains the path and filename of the include file
-     * @param mixed  the RequestType (XAJAX_GET/XAJAX_POST) that should be used 
+     * @param mixed  the RequestType (XAJAX_GET/XAJAX_POST) that should be used
      *                  for this function. Defaults to XAJAX_POST.
      */
-    function registerExternalFunction($mFunction,$sIncludeFile,$sRequestType=XAJAX_POST)
+    public function registerExternalFunction($mFunction,$sIncludeFile,$sRequestType=XAJAX_POST)
     {
         $this->registerFunction($mFunction, $sRequestType);
-        
+
         if (is_array($mFunction)) {
             $this->aFunctionIncludeFiles[$mFunction[0]] = $sIncludeFile;
-        }
-        else {
+        } else {
             $this->aFunctionIncludeFiles[$mFunction] = $sIncludeFile;
         }
     }
-    
+
     /**
      * Registers a PHP function to be called when xajax cannot find the
      * function being called via Javascript. Because this is technically
@@ -442,24 +442,23 @@ class Xajax extends Singleton {
      * only useful when you're directly using the xajax.call() Javascript
      * method. Use the catch-all feature when you want more dynamic ability to
      * intercept unknown calls and handle them in a custom way.
-     * 
+     *
      * <i>Usage:</i> <kbd>$xajax->registerCatchAllFunction("myCatchAllFunction");</kbd>
-     * 
+     *
      * @param string contains the function name or an object callback array
      *               ({@link xajax::registerFunction() see registerFunction} for
      *               more info on object callback arrays)
      */
-    function registerCatchAllFunction($mFunction)
+    public function registerCatchAllFunction($mFunction)
     {
         if (is_array($mFunction)) {
             $this->sCatchAllFunction = $mFunction[0];
             $this->aObjects[$mFunction[0]] = array_slice($mFunction, 1);
-        }
-        else {
+        } else {
             $this->sCatchAllFunction = $mFunction;
         }
     }
-    
+
     /**
      * Registers a PHP function to be called before xajax calls the requested
      * function. xajax will automatically add the request function's response
@@ -468,54 +467,53 @@ class Xajax extends Singleton {
      * the first element being false (a boolean) and the second being the
      * response. In this case, the pre-function's response will be returned to
      * the browser without xajax calling the requested function.
-     * 
+     *
      * <i>Usage:</i> <kbd>$xajax->registerPreFunction("myPreFunction");</kbd>
-     * 
+     *
      * @param string contains the function name or an object callback array
      *               ({@link xajax::registerFunction() see registerFunction} for
      *               more info on object callback arrays)
      */
-    function registerPreFunction($mFunction)
+    public function registerPreFunction($mFunction)
     {
         if (is_array($mFunction)) {
             $this->sPreFunction = $mFunction[0];
             $this->aObjects[$mFunction[0]] = array_slice($mFunction, 1);
-        }
-        else {
+        } else {
             $this->sPreFunction = $mFunction;
         }
     }
-    
+
     /**
      * Returns true if xajax can process the request, false if otherwise.
      * You can use this to determine if xajax needs to process the request or
      * not.
-     * 
+     *
      * @return boolean
-     */ 
-    function canProcessRequests()
+     */
+    public function canProcessRequests()
     {
         if ($this->getRequestMode() != -1) return true;
         return false;
     }
-    
+
     /**
      * Returns the current request mode (XAJAX_GET or XAJAX_POST), or -1 if
      * there is none.
-     * 
+     *
      * @return mixed
      */
-    function getRequestMode()
+    public function getRequestMode()
     {
         if (!empty($_GET["xajax"]))
             return XAJAX_GET;
-        
+
         if (!empty($_POST["xajax"]))
             return XAJAX_POST;
-            
+
         return -1;
     }
-    
+
     /**
      * This is the main communications engine of xajax. The engine handles all
      * incoming xajax requests, calls the apporiate PHP functions (or
@@ -524,9 +522,9 @@ class Xajax extends Singleton {
      * page then this function should be called before any headers or HTML has
      * been sent.
      */
-    function processRequests()
-    {    
-        
+    public function processRequests()
+    {
+
         $requestMode = -1;
         $sFunctionName = "";
         $bFoundFunction = true;
@@ -536,36 +534,33 @@ class Xajax extends Singleton {
         $sPreResponse = "";
         $bEndRequest = false;
         $sResponse = "";
-        
+
         $requestMode = $this->getRequestMode();
         if ($requestMode == -1) return;
-    
-        if ($requestMode == XAJAX_POST)
-        {
+
+        if ($requestMode == XAJAX_POST) {
             $sFunctionName = $_POST["xajax"];
-            
-            if (!empty($_POST["xajaxargs"])) 
+
+            if (!empty($_POST["xajaxargs"]))
                 $aArgs = $_POST["xajaxargs"];
-        }
-        else
-        {    
+        } else {
             header ("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
             header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
             header ("Cache-Control: no-cache, must-revalidate");
             header ("Pragma: no-cache");
-            
+
             $sFunctionName = $_GET["xajax"];
-            
-            if (!empty($_GET["xajaxargs"])) 
+
+            if (!empty($_GET["xajaxargs"]))
                 $aArgs = $_GET["xajaxargs"];
         }
-        
+
         // Use xajax error handler if necessary
         if ($this->bErrorHandler) {
             $GLOBALS['xajaxErrorHandlerText'] = "";
             set_error_handler("xajaxErrorHandler");
         }
-        
+
         if ($this->sPreFunction) {
             if (!$this->_isFunctionCallable($this->sPreFunction)) {
                 $bFoundFunction = false;
@@ -575,57 +570,45 @@ class Xajax extends Singleton {
             }
         }
         //include any external dependencies associated with this function name
-        if (array_key_exists($sFunctionName,$this->aFunctionIncludeFiles))
-        {
+        if (array_key_exists($sFunctionName,$this->aFunctionIncludeFiles)) {
             ob_start();
             include_once($this->aFunctionIncludeFiles[$sFunctionName]);
             ob_end_clean();
         }
-        
+
         if ($bFoundFunction) {
             $sFunctionNameForSpecial = $sFunctionName;
-            if (!array_key_exists($sFunctionName, $this->aFunctions))
-            {
+            if (!array_key_exists($sFunctionName, $this->aFunctions)) {
                 if ($this->sCatchAllFunction) {
                     $sFunctionName = $this->sCatchAllFunction;
                     $bFunctionIsCatchAll = true;
-                }
-                else {
+                } else {
                     $bFoundFunction = false;
                     $objResponse = new xajaxResponse();
                     $objResponse->addAlert("Unknown Function $sFunctionName.");
                     $sResponse = $objResponse->getXML();
                 }
-            }
-            else if ($this->aFunctionRequestTypes[$sFunctionName] != $requestMode)
-            {
+            } elseif ($this->aFunctionRequestTypes[$sFunctionName] != $requestMode) {
                 $bFoundFunction = false;
                 $objResponse = new xajaxResponse();
                 $objResponse->addAlert("Incorrect Request Type.");
                 $sResponse = $objResponse->getXML();
             }
         }
-        
-        if ($bFoundFunction)
-        {
-            for ($i = 0; $i < sizeof($aArgs); $i++)
-            {
+
+        if ($bFoundFunction) {
+            for ($i = 0; $i < sizeof($aArgs); $i++) {
                 // If magic quotes is on, then we need to strip the slashes from the args
                 if (get_magic_quotes_gpc() == 1 && is_string($aArgs[$i])) {
-                
+
                     $aArgs[$i] = stripslashes($aArgs[$i]);
                 }
-                if (stristr($aArgs[$i],"<xjxobj>") != false)
-                {
-                    $aArgs[$i] = $this->_xmlToArray("xjxobj",$aArgs[$i]);    
-                }
-                else if (stristr($aArgs[$i],"<xjxquery>") != false)
-                {
-                    $aArgs[$i] = $this->_xmlToArray("xjxquery",$aArgs[$i]);    
-                }
-                else if ($this->bDecodeUTF8Input)
-                {
-                    $aArgs[$i] = $this->_decodeUTF8Data($aArgs[$i]);    
+                if (stristr($aArgs[$i],"<xjxobj>") != false) {
+                    $aArgs[$i] = $this->_xmlToArray("xjxobj",$aArgs[$i]);
+                } elseif (stristr($aArgs[$i],"<xjxquery>") != false) {
+                    $aArgs[$i] = $this->_xmlToArray("xjxquery",$aArgs[$i]);
+                } elseif ($this->bDecodeUTF8Input) {
+                    $aArgs[$i] = $this->_decodeUTF8Data($aArgs[$i]);
                 }
             }
 
@@ -634,8 +617,7 @@ class Xajax extends Singleton {
                 if (is_array($mPreResponse) && $mPreResponse[0] === false) {
                     $bEndRequest = true;
                     $sPreResponse = $mPreResponse[1];
-                }
-                else {
+                } else {
                     $sPreResponse = $mPreResponse;
                 }
                 if (is_a($sPreResponse, "xajaxResponse")) {
@@ -643,14 +625,13 @@ class Xajax extends Singleton {
                 }
                 if ($bEndRequest) $sResponse = $sPreResponse;
             }
-            
+
             if (!$bEndRequest) {
                 if (!$this->_isFunctionCallable($sFunctionName)) {
                     $objResponse = new xajaxResponse();
                     $objResponse->addAlert("The Registered Function $sFunctionName Could Not Be Found.");
                     $sResponse = $objResponse->getXML();
-                }
-                else {
+                } else {
                     if ($bFunctionIsCatchAll) {
                         $aArgs = array($sFunctionNameForSpecial, $aArgs);
                     }
@@ -663,8 +644,7 @@ class Xajax extends Singleton {
                     $objResponse = new xajaxResponse();
                     $objResponse->addAlert("No XML Response Was Returned By Function $sFunctionName.");
                     $sResponse = $objResponse->getXML();
-                }
-                else if ($sPreResponse != "") {
+                } elseif ($sPreResponse != "") {
                     $sNewResponse = new xajaxResponse($this->sEncoding, $this->bOutputEntities);
                     $sNewResponse->loadXML($sPreResponse);
                     $sNewResponse->loadXML($sResponse);
@@ -672,7 +652,7 @@ class Xajax extends Singleton {
                 }
             }
         }
-        
+
         $sContentHeader = "Content-type: text/xml;";
         if ($this->sEncoding && strlen(trim($this->sEncoding)) > 0)
             $sContentHeader .= " charset=".$this->sEncoding;
@@ -684,8 +664,7 @@ class Xajax extends Singleton {
                 $fH = @fopen($this->sLogFile, "a");
                 if (!$fH) {
                     $sErrorResponse->addAlert("** Logging Error **\n\nxajax was unable to write to the error log file:\n" . $this->sLogFile);
-                }
-                else {
+                } else {
                     fwrite($fH, "** xajax Error Log - " . strftime("%b %e %Y %I:%M:%S %p") . " **" . $GLOBALS['xajaxErrorHandlerText'] . "\n\n\n");
                     fclose($fH);
                 }
@@ -693,30 +672,30 @@ class Xajax extends Singleton {
 
             $sErrorResponse->loadXML($sResponse);
             $sResponse = $sErrorResponse->getXML();
-            
+
         }
         if ($this->bCleanBuffer) while (@ob_end_clean());
         print $sResponse;
         if ($this->bErrorHandler) restore_error_handler();
-        
+
         if ($this->bExitAllowed)
             InnomaticContainer::instance('innomaticcontainer')->halt();
     }
 
-    /**            
+    /**
      * Prints the xajax Javascript header and wrapper code into your page by
      * printing the output of the getJavascript() method. It should only be
      * called between the <pre><head> </head></pre> tags in your HTML page.
      * Remember, if you only want to obtain the result of this function, use
      * {@link xajax::getJavascript()} instead.
-     * 
+     *
      * <i>Usage:</i>
      * <code>
      *  <head>
      *        ...
      *        < ?php $xajax->printJavascript(); ? >
      * </code>
-     * 
+     *
      * @param string the relative address of the folder where xajax has been
      *               installed. For instance, if your PHP file is
      *               "http://www.myserver.com/myfolder/mypage.php"
@@ -728,15 +707,15 @@ class Xajax extends Singleton {
      *               engine located within the xajax installation folder.
      *               Defaults to xajax_js/xajax.js.
      */
-    function printJavascript($sJsURI="", $sJsFile=NULL)
+    public function printJavascript($sJsURI="", $sJsFile=NULL)
     {
         print $this->getJavascript($sJsURI, $sJsFile);
     }
-    
+
     /**
      * Returns the xajax Javascript code that should be added to your HTML page
      * between the <kbd><head> </head></kbd> tags.
-     * 
+     *
      * <i>Usage:</i>
      * <code>
      *  < ?php $xajaxJSHead = $xajax->getJavascript(); ? >
@@ -744,7 +723,7 @@ class Xajax extends Singleton {
      *        ...
      *        < ?php echo $xajaxJSHead; ? >
      * </code>
-     * 
+     *
      * @param string the relative address of the folder where xajax has been
      *               installed. For instance, if your PHP file is
      *               "http://www.myserver.com/myfolder/mypage.php"
@@ -757,21 +736,21 @@ class Xajax extends Singleton {
      *               Defaults to xajax_js/xajax.js.
      * @return string
      */
-    function getJavascript($sJsURI="", $sJsFile=NULL)
-    {    
+    public function getJavascript($sJsURI="", $sJsFile=NULL)
+    {
         $html = $this->getJavascriptConfig();
         $html .= $this->getJavascriptInclude($sJsURI, $sJsFile);
-        
+
         return $html;
     }
-    
+
     /**
      * Returns a string containing inline Javascript that sets up the xajax
      * runtime (typically called internally by xajax from get/printJavascript).
-     * 
+     *
      * @return string
      */
-    function getJavascriptConfig()
+    public function getJavascriptConfig()
     {
         $html  = "\t<script type=\"text/javascript\">\n";
         $html .= "var xajaxRequestUri=\"".$this->sRequestURI."\";\n";
@@ -787,14 +766,14 @@ class Xajax extends Singleton {
         }
 
         $html .= "\t</script>\n";
-        return $html;        
+        return $html;
     }
-    
+
     /**
      * Returns a string containing a Javascript include of the xajax.js file
      * along with a check to see if the file loaded after six seconds
      * (typically called internally by xajax from get/printJavascript).
-     * 
+     *
      * @param string the relative address of the folder where xajax has been
      *               installed. For instance, if your PHP file is
      *               "http://www.myserver.com/myfolder/mypage.php"
@@ -807,13 +786,13 @@ class Xajax extends Singleton {
      *               Defaults to xajax_js/xajax.js.
      * @return string
      */
-    function getJavascriptInclude($sJsURI="", $sJsFile=NULL)
+    public function getJavascriptInclude($sJsURI="", $sJsFile=NULL)
     {
         if ($sJsFile == NULL) $sJsFile = "xajax_js/xajax.js";
-            
+
         if ($sJsURI != "" && substr($sJsURI, -1) != "/") $sJsURI .= "/";
-        
-        $html = "\t<script type=\"text/javascript\" src=\"" . $sJsURI . $sJsFile . "\"></script>\n";    
+
+        $html = "\t<script type=\"text/javascript\" src=\"" . $sJsURI . $sJsFile . "\"></script>\n";
         $html .= "\t<script type=\"text/javascript\">\n";
         $html .= "window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\\nURL: {$sJsURI}{$sJsFile}'); } }, 6000);\n";
         $html .= "\t</script>\n";
@@ -824,18 +803,17 @@ class Xajax extends Singleton {
      * This method can be used to create a new xajax.js file out of the
      * xajax_uncompressed.js file (which will only happen if xajax.js doesn't
      * already exist on the filesystem).
-     * 
+     *
      * @param string an optional argument containing the full server file path
      *               of xajax.js.
      */
-    function autoCompressJavascript($sJsFullFilename=NULL)
-    {    
+    public function autoCompressJavascript($sJsFullFilename=NULL)
+    {
         $sJsFile = "xajax_js/xajax.js";
-        
+
         if ($sJsFullFilename) {
             $realJsFile = $sJsFullFilename;
-        }
-        else {
+        } else {
             $realPath = realpath(dirname(__FILE__));
             $realJsFile = $realPath . "/". $sJsFile;
         }
@@ -844,7 +822,7 @@ class Xajax extends Singleton {
         if (!file_exists($realJsFile)) {
             $srcFile = str_replace(".js", "_uncompressed.js", $realJsFile);
             if (!file_exists($srcFile)) {
-                trigger_error("The xajax uncompressed Javascript file could not be found in the <b>" . dirname($realJsFile) . "</b> folder. Error ", E_USER_ERROR);    
+                trigger_error("The xajax uncompressed Javascript file could not be found in the <b>" . dirname($realJsFile) . "</b> folder. Error ", E_USER_ERROR);
             }
             require_once('core/xajax/classes/XajaxCompressJavascript.php');
             //require(dirname(__FILE__)."/xajaxCompress.php");
@@ -853,21 +831,21 @@ class Xajax extends Singleton {
             $fH = @fopen($realJsFile, "w");
             if (!$fH) {
                 trigger_error("The xajax compressed javascript file could not be written in the <b>" . dirname($realJsFile) . "</b> folder. Error ", E_USER_ERROR);
-            }
-            else {
+            } else {
                 fwrite($fH, $compressedScript);
                 fclose($fH);
             }
         }
     }
-    
+
     /**
      * Returns the current URL based upon the SERVER vars.
-     * 
+     *
      * @access private
      * @return string
      */
-    function _detectURI() {
+    public function _detectURI()
+    {
         $aURL = array();
 
         // Try to get the request URL
@@ -891,7 +869,7 @@ class Xajax extends Singleton {
                 } else {
                     $aURL['host'] = $_SERVER['HTTP_HOST'];
                 }
-            } else if (!empty($_SERVER['SERVER_NAME'])) {
+            } elseif (!empty($_SERVER['SERVER_NAME'])) {
                 $aURL['host'] = $_SERVER['SERVER_NAME'];
             } else {
                 print "xajax Error: xajax failed to automatically identify your Request URI.";
@@ -943,93 +921,90 @@ class Xajax extends Singleton {
         unset($aURL);
         return $sURL;
     }
-    
+
     /**
      * Returns true if the function name is associated with an object callback,
      * false if not.
-     * 
+     *
      * @param string the name of the function
      * @access private
      * @return boolean
      */
-    function _isObjectCallback($sFunction)
+    public function _isObjectCallback($sFunction)
     {
         if (array_key_exists($sFunction, $this->aObjects)) return true;
         return false;
     }
-    
+
     /**
      * Returns true if the function or object callback can be called, false if
      * not.
-     * 
+     *
      * @param string the name of the function
      * @access private
      * @return boolean
      */
-    function _isFunctionCallable($sFunction)
+    public function _isFunctionCallable($sFunction)
     {
         if ($this->_isObjectCallback($sFunction)) {
             if (is_object($this->aObjects[$sFunction][0])) {
                 return method_exists($this->aObjects[$sFunction][0], $this->aObjects[$sFunction][1]);
-            }
-            else {
+            } else {
                 return is_callable($this->aObjects[$sFunction]);
             }
-        }
-        else {
+        } else {
             return function_exists($sFunction);
-        }    
+        }
     }
-    
+
     /**
      * Calls the function, class method, or object method with the supplied
      * arguments.
-     * 
+     *
      * @param string the name of the function
      * @param array  arguments to pass to the function
      * @access private
      * @return mixed the output of the called function or method
      */
-    function _callFunction($sFunction, $aArgs)
+    public function _callFunction($sFunction, $aArgs)
     {
         if ($this->_isObjectCallback($sFunction)) {
             $mReturn = call_user_func_array($this->aObjects[$sFunction], $aArgs);
-        }
-        else {
+        } else {
             $mReturn = call_user_func_array($sFunction, $aArgs);
         }
         return $mReturn;
     }
-    
+
     /**
      * Generates the Javascript wrapper for the specified PHP function.
-     * 
+     *
      * @param string the name of the function
      * @param mixed  the request type
      * @access private
      * @return string
      */
-	function _wrap($sFunction,$sRequestType=XAJAX_POST)
-	{
-		$js = "function ".$this->sWrapperPrefix."$sFunction(){".
-		( $this->ajaxLoader == false ? '' :
-		"document.getElementById('stoppingAjax').style.display = 'none';".
-		"document.getElementById('loadingAjax').style.display = 'inline';" ).
-		"return xajax.call(\"$sFunction\", arguments, ".$sRequestType.");}\n";		
-		return $js;
-	}
-	
+    public function _wrap($sFunction,$sRequestType=XAJAX_POST)
+    {
+        $js = "function ".$this->sWrapperPrefix."$sFunction() {".
+        ( $this->ajaxLoader == false ? '' :
+        "document.getElementById('stoppingAjax').style.display = 'none';".
+        "document.getElementById('loadingAjax').style.display = 'inline';" ).
+        "return xajax.call(\"$sFunction\", arguments, ".$sRequestType.");}\n";
+        return $js;
+    }
+
     /**
      * Takes a string containing xajax xjxobj XML or xjxquery XML and builds an
      * array representation of it to pass as an argument to the PHP function
      * being called.
-     * 
+     *
      * @param string the root tag of the XML
      * @param string XML to convert
      * @access private
      * @return array
      */
-    function _xmlToArray($rootTag, $sXml)
+    public function _xmlToArray($rootTag, $sXml)
     {
         $aArray = array();
         $sXml = str_replace("<$rootTag>","<$rootTag>|~|",$sXml);
@@ -1042,64 +1017,52 @@ class Xajax extends Singleton {
         $sXml = str_replace("</v>","|~|</v>|~|",$sXml);
         $sXml = str_replace("<q>","<q>|~|",$sXml);
         $sXml = str_replace("</q>","|~|</q>|~|",$sXml);
-        
+
         $this->aObjArray = explode("|~|",$sXml);
-        
+
         $this->iPos = 0;
         $aArray = $this->_parseObjXml($rootTag);
-        
+
         return $aArray;
     }
-    
+
     /**
      * A recursive function that generates an array from the contents of
      * $this->aObjArray.
-     * 
+     *
      * @param string the root tag of the XML
      * @access private
      * @return array
      */
-    function _parseObjXml($rootTag)
+    public function _parseObjXml($rootTag)
     {
         $aArray = array();
-        
-        if ($rootTag == "xjxobj")
-        {
-            while(!stristr($this->aObjArray[$this->iPos],"</xjxobj>"))
-            {
+
+        if ($rootTag == "xjxobj") {
+            while(!stristr($this->aObjArray[$this->iPos],"</xjxobj>")) {
                 $this->iPos++;
-                if(stristr($this->aObjArray[$this->iPos],"<e>"))
-                {
+                if(stristr($this->aObjArray[$this->iPos],"<e>")) {
                     $key = "";
                     $value = null;
-                        
+
                     $this->iPos++;
-                    while(!stristr($this->aObjArray[$this->iPos],"</e>"))
-                    {
-                        if(stristr($this->aObjArray[$this->iPos],"<k>"))
-                        {
+                    while(!stristr($this->aObjArray[$this->iPos],"</e>")) {
+                        if(stristr($this->aObjArray[$this->iPos],"<k>")) {
                             $this->iPos++;
-                            while(!stristr($this->aObjArray[$this->iPos],"</k>"))
-                            {
+                            while(!stristr($this->aObjArray[$this->iPos],"</k>")) {
                                 $key .= $this->aObjArray[$this->iPos];
                                 $this->iPos++;
                             }
                         }
-                        if(stristr($this->aObjArray[$this->iPos],"<v>"))
-                        {
+                        if(stristr($this->aObjArray[$this->iPos],"<v>")) {
                             $this->iPos++;
-                            while(!stristr($this->aObjArray[$this->iPos],"</v>"))
-                            {
-                                if(stristr($this->aObjArray[$this->iPos],"<xjxobj>"))
-                                {
+                            while(!stristr($this->aObjArray[$this->iPos],"</v>")) {
+                                if(stristr($this->aObjArray[$this->iPos],"<xjxobj>")) {
                                     $value = $this->_parseObjXml("xjxobj");
                                     $this->iPos++;
-                                }
-                                else
-                                {
+                                } else {
                                     $value .= $this->aObjArray[$this->iPos];
-                                    if ($this->bDecodeUTF8Input)
-                                    {
+                                    if ($this->bDecodeUTF8Input) {
                                         $value = $this->_decodeUTF8Data($value);
                                     }
                                 }
@@ -1108,32 +1071,27 @@ class Xajax extends Singleton {
                         }
                         $this->iPos++;
                     }
-                    
+
                     $aArray[$key]=$value;
                 }
             }
         }
-        
-        if ($rootTag == "xjxquery")
-        {
+
+        if ($rootTag == "xjxquery") {
             $sQuery = "";
             $this->iPos++;
-            while(!stristr($this->aObjArray[$this->iPos],"</xjxquery>"))
-            {
-                if (stristr($this->aObjArray[$this->iPos],"<q>") || stristr($this->aObjArray[$this->iPos],"</q>"))
-                {
+            while(!stristr($this->aObjArray[$this->iPos],"</xjxquery>")) {
+                if (stristr($this->aObjArray[$this->iPos],"<q>") || stristr($this->aObjArray[$this->iPos],"</q>")) {
                     $this->iPos++;
                     continue;
                 }
                 $sQuery    .= $this->aObjArray[$this->iPos];
                 $this->iPos++;
             }
-            
+
             parse_str($sQuery, $aArray);
-            if ($this->bDecodeUTF8Input)
-            {
-                foreach($aArray as $key => $value)
-                {
+            if ($this->bDecodeUTF8Input) {
+                foreach($aArray as $key => $value) {
                     $aArray[$key] = $this->_decodeUTF8Data($value);
                 }
             }
@@ -1150,64 +1108,49 @@ class Xajax extends Singleton {
                 $aArray = $newArray;
             }
         }
-        
+
         return $aArray;
     }
-    
+
     /**
      * Decodes string data from UTF-8 to the current xajax encoding.
-     * 
+     *
      * @param string data to convert
      * @access private
      * @return string converted data
      */
-    function _decodeUTF8Data($sData)
+    public function _decodeUTF8Data($sData)
     {
         $sValue = $sData;
-        if ($this->bDecodeUTF8Input)
-        {
+        if ($this->bDecodeUTF8Input) {
             $sFuncToUse = NULL;
-            
-            if (function_exists('iconv'))
-            {
+
+            if (function_exists('iconv')) {
                 $sFuncToUse = "iconv";
-            }
-            else if (function_exists('mb_convert_encoding'))
-            {
+            } elseif (function_exists('mb_convert_encoding')) {
                 $sFuncToUse = "mb_convert_encoding";
-            }
-            else if ($this->sEncoding == "ISO-8859-1")
-            {
+            } elseif ($this->sEncoding == "ISO-8859-1") {
                 $sFuncToUse = "utf8_decode";
-            }
-            else
-            {
+            } else {
                 trigger_error("The incoming xajax data could not be converted from UTF-8", E_USER_NOTICE);
             }
-            
-            if ($sFuncToUse)
-            {
-                if (is_string($sValue))
-                {
-                    if ($sFuncToUse == "iconv")
-                    {
+
+            if ($sFuncToUse) {
+                if (is_string($sValue)) {
+                    if ($sFuncToUse == "iconv") {
                         $sValue = iconv("UTF-8", $this->sEncoding.'//TRANSLIT', $sValue);
-                    }
-                    else if ($sFuncToUse == "mb_convert_encoding")
-                    {
+                    } elseif ($sFuncToUse == "mb_convert_encoding") {
                         $sValue = mb_convert_encoding($sValue, $this->sEncoding, "UTF-8");
-                    }
-                    else
-                    {
+                    } else {
                         $sValue = utf8_decode($sValue);
                     }
                 }
             }
         }
-        return $sValue;    
+        return $sValue;
     }
-        
-}// end class xajax 
+
+}// end class xajax
 
 /**
  * This function is registered with PHP's set_error_handler() function if
@@ -1217,29 +1160,21 @@ function xajaxErrorHandler($errno, $errstr, $errfile, $errline)
 {
     $errorReporting = error_reporting();
     if (($errno & $errorReporting) == 0) return;
-    
+
     if ($errno == E_NOTICE) {
         $errTypeStr = "NOTICE";
-    }
-    else if ($errno == E_WARNING) {
+    } elseif ($errno == E_WARNING) {
         $errTypeStr = "WARNING";
-    }
-    else if ($errno == E_USER_NOTICE) {
+    } elseif ($errno == E_USER_NOTICE) {
         $errTypeStr = "USER NOTICE";
-    }
-    else if ($errno == E_USER_WARNING) {
+    } elseif ($errno == E_USER_WARNING) {
         $errTypeStr = "USER WARNING";
-    }
-    else if ($errno == E_USER_ERROR) {
+    } elseif ($errno == E_USER_ERROR) {
         $errTypeStr = "USER FATAL ERROR";
-    }
-    else if ($errno == E_STRICT) {
+    } elseif ($errno == E_STRICT) {
         return;
-    }
-    else {
+    } else {
         $errTypeStr = "UNKNOWN: $errno";
     }
     $GLOBALS['xajaxErrorHandlerText'] .= "\n----\n[$errTypeStr] $errstr\nerror in line $errline of file $errfile";
 }
-
-?>

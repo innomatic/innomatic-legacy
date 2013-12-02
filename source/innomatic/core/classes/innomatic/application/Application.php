@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -89,7 +89,7 @@ only application. */
         if (is_dir($tmpfilepath)) {
             return false;
         }
-            
+
         $result = FALSE;
 
         require_once('innomatic/core/InnomaticContainer.php');
@@ -160,7 +160,7 @@ only application. */
                         $result = FALSE;
                     }
                 }
-            } else if (file_exists($tmpdir.'/setup/application.xml')) {
+            } elseif (file_exists($tmpdir.'/setup/application.xml')) {
                 $genconfig = $this->parseApplicationDefinition(
                     $tmpdir . '/setup/application.xml'
                 );
@@ -323,10 +323,10 @@ only application. */
                         if ($genconfig['ApplicationIsExtension'] == 'y') {
                             $ext = $this->rootda->fmttrue;
                             $this->onlyextension = TRUE;
-                        } else if ($genconfig['ApplicationIsExtension'] == 'n') {
+                        } elseif ($genconfig['ApplicationIsExtension'] == 'n') {
                             $ext = $this->rootda->fmtfalse;
                             $this->onlyextension = FALSE;
-                        } else if ($this->onlyextension) {
+                        } elseif ($this->onlyextension) {
                             $ext = $this->rootda->fmttrue;
                         }
 
@@ -525,11 +525,11 @@ only application. */
                             if ($genconfig['ApplicationIsExtension'] == 'y') {
                                 $ext = $this->rootda->fmttrue;
                                 $this->onlyextension = TRUE;
-                            } else if (
+                            } elseif (
                                 $genconfig['ApplicationIsExtension'] == 'n') {
                                 $ext = $this->rootda->fmtfalse;
                                 $this->onlyextension = FALSE;
-                            } else if (
+                            } elseif (
                                 $this->onlyextension) {
                                 $ext = $this->rootda->fmttrue;
                             }
@@ -1326,7 +1326,7 @@ only application. */
                                     ) != Hook::RESULT_OK
                                 )
                                 $result = false;
-                            } else if ($modenabled == FALSE) {
+                            } elseif ($modenabled == FALSE) {
                             } else {
                                 $this->unmetdeps = $pendingdeps;
                             }
@@ -1663,8 +1663,7 @@ only application. */
                                   ) )
                                  {
                                  include_once( 'shared/components/'.$data['file'] );
-                                 }
-                                 else $this->mLog->logEvent(
+                                 } else $this->mLog->logEvent(
                                     'innomatic.applications.applicationcomponentfactory.filltypes',
                                     'Component file '.$data['file'].' doesn't exists in handlers directory',
                                     Logger::WARNING
@@ -2025,7 +2024,7 @@ only application. */
      @param item array - array containing component informations.
      @param key string - key name.
      */
-    function _elem_add(&$item, $key)
+    public function _elem_add(&$item, $key)
     {
         $item['updatemode'] = Application::UPDATE_MODE_ADD;
     }
@@ -2038,7 +2037,7 @@ only application. */
      @param item array - array containing component informations.
      @param key string - key name.
      */
-    function _elem_remove(&$item, $key)
+    public function _elem_remove(&$item, $key)
     {
         $item['updatemode'] = Application::UPDATE_MODE_REMOVE;
     }
@@ -2053,7 +2052,7 @@ only application. */
 
      @result 0 if equal, -1 if typea > typeb, 1 if typea < typeb.
      */
-    function cmp($a, $b)
+    public function cmp($a, $b)
     {
         switch ($a) {
             case 'generalpreinstall' :
@@ -2104,7 +2103,7 @@ only application. */
 
      @result 0 if equal, -1 if typea < typeb, 1 if typea > typeb.
      */
-    function rcmp($a, $b)
+    public function rcmp($a, $b)
     {
         switch ($a) {
             case 'generalpreinstall' :
@@ -2205,15 +2204,16 @@ only application. */
 
         return $config;
     }
-    
-    public static function getAppIdFromName($name) {
-    	if (!strlen($name)) return false;
-    	
-    	$da = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
-    	$query = $da->execute('SELECT id FROM applications WHERE appid='.$da->formatText($name));
-    	
-    	if ($query->getNumberRows() != 1) return false;
-    	
-    	return $query->getFields('id');
+
+    public static function getAppIdFromName($name)
+    {
+        if (!strlen($name)) return false;
+
+        $da = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
+        $query = $da->execute('SELECT id FROM applications WHERE appid='.$da->formatText($name));
+
+        if ($query->getNumberRows() != 1) return false;
+
+        return $query->getFields('id');
     }
 }

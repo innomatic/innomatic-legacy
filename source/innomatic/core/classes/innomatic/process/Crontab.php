@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -23,15 +23,15 @@
 class Crontab
 {
     /*! @var mAppId string - Application id name. */
-    var $mAppId;
+    public $mAppId;
     /*! @var mRegCron ConfigMan class - Regular cron tab handler. */
-    var $mRegCron;
+    public $mRegCron;
     /*! @var mTempCron ConfigMan class - Temporary cron tab handler. */
-    var $mTempCron;
-    
+    public $mTempCron;
+
     const TYPE_REGULAR = 0;
     const TYPE_TEMPORARY = 1;
-    
+
     /*!
      @function Crontab
 
@@ -41,7 +41,7 @@ class Crontab
 
      @param appId string - Application id name.
      */
-    function Crontab( $appId )
+    public function Crontab($appId)
     {
         // Arguments check
         //
@@ -75,7 +75,7 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
      @result TRUE if the entry has been added.
      */
-    function AddEntry( $identifier, $entry, $entryType )
+    public function AddEntry($identifier, $entry, $entryType)
     {
         $result = FALSE;
 
@@ -87,8 +87,7 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             strlen( $entryType )
            )
         {
-            switch ( $entryType )
-            {
+            switch ( $entryType ) {
             case Crontab::TYPE_REGULAR:
                 $result = $this->mRegCron->changesegment( $this->mAppId.'-'.$identifier, $entry );
                 break;
@@ -105,8 +104,7 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                                       'Invalid entry type', Logger::ERROR );
                 break;
             }
-        }
-        else {
+        } else {
             require_once('innomatic/logging/Logger.php');
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent( 'innomatic.cron.simplecron.addentry',
@@ -127,7 +125,7 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
      @result TRUE if the entry has been removed.
      */
-    function RemoveEntry( $identifier, $entryType )
+    public function RemoveEntry($identifier, $entryType)
     {
         $result = FALSE;
 
@@ -137,8 +135,7 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             strlen( $entryType )
            )
         {
-            switch ( $entryType )
-            {
+            switch ( $entryType ) {
             case Crontab::TYPE_REGULAR:
                 $result = $this->mRegCron->removesegment( $this->mAppId.'-'.$identifier );
                 break;
@@ -155,8 +152,7 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
                                       'Invalid entry type', Logger::ERROR );
                 break;
             }
-        }
-        else {
+        } else {
             require_once('innomatic/logging/Logger.php');
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             $log->logEvent( 'innomatic.cron.simplecron.removeentry',

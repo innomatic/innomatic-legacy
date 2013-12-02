@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -18,27 +18,27 @@ require_once ('innomatic/application/ApplicationComponent.php');
  */
 class CatalogComponent extends ApplicationComponent
 {
-    function CatalogComponent ($rootda, $domainda, $appname, $name, $basedir)
+    public function CatalogComponent($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'catalog';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 0;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    public function doInstallAction ($params)
+    public function doInstallAction($params)
     {
         if (! strlen($params['name'])) {
             $this->mLog->logEvent('innomatic.catalogcomponent.catalogcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty catalog name', Logger::ERROR);
@@ -55,7 +55,7 @@ class CatalogComponent extends ApplicationComponent
         require_once ('innomatic/io/filesystem/DirectoryUtils.php');
         return DirectoryUtils::dirCopy($catalog . '/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/catalogs/' . basename($catalog) . '/');
     }
-    public function doUninstallAction ($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (! strlen($params['name'])) {
@@ -65,7 +65,7 @@ class CatalogComponent extends ApplicationComponent
         require_once ('innomatic/io/filesystem/DirectoryUtils.php');
         return DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/catalogs/' . basename($params['name']));
     }
-    public function doUpdateAction ($params)
+    public function doUpdateAction($params)
     {
         require_once ('innomatic/io/filesystem/DirectoryUtils.php');
         DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/locale/catalogs/' . basename($params['name']));

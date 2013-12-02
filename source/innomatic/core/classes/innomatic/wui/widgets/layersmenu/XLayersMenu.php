@@ -9,11 +9,11 @@ require_once('innomatic/wui/widgets/layersmenu/LayersMenu.php');
 * It provides other menu types, that to do not require JavaScript to work.
 *
 * @version 2.3.5
-* 
+*
  * @package WUI
  */
-class XLayersMenu extends LayersMenu {
-
+class XLayersMenu extends LayersMenu
+{
 /**
 * The default value of the expansion string for the PHP Tree Menu
 * @access private
@@ -65,7 +65,8 @@ public $_horizontalPlainMenu;
 * The constructor method; it initializates some variables
 * @return void
 */
-function XLayersMenu() {
+function XLayersMenu()
+{
     $this->LayersMenu();
     $this->phpTreeMenuDefaultExpansion = "";
     $this->_phpTreeMenu = array();
@@ -84,7 +85,8 @@ function XLayersMenu() {
 * @access public
 * @return void
 */
-function setPHPTreeMenuDefaultExpansion($phpTreeMenuDefaultExpansion) {
+function setPHPTreeMenuDefaultExpansion($phpTreeMenuDefaultExpansion)
+{
     $this->phpTreeMenuDefaultExpansion = $phpTreeMenuDefaultExpansion;
 }
 
@@ -106,11 +108,11 @@ function newPHPTreeMenu(
     $this_host = (isset($_SERVER["HTTP_HOST"])) ? $_SERVER["HTTP_HOST"] : $_SERVER["SERVER_NAME"];
     if (isset($_SERVER["SCRIPT_NAME"])) {
         $me = $_SERVER["SCRIPT_NAME"];
-    } else if (isset($_SERVER["REQUEST_URI"])) {
+    } elseif (isset($_SERVER["REQUEST_URI"])) {
         $me = $_SERVER["REQUEST_URI"];
-    } else if (isset($_SERVER["PHP_SELF"])) {
+    } elseif (isset($_SERVER["PHP_SELF"])) {
         $me = $_SERVER["PHP_SELF"];
-    } else if (isset($_SERVER["PATH_INFO"])) {
+    } elseif (isset($_SERVER["PATH_INFO"])) {
         $me = $_SERVER["PATH_INFO"];
     }
     $url = $protocol . $this_host . $me;
@@ -228,7 +230,7 @@ function newPHPTreeMenu(
             if ($this->tree[$cnt]["parsed_link"] == "" || $this->tree[$cnt]["parsed_link"] == "#") {
                 $this->_phpTreeMenu[$menu_name] .= "<div style=\"display: block; white-space: nowrap;\" class=\"phplmnormal\">\n";
             } else {
-                $this->_phpTreeMenu[$menu_name] .= "<div style=\"display: block; white-space: nowrap;\">\n"; 
+                $this->_phpTreeMenu[$menu_name] .= "<div style=\"display: block; white-space: nowrap;\">\n";
             }
 
             // vertical lines from higher levels
@@ -349,7 +351,8 @@ function newPHPTreeMenu(
 *   has to be returned
 * @return string
 */
-function getPHPTreeMenu($menu_name) {
+function getPHPTreeMenu($menu_name)
+{
     return $this->_phpTreeMenu[$menu_name];
 }
 
@@ -360,7 +363,8 @@ function getPHPTreeMenu($menu_name) {
 *   has to be printed
 * @return void
 */
-function printPHPTreeMenu($menu_name) {
+function printPHPTreeMenu($menu_name)
+{
     print $this->_phpTreeMenu[$menu_name];
 }
 
@@ -369,7 +373,8 @@ function printPHPTreeMenu($menu_name) {
 * @access public
 * @return void
 */
-function setPlainMenuSeparator($plainMenuSeparator) {
+function setPlainMenuSeparator($plainMenuSeparator)
+{
     $this->plainMenuSeparator = $plainMenuSeparator;
 }
 
@@ -378,7 +383,8 @@ function setPlainMenuSeparator($plainMenuSeparator) {
 * @access public
 * @return boolean
 */
-function setPlainMenuTpl($plainMenuTpl) {
+function setPlainMenuTpl($plainMenuTpl)
+{
     if (str_replace("/", "", $plainMenuTpl) == $plainMenuTpl) {
         $plainMenuTpl = $this->tpldir . $plainMenuTpl;
     }
@@ -436,7 +442,8 @@ function newPlainMenu(
 *   has to be returned
 * @return string
 */
-function getPlainMenu($menu_name) {
+function getPlainMenu($menu_name)
+{
     return $this->_plainMenu[$menu_name];
 }
 
@@ -447,16 +454,18 @@ function getPlainMenu($menu_name) {
 *   has to be printed
 * @return void
 */
-function printPlainMenu($menu_name) {
+function printPlainMenu($menu_name)
+{
     print $this->_plainMenu[$menu_name];
 }
 
-/**     
+/**
 * The method to set the value of separator for the Horizontal Plain Menu
 * @access public
-* @return void          
+* @return void
 */
-function setHorizontalPlainMenuSeparator($horizontalPlainMenuSeparator) {
+function setHorizontalPlainMenuSeparator($horizontalPlainMenuSeparator)
+{
     $this->horizontalPlainMenuSeparator = $horizontalPlainMenuSeparator;
 }
 
@@ -465,7 +474,8 @@ function setHorizontalPlainMenuSeparator($horizontalPlainMenuSeparator) {
 * @access public
 * @return boolean
 */
-function setHorizontalPlainMenuTpl($horizontalPlainMenuTpl) {
+function setHorizontalPlainMenuTpl($horizontalPlainMenuTpl)
+{
     if (str_replace("/", "", $horizontalPlainMenuTpl) == $horizontalPlainMenuTpl) {
         $horizontalPlainMenuTpl = $this->tpldir . $horizontalPlainMenuTpl;
     }
@@ -529,7 +539,8 @@ function newHorizontalPlainMenu(
 *   has to be returned
 * @return string
 */
-function getHorizontalPlainMenu($menu_name) {
+function getHorizontalPlainMenu($menu_name)
+{
     return $this->_horizontalPlainMenu[$menu_name];
 }
 
@@ -540,7 +551,8 @@ function getHorizontalPlainMenu($menu_name) {
 *   has to be printed
 * @return void
 */
-function printHorizontalPlainMenu($menu_name) {
+function printHorizontalPlainMenu($menu_name)
+{
     print $this->_horizontalPlainMenu[$menu_name];
 }
 

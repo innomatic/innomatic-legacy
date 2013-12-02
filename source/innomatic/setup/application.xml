@@ -4,15 +4,15 @@
 	<definition>
 		<idname>innomatic</idname>
 		<release>
-			<version>6.0</version>
-			<date>2013/10/24</date>
+			<version>6.1</version>
+			<date>2013/12/01</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description><![CDATA[<strong>Innomatic 6000</strong> Cloud Applications Platform.]]></description>
 		<category>innomatic</category>
 		<iconfile>innomatic.png</iconfile>
 		<dependencies>
-			<dependency>innomatic[5.0]</dependency>
+			<dependency>innomatic[6.0]</dependency>
 			<dependency>php[5.0]</dependency>
 			<dependency>zlib.extension</dependency>
 			<suggestion>curl.extension</suggestion>
@@ -24,17 +24,17 @@
 		</options>
 		<legal>
 			<author>
-				<name>Innoteam S.r.l.</name>
+				<name>Innoteam Srl</name>
 				<email>info@innoteam.it</email>
 				<web>http://www.innoteam.it/</web>
 			</author>
-			<copyright>Copyright (C) 1999-2013 Innoteam S.r.l.</copyright>
+			<copyright>Copyright (C) 1999-2013 Innoteam Srl</copyright>
 			<license>New BSD</license>
 			<licensefile>LICENSE</licensefile>
 		</legal>
 		<support>
-			<supportemail>support@innomatic.org</supportemail>
-			<bugsemail>bugs@innomatic.org</bugsemail>
+			<supportemail>helpdesk@innoteam.it</supportemail>
+			<bugsemail>helpdesk@innoteam.it</bugsemail>
 			<maintainer>
 				<name>Alex Pagnoni</name>
 				<email>alex.pagnoni@innoteam.it</email>
@@ -97,6 +97,8 @@
 		<component name="webapphandler" file="WebapphandlerComponent.php" />
 		<component name="ajaxcall" file="AjaxcallComponent.php" />
 		<component name="module" file="ModuleComponent.php" />
+		<component name="dashboardwidget"
+			file="DashboardwidgetComponent.php" />
 
 		<!-- Installation scripts -->
 
@@ -115,9 +117,6 @@
 
 		<class name="innomatic/setup/InnomaticSetup.php" />
 		<class name="innomatic/desktop/layout/setup/index.php" />
-		<class name="innomatic/desktop/layout/setup/logo.php" />
-		<class name="innomatic/desktop/layout/setup/main.php" />
-		<class name="innomatic/desktop/layout/setup/menu.php" />
 		<script name="kickstart.php" />
 		<configurationfile name="kickstart.ini" />
 
@@ -228,9 +227,9 @@
 		<rootpanel name="maintenance" catalog="innomatic::root_menu"
 			category="innomatic" themeicon="package_settings"
 			forceinstall="true" />
-			
+
 		<!-- Scripts -->
-		
+
 		<class name="innomatic/scripts/ScriptContainer.php" />
 		<script name="scripts_container.php" />
 
@@ -301,7 +300,7 @@
 			function="InnomaticWebServicesHandler::applications_application_remove"
 			handler="innomatic" catalog="innomatic::webservices"
 			forceinstall="true" unsecure="1" />
-			
+
 		<script name="application.php" />
 
 		<!-- AppCentral -->
@@ -400,7 +399,7 @@
 			forceinstall="true" />
 
 		<script name="domain.php" />
-		
+
 		<!--
 			********************************************************
 			STANDARDS
@@ -558,6 +557,13 @@
 
 		<class name="innomatic/logging/Logger.php" />
 		<class name="innomatic/logging/LogCenter.php" />
+
+        <!-- Configuration -->
+
+        <class name="innomatic/config/ConfigBase.php" />
+        <class name="innomatic/config/ConfigFile.php" />
+        <class name="innomatic/config/ConfigMan.php" />
+        <class name="innomatic/config/FileMan.php" />
 
 		<!-- Cache -->
 
@@ -865,9 +871,12 @@
 			class="innomatic/desktop/webapp/DesktopDomainWebAppHandler.php"
 			urlpattern="/domain/*" listings="false" />
 
+		<domaingroup name="dashboard" catalog="innomatic::domain_menu" />
 		<domaingroup name="tools" catalog="innomatic::domain_menu" />
 		<domaingroup name="preferences"
 			catalog="innomatic::domain_menu" />
+
+		<domainpanel name="dashboard" category="dashboard" catalog="innomatic::domain_menu" />
 
 		<domainpanel name="interface" category="preferences"
 			themeicon="style" catalog="innomatic::domain_menu" />
@@ -891,15 +900,23 @@
 		<class name="innomatic/domain/user/UserSettings.php" />
 		<class name="innomatic/domain/user/Group.php" />
 		<class name="innomatic/domain/user/Permissions.php" />
-		
+
 		<!-- Panels -->
-		
+
 		<class name="innomatic/desktop/panel/PanelController.php" />
 		<class name="innomatic/desktop/panel/PanelActions.php" />
 		<class name="innomatic/desktop/panel/PanelViews.php" />
 
+		<!-- Dashboard -->
+
+		<class name="innomatic/desktop/dashboard/DashboardWidget.php" />
+		<domaintable name="domain_dashboards_widgets"
+			file="domain_dashboards_widgets.xml" />
+
+		<dashboardwidget name="welcome" panel="dashboard" file="WelcomeDashboardWidget.php" catalog="innomatic::dashboard_welcome" title="welcome_title" class="WelcomeDashboardWidget" />
+
 		<!-- Modules -->
-		
+
 		<configurationfile name="modules.ini" keep="1" />
 		<configurationfile name="modules-users.xml" keep="1" />
 		<configurationfile name="modules-netregistry.xml" keep="1" />
@@ -942,6 +959,6 @@
 		<class name="innomatic/module/util/ModuleXmlConfig.php" />
 		<module name="helloworld" />
 		<module name="innomatic.cars" />
-		
+
 	</components>
 </application>
