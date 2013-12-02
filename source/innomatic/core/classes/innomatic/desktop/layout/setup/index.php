@@ -638,15 +638,20 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
             $wui_vgroup = new WuiVertgroup('vgroup');
 
-            while (!$country_query->eof) {
-                $countries[$country_query->getFields('countryname')] = $country_locale->getStr($country_query->getFields('countryname'));
-                $country_query->moveNext();
-            }
+			$defaultCountry = 'unitedstates';
+			while (!$country_query->eof) {
+			    $countries[$country_query->getFields('countryname')] = $country_locale->getStr($country_query->getFields('countryname'));
+			    // Get the default country for the form based on HTTP_ACCEPT_LANGUAGE header
+                if (strcmp($country_query->getFields('countryshort'), substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)) == 0) {
+			        $defaultCountry = $country_query->getFields('countryname');
+			    }
+			    $country_query->moveNext();
+			}
 
             $wui_locale_grid = new WuiGrid('localegrid');
 
             $wui_locale_grid->addChild(new WuiLabel('countrylabel', array('label' => $innomaticLocale->getStr('country_label'))), 0, 0);
-            $wui_locale_grid->addChild(new WuiComboBox('country', array('disp' => 'action', 'elements' => $countries)), 0, 1);
+            $wui_locale_grid->addChild(new WuiComboBox('country', array('disp' => 'action', 'elements' => $countries, 'default' => $defaultCountry)), 0, 1);
 
             $wui_vgroup->addChild($wui_locale_grid);
 
