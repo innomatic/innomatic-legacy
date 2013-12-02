@@ -14,7 +14,6 @@
 */
 
 use \Innomatic\Core\InnomaticContainer;
-use \Innomatic\Wui\Wui;
 use \Innomatic\Wui\Widgets;
 use \Innomatic\Wui\Dispatch;
 use \Innomatic\Locale\LocaleCatalog;
