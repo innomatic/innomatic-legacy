@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -13,7 +13,8 @@
  * @since      Class available since Release 5.0
 */
 
-class WebAppResponse {
+class WebAppResponse
+{
     private $committed = false;
     private $status = null;
     private $characterEncoding = 'UTF-8';
@@ -27,8 +28,8 @@ class WebAppResponse {
     private $bufferActive = false;
     private $error = false;
     private $exception = null;
-	private $redirect = false;
-        
+    private $redirect = false;
+
     /*
      * Server status codes; see RFC 2068.
      */
@@ -122,9 +123,9 @@ class WebAppResponse {
      */
     const SC_USE_PROXY = 305;
     /**
-    * Status code (307) indicating that the requested resource 
+    * Status code (307) indicating that the requested resource
     * resides temporarily under a different URI. The temporary URI
-    * <em>SHOULD</em> be given by the <code><em>Location</em></code> 
+    * <em>SHOULD</em> be given by the <code><em>Location</em></code>
     * field in the response.
     */
     const SC_TEMPORARY_REDIRECT = 307;
@@ -259,52 +260,63 @@ class WebAppResponse {
      * in the request message.
      */
     const SC_HTTP_VERSION_NOT_SUPPORTED = 505;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->status = self::SC_OK;
     }
-    
-    public function setCharacterEncoding($encoding) {
+
+    public function setCharacterEncoding($encoding)
+    {
         $this->characterEncoding = $encoding;
     }
 
-    public function getCharacterEncoding() {
+    public function getCharacterEncoding()
+    {
         return $this->characterEncoding;
     }
 
-    public function setProtocol($protocol) {
+    public function setProtocol($protocol)
+    {
         $this->protocol = $protocol;
     }
 
-    public function getProtocol() {
+    public function getProtocol()
+    {
         return $this->protocol;
     }
 
-    public function setContentLength($len) {
+    public function setContentLength($len)
+    {
         if ($this->committed)
             return;
         $this->contentLength = $len;
     }
 
-    public function getContentLength() {
+    public function getContentLength()
+    {
         return $this->contentLength;
     }
 
-    public function getContentCount() {
+    public function getContentCount()
+    {
         return ob_get_length();
     }
 
-    public function setContentType($type) {
+    public function setContentType($type)
+    {
         if ($this->committed)
             return;
         $this->contentType = $type;
     }
 
-    public function getContentType() {
+    public function getContentType()
+    {
         return $this->contentType;
     }
 
-    public function addCookie(& $cookie) {
+    public function addCookie(& $cookie)
+    {
         if ($this->committed)
             return;
         $this->cookies[] = &$cookie;
@@ -314,7 +326,8 @@ class WebAppResponse {
         return $this->cookies;
     }
 
-    public function setHeader($header, $value) {
+    public function setHeader($header, $value)
+    {
         if ($this->committed) {
             return;
         }
@@ -322,7 +335,8 @@ class WebAppResponse {
         $this->headers[$header] = array ($value);
     }
 
-    public function addHeader($header, $value) {
+    public function addHeader($header, $value)
+    {
         if ($this->committed) {
             return;
         }
@@ -334,19 +348,22 @@ class WebAppResponse {
         $values[] = $value;
     }
 
-    public function addDateHeader($header, $value) {
+    public function addDateHeader($header, $value)
+    {
         if ($this->committed)
             return;
         $this->addHeader($header, gmdate($this->format, $value));
     }
 
-    public function setDateHeader($header, $value) {
+    public function setDateHeader($header, $value)
+    {
         if ($this->committed)
             return;
         $this->setHeader($header, gmdate($this->format, $value));
     }
 
-    public function getHeader($name) {
+    public function getHeader($name)
+    {
         if (!isset ($this->headers[$name])) {
             return null;
         }
@@ -354,32 +371,39 @@ class WebAppResponse {
         return $this->headers[$name][0];
     }
 
-    public function getHeaderNames() {
+    public function getHeaderNames()
+    {
         return array_keys($this->headers);
     }
 
-    public function getHeaderValues() {
+    public function getHeaderValues()
+    {
         return array_values($this->headers);
     }
 
-    public function containsHeader($name) {
+    public function containsHeader($name)
+    {
         return isset ($this->headers[$name]) and count($this->headers[$name]) > 0;
     }
 
-    public function setStatus($status, $message = null) {
+    public function setStatus($status, $message = null)
+    {
         $this->status = $status;
         $this->message = is_null($message) ? $this->getStatusMessage($status) : $message;
     }
 
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->message;
     }
 
-    public function getStatusMessage($status) {
+    public function getStatusMessage($status)
+    {
         switch ($status) {
             case self::SC_CONTINUE :
                 return 'Continue';
@@ -406,11 +430,13 @@ class WebAppResponse {
         }
     }
 
-    public function isCommitted() {
+    public function isCommitted()
+    {
         return $this->committed;
     }
 
-    public function reset() {
+    public function reset()
+    {
         $this->headers = array ();
         $this->cookies = array ();
         $this->message = null;
@@ -418,33 +444,37 @@ class WebAppResponse {
         $this->status = self::SC_OK;
     }
 
-    public function startBuffer() {
+    public function startBuffer()
+    {
         if (!$this->bufferActive) {
             ob_start();
         }
     }
 
-    public function resetBuffer() {
+    public function resetBuffer()
+    {
         if ($this->committed or ob_get_length() == 0) {
             return;
         }
         ob_clean();
     }
 
-    public function flushBuffer() {
+    public function flushBuffer()
+    {
         if (!$this->committed) {
             $this->sendHeaders();
         }
         $this->buffer .= ob_get_contents();
         ob_end_clean();
 
-	if (!$this->redirect) {
-	    echo $this->buffer;
-	}
+    if (!$this->redirect) {
+        echo $this->buffer;
+    }
         $this->bufferActive = false;
     }
 
-    public function sendHeaders() {
+    public function sendHeaders()
+    {
         if ($this->committed) {
             return;
         }
@@ -466,16 +496,18 @@ class WebAppResponse {
         $this->committed = true;
     }
 
-    public function sendRedirect($location) {
+    public function sendRedirect($location)
+    {
         if ($this->committed)
             return;
         $this->resetBuffer();
         $this->setStatus(self::SC_MOVED_TEMPORARILY);
         $this->setHeader('Location', $location);
-$this->redirect = true; 
+$this->redirect = true;
    }
 
-    public function sendError($sc, $msg = null, Exception $exception = NULL) {
+    public function sendError($sc, $msg = null, Exception $exception = NULL)
+    {
         if ($this->committed) {
             return;
         }
@@ -485,15 +517,18 @@ $this->redirect = true;
         $this->resetBuffer();
     }
 
-    public function setError() {
+    public function setError()
+    {
         $this->error = true;
     }
 
-    public function isError() {
+    public function isError()
+    {
         return $this->error;
     }
-    
-    public function getException() {
+
+    public function getException()
+    {
         return $this->exception;
     }
 }

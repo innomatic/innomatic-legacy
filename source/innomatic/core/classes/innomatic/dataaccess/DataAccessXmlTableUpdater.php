@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -25,21 +25,21 @@ require_once('innomatic/dataaccess/DataAccessXmlTable.php');
 class DataAccessXmlTableUpdater
 {
     /*! @var mDb DataAccess class - Database handler. */
-    var $mrDb;
+    public $mrDb;
     /*! @var mOldTable string - Old table file full path. */
-    var $mOldTable;
+    public $mOldTable;
     /*! @var mNewTable string - New table file full path. */
-    var $mNewTable;
+    public $mNewTable;
     /*! @var mOldTableHandler DataAccessXmlTable class - DataAccessXmlTable class for old table. */
-    var $mOldTableHandler;
+    public $mOldTableHandler;
     /*! @var mNewTableHandler DataAccessXmlTable class - DataAccessXmlTable class for new table. */
-    var $mNewTableHandler;
+    public $mNewTableHandler;
     /*! @var mDiffNewColumns array - Array of the new columns. The key contains the column name and the value contains the column definition. */
-    var $mDiffNewColumns = array();
+    public $mDiffNewColumns = array();
     /*! @var mDiffOldColumns array - Array of the old columns. */
-    var $mDiffOldColumns = array();
+    public $mDiffOldColumns = array();
     /*! @var mParse boolean - TRUE when the tables have been parsed. */
-    var $mParsed = FALSE;
+    public $mParsed = FALSE;
 
     /*!
      @param rDb DataAccess class - Database handler.

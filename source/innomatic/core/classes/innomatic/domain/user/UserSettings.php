@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -15,22 +15,25 @@
 
 require_once('innomatic/dataaccess/DataAccess.php');
 
-class UserSettings {
+class UserSettings
+{
     public $mUserId;
     public $mrDomainDA;
 
-    public function __construct(DataAccess $domainDA, $userId) {
+    public function __construct(DataAccess $domainDA, $userId)
+    {
         $this->mrDomainDA = $domainDA;
         $this->mUserId = (int) $userId;
     }
 
-    public function getKey($key, $fallbackToDomainSetting = false) {
+    public function getKey($key, $fallbackToDomainSetting = false)
+    {
         if ($this->mrDomainDA) {
             $key_query = $this->mrDomainDA->execute('SELECT val FROM domain_users_settings WHERE userid='. (int) $this->mUserId.' AND keyname='.$this->mrDomainDA->formatText($key));
 
             if ($key_query->getNumberRows()) {
                 return $key_query->getFields('val');
-            } else if ($fallbackToDomainSetting == true) {
+            } elseif ($fallbackToDomainSetting == true) {
                 require_once('innomatic/domain/DomainSettings.php');
                 $sets = new DomainSettings($this->mrDomainDA);
                 return $sets->getKey($key);
@@ -40,7 +43,8 @@ class UserSettings {
         return '';
     }
 
-    public function setKey($key, $value) {
+    public function setKey($key, $value)
+    {
         if ($this->mrDomainDA) {
             $key_query = $this->mrDomainDA->execute('SELECT val FROM domain_users_settings WHERE userid='. (int) $this->mUserId.' AND keyname='.$this->mrDomainDA->formatText($key));
 
@@ -53,11 +57,13 @@ class UserSettings {
         return false;
     }
 
-    public function editKey($key, $value) {
+    public function editKey($key, $value)
+    {
         return $this->setKey($key, $value);
     }
-    
-    public function checkKey($key) {
+
+    public function checkKey($key)
+    {
         if ($this->mrDomainDA) {
             $key_query = $this->mrDomainDA->execute('SELECT val FROM domain_users_settings WHERE userid='. (int) $this->mUserId.' AND keyname='.$this->mrDomainDA->formatText($key));
 
@@ -67,7 +73,8 @@ class UserSettings {
         return false;
     }
 
-    public function deleteKey($key) {
+    public function deleteKey($key)
+    {
         if ($this->mrDomainDA) {
             return $this->mrDomainDA->execute('DELETE FROM domain_users_settings WHERE userid='. (int) $this->mUserId.' AND keyname='.$this->mrDomainDA->formatText($key));
         }

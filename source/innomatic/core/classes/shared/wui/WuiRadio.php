@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -51,7 +51,7 @@ class WuiRadio extends WuiWidget
         if (isset($this->mArgs['hint']))
             $this->mHint = $this->mArgs['hint'];
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         $result = false;
         $event_data = new WuiEventRawData($this->mDisp, $this->mName);

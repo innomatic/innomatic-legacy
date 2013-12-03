@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -39,19 +39,23 @@ class MysqlDataAccess extends DataAccess
         return parent::__construct($params);
     }
 
-    public function listDatabases() {
+    public function listDatabases()
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
 
-    public function listTables() {
+    public function listTables()
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
-    
-    public function listColumns($table) {
+
+    public function listColumns($table)
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
-    
-    public function createDB($params) {
+
+    public function createDB($params)
+    {
         $result = false;
 
         if (!empty($params['dbname'])) {
@@ -68,7 +72,8 @@ class MysqlDataAccess extends DataAccess
         return $result;
     }
 
-    public function dropDB($params) {
+    public function dropDB($params)
+    {
         if (!empty($params['dbname'])) {
             return @mysql_query('DROP DATABASE '.$params['dbname'], $this->dbhandler);
         }
@@ -76,7 +81,8 @@ class MysqlDataAccess extends DataAccess
         return false;
     }
 
-    protected function openConnection() {
+    protected function openConnection()
+    {
         $result = @mysql_connect($this->dasn->getHostSpec(), $this->dasn->getUsername(), $this->dasn->getPassword());
 
         if ($result != false) {
@@ -90,7 +96,8 @@ class MysqlDataAccess extends DataAccess
         return $result;
     }
 
-    protected function openPersistentConnection() {
+    protected function openPersistentConnection()
+    {
         $result = @mysql_pconnect($this->dasn->getHostSpec(), $this->dasn->getUsername(), $this->dasn->getPassword());
 
         if ($result != false) {
@@ -103,20 +110,24 @@ class MysqlDataAccess extends DataAccess
         return $result;
     }
 
-    public function dumpDB($params) {
+    public function dumpDB($params)
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
-    
-    protected function closeConnection() {
+
+    protected function closeConnection()
+    {
         return true;
         //return @mysql_close( $this->dbhandler );
     }
 
-    public function createTable($params) {
+    public function createTable($params)
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
-    
-    public function dropTable($params) {
+
+    public function dropTable($params)
+    {
         $result = false;
 
         if (!empty($params['tablename']) and $this->opened)
@@ -125,7 +136,8 @@ class MysqlDataAccess extends DataAccess
         return $result;
     }
 
-    protected function doExecute($query) {
+    protected function doExecute($query)
+    {
         @mysql_select_db($this->dasn->getDatabase(), $this->dbhandler);
         $this->lastquery = @mysql_query($query, $this->dbhandler);
         //if ( defined( 'DEBUG' ) and !$this->lastquery ) echo mysql_error();
@@ -137,14 +149,16 @@ class MysqlDataAccess extends DataAccess
         return $this->lastquery;
     }
 
-    protected function doGetAffectedRowsCount() {
+    protected function doGetAffectedRowsCount()
+    {
         if ($this->lastquery != false) {
             return @mysql_affected_rows($this->dbhandler);
         }
         return false;
     }
 
-    public function addColumn($params) {
+    public function addColumn($params)
+    {
         $result = FALSE;
 
         if (!empty($params['tablename']) and !empty($params['columnformat']) and $this->opened)
@@ -153,7 +167,8 @@ class MysqlDataAccess extends DataAccess
         return $result;
     }
 
-    public function removeColumn($params) {
+    public function removeColumn($params)
+    {
         if (!empty($params['tablename']) and !empty($params['column']) and $this->opened) {
             return $this->doExecute('ALTER TABLE '.$params['tablename'].' DROP COLUMN '.$params['column']);
         }
@@ -161,11 +176,13 @@ class MysqlDataAccess extends DataAccess
         return false;
     }
 
-    public function alterTable($params) {
+    public function alterTable($params)
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
 
-    public function createSequence($params) {
+    public function createSequence($params)
+    {
         $result = false;
 
         if (!empty($params['name']) and !empty($params['start']) and $this->opened) {
@@ -178,8 +195,9 @@ class MysqlDataAccess extends DataAccess
 
         return $result;
     }
-    
-    public function getCreateSequenceQuery($params) {
+
+    public function getCreateSequenceQuery($params)
+    {
         $result = false;
 
         if (!empty($params['name']) and !empty($params['start'])) {
@@ -193,21 +211,24 @@ class MysqlDataAccess extends DataAccess
         return $result;
     }
 
-    public function dropSequence($params) {
+    public function dropSequence($params)
+    {
         if (!empty($params['name']))
             return $this->doExecute('DROP TABLE _sequence_'.$params['name']);
         else
             return false;
     }
 
-    public function getDropSequenceQuery($params) {
+    public function getDropSequenceQuery($params)
+    {
         if (!empty($params['name']))
             return 'DROP TABLE _sequence_'.$params['name'].';';
         else
             return false;
     }
 
-    function getSequenceValue($name) {
+    public function getSequenceValue($name)
+    {
         if (!empty($name)) {
             $result = $this->doExecute('SELECT MAX(sequence) FROM _sequence_'.$name);
             return @mysql_result($result, 0, 0);
@@ -215,7 +236,8 @@ class MysqlDataAccess extends DataAccess
             return false;
     }
 
-    public function getSequenceValueQuery($name) {
+    public function getSequenceValueQuery($name)
+    {
         $result = false;
 
         if (!empty($name)) {
@@ -225,7 +247,8 @@ class MysqlDataAccess extends DataAccess
         return $result;
     }
 
-    function getNextSequenceValue($name) {
+    public function getNextSequenceValue($name)
+    {
         if (!empty($name)) {
             if ($this->doExecute('INSERT INTO _sequence_'.$name.' (sequence) VALUES (NULL)')) {
                 $value = intval(mysql_insert_id($this->dbhandler));
@@ -237,54 +260,66 @@ class MysqlDataAccess extends DataAccess
         }
     }
 
-    public function getNextSequenceValueQuery($name) {
+    public function getNextSequenceValueQuery($name)
+    {
         // TODO verificare nel vecchio codice
     }
-    
-    protected function doSetTransactionAutocommit() {
+
+    protected function doSetTransactionAutocommit()
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
-    
-    protected function doTransactionCommit() {
+
+    protected function doTransactionCommit()
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
-    
-    protected function doTransactionRollback() {
+
+    protected function doTransactionRollback()
+    {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
     }
     // ----------------------------------------------------
     //
     // ----------------------------------------------------
 
-    public function getTextFieldTypeDeclaration($name, &$field) {
+    public function getTextFieldTypeDeclaration($name, &$field)
+    {
         return (((IsSet($field['length']) and ($field['length'] <= 255)) ? "$name VARCHAR (".$field["length"].")" : "$name TEXT"). (IsSet($field["default"]) ? " DEFAULT '".$field["default"]."'" : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
     }
 
-    public function getTextFieldValue($value) {
+    public function getTextFieldValue($value)
+    {
         return ("'".AddSlashes($value)."'");
     }
 
-    public function getDateFieldTypeDeclaration($name, &$field) {
+    public function getDateFieldTypeDeclaration($name, &$field)
+    {
         return ($name." DATE". (IsSet($field["default"]) ? " DEFAULT '".$field["default"]."'" : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
     }
 
-    public function getTimeFieldTypeDeclaration($name, &$field) {
+    public function getTimeFieldTypeDeclaration($name, &$field)
+    {
         return ($name." TIME". (IsSet($field["default"]) ? " DEFAULT '".$field["default"]."'" : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
     }
 
-    public function getFloatFieldTypeDeclaration($name, &$field) {
+    public function getFloatFieldTypeDeclaration($name, &$field)
+    {
         return ("$name FLOAT8 ". (IsSet($field["default"]) ? " DEFAULT ".$this->getFloatFieldValue($field["default"]) : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
     }
 
-    public function getDecimalFieldTypeDeclaration($name, &$field) {
+    public function getDecimalFieldTypeDeclaration($name, &$field)
+    {
         return ("$name DECIMAL ". (IsSet($field["length"]) ? " (".$field["length"].") " : ""). (IsSet($field["default"]) ? " DEFAULT ".$this->getDecimalFieldValue($field["default"]) : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
     }
 
-    public function getFloatFieldValue($value) {
+    public function getFloatFieldValue($value)
+    {
         return (!strcmp($value, "NULL") ? "NULL" : "$value");
     }
 
-    public function getDecimalFieldValue($value) {
+    public function getDecimalFieldValue($value)
+    {
         return (!strcmp($value, "NULL") ? "NULL" : strval(intval($value * $this->decimal_factor)));
     }
 }

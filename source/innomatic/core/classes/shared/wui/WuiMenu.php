@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -22,7 +22,7 @@ class WuiMenu extends WuiWidget
     //public $mMenu;
     /*!
      @function WuiMenu
-    
+
      @abstract Class constructor.
      */
     public function __construct (
@@ -34,9 +34,9 @@ class WuiMenu extends WuiWidget
     {
         parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
-    	/*
+        /*
         require_once ('innomatic/util/Registry.php');
         $registry = Registry::instance();
         if (! $registry->isGlobalObject('singleton xlayersmenu')) {

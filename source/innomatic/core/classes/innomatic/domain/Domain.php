@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -19,7 +19,8 @@ require_once('innomatic/dataaccess/DataAccess.php');
  @class Domain
  @abstract Domain management
  */
-class Domain {
+class Domain
+{
     public $rootda;
     public $domainid;
     public $domainserial;
@@ -30,7 +31,8 @@ class Domain {
     public $reservedNames = array();
     protected $dataAccess;
 
-    public function __construct(DataAccess $rootda, $domainid = '0', $domainda = null) {
+    public function __construct(DataAccess $rootda, $domainid = '0', $domainda = null)
+    {
         $this->rootda = $rootda;
         if (!get_cfg_var('safe_mode')) {
             set_time_limit(0);
@@ -98,11 +100,13 @@ class Domain {
      *
      * @return boolean
      */
-    public function isValid() {
+    public function isValid()
+    {
         return is_object($this->dataAccess);
     }
 
-    public function create($domaindata, $createDb = true) {
+    public function create($domaindata, $createDb = true)
+    {
         $result = false;
 
         require_once('innomatic/process/Hook.php');
@@ -160,7 +164,7 @@ class Domain {
                     $domaindata['dataaccesspassword'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabasePassword');
                     $domaindata['dataaccesstype'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseType');
                 }
-                
+
                 if ($this->rootda->execute('INSERT INTO domains VALUES ( '.$nextseq.','.$this->rootda->formatText($domaindata['domainid']).','.
                 $this->rootda->formatText($domaindata['domainname']).','.
                 $this->rootda->formatText(md5($domaindata['domainpassword'])).','.
@@ -292,14 +296,16 @@ class Domain {
         return $result;
     }
 
-    private function makeDir($dirname) {
+    private function makeDir($dirname)
+    {
         if (!file_exists($dirname))
         return @mkdir($dirname, 0755);
         else
         return TRUE;
     }
 
-    private function defOpt($option, $defaultopt) {
+    private function defOpt($option, $defaultopt)
+    {
         if (strlen($option) == 0) {
             return $defaultopt;
         } else {
@@ -307,7 +313,8 @@ class Domain {
         }
     }
 
-    public function edit($domaindata) {
+    public function edit($domaindata)
+    {
         $result = false;
 
         require_once('innomatic/process/Hook.php');
@@ -351,7 +358,8 @@ class Domain {
 
      @result Domain notes if any, empty string otherwise.
      */
-    public function getNotes() {
+    public function getNotes()
+    {
         if ($domain_query = $this->rootda->execute('SELECT notes FROM domains WHERE id='. (int) $this->domainid)) {
             return $domain_query->getFields('notes');
         }
@@ -367,7 +375,8 @@ class Domain {
 
      @result True if notes were updated.
      */
-    public function setNotes($notes) {
+    public function setNotes($notes)
+    {
         if ($this->rootda->execute(
             'UPDATE domains SET notes='.$this->rootda->formatText($notes).
             ' WHERE domainid='.$this->rootda->formatText($this->domainid))) {
@@ -384,7 +393,8 @@ class Domain {
 
      @result Max users limit.
      */
-    public function getMaxUsers() {
+    public function getMaxUsers()
+    {
         if ($domain_query = $this->rootda->execute('SELECT maxusers FROM domains WHERE id='. (int) $this->domainid)) {
             return $domain_query->getFields('maxusers');
         }
@@ -400,7 +410,8 @@ class Domain {
 
      @result True if max users limit has been updated.
      */
-    public function setMaxUsers($maxUsers = 0) {
+    public function setMaxUsers($maxUsers = 0)
+    {
         if ($maxUsers == '')
         $maxUsers = 0;
 
@@ -415,7 +426,8 @@ class Domain {
      *
      * @return string
      */
-    public function getWebappSkeleton() {
+    public function getWebappSkeleton()
+    {
         if ($domain_query = $this->rootda->execute('SELECT webappskeleton FROM domains WHERE id='.(int)$this->domainid)) {
             return $domain_query->getFields('webappskeleton');
         }
@@ -428,12 +440,13 @@ class Domain {
      * @param string $skeleton
      * @return bool
      */
-    public function setWebappSkeleton($skeleton) {
+    public function setWebappSkeleton($skeleton)
+    {
         if ($this->rootda->execute(
             'UPDATE domains SET webappskeleton='.$this->rootda->formatText($skeleton).
             ' WHERE domainid='.$this->rootda->formatText($this->domainid))) {
             require_once('innomatic/webapp/WebAppContainer.php');
-	        return WebAppContainer::applyNewSkeleton($this->domainid, $skeleton);
+            return WebAppContainer::applyNewSkeleton($this->domainid, $skeleton);
         } else {
             return false;
         }
@@ -449,7 +462,8 @@ class Domain {
 
      @param password string - New domain password
      */
-    public function changePassword($password) {
+    public function changePassword($password)
+    {
         require_once('innomatic/process/Hook.php');
         $hook = new Hook($this->rootda, 'innomatic', 'domain.chpasswd');
         if ($hook->CallHooks('calltime', $this, array('password' => $password)) == Hook::RESULT_OK) {
@@ -483,7 +497,7 @@ class Domain {
                 $this->domainlog->logEvent($this->domainid, 'Unable to change domain password', Logger::ERROR);
             } else {
                 require_once('innomatic/logging/Logger.php');
-                    
+
                 if (!strlen($password))
                 $this->domainlog->logEvent($this->domainid, 'Empty password', Logger::ERROR);
                 if (!$this->domainserial)
@@ -501,7 +515,8 @@ class Domain {
 
      @result True if the domain has been enabled
      */
-    public function enable() {
+    public function enable()
+    {
         $result = false;
 
         if ($this->rootda) {
@@ -544,10 +559,11 @@ class Domain {
      @function Disable
 
      @abstract Disables the domain
-      
+
      @result True if the domain has been disabled
      */
-    public function disable() {
+    public function disable()
+    {
         $result = false;
 
         if ($this->rootda) {
@@ -590,7 +606,8 @@ class Domain {
 
      @discussion Before removing the domain, this function disables all the applications
      */
-    public function remove() {
+    public function remove()
+    {
         $result = false;
 
         require_once('innomatic/process/Hook.php');
@@ -663,7 +680,8 @@ class Domain {
 
     // Removes all domains users
     //
-    public function removeAllUsers() {
+    public function removeAllUsers()
+    {
         $usersquery = $this->dataAccess->execute('SELECT id FROM domain_users');
 
         if ($usersquery->getNumberRows() > 0) {
@@ -688,7 +706,8 @@ class Domain {
 
      @param appid integer - Application serial
      */
-    public function enableApplication($appid) {
+    public function enableApplication($appid)
+    {
         $result = false;
 
         require_once('innomatic/process/Hook.php');
@@ -696,7 +715,7 @@ class Domain {
         if ($hook->CallHooks('calltime', $this, array('domainserial' => $this->domainserial, 'appid' => $appid)) == Hook::RESULT_OK) {
             if (!empty($this->dataAccess) and !empty($appid) and !$this->IsApplicationEnabled($appid)) {
                 require_once('innomatic/application/Application.php');
-                    
+
                 $modquery = $this->rootda->execute('SELECT appid FROM applications WHERE id='. (int) $appid);
 
                 $tmpmod = new Application($this->rootda, $appid);
@@ -739,7 +758,8 @@ class Domain {
 
      @param appid string - Application name
      */
-    public function disableApplication($appid) {
+    public function disableApplication($appid)
+    {
         $result = false;
 
         require_once('innomatic/process/Hook.php');
@@ -770,7 +790,8 @@ class Domain {
         return $result;
     }
 
-    public function isApplicationEnabled($appid) {
+    public function isApplicationEnabled($appid)
+    {
         if (!empty($this->rootda) and !empty($appid)) {
             $actquery = $this->rootda->execute('SELECT * FROM applications_enabled WHERE domainid = '.$this->domainserial.' AND applicationid = '.$appid);
             if ($actquery->getNumberRows())
@@ -778,31 +799,35 @@ class Domain {
         }
         return false;
     }
-    
-    public function getEnabledApplications() {
-    	$query = 'SELECT appid FROM applications
+
+    public function getEnabledApplications()
+    {
+        $query = 'SELECT appid FROM applications
 LEFT JOIN applications_enabled ON applications.id = applications_enabled.applicationid
 LEFT JOIN domains ON domains.id=applications_enabled.domainid
 WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
-    	
-    	$query_result = $this->rootda->execute($query);
-    	$list = array();
-    	while (!$query_result->eof) {
-    		$list[] = $query_result->getFields('appid');
-    		$query_result->moveNext();
-    	}
-    	return $list;
+
+        $query_result = $this->rootda->execute($query);
+        $list = array();
+        while (!$query_result->eof) {
+            $list[] = $query_result->getFields('appid');
+            $query_result->moveNext();
+        }
+        return $list;
     }
 
-    public function getLastActionUnmetDeps() {
+    public function getLastActionUnmetDeps()
+    {
         return (array)$this->unmetdeps;
     }
 
-    public function getLastActionUnmetSuggs() {
+    public function getLastActionUnmetSuggs()
+    {
         return (array)$this->unmetsuggs;
     }
 
-    public function enableAllApplications() {
+    public function enableAllApplications()
+    {
         $result = false;
 
         $applications_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('SELECT id FROM applications WHERE onlyextension!='.InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText(InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmttrue));
@@ -846,7 +871,8 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
 
      @abstract Disables all the applications enabled to the domain
      */
-    public function disableAllApplications($innomaticToo = true) {
+    public function disableAllApplications($innomaticToo = true)
+    {
         $result = false;
 
         if ($this->rootda) {
@@ -896,7 +922,8 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
         return $result;
     }
 
-    public function getMotd() {
+    public function getMotd()
+    {
         if (is_object($this->dataAccess)) {
             require_once('innomatic/domain/DomainSettings.php');
             $sets = new DomainSettings($this->dataAccess);
@@ -905,7 +932,8 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
         return false;
     }
 
-    public function setMotd($motd) {
+    public function setMotd($motd)
+    {
         if (is_object($this->dataAccess)) {
             require_once('innomatic/domain/DomainSettings.php');
             $sets = new DomainSettings($this->dataAccess);
@@ -914,7 +942,8 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
         return false;
     }
 
-    public function cleanMotd() {
+    public function cleanMotd()
+    {
         if (is_object($this->dataAccess)) {
             require_once('innomatic/domain/DomainSettings.php');
             $sets = new DomainSettings($this->dataAccess);
@@ -923,7 +952,8 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
         return false;
     }
 
-    public function refreshCachedDomainData() {
+    public function refreshCachedDomainData()
+    {
         $result = false;
         $stquery = $this->rootda->execute('SELECT * FROM domains WHERE domainid = '.$this->rootda->formatText($this->domainserial));
         if ($stquery->getNumberRows() > 0) {
@@ -932,7 +962,8 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
         return $result;
     }
 
-    public function domainsFactorial($s) {
+    public function domainsFactorial($s)
+    {
         $r = (int) $s;
         for ($i = $r; $i --; $i > 1) {
             if ($i) {
@@ -942,15 +973,18 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
         return $r;
     }
 
-    public function setDataAccess(DataAccess $da) {
+    public function setDataAccess(DataAccess $da)
+    {
         $this->dataAccess = $da;
     }
 
-    public function getDataAccess() {
+    public function getDataAccess()
+    {
         return $this->dataAccess;
     }
 
-    public function getLanguage() {
+    public function getLanguage()
+    {
         require_once('innomatic/domain/DomainSettings.php');
         $domain_settings = new DomainSettings(
         $this->dataAccess);
@@ -958,7 +992,8 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
         return strlen($key) ? $key : InnomaticContainer::instance('innomaticcontainer')->getLanguage();
     }
 
-    public function getCountry() {
+    public function getCountry()
+    {
         require_once('innomatic/domain/DomainSettings.php');
         $domain_settings = new DomainSettings(
         $this->dataAccess);
@@ -966,48 +1001,50 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
         return strlen($key) ? $key : InnomaticContainer::instance('innomaticcontainer')->getCountry();
     }
 
-    public function getDomainId() {
+    public function getDomainId()
+    {
         return $this->domainid;
     }
-    
-    public static function getDomainByHostname($hostname = '') {   	 
-    	if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ENTERPRISE) {
-    		return false;
-    	}
-    	
-    	if (!strlen($hostname) and InnomaticContainer::instance('innomaticcontainer')->getInterface() != InnomaticContainer::INTERFACE_WEB) {
-    		return false;
-    	}
 
-    	if (!strlen($hostname)) {
-    		require_once('innomatic/webapp/WebAppContainer.php');
-    		$hostname = WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getServerName();
-    	}
-    	
-    	// Is it still empty?
-    	if (!strlen($hostname)) {
-    		return false;
-    	}
-    	
-    	$pos = strpos($hostname, '.');
-    		
-    	if ($pos === FALSE) {
-    		$domain_guess = $hostname;
-    	} else {
-    		$domain_guess = substr($hostname, 0, $pos);
-    	}
-    	
-    	if (!strlen($domain_guess)) {
-    		return false;
-    	}
-    	
-    	$domain_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
-    			'SELECT domainid FROM domains WHERE domainid='.
-    			InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText($domain_guess));
-    	if ($domain_query->getNumberRows() == 1) {
-    		return $domain_guess;
-    	}
+    public static function getDomainByHostname($hostname = '')
+    {
+        if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ENTERPRISE) {
+            return false;
+        }
 
-    	return false;
+        if (!strlen($hostname) and InnomaticContainer::instance('innomaticcontainer')->getInterface() != InnomaticContainer::INTERFACE_WEB) {
+            return false;
+        }
+
+        if (!strlen($hostname)) {
+            require_once('innomatic/webapp/WebAppContainer.php');
+            $hostname = WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getServerName();
+        }
+
+        // Is it still empty?
+        if (!strlen($hostname)) {
+            return false;
+        }
+
+        $pos = strpos($hostname, '.');
+
+        if ($pos === FALSE) {
+            $domain_guess = $hostname;
+        } else {
+            $domain_guess = substr($hostname, 0, $pos);
+        }
+
+        if (!strlen($domain_guess)) {
+            return false;
+        }
+
+        $domain_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+                'SELECT domainid FROM domains WHERE domainid='.
+                InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText($domain_guess));
+        if ($domain_query->getNumberRows() == 1) {
+            return $domain_guess;
+        }
+
+        return false;
     }
 }

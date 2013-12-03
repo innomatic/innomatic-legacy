@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -16,7 +16,7 @@ require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiPushButton extends WuiWidget
+class WuiPushbutton extends WuiWidget
 {
     public $mValue;
     public $mDisp;
@@ -51,7 +51,7 @@ class WuiPushButton extends WuiWidget
         if (isset($this->mArgs['type']) and ($this->mArgs["type"] == "submit" or $this->mArgs["type"] == "reset"))
             $this->mType = $this->mArgs["type"];
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         $result = false;
         $event_data = new WuiEventRawData($this->mDisp, $this->mName);

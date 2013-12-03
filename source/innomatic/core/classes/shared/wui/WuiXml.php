@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -47,7 +47,7 @@ class WuiXml extends WuiWidget
             $this->mDefinition = '<?xml version="1.0" encoding="utf-8" ?>' . $this->mDefinition;
         }
     }
-    public function build (WuiDispatcher $rwuiDisp)
+    public function build(WuiDispatcher $rwuiDisp)
     {
         $this->mrWuiDisp = $rwuiDisp;
         if ($this->mDefinition == null) {
@@ -94,7 +94,7 @@ class WuiXml extends WuiWidget
                                 }
                                 if ($type == 'array')
                                     $value = WuiXml::decode($arg['value']);
-                                else 
+                                else
                                     if ($type == 'encoded') {
                                         $value = urldecode($arg['value']);
                                     } else {
@@ -120,7 +120,7 @@ class WuiXml extends WuiWidget
                                 }
                                 if ($type == 'array')
                                     $value = WuiXml::decode($arg['value']);
-                                else 
+                                else
                                     if ($type == 'encoded') {
                                         $value = urldecode($arg['value']);
                                     } else {
@@ -162,7 +162,7 @@ class WuiXml extends WuiWidget
         }
         // Tries to load the widget if it wasn't loaded.
         //
-        if (! class_exists($elementType)) {
+        if (! class_exists($elementType, false)) {
             $widget_name = strtolower($element['tag']);
             if (! defined(strtoupper($widget_name . '_WUI')) and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php')) {
                 include_once (InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php');
@@ -170,7 +170,7 @@ class WuiXml extends WuiWidget
         }
         // Create the element and add children if any
         //
-        if (class_exists($elementType)) {
+        if (class_exists($elementType, false)) {
             $result = new $elementType($elementName, $elementArgs);
             // Adds the Javascript events to the widget.
             foreach ($elementEvents as $eventName => $eventCall) {
@@ -191,24 +191,24 @@ class WuiXml extends WuiWidget
         }
         return $result;
     }
-    public static function encode ($var)
+    public static function encode($var)
     {
         return urlencode(serialize($var));
     }
-    public static function decode ($string)
+    public static function decode($string)
     {
         return unserialize(urldecode($string));
     }
-    public static function cdata ($data)
+    public static function cdata($data)
     {
         return '<![CDATA[' . $data . ']]>';
     }
-    
+
     public static function getContentFromXml($name, $xmlText)
     {
-    	$wui_widget = new WuiXml($name, array('definition' => $xmlText));
-    	$wui_widget->build();
-    	$content = $wui_widget->render();
-    	return $content;
-    } 
+        $wui_widget = new WuiXml($name, array('definition' => $xmlText));
+        $wui_widget->build();
+        $content = $wui_widget->render();
+        return $content;
+    }
 }

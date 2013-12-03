@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -50,7 +50,7 @@ class WuiText extends WuiWidget
         if (! isset($this->mArgs['bgcolor']) or ! strlen($elemArgs['bgcolor']))
             $this->mArgs['bgcolor'] = '';
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         $result = false;
         $event_data = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);

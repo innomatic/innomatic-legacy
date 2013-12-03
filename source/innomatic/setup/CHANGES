@@ -8,7 +8,20 @@
                                 CHANGES
                                 =======
 
-6000 6.1 -
+6000 - 6.2 - "Namespaces"
+---------------------
+SECURITY:
+FIXES:
+CHANGES:
+NEW FEATURES:
+- During Innomatic setup, get the default country based on HTTP_ACCEPT_LANGUAGE
+  header. (Luca Ferri)
+
+DEPRECATED:
+
+
+
+6000 6.1 - 2013/12/01 - "Retina icons, Environment, Dashboard, PSR standards"
 ---------------------
 FIXES:
 - Fixed WuiWidget::getEventsCompleteString() when generating events string with
@@ -24,7 +37,11 @@ CHANGES:
 - PHPTemplate class now supporting parsing of any Template instance as template
   variable, not only PHPTemplate ones. (Alex Pagnoni)
 - Innomatic instance and domains are initialized in Xajax webapp handler. (Alex
-  Pagnoni) 
+  Pagnoni)
+- Removed InnomaticContainer::getRootWuiMenuDefinition(). (Alex Pagnoni)
+- Removed old references to html frames in desktop layout. (Alex Pagnoni)
+- Theme icon in domain panels is no more required. (Alex Pagnoni)
+- Supprimed autoload check in class_exists() calls. (Alex Pagnoni)
 
 NEW FEATURES:
 - New Subway icon set by Pixle. (Alex Pagnoni)
@@ -35,7 +52,14 @@ NEW FEATURES:
 - Added classes directory to the PHP webapp skeleton. (Alex Pagnoni)
 - Added handling of welcome file in PHP webapp handler. (Alex Pagnoni)
 - Added getTags() method to Template interface. (Alex Pagnoni)
-
+- Added domain dashboard feature. (Alex Pagnoni)
+- Added dashboardwidget component. (Alex Pagnoni)
+- The Wui Page titlebar changes color when changing Innomatic environment (eg.
+  development, integration, staging, production). (Alex Pagnoni)
+- Added "scrollable" parameter with optional width and height to Wui Horizgroup,
+  Horizframe, Vertgroup and Vertframe widgets. (Alex Pagnoni)
+- Predisposition for namespace support in next Innomatic version. (Alex Pagnoni)
+ 
 DEPRECATED:
 - Old icon set, only new Subway icon set should be used from now on. (Alex
   Pagnoni)
@@ -55,6 +79,8 @@ FIXES:
   (Alex Pagnoni)
 - Fixed readonly state for Wui checkbox widget. (Salvatore Pollaci)
 - Fixed readonly state for Wui radio widget. (Paolo Guanciarossa)
+- Added missing default value in Wui string widget when using autocomplete.
+  (Salvatore Pollaci)
 
 CHANGES:
 - Shared components now support deployment of folders too. (Alex Pagnoni)

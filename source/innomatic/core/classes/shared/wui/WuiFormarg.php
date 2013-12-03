@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -16,7 +16,7 @@ require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiFormArg extends WuiWidget
+class WuiFormarg extends WuiWidget
 {
     /*! @public mValue string - Default content. */
     //public $mValue;
@@ -37,7 +37,7 @@ class WuiFormArg extends WuiWidget
             $this->mArgs['disp'] = $this->mArgs['disp'];
         }
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
         $eventData = new WuiEventRawData($this->mArgs['disp'], $this->mName);

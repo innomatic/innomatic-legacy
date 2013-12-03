@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -63,7 +63,7 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
         if (InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainactive'] != InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmttrue) {
             self::doAuth(true, 'domaindisabled');
         }
-        
+
         return true;
     }
 
@@ -137,7 +137,7 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
         //
         require_once('innomatic/desktop/controller/DesktopFrontController.php');
         $session = DesktopFrontController::instance('desktopfrontcontroller')->session;
-        
+
         if ($wrong) {
             if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('SecurityAlertOnWrongLocalUserLogin') == '1') {
                 require_once('innomatic/security/SecurityManager.php');
@@ -192,7 +192,7 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
 
         InnomaticContainer::instance('innomaticcontainer')->halt();
     }
-    
+
     public function authorize()
     {
     }
@@ -201,19 +201,19 @@ class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
 
 function login_login($eventData)
 {
-	$username = $eventData['username'];
+    $username = $eventData['username'];
     require_once('innomatic/domain/Domain.php');
     require_once('innomatic/domain/user/User.php');
     $domainId = User::extractDomainID($username);
-    
-    // Checks it it can find the domain by hostname 
+
+    // Checks it it can find the domain by hostname
     if (!strlen($domainId)) {
-    	$domainId = Domain::getDomainByHostname();
-    	if (strlen($domainId)) {
-    		$username .= '@'.$domainId;
-    	}
+        $domainId = Domain::getDomainByHostname();
+        if (strlen($domainId)) {
+            $username .= '@'.$domainId;
+        }
     }
-    
+
     // If no domain is found when in SAAS edition, it must be reauth without
     // checking database, since no Domain can be accessed.
     if (!strlen($domainId)) {
@@ -263,7 +263,7 @@ function login_logout($eventData)
 {
     require_once('innomatic/security/SecurityManager.php');
     require_once('innomatic/desktop/controller/DesktopFrontController.php');
-    
+
     DesktopFrontController::instance(
         'desktopfrontcontroller'
     )->session->put(

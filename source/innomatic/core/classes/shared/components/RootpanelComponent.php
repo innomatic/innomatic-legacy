@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -18,27 +18,27 @@ require_once ('innomatic/application/ApplicationComponent.php');
  */
 class RootpanelComponent extends ApplicationComponent
 {
-    function __construct ($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'rootpanel';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 0;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    function DoInstallAction ($params)
+    public function DoInstallAction($params)
     {
         $result = false;
         $name = $params['name'];
@@ -66,7 +66,7 @@ class RootpanelComponent extends ApplicationComponent
                 if (DirectoryUtils::dirCopy($params['name'] . '-panel/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel/')) {
                     $result = true;
                 }
-            } else 
+            } else
                 if (file_exists($params['name'] . '.php')) {
                     $result = @copy($params['name'] . '.php', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php');
                     if ($result) {
@@ -92,7 +92,7 @@ class RootpanelComponent extends ApplicationComponent
             $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Empty application file name', Logger::ERROR);
         return $result;
     }
-    function DoUninstallAction ($params)
+    public function DoUninstallAction($params)
     {
         $result = false;
         if (! isset($params['icon']))
@@ -130,7 +130,7 @@ class RootpanelComponent extends ApplicationComponent
             $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty application file name', Logger::ERROR);
         return $result;
     }
-    function DoUpdateAction ($params)
+    public function DoUpdateAction($params)
     {
         $result = false;
         $name = $params['name'];
@@ -165,7 +165,7 @@ class RootpanelComponent extends ApplicationComponent
                 if (DirectoryUtils::dirCopy($params['name'] . '-panel/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel/')) {
                     $result = true;
                 }
-            } else 
+            } else
                 if (file_exists($params['name']) . '.php') {
                     $result = @copy($params['name'] . '.php', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php');
                     if ($result) {

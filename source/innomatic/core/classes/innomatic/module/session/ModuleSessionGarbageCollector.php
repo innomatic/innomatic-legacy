@@ -1,4 +1,4 @@
-<?php    
+<?php
 
 require_once('innomatic/module/server/ModuleServerContext.php');
 
@@ -9,7 +9,8 @@ require_once('innomatic/module/server/ModuleServerContext.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleSessionGarbageCollector {
+class ModuleSessionGarbageCollector
+{
     /**
      * Executes garbage collection.
      *
@@ -17,29 +18,28 @@ class ModuleSessionGarbageCollector {
      * @since 5.1
      * @return void
      */
-	public static function clean() {
+    public static function clean()
+    {
         // Obtains Modules list.
-		$context = ModuleServerContext::instance('ModuleServerContext');
-		$module_list = $context->getModuleList();
+        $context = ModuleServerContext::instance('ModuleServerContext');
+        $module_list = $context->getModuleList();
 
         // Cleans session files for each Module context.
-		foreach ($module_list as $module) {
-			if (!file_exists($context->getHome().'modules/'.$module.'/sessions')) {
-				continue;
-			}
+        foreach ($module_list as $module) {
+            if (!file_exists($context->getHome().'modules/'.$module.'/sessions')) {
+                continue;
+            }
 
-			if (!$dh = opendir($context->getHome().'modules/'.$module.'/sessions/')) {
-				continue;
-			}
+            if (!$dh = opendir($context->getHome().'modules/'.$module.'/sessions/')) {
+                continue;
+            }
 
-			while (($file = readdir($dh)) !== false) {
-				if ($file != '.' and $file != '..' and is_file($context->getHome().'modules/'.$module.'/sessions/'.$file)) {
-					unlink($context->getHome().'modules/'.$module.'/sessions/'.$file);
-				}
-			}
-			closedir($dh);
-		}
-	}
+            while (($file = readdir($dh)) !== false) {
+                if ($file != '.' and $file != '..' and is_file($context->getHome().'modules/'.$module.'/sessions/'.$file)) {
+                    unlink($context->getHome().'modules/'.$module.'/sessions/'.$file);
+                }
+            }
+            closedir($dh);
+        }
+    }
 }
-
-?>

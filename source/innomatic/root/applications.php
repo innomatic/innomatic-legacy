@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2013 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -19,6 +19,8 @@
 require_once('innomatic/logging/Logger.php');
 require_once('innomatic/locale/LocaleCatalog.php');
 require_once('innomatic/wui/Wui.php');
+require_once('innomatic/wui/dispatch/WuiEventsCall.php');
+require_once('innomatic/wui/dispatch/WuiEvent.php');
 require_once('innomatic/application/Application.php');
 require_once('innomatic/application/ApplicationDependencies.php');
 require_once('innomatic/domain/Domain.php');
@@ -28,57 +30,18 @@ require_once('innomatic/config/ConfigMan.php');
 require_once('innomatic/application/AppCentralRemoteServer.php');
 
 global $wuiMainStatus, $wuiPage, $wuiMainVertGroup, $gStatus, $gXmlDefinition;
-global $gPageTitle, $gToolbars, $gLocale, $gPageContent, $gJavascript;
-    
+global $gPageTitle, $gToolbars, $gLocale, $gPageContent;
+
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 $gLocale = new LocaleCatalog(
     'innomatic::root_applications', InnomaticContainer::instance('innomaticcontainer')->getLanguage()
 );
-$gPageContent = $gStatus = $gToolbars = $gXmlDefinition = $gJavascript = '';
+$gPageContent = $gStatus = $gToolbars = $gXmlDefinition = '';
 
 $wui = Wui::instance('wui');
-$wui->loadWidget('button');
-$wui->loadWidget('checkbox');
-$wui->loadWidget('combobox');
-$wui->loadWidget('date');
-$wui->loadWidget('empty');
-$wui->loadWidget('file');
-$wui->loadWidget('formarg');
-$wui->loadWidget('form');
-$wui->loadWidget('grid');
-$wui->loadWidget('helpnode');
-$wui->loadWidget('horizbar');
-$wui->loadWidget('horizframe');
-$wui->loadWidget('horizgroup');
-$wui->loadWidget('image');
-$wui->loadWidget('label');
-$wui->loadWidget('link');
-$wui->loadWidget('listbox');
-$wui->loadWidget('menu');
-$wui->loadWidget('page');
-$wui->loadWidget('progressbar');
-$wui->loadWidget('radio');
-$wui->loadWidget('sessionkey');
-$wui->loadWidget('statusbar');
-$wui->loadWidget('string');
-$wui->loadWidget('submit');
-$wui->loadWidget('tab');
-$wui->loadWidget('table');
-$wui->loadWidget('text');
-$wui->loadWidget('titlebar');
-$wui->loadWidget('toolbar');
-$wui->loadWidget('treemenu');
-$wui->loadWidget('vertframe');
-$wui->loadWidget('vertgroup');
-$wui->loadWidget('xml');
-$wui->LoadWidget('innomaticpage');
-$wui->LoadWidget('innomatictoolbar');
+$wui->loadAllWidgets();
 
 $gPageTitle = $gLocale->getStr('applications_title');
-
-$gMenu = InnomaticContainer::getRootWuiMenuDefinition(
-    InnomaticContainer::instance('innomaticcontainer')->getLanguage()
-);
 
 // Help tool bar
 //
@@ -143,10 +106,10 @@ $gActionDispatcher = new WuiDispatcher('action');
 $gActionDispatcher->addEvent('install', 'action_install');
 function action_install($eventData)
 {
-    global $gLocale, $gLocale, $gJavascript, $gStatus;
+    global $gLocale, $gLocale, $gStatus;
 
     if (strcmp($eventData['applicationfile']['tmp_name'], 'none') != 0) {
-        require_once('innomatic/application/Application.php');        
+        require_once('innomatic/application/Application.php');
         $tempApplication = new Application(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), '');
 
         move_uploaded_file(
@@ -180,16 +143,14 @@ function action_install($eventData)
             $gStatus.= $gLocale->getStr('unmetsuggs_status').$unmetSuggsStr;
         }
     }
-
-    $gJavascript = "parent.frames.menu.location.reload()\n".'parent.frames.header.location.reload()';
 }
 
 $gActionDispatcher->addEvent('uninstall', 'action_uninstall');
 function action_uninstall($eventData)
 {
-    global $gLocale, $gLocale, $wuiPage, $gJavascript, $gStatus;
+    global $gLocale, $gLocale, $wuiPage, $gStatus;
     require_once('innomatic/application/Application.php');
-    
+
     $tempApplication = new Application(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
         $eventData['appid']
@@ -201,8 +162,6 @@ function action_uninstall($eventData)
         $gStatus = $gLocale->getStr('removeunmetdeps_status').$unmetDepsStr;
     } else
         $gStatus = $gLocale->getStr('moduninstalled_status');
-
-    $gJavascript = "parent.frames.menu.location.reload()\n".'parent.frames.header.location.reload()';
 }
 
 $gActionDispatcher->addEvent('activateapplication', 'action_activateapplication');
@@ -303,7 +262,7 @@ function action_newrepository($eventData)
 }
 
 $gActionDispatcher->addEvent('removerepository', 'action_removerepository');
-function action_removerepository( $eventData )
+function action_removerepository($eventData)
 {
     global $gLocale, $gStatus;
 
@@ -320,7 +279,7 @@ $gActionDispatcher->addEvent(
 );
 function action_installapplication($eventData)
 {
-    global $gLocale, $gStatus, $gJavascript;
+    global $gLocale, $gStatus;
 
     $remoteAc = new AppCentralRemoteServer(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
@@ -334,7 +293,6 @@ function action_installapplication($eventData)
         )
     ) {
             $gStatus = $gLocale->getStr('application_installed.status');
-            $gJavascript = "parent.frames.menu.location.reload()\n".'parent.frames.header.location.reload()';
     } else {
             $gStatus = $gLocale->getStr('application_not_installed.status');
     }
@@ -348,7 +306,7 @@ function action_newkey($eventData)
 {
     global $gStatus, $gLocale;
     require_once('innomatic/application/ApplicationKeyRing.php');
-    
+
     $keyring = new ApplicationKeyRing();
     if (
         $keyring->AddKey(
@@ -369,7 +327,7 @@ function action_removekey($eventData)
 {
     global $gStatus, $gLocale;
     require_once('innomatic/application/ApplicationKeyRing.php');
-    
+
     $keyring = new ApplicationKeyRing();
     $keyring->RemoveKey($eventData['id']);
 
@@ -460,7 +418,7 @@ function main_default($eventData)
 
                     $categories[] = $data['category'];
                     $row = 0;
-                    
+
                   //$wui_applications_table->addChild(
                   //    new WuiLabel(
                   //        'modcategory'.$row,
@@ -492,7 +450,7 @@ function main_default($eventData)
                         'appidlabel'.$row,
                         array(
                             'label' => '<strong>'.$data['appid'].'</strong><br />'.$data['appdesc'],
-                        	'nowrap' => 'false'
+                            'nowrap' => 'false'
                         )
                     ),
                     $row, 1
@@ -971,7 +929,7 @@ function main_details($eventData)
     );
 
     $rows = 9;
-    
+
     if (
         strlen($applicationData['licensefile']) and file_exists(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
@@ -1043,7 +1001,7 @@ function main_dependencies($eventData)
 {
     global $gLocale, $gPageTitle, $gXmlDefinition;
     require_once('innomatic/application/ApplicationDependencies.php');
-    
+
     $query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
         'SELECT appid FROM applications WHERE id='.$eventData['appid'].' '
     );
@@ -1098,7 +1056,7 @@ function main_dependencies($eventData)
     }
 
     $$xmlDef = '<grid><name>deps</name><children>
-    
+
       <vertframe row="0" col="0">
         <name>deps</name>
         <children>
@@ -1119,7 +1077,7 @@ function main_dependencies($eventData)
             </listbox>
           </children>
         </vertframe>
-    
+
       <vertframe row="0" col="1"><name>suggs</name><children>
         <label><name>suggs</name><args><label>'.$gLocale->getStr('appsuggs_label').'</label></args></label>
         <listbox><name>suggs</name><args><disp>action</disp><readonly>true</readonly><elements type="array">'
@@ -1136,7 +1094,7 @@ function main_dependencies($eventData)
             .WuiXml::encode($dependingMods)
             .'</elements><size>5</size></args></listbox>
           </children></vertframe>
-        
+
           <vertframe row="1" col="1"><name>suggesting</name><children>
             <label><name>suggesting</name><args><label>'
             .sprintf($gLocale->getStr('suggestingapps_label'), $applicationData['appid'])
@@ -1145,7 +1103,7 @@ function main_dependencies($eventData)
             .WuiXml::encode($suggestingMods)
             .'</elements><size>5</size></args></listbox>
           </children></vertframe>
-        
+
           <vertframe row="2" col="0"><name>enabled</name><children>
             <label><name>enabled</name><args><label>'
             .$gLocale->getStr('enableddomains_label')
@@ -1157,7 +1115,7 @@ function main_dependencies($eventData)
     }
 
     $$xmlDef.= '</children></grid>';
-    
+
     $gXmlDefinition = $$xmlDef;
 
     $gPageTitle.= ' - '.$applicationData['appid'].' - '.$gLocale->getStr('applicationdeps_title');
@@ -1255,7 +1213,7 @@ function main_help($eventData)
 }
 
 
-function reps_tab_action_builder( $tab )
+function reps_tab_action_builder($tab)
 {
     return WuiEventsCall::buildEventsCallString(
         '',
@@ -1430,13 +1388,13 @@ function main_appcentral($eventData)
   </args>
 </label>
 <horizgroup row="'.$row.'" col="1"><name>tb</name>
-		<children>
-		  <button>
-		    <args>
-		      <label>'.WuiXml::cdata($gLocale->getStr('repository_applications.button')).'</label>
-		<themeimage>listdetailed</themeimage>
-		<horiz>true</horiz>
-		<action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
+        <children>
+          <button>
+            <args>
+              <label>'.WuiXml::cdata($gLocale->getStr('repository_applications.button')).'</label>
+        <themeimage>listdetailed</themeimage>
+        <horiz>true</horiz>
+        <action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -1449,9 +1407,9 @@ function main_appcentral($eventData)
                             )
                         )
                     )).'</action>
-		    </args>
-		  </button>
-		</children>
+            </args>
+          </button>
+        </children>
 </horizgroup>';
                 $row++;
             }
@@ -1511,7 +1469,7 @@ $gXmlDefinition .=
                 $gToolbars['reptools'] = array(
                     'refresh' => array(
                         'label' => $gLocale->getStr('refresh.button'),
-                        'themeimage' => 'reload',
+                        'themeimage' => 'cycle',
                         'horiz' => 'true',
                         'action' => WuiEventsCall::buildEventsCallString(
                             '',
@@ -1624,7 +1582,7 @@ function main_repositoryapplications($eventData)
     require_once('innomatic/application/ApplicationDependencies.php');
     require_once('innomatic/application/ApplicationSettings.php');
     require_once('innomatic/application/ApplicationComponentRegister.php');
-    
+
     $acRemote = new AppCentralRemoteServer(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
         $eventData['id']
@@ -1740,12 +1698,12 @@ function main_repositoryapplications($eventData)
                 {
                 case ApplicationDependencies::VERSIONCOMPARE_EQUAL:
                     $label = $gLocale->getStr('reinstall_application.button');
-                    $icon = 'reload';
+                    $icon = 'cycle';
                     break;
 
                 case ApplicationDependencies::VERSIONCOMPARE_MORE:
                     $label = $gLocale->getStr('update_application.button');
-                    $icon = 'folder_new';
+                    $icon = 'up';
                     break;
 
                 case ApplicationDependencies::VERSIONCOMPARE_LESS:
@@ -1755,7 +1713,7 @@ function main_repositoryapplications($eventData)
                 }
             } else {
                 $label = $gLocale->getStr('install_application.button');
-                $icon = 'folder';
+                $icon = 'mathadd';
             }
         } else {
             $appInstallable = false;
@@ -1770,11 +1728,11 @@ function main_repositoryapplications($eventData)
         $toolbars = '';
 
         $toolbars .= '<button>
-        		    <args>
-		      <label>'.WuiXml::cdata($gLocale->getStr('application_versions.button')).'</label>
-		<themeimage>listdetailed</themeimage>
-		<horiz>true</horiz>
-		<action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
+                    <args>
+              <label>'.WuiXml::cdata($gLocale->getStr('application_versions.button')).'</label>
+        <themeimage>listdetailed</themeimage>
+        <horiz>true</horiz>
+        <action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -1788,19 +1746,19 @@ function main_repositoryapplications($eventData)
                     )
                 )
             )).'</action>
-        		  </args>
-        		</button>';
+                  </args>
+                </button>';
 
 
         if (
             $appInstallable
         ) {
-        	$toolbars .= '<button>
-        		    <args>
-		      <label>'.WuiXml::cdata($label).'</label>
-		<themeimage>'.$icon.'</themeimage>
-		<horiz>true</horiz>
-		<action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
+            $toolbars .= '<button>
+                    <args>
+              <label>'.WuiXml::cdata($label).'</label>
+        <themeimage>'.$icon.'</themeimage>
+        <horiz>true</horiz>
+        <action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array(
@@ -1822,8 +1780,8 @@ function main_repositoryapplications($eventData)
                         )
                     )
                 )).'</action>
-        		  </args>
-        		</button>';
+                  </args>
+                </button>';
         }
 
         $gXmlDefinition .=
@@ -1880,7 +1838,7 @@ function main_repositoryapplications($eventData)
                 $gToolbars['reptools'] = array(
                     'refresh' => array(
                         'label' => $gLocale->getStr('refresh.button'),
-                        'themeimage' => 'reload',
+                        'themeimage' => 'cycle',
                         'horiz' => 'true',
                         'action' => WuiEventsCall::buildEventsCallString(
                             '',
@@ -1907,12 +1865,12 @@ function main_applicationversions($eventData)
 {
     global $gLocale, $gXmlDefinition, $gPageTitle, $gToolbars;
     require_once('innomatic/application/ApplicationDependencies.php');
-    
+
     $acRemote = new AppCentralRemoteServer(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
         $eventData['id']
     );
-    
+
     $availReps = $acRemote->ListAvailableRepositories(
         isset($eventData['refresh']) ? true : false
     );
@@ -2038,13 +1996,13 @@ function main_applicationversions($eventData)
 
         $toolbars = '';
 
-        if ( $appInstallable ) {        	
-        	$toolbars .= '<button>
-        		    <args>
-		      <label>'.WuiXml::cdata($label).'</label>
-		<themeimage>'.$icon.'</themeimage>
-		<horiz>true</horiz>
-		<action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
+        if ( $appInstallable ) {
+            $toolbars .= '<button>
+                    <args>
+              <label>'.WuiXml::cdata($label).'</label>
+        <themeimage>'.$icon.'</themeimage>
+        <horiz>true</horiz>
+        <action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array(
@@ -2067,8 +2025,8 @@ function main_applicationversions($eventData)
                         )
                     )
                 )).'</action>
-        		  </args>
-        		</button>';
+                  </args>
+                </button>';
         }
 
         $gXmlDefinition .=
@@ -2114,7 +2072,7 @@ function main_applicationversions($eventData)
     $gToolbars['reptools'] = array(
         'refresh' => array(
             'label' => $gLocale->getStr('refresh.button'),
-            'themeimage' => 'reload',
+            'themeimage' => 'cycle',
             'horiz' => 'true',
             'action' => WuiEventsCall::buildEventsCallString(
                 '',
@@ -2193,14 +2151,14 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
         $row = 0;
 
         while (!$query->eof) {
-        	$toolbars = '<button>
-        		    <args>
-		      <label>'.WuiXml::cdata($gLocale->getStr('removekey.button')).'</label>
-		<themeimage>trash</themeimage>
-		<horiz>true</horiz>
-				<needconfirm>true</needconfirm>
+            $toolbars = '<button>
+                    <args>
+              <label>'.WuiXml::cdata($gLocale->getStr('removekey.button')).'</label>
+        <themeimage>trash</themeimage>
+        <horiz>true</horiz>
+                <needconfirm>true</needconfirm>
                     <confirmmessage>'.WuiXml::cdata($gLocale->getStr('remove_key.confirm')).'</confirmmessage>
-		<action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
+        <action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -2216,9 +2174,9 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
                             )
                         )
                     )).'</action>
-        		  </args>
-        		</button>';
-        	
+                  </args>
+                </button>';
+
             $gXmlDefinition .=
 '<label row="'.$row.'" col="0">
   <args>
@@ -2364,7 +2322,7 @@ function main_about($eventData)
             <align>center</align>
           </args>
           <children>
-        
+
             <image>
               <args>
                 <imageurl type="encoded">'
@@ -2376,13 +2334,13 @@ function main_about($eventData)
                 <height>34</height>
               </args>
             </image>
-        
+
             <label>
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('innomatic_copyright.label')).'</label>
               </args>
             </label>
-        
+
             <link>
               <args>
                 <label type="encoded">'.urlencode('www.innomatic.org').'</label>
@@ -2390,7 +2348,7 @@ function main_about($eventData)
                 <target>_blank</target>
               </args>
             </link>
-        
+
           </children>
         </vertgroup>';
 
@@ -2413,7 +2371,6 @@ $wui->addChild(
         array(
             'pagetitle' => $gPageTitle,
             'icon' => 'listicons',
-            'menu' => $gMenu,
             'toolbars' => array(
                 new WuiInnomaticToolbar(
                     'view',
@@ -2423,8 +2380,7 @@ $wui->addChild(
                 )
             ),
             'maincontent' => $gPageContent,
-            'status' => $gStatus,
-            'javascript' => $gJavascript
+            'status' => $gStatus
         )
     )
 );

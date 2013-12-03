@@ -1,10 +1,10 @@
-<?php   
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -143,22 +143,23 @@ class PHPTemplate implements Template
         if (is_array($this->_vars)) {
             extract($this->_vars);
         }
-        
+
         ob_start();
         include($this->_file);
         $contents = ob_get_contents();
         ob_end_clean();
         return $contents;
     }
-    
-	/**
-	 * Returns a list of the set tag names.
-	 * 
-	 * @access public
-	 * @since 6.1
-	 * @return array
-	 */
-	public function getTags() {
-		return array_keys($this->_vars);
-	}
+
+    /**
+     * Returns a list of the set tag names.
+     *
+     * @access public
+     * @since 6.1
+     * @return array
+     */
+    public function getTags()
+    {
+        return array_keys($this->_vars);
+    }
 }

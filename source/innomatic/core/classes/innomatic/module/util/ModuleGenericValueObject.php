@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once('innomatic/module/ModuleValueObject.php');
 
@@ -16,7 +16,6 @@ require_once('innomatic/module/ModuleValueObject.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleGenericValueObject extends ModuleValueObject {
+class ModuleGenericValueObject extends ModuleValueObject
+{
 }
-
-?>

@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -27,17 +27,17 @@ class WuiVoid extends WuiWidget
     {
         parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
     }
-    
+
     protected function generateSource()
     {
-    	$layout = '';
-    	
-    	if ($this->mComments) $layout .= '<!-- begin ' . $this->mName
+        $layout = '';
+
+        if ($this->mComments) $layout .= '<!-- begin ' . $this->mName
             . " void -->\n";
-    	
-    	$layout .= '<hr style="display:none; visibility:hidden;"/>';
-    	
-    	if ($this->mComments) $layout .= '<!-- end ' . $this->mName
-    	. " void -->\n";    	 
+
+        $layout .= '<hr style="display:none; visibility:hidden;"/>';
+
+        if ($this->mComments) $layout .= '<!-- end ' . $this->mName
+        . " void -->\n";
     }
 }

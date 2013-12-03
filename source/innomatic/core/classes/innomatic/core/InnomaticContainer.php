@@ -100,12 +100,12 @@ class InnomaticContainer extends Singleton
     const STATE_MAINTENANCE = 6;
 
     // Environment type
-    
+
     const ENVIRONMENT_DEVELOPMENT = 1; // Local development or shared sandbox
     const ENVIRONMENT_INTEGRATION = 2; // Integration e.g. continuous integration
     const ENVIRONMENT_STAGING = 3; // Multiple UAT, QA, Demo, Training/Demo environments
     const ENVIRONMENT_PRODUCTION = 4; // Live
-    
+
     // Output interface types
 
     const INTERFACE_UNKNOWN = 1;
@@ -127,9 +127,9 @@ class InnomaticContainer extends Singleton
     const EDITION_ENTERPRISE = 2;
 
     // Deprecated
-    
+
     const EDITION_ASP = 1;
-    
+
     // Password result codes
     const SETROOTPASSWORD_NEW_PASSWORD_IS_EMPTY = -1;
     const SETROOTPASSWORD_UNABLE_TO_WRITE_NEW_PASSWORD = -2;
@@ -209,25 +209,25 @@ class InnomaticContainer extends Singleton
                     $this->_state = InnomaticContainer::STATE_PRODUCTION;
             }
         }
-        
+
         // Environment
         switch ($this->_config->Value('PlatformEnvironment')) {
-        	case 'development':
-        		$this->_environment = InnomaticContainer::ENVIRONMENT_DEVELOPMENT;
-        		break;
-        	case 'integration':
-        		$this->_environment = InnomaticContainer::ENVIRONMENT_INTEGRATION;
-        		break;
-        	case 'staging':
-        		$this->_environment = InnomaticContainer::ENVIRONMENT_STAGING;
-        		break;
-        	case 'production':
-        		$this->_environment = InnomaticContainer::ENVIRONMENT_PRODUCTION;
-        		break;
-        	default:
-        		$this->_environment = InnomaticContainer::ENVIRONMENT_PRODUCTION;
+            case 'development':
+                $this->_environment = InnomaticContainer::ENVIRONMENT_DEVELOPMENT;
+                break;
+            case 'integration':
+                $this->_environment = InnomaticContainer::ENVIRONMENT_INTEGRATION;
+                break;
+            case 'staging':
+                $this->_environment = InnomaticContainer::ENVIRONMENT_STAGING;
+                break;
+            case 'production':
+                $this->_environment = InnomaticContainer::ENVIRONMENT_PRODUCTION;
+                break;
+            default:
+                $this->_environment = InnomaticContainer::ENVIRONMENT_PRODUCTION;
         }
-        
+
         // Interface
         //$this->interface = InnomaticContainer::INTERFACE_UNKNOWN;
         // Mode
@@ -469,9 +469,9 @@ class InnomaticContainer extends Singleton
     public function stopDomain()
     {
         if ($this->_domainStarted) {
-			if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
-            	$this->_currentDomain->getDataAccess()->close();
-        	}
+            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
+                $this->_currentDomain->getDataAccess()->close();
+            }
             // TODO implement
 
             // Removes override classes folder from the include path
@@ -1162,24 +1162,24 @@ class InnomaticContainer extends Singleton
 
     public function getEnvironment()
     {
-    	return $this->_environment;
+        return $this->_environment;
     }
-    
+
     public function setEnvironment($environment)
     {
-    	switch ($environment) {
-    		case InnomaticContainer::ENVIRONMENT_DEVELOPMENT:
-    			// break was intentionally omitted
-    		case InnomaticContainer::ENVIRONMENT_INTEGRATION:
-    			// break was intentionally omitted
-    		case InnomaticContainer::ENVIRONMENT_PRODUCTION:
-    			// break was intentionally omitted
-    		case InnomaticContainer::ENVIRONMENT_STAGING:
-    			$this->_environment = $environment;
-    			break;
-    	}
+        switch ($environment) {
+            case InnomaticContainer::ENVIRONMENT_DEVELOPMENT:
+                // break was intentionally omitted
+            case InnomaticContainer::ENVIRONMENT_INTEGRATION:
+                // break was intentionally omitted
+            case InnomaticContainer::ENVIRONMENT_PRODUCTION:
+                // break was intentionally omitted
+            case InnomaticContainer::ENVIRONMENT_STAGING:
+                $this->_environment = $environment;
+                break;
+        }
     }
-    
+
     public function getMode()
     {
         return $this->_mode;
@@ -1444,108 +1444,6 @@ class InnomaticContainer extends Singleton
         } else {
             $result = InnomaticContainer::SETROOTPASSWORD_OLD_PASSWORD_IS_WRONG;
         }
-
-        return $result;
-    }
-
-    public static function getRootWuiMenuDefinition($localeLang)
-    {
-        require_once('innomatic/locale/LocaleCatalog.php');
-        require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-        $shLoc = new LocaleCatalog('innomatic::sharedmenu', $localeLang);
-
-        $result =
-            '.|' . $shLoc->getStr('domains.menu') . "\n".
-            '..|' . $shLoc->getStr('domainslist.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'domains', array( array('view', 'default'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('newdomain.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'domains', array( array('view', 'newdomain'))
-            ) . "\n".
-
-            '.|' . $shLoc->getStr('applications.menu') . "\n".
-            '..|' . $shLoc->getStr('applicationslist.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'applications', array( array('view', 'default'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('appcentral.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'applications', array( array('view', 'appcentral'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('keyring.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'applications', array( array('view', 'keyring'))
-            ) . "\n".
-
-            '.|' . $shLoc->getStr('webservices.menu') . "\n".
-            '..|' . $shLoc->getStr('webservicesprofiles.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'webservices', array( array('view', 'default'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('newwebservicesprofile.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'webservices', array( array('view', 'newprofile'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('webservicesusers.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'webservices', array( array('view', 'users'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('newwebservicesuser.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'webservices', array( array('view', 'newuser'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('webservicesaccounts.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'webservices', array( array('view', 'accounts'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('newwebservicesaccount.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'webservices', array( array('view', 'newaccount'))
-            ) . "\n".
-
-            '.|' . $shLoc->getStr('settings.menu') . "\n".
-            '..|' . $shLoc->getStr('interface.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'interface', array( array('view', 'default'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('network.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'interface', array( array('view', 'name'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('locale.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'interface', array( array('view', 'localization'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('password.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'security', array( array('view', 'change_password'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('securitysettings.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'security', array( array('view', 'settings'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('maintenancesettings.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'maintenance', array( array('view', 'default'))
-            ) . "\n".
-
-            '.|' . $shLoc->getStr('tools.menu') . "\n".
-            '..|' . $shLoc->getStr('securitycheck.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'security', array( array('view', 'default'))
-            ) . "\n".
-            '..|' . $shLoc->getStr('maintenance.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'maintenance', array( array('view', 'default'))
-            ) . "\n".
-
-            '.|' . $shLoc->getStr('help.menu') . "\n".
-            '..|' . $shLoc->getStr('about.menu') . '|'
-            . WuiEventsCall::buildEventsCallString(
-                'applications', array( array('view', 'about'))
-            ) . "\n";
 
         return $result;
     }

@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -60,12 +60,12 @@ class CacheGarbageCollector
         InnomaticContainer::instance(
             'innomaticcontainer'
         )->getDataAccess()->execute('DELETE FROM cache_items');
-        
+
         $dirstream = opendir(
             InnomaticContainer::instance('innomaticcontainer')->getHome()
             . 'core/temp/cache'
         );
-        
+
         if ($dirstream) {
             while (false !== ($filename = readdir($dirstream))) {
                 if ($filename != '.' && $filename != '..') {

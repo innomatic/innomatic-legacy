@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -16,7 +16,7 @@ require_once ('innomatic/application/ApplicationComponent.php');
 
 /**
  * Webapphandler component handler.
- * 
+ *
  * A Webapp Handler is the front controller for a certain mapping in a webapp
  * as defined in the web.xml file for that webapp.
  *
@@ -27,27 +27,27 @@ require_once ('innomatic/application/ApplicationComponent.php');
  */
 class WebapphandlerComponent extends ApplicationComponent
 {
-    public function __construct ($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'webapphandler';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 0;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    public function doInstallAction ($params)
+    public function doInstallAction($params)
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['class']) or ! strlen($params['urlpattern'])) {
@@ -101,7 +101,7 @@ class WebapphandlerComponent extends ApplicationComponent
         // Updates the web.xml file.
         return file_put_contents($web_xml_file, $sx->asXML());
     }
-    public function doUninstallAction ($params)
+    public function doUninstallAction($params)
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['class']) or ! strlen($params['urlpattern'])) {
@@ -127,7 +127,7 @@ class WebapphandlerComponent extends ApplicationComponent
         // Updates the web.xml file.
         return file_put_contents($web_xml_file, $sx->asXML());
     }
-    public function doUpdateAction ($params)
+    public function doUpdateAction($params)
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['class']) or ! strlen($params['urlpattern'])) {
@@ -161,7 +161,7 @@ class WebapphandlerComponent extends ApplicationComponent
         // Updates the web.xml file.
         return file_put_contents($web_xml_file, $sx->asXML());
     }
-    private function simplexml_addChild ($parent, $name, $value = '')
+    private function simplexml_addChild($parent, $name, $value = '')
     {
         $new_child = new SimpleXMLElement("<$name>$value</$name>");
         $node1 = dom_import_simplexml($parent);
@@ -170,7 +170,7 @@ class WebapphandlerComponent extends ApplicationComponent
         $node1->appendChild($node2);
         return simplexml_import_dom($node2);
     }
-    private function simplexml_addAttribute ($parent, $name, $value = '')
+    private function simplexml_addAttribute($parent, $name, $value = '')
     {
         $node1 = dom_import_simplexml($parent);
         $node1->setAttribute($name, $value);

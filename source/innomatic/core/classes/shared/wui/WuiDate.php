@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -42,7 +42,7 @@ class WuiDate extends WuiWidget
     /*! @public mTabIndex integer - Position of the current element in the tabbing order. */
     public $mTabIndex = 0;
     public $mType = 'date';
-    
+
     public function __construct (
         $elemName,
         $elemArgs = '',
@@ -61,7 +61,7 @@ class WuiDate extends WuiWidget
             $this->mTabIndex = $this->mArgs['tabindex'];
         if (isset($this->mArgs['country']) and strlen($this->mArgs['country']))
             $this->mCountry = $this->mArgs['country'];
-        else 
+        else
             if (InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
                 $this->mCountry = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getCountry();
             } else {
@@ -69,7 +69,7 @@ class WuiDate extends WuiWidget
             }
         if (isset($this->mArgs['language']) and strlen($this->mArgs['language']))
             $this->mLanguage = $this->mArgs['language'];
-        else 
+        else
             if (InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
                 $this->mLanguage = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage();
             } else {
@@ -99,7 +99,7 @@ class WuiDate extends WuiWidget
             }
         }
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         $result = false;
         $event_data = new WuiEventRawData($this->mDisp, $this->mName);

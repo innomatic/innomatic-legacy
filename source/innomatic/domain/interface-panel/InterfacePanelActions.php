@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -47,113 +47,107 @@ require_once('innomatic/wui/dispatch/WuiDispatcher.php');
     public function endHelper()
     {
     }
-    
-    function executesettheme($eventData)
-    {    
-    	$userCfg = new UserSettings(
-    			InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-    			InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
-    	$userCfg->setKey('wui-theme', $eventData['theme']);
-    
-    	if (
-    			User::isAdminUser(
-    					InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserName(),
-    					InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
-    			)
-    	) {
-    		$domainCfg = new DomainSettings(
-    				InnomaticContainer::instance(
-    						'innomaticcontainer'
-    				)->getCurrentDomain()->getDataAccess());
-    		$domainCfg->EditKey('wui-theme', $eventData['theme']);
-    	}
-    
-    	$wui = Wui::instance('wui');
-    	$wui->setTheme($eventData['theme']);
-    
-    	WebAppContainer::instance(
-    	'webappcontainer'
-    			)->getProcessor()->getResponse()->addHeader(
-    			'Location',
-    			WuiEventsCall::buildEventsCallString(
-    			'',
-    			array(
-    			array('view', 'default', ''),
-    			array('action', 'settheme2', '')
-    			)
-    			)
-    			);
-    }
-    
-    function executesettheme2($eventData)
-    {    
-    	$this->status = $this->_localeCatalog->getStr('themeset_status');
-    	$this->javascript = "parent.frames.menu.location.reload();\nparent.frames.header.location.reload()";
-    	
-    	$this->setChanged();
-    	$this->notifyObservers('status');
-    	$this->notifyObservers('javascript');
-    }
-    
-    function executesetlanguage($eventData)
+
+    public function executesettheme($eventData)
     {
-    	$userCfg = new UserSettings(
-    			InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-    			InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
-    	$userCfg->setKey('desktop-language', $eventData['language']);
-    
-    	$domainSets = new DomainSettings(
-    			InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()
-    	);
-    
-    	if (
-    			User::isAdminUser(
-    					InnomaticContainer::instance(
-    							'innomaticcontainer'
-    					)->getCurrentUser()->getUserName(),
-    					InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
-    			)
-    	) {
-    		$domainSets->EditKey('desktop-language', $eventData['language']);
-    	}
-    
-    	$this->javascript = 'parent.frames.menu.location.reload()';
-    
-    	$this->status = $this->_localeCatalog->getStr('languageset_status');
-    	
-    	$this->setChanged();
-    	$this->notifyObservers('status');
-    	$this->notifyObservers('javascript');
+        $userCfg = new UserSettings(
+                InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
+                InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
+        $userCfg->setKey('wui-theme', $eventData['theme']);
+
+        if (
+                User::isAdminUser(
+                        InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserName(),
+                        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+                )
+        ) {
+            $domainCfg = new DomainSettings(
+                    InnomaticContainer::instance(
+                            'innomaticcontainer'
+                    )->getCurrentDomain()->getDataAccess());
+            $domainCfg->EditKey('wui-theme', $eventData['theme']);
+        }
+
+        $wui = Wui::instance('wui');
+        $wui->setTheme($eventData['theme']);
+
+        WebAppContainer::instance(
+        'webappcontainer'
+                )->getProcessor()->getResponse()->addHeader(
+                'Location',
+                WuiEventsCall::buildEventsCallString(
+                '',
+                array(
+                array('view', 'default', ''),
+                array('action', 'settheme2', '')
+                )
+                )
+                );
     }
-    
-    function executesetcountry($eventData)
-    {    
-    	$userCfg = new UserSettings(
-    			InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-    			InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
-    	$userCfg->setKey('desktop-country', $eventData['country']);
-    
-    	$domainSettings = new DomainSettings(
-    			InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()
-    	);
-    
-    	if (
-    			User::isAdminUser(
-    					InnomaticContainer::instance(
-    							'innomaticcontainer'
-    					)->getCurrentUser()->getUserName(),
-    					InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
-    			)
-    	) {
-    		$domainSettings->EditKey('desktop-country', $eventData['country']);
-    	}
-    
-    	$this->javascript = 'parent.frames.menu.location.reload()';
-    
-    	$this->status = $this->_localeCatalog->getStr('countryset_status');
-    	
-    	$this->setChanged();
-    	$this->notifyObservers('status');
-    	$this->notifyObservers('javascript');
+
+    public function executesettheme2($eventData)
+    {
+        $this->status = $this->_localeCatalog->getStr('themeset_status');
+
+        $this->setChanged();
+        $this->notifyObservers('status');
+    }
+
+    public function executesetlanguage($eventData)
+    {
+        $userCfg = new UserSettings(
+                InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
+                InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
+        $userCfg->setKey('desktop-language', $eventData['language']);
+
+        $domainSets = new DomainSettings(
+                InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()
+        );
+
+        if (
+                User::isAdminUser(
+                        InnomaticContainer::instance(
+                                'innomaticcontainer'
+                        )->getCurrentUser()->getUserName(),
+                        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+                )
+        ) {
+            $domainSets->EditKey('desktop-language', $eventData['language']);
+        }
+
+        $this->status = $this->_localeCatalog->getStr('languageset_status');
+
+        $this->setChanged();
+        $this->notifyObservers('status');
+        $this->notifyObservers('javascript');
+    }
+
+    public function executesetcountry($eventData)
+    {
+        $userCfg = new UserSettings(
+                InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
+                InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
+        $userCfg->setKey('desktop-country', $eventData['country']);
+
+        $domainSettings = new DomainSettings(
+                InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()
+        );
+
+        if (
+                User::isAdminUser(
+                        InnomaticContainer::instance(
+                                'innomaticcontainer'
+                        )->getCurrentUser()->getUserName(),
+                        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+                )
+        ) {
+            $domainSettings->EditKey('desktop-country', $eventData['country']);
+        }
+
+        $this->status = $this->_localeCatalog->getStr('countryset_status');
+
+        $this->setChanged();
+        $this->notifyObservers('status');
+        $this->notifyObservers('javascript');
     }
 }

@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -40,19 +40,19 @@ class WuiTab extends WuiContainerWidget
         }
         if (isset($this->mArgs['activetab']) and strlen($this->mArgs['activetab']))
             $this->mArgs['activetab'] = $this->mArgs['activetab'];
-        else 
+        else
             if (isset($tmp_sess['activetab']) and strlen($tmp_sess['activetab']))
                 $this->mArgs['activetab'] = $tmp_sess['activetab'];
             else
                 $this->mArgs['activetab'] = 0;
         $this->StoreSession(array('activetab' => $this->mArgs['activetab']));
     }
-    public function addChild (WuiWidget $childWidget)
+    public function addChild(WuiWidget $childWidget)
     {
         $this->mArgs['tabpages'][] = $childWidget;
         return true;
     }
-    public function build (WuiDispatcher $rwuiDisp)
+    public function build(WuiDispatcher $rwuiDisp)
     {
         $result = false;
         $this->mrWuiDisp = $rwuiDisp;

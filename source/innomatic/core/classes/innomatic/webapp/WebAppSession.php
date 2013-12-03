@@ -1,10 +1,10 @@
-<?php  
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -18,7 +18,8 @@
  * @copyright Copyright 2012 Innoteam Srl
  * @since 1.0
  */
-interface WebAppSession {
+interface WebAppSession
+{
     public function start($id = '');
 
     public function put($key, $value);
@@ -30,6 +31,6 @@ interface WebAppSession {
     public function isValid($key);
 
     public function getId();
-    
+
     public function destroy();
 }

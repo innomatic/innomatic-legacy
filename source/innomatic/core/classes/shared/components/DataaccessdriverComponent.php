@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -19,27 +19,27 @@ require_once ('innomatic/dataaccess/DataAccessFactory.php');
  */
 class DataaccessdriverComponent extends ApplicationComponent
 {
-    function DataaccessdriverComponent (&$rootda, $domainda, $appname, $name, $basedir)
+    public function DataaccessdriverComponent(&$rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'dataaccessdriver';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 110;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    function DoInstallAction ($params)
+    public function DoInstallAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
@@ -50,7 +50,7 @@ class DataaccessdriverComponent extends ApplicationComponent
             $this->mLog->logEvent('innomatic.dataaccessdrivercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty DataAccess driver file name', Logger::ERROR);
         return $result;
     }
-    function DoUninstallAction ($params)
+    public function DoUninstallAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
@@ -61,7 +61,7 @@ class DataaccessdriverComponent extends ApplicationComponent
             $this->mLog->logEvent('innomatic.dataaccessdrivercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty DataAccess driver file name', Logger::ERROR);
         return $result;
     }
-    function DoUpdateAction ($params)
+    public function DoUpdateAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {

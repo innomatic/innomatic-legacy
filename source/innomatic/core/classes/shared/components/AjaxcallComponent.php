@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -24,11 +24,11 @@ require_once ('innomatic/application/ApplicationComponent.php');
  */
 class AjaxcallComponent extends ApplicationComponent
 {
-    public function __construct ($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public function __destruct ()
+    public function __destruct()
     {
         // Flushes the xajax call function list cache.
         require_once ('innomatic/ajax/XajaxConfig.php');
@@ -37,35 +37,35 @@ class AjaxcallComponent extends ApplicationComponent
             WebAppContainer::instance('webappcontainer')->getCurrentWebApp()
         );
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'ajaxcall';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 0;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    public function doInstallAction ($params)
+    public function doInstallAction($params)
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['classname']) or ! strlen($params['method']) or ! strlen($params['classfile'])) {
             $this->mLog->logEvent('AjaxcallComponent::doInstallAction', 'Empty parameters in application ' . $this->appname, Logger::ERROR);
             return false;
         }
-        
+
         $ajax_xml_file = InnomaticContainer::instance(
             'innomaticcontainer'
         )->getHome()
         . 'core/conf/ajax.xml';
-        
+
         $sx = simplexml_load_file($ajax_xml_file);
         // Function
         $ok = true;
@@ -94,7 +94,7 @@ class AjaxcallComponent extends ApplicationComponent
         // Updates the ajax.xml file.
         return file_put_contents($ajax_xml_file, $sx->asXML());
     }
-    public function doUninstallAction ($params)
+    public function doUninstallAction($params)
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['classname']) or ! strlen($params['method']) or ! strlen($params['classfile'])) {
@@ -114,7 +114,7 @@ class AjaxcallComponent extends ApplicationComponent
         // Updates the ajax.xml file.
         return file_put_contents($web_xml_file, $sx->asXML());
     }
-    public function doUpdateAction ($params)
+    public function doUpdateAction($params)
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['classname']) or ! strlen($params['method']) or ! strlen($params['classfile'])) {
@@ -148,7 +148,7 @@ class AjaxcallComponent extends ApplicationComponent
         // Updates the ajax.xml file.
         return file_put_contents($web_xml_file, $sx->asXML());
     }
-    private function simplexml_addChild ($parent, $name, $value = '')
+    private function simplexml_addChild($parent, $name, $value = '')
     {
         $new_child = new SimpleXMLElement("<$name>$value</$name>");
         $node1 = dom_import_simplexml($parent);
@@ -157,7 +157,7 @@ class AjaxcallComponent extends ApplicationComponent
         $node1->appendChild($node2);
         return simplexml_import_dom($node2);
     }
-    private function simplexml_addAttribute ($parent, $name, $value = '')
+    private function simplexml_addAttribute($parent, $name, $value = '')
     {
         $node1 = dom_import_simplexml($parent);
         $node1->setAttribute($name, $value);

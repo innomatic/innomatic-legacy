@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2013 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -19,6 +19,8 @@
 require_once('innomatic/logging/Logger.php');
 require_once('innomatic/locale/LocaleCatalog.php');
 require_once('innomatic/wui/Wui.php');
+require_once('innomatic/wui/dispatch/WuiEventsCall.php');
+require_once('innomatic/wui/dispatch/WuiEvent.php');
 require_once('innomatic/webservices/WebServicesAccount.php');
 require_once('innomatic/webservices/WebServicesProfile.php');
 require_once('innomatic/webservices/WebServicesUser.php');
@@ -77,19 +79,6 @@ $wuiTitleBar = new WuiTitleBar(
     )
 );
 $wuiMainVertGroup->addChild($wuiTitleBar);
-
-$menuFrame = new WuiHorizGroup('menuframe');
-$menuFrame->addChild(
-    new WuiMenu(
-        'mainmenu',
-        array(
-            'menu' => InnomaticContainer::getRootWuiMenuDefinition(
-                InnomaticContainer::instance('innomaticcontainer')->getLanguage()
-            )
-        )
-    )
-);
-$wuiMainVertGroup->addChild($menuFrame);
 
 // Profiles bar
 //
@@ -567,7 +556,7 @@ function main_default($eventData)
             $wuiRenameButton[$row] = new WuiButton(
                 'renamebutton'.$row,
                 array(
-                    'label' => $innomaticLocale->getStr('renameprofile_label'),  
+                    'label' => $innomaticLocale->getStr('renameprofile_label'),
                     'horiz' => 'true',
                     'themeimage' => 'documenttext',
                     'action' => $renameAction[$row]->getEventsCallString()
@@ -1523,7 +1512,7 @@ function main_chdomain($eventData)
         new WuiComboBox(
             'domainid',
             array(
-                'disp' => 'action',  
+                'disp' => 'action',
                 'elements' => $domains,
                 'default' => $userData['domainid']
             )
@@ -1931,7 +1920,7 @@ function main_updateaccount($eventData)
             'password',
             array('disp' => 'action', 'password' => 'true', 'value' => $accData['password'])
         ),
-        5, 1  
+        5, 1
     );
 
     $wuiFormGrid->addChild(

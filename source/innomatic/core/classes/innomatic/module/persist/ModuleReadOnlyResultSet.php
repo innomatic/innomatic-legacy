@@ -1,4 +1,4 @@
-<?php   
+<?php
 
 require_once('innomatic/module/ModuleObject.php');
 require_once('innomatic/dataaccess/DataAccessResult.php');
@@ -8,39 +8,43 @@ require_once('innomatic/dataaccess/DataAccessResult.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleReadOnlyResultSet {
-	private $resultSet;
+class ModuleReadOnlyResultSet
+{
+    private $resultSet;
 
-	function __construct(DataAccessResult $resultSet) {
-		$this->resultSet = $resultSet;
-	}
+    public function __construct(DataAccessResult $resultSet)
+    {
+        $this->resultSet = $resultSet;
+    }
 
-	function getNext(ModuleObject $businessObject) {
-		$row = $this->resultSet->getFields();
+    public function getNext(ModuleObject $businessObject)
+    {
+        $row = $this->resultSet->getFields();
 
-		$class = new ReflectionObject($businessObject->moduleGetVO());
-		$properties = $class->getProperties();
+        $class = new ReflectionObject($businessObject->moduleGetVO());
+        $properties = $class->getProperties();
 
-		for ($i = 0; $i < count($properties); $i ++) {
-			$prop_name = $properties[$i]->getName();
-			$businessObject->moduleGetVO()->setValue($prop_name, $row[$prop_name]);
-		}
+        for ($i = 0; $i < count($properties); $i ++) {
+            $prop_name = $properties[$i]->getName();
+            $businessObject->moduleGetVO()->setValue($prop_name, $row[$prop_name]);
+        }
 
-		$this->resultSet->moveNext();
-		return $businessObject;
-	}
+        $this->resultSet->moveNext();
+        return $businessObject;
+    }
 
-	public function hasNext() {
-		return $this->resultSet->hasNext();
-	}
+    public function hasNext()
+    {
+        return $this->resultSet->hasNext();
+    }
 
-	function rowCount() {
-		return $this->resultSet->getNumberRows();
-	}
-	
-	function eof() {
-		return $this->resultSet->eof;
-	}
+    public function rowCount()
+    {
+        return $this->resultSet->getNumberRows();
+    }
+
+    public function eof()
+    {
+        return $this->resultSet->eof;
+    }
 }
-
-?>

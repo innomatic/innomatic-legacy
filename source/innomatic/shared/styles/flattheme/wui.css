@@ -129,6 +129,21 @@ td {
 
  .headerbar   { color: #b8cfdf;                     font-weight: 300; font-size: 21px; font-family: Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
 
+tr.headerbar_dev {
+	border-bottom: 1px solid #457c9f;
+	background-color: #3e8d36;
+}
+
+tr.headerbar_integration {
+	border-bottom: 1px solid #457c9f;
+	background-color: #8d3684;
+}
+
+tr.headerbar_staging {
+	border-bottom: 1px solid #457c9f;
+	background-color: #8d0000;
+}
+
 tr.headerbar {
 	border-bottom: 1px solid #457c9f;
 	background-color: #2b6991;

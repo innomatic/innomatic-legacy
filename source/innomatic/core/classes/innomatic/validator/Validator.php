@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -68,7 +68,7 @@ abstract class Validator
      * @access protected
      * @since 5.0
      */
-    protected function setError ($error)
+    protected function setError($error)
     {
         $this->_errors[] = $error;
     }
@@ -79,7 +79,7 @@ abstract class Validator
      * @access public
      * @since 5.0
      */
-    public function getError ()
+    public function getError()
     {
         return array_pop($this->_errors);
     }
@@ -89,7 +89,7 @@ abstract class Validator
      * @access public
      * @since 5.0
      */
-    public function isValid ()
+    public function isValid()
     {
         return count($this->_errors) ? false : true;
     }
@@ -100,7 +100,7 @@ abstract class Validator
      * @access public
      * @since 5.0
      */
-    public function getParameter ($key)
+    public function getParameter($key)
     {
         return isset($this->_params[$key]) ? $this->_params[$key] : null;
     }
@@ -113,7 +113,7 @@ abstract class Validator
      * @access public
      * @since 5.0
      */
-    public function setParameter ($key, $value)
+    public function setParameter($key, $value)
     {
         $this->_params[$key] = $value;
     }

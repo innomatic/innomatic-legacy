@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -22,34 +22,34 @@ WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->add
 WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('Cache-control', 'no-cache, must-revalidate');
 WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('Pragma', 'no-cache');
 
-function setup_entry(&$progress, $phases, $phaseMark, $phaseCompleted, $phaseName, $wui_table, $row) {
-	if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/'.$phaseMark)) {
-		$ball_icon = $wui_table->mThemeHandler->mStyle['goldball'];
-		$font_color = 'yellow';
-		$pre = '<b>';
-		$post = '</b>';
-	} else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/'.$phaseCompleted)) {
-		$ball_icon = $wui_table->mThemeHandler->mStyle['redball'];
-		$font_color = 'black';
-		$pre = '';
-		$post = '';
-	} else {
-		$ball_icon = $wui_table->mThemeHandler->mStyle['greenball'];
-		$font_color = 'black';
-		$pre = '';
-		$post = '';
-		$progress = $row +1;
-	}
+function setup_entry(&$progress, $phases, $phaseMark, $phaseCompleted, $phaseName, $wui_table, $row)
+{
+    if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/'.$phaseMark)) {
+        $ball_icon = $wui_table->mThemeHandler->mStyle['goldball'];
+        $font_color = 'yellow';
+        $pre = '<b>';
+        $post = '</b>';
+    } elseif (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/'.$phaseCompleted)) {
+        $ball_icon = $wui_table->mThemeHandler->mStyle['redball'];
+        $font_color = 'black';
+        $pre = '';
+        $post = '';
+    } else {
+        $ball_icon = $wui_table->mThemeHandler->mStyle['greenball'];
+        $font_color = 'black';
+        $pre = '';
+        $post = '';
+        $progress = $row +1;
+    }
 
-	$wui_table->addChild(new WuiImage('statusimage'.$row, array('imageurl' => $ball_icon)), $row, 0);
-	$wui_table->addChild(new WuiLabel('phaselabel'.$row, array('label' => $pre.$phaseName.$post, 'nowrap' => 'false')), $row, 1);
+    $wui_table->addChild(new WuiImage('statusimage'.$row, array('imageurl' => $ball_icon)), $row, 0);
+    $wui_table->addChild(new WuiLabel('phaselabel'.$row, array('label' => $pre.$phaseName.$post, 'nowrap' => 'false')), $row, 1);
 }
 
 // Checks if Innomatic is in setup phase
 //
 /*
- if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP)
- {
+ if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
  main_page();
  }
  */
@@ -85,7 +85,7 @@ $wui->loadWidget('vertframe'  );
 $wui->loadWidget('vertgroup'  );
 $wui->loadWidget('progressbar');
 
-$wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('innomaticsetup_title'), 'javascript' => "parent.frames.menu.location.reload()"));
+$wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('innomaticsetup_title')));
 $wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
 $wuiTitleBar = new WuiTitleBar('titlebar', array('title' => $innomaticLocale->getStr('innomaticsetup_title')));
 $wuiMainVertGroup->addChild($wuiTitleBar);
@@ -97,70 +97,80 @@ $wuiMainFrame = new WuiVertGroup('mainvertgroup2');
 //
 $actionDispatcher = new WuiDispatcher('action');
 $actionDispatcher->addEvent('checksystem', 'pass_checksystem');
-function pass_checksystem($eventData) {
+function pass_checksystem($eventData)
+{
     global $innomaticLocale;
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
     InnomaticSetup::checksystem($eventData, $log);
 }
 
 $actionDispatcher->addEvent('installfiles', 'pass_installfiles');
-function pass_installfiles($eventData) {
+function pass_installfiles($eventData)
+{
     global $innomaticLocale, $log;
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
     InnomaticSetup::installfiles($eventData, $log);
 }
 
 $actionDispatcher->addEvent('setedition', 'pass_setedition');
-function pass_setedition($eventData) {
+function pass_setedition($eventData)
+{
     global $innomaticLocale;
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
     InnomaticSetup::setedition($eventData, $log);
 }
 
 $actionDispatcher->addEvent('createdataaccessdrivers', 'pass_createdataaccessdrivers');
-function pass_createdataaccessdrivers($eventData) {
+function pass_createdataaccessdrivers($eventData)
+{
     global $innomaticLocale;
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
     InnomaticSetup::dataaccessdrivers($eventData, $log);
 }
 
 $actionDispatcher->addEvent('createdb', 'pass_createdb');
-function pass_createdb($eventData) {
+function pass_createdb($eventData)
+{
     global $innomaticLocale;
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
     InnomaticSetup::createdb($eventData, $log);
 }
 
 $actionDispatcher->addEvent('initializecomponents', 'pass_initializecomponents');
-function pass_initializecomponents($eventData) {
+function pass_initializecomponents($eventData)
+{
     global $innomaticLocale;
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
     InnomaticSetup::initializecomponents($eventData, $log);
 }
 
 $actionDispatcher->addEvent('setpassword', 'pass_setpassword');
-function pass_setpassword($eventData) {
+function pass_setpassword($eventData)
+{
     global $innomaticLocale;
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
     InnomaticSetup::setpassword($eventData, $log);
 }
 
 $actionDispatcher->addEvent('setinnomatichost', 'pass_setinnomatichost');
-function pass_setinnomatichost($eventData) {
+function pass_setinnomatichost($eventData)
+{
     global $innomaticLocale;
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
     InnomaticSetup::setinnomatichost($eventData, $log);
 }
 
 $actionDispatcher->addEvent('setcountry', 'pass_setcountry');
-function pass_setcountry($eventData) {
+function pass_setcountry($eventData)
+{
     global $innomaticLocale;
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
     InnomaticSetup::setcountry($eventData, $log);
 }
 
 $actionDispatcher->addEvent('setlanguage', 'pass_setlanguage');
-function pass_setlanguage($eventData) {
+function pass_setlanguage($eventData)
+{
     global $innomaticLocale, $log;
     InnomaticSetup::setlanguage($eventData, $log);
 }
@@ -174,7 +184,8 @@ function pass_setlanguage($eventData) {
  }
  */
 $actionDispatcher->addEvent('cleanup', 'pass_cleanup');
-function pass_cleanup($eventData) {
+function pass_cleanup($eventData)
+{
     global $innomaticLocale;
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
     InnomaticSetup::setBaseUrl();
@@ -182,7 +193,8 @@ function pass_cleanup($eventData) {
 }
 
 $actionDispatcher->addEvent('finish', 'pass_finish');
-function pass_finish($eventData) {
+function pass_finish($eventData)
+{
     global $innomaticLocale;
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
     InnomaticSetup::finish($eventData, $log);
@@ -276,15 +288,12 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         // PHP version check
         //
         $row = 0;
-        
+
         //if (ereg("[4-9]\.[0-9]\.[5-9].*", phpversion()) or ereg("[4-9]\.[1-9]\.[0-9].*", phpversion()))
-        if (ereg("[5-9]\.[0-9]\.[0-9].*", phpversion()))
-        {
+        if (ereg("[5-9]\.[0-9]\.[0-9].*", phpversion())) {
             $ball = $wuiPage->mThemeHandler->mStyle['greenball'];
             $check_result = sprintf($innomaticLocale->getStr('php_available_label'), phpversion());
-        }
-        else
-        {
+        } else {
             $ball = $wuiPage->mThemeHandler->mStyle['redball'];
             $check_result = sprintf($innomaticLocale->getStr('php_not_available_label'), phpversion());
             $systemok = false;
@@ -299,13 +308,10 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         //
         $row++;
 
-        if (ini_get('file_uploads') == '1')
-        {
+        if (ini_get('file_uploads') == '1') {
             $ball = $wuiPage->mThemeHandler->mStyle['greenball'];
             $check_result = $innomaticLocale->getStr('fileupload_available_label');
-        }
-        else
-        {
+        } else {
             $ball = $wuiPage->mThemeHandler->mStyle['redball'];
             $check_result = $innomaticLocale->getStr('fileupload_not_available_label');
             $systemok = false;
@@ -320,13 +326,10 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         //
         $row++;
 
-        if (function_exists('xml_set_object'))
-        {
+        if (function_exists('xml_set_object')) {
             $ball = $wuiPage->mThemeHandler->mStyle['greenball'];
             $check_result = $innomaticLocale->getStr('xml_available_label');
-        }
-        else
-        {
+        } else {
             $ball = $wuiPage->mThemeHandler->mStyle['redball'];
             $check_result = $innomaticLocale->getStr('xml_not_available_label');
             $systemok = false;
@@ -341,13 +344,10 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         //
         $row++;
 
-        if (function_exists('gzinflate'))
-        {
+        if (function_exists('gzinflate')) {
             $ball = $wuiPage->mThemeHandler->mStyle['greenball'];
             $check_result = $innomaticLocale->getStr('zlib_available_label');
-        }
-        else
-        {
+        } else {
             $ball = $wuiPage->mThemeHandler->mStyle['redball'];
             $check_result = $innomaticLocale->getStr('zlib_not_available_label');
             $systemok = false;
@@ -362,13 +362,10 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         //
         $row++;
 
-        if (function_exists('mysql_connect') or function_exists('pg_connect'))
-        {
+        if (function_exists('mysql_connect') or function_exists('pg_connect')) {
             $ball = $wuiPage->mThemeHandler->mStyle['greenball'];
             $check_result = $innomaticLocale->getStr('db_available_label');
-        }
-        else
-        {
+        } else {
             $ball = $wuiPage->mThemeHandler->mStyle['redball'];
             $check_result = $innomaticLocale->getStr('db_not_available_label');
             $systemok = false;
@@ -385,13 +382,10 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         //
         $row++;
 
-        if (php_sapi_name() != 'cgi')
-        {
+        if (php_sapi_name() != 'cgi') {
             $ball = $wuiPage->mThemeHandler->mStyle['greenball'];
             $check_result = $innomaticLocale->getStr('xmlrpc_available_label');
-        }
-        else
-        {
+        } else {
             $ball = $wuiPage->mThemeHandler->mStyle['goldball'];
             $check_result = $innomaticLocale->getStr('xmlrpc_not_available_label');
         }
@@ -405,13 +399,10 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         //
         $row++;
 
-        if (function_exists('curl_init'))
-        {
+        if (function_exists('curl_init')) {
             $ball = $wuiPage->mThemeHandler->mStyle['greenball'];
             $check_result = $innomaticLocale->getStr('xmlrpc_ssl_available_label');
-        }
-        else
-        {
+        } else {
             $ball = $wuiPage->mThemeHandler->mStyle['goldball'];
             $check_result = $innomaticLocale->getStr('xmlrpc_ssl_not_available_label');
         }
@@ -424,14 +415,11 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $wui_vgroup = new WuiVertGroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
         $wui_vgroup->addChild($wui_info_table);
 
-        if ($systemok)
-        {
+        if ($systemok) {
             $next_action = new WuiEventSCall();
             $next_action->addEvent(new WuiEvent('action', 'checksystem', ''));
             $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
-        }
-        else
-        {
+        } else {
             $next_action = new WuiEventSCall();
             $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('retry_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/reload.png', 'action' => $next_action->getEventsCallString()));
         }
@@ -445,8 +433,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Files installation
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_filesinstalled'))
-    {
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_filesinstalled')) {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_installingfiles', time());
         $next_action = new WuiEventSCall();
         $next_action->addEvent(new WuiEvent('action', 'installfiles', ''));
@@ -455,8 +442,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Innomatic edition
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_editionset'))
-    {
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_editionset')) {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingedition', time());
 
         $wui_vgroup = new WuiVertGroup('vgroup');
@@ -506,7 +492,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $next_action->addEvent(new WuiEvent('action', 'createdataaccessdrivers', ''));
         require_once('innomatic/webapp/WebAppContainer.php');
         WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('Location', $next_action->getEventsCallString());
-    } else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_dbcreated')) {
+    } elseif (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_dbcreated')) {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_creatingdb', time());
         require_once('innomatic/dataaccess/DataAccessFactory.php');
 
@@ -562,8 +548,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Components initialization
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_componentsinitialized'))
-    {
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_componentsinitialized')) {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_initializingcomponents', time());
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('components_title');
@@ -584,8 +569,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Innomatic host name and group
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_innomatichostset'))
-    {
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_innomatichostset')) {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinginnomatichost', time());
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('innomatichost_title');
@@ -625,8 +609,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Root administration country
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_countryset'))
-    {
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_countryset')) {
         @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingcountry', time());
 
         $args['dbname'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseName');
@@ -645,8 +628,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $args['dbname'].'?'.
                         'logfile='.$args['dblog'];
         $tmpdb = DataAccessFactory::getDataAccess(new DataAccessSourceName($dasn_string));
-        if ($tmpdb->Connect())
-        {
+        if ($tmpdb->Connect()) {
             $tmploc = new LocaleCatalog('innomatic::localization', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
 
             $country_query = &$tmpdb->execute('SELECT * '.
@@ -656,16 +638,20 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
             $wui_vgroup = new WuiVertGroup('vgroup');
 
-            while (!$country_query->eof)
-            {
-                $countries[$country_query->getFields('countryname')] = $country_locale->getStr($country_query->getFields('countryname'));
-                $country_query->moveNext();
-            }
+			$defaultCountry = 'unitedstates';
+			while (!$country_query->eof) {
+			    $countries[$country_query->getFields('countryname')] = $country_locale->getStr($country_query->getFields('countryname'));
+			    // Get the default country for the form based on HTTP_ACCEPT_LANGUAGE header
+                if (strcmp($country_query->getFields('countryshort'), substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)) == 0) {
+			        $defaultCountry = $country_query->getFields('countryname');
+			    }
+			    $country_query->moveNext();
+			}
 
             $wui_locale_grid = new WuiGrid('localegrid');
 
             $wui_locale_grid->addChild(new WuiLabel('countrylabel', array('label' => $innomaticLocale->getStr('country_label'))), 0, 0);
-            $wui_locale_grid->addChild(new WuiComboBox('country', array('disp' => 'action', 'elements' => $countries)), 0, 1);
+            $wui_locale_grid->addChild(new WuiComboBox('country', array('disp' => 'action', 'elements' => $countries, 'default' => $defaultCountry)), 0, 1);
 
             $wui_vgroup->addChild($wui_locale_grid);
 
@@ -690,8 +676,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
             $wuiMainFrame->addChild($wui_vgroup2);
 
             $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('rootcountry_title');
-        }
-        else $log->logEvent('innomatic.root.main_php',
+        } else $log->logEvent('innomatic.root.main_php',
                                 'Unable to connect to root database during initialization', Logger::ERROR);
     }
     // Root administration language
@@ -702,8 +687,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $pass_data = $actionDispatcher->getEventData();
         $country = $pass_data['country'];
 
-        if (!strlen($country))
-        {
+        if (!strlen($country)) {
             $country = InnomaticContainer::instance('innomaticcontainer')->getCountry();
         }
 
@@ -723,8 +707,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $args['dbname'].'?'.
                         'logfile='.$args['dblog'];
         $tmpdb = DataAccessFactory::getDataAccess(new DataAccessSourceName($dasn_string));
-        if ($tmpdb->Connect())
-        {
+        if ($tmpdb->Connect()) {
             $loc_country = new LocaleCountry($country);
             $country_language = $loc_country->Language();
 
@@ -741,8 +724,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
             $language_query = &$tmpdb->execute('SELECT * FROM locale_languages');
 
-            while (!$language_query->eof)
-            {
+            while (!$language_query->eof) {
                 $languages[$language_query->getFields('langshort')] = $language_locale->getStr($language_query->getFields('langname'));
                 $language_query->moveNext();
             }
@@ -779,8 +761,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
             $wuiMainFrame->addChild($wui_vgroup2);
 
             $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('rootlanguage_title');
-        }
-        else $log->logEvent('innomatic.root.main_php',
+        } else $log->logEvent('innomatic.root.main_php',
                                 'Unable to connect to root database during initialization', Logger::ERROR);
     }
     // Password choice
@@ -825,8 +806,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     // AppCentral
     //
     /*
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_appcentralset'))
-    {
+    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_appcentralset')) {
     @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingappcentral', time());
 
     $wui_vgroup = new WuiVertGroup('vgroup');
@@ -883,7 +863,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $wui_vgroup->addChild($next_button);
         InnomaticSetup::check_log($wui_vgroup);
         $wuiMainFrame->addChild($wui_vgroup);
-    } else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_done')) {
+    } elseif (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_done')) {
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('finish_title');
 
         $wui_vgroup = new WuiVertGroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
@@ -904,16 +884,14 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     // Page render
     //
     $wui_mainframe1->addChild($wuiMainFrame);
-    
+
     $horiz_frame = new WuiHorizGroup('', array('groupvalign' => 'top'));
-    
+
     $horiz_frame->addChild($progress_vert_group);
     $horiz_frame->addChild($wui_mainframe1);
-    
+
     $wuiMainVertGroup->addChild($horiz_frame);
     $wuiPage->addChild($wuiMainVertGroup);
     $wui->addChild($wuiPage);
     $wui->render();
 }
-
-?>

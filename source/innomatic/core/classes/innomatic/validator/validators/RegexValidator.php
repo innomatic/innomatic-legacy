@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -21,7 +21,7 @@ require_once ('innomatic/validator/Validator.php');
  */
 class RegexValidator extends Validator
 {
-    public function validate ()
+    public function validate()
     {
         if (isset($this->_params['pattern'])) {
             if (! preg_match($this->_params['pattern'], $this->_item)) {

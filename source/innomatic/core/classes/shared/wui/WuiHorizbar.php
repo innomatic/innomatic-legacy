@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -16,7 +16,7 @@ require_once ('innomatic/wui/widgets/WuiWidget.php');
 /**
  * @package WUI
  */
-class WuiHorizBar extends WuiWidget
+class WuiHorizbar extends WuiWidget
 {
     public function __construct (
         $elemName,
@@ -27,7 +27,7 @@ class WuiHorizBar extends WuiWidget
     {
         parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' horizbar -->' . "\n" : '') . '<table border="0" cellspacing="1" cellpadding="1" bgcolor="white" width="100%"><tr><td>';
         $this->mLayout .= '<table border="0" cellspacing="0" cellpadding="0" width="100%">' . "\n";

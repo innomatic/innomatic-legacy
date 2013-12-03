@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -18,7 +18,8 @@ require_once('innomatic/core/InnomaticContainer.php');
 /*!
  @abstract Country locale settings.
  */
-class LocaleCountry {
+class LocaleCountry
+{
     /*! @var mCountry string - Country name. */
     private $mCountry;
     /*! @var mCountryShort string - Country short name. */
@@ -26,7 +27,7 @@ class LocaleCountry {
     /*! @var mLanguage string - Default country language. */
     private $mLanguage;
     /*! @var mDecimalSeparator string - Numbers decimal separator. */
-    private  $mDecimalSeparator;
+    private $mDecimalSeparator;
     /*! @var mThousandsSeparator string - Numbers thousands separator. */
     private $mThousandsSeparator;
     /*! @var mPositiveSign string - Positive numbers sign. */
@@ -65,16 +66,17 @@ class LocaleCountry {
     const SIGNPOSITION_AFTER_QUANTITY_MONEY = 2;
     const SIGNPOSITION_BEFORE_MONEY = 3;
     const SIGNPOSITION_AFTER_MONEY = 4;
-    
+
 
     /*!
      @function LocaleCountry
-    
+
      @abstract Class constructor.
-    
+
      @param countryName string - Country name in English language.
      */
-    public function LocaleCountry($countryName) {
+    public function LocaleCountry($countryName)
+    {
         if (strlen($countryName)) {
             $this->mCountry = $countryName;
             $this->open();
@@ -89,12 +91,13 @@ class LocaleCountry {
      @abstract Opens the country file and reads the definitions.
      @result True if the country file exists and has been read
      */
-    public function open() {
+    public function open()
+    {
         $result = false;
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
 
         require_once('innomatic/config/ConfigFile.php');
-        $country_file = @parse_ini_file($innomatic->getHome().'core/locale/countries/'.$this->mCountry.'.ini');
+        $country_file = @parse_ini_file($innomatic->getHome().'core/locale/countries/'.$this->mCountry.'.ini', false, INI_SCANNER_RAW);
         if ($country_file !== FALSE) {
             $this->mCountryShort = $country_file['COUNTRYSHORT'];
             $this->mLanguage = $country_file['LANGUAGE'];
@@ -132,7 +135,8 @@ class LocaleCountry {
      @abstract Formats a money amount.
      @result Formatted money amount.
      */
-    public function formatMoney($amount) {
+    public function formatMoney($amount)
+    {
         // Formats with decimal and thousands separators and currency fract digits
         //
         $formatted_amount = number_format(abs($amount), $this->mFractDigits, $this->mMoneyDecimalSeparator, $this->mMoneyThousandsSeparator);
@@ -187,7 +191,8 @@ class LocaleCountry {
      @abstract Formats a number.
      @result Formatted number.
      */
-    public function formatNumber($number, $decimals = 0) {
+    public function formatNumber($number, $decimals = 0)
+    {
             // Formats with decimal and thousands separators
         //
     $result = number_format($number, $decimals, $this->mDecimalSeparator, $this->mThousandsSeparator);
@@ -204,42 +209,48 @@ class LocaleCountry {
     /*!
     @function TimeFormat
     */
-    public function timeFormat() {
+    public function timeFormat()
+    {
         return $this->mTimeFormat;
     }
 
     /*!
     @function DateFormat
     */
-    public function dateFormat() {
+    public function dateFormat()
+    {
         return $this->mDateFormat;
     }
 
     /*!
     @function ShortDateFormat
     */
-    public function shortDateFormat() {
+    public function shortDateFormat()
+    {
         return $this->mShortDateFormat;
     }
 
     /*!
     @function StartWeekOnMonday
     */
-    public function startWeekOnMonday() {
+    public function startWeekOnMonday()
+    {
         return $this->mStartWeekOnMonday;
     }
 
     /*!
     @function DateSeparator
     */
-    public function dateSeparator() {
+    public function dateSeparator()
+    {
         return $this->mDateSeparator;
     }
 
     /*!
     @function DateOrder
     */
-    public function dateOrder() {
+    public function dateOrder()
+    {
         return $this->mDateOrder;
     }
 
@@ -249,7 +260,8 @@ class LocaleCountry {
      @param date int - UNIX timestamp.
      @result Formatted date.
      */
-    public function formatDate($date) {
+    public function formatDate($date)
+    {
         return date($this->mDateFormat, $date);
     }
 
@@ -259,7 +271,8 @@ class LocaleCountry {
      @param dateArray array - Array of date parameters.
      @result Formatted date.
      */
-    public function formatArrayDate($dateArray) {
+    public function formatArrayDate($dateArray)
+    {
         return $this->formatDate(mktime($dateArray['hours'], $dateArray['minutes'], $dateArray['seconds'], $dateArray['mon'], $dateArray['mday'], $this->NormalizeYear($dateArray['year'])));
     }
 
@@ -269,7 +282,8 @@ class LocaleCountry {
      @param date int - UNIX timestamp.
      @result Formatted date.
      */
-    public function formatShortDate($date) {
+    public function formatShortDate($date)
+    {
         return date($this->mShortDateFormat, $date);
     }
 
@@ -279,7 +293,8 @@ class LocaleCountry {
      @param dateArray array - Array of date parameters.
      @result Formatted date.
      */
-    public function formatShortArrayDate($dateArray, $format = '') {
+    public function formatShortArrayDate($dateArray, $format = '')
+    {
         if (!strlen($format))
             $date = $this->mShortDateFormat;
         else
@@ -324,7 +339,8 @@ class LocaleCountry {
      @param unixTimestamp integer - Unix timestamp. Defaults to current timestamp.
      @result A safe datestamp.
      */
-    public function safeFormatTimestamp($unixTimestamp = '') {
+    public function safeFormatTimestamp($unixTimestamp = '')
+    {
         require_once('innomatic/locale/LocaleCatalog.php');
         return date(LocaleCatalog::SAFE_TIMESTAMP, strlen($unixTimestamp) ? $unixTimestamp : time());
     }
@@ -335,7 +351,8 @@ class LocaleCountry {
      @param time int - UNIX timestamp.
      @result Formatted time.
      */
-    public function formatTime($time) {
+    public function formatTime($time)
+    {
         return date($this->mTimeFormat, $time);
     }
 
@@ -345,7 +362,8 @@ class LocaleCountry {
      @param dateArray array - Array of date parameters.
      @result Formatted time.
      */
-    public function formatArrayTime($dateArray) {
+    public function formatArrayTime($dateArray)
+    {
         return $this->FormatShortArrayDate($dateArray, $this->mTimeFormat);
 
         /*$timestamp = mktime(
@@ -364,7 +382,8 @@ class LocaleCountry {
      @param datestamp string - Date stamp.
      @result Array of date parameters.
      */
-    public function getDateArrayFromShortDateStamp($datestamp) {
+    public function getDateArrayFromShortDateStamp($datestamp)
+    {
         $order = $this->DateOrder();
         $date_elements = explode($this->DateSeparator(), $datestamp);
         $fmt = "%". (strpos($order, 'y') + 1)."\$s-%". (strpos($order, 'm') + 1)."\$s-%". (strpos($order, 'd') + 1)."\$s";
@@ -381,7 +400,8 @@ class LocaleCountry {
      @param timestamp string - Safe timestamp.
      @result A safe date array.
      */
-    public function getDateArrayFromSafeTimestamp($timestamp) {
+    public function getDateArrayFromSafeTimestamp($timestamp)
+    {
         $timestamp = str_replace(',', '', $timestamp);
         $date_elements = explode(' ', $timestamp);
         list ($date['year'], $date['mon'], $date['mday']) = explode('-', $date_elements[0]);
@@ -393,7 +413,8 @@ class LocaleCountry {
         return $date;
     }
 
-    public function getDateArrayFromUnixTimestamp($timestamp) {
+    public function getDateArrayFromUnixTimestamp($timestamp)
+    {
         if (!strlen($timestamp)) {
             return false;
         }
@@ -406,7 +427,8 @@ class LocaleCountry {
         return $result;
     }
 
-    public function normalizeYear($year) {
+    public function normalizeYear($year)
+    {
         $result = $year;
 
         switch (strlen($year)) {
@@ -431,7 +453,8 @@ class LocaleCountry {
      @function Language
      @abstract Returns default country language.
      */
-    public function language() {
+    public function language()
+    {
         return $this->mLanguage;
     }
 
@@ -440,7 +463,8 @@ class LocaleCountry {
      @abstract Returns country name.
      @result Country name.
      */
-    public function country() {
+    public function country()
+    {
         return $this->mCountry;
     }
 
@@ -449,7 +473,8 @@ class LocaleCountry {
      @abstract Returns country short name.
      @result Country short name.
      */
-    public function countryShort() {
+    public function countryShort()
+    {
         return $this->mCountryShort;
     }
 
@@ -458,7 +483,8 @@ class LocaleCountry {
      @abstract Returns decimal separator.
      @result Decimal separator.
      */
-    public function decimalSeparator() {
+    public function decimalSeparator()
+    {
         return $this->mDecimalSeparator;
     }
 
@@ -467,7 +493,8 @@ class LocaleCountry {
      @abstract Returns thousands separator.
      @result Thousands separator.
      */
-    public function thousandsSeparator() {
+    public function thousandsSeparator()
+    {
         return $this->mThousandsSeparator;
     }
 
@@ -476,7 +503,8 @@ class LocaleCountry {
      @abstract Returns positive sign.
      @result Positive sign.
      */
-    public function positiveSign() {
+    public function positiveSign()
+    {
         return $this->mPositiveSign;
     }
 
@@ -485,7 +513,8 @@ class LocaleCountry {
      @abstract Returns negative sign.
      @result Negative sign.
      */
-    public function negativeSign() {
+    public function negativeSign()
+    {
         return $this->mNegativeSign;
     }
 
@@ -494,7 +523,8 @@ class LocaleCountry {
      @abstract Returns currency symbol.
      @result Currency symbol.
      */
-    public function currencySymbol() {
+    public function currencySymbol()
+    {
         return $this->mCurrencySymbol;
     }
 
@@ -503,7 +533,8 @@ class LocaleCountry {
      @abstract Returns money decimal separator.
      @result Money decimal separator.
      */
-    public function moneyDecimalSeparator() {
+    public function moneyDecimalSeparator()
+    {
         return $this->mMoneyDecimalSeparator;
     }
 
@@ -512,7 +543,8 @@ class LocaleCountry {
      @abstract Returns money thousands separator.
      @result Money thousands separator.
      */
-    public function moneyThousandsSeparator() {
+    public function moneyThousandsSeparator()
+    {
         return $this->mMoneyThousandsSeparator;
     }
 
@@ -521,27 +553,33 @@ class LocaleCountry {
      @abstract Returns money fract digits.
      @result Money fract digits.
      */
-    public function fractDigits() {
+    public function fractDigits()
+    {
         return $this->mFractDigits;
     }
 
-    public function positivePrefixCurrency() {
+    public function positivePrefixCurrency()
+    {
         return $this->mPositivePrefixCurrency;
     }
 
-    public function positiveSignPosition() {
+    public function positiveSignPosition()
+    {
         return $this->mPositiveSignPosition;
     }
 
-    public function negativePrefixCurrency() {
+    public function negativePrefixCurrency()
+    {
         return $this->mNegativePrefixCurrency;
     }
 
-    public function negativeSignPosition() {
+    public function negativeSignPosition()
+    {
         return $this->mNegativeSignPosition;
     }
 
-    public function getCharSet() {
+    public function getCharSet()
+    {
         return $this->mCharSet;
     }
 }

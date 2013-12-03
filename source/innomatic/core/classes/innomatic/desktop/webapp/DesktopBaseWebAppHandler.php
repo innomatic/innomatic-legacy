@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -18,11 +18,11 @@ require_once('innomatic/webapp/WebAppProcessor.php');
 
 /**
  * WebApp Handler for the base desktop.
- * 
+ *
  * WebApp Handler for the base desktop, that is the one shown at the base
  * Innomatic URL where the user can choose between the Control Panel and the
  * Domain destkop.
- * 
+ *
  * The base desktop supports the output buffering through the
  * CompressedOutputBuffering parameter in the core/conf/innomatic.ini
  * configuration file.
@@ -50,7 +50,7 @@ class DesktopBaseWebAppHandler extends WebAppHandler
             case 'menu':
             case 'logo':
                 break;
-        	
+
             default:
                 if (substr($resource, -1, 1) != '/' and !file_exists($resource.'.php') and !is_dir($resource.'-panel')) {
                     $res->sendError(WebAppResponse::SC_NOT_FOUND, $req->getRequestURI());

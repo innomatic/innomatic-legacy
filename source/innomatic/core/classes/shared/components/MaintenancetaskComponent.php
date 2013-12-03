@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -16,29 +16,29 @@ require_once ('innomatic/application/ApplicationComponent.php');
 /**
  * Maintenance task component handler.
  */
-class MaintenanceTaskComponent extends ApplicationComponent
+class MaintenancetaskComponent extends ApplicationComponent
 {
-    function MaintenanceTaskComponent ($rootda, $domainda, $appname, $name, $basedir)
+    public function MaintenanceTaskComponent($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'maintenancetask';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 0;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    function DoInstallAction ($args)
+    public function DoInstallAction($args)
     {
         $result = false;
         $args['file'] = $this->basedir . '/core/classes/shared/maintenance/' . basename($args['file']);
@@ -55,7 +55,7 @@ class MaintenanceTaskComponent extends ApplicationComponent
         }
         return $result;
     }
-    function DoUninstallAction ($args)
+    public function DoUninstallAction($args)
     {
         $result = false;
         $args['file'] = $this->basedir . '/core/classes/shared/maintenance/' . basename($args['file']);
@@ -65,7 +65,7 @@ class MaintenanceTaskComponent extends ApplicationComponent
         }
         return $result;
     }
-    function DoUpdateAction ($args)
+    public function DoUpdateAction($args)
     {
         $result = false;
         $args['file'] = $this->basedir . '/core/classes/shared/maintenance/' . basename($args['file']);

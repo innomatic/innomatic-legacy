@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -15,7 +15,7 @@
 
 require_once('innomatic/maintenance/MaintenanceTask.php');
 
-class InnomaticLogsMaintenance extends MaintenanceTask 
+class InnomaticLogsMaintenance extends MaintenanceTask
 {
     public $mApplicationSettings;
 
@@ -276,8 +276,7 @@ class InnomaticLogsMaintenance extends MaintenanceTask
             'FROM domains'
            );
 
-        while (!$domains_query->eof)
-        {
+        while (!$domains_query->eof) {
             $log_file = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/dataaccess.log';
             if (file_exists($log_file)) $total += filesize($log_file);
             if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/domain.log'))
@@ -293,7 +292,7 @@ class InnomaticLogsMaintenance extends MaintenanceTask
     {
         require_once('innomatic/util/Registry.php');
         $reg = Registry::instance();
-        
+
         if (
             $this->mCleanRootLog
             and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')
@@ -386,34 +385,25 @@ class InnomaticLogsMaintenance extends MaintenanceTask
             'FROM domains'
            );
 
-        while (!$domains_query->eof)
-        {
+        while (!$domains_query->eof) {
             $da_log_file = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/dataaccess.log';
-            if (file_exists($da_log_file))
-            {
-                if ($this->mCleanDomainsLogs)
-                {
+            if (file_exists($da_log_file)) {
+                if ($this->mCleanDomainsLogs) {
                     $log = new Logger($da_log_file);
                     $log->Rotate(0);
                     unlink($da_log_file);
-                }
-                else if ($this->mRotateDomainsLogs)
-                {
+                } elseif ($this->mRotateDomainsLogs) {
                     $log = new Logger($da_log_file);
                     $log->Rotate(7);
                 }
             }
 
-            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/domain.log'))
-            {
-                if ($this->mCleanDomainsLogs)
-                {
+            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/domain.log')) {
+                if ($this->mCleanDomainsLogs) {
                     $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/domain.log');
                     $log->Rotate(0);
                     unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/domain.log');
-                }
-                else if ($this->mRotateDomainsLogs)
-                {
+                } elseif ($this->mRotateDomainsLogs) {
                     $log = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domains_query->getFields('domainid').'/log/domain.log');
                     $log->Rotate(7);
                 }
@@ -426,11 +416,11 @@ class InnomaticLogsMaintenance extends MaintenanceTask
     }
 
     /*
-    function RotateSystemLogs()
+    public function RotateSystemLogs()
     {
     }
 
-    function RotateDomainsLogs()
+    public function RotateDomainsLogs()
     {
     }
     */

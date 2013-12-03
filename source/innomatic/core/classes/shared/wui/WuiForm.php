@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -18,13 +18,13 @@ require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
  */
 class WuiForm extends WuiContainerWidget
 {
-	/*
-	 * action string - Submit URL
-	 * method string - POST or GET
-	 * disableenter boolean - Set to disable submit at enter
-	 */
+    /*
+     * action string - Submit URL
+     * method string - POST or GET
+     * disableenter boolean - Set to disable submit at enter
+     */
 
-	public function __construct (
+    public function __construct (
         $elemName,
         $elemArgs = '',
         $elemTheme = '',
@@ -36,26 +36,26 @@ class WuiForm extends WuiContainerWidget
             $this->mArgs['method'] = $this->mArgs['method'];
         else
             $this->mArgs['method'] = 'POST';
-        
+
         if (isset($this->mArgs['disableenter']) and $this->mArgs['disableenter'] == 'true') {
-        	$this->mArgs['disableenter'] = true;
+            $this->mArgs['disableenter'] = true;
         } else {
-        	$this->mArgs['disableenter'] = false;
+            $this->mArgs['disableenter'] = false;
         }
     }
-    protected function generateSourceBegin ()
+    protected function generateSourceBegin()
     {
         return ($this->mComments ? '<!-- begin ' . $this->mName . " form -->\n" : '') . '<form'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' name="' . $this->mName . '" '.($this->mArgs['disableenter'] ? 'onSubmit="return false" ' : '').'action="' . $this->mArgs['action'] . '" enctype="multipart/form-data" method="' . $this->mArgs['method'] . "\">\n" . '<table border="0" cellspacing="0" cellpadding="0">' . "\n";
     }
-    protected function generateSourceEnd ()
+    protected function generateSourceEnd()
     {
         return "</table>\n</form>\n" . ($this->mComments ? '<!-- end ' . $this->mName . " form -->\n" : '');
     }
-    protected function generateSourceBlockBegin ()
+    protected function generateSourceBlockBegin()
     {
         return "<tr><td>\n";
     }
-    protected function generateSourceBlockEnd ()
+    protected function generateSourceBlockEnd()
     {
         return "</td></tr>\n";
     }

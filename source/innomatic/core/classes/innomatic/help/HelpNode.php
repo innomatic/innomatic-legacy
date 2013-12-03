@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -45,7 +45,7 @@ class HelpNode
             }
             require_once('innomatic/util/Registry.php');
             $reg = Registry::instance();
-            
+
             // Tries specified language catalog
             //
             if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/help/'.$this->_base.'/'.$this->_language.'/'.$node_name)) {

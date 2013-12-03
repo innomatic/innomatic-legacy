@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -89,18 +89,6 @@ class DomainsPanelViews extends PanelViews
                 'icon' => 'stack1')
             );
         $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
-
-        $menuFrame = new WuiHorizGroup('menuframe');
-        $menuFrame->addChild(
-            new WuiMenu(
-                'mainmenu',
-                array('menu' => InnomaticContainer::getRootWuiMenuDefinition(
-                    InnomaticContainer::instance('innomaticcontainer')->getLanguage()
-                )
-                )
-            )
-        );
-        $this->wuiMainvertgroup->addChild($menuFrame);
 
         // Main tool bar
         //
@@ -248,7 +236,7 @@ class DomainsPanelViews extends PanelViews
                     new WuiImage(
                         'status'.$row, array('imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['greenball'])),
                     $row, 0
-                ); 
+                );
                 else
                 $wuiDomainsTable->addChild(
                     new WuiImage(
@@ -373,8 +361,7 @@ class DomainsPanelViews extends PanelViews
                         array(
                             'label' => $this->_localeCatalog->getStr('accessdomain_label'),
                             'themeimage' => 'home',
-                            'action' => $accessAction[$row]->getEventsCallString(),
-                            'target' => '_top'
+                            'action' => $accessAction[$row]->getEventsCallString()
                         )
                     );
                     $wuiDomainToolBar[$row]->addChild($wuiAccessButton[$row]);
@@ -1740,7 +1727,7 @@ class DomainsPanelViews extends PanelViews
                     6, 3
                 );
             }
-                
+
             $wuiVGroup->addChild($wuiDomainGrid);
 
             $this->wuiMainframe->addChild($wuiVGroup);
@@ -2219,7 +2206,7 @@ class DomainsPanelViews extends PanelViews
 
                 $xmlDef = '<horizgroup>
               <children>
-            
+
                 <button>
                   <args>
                     <themeimage>buttonok</themeimage>
@@ -2252,7 +2239,7 @@ class DomainsPanelViews extends PanelViews
                     .'</action>
                   </args>
                 </button>
-            
+
                 <button>
                   <args>
                     <themeimage>buttoncancel</themeimage>
@@ -2289,7 +2276,7 @@ class DomainsPanelViews extends PanelViews
                     .'</action>
                   </args>
                 </button>
-            
+
               </children>
             </horizgroup>';
 

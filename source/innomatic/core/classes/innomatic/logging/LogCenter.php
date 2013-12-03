@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -19,7 +19,8 @@ require_once('innomatic/logging/Logger.php');
 @class LogCenter
 @abstract Automatic logging of events in multiple logs.
 */
-class LogCenter {
+class LogCenter
+{
     /*! @public mApplication string - Application id name. */
     private $mApplication;
 
@@ -27,7 +28,8 @@ class LogCenter {
     @function LogCenter
     @abstract Class constructor.
     */
-    public function LogCenter($application = '') {
+    public function LogCenter($application = '')
+    {
         $this->mApplication = $application;
     }
 
@@ -42,8 +44,8 @@ class LogCenter {
     @param die boolean - True if Innomatic must die after logging the event.
     @result Always true
     */
-    public function logEvent($destinations, $context, $eventString, $eventType = Logger::GENERIC, $die = false) {
-        
+    public function logEvent($destinations, $context, $eventString, $eventType = Logger::GENERIC, $die = false)
+    {
         // Root
         //
         if (isset($destinations['root'])) {

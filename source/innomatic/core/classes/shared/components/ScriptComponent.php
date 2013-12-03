@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -18,7 +18,7 @@ require_once ('innomatic/application/ApplicationComponent.php');
  */
 class ScriptComponent extends ApplicationComponent
 {
-    public function __construct ($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Creates the scripts directory if it doesn't exists.
@@ -27,23 +27,23 @@ class ScriptComponent extends ApplicationComponent
             DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/', 0755);
         }
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'script';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 0;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    public function doInstallAction ($params)
+    public function doInstallAction($params)
     {
         // Checks if the name is valid.
         if (! strlen($params['name'])) {
@@ -61,7 +61,7 @@ class ScriptComponent extends ApplicationComponent
             $this->mLog->logEvent('ScriptComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious script file name', Logger::ERROR);
             return false;
         }
-        // Checks if the script file name contains a directory. 
+        // Checks if the script file name contains a directory.
         $dirname = dirname($params['name']);
         if ($dirname != '.') {
             require_once ('innomatic/io/filesystem/DirectoryUtils.php');
@@ -76,7 +76,7 @@ class ScriptComponent extends ApplicationComponent
         chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/' . $params['name'], 0644);
         return true;
     }
-    public function doUninstallAction ($params)
+    public function doUninstallAction($params)
     {
         // Checks if the name is valid.
         if (! strlen($params['name'])) {
@@ -100,7 +100,7 @@ class ScriptComponent extends ApplicationComponent
         }
         return true;
     }
-    public function doUpdateAction ($params)
+    public function doUpdateAction($params)
     {
         return $this->doInstallAction($params);
     }

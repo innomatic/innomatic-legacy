@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -15,10 +15,11 @@
 
 /**
  * WUI events dispatcher.
- * 
+ *
  * @package WUI
  */
-class WuiDispatcher {
+class WuiDispatcher
+{
     /*! @var mName string - Dispatcher name. */
     private $mName;
     /*! @var mEvents array - Array of the event functions. */
@@ -32,7 +33,8 @@ class WuiDispatcher {
      @discussion Class constructor.
      @param dispName string - Dispatcher name.
      */
-    public function __construct($dispName) {
+    public function __construct($dispName)
+    {
         if (strlen($dispName)) {
             $this->mName = $dispName;
         } else {
@@ -52,7 +54,8 @@ class WuiDispatcher {
      @param functionName string - Function that handles the eventName event.
      @result True if the event has been added. May return false if the event already exists.
      */
-    public function addEvent($eventName, $functionName) {
+    public function addEvent($eventName, $functionName)
+    {
         if (strlen($eventName) and strlen($functionName) and !isset($this->mEvents[$eventName])) {
             $this->mEvents[$eventName] = $functionName;
             return true;
@@ -79,7 +82,8 @@ class WuiDispatcher {
      exists.
      @result True if the event has been dispatched. Returns false if the function for the event doesn't exists.
      */
-    function dispatch() {
+    public function dispatch()
+    {
         if (!$this->mDispatched) {
             require_once('innomatic/wui/Wui.php');
             if (count($this->mEvents) and isset(Wui::instance('wui')->parameters['wui'][$this->mName]['evn']) and isset($this->mEvents[Wui::instance('wui')->parameters['wui'][$this->mName]['evn']])) {
@@ -103,7 +107,8 @@ class WuiDispatcher {
      @discussion Gets current event name for this dispatcher.
      @result Current event name.
      */
-    public function getEventName() {
+    public function getEventName()
+    {
         require_once('innomatic/wui/Wui.php');
         return isset(Wui::instance('wui')->parameters['wui'][$this->mName]['evn']) ? Wui::instance('wui')->parameters['wui'][$this->mName]['evn'] : '';
     }
@@ -114,12 +119,14 @@ class WuiDispatcher {
      @discussion Gets current event data for this dispatcher.
      @result Current event data.
      */
-    public function getEventData() {
+    public function getEventData()
+    {
         require_once('innomatic/wui/Wui.php');
         return isset(Wui::instance('wui')->parameters['wui'][$this->mName]['evd']) ? Wui::instance('wui')->parameters['wui'][$this->mName]['evd'] : '';
     }
 
-    public static function dispatchersList() {
+    public static function dispatchersList()
+    {
         require_once('innomatic/wui/Wui.php');
         $result = array();
         if (isset(Wui::instance('wui')->parameters['wui']) and is_array(Wui::instance('wui')->parameters['wui'])) {

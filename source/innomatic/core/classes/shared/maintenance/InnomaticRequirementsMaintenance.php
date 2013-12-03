@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -15,8 +15,10 @@
 
 require_once('innomatic/maintenance/MaintenanceTask.php');
 
-class InnomaticRequirementsMaintenance extends MaintenanceTask {
-    public function execute() {
+class InnomaticRequirementsMaintenance extends MaintenanceTask
+{
+    public function execute()
+    {
         $result = true;
 
         // TODO Update version check
@@ -40,8 +42,7 @@ class InnomaticRequirementsMaintenance extends MaintenanceTask {
             'SELECT moddep FROM applications_dependencies WHERE moddep LIKE '
             . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText('%.extension'));
 
-        while (!$app_deps->eof)
-        {
+        while (!$app_deps->eof) {
             $dep = substr($app_deps->getFields('moddep'), 0, -10);
             if (!extension_loaded($dep)) $result = false;
 

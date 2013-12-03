@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 require_once('innomatic/net/socket/SequentialServerSocket.php');
 require_once('innomatic/module/services/ModuleServiceSocketHandler.php');
@@ -10,7 +10,8 @@ require_once('innomatic/module/services/ModuleServiceSocketHandler.php');
  * @copyright Copyright 2005-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleServiceSocket extends ModuleServerSocket {
+class ModuleServiceSocket extends ModuleServerSocket
+{
     /**
      * Starts the server socket.
      *
@@ -18,8 +19,9 @@ class ModuleServiceSocket extends ModuleServerSocket {
      * @since 5.1
      * @return void
      */
-    public function start() {
-    	print('service socket: start'."\n");
+    public function start()
+    {
+        print('service socket: start'."\n");
         $context = ModuleServerContext::instance('ModuleServerContext');
         $port = $context->getConfig()->getKey('service_port');
         if (!strlen($port)) {
@@ -35,5 +37,3 @@ class ModuleServiceSocket extends ModuleServerSocket {
         $server->start();
     }
 }
-
-?>

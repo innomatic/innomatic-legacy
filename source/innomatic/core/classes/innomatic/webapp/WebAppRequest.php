@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -13,7 +13,8 @@
  * @since      Class available since Release 5.0
 */
 
-class WebAppRequest {
+class WebAppRequest
+{
     private $parameters;
     private $attributes;
     private $remoteAddr;
@@ -32,24 +33,29 @@ class WebAppRequest {
     private $urlPath;
     const RECEIVER = 'index.php';
     const RECEIVER_LENGHT = 9;
-    
-    public function getParameter($name) {
+
+    public function getParameter($name)
+    {
         return isset ($this->parameters[$name]) ? $this->parameters[$name][0] : null;
     }
 
-    public function getParameterValues($name) {
+    public function getParameterValues($name)
+    {
         return isset ($this->parameters[$name]) ? $this->parameters[$name] : null;
     }
 
-    public function getParameterNames() {
+    public function getParameterNames()
+    {
         return array_keys($this->parameters);
     }
 
-    public function getParameterMap() {
+    public function getParameterMap()
+    {
         return $this->parameters;
     }
 
-    public function setParameter($name, &$value) {
+    public function setParameter($name, &$value)
+    {
         if (is_null($value)) {
             $this->removeParameter($name);
             return;
@@ -58,104 +64,128 @@ class WebAppRequest {
         $this->parameters[$name] = &$value;
     }
 
-    public function setParameters(&$parameters) {
+    public function setParameters(&$parameters)
+    {
         $this->parameters = &$parameters;
     }
 
-    public function removeParameter($name) {
+    public function removeParameter($name)
+    {
         unset ($this->parameters[$name]);
     }
 
-    public function parameterExists($name) {
+    public function parameterExists($name)
+    {
         return isset ($this->parameters[$name]);
     }
 
-    public function setAttribute($attr, $value) {
+    public function setAttribute($attr, $value)
+    {
         $this->attributes[$attr] = $value;
     }
 
-    public function getAttribute($attr) {
+    public function getAttribute($attr)
+    {
         return isset ($this->attributes[$attr]) ? $this->attributes[$attr] : null;
     }
 
-    public function removeAttribute($attr) {
+    public function removeAttribute($attr)
+    {
         if (isset ($this->attributes[$attr]))
             unset ($this->attributes[$attr]);
     }
 
-    public function setMethod($method) {
+    public function setMethod($method)
+    {
         $this->method = $method;
     }
 
-    public function getMethod() {
+    public function getMethod()
+    {
         return $this->method;
     }
 
-    public function getSession() {
+    public function getSession()
+    {
         // TODO
         //return WebAppSession::instance('webappsession');
     }
 
-    public function getRequestURI() {
+    public function getRequestURI()
+    {
         return $this->requestURI;
     }
 
-    public function setRequestURI($requestURI) {
+    public function setRequestURI($requestURI)
+    {
         $this->requestURI = $requestURI;
     }
 
-    public function isSecure() {
+    public function isSecure()
+    {
         return $this->secure;
     }
 
-    public function setSecure($secure) {
+    public function setSecure($secure)
+    {
         $this->secure = $secure;
     }
 
-    public function getRequestURL() {
+    public function getRequestURL()
+    {
         $url = $this->scheme.'://'.$this->getServerName();
         if (($this->scheme == 'http' && $this->serverPort != 80) || ($this->scheme == 'https' && $this->serverPort != 443))
             $url .= ':'.$this->serverPort;
         return $url .= $this->getRequestURI();
     }
 
-    public function getServerName() {
+    public function getServerName()
+    {
         return $this->serverName;
     }
 
-    public function setServerName($serverName) {
+    public function setServerName($serverName)
+    {
         $this->serverName = $serverName;
     }
 
-    public function getServerPort() {
+    public function getServerPort()
+    {
         return $this->serverPort;
     }
 
-    public function setServerPort($serverPort) {
+    public function setServerPort($serverPort)
+    {
         $this->serverPort = $serverPort;
     }
 
-    public function getScheme() {
+    public function getScheme()
+    {
         return $this->scheme;
     }
 
-    public function setScheme($scheme) {
+    public function setScheme($scheme)
+    {
         $this->scheme = $scheme;
     }
 
-    public function getProtocol() {
+    public function getProtocol()
+    {
         return $this->protocol;
     }
 
-    public function setProtocol($protocol) {
+    public function setProtocol($protocol)
+    {
         $this->protocol = $protocol;
     }
 
-    public function getQueryString() {
+    public function getQueryString()
+    {
         return $this->queryString;
     }
 
-    public function setQueryString($queryString) {
+    public function setQueryString($queryString)
+    {
         $this->queryString = $queryString;
     }
 
@@ -163,31 +193,38 @@ class WebAppRequest {
         return $this->input;
     }
 
-    public function setInput(&$input) {
+    public function setInput(&$input)
+    {
         $this->input = &$input;
     }
 
-    public function getRemoteHost() {
+    public function getRemoteHost()
+    {
         return gethostbyname($this->remoteAddr);
     }
 
-    public function getRemoteAddr() {
+    public function getRemoteAddr()
+    {
         return $this->remoteAddr;
     }
 
-    public function setRemoteAddr($remoteAddr) {
+    public function setRemoteAddr($remoteAddr)
+    {
         $this->remoteAddr = $remoteAddr;
     }
 
-    public function addLocale($locale) {
+    public function addLocale($locale)
+    {
         $this->locales[] = $locale;
     }
 
-    public function getLocale() {
+    public function getLocale()
+    {
         return count($this->locales) > 0 ? $this->locales[0] : $this->defaultLocale;
     }
 
-    public function getLocales() {
+    public function getLocales()
+    {
         return count($this->locales) > 0 ? $this->locales : $this->defaultLocale;
     }
 
@@ -196,11 +233,13 @@ class WebAppRequest {
      * If the uri is /webapp/index.php/hello.do?foo=bar it would return /hello.do
      * @return string
      */
-    public function getPathInfo() {
+    public function getPathInfo()
+    {
         return $this->pathInfo;
     }
 
-    public function setPathInfo($pathInfo) {
+    public function setPathInfo($pathInfo)
+    {
         $this->pathInfo = $pathInfo;
     }
 
@@ -210,7 +249,8 @@ class WebAppRequest {
      *
      * @return string
      */
-    public function getPathTranslated($baseDir) {
+    public function getPathTranslated($baseDir)
+    {
         if (is_null($this->pathInfo))
             return null;
         return $baseDir.$this->pathInfo;
@@ -221,7 +261,8 @@ class WebAppRequest {
      * not include a header of the specified name, this method returns null.
      * @return string
      */
-    function getHeader($name) {
+    public function getHeader($name)
+    {
         return isset ($this->headers[$name]) ? $this->headers[$name] : null;
     }
 
@@ -238,26 +279,31 @@ class WebAppRequest {
      * authenticated, or null if the user has not been authenticated.
      * @return string
      */
-    function getWebServicesUser() {
+    public function getWebServicesUser()
+    {
         return null;
     }
 
-    public function setWebAppPath($path) {
+    public function setWebAppPath($path)
+    {
         $this->webAppPath = $path;
     }
-    
-    public function getWebAppPath($controller = false) {
+
+    public function getWebAppPath($controller = false)
+    {
         return $controller ? $this->generateControllerPath($this->webAppPath) : $this->webAppPath;
     }
-    
-    public function setUrlPath($url_path) {
+
+    public function setUrlPath($url_path)
+    {
         $this->urlPath = $url_path;
     }
-    
-    public function getUrlPath($controller = false) {
+
+    public function getUrlPath($controller = false)
+    {
         return $controller ? $this->generateControllerPath($this->urlPath) : $this->urlPath;
     }
-    
+
     /**
      * The controller path is that base url that routes requests to the
      * webapp container. The context-param controlAllResources is checked to see if
@@ -270,7 +316,8 @@ class WebAppRequest {
      *        webapp path)
      *
      */
-    public function generateControllerPath($webAppPath, $requiresDispatch = true) {
+    public function generateControllerPath($webAppPath, $requiresDispatch = true)
+    {
         $useContainer = true;
 
         // check to see if we need to hand this off directly or go through the
@@ -291,7 +338,8 @@ class WebAppRequest {
         return $webAppPath;
     }
 
-    public function isUrlRewriteOn() {
+    public function isUrlRewriteOn()
+    {
         return WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getInitParameter('useRewrite') == 'true' ? true : false;
         /*
         if (substr($_SERVER['REQUEST_URI'], 0, strlen($_SERVER['SCRIPT_NAME'])) == $_SERVER['SCRIPT_NAME']

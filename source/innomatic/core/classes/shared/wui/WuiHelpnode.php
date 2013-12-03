@@ -2,9 +2,9 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -17,7 +17,7 @@ require_once ('innomatic/help/HelpNode.php');
 /**
  * @package WUI
  */
-class WuiHelpNode extends WuiWidget
+class WuiHelpnode extends WuiWidget
 {
     public $mHint;
     public $mBase;
@@ -48,7 +48,7 @@ class WuiHelpNode extends WuiWidget
         if (isset($this->mArgs['height']) and strlen($this->mArgs['height']))
             $this->mHeight = $this->mArgs['height'];
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         $help_node = new HelpNode($this->mBase, $this->mNode, $this->mLanguage);
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' helpnode -->' : '') . '<iframe name="' . $this->mName . '"' . (strlen($this->mWidth) ? ' width="' . $this->mWidth . '"' : '') . (strlen($this->mHeight) ? ' height="' . $this->mHeight . '"' : '') . ' src="' . $help_node->getUrl() . '"' . ' frameborder="0">Your user agent does not support frames or is currently configured not to display frames.</iframe>' . ($this->mComments ? '<!-- end ' . $this->mName . " helpnode -->\n" : '');

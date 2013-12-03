@@ -1,10 +1,10 @@
-<?php 
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2012 Innoteam Srl
@@ -20,20 +20,23 @@ require_once('innomatic/net/socket/ServerSocket.php');
  * @copyright Copyright 2003-2012 Innoteam Srl
  * @since 1.0
  */
-class SequentialServerSocket extends ServerSocket {
+class SequentialServerSocket extends ServerSocket
+{
     protected $clients = 0;
     protected $initFD;
     protected $clientFD;
 
-    public function __construct($host, $port) {
+    public function __construct($host, $port)
+    {
         parent::__construct($host, $port);
     }
     /**
      * start the server
-     * 
-     * @access public 
+     *
+     * @access public
      */
-    public function start() {
+    public function start()
+    {
         $this->initFD = @socket_create(AF_INET, SOCK_STREAM, 0);
         if (!$this->initFD) {
             throw new RuntimeException('Could not create socket.');
@@ -111,12 +114,13 @@ class SequentialServerSocket extends ServerSocket {
 
     /**
      * accept a new connection
-     * 
-     * @access public 
+     *
+     * @access public
      * @param resource $ &$socket    socket that received the new connection
      * @return int $clientID   internal ID of the client
      */
-    public function acceptConnection(& $socket) {
+    public function acceptConnection(& $socket)
+    {
         for ($i = 0; $i <= count($this->clientFD); $i ++) {
             if (!isset ($this->clientFD[$i]) || $this->clientFD[$i] == null) {
                 $this->clientFD[$i] = socket_accept($socket);
@@ -135,12 +139,13 @@ class SequentialServerSocket extends ServerSocket {
 
     /**
      * check, whether a client is still connected
-     * 
-     * @access public 
+     *
+     * @access public
      * @param integer $id client id
      * @return boolean $connected  true if client is connected, false otherwise
      */
-    public function isConnected($id) {
+    public function isConnected($id)
+    {
         if (!isset($this->clientFD[$id])) {
             return false;
         }
@@ -149,22 +154,24 @@ class SequentialServerSocket extends ServerSocket {
 
     /**
      * get current amount of clients
-     * 
-     * @access public 
+     *
+     * @access public
      * @return int $clients    amount of clients
      */
-    public function getClients() {
+    public function getClients()
+    {
         return $this->clients;
     }
 
     /**
      * send data to all clients
-     * 
-     * @access public 
+     *
+     * @access public
      * @param string $data data to send
      * @param array $exclude client ids to exclude
      */
-    public function broadcastData($data, $exclude = array ()) {
+    public function broadcastData($data, $exclude = array ())
+    {
         if (!empty ($exclude) && !is_array($exclude)) {
             $exclude = array ($exclude);
         }
@@ -179,11 +186,12 @@ class SequentialServerSocket extends ServerSocket {
 
     /**
      * close connection to a client
-     * 
-     * @access public 
+     *
+     * @access public
      * @param int $clientID internal ID of the client
      */
-    public function closeConnection($id = 0) {
+    public function closeConnection($id = 0)
+    {
         if (!isset ($this->clientFD[$id])) {
             throw new RuntimeException("Connection already has been closed.");
         }
@@ -198,10 +206,11 @@ class SequentialServerSocket extends ServerSocket {
 
     /**
      * shutdown server
-     * 
-     * @access public 
+     *
+     * @access public
      */
-    public function shutDown() {
+    public function shutDown()
+    {
         if (isset ($GLOBALS["_Net_Server_Status"]) and $GLOBALS["_Net_Server_Status"] != "running") {
             InnomaticContainer::instance('innomaticcontainer')->halt();
         }
