@@ -434,29 +434,29 @@ namespace Innomatic\Webservices\Xmlrpc;
     class xmlrpc_server
     {
         /// array defining php functions exposed as xmlrpc methods by this server
-        var $dmap=array();
+        public $dmap=array();
         /**
         * Defines how functions in dmap will be invokde: either using an xmlrpc msg object
         * or plain php values.
         * valid strings are 'xmlrpcvals', 'phpvals' or 'epivals'
         */
-        var $functions_parameters_type='xmlrpcvals';
+        public $functions_parameters_type='xmlrpcvals';
         /// controls wether the server is going to echo debugging messages back to the client as comments in response body. valid values: 0,1,2,3
-        var $debug = 1;
+        public $debug = 1;
         /**
         * When set to true, it will enable HTTP compression of the response, in case
         * the client has declared its support for compression in the request.
         */
-        var $compress_response = false;
+        public $compress_response = false;
         /**
         * List of http compression methods accepted by the server for requests.
         * NB: PHP supports deflate, gzip compressions out of the box if compiled w. zlib
         */
-        var $accepted_compression = array();
+        public $accepted_compression = array();
         /// shall we serve calls to system.* methods?
-        var $allow_system_funcs = true;
+        public $allow_system_funcs = true;
         /// list of charset encodings natively accepted for requests
-        var $accepted_charset_encodings = array();
+        public $accepted_charset_encodings = array();
         /**
         * charset encoding to be used for response.
         * NB: if we can, we will convert the generated response from internal_encoding to the intended one.
@@ -466,11 +466,11 @@ namespace Innomatic\Webservices\Xmlrpc;
         * or 'auto' (use client-specified charset encoding or same as request if request headers do not specify it (unless request is US-ASCII: then use library default anyway).
         * NB: pretty dangerous if you accept every charset and do not have mbstring enabled)
         */
-        var $response_charset_encoding = '';
+        public $response_charset_encoding = '';
         /// storage for internal debug info
-        var $debug_info = '';
+        public $debug_info = '';
         /// extra data passed at runtime to method handling functions. Used only by EPI layer
-        var $user_data = null;
+        public $user_data = null;
 
         /**
         * @param array $dispmap the dispatch map withd efinition of exposed services

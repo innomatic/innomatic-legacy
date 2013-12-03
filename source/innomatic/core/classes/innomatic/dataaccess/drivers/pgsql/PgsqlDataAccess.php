@@ -26,8 +26,8 @@ class PgsqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     public $fmttrue = 't';
     public $fmtfalse = 'f';
 
-    //var $suppautoinc      = true;
-    //var $suppblob         = true;
+    //public $suppautoinc      = true;
+    //public $suppblob         = true;
 
     public $lastquery = false;
 

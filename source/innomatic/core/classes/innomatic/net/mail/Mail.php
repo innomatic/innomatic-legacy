@@ -49,38 +49,38 @@ class Mail
         list of To addresses
         @var        array
         */
-        var $sendto = array();
+        public $sendto = array();
         /*
         @var        array
         */
-        var $acc = array();
+        public $acc = array();
         /*
         @var        array
         */
-        var $abcc = array();
+        public $abcc = array();
         /*
         paths of attached files
         @var array
         */
-        var $aattach = array();
+        public $aattach = array();
         /*
         list of message headers
         @var array
         */
-        var $xheaders = array();
+        public $xheaders = array();
         /*
         message priorities referential
         @var array
         */
-        var $priorities = array( '1 (Highest)', '2 (High)', '3 (Normal)', '4 (Low)', '5 (Lowest)' );
+        public $priorities = array( '1 (Highest)', '2 (High)', '3 (Normal)', '4 (Low)', '5 (Lowest)' );
         /*
         character set of message
         @var string
         */
-        var $charset = "us-ascii";
-        var $ctencoding = "7bit";
-        var $receipt = 0;
-        var $content_type='';
+        public $charset = "us-ascii";
+        public $ctencoding = "7bit";
+        public $receipt = 0;
+        public $content_type='';
 
 /*
 
