@@ -9,7 +9,7 @@
 <td class="navtop" style="width: 10px;" />
 <td class="navtop" valign="middle" align="center" nowrap style="white-space: nowrap">
 <!-- BEGIN cell_link -->
-{icontag}<a href="{link}"{onmouseover}{title}{target}>{text}</a>{arrow}
+{icontag}<a href="{link}"{onmouseover}{title}{target}>{text}{arrow}</a>
 <!-- END cell_link -->
 </td>
 <!-- END horizontal_menu_cell -->
