@@ -234,4 +234,16 @@ h2 {
     height: 18px;
 }
 
+.table-container{
+  padding-left:200px;
+
+}
+
+
+.table-container table, .table-container tr, .table-container td {
+  display: block;
+  float: left;
+
+}
+
 /* Styles related to the PHP Layers Menu System end here */
