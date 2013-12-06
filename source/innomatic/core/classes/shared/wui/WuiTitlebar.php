@@ -52,7 +52,7 @@ class WuiTitlebar extends WuiWidget
 
         $GLOBALS['wui']['titlebar-title'] = $icon
             . "<img id=\"loadingAjax\" src=\"".$this->mThemeHandler->mStyle['ajax_big']."\" border=\"0\" style=\"padding-left: 10px; width:32px; height:32px; display:none;\"></td>\n"
-            . "<td nowrap style=\"white-space: nowrap; padding-right: 15px; padding-left: 10px;\" class=\"paneltitle\" valign=\"middle\">"
+            . "<td nowrap style=\"white-space: nowrap; height: 25px; padding-right: 15px; padding-left: 10px; padding-top: 6px;\" class=\"paneltitle\" valign=\"middle\">"
             . $this->mArgs['title']
             . "</td>\n";
 
