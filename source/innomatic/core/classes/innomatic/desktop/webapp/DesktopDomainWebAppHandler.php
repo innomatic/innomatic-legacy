@@ -14,8 +14,6 @@
 */
 namespace Innomatic\Desktop\Webapp;
 
-require_once('innomatic/webapp/WebAppHandler.php');
-
 /**
  * WebApp Handler for the domain desktop.
  *
@@ -31,16 +29,16 @@ require_once('innomatic/webapp/WebAppHandler.php');
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-class DesktopDomainWebAppHandler extends WebAppHandler
+class DesktopDomainWebAppHandler extends \Innomatic\Webapp\WebAppHandler
 {
     public function init()
     {
     }
 
-    public function doGet(WebAppRequest $req, WebAppResponse $res)
+    public function doGet(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)
     {
         // identify the requested resource path
-        $resource = substr(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).'/domain'.$req->getPathInfo();
+        $resource = substr(\Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).'/domain'.$req->getPathInfo();
 
         // make sure that this path exists on disk
         switch (substr($resource, strrpos($resource, '/') + 1)) {
@@ -53,7 +51,7 @@ class DesktopDomainWebAppHandler extends WebAppHandler
 
             default:
                 if (substr($resource, -1, 1) != '/' and !file_exists($resource.'.php') and !is_dir($resource.'-panel')) {
-                    $res->sendError(WebAppResponse::SC_NOT_FOUND, $req->getRequestURI());
+                    $res->sendError(\Innomatic\Webapp\WebAppResponse::SC_NOT_FOUND, $req->getRequestURI());
                     return;
                 }
         }
@@ -71,7 +69,7 @@ class DesktopDomainWebAppHandler extends WebAppHandler
         $innomatic->setBaseUrl($baseUrl);
 
         $innomatic->setInterface(InnomaticContainer::INTERFACE_WEB);
-        $home = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome();
+        $home = \Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome();
         $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
 
         if ($innomatic->getState() == InnomaticContainer::STATE_SETUP) {
@@ -86,11 +84,10 @@ class DesktopDomainWebAppHandler extends WebAppHandler
             }
         }
 
-        require_once('innomatic/desktop/controller/DesktopFrontController.php');
-        DesktopFrontController::instance('desktopfrontcontroller')->execute(InnomaticContainer::MODE_DOMAIN, $resource);
+        \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->execute(InnomaticContainer::MODE_DOMAIN, $resource);
     }
 
-    public function doPost(WebAppRequest $req, WebAppResponse $res)
+    public function doPost(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)
     {
         $this->doGet($req, $res);
     }
@@ -99,7 +96,7 @@ class DesktopDomainWebAppHandler extends WebAppHandler
     {
     }
 
-    protected function getRelativePath(WebAppRequest $request)
+    protected function getRelativePath(\Innomatic\Webapp\WebAppRequest $request)
     {
         $result = $request->getPathInfo();
         return \Innomatic\Io\Filesystem\DirectoryUtils::normalize(strlen($result) ? $result : '/');
@@ -113,7 +110,7 @@ class DesktopDomainWebAppHandler extends WebAppHandler
      * @return string
      * @access protected
      */
-    protected function getURL(WebAppRequest $request, $redirectPath)
+    protected function getURL(\Innomatic\Webapp\WebAppRequest $request, $redirectPath)
     {
         $result = '';
 

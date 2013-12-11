@@ -14,8 +14,6 @@
 */
 namespace Innomatic\Desktop\Webapp;
 
-require_once('innomatic/webapp/WebAppHandler.php');
-
 /**
  * WebApp Handler for the control panel desktop.
  *
@@ -31,16 +29,16 @@ require_once('innomatic/webapp/WebAppHandler.php');
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-class DesktopRootWebAppHandler extends WebAppHandler
+class DesktopRootWebAppHandler extends \Innomatic\Webapp\WebAppHandler
 {
     public function init()
     {
     }
 
-    public function doGet(WebAppRequest $req, WebAppResponse $res)
+    public function doGet(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)
     {
         // identify the requested resource path
-        $resource = substr(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).'/root'.$req->getPathInfo();
+        $resource = substr(\Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).'/root'.$req->getPathInfo();
         $ignore_lock = false;
 
         // make sure that this path exists on disk
@@ -58,7 +56,7 @@ class DesktopRootWebAppHandler extends WebAppHandler
 
             default:
                 if (substr($resource, -1, 1) != '/' and !file_exists($resource.'.php') and !is_dir($resource.'-panel')) {
-                    $res->sendError(WebAppResponse::SC_NOT_FOUND, $req->getRequestURI());
+                    $res->sendError(\Innomatic\Webapp\WebAppResponse::SC_NOT_FOUND, $req->getRequestURI());
                     return;
                 }
         }
@@ -80,7 +78,7 @@ class DesktopRootWebAppHandler extends WebAppHandler
 
         $innomatic->setBaseUrl($baseUrl);
         $innomatic->setInterface(InnomaticContainer::INTERFACE_WEB);
-        $home = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome();
+        $home = \Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome();
         $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
 
         if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP) {
@@ -95,11 +93,10 @@ class DesktopRootWebAppHandler extends WebAppHandler
             }
         }
 
-        require_once('innomatic/desktop/controller/DesktopFrontController.php');
-        DesktopFrontController::instance('desktopfrontcontroller')->execute(InnomaticContainer::MODE_ROOT, $resource);
+        \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->execute(InnomaticContainer::MODE_ROOT, $resource);
     }
 
-    public function doPost(WebAppRequest $req, WebAppResponse $res)
+    public function doPost(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)
     {
         $this->doGet($req, $res);
     }
@@ -123,7 +120,7 @@ class DesktopRootWebAppHandler extends WebAppHandler
      * @return string
      * @access protected
      */
-    protected function getURL(WebAppRequest $request, $redirectPath)
+    protected function getURL(\Innomatic\Webapp\WebAppRequest $request, $redirectPath)
     {
         $result = '';
         $webAppPath = $request->getUrlPath();
