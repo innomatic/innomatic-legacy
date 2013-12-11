@@ -30,7 +30,7 @@ namespace Innomatic\Php;
  * @copyright Copyright 2012 Innoteam Srl
  * @since 1.1
  */
-class PHPTemplate implements Innomatic\Tpl\Template
+class PHPTemplate implements \Innomatic\Tpl\Template
 {
     private $_file;
     private $_vars;
@@ -68,7 +68,7 @@ class PHPTemplate implements Innomatic\Tpl\Template
      */
     public function set($name, $value)
     {
-        $this->_vars[$name] = $value instanceof Template ? $value->parse()
+        $this->_vars[$name] = $value instanceof \Innomatic\Tpl\Template ? $value->parse()
             : $value;
     }
 
