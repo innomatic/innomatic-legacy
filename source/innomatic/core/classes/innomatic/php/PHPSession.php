@@ -21,15 +21,15 @@ namespace Innomatic\Php;
  */
 class PHPSession implements \Innomatic\Webapp\WebAppSession
 {
-    protected $_id;
+    protected $id;
 
     public function start($id = '')
     {
         if (strlen($id)) {
-            $this->_id = $id;
+            $this->id = $id;
             session_id($id);
         } else {
-            $this->_id = session_id();
+            $this->id = session_id();
         }
         if (!headers_sent()) {
             session_start();
@@ -60,7 +60,7 @@ class PHPSession implements \Innomatic\Webapp\WebAppSession
 
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     public function setSavePath($path)

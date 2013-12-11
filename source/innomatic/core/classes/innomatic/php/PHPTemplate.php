@@ -32,8 +32,8 @@ namespace Innomatic\Php;
  */
 class PHPTemplate implements \Innomatic\Tpl\Template
 {
-    private $_file;
-    private $_vars;
+    private $file;
+    private $vars;
 
     /**
      * Constructor.
@@ -44,7 +44,7 @@ class PHPTemplate implements \Innomatic\Tpl\Template
      */
     public function __construct($file)
     {
-        $this->_file = $file;
+        $this->file = $file;
     }
 
     /**
@@ -68,7 +68,7 @@ class PHPTemplate implements \Innomatic\Tpl\Template
      */
     public function set($name, $value)
     {
-        $this->_vars[$name] = $value instanceof \Innomatic\Tpl\Template ? $value->parse()
+        $this->vars[$name] = $value instanceof \Innomatic\Tpl\Template ? $value->parse()
             : $value;
     }
 
@@ -83,8 +83,8 @@ class PHPTemplate implements \Innomatic\Tpl\Template
      */
     public function get($name)
     {
-        if (isset ($this->_vars[$name])) {
-            return $this->_vars[$name];
+        if (isset ($this->vars[$name])) {
+            return $this->vars[$name];
         }
         return false;
     }
@@ -104,7 +104,7 @@ class PHPTemplate implements \Innomatic\Tpl\Template
      */
     public function setArray($name, &$value)
     {
-        $this->_vars[$name] = &$value;
+        $this->vars[$name] = &$value;
     }
 
     /**
@@ -118,8 +118,8 @@ class PHPTemplate implements \Innomatic\Tpl\Template
      */
     public function &getArray($name)
     {
-        if (isset ($this->_vars[$name])) {
-            return $this->_vars[$name];
+        if (isset ($this->vars[$name])) {
+            return $this->vars[$name];
         }
         return false;
     }
@@ -135,16 +135,16 @@ class PHPTemplate implements \Innomatic\Tpl\Template
      */
     public function parse()
     {
-        if (!file_exists($this->_file)) {
+        if (!file_exists($this->file)) {
             return "";
         }
 
-        if (is_array($this->_vars)) {
-            extract($this->_vars);
+        if (is_array($this->vars)) {
+            extract($this->vars);
         }
 
         ob_start();
-        include($this->_file);
+        include($this->file);
         $contents = ob_get_contents();
         ob_end_clean();
         return $contents;
@@ -159,6 +159,6 @@ class PHPTemplate implements \Innomatic\Tpl\Template
      */
     public function getTags()
     {
-        return array_keys($this->_vars);
+        return array_keys($this->vars);
     }
 }
