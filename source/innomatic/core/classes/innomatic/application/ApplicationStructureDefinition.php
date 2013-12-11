@@ -21,7 +21,7 @@ namespace Innomatic\Application;
 
  @discussion This class reads a xml definition file and gives the application components structure.
  */
-class ApplicationStructureDefinition extends XMLParser
+class ApplicationStructureDefinition extends \Innomatic\Xml\XMLParser
 {
     /*! @public mLog logger class - Log handler. */
     public $mLog;

@@ -406,7 +406,7 @@ class InnomaticSetup
                 80
                );
 
-            $xmlrpc_message = new XmlRpcMsg(
+            $xmlrpc_message = new \Innomatic\Webservices\Xmlrpc\XmlRpcMsg(
                 'appcentral-server.retrieve_appcentral_client'
                );
 

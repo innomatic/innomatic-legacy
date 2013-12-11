@@ -146,7 +146,7 @@ class DomainpanelComponent extends \Innomatic\Application\ApplicationComponent
         if (! empty($params['name']) and $params['show'] != 'no') {
             if (! empty($params['catalog'])) {
                 $tmpquery = $this->domainda->execute('SELECT id FROM domain_panels where name = ' . $this->domainda->formatText($params['name']));
-                $tmpperm = new Permissions($this->domainda, 0);
+                $tmpperm = new \Innomatic\Domain\User\Permissions($this->domainda, 0);
                 $tmpperm->RemoveNodes($tmpquery->getFields('id'), 'page');
                 $result = &$this->domainda->execute('delete from domain_panels where name = ' . $this->domainda->formatText($params['name']));
                 if (! $result)

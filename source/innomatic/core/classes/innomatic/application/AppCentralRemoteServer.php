@@ -136,7 +136,7 @@ class AppCentralRemoteServer
 
         if ( $goon ) {
 
-            $xmlrpcMessage = new XmlRpcMsg(
+            $xmlrpcMessage = new \Innomatic\Webservices\Xmlrpc\XmlRpcMsg(
                 'appcentral-server.list_available_repositories'
             );
             $xmlrpcResp = $this->mXClient->Send($xmlrpcMessage);
@@ -197,10 +197,10 @@ class AppCentralRemoteServer
         }
 
         if ( $goon ) {
-            $xmlrpcMessage = new XmlRpcMsg(
+            $xmlrpcMessage = new \Innomatic\Webservices\Xmlrpc\XmlRpcMsg(
                 'appcentral-server.list_available_applications',
                 array(
-                    new XmlRpcVal($repId, 'int')
+                    new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($repId, 'int')
                 )
             );
 
@@ -258,11 +258,11 @@ class AppCentralRemoteServer
         }
 
         if ( $goon ) {
-            $xmlrpcMessage = new XmlRpcMsg(
+            $xmlrpcMessage = new \Innomatic\Webservices\Xmlrpc\XmlRpcMsg(
                 'appcentral-server.list_available_application_versions',
                 array(
-                    new XmlRpcVal($repId, 'int'),
-                    new XmlRpcVal($applicationId, 'int')
+                    new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($repId, 'int'),
+                    new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($applicationId, 'int')
                 )
             );
 
@@ -302,12 +302,12 @@ class AppCentralRemoteServer
     {
         $result = false;
 
-        $xmlrpcMessage = new XmlRpcMsg(
+        $xmlrpcMessage = new \Innomatic\Webservices\Xmlrpc\XmlRpcMsg(
             'appcentral-server.retrieve_application',
             array(
-                new XmlRpcVal($repId, 'int'),
-                new XmlRpcVal($applicationId, 'int'),
-                new XmlRpcVal($applicationVersion, 'string')
+                new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($repId, 'int'),
+                new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($applicationId, 'int'),
+                new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($applicationVersion, 'string')
             )
         );
 

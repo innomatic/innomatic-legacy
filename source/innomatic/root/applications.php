@@ -38,8 +38,8 @@ $gViewDispatcher = new WuiDispatcher('view');
 $eventName = $gViewDispatcher->getEventName();
 
 if (strcmp($eventName, 'help')) {
-    $helpAction = new \Innomatic\Wui\WuiEventsCall();
-    $helpAction->addEvent(new \Innomatic\Wui\WuiEvent('view', 'help', array('node' => $eventName)));
+    $helpAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $helpAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'help', array('node' => $eventName)));
     $wuiHelpButton = new WuiButton(
         'helpbutton',
         array(
@@ -57,20 +57,20 @@ $gToolbars['view'] = array(
     'default' => array(
         'label' => $gLocale->getStr('applications_button'),
         'themeimage' => 'listdetailed2',
-        'action' => \Innomatic\Wui\WuiEventsCall::buildEventsCallString('', array(array('view', 'default', ''))),
+        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array('view', 'default', ''))),
         'horiz' => 'true'
         ),
     'repository' => array(
         'label' => $gLocale->getStr('repository.toolbar'),
         'themeimage' => 'globe2',
-        'action' => \Innomatic\Wui\WuiEventsCall::buildEventsCallString('', array(array('view', 'appcentral', ''))),
+        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array('view', 'appcentral', ''))),
         'horiz' => 'true'
         ),
     'keyring' => array(
         'label' => $gLocale->getStr('keys.toolbar'),
         'themeimage' => 'keyhole',
         'horiz' => 'true',
-        'action' => \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -324,7 +324,7 @@ $gViewDispatcher = new WuiDispatcher('view');
 
 function applications_list_action_builder($pageNumber)
 {
-    return \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -338,7 +338,7 @@ function applications_list_action_builder($pageNumber)
 
 function applications_tab_action_builder($tab)
 {
-    return \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -468,9 +468,9 @@ function main_default($eventData)
 
                 $wuiApplicationToolbar[$data['category']][$row] = new WuiHorizgroup('applicationtoolbar'.$row);
 
-                $detailsAction[$data['category']][$row] = new \Innomatic\Wui\WuiEventsCall();
+                $detailsAction[$data['category']][$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                 $detailsAction[$data['category']][$row]->addEvent(
-                    new \Innomatic\Wui\WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'view',
                         'details',
                         array(
@@ -490,9 +490,9 @@ function main_default($eventData)
                 $wuiApplicationToolbar[$data['category']][$row]->addChild($wuiDetailsButton[$data['category']][$row]);
 
                 if (strcmp($data['appid'], 'innomatic')) {
-                    $depsAction[$data['category']][$row] = new \Innomatic\Wui\WuiEventsCall();
+                    $depsAction[$data['category']][$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                     $depsAction[$data['category']][$row]->addEvent(
-                        new \Innomatic\Wui\WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'view',
                             'dependencies',
                             array(
@@ -513,16 +513,16 @@ function main_default($eventData)
                         $wuiDepsButton[$data['category']][$row]
                     );
 
-                    $removeAction[$data['category']][$row] = new \Innomatic\Wui\WuiEventsCall();
+                    $removeAction[$data['category']][$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                     $removeAction[$data['category']][$row]->addEvent(
-                        new \Innomatic\Wui\WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'view',
                             'default',
                             ''
                             )
                     );
                     $removeAction[$data['category']][$row]->addEvent(
-                        new \Innomatic\Wui\WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'action',
                             'uninstall',
                             array(
@@ -558,9 +558,9 @@ function main_default($eventData)
                         )->getHome().'core/applications/'.$data['appid'].'/application.log'
                     )
                 ) {
-                    $logAction[$data['category']][$row] = new \Innomatic\Wui\WuiEventsCall();
+                    $logAction[$data['category']][$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                     $logAction[$data['category']][$row]->addEvent(
-                        new \Innomatic\Wui\WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'view',
                             'applicationlog',
                             array(
@@ -625,7 +625,7 @@ function main_default($eventData)
       <args>
         <action type="encoded">'
         .urlencode(
-            \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -667,7 +667,7 @@ function main_default($eventData)
         <label type="encoded">'.urlencode($gLocale->getStr('newapplication_submit')).'</label>
         <action type="encoded">'
         .urlencode(
-            \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -1125,16 +1125,16 @@ function main_applicationlog($eventData)
     ) {
             $logToolbar = new WuiToolBar('logbar');
 
-            $cleanLogAction = new \Innomatic\Wui\WuiEventsCall();
+            $cleanLogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $cleanLogAction->addEvent(
-                new \Innomatic\Wui\WuiEvent(
+                new \Innomatic\Wui\Dispatch\WuiEvent(
                     'view',
                     'default',
                     ''
                 )
             );
             $cleanLogAction->addEvent(
-                new \Innomatic\Wui\WuiEvent(
+                new \Innomatic\Wui\Dispatch\WuiEvent(
                     'action',
                     'cleanmodlog',
                     array(
@@ -1196,7 +1196,7 @@ function main_help($eventData)
 
 function reps_tab_action_builder($tab)
 {
-    return \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -1256,7 +1256,7 @@ function main_appcentral($eventData)
         <method>post</method>
         <action type="encoded">'
         .urlencode(
-            \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -1297,7 +1297,7 @@ function main_appcentral($eventData)
         <label type="encoded">'.urlencode($gLocale->getStr('new_repository.submit')).'</label>
         <action type="encoded">'
         .urlencode(
-            \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -1375,7 +1375,7 @@ function main_appcentral($eventData)
               <label>'.WuiXml::cdata($gLocale->getStr('repository_applications.button')).'</label>
         <themeimage>listdetailed</themeimage>
         <horiz>true</horiz>
-        <action>'.WuiXml::cdata(\Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+        <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -1406,7 +1406,7 @@ function main_appcentral($eventData)
             <frame>false</frame>
             <action type="encoded">'
             .urlencode(
-                \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+                \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array(
@@ -1452,7 +1452,7 @@ $gXmlDefinition .=
                         'label' => $gLocale->getStr('refresh.button'),
                         'themeimage' => 'cycle',
                         'horiz' => 'true',
-                        'action' => \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+                        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1489,7 +1489,7 @@ $gXmlDefinition .=
             <frame>false</frame>
             <action type="encoded">'
             .urlencode(
-                \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+                \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                     'webservices',
                     array(
                         array(
@@ -1518,7 +1518,7 @@ function repapplications_list_action_builder($pageNumber)
     $tempDisp = new WuiDispatcher('view');
     $eventData = $tempDisp->GetEventData();
 
-    return \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -1540,7 +1540,7 @@ function appcentral_applications_tab_action_builder($tab)
     $gMainDisp = new WuiDispatcher('view');
     $eventData = $gMainDisp->GetEventData();
 
-    return \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -1710,7 +1710,7 @@ function main_repositoryapplications($eventData)
               <label>'.WuiXml::cdata($gLocale->getStr('application_versions.button')).'</label>
         <themeimage>listdetailed</themeimage>
         <horiz>true</horiz>
-        <action>'.WuiXml::cdata(\Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+        <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -1736,7 +1736,7 @@ function main_repositoryapplications($eventData)
               <label>'.WuiXml::cdata($label).'</label>
         <themeimage>'.$icon.'</themeimage>
         <horiz>true</horiz>
-        <action>'.WuiXml::cdata(\Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+        <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array(
@@ -1818,7 +1818,7 @@ function main_repositoryapplications($eventData)
                         'label' => $gLocale->getStr('refresh.button'),
                         'themeimage' => 'cycle',
                         'horiz' => 'true',
-                        'action' => \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+                        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1979,7 +1979,7 @@ function main_applicationversions($eventData)
               <label>'.WuiXml::cdata($label).'</label>
         <themeimage>'.$icon.'</themeimage>
         <horiz>true</horiz>
-        <action>'.WuiXml::cdata(\Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+        <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array(
@@ -2051,7 +2051,7 @@ function main_applicationversions($eventData)
             'label' => $gLocale->getStr('refresh.button'),
             'themeimage' => 'cycle',
             'horiz' => 'true',
-            'action' => \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+            'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -2074,7 +2074,7 @@ function main_applicationversions($eventData)
 
 function keys_page_action_builder($page)
 {
-    return \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -2135,7 +2135,7 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
         <horiz>true</horiz>
                 <needconfirm>true</needconfirm>
                     <confirmmessage>'.WuiXml::cdata($gLocale->getStr('remove_key.confirm')).'</confirmmessage>
-        <action>'.WuiXml::cdata(\Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+        <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -2215,7 +2215,7 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
       <args>
         <action type="encoded">'
         .urlencode(
-            \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -2256,7 +2256,7 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
         <label type="encoded">'.urlencode($gLocale->getStr('newkey.submit')).'</label>
         <action type="encoded">'
         .urlencode(
-            \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(

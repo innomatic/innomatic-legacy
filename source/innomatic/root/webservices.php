@@ -2159,7 +2159,7 @@ function main_showmethods($eventData)
     $xmlrpcClient->setProxy($xmlrpcAccount->mProxy, $xmlrpcAccount->mProxyPort);
     $xmlrpcClient->setCredentials($xmlrpcAccount->mUsername, $xmlrpcAccount->mPassword);
 
-    $xmlrpcMessage = new XmlRpcMsg('system.listMethods');
+    $xmlrpcMessage = new \Innomatic\Webservices\Xmlrpc\XmlRpcMsg('system.listMethods');
     $xmlrpcResp = $xmlrpcClient->Send($xmlrpcMessage);
 
     if ($xmlrpcResp) {

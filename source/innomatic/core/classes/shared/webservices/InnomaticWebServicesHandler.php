@@ -26,7 +26,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
 
         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
-        return new XmlRpcResp(new XmlRpcVal($log->RawReadLog()));
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($log->RawReadLog()));
     }
 
     // Returns Innomatic main log file content
@@ -37,7 +37,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
 
         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
-        return new XmlRpcResp(new XmlRpcVal($log->cleanLog()));
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($log->cleanLog()));
     }
 
     // Writes an event in the Innomatic main log file.
@@ -54,8 +54,8 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
         $event_string = $m->getParam(1);
         $event_type = $m->getParam(2);
 
-        return new XmlRpcResp(
-            new XmlRpcVal(
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(
+            new \Innomatic\Webservices\Xmlrpc\XmlRpcVal(
                 $log->logEvent(
                     $event_caller->scalarVal(),
                     $event_string->scalarVal(),
@@ -76,7 +76,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
             . 'core/log/webservices.log'
         );
 
-        return new XmlRpcResp(new XmlRpcVal($log->rawReadLog()));
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($log->rawReadLog()));
     }
 
     // Returns Innomatic web services log file content
@@ -88,7 +88,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
             InnomaticContainer::instance('innomaticcontainer')->getHome()
             . 'core/log/webservices.log'
         );
-        return new XmlRpcResp(new XmlRpcVal($log->cleanLog()));
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($log->cleanLog()));
     }
 
     // Writes an event in the Innomatic main log file.
@@ -106,8 +106,8 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
         $event_string = $m->getParam(1);
         $event_type = $m->getParam(2);
 
-        return new XmlRpcResp(
-            new XmlRpcVal(
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(
+            new \Innomatic\Webservices\Xmlrpc\XmlRpcVal(
                 $log->logEvent(
                     $event_caller->scalarVal(),
                     $event_string->scalarVal(),
@@ -123,7 +123,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
     {
         
         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-        return new XmlRpcResp(new XmlRpcVal($log->rawReadLog()));
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($log->rawReadLog()));
     }
 
     // Returns Innomatic database log file content
@@ -134,7 +134,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
 
         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
-        return new XmlRpcResp(new XmlRpcVal($log->cleanLog()));
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($log->cleanLog()));
     }
 
     // Writes an event in the Innomatic database log file.
@@ -148,8 +148,8 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
         $event_string = $m->getParam(1);
         $event_type = $m->getParam(2);
 
-        return new XmlRpcResp(
-            new XmlRpcVal(
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(
+            new \Innomatic\Webservices\Xmlrpc\XmlRpcVal(
                 $log->logEvent(
                     $event_caller->scalarVal(),
                     $event_string->scalarVal(),
@@ -176,7 +176,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
             $result = $query->getFields('appversion');
         }
 
-        return new XmlRpcResp(new XmlRpcVal($result));
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($result));
     }
 
     // Returns the list of current applications
@@ -201,17 +201,17 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
             }
         }
 
-        return new XmlRpcResp(new XmlRpcVal($result));
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($result));
     }
 
     // Installs a new Application
     //
     public static function applications_application_install($m)
     {
-        //return new XmlRpcResp(
-        //  new XmlRpcVal($innomatic->InstallApplication($appfile))
+        //return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(
+        //  new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($innomatic->InstallApplication($appfile))
         //);
-        return new XmlRpcResp(new XmlRpcVal(''));
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal(''));
     }
 
     // Removes a application
@@ -227,16 +227,16 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
             and ($appid->ScalarTyp() == 'string')
         )
         {
-            return new XmlRpcResp(0, $xmlrpcerruser, 'Wrong parameters');
+            return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(0, $xmlrpcerruser, 'Wrong parameters');
             /*
-            return new XmlRpcResp(
-                new XmlRpcVal(
+            return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(
+                new \Innomatic\Webservices\Xmlrpc\XmlRpcVal(
                     $innomatic->UninstallApplication($appid->scalarVal())
                 )
             );
             */
         } else {
-            return new XmlRpcResp(0, $xmlrpcerruser, 'Wrong parameters');
+            return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(0, $xmlrpcerruser, 'Wrong parameters');
         }
     }
 
@@ -258,7 +258,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
             }
         }
 
-        return new XmlRpcResp(new XmlRpcVal($result));
+        return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($result));
     }
 
     // Returns the list of the applications enabled to a given domain
@@ -290,9 +290,9 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
                 }
             }
 
-            return new XmlRpcResp(new XmlRpcVal($result));
+            return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($result));
         } else {
-            return new XmlRpcResp(0, $xmlrpcerruser, 'Wrong parameters');
+            return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(0, $xmlrpcerruser, 'Wrong parameters');
         }
     }
 }

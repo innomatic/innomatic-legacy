@@ -88,7 +88,7 @@ class DomaintableComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            $xmldb = new DataAccessXmlTable($this->domainda, DataAccessXmlTable::SQL_CREATE);
+            $xmldb = new \Innomatic\Dataaccess\DataAccessXmlTable($this->domainda, \Innomatic\Dataaccess\DataAccessXmlTable::SQL_CREATE);
             $xmldb->load_deffile(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . $params['file']);
             if ($this->domainda->execute($xmldb->getSQL())) {
                 $result = true;
@@ -103,7 +103,7 @@ class DomaintableComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            $xmldb = new DataAccessXmlTable($this->domainda, DataAccessXmlTable::SQL_DROP);
+            $xmldb = new \Innomatic\Dataaccess\DataAccessXmlTable($this->domainda, \Innomatic\Dataaccess\DataAccessXmlTable::SQL_DROP);
             $xmldb->load_deffile(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . $params['file']);
             if ($this->domainda->execute($xmldb->getSQL())) {
                 $result = true;
@@ -118,7 +118,7 @@ class DomaintableComponent extends \Innomatic\Application\ApplicationComponent
         $result = true;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/db/' . $params['file'];
-            $xml_upd = new DataAccessXmlTableUpdater($this->domainda, InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']) . '.old', $params['file']);
+            $xml_upd = new \Innomatic\Dataaccess\DataAccessXmlTableUpdater($this->domainda, InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']) . '.old', $params['file']);
             $xml_upd->CheckDiffs();
             $old_columns = $xml_upd->getOldColumns();
             if (is_array($old_columns)) {

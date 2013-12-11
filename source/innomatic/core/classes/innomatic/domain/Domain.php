@@ -60,7 +60,7 @@ class Domain
 
 
                     $this->dataAccess = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(new \Innomatic\Dataaccess\DataAccessSourceName($dasn_string));
-                    $this->dataAccess->Connect();
+                    $this->dataAccess->connect();
                 } else {
                     $this->dataAccess = $this->rootda;
                 }
@@ -73,7 +73,7 @@ class Domain
             } else {
                 
                 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                $log->LogDie('innomatic.domains.domain.domain', 'No domain exists with specified domain id ('.$domainid.')');
+                $log->logDie('innomatic.domains.domain.domain', 'No domain exists with specified domain id ('.$domainid.')');
             }
         } else {
             if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
@@ -909,7 +909,7 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
     {
         if (is_object($this->dataAccess)) {
             $sets = new DomainSettings($this->dataAccess);
-            return $sets->DeleteKey('domain-motd');
+            return $sets->deleteKey('domain-motd');
         }
         return false;
     }
@@ -947,8 +947,7 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
 
     public function getLanguage()
     {
-        $domain_settings = new DomainSettings(
-        $this->dataAccess);
+        $domain_settings = new DomainSettings($this->dataAccess);
         $key = $domain_settings->getKey('desktop-language');
         return strlen($key) ? $key : InnomaticContainer::instance('innomaticcontainer')->getLanguage();
     }
