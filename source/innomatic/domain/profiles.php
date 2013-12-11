@@ -17,7 +17,6 @@
 // acting as model, view and controller.
 
 use \Innomatic\Core\InnomaticContainer;
-use \Innomatic\Wui\Wui;
 use \Innomatic\Wui\Widgets;
 use \Innomatic\Wui\Dispatch;
 use \Innomatic\Locale\LocaleCatalog;
@@ -33,7 +32,7 @@ $innomaticLocale = new LocaleCatalog(
         'innomaticcontainer'
     )->getCurrentUser()->getLanguage()
 );
-$wui = Wui::instance('wui');
+$wui = \Innomatic\Wui\Wui::instance('wui');
 $wui->loadWidget('button');
 $wui->loadWidget('checkbox');
 $wui->loadWidget('combobox');

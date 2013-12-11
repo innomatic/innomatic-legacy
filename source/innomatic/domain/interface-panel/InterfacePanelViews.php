@@ -14,7 +14,6 @@
 */
 
 use \Innomatic\Core\InnomaticContainer;
-use \Innomatic\Wui\Wui;
 use \Innomatic\Wui\Widgets;
 use \Innomatic\Wui\Dispatch;
 use \Innomatic\Locale\LocaleCatalog;
@@ -205,7 +204,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
           <listbox row="1" col="0"><name>theme</name><args><elements type="array">'
                                 .WuiXml::encode($elements)
                                 .'</elements><default>'
-                                        . (Wui::instance('wui')->getThemeName()).
+                                        . (\Innomatic\Wui\Wui::instance('wui')->getThemeName()).
                                         '</default><disp>action</disp><size>10</size></args></listbox>
         </children></grid>
         <submit><name>submit</name><args><caption type="encoded">'
