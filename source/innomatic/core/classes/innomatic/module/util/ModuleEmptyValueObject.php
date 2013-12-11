@@ -5,8 +5,6 @@ namespace Innomatic\Module\Util;
  * @since 5.1
  */
 
-require_once('innomatic/module/ModuleValueObject.php');
-
 /**
  * Empty value object.
  *
@@ -18,6 +16,6 @@ require_once('innomatic/module/ModuleValueObject.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleEmptyValueObject extends ModuleValueObject
+class ModuleEmptyValueObject extends \Innomatic\Module\ModuleValueObject
 {
 }

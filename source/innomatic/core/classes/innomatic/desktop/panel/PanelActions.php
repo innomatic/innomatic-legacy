@@ -58,8 +58,7 @@ abstract class PanelActions extends \Innomatic\Util\Observable
             $top = $args[1];
             $left = $args[2];
 
-            require_once('shared/wui/WuiDivframe.php');
-            $empty = new WuiDivframe($name);
+            $empty = new \Shared\Wui\WuiDivframe($name);
             $session_args = $empty->retrieveSession();
 
             if( isset($session_args['top']) ) {

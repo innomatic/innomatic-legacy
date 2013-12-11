@@ -93,8 +93,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
 
         /**
          * To be applied when implementing a xml def file parser
-         require_once('shared/wui/WuiXml.php');
-         $wui->addChild(new WuiXml('def',array('definition' => $this->response->getContent())));
+         $wui->addChild(new \Shared\Wui\WuiXml('def',array('definition' => $this->response->getContent())));
          $wui->render();
          */
     }

@@ -1,13 +1,7 @@
 <?php
 namespace Innomatic\Module\Server;
 
-require_once('innomatic/module/ModuleFactory.php');
-require_once('innomatic/module/ModuleException.php');
-require_once('innomatic/module/ModuleContext.php');
-require_once('innomatic/module/ModuleLocator.php');
-require_once('innomatic/module/session/ModuleSession.php');
-require_once('innomatic/module/server/ModuleServerRequest.php');
-require_once('innomatic/module/server/ModuleServerResponse.php');
+use \Innomatic\Module;
 
 /**
  * Processor for Module server XmlRpc messages.
@@ -93,7 +87,7 @@ class ModuleServerXmlRpcProcessor
         xmlrpc_server_destroy($xmlrpc_server);
 
         $context = new ModuleContext($module_location);
-        $session = new ModuleSession($context, $sessionId);
+        $session = new \Innomatic\Module\Session\ModuleSession($context, $sessionId);
         $session->save($this->module);
         $response->addHeader('Session: '.$session->getId());
     }

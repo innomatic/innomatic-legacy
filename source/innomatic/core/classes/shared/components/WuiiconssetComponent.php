@@ -14,7 +14,6 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/wui/theme/WuiIconsSet.php');
 /**
  * Wuiiconsset component handler.
  */
@@ -51,7 +50,7 @@ class WuiiconssetComponent extends \Innomatic\Application\ApplicationComponent
             }
             if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
-                $wui_component = new WuiIconsSet($this->rootda, $params['name']);
+                $wui_component = new \Innomatic\Wui\Theme\WuiIconsSet($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Install($params)) {
                     $set_components = $wui_component->getIconsSet();
@@ -137,7 +136,7 @@ class WuiiconssetComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            $wui_component = new WuiIconsSet($this->rootda, $params['name']);
+            $wui_component = new \Innomatic\Wui\Theme\WuiIconsSet($this->rootda, $params['name']);
             if ($wui_component->Remove($params)) {
                 $set_components = $wui_component->getIconsSet();
                 if (is_array($set_components['actions'])) {
@@ -226,7 +225,7 @@ class WuiiconssetComponent extends \Innomatic\Application\ApplicationComponent
             }
             if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
-                $wui_component = new WuiIconsSet($this->rootda, $params['name']);
+                $wui_component = new \Innomatic\Wui\Theme\WuiIconsSet($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Update($params)) {
                     $set_components = $wui_component->getIconsSet();

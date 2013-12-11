@@ -14,29 +14,27 @@
 */
 namespace Innomatic\Webservices;
 
-use \Innomatic\Webapp;
 use \Innomatic\Core\InnomaticContainer;
 use \Innomatic\Webservices;
-use \Innomatic\Webservices\Xmlrpc;
 
 /**
  * @since 5.0
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2012 Innoteam Srl
  */
-class WebServicesWebAppHandler extends WebAppHandler
+class WebServicesWebAppHandler extends \Innomatic\Webapp\WebAppHandler
 {
     public function init()
     {
     }
 
-    public function doGet(WebAppRequest $req, WebAppResponse $res)
+    public function doGet(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)
     {
         // Identify the requested resource path
         $path = $this->getRelativePath($req);
 
         // Bootstraps Innomatic
-        $container = WebAppContainer::instance('webappcontainer');
+        $container = \Innomatic\Webapp\WebAppContainer::instance('webappcontainer');
         $home = $container->getCurrentWebApp()->getHome();
 
         $innomatic = InnomaticContainer::instance('innomaticcontainer');
@@ -71,7 +69,6 @@ class WebServicesWebAppHandler extends WebAppHandler
                 unset($innomatic_security);
             }
         }
-
         $structure = array();
 
         $methods = InnomaticContainer::instance('innomaticcontainer')->getWebServicesMethods();
@@ -92,10 +89,10 @@ class WebServicesWebAppHandler extends WebAppHandler
             }
         }
 
-        $xs = new XmlRpc_Server($structure);
+        $xs = new \Innomatic\Webservices\Xmlrpc\XmlRpc_Server($structure);
     }
 
-    public function doPost(WebAppRequest $req, WebAppResponse $res)
+    public function doPost(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)
     {
         $this->doGet($req, $res);
     }
@@ -104,7 +101,7 @@ class WebServicesWebAppHandler extends WebAppHandler
     {
     }
 
-    protected function getRelativePath(WebAppRequest $request)
+    protected function getRelativePath(\Innomatic\Webapp\WebAppRequest $request)
     {
         $result = $request->getPathInfo();
         return \Innomatic\Io\Filesystem\DirectoryUtils::normalize(strlen($result) ? $result : '/');
@@ -119,11 +116,11 @@ class WebServicesWebAppHandler extends WebAppHandler
      * @return string
      * @access protected
      */
-    protected function getURL(WebAppRequest $request, $redirectPath)
+    protected function getURL(\Innomatic\Webapp\WebAppRequest $request, $redirectPath)
     {
         $result = '';
 
-        $container = WebAppContainer::instance('webappcontainer');
+        $container = \Innomatic\Webapp\WebAppContainer::instance('webappcontainer');
         $processor = $container->getProcessor();
         $webAppPath = $request->getUrlPath();
 

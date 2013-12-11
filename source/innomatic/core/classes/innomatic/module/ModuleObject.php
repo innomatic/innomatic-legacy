@@ -1,10 +1,6 @@
 <?php
 namespace Innomatic\Module;
 
-require_once('innomatic/module/ModuleConfig.php');
-require_once('innomatic/module/ModuleValueObject.php');
-require_once('innomatic/dataaccess/DataAccessFactory.php');
-
 /**
  * Base class for encapsulating business logic.
  *
@@ -65,7 +61,6 @@ abstract class ModuleObject implements \Serializable
         require_once($vo_fqcn.'.php');
         $vo_class = strpos($vo_fqcn, '/') ? substr($vo_fqcn, strrpos($vo_fqcn, '/') + 1) : $vo_fqcn;
         if (!class_exists($vo_class, true)) {
-            require_once('innomatic/module/ModuleException.php');
             throw new ModuleException('Value object class '.$vo_class.' does not exists');
         }
 

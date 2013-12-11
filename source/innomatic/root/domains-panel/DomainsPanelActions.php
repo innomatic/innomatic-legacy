@@ -25,17 +25,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function beginHelper()
     {
-        require_once('innomatic/locale/LocaleCatalog.php');
-        require_once('innomatic/domain/Domain.php');
-        require_once('innomatic/config/ConfigBase.php');
-        require_once('innomatic/config/ConfigFile.php');
-        require_once('innomatic/config/ConfigMan.php');
-        require_once('innomatic/application/ApplicationDependencies.php');
-        require_once('innomatic/application/Application.php');
-        require_once('innomatic/domain/user/Group.php');
-        require_once('innomatic/domain/user/Permissions.php');
-        require_once('innomatic/locale/LocaleCatalog.php');
-        $this->_localeCatalog = new LocaleCatalog(
+        $this->_localeCatalog = new \Innomatic\Locale\LocaleCatalog(
             'innomatic::root_domains',
             InnomaticContainer::instance('innomaticcontainer')->getLanguage()
         );
@@ -47,7 +37,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function executeCreatedomain($eventData)
     {
-        $domain = new Domain(InnomaticContainer::instance(
+        $domain = new \Innomatic\Domain\Domain(InnomaticContainer::instance(
             'innomaticcontainer'
         )->getDataAccess(), 0, null);
 
@@ -83,7 +73,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
         );
 
         $null = null;
-        $domain = new Domain(
+        $domain = new \Innomatic\Domain\Domain(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             $domainQuery->getFields('domainid'),
             $null
@@ -129,7 +119,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     public function executeEditdomainnotes($eventData)
     {
         $null = null;
-        $domain = new Domain(
+        $domain = new \Innomatic\Domain\Domain(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             $eventData['domainid'],
             $null
@@ -145,7 +135,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     public function executeRemovedomain($eventData)
     {
         $null = null;
-        $domain = new Domain(
+        $domain = new \Innomatic\Domain\Domain(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             $eventData['domainid'],
             $null
@@ -167,7 +157,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     public function executeEnabledomain($eventData)
     {
         $null = null;
-        $domain = new Domain(
+        $domain = new \Innomatic\Domain\Domain(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             $eventData['domainid'],
             $null
@@ -187,7 +177,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     public function executeDisabledomain($eventData)
     {
         $null = null;
-        $domain = new Domain(
+        $domain = new \Innomatic\Domain\Domain(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             $eventData['domainid'],
             $null
@@ -219,7 +209,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             $domainData = $domainQuery->getFields();
 
             $null = null;
-            $domain = new Domain(
+            $domain = new \Innomatic\Domain\Domain(
                 InnomaticContainer::instance(
                     'innomaticcontainer'
                 )->getDataAccess(),
@@ -261,12 +251,12 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
         if ($domainQuery) {
             $domainData = $domainQuery->getFields();
 
-            $domain = new Domain(
+            $domain = new \Innomatic\Domain\Domain(
                 InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
                 $domainData['domainid'],
                 ''
             );
-            if ($domain->EnableAllApplications()) {
+            if ($domain->enableAllApplications()) {
                 $this->status = $this->_localeCatalog->getStr('applications_enabled.status');
             }
         } else {
@@ -285,7 +275,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
         if ($domainQuery) {
             $domainData = $domainQuery->getFields();
 
-            $domain = new Domain(
+            $domain = new \Innomatic\Domain\Domain(
                 InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
                 $domainData['domainid'],
                 ''
@@ -300,9 +290,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function executeEnableoption($eventData)
     {
-        require_once('innomatic/application/Application.php');
-
-        $application = new Application(
+        $application = new \Innomatic\Application\Application(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             $eventData['applicationid']
         );
@@ -316,9 +304,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function executeDisableoption($eventData)
     {
-        require_once('innomatic/application/Application.php');
-
-        $application = new Application(
+        $application = new \Innomatic\Application\Application(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             $eventData['applicationid']
         );
@@ -339,12 +325,12 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             $domainData = $domainQuery->getFields();
 
             $null = null;
-            $domain = new Domain(
+            $domain = new \Innomatic\Domain\Domain(
                 InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
                 $domainData['domainid'],
                 $null
             );
-            if (!$domain->DisableApplication($eventData['appid'])) {
+            if (!$domain->disableApplication($eventData['appid'])) {
                 $unmetDeps = $domain->getLastActionUnmetDeps();
 
                 if (count($unmetDeps)) {

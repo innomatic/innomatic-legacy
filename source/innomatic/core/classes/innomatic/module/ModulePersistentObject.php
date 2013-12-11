@@ -1,13 +1,6 @@
 <?php
 namespace Innomatic\Module;
 
-require_once('innomatic/module/ModuleObject.php');
-require_once('innomatic/module/ModuleConfig.php');
-require_once('innomatic/module/persist/ModuleAccessObject.php');
-require_once('innomatic/module/ModuleValueObject.php');
-require_once('innomatic/dataaccess/DataAccessFactory.php');
-require_once('innomatic/dataaccess/DataAccessSourceName.php');
-
 /**
  * Module persistent object.
  *
@@ -50,17 +43,16 @@ abstract class ModulePersistentObject extends ModuleObject
         // Data Access object
         /*
         $dasn = $this->config->getDASN();
-        if (!$dasn instanceof DataAccessSourceName) {
-            require_once('innomatic/module/ModuleException.php');
+        if (!$dasn instanceof \Innomatic\Dataaccess\DataAccessSourceName) {
             throw new ModuleException('Missing DASN for persistent Module');
         }
-        $this->dataAccess = DataAccessFactory::getDataAccess($dasn);
+        $this->dataAccess = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess($dasn);
         */
 
         $this->dataAccess = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess();
 
         // Data Access Object object
-        $this->dataAccessObject = new ModuleAccessObject($this->dataAccess);
+        $this->dataAccessObject = new \Innomatic\Module\Persist\ModuleAccessObject($this->dataAccess);
         $this->dataAccessObject->setValueObject($this->valueObject);
         $this->dataAccessObject->setConfig($this->config);
     }
@@ -140,7 +132,6 @@ abstract class ModulePersistentObject extends ModuleObject
         }
 
         $dar = $this->dataAccessObject->retrieve($sql);
-        require_once('innomatic/module/persist/ModuleReadOnlyResultSet.php');
-        return new ModuleReadOnlyResultSet($dar);
+        return new \Innomatic\Module\Persist\ModuleReadOnlyResultSet($dar);
     }
 }

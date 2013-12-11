@@ -50,8 +50,6 @@ class Domain
                     $args['dbpass'] = $this->domaindata['dataaccesspassword'];
                     $args['dblog'] = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$this->domaindata['domainid'].'/log/dataaccess.log';
 
-                    require_once('innomatic/dataaccess/DataAccessFactory.php');
-                    require_once('innomatic/dataaccess/DataAccessSourceName.php');
                     $dasn_string = $args['dbtype'].'://'.
                     $args['dbuser'].':'.
                     $args['dbpass'].'@'.
@@ -61,7 +59,7 @@ class Domain
                         'logfile='.$args['dblog'];
 
 
-                    $this->dataAccess = DataAccessFactory::getDataAccess(new DataAccessSourceName($dasn_string));
+                    $this->dataAccess = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(new \Innomatic\Dataaccess\DataAccessSourceName($dasn_string));
                     $this->dataAccess->Connect();
                 } else {
                     $this->dataAccess = $this->rootda;
@@ -108,9 +106,8 @@ class Domain
     {
         $result = false;
 
-        require_once('innomatic/process/Hook.php');
-        $hook = new Hook($this->rootda, 'innomatic', 'domain.create');
-        if ($hook->CallHooks('calltime', $this, array('domaindata' => $domaindata)) == Hook::RESULT_OK) {
+        $hook = new \Innomatic\Process\Hook($this->rootda, 'innomatic', 'domain.create');
+        if ($hook->callHooks('calltime', $this, array('domaindata' => $domaindata)) == \Innomatic\Process\Hook::RESULT_OK) {
             $domaindata['domainid'] = strtolower(str_replace(' ', '', trim($domaindata['domainid'])));
 
             // Checks if the domainid contains reserved words.
@@ -192,8 +189,7 @@ class Domain
                     $this->makedir(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domaindata['domainid'].'/conf');
 
                     // Domain webapp creation.
-                    require_once('innomatic/webapp/WebAppContainer.php');
-                    WebAppContainer::createWebApp($domaindata['domainid'], $domaindata['webappskeleton']);
+                    \Innomatic\Webapp\WebAppContainer::createWebApp($domaindata['domainid'], $domaindata['webappskeleton']);
 
                     // Creates the database, if asked.
                     if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
@@ -207,8 +203,6 @@ class Domain
 
                         $args['name'] = $domaindata['domaindaname'];
 
-                        require_once('innomatic/dataaccess/DataAccessFactory.php');
-                        require_once('innomatic/dataaccess/DataAccessSourceName.php');
                         $dasn_string = $args['dbtype'].'://'.
                         $args['dbuser'].':'.
                         $args['dbpass'].'@'.
@@ -216,7 +210,7 @@ class Domain
                         $args['dbport'].'/'.
                         $args['dbname'].'?'.
                         'logfile='.$args['dblog'];
-                        $tmpdb = DataAccessFactory::getDataAccess(new DataAccessSourceName($dasn_string));
+                        $tmpdb = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(new \Innomatic\Dataaccess\DataAccessSourceName($dasn_string));
 
                         if ($createDb) {
                             if ($tmpdb->Connect()) {
@@ -243,9 +237,8 @@ class Domain
 
                             $tmpquery = $this->rootda->execute('SELECT id FROM applications WHERE appid='.$this->rootda->formatText('innomatic'));
 
-                            if ($this->EnableApplication($tmpquery->getFields('id'))) {
-                                require_once('innomatic/domain/user/User.php');
-                                $tmpuser = new User($nextseq);
+                            if ($this->enableApplication($tmpquery->getFields('id'))) {
+                                $tmpuser = new \Innomatic\Domain\User\User($nextseq);
                                 $tmpuser->createAdminUser($domaindata['domainid'], $domaindata['domainpassword']);
 
                                 
@@ -255,13 +248,11 @@ class Domain
 
                                 $this->domainlog->logEvent($domaindata['domainid'], 'Created domain '.$domaindata['domainid'], \Innomatic\Logging\Logger::NOTICE);
 
-                                if ($hook->CallHooks('domaincreated', $this, array('domaindata' => $domaindata)) != Hook::RESULT_ABORT)
+                                if ($hook->callHooks('domaincreated', $this, array('domaindata' => $domaindata)) != \Innomatic\Process\Hook::RESULT_ABORT)
                                 $result = true;
 
                                 if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value('SecurityAlertOnDomainOperation') == '1') {
-                                    require_once('innomatic/security/SecurityManager.php');
-
-                                    $innomatic_security = new SecurityManager();
+                                    $innomatic_security = new \Innomatic\Security\SecurityManager();
                                     $innomatic_security->sendAlert('A domain has been created with id '.$domaindata['domainid']);
                                     unset($innomatic_security);
                                 }
@@ -316,9 +307,8 @@ class Domain
     {
         $result = false;
 
-        require_once('innomatic/process/Hook.php');
-        $hook = new Hook($this->rootda, 'innomatic', 'domain.edit');
-        if ($hook->CallHooks('calltime', $this, array('domaindata' => $domaindata)) == Hook::RESULT_OK) {
+        $hook = new \Innomatic\Process\Hook($this->rootda, 'innomatic', 'domain.edit');
+        if ($hook->callHooks('calltime', $this, array('domaindata' => $domaindata)) == \Innomatic\Process\Hook::RESULT_OK) {
             if (!empty($domaindata['domainserial'])) {
                 $updatestr = 'UPDATE domains SET domainname='.$this->rootda->formatText($domaindata['domainname']).
                     ',webappurl='.$this->rootda->formatText($domaindata['webappurl']).
@@ -342,7 +332,7 @@ class Domain
                 
                 $this->domainlog->logEvent($tmpdata['domainid'], 'Changed domain settings', \Innomatic\Logging\Logger::NOTICE);
 
-                if ($hook->CallHooks('domainedited', $this, array('domaindata' => $domaindata)) == Hook::RESULT_ABORT)
+                if ($hook->callHooks('domainedited', $this, array('domaindata' => $domaindata)) == \Innomatic\Process\Hook::RESULT_ABORT)
                 $result = false;
             }
         }
@@ -444,8 +434,7 @@ class Domain
         if ($this->rootda->execute(
             'UPDATE domains SET webappskeleton='.$this->rootda->formatText($skeleton).
             ' WHERE domainid='.$this->rootda->formatText($this->domainid))) {
-            require_once('innomatic/webapp/WebAppContainer.php');
-            return WebAppContainer::applyNewSkeleton($this->domainid, $skeleton);
+            return \Innomatic\Webapp\WebAppContainer::applyNewSkeleton($this->domainid, $skeleton);
         } else {
             return false;
         }
@@ -463,9 +452,8 @@ class Domain
      */
     public function changePassword($password)
     {
-        require_once('innomatic/process/Hook.php');
-        $hook = new Hook($this->rootda, 'innomatic', 'domain.chpasswd');
-        if ($hook->CallHooks('calltime', $this, array('password' => $password)) == Hook::RESULT_OK) {
+        $hook = new \Innomatic\Process\Hook($this->rootda, 'innomatic', 'domain.chpasswd');
+        if ($hook->callHooks('calltime', $this, array('password' => $password)) == \Innomatic\Process\Hook::RESULT_OK) {
             if (strlen($password) and $this->domainserial) {
                 // We may require old password if superuser password cannot be changed
                 //
@@ -476,14 +464,13 @@ class Domain
                 if ($this->rootda->execute('UPDATE domains SET domainpassword='.$this->rootda->formatText(md5($password)).' WHERE id='. (int) $this->domainserial)) {
                     // Changes domain superuser password
                     //
-                    require_once('innomatic/domain/user/User.php');
-                    $tmpuser = new User($this->domainserial);
+                    $tmpuser = new \Innomatic\Domain\User\User($this->domainserial);
                     $tmpuser->setUserIDByUserName($this->domainid);
                     $userdata = $tmpuser->getUserData();
                     $qres = $this->dataAccess->execute('UPDATE domain_users SET password = '.$this->rootda->formatText(md5($password)).' WHERE id='. (int) $userdata[id]);
 
                     if ($qres) {
-                        if ($hook->CallHooks('passwordchanged', $this, array('password' => $password)) == Hook::RESULT_OK)
+                        if ($hook->callHooks('passwordchanged', $this, array('password' => $password)) == \Innomatic\Process\Hook::RESULT_OK)
                         return true;
                     } else {
                         // Fallback to old domain password
@@ -528,10 +515,8 @@ class Domain
                     $this->domainlog->logEvent($this->domainid, 'Enabled domain '.$this->domainid, \Innomatic\Logging\Logger::NOTICE);
 
                     if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value('SecurityAlertOnDomainOperation') == '1') {
-                        require_once('innomatic/security/SecurityManager.php');
-
-                        $innomatic_security = new SecurityManager();
-                        $innomatic_security->SendAlert('Domain '.$this->domainid.' has been enabled');
+                        $innomatic_security = new \Innomatic\Security\SecurityManager();
+                        $innomatic_security->sendAlert('Domain '.$this->domainid.' has been enabled');
                         unset($innomatic_security);
                     }
                 } else {
@@ -576,10 +561,8 @@ class Domain
                     $this->domainlog->logEvent($this->domainid, 'Disabled domain '.$this->domainid, \Innomatic\Logging\Logger::NOTICE);
 
                     if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value('SecurityAlertOnDomainOperation') == '1') {
-                        require_once('innomatic/security/SecurityManager.php');
-
-                        $innomatic_security = new SecurityManager();
-                        $innomatic_security->SendAlert('Domain '.$this->domainid.' has been disabled');
+                        $innomatic_security = new \Innomatic\Security\SecurityManager();
+                        $innomatic_security->sendAlert('Domain '.$this->domainid.' has been disabled');
                         unset($innomatic_security);
                     }
                 } else {
@@ -609,9 +592,8 @@ class Domain
     {
         $result = false;
 
-        require_once('innomatic/process/Hook.php');
-        $hook = new Hook($this->rootda, 'innomatic', 'domain.remove');
-        if ($hook->CallHooks('calltime', $this, '') == Hook::RESULT_OK) {
+        $hook = new \Innomatic\Process\Hook($this->rootda, 'innomatic', 'domain.remove');
+        if ($hook->callHooks('calltime', $this, '') == \Innomatic\Process\Hook::RESULT_OK) {
             $query = $this->rootda->execute('SELECT * FROM domains WHERE id='. (int) $this->domainserial);
             $data = $query->getFields();
 
@@ -648,25 +630,21 @@ class Domain
             $log->logEvent($data['domainid'], 'Removed domain '.$data['domainid'], \Innomatic\Logging\Logger::NOTICE);
 
             if (!empty($data['domainid']) and !in_array($data['domainid'], $this->reservedNames) ) {
-                require_once('innomatic/security/SecurityManager.php');
-                if (!SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$data['domainid'], InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/')) {
+                if (!\Innomatic\Security\SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$data['domainid'], InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/')) {
                     // Removes domain directory inside Innomatic webapp
                     \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$data['domainid']);
                 }
                 // Removes domain webapp
-                require_once('innomatic/webapp/WebAppContainer.php');
-                WebAppContainer::eraseWebApp($data['domainid']);
+                \Innomatic\Webapp\WebAppContainer::eraseWebApp($data['domainid']);
             }
 
-            if ($hook->CallHooks('domainremoved', $this, '') == Hook::RESULT_OK)
+            if ($hook->callHooks('domainremoved', $this, '') == \Innomatic\Process\Hook::RESULT_OK)
             $result = true;
 
             // Tells the security manager that the domain has been removed.
             if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value('SecurityAlertOnDomainOperation') == '1') {
-                require_once('innomatic/security/SecurityManager.php');
-
-                $innomatic_security = new SecurityManager();
-                $innomatic_security->SendAlert('Domain '.$data['domainid'].' has been removed');
+                $innomatic_security = new \Innomatic\Security\SecurityManager();
+                $innomatic_security->sendAlert('Domain '.$data['domainid'].' has been removed');
                 unset($innomatic_security);
             }
         }
@@ -681,8 +659,7 @@ class Domain
         $usersquery = $this->dataAccess->execute('SELECT id FROM domain_users');
 
         if ($usersquery->getNumberRows() > 0) {
-            require_once('innomatic/domain/user/User.php');
-            $tmpuser = new User($this->domainserial);
+            $tmpuser = new \Innomatic\Domain\User\User($this->domainserial);
 
             while (!$usersquery->eof) {
                 $userdata = $usersquery->getFields();
@@ -706,18 +683,15 @@ class Domain
     {
         $result = false;
 
-        require_once('innomatic/process/Hook.php');
-        $hook = new Hook($this->rootda, 'innomatic', 'domain.application.enable');
-        if ($hook->CallHooks('calltime', $this, array('domainserial' => $this->domainserial, 'appid' => $appid)) == Hook::RESULT_OK) {
-            if (!empty($this->dataAccess) and !empty($appid) and !$this->IsApplicationEnabled($appid)) {
-                require_once('innomatic/application/Application.php');
-
+        $hook = new \Innomatic\Process\Hook($this->rootda, 'innomatic', 'domain.application.enable');
+        if ($hook->callHooks('calltime', $this, array('domainserial' => $this->domainserial, 'appid' => $appid)) == \Innomatic\Process\Hook::RESULT_OK) {
+            if (!empty($this->dataAccess) and !empty($appid) and !$this->isApplicationEnabled($appid)) {
                 $modquery = $this->rootda->execute('SELECT appid FROM applications WHERE id='. (int) $appid);
 
-                $tmpmod = new Application($this->rootda, $appid);
+                $tmpmod = new \Innomatic\Application\Application($this->rootda, $appid);
 
                 if ($tmpmod->Enable($this->domainserial)) {
-                    if ($hook->CallHooks('applicationenabled', $this, array('domainserial' => $this->domainserial, 'appid' => $appid)) == Hook::RESULT_OK)
+                    if ($hook->callHooks('applicationenabled', $this, array('domainserial' => $this->domainserial, 'appid' => $appid)) == \Innomatic\Process\Hook::RESULT_OK)
                     $result = true;
 
                     
@@ -739,7 +713,7 @@ class Domain
                 if (empty($appid))
                 $log->logEvent('innomatic.domains.domain.enableapplication', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
 
-                if ($this->IsApplicationEnabled($appid))
+                if ($this->isApplicationEnabled($appid))
                 $log->logEvent('innomatic.domains.domain.enableapplication', 'Innomatic already enabled to the domain', \Innomatic\Logging\Logger::ERROR);
             }
         }
@@ -758,18 +732,15 @@ class Domain
     {
         $result = false;
 
-        require_once('innomatic/process/Hook.php');
-        $hook = new Hook($this->rootda, 'innomatic', 'domain.application.disable');
-        if ($hook->CallHooks('calltime', $this, array('domainserial' => $this->domainserial, 'appid' => $appid)) == Hook::RESULT_OK) {
-            if (!empty($this->dataAccess) and !empty($appid) and $this->IsApplicationEnabled($appid)) {
-                require_once('innomatic/application/Application.php');
-
+        $hook = new \Innomatic\Process\Hook($this->rootda, 'innomatic', 'domain.application.disable');
+        if ($hook->callHooks('calltime', $this, array('domainserial' => $this->domainserial, 'appid' => $appid)) == \Innomatic\Process\Hook::RESULT_OK) {
+            if (!empty($this->dataAccess) and !empty($appid) and $this->isApplicationEnabled($appid)) {
                 $modquery = $this->rootda->execute('SELECT appid FROM applications WHERE id='. (int) $appid);
 
-                $tmpmod = new Application($this->rootda, $appid);
+                $tmpmod = new \Innomatic\Application\Application($this->rootda, $appid);
 
                 if ($tmpmod->Disable($this->domainserial)) {
-                    if ($hook->CallHooks('applicationdisabled', $this, array('domainserial' => $this->domainserial, 'appid' => $appid)) == Hook::RESULT_OK)
+                    if ($hook->CallHooks('applicationdisabled', $this, array('domainserial' => $this->domainserial, 'appid' => $appid)) == \Innomatic\Process\Hook::RESULT_OK)
                     $result = true;
 
                     
@@ -846,7 +817,7 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
 
             $id = current($applications);
 
-            if ($this->EnableApplication($id)) {
+            if ($this->enableApplication($id)) {
                 unset($applications[$id]);
             }
 
@@ -897,9 +868,7 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
             while (count($applications) > 0) {
                 $appid = current($applications);
                 if ((count($applications) == 1 and $appid == $innomaticquery->getFields('id')) or (count($applications) > 1 and $appid != $innomaticquery->getFields('id')) or (!$innomaticToo)) {
-                    require_once('innomatic/application/Application.php');
-
-                    $tmpmod = new Application($this->rootda, $appid);
+                    $tmpmod = new \Innomatic\Application\Application($this->rootda, $appid);
                     if ($tmpmod->Disable($this->domainserial)) {
                         
                         $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
@@ -1008,8 +977,7 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
         }
 
         if (!strlen($hostname)) {
-            require_once('innomatic/webapp/WebAppContainer.php');
-            $hostname = WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getServerName();
+            $hostname = \Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getServerName();
         }
 
         // Is it still empty?

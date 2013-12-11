@@ -16,8 +16,6 @@
 require_once('scripts_container.php');
 $script = ScriptContainer::instance('scriptcontainer');
 
-require_once('innomatic/application/Application.php');
-
 if (!isset ($argv[1])) $argv[1] = '';
 
 try {
@@ -32,7 +30,7 @@ try {
             break;
 
         case 'deploy' :
-            $app = new Application(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+            $app = new \Innomatic\Application\Application(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
             if (file_exists($argv[2]) and $app->install($argv[2])) {
                 print("Application $app->appname deployed\n");
                 $script->cleanExit();
@@ -43,8 +41,8 @@ try {
             break;
 
         case 'undeploy' :
-            $appid = Application::getAppIdFromName($argv[2]);
-            $app = new Application(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $appid);
+            $appid = \Innomatic\Application\Application::getAppIdFromName($argv[2]);
+            $app = new \Innomatic\Application\Application(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $appid);
             if ($app->uninstall()) {
                 print("Application $argv[2] undeployed\n");
                 $script->cleanExit();

@@ -69,13 +69,11 @@ class Hook
             if ($query) {
 
                 $result = Hook::RESULT_OK;
-                require_once('innomatic/core/InnomaticContainer.php');
-                $innomatic = InnomaticContainer::instance('innomaticcontainer');
+                $innomatic = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer');
                 while (!$query->eof) {
                     $data = $query->getFields();
-                    if ($innomatic->getState() == InnomaticContainer::STATE_DEBUG) {
-                        require_once('innomatic/debug/InnomaticDump.php');
-                        $dump = InnomaticDump::instance('innomaticdump');
+                    if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
+                        $dump = \Innomatic\Debug\InnomaticDump::instance('innomaticdump');
                         $dump->hooks[$this->application.'::'.$this->function.'::'.$event][] = $data['hookhandler'].' - '.$data['hookmethod'];
                     }
                     require_once('shared/hooks/'.$data['hookhandler']);

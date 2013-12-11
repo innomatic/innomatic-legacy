@@ -59,18 +59,16 @@ class WuiTheme
     {
         $result = false;
         if (strlen($this->mTheme)) {
-
-            require_once('innomatic/core/InnomaticContainer.php');
-            $innomatic = InnomaticContainer::instance('innomaticcontainer');
+            $innomatic = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer');
 
             if ($this->mTheme == 'default')
             $this->mTheme = Wui::DEFAULT_THEME;
             if ($this->mTheme != 'userdefined') {
-                if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mTheme.'_wuitheme.ini')) {
-                    $this->mThemeFile = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mTheme.'_wuitheme.ini';
+                if (file_exists(\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mTheme.'_wuitheme.ini')) {
+                    $this->mThemeFile = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mTheme.'_wuitheme.ini';
                 } else {
                     $this->mTheme = Wui::DEFAULT_THEME;
-                    $this->mThemeFile = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.Wui::DEFAULT_THEME.'_wuitheme.ini';
+                    $this->mThemeFile = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.Wui::DEFAULT_THEME.'_wuitheme.ini';
                 }
                 $cfg_file = @parse_ini_file($this->mThemeFile);
 
@@ -80,7 +78,7 @@ class WuiTheme
                     $this->mStyleName = $cfg_file['THEME.STYLE'];
                 } else {
                     
-                    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                    $log = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getLogger();
                     $log-> LogEvent('innomatic.wuithemes.wuitheme.inittheme', 'Unable to open theme configuration file '.$this->mThemeFile, \Innomatic\Logging\Logger::ERROR);
                 }
             } else {
@@ -89,17 +87,17 @@ class WuiTheme
                 $this->mStyleName = $this->mUserSettings['stylename'];
             }
 
-            $this->mIconsSetBase = InnomaticContainer::instance('innomaticcontainer')->getExternalBaseUrl().'/shared/icons/'.$this->mIconsSetName.'/';
-            $this->mIconsBase = InnomaticContainer::instance('innomaticcontainer')->getExternalBaseUrl().'/shared/icons/';
-            $this->mIconsSetDir = InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/icons/'.$this->mIconsSetName.'/';
-            $this->mStyleBase = InnomaticContainer::instance('innomaticcontainer')->getExternalBaseUrl().'/shared/styles/';
-            $this->mStyleDir = InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/styles/'.$this->mStyleName.'/';
+            $this->mIconsSetBase = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getExternalBaseUrl().'/shared/icons/'.$this->mIconsSetName.'/';
+            $this->mIconsBase = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getExternalBaseUrl().'/shared/icons/';
+            $this->mIconsSetDir = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/icons/'.$this->mIconsSetName.'/';
+            $this->mStyleBase = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getExternalBaseUrl().'/shared/styles/';
+            $this->mStyleDir = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/styles/'.$this->mStyleName.'/';
 
             $wui_colors = new WuiColorsSet($this->mrRootDb, $this->mColorsSetName);
             $wui_icons = new WuiIconsSet($this->mrRootDb, $this->mIconsSetName);
             $wui_style = new WuiStyle($this->mrRootDb, $this->mStyleName);
 
-            if ($innomatic->getState() != InnomaticContainer::STATE_SETUP) {
+            if ($innomatic->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
                 $cached_iconsset = new \Innomatic\Datatransfer\Cache\CachedItem($this->mrRootDb, 'innomatic', 'wuiiconsset-'.$this->mIconsSetName);
                 $cached_colorsset = new \Innomatic\Datatransfer\Cache\CachedItem($this->mrRootDb, 'innomatic', 'wuicolorsset-'.$this->mColorsSetName);
                 $cached_style = new \Innomatic\Datatransfer\Cache\CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
@@ -115,7 +113,7 @@ class WuiTheme
                     $this->mIconsSet = $wui_icons->getIconsSet();
                     $this->mStyle = $wui_style->getStyle();
                 } else {
-                    $def_cfg_file = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.Wui::DEFAULT_THEME.'_wuitheme.ini');
+                    $def_cfg_file = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.Wui::DEFAULT_THEME.'_wuitheme.ini');
 
                     if ($def_cfg_file !== false) {
                         $def_icons_set_name = $def_cfg_file['THEME.ICONSSET'];
@@ -123,8 +121,8 @@ class WuiTheme
                         $def_style_name = $def_cfg_file['THEME.STYLE'];
                     } else {
                         
-                        $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                        $log-> LogEvent('innomatic.wuithemes.wuitheme.inittheme', 'Unable to open default theme configuration file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.Wui::DEFAULT_THEME.'_wuitheme.ini', \Innomatic\Logging\Logger::ERROR);
+                        $log = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                        $log-> LogEvent('innomatic.wuithemes.wuitheme.inittheme', 'Unable to open default theme configuration file '.\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.Wui::DEFAULT_THEME.'_wuitheme.ini', \Innomatic\Logging\Logger::ERROR);
                     }
 
                     $wui_def_colors = new WuiColorsSet($this->mrRootDb, $def_colors_set_name);
@@ -140,7 +138,7 @@ class WuiTheme
                 while (list ($style_name, $style_item) = each($this->mStyle)) {
                     $this->mStyle[$style_name] = $this->mStyleBase.$style_item['base'].'/'.$style_item['value'];
                 }
-                if ($innomatic->getState() != InnomaticContainer::STATE_SETUP) {
+                if ($innomatic->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
                     $cached_iconsset->Store(serialize($this->mIconsSet));
                     $cached_colorsset->Store(serialize($this->mColorsSet));
                     $cached_style->Store(serialize($this->mStyle));
@@ -173,17 +171,16 @@ class WuiTheme
 
     public static function setRootTheme()
     {
-        require_once('innomatic/wui/Wui.php');
-        if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
-            $app_cfg = new \Innomatic\Application\ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+        if (\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
+            $app_cfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
 
             if (strlen($app_cfg->getKey('wui-root-theme'))) {
-                Wui::instance('wui')->setTheme($app_cfg->getKey('wui-root-theme'));
+                \Innomatic\Wui\Wui::instance('wui')->setTheme($app_cfg->getKey('wui-root-theme'));
             } else {
-                Wui::instance('wui')->setTheme(Wui::DEFAULT_THEME);
+                \Innomatic\Wui\Wui::instance('wui')->setTheme(\Innomatic\Wui\Wui::DEFAULT_THEME);
             }
         } else {
-            Wui::instance('wui')->setTheme(Wui::DEFAULT_THEME);
+            \Innomatic\Wui\Wui::instance('wui')->setTheme(\Innomatic\Wui\Wui::DEFAULT_THEME);
         }
     }
 
@@ -191,26 +188,23 @@ class WuiTheme
     {
         // Wui theme
         //
-        require_once('innomatic/domain/user/UserSettings.php');
-        $user_settings = new UserSettings(
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
+        $user_settings = new \Innomatic\Domain\User\UserSettings(
+        \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
         $user_theme = $user_settings->getKey('wui-theme', true);
 
-        require_once('innomatic/wui/Wui.php');
-
         if (!strlen($user_theme)) {
-            $app_cfg = new \Innomatic\Application\ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+            $app_cfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
             if (strlen($app_cfg->getKey('wui-root-theme'))) {
                 $user_theme = $app_cfg->getKey('wui-root-theme');
                 if (!strlen($user_theme)) {
-                    $user_theme = Wui::DEFAULT_THEME;
+                    $user_theme = \Innomatic\Wui\Wui::DEFAULT_THEME;
                 }
             } else {
-                $user_theme = Wui::DEFAULT_THEME;
+                $user_theme = \Innomatic\Wui\Wui::DEFAULT_THEME;
             }
             unset($app_cfg);
         }
-        Wui::instance('wui')->setTheme($user_theme);
+        \Innomatic\Wui\Wui::instance('wui')->setTheme($user_theme);
     }
 }

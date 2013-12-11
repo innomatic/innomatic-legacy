@@ -56,8 +56,7 @@ class ConfigurationfileComponent extends \Innomatic\Application\ApplicationCompo
             return false;
         }
         // Cheks that the configuration file name does not contain malicious code.
-        require_once ('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/')) {
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/')) {
             $this->mLog->logEvent('ConfigurationfileComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious configuration file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
@@ -83,8 +82,7 @@ class ConfigurationfileComponent extends \Innomatic\Application\ApplicationCompo
             return false;
         }
         // Cheks that the configuration file name does not contain malicious code.
-        require_once ('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/')) {
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/')) {
             $this->mLog->logEvent('ConfigurationfileComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious configuration file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }

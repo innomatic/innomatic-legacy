@@ -1,10 +1,6 @@
 <?php
 namespace Innomatic\Module\Services;
 
-require_once('innomatic/module/server/ModuleServerContext.php');
-require_once('innomatic/net/socket/SocketException.php');
-require_once('innomatic/net/socket/Socket.php');
-
 /**
  * Module server socket handler and requests dispatcher.
  *
@@ -64,7 +60,7 @@ class ModuleRegistryHandler
      */
     public function parseRegistry($host = null, $port = null)
     {
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
         $mode = $context->getConfig()->getKey('load_services_register');
          if($host == null || $port == null) {//loading registry for the first time
             if ($mode == 'local') {
@@ -98,7 +94,7 @@ class ModuleRegistryHandler
      */
     private function loadLocalRegistry($filename)
     {
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
         $xmldoc = simplexml_load_file($context->getHome().'core/conf/'.$filename);
         $this->registry = array ();
         $nodename = 0;
@@ -131,8 +127,8 @@ class ModuleRegistryHandler
  print("downloadRemoteRegistry: inizio\r\n");
          $result = '';
          try {
-            $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
-            $socket = new Socket();
+            $auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+            $socket = new \Innomatic\Net\Socket\Socket();
             $socket->connect($address, $port);
             $request = 'GET_REGISTRY Module/1.1'."\r\n";
             $request .= 'User: admin'."\r\n";
@@ -142,10 +138,10 @@ print("Request content:\r\n".$request."\n");
             $result = trim($socket->readAll());
 print("Result content:\r\n".$result."\n");
             $socket->disconnect();
-         } catch (SocketException $e) {
+         } catch (\Innomatic\Net\Socket\SocketException $e) {
             $result = "Module: services-extension cannot download up-to-date registry from $address:$port";
          }
-         $context = ModuleServerContext::instance('ModuleServerContext');
+         $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
          $file_registry = fopen($context->getHome().'core/conf/modules-netregistry-remote.xml', 'x');
          if($file_registry==false) {
             unlink($context->getHome().'core/conf/modules-netregistry-remote.xml');

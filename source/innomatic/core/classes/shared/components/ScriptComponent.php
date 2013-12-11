@@ -56,8 +56,7 @@ class ScriptComponent extends \Innomatic\Application\ApplicationComponent
             return false;
         }
         // Cheks that the script file name does not contain malicious code.
-        require_once ('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/')) {
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/')) {
             $this->mLog->logEvent('ScriptComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious script file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
@@ -83,8 +82,7 @@ class ScriptComponent extends \Innomatic\Application\ApplicationComponent
             return false;
         }
         // Cheks that the script file name does not contain malicious code.
-        require_once ('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/')) {
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/' . $params['name'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/scripts/')) {
             $this->mLog->logEvent('ScriptComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious script file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }

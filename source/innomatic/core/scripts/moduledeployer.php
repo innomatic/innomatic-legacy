@@ -16,8 +16,6 @@
 require_once('scripts_container.php');
 $script = ScriptContainer::instance('scriptcontainer');
 
-require_once('innomatic/module/deploy/ModuleDeployer.php');
-
         if (!isset ($argv[1]))
             $argv[1] = '';
         try {
@@ -32,7 +30,7 @@ require_once('innomatic/module/deploy/ModuleDeployer.php');
                     $script->cleanExit();
                     break;
                 case 'deploy' :
-                    $deployer = new ModuleDeployer();
+                    $deployer = new \Innomatic\Module\Deploy\ModuleDeployer();
                     if ($deployer->deploy($argv[2])) {
                         print('Module deployed'."\n");
                     } else {
@@ -41,7 +39,7 @@ require_once('innomatic/module/deploy/ModuleDeployer.php');
                     }
                     break;
                 case 'redeploy' :
-                    $deployer = new ModuleDeployer();
+                    $deployer = new \Innomatic\Module\Deploy\ModuleDeployer();
                     if ($deployer->redeploy($argv[2])) {
                         print('Module redeployed'."\n");
                     } else {
@@ -50,7 +48,7 @@ require_once('innomatic/module/deploy/ModuleDeployer.php');
                     }
                     break;
                 case 'undeploy' :
-                    $deployer = new ModuleDeployer();
+                    $deployer = new \Innomatic\Module\Deploy\ModuleDeployer();
                     if ($deployer->undeploy($argv[2])) {
                         print('Module undeployed'."\n");
                     } else {

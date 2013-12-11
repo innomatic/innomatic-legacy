@@ -78,10 +78,6 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
     }
     protected function generateSourceBegin()
     {
-                        require_once('innomatic/wui/dispatch/WuiEvent.php');
-                        require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-                        require_once('innomatic/domain/user/Permissions.php');
-
                         if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
                         if (!InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
                             $root_db = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
@@ -121,8 +117,8 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                                     $descstr = $tmploc->getStr($pagedata['name']);
                                                 }
 
-                                                $tmp_eventscall = new WuiEventsCall($pagedata['name']);
-                                                $tmp_eventscall->addEvent(new WuiEvent('view', 'default', ''));
+                                                $tmp_eventscall = new \Innomatic\Wui\Dispatch\WuiEventsCall($pagedata['name']);
+                                                $tmp_eventscall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
 
                                                 if (strlen($pagedata['themeicontype']))
                                                     $imageType = $pagedata['themeicontype'];
@@ -159,8 +155,8 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                                         $descstr = $tmploc->getStr($pagedata['name']);
                                                     }
 
-                                                    $tmp_eventscall = new WuiEventsCall($pagedata['name']);
-                                                    $tmp_eventscall->addEvent(new WuiEvent('view', 'default', ''));
+                                                    $tmp_eventscall = new \Innomatic\Wui\Dispatch\WuiEventsCall($pagedata['name']);
+                                                    $tmp_eventscall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
 
                                                     $el[$group_data['id']]['groupelements'][$cont_b]['name'] = $descstr;
                                                     $el[$group_data['id']]['groupelements'][$cont_b]['image'] = $pagedata['iconfile'];
@@ -190,7 +186,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
 
 
-                        $tmpperm = new Permissions( InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup() );
+                        $tmpperm = new \Innomatic\Domain\User\Permissions( InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup() );
 
                         $tabs = array();
                         $tab_pages = array();
@@ -210,7 +206,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                 $group_apps = false;
                                 $groupdata = $groupsquery->getFields();
 
-                                if ( $tmpperm->check( $groupdata['id'], 'group' ) != Permissions::NODE_NOTENABLED ) {
+                                if ( $tmpperm->check( $groupdata['id'], 'group' ) != \Innomatic\Domain\User\Permissions::NODE_NOTENABLED ) {
                                     switch($groupdata['name']) {
                                         case 'tools':
                                             $tools_id = $groupdata['id'];
@@ -243,13 +239,13 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                         while ( !$pagesquery->eof ) {
                                             $pagedata = $pagesquery->getFields();
 
-                                            if ( $tmpperm->check( $pagedata['id'], 'page' ) != Permissions::NODE_NOTENABLED ) {
+                                            if ( $tmpperm->check( $pagedata['id'], 'page' ) != \Innomatic\Domain\User\Permissions::NODE_NOTENABLED ) {
                                                 if ( strlen( $pagedata['catalog'] ) > 0 ) {
                                                     $tmploc = new LocaleCatalog( $pagedata['catalog'], InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage() );
                                                     $descstr = $tmploc->getStr( $pagedata['name'] );
 
-                                                    $tmp_eventscall = new WuiEventsCall($pagedata['name']);
-                                                    $tmp_eventscall->addEvent( new WuiEvent( 'view', 'default', '' ) );
+                                                    $tmp_eventscall = new \Innomatic\Wui\Dispatch\WuiEventsCall($pagedata['name']);
+                                                    $tmp_eventscall->addEvent( new \Innomatic\Wui\Dispatch\WuiEvent( 'view', 'default', '' ) );
 
                                                     if ( strlen( $pagedata['themeicontype'] ) ) $imageType = $pagedata['themeicontype'];
                                                     else $imageType = 'apps';
@@ -329,8 +325,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
                         $registry = \Innomatic\Util\Registry::instance();
                         if (! $registry->isGlobalObject('singleton xlayersmenu')) {
-                            require_once('innomatic/wui/widgets/layersmenu/XLayersMenu.php');
-                            $mid = new XLayersMenu();
+                            $mid = new \Innomatic\Wui\Widgets\Layersmenu\XLayersMenu();
                             $registry->setGlobalObject('singleton xlayersmenu', $mid);
                         } else {
                             $mid = $registry->getGlobalObject('singleton xlayersmenu');
@@ -367,16 +362,16 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
             $domain_name = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'];
 
-            $logout_events_call = new WuiEventsCall(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath().'/domain');
+            $logout_events_call = new \Innomatic\Wui\Dispatch\WuiEventsCall(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath().'/domain');
             $innomatic_menu_locale = new LocaleCatalog('innomatic::domain_menu', InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage());
         } else {
             $user_name = 'root';
             $domain_name = 'Innomatic';
 
-            $logout_events_call = new WuiEventsCall(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath().'/root');
+            $logout_events_call = new \Innomatic\Wui\Dispatch\WuiEventsCall(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath().'/root');
             $innomatic_menu_locale = new LocaleCatalog('innomatic::root_menu', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
         }
-        $logout_events_call->addEvent(new WuiEvent('login', 'logout', ''));
+        $logout_events_call->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('login', 'logout', ''));
 
         // Check the environment type and set the title and the header bar color
         switch(InnomaticContainer::instance('innomaticcontainer')->getEnvironment()) {
@@ -493,10 +488,8 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
         }
         $block .= "</td></tr></table>\n";
         // Ajax support.
-        require_once ('innomatic/wui/Wui.php');
-        if (Wui::instance('wui')->countRegisteredAjaxCalls() > 0) {
-            require_once ('innomatic/ajax/Xajax.php');
-            $xajax = Xajax::instance('Xajax');
+        if (\Innomatic\Wui\Wui::instance('wui')->countRegisteredAjaxCalls() > 0) {
+            $xajax = \Innomatic\Ajax\Xajax::instance('Xajax');
             // Show the ajax loader?
             $xajax->ajaxLoader = $this->mArgs['ajaxloader'] == 'true' ?  true : false;
 
@@ -507,8 +500,8 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
             $block .= $xajax->getJavascript(InnomaticContainer::instance('innomaticcontainer')->getBaseUrl() . '/shared', 'xajax.js');
             // Setup calls.
-            if (Wui::instance('wui')->countRegisteredAjaxSetupCalls() > 0) {
-                $setup_calls = Wui::instance('wui')->getRegisteredAjaxSetupCalls();
+            if (\Innomatic\Wui\Wui::instance('wui')->countRegisteredAjaxSetupCalls() > 0) {
+                $setup_calls = \Innomatic\Wui\Wui::instance('wui')->getRegisteredAjaxSetupCalls();
                 $block .= '<script type="text/javascript">' . "\n";
                 foreach ($setup_calls as $call) {
                     $block .= $call . ";\n";

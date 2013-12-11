@@ -57,8 +57,7 @@ class DesktopDomainWebAppHandler extends \Innomatic\Webapp\WebAppHandler
         }
 
         // Bootstraps Innomatic
-        require_once('innomatic/core/InnomaticContainer.php');
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer');
 
         // Sets Innomatic base URL
         $baseUrl = '';
@@ -68,23 +67,23 @@ class DesktopDomainWebAppHandler extends \Innomatic\Webapp\WebAppHandler
         }
         $innomatic->setBaseUrl($baseUrl);
 
-        $innomatic->setInterface(InnomaticContainer::INTERFACE_WEB);
+        $innomatic->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_WEB);
         $home = \Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome();
         $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
 
-        if ($innomatic->getState() == InnomaticContainer::STATE_SETUP) {
+        if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
             $innomatic->abort('Setup phase');
         }
 
         if (!headers_sent()) {
             // Starts output compression.
-            if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('CompressedOutputBuffering') == '1') {
+            if (\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('CompressedOutputBuffering') == '1') {
                 ini_set('zlib.output_compression', 'on');
                 ini_set('zlib.output_compression_level', 6);
             }
         }
 
-        \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->execute(InnomaticContainer::MODE_DOMAIN, $resource);
+        \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->execute(\Innomatic\Core\InnomaticContainer::MODE_DOMAIN, $resource);
     }
 
     public function doPost(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)

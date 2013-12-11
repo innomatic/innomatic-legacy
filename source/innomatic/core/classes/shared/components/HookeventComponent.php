@@ -14,7 +14,6 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/process/Hook.php');
 /**
  * Hookevent component handler.
  */
@@ -44,7 +43,7 @@ class HookeventComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['name'])) {
-            $hook = new Hook($this->rootda, $this->appname, $params['function']);
+            $hook = new \Innomatic\Process\Hook($this->rootda, $this->appname, $params['function']);
             if ($hook->addEvent($params['event']))
                 $result = true;
             else
@@ -57,7 +56,7 @@ class HookeventComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['name'])) {
-            $xm = new Hook($this->rootda, $this->appname, $params['function']);
+            $xm = new \Innomatic\Process\Hook($this->rootda, $this->appname, $params['function']);
             if ($xm->RemoveEvent($params['event']))
                 $result = true;
             else

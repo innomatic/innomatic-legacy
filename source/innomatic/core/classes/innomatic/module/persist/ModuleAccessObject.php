@@ -1,9 +1,6 @@
 <?php
 namespace Innomatic\Module\Persist;
 
-require_once('innomatic/dataaccess/DataAccessObject.php');
-require_once('innomatic/module/ModuleValueObject.php');
-
 /**
  * DAO pattern based class for accessing persistence storage.
  *
@@ -11,7 +8,7 @@ require_once('innomatic/module/ModuleValueObject.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleAccessObject extends DataAccessObject
+class ModuleAccessObject extends \Innomatic\Dataaccess\DataAccessObject
 {
     /**
      * Value object.
@@ -51,7 +48,7 @@ class ModuleAccessObject extends DataAccessObject
      * @return void
      * @since 5.1
      */
-    public function setValueObject(ModuleValueObject $valueObject)
+    public function setValueObject(\Innomatic\Module\ModuleValueObject $valueObject)
     {
         $this->valueObject = $valueObject;
     }
@@ -69,14 +66,12 @@ class ModuleAccessObject extends DataAccessObject
     {
         $dar = $this->retrieve('SELECT * FROM '.$this->config->getTable().' WHERE '.$this->config->getIdField()."='".$id."'");
 
-        if (!$dar instanceof DataAccessResult) {
-            require_once('innomatic/module/ModuleException.php');
-            throw new ModuleException('Unable to retrieve value object for object with id '.$id);
+        if (!$dar instanceof \Innomatic\Dataaccess\DataAccessResult) {
+            throw new \Innomatic\Module\ModuleException('Unable to retrieve value object for object with id '.$id);
         }
 
         if (!$dar->getNumberRows()) {
-            require_once('innomatic/module/ModuleException.php');
-            throw new ModuleException('No object with '.$id.' exists');
+            throw new \Innomatic\Module\ModuleException('No object with '.$id.' exists');
         }
 
         $row = $dar->getFields();

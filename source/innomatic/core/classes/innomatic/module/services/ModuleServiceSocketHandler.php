@@ -1,15 +1,7 @@
 <?php
 namespace Innomatic\Module\Services;
 
-require_once('innomatic/net/socket/SocketHandler.php');
-require_once('innomatic/module/server/ModuleServerXmlRpcProcessor.php');
-require_once('innomatic/module/server/ModuleServerContext.php');
-require_once('innomatic/module/server/ModuleServerLogger.php');
-require_once('innomatic/module/server/ModuleServerRequest.php');
-require_once('innomatic/module/server/ModuleServerResponse.php');
-require_once('innomatic/module/server/ModuleServerAuthenticator.php');
-require_once('innomatic/module/session/ModuleSessionGarbageCollector.php');
-require_once('innomatic/module/services/ModuleRegistryHandler.php');
+use \Innomatic\Module\Server;
 
 /**
  * Module server socket handler and requests dispatcher.
@@ -18,7 +10,7 @@ require_once('innomatic/module/services/ModuleRegistryHandler.php');
  * @copyright Copyright 2005-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleServiceSocketHandler extends SocketHandler
+class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
 {
     /**
      * Access log flag.
@@ -109,7 +101,7 @@ class ModuleServiceSocketHandler extends SocketHandler
             $this->accessLogger = new ModuleServerLogger($context->getHome().'core/log/module-access.log');
         }
 
-        ModuleSessionGarbageCollector::clean();
+        \Innomatic\Module\Session\ModuleSessionGarbageCollector::clean();
         $this->authenticator = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
 
         if ($this->serverLogEnabled) {
@@ -138,7 +130,7 @@ class ModuleServiceSocketHandler extends SocketHandler
             $this->serverLogger->logEvent('Shutdown');
         }
         print('Module: services-extension stopped.'."\n");
-        ModuleSessionGarbageCollector::clean();
+        \Innomatic\Module\Session\ModuleSessionGarbageCollector::clean();
         $this->shutdown = true;
     }
 

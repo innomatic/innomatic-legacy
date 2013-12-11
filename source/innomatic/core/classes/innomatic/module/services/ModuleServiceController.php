@@ -1,9 +1,7 @@
 <?php
 namespace Innomatic\Module\Services;
 
-require_once('innomatic/module/server/ModuleServerController.php');
-require_once('innomatic/module/services/ModuleServiceSocket.php');
-require_once('innomatic/module/server/ModuleServerContext.php');
+use \Innomatic\Module\Server;
 
 /**
  * Controls Module server execution with service support.
@@ -78,7 +76,6 @@ class ModuleServiceController extends ModuleServerController
      */
     public function watchDogStart()
     {
-        require_once('innomatic/module/server/ModuleServerWatchDog.php');
         $wdog = new ModuleServerWatchDog();
         $wdog->watch('php core/scripts/moduleservices.php wstart');
     }
@@ -97,7 +94,6 @@ class ModuleServiceController extends ModuleServerController
         } catch (\Exception $e) {
             print('Module: services-extension was not running.'."\n");
         }
-        require_once('innomatic/module/server/ModuleServerWatchDog.php');
         $wdog = new ModuleServerWatchDog();
         $wdog->watch('php core/scripts/moduleservices.php wstart');
     }
@@ -130,7 +126,6 @@ class ModuleServiceController extends ModuleServerController
      */
     public function status()
     {
-        require_once('innomatic/net/socket/SocketException.php');
         try {
             $result = '';
             $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -141,7 +136,7 @@ class ModuleServiceController extends ModuleServerController
             $this->socket->write($request);
             $result = $this->socket->readAll();
             $this->socket->disconnect();
-        } catch (SocketException $e) {
+        } catch (\Innomatic\Net\Socket\SocketException $e) {
             $result = 'Module: services-extension is down.';
         }
         return $result;
@@ -156,7 +151,6 @@ class ModuleServiceController extends ModuleServerController
      */
     public function refresh()
     {
-        require_once('innomatic/net/socket/SocketException.php');
         try {
             $result = '';
             $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -167,7 +161,7 @@ class ModuleServiceController extends ModuleServerController
             $this->socket->write($request);
             $result = $this->socket->readAll();
             $this->socket->disconnect();
-        } catch (SocketException $e) {
+        } catch (\Innomatic\Net\Socket\SocketException $e) {
             $result = 'Module: service-extension is down.';
         }
         return $result;

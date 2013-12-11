@@ -16,29 +16,15 @@
 // NOTE: This is an old-style panel code with a single file
 // acting as model, view and controller.
 
-
-require_once('innomatic/locale/LocaleCatalog.php');
-require_once('innomatic/config/ConfigFile.php');
-require_once('innomatic/application/ApplicationSettings.php');
-require_once('innomatic/domain/Domain.php');
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/wui/widgets/WuiWidget.php');
-require_once('innomatic/wui/widgets/WuiContainerWidget.php');
-require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-require_once('innomatic/wui/dispatch/WuiEvent.php');
-require_once('innomatic/wui/dispatch/WuiEventRawData.php');
-require_once('innomatic/wui/dispatch/WuiDispatcher.php');
-require_once('innomatic/wui/Wui.php');
-
 global $innomaticLocale, $innomaticLog, $wuiMainframeGlobal, $wuiTitleBar, $wuiMainFrame;
 global $wuiMainStatus, $wuiPage, $wuiComments, $compressedOb, $actionDispatcher;
 
-$innomaticLocale = new LocaleCatalog(
+$innomaticLocale = new \Innomatic\Locale\LocaleCatalog(
     'innomatic::root_interface',
     InnomaticContainer::instance('innomaticcontainer')->getLanguage()
 );
 $innomaticLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-$wui = Wui::instance('wui');
+$wui = \Innomatic\Wui\Wui::instance('wui');
 $wui->loadWidget('button');
 $wui->loadWidget('checkbox');
 $wui->loadWidget('combobox');
@@ -92,8 +78,8 @@ $wuiMainVertGroup->addChild($wuiTitleBar);
 //
 $wuiMainToolbar = new WuiToolBar('maintoolbar');
 
-$defaultAction = new WuiEventsCall();
-$defaultAction->addEvent(new WuiEvent('view', 'default', ''));
+$defaultAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+$defaultAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
 $wuiDefaultButton = new WuiButton(
     'defaultbutton',
     array(
@@ -105,8 +91,8 @@ $wuiDefaultButton = new WuiButton(
 );
 $wuiMainToolbar->addChild($wuiDefaultButton);
 
-$countryAction= new WuiEventsCall();
-$countryAction->addEvent(new WuiEvent('view', 'localization', ''));
+$countryAction= new \Innomatic\Wui\Dispatch\WuiEventsCall();
+$countryAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'localization', ''));
 $wuiCountryButton = new WuiButton(
     'countrybutton',
     array(
@@ -118,8 +104,8 @@ $wuiCountryButton = new WuiButton(
 );
 $wuiMainToolbar->addChild($wuiCountryButton);
 
-$nameAction = new WuiEventsCall();
-$nameAction->addEvent(new WuiEvent('view', 'name', ''));
+$nameAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+$nameAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'name', ''));
 $wuiNameButton = new WuiButton(
     'namebutton',
     array(
@@ -135,14 +121,14 @@ $wuiMainToolbar->addChild($wuiNameButton);
 //
 $wuiHelpToolBar = new WuiToolBar('helpbar');
 
-$viewDispatcher = new WuiDispatcher('view');
+$viewDispatcher = new \Innomatic\Wui\Dispatch\WuiDispatcher('view');
 $eventName = $viewDispatcher->getEventName();
 
 if (
     strcmp($eventName, 'help')
 ) {
-    $helpAction = new WuiEventsCall();
-    $helpAction->addEvent(new WuiEvent('view', 'help', array('node' => $eventName)));
+    $helpAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $helpAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'help', array('node' => $eventName)));
     $wuiHelpButton = new WuiButton(
         'helpbutton',
         array(
@@ -169,7 +155,7 @@ $wuiMainStatus = new WuiStatusBar('mainstatusbar');
 
 // Pass dispatcher
 //
-$actionDispatcher = new WuiDispatcher('action');
+$actionDispatcher = new \Innomatic\Wui\Dispatch\WuiDispatcher('action');
 
 $actionDispatcher->addEvent('setserviceprovider', 'pass_setserviceprovider');
 function pass_setserviceprovider($eventData)
@@ -178,7 +164,7 @@ function pass_setserviceprovider($eventData)
 
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
-    $appCfg = new ApplicationSettings(
+    $appCfg = new \Innomatic\Application\ApplicationSettings(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
         'innomatic'
     );
@@ -228,7 +214,7 @@ function pass_setenabledicons($eventData)
     global $wuiMainStatus, $innomaticLocale, $wuiPage;
 
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-    $appCfg = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+    $appCfg = new \Innomatic\Application\ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
     $appCfg->setKey('innomatic-link-disabled', $eventData['innomaticicon'] == 'on' ? 0 : 1);
     $appCfg->setKey('serviceprovider-link-disabled', $eventData['serviceprovidericon'] == 'on' ? 0 : 1);
     $appCfg->setKey('innomatic-biglogo-disabled', $eventData['innomaticbigicon'] == 'on' ? 0 : 1);
@@ -246,10 +232,10 @@ function pass_settheme($eventData)
 
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
-    $appCfg = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+    $appCfg = new \Innomatic\Application\ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
     $appCfg->setKey('wui-root-theme', $eventData['theme']);
 
-    $wui = Wui::instance('wui');
+    $wui = \Innomatic\Wui\Wui::instance('wui');
     $wui->setTheme($eventData['theme']);
 
     $log->logEvent('Innomatic', 'Changed Innomatic theme', \Innomatic\Logging\Logger::NOTICE);
@@ -258,7 +244,7 @@ function pass_settheme($eventData)
         'webappcontainer'
     )->getProcessor()->getResponse()->addHeader(
         'Location',
-        WuiEventsCall::buildEventsCallString(
+        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array('view', 'default', ''),
@@ -282,7 +268,7 @@ function pass_setadvanced($eventData)
 
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
-    $innomaticCfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    $innomaticCfg = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
     $innomaticCfg->setValue('ShowWuiSourceComments', $eventData['wui-comments'] == 'on' ? '1' : '0');
     $innomaticCfg->setValue('CompressedOutputBuffering', $eventData['compressed-ob'] == 'on' ? '1' : '0');
     InnomaticContainer::instance('innomaticcontainer')->getConfig()->refresh();
@@ -306,7 +292,7 @@ function pass_setlanguage($eventData)
 
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
-    $innomaticConfig = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    $innomaticConfig = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
     $innomaticConfig->setValue('RootLanguage', $eventData['language']);
     InnomaticContainer::instance('innomaticcontainer')->getConfig()->refresh();
 
@@ -322,7 +308,7 @@ function pass_setcountry($eventData)
 
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
-    $innomaticConfig = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    $innomaticConfig = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
     $innomaticConfig->setValue('RootCountry', $eventData['country']);
     InnomaticContainer::instance('innomaticcontainer')->getConfig()->refresh();
     $log->logEvent('Innomatic', 'Changed Innomatic root country', \Innomatic\Logging\Logger::NOTICE);
@@ -337,7 +323,7 @@ function pass_editname($eventData)
 
     $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
 
-    $innomaticcfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    $innomaticcfg = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
     $innomaticcfg->setValue('PlatformName', $eventData['name']);
     $innomaticcfg->setValue('PlatformGroup', $eventData['domain']);
 
@@ -348,11 +334,11 @@ $actionDispatcher->Dispatch();
 
 // Main dispatcher
 //
-$viewDispatcher = new WuiDispatcher('view');
+$viewDispatcher = new \Innomatic\Wui\Dispatch\WuiDispatcher('view');
 
 function interface_tab_action_builder($tab)
 {
-    return WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('activetab' => $tab))));
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('activetab' => $tab))));
 }
 
 $viewDispatcher->addEvent('default', 'main_default');
@@ -360,13 +346,13 @@ function main_default($eventData)
 {
     global $wuiMainFrame, $wuiTitleBar, $innomaticLocale, $actionDispatcher,
            $wuiMainStatus, $wuiComments, $compressedOb;
-    $appCfg = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+    $appCfg = new \Innomatic\Application\ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
 
     $themesQuery = InnomaticContainer::instance(
         'innomaticcontainer'
     )->getDataAccess()->execute('SELECT name,catalog FROM wui_themes ');
     while (!$themesQuery->eof) {
-        $tmpLocale = new LocaleCatalog(
+        $tmpLocale = new \Innomatic\Locale\LocaleCatalog(
             $themesQuery->getFields('catalog'),
             InnomaticContainer::instance('innomaticcontainer')->getLanguage()
         );
@@ -378,7 +364,7 @@ function main_default($eventData)
     $themesXmlDef = '<vertgroup><name>vgroup</name><args><halign>center</halign></args><children>
         <form><name>theme</name><args><action type="encoded">'
         .urlencode(
-            WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array('view', 'default', ''),
@@ -392,7 +378,7 @@ function main_default($eventData)
             .urlencode($innomaticLocale->getStr('themes_label')).'</label><bold>true</bold></args></label>
             <listbox row="1" col="0"><name>theme</name><args><elements type="array">'
             .WuiXml::encode($elements).'</elements><default>'
-            . (Wui::instance('wui')->getThemeName())
+            . (\Innomatic\Wui\Wui::instance('wui')->getThemeName())
             .'</default><disp>action</disp><size>10</size></args></listbox>
         </children></grid>
         <submit><name>submit</name><args><caption type="encoded">'
@@ -508,9 +494,9 @@ function main_default($eventData)
         )
     );
 
-    $formEventsCall = new WuiEventsCall();
-    $formEventsCall->addEvent(new WuiEvent('action', 'setserviceprovider', ''));
-    $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'setserviceprovider', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
 
     $serviceProviderForm = new WuiForm(
         'setserviceproviderform',
@@ -636,9 +622,9 @@ function main_default($eventData)
         )
     );
 
-    $formEventsCall = new WuiEventsCall();
-    $formEventsCall->addEvent(new WuiEvent('action', 'setenabledicons', ''));
-    $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'setenabledicons', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
 
     $enableForm = new WuiForm('setenableform', array('action' => $formEventsCall->getEventsCallString()));
     $enableForm->addChild($enableVGroup);
@@ -707,7 +693,7 @@ function main_default($eventData)
     );
 
     if (!strlen($wuiComments)) {
-        if (Wui::showSourceComments())
+        if (\Innomatic\Wui\Wui::showSourceComments())
             $wuiComments = 'true';
         else
             $wuiComments = 'false';
@@ -735,9 +721,9 @@ function main_default($eventData)
         )
     );
 
-    $formEventsCall = new WuiEventsCall();
-    $formEventsCall->addEvent(new WuiEvent('action', 'setadvanced', ''));
-    $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'setadvanced', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
 
     $advancedForm = new WuiForm('setenableform', array('action' => $formEventsCall->getEventsCallString()));
     $advancedForm->addChild($advancedVGroup);
@@ -773,7 +759,7 @@ function main_localization($eventData)
 
     $eventData = $actionDispatcher->getEventData();
 
-    $countryLocale = new LocaleCatalog(
+    $countryLocale = new \Innomatic\Locale\LocaleCatalog(
         'innomatic::localization',
         InnomaticContainer::instance('innomaticcontainer')->getLanguage()
     );
@@ -834,20 +820,19 @@ function main_localization($eventData)
 
     $wuiVGroup->addChild($wuiLocaleGrid);
 
-    $formEventsCall = new WuiEventsCall();
-    $formEventsCall->addEvent(new WuiEvent('action', 'setcountry', ''));
-    $formEventsCall->addEvent(new WuiEvent('view', 'localization', ''));
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'setcountry', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'localization', ''));
 
     $wuiForm = new WuiForm('countryform', array('action' => $formEventsCall->getEventsCallString()));
     $wuiForm->addChild($wuiVGroup);
 
     $wuiMainFrame->addChild($wuiForm);
 
-    require_once('innomatic/locale/LocaleCountry.php');
-    $locCountry = new LocaleCountry(InnomaticContainer::instance('innomaticcontainer')->getCountry());
+    $locCountry = new \Innomatic\Locale\LocaleCountry(InnomaticContainer::instance('innomaticcontainer')->getCountry());
     $countryLanguage = $locCountry->Language();
 
-    $languageLocale = new LocaleCatalog(
+    $languageLocale = new \Innomatic\Locale\LocaleCatalog(
         'innomatic::localization',
         InnomaticContainer::instance('innomaticcontainer')->getLanguage()
     );
@@ -920,9 +905,9 @@ function main_localization($eventData)
         )
     );
 
-    $formEventsCall = new WuiEventsCall();
-    $formEventsCall->addEvent(new WuiEvent('action', 'setlanguage', ''));
-    $formEventsCall->addEvent(new WuiEvent('view', 'localization', ''));
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'setlanguage', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'localization', ''));
 
     $wuiForm = new WuiForm('languageform', array('action' => $formEventsCall->getEventsCallString()));
     $wuiForm->addChild($wuiVGroup);
@@ -942,7 +927,7 @@ function main_name($eventData)
 
         $name = $pdData['name'];
         $domain = $pdData['domain'];
-//    $innomaticcfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+//    $innomaticcfg = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
 //    $name = $innomaticcfg->setValue('PlatformName', $eventData['name']);
 //    $domain = $innomaticcfg->setValue('PlatformGroup', $eventData['domain']);
     } else {
@@ -963,9 +948,9 @@ function main_name($eventData)
     $wuiVGroup->addChild($wuiGrid);
     $wuiVGroup->addChild(new WuiSubmit('submit', array('caption' => $innomaticLocale->getStr('submit'))));
 
-    $formEventsCall = new WuiEventsCall();
-    $formEventsCall->addEvent(new WuiEvent('view', 'name', ''));
-    $formEventsCall->addEvent(new WuiEvent('action', 'editname', ''));
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'name', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'editname', ''));
 
     $form = new WuiForm('form', array('action' => $formEventsCall->getEventsCallString()));
     $form->addChild($wuiVGroup);

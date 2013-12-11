@@ -48,8 +48,8 @@ class Group
     {
         $result = false;
 
-        $hook = new Hook($this->mrRootDb, 'innomatic', 'domain.group.add');
-        if ($hook->CallHooks('calltime', $this, array('domainserial' => $this->domainserial, 'groupdata' => $groupdata)) == Hook::RESULT_OK) {
+        $hook = new \Innomatic\Process\Hook($this->mrRootDb, 'innomatic', 'domain.group.add');
+        if ($hook->callHooks('calltime', $this, array('domainserial' => $this->domainserial, 'groupdata' => $groupdata)) == \Innomatic\Process\Hook::RESULT_OK) {
             if (($this->groupid == 0) & (strlen($groupdata['groupname']) > 0)) {
                 // Check if a group with this name already exists
                 $groupquery = $this->mrDomainDA->execute('SELECT groupname FROM domain_users_groups WHERE groupname = '.$this->mrDomainDA->formatText($groupdata['groupname']));
@@ -105,8 +105,8 @@ class Group
     {
         $result = false;
 
-        $hook = new Hook($this->mrRootDb, 'innomatic', 'domain.group.remove');
-        if ($hook->CallHooks('calltime', $this, array('domainserial' => $this->domainserial, 'groupid' => $this->groupid)) == Hook::RESULT_OK) {
+        $hook = new \Innomatic\Process\Hook($this->mrRootDb, 'innomatic', 'domain.group.remove');
+        if ($hook->callHooks('calltime', $this, array('domainserial' => $this->domainserial, 'groupid' => $this->groupid)) == \Innomatic\Process\Hook::RESULT_OK) {
             if ($this->groupid != 0) {
                 if ($this->mrDomainDA->execute('DELETE FROM domain_users_groups WHERE id='. (int) $this->groupid)) {
                     // Check if we must delete users in this group
@@ -130,7 +130,7 @@ class Group
                         $this->mrDomainDA->execute("UPDATE domain_users SET groupid = '0' WHERE groupid=".$this->groupid);
                     }
 
-                    if ($hook->CallHooks('groupremoved', $this, array('domainserial' => $this->domainserial, 'groupid' => $this->groupid)) != Hook::RESULT_OK)
+                    if ($hook->callHooks('groupremoved', $this, array('domainserial' => $this->domainserial, 'groupid' => $this->groupid)) != \Innomatic\Process\Hook::RESULT_OK)
                         $result = false;
                     $this->groupid = 0;
                 }

@@ -1,9 +1,6 @@
 <?php
 namespace Innomatic\Module\Persist;
 
-require_once('innomatic/module/ModuleObject.php');
-require_once('innomatic/dataaccess/DataAccessResult.php');
-
 /**
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2004-2013 Innoteam Srl
@@ -13,12 +10,12 @@ class ModuleReadOnlyResultSet
 {
     private $resultSet;
 
-    public function __construct(DataAccessResult $resultSet)
+    public function __construct(\Innomatic\Dataaccess\DataAccessResult $resultSet)
     {
         $this->resultSet = $resultSet;
     }
 
-    public function getNext(ModuleObject $businessObject)
+    public function getNext(\Innomatic\Module\ModuleObject $businessObject)
     {
         $row = $this->resultSet->getFields();
 

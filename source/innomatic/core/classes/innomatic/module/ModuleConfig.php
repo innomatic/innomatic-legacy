@@ -1,8 +1,6 @@
 <?php
 namespace Innomatic\Module;
 
-require_once('innomatic/dataaccess/DataAccessSourceName.php');
-
 /**
  * This is the class for handling in-memory Module configuration.
  *
@@ -98,7 +96,7 @@ class ModuleConfig
         $this->version = $version;
         $this->fqcn = $fqcn;
         $this->voClass = $voClass;
-        if ($dasn instanceof DataAccessSourceName) {
+        if ($dasn instanceof \Innomatic\Dataaccess\DataAccessSourceName) {
             $this->dasn = $dasn;
         }
         $this->table = $table;
@@ -188,7 +186,7 @@ class ModuleConfig
      * @since 5.1
      * @return void
      */
-    public function setDASN(DataAccessSourceName $dasn)
+    public function setDASN(\Innomatic\Dataaccess\DataAccessSourceName $dasn)
     {
         $this->dasn = $dasn;
     }

@@ -368,8 +368,7 @@ if (
     {
         global $innomaticLocale, $wuiMainStatus;
 
-        require_once('innomatic/domain/Domain.php');
-        $domain = new Domain(
+        $domain = new \Innomatic\Domain\Domain(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId(),
             InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()
@@ -1822,9 +1821,7 @@ if (
     {
         global $wuiTitleBar, $wuiMainFrame, $innomaticLocale;
 
-        require_once('innomatic/domain/Domain.php');
-
-        $domain = new Domain(
+        $domain = new \Innomatic\Domain\Domain(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId(),
             InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()

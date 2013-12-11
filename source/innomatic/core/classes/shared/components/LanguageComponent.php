@@ -14,7 +14,6 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/locale/LocaleCatalog.php');
 /**
  * Language component handler.
  */

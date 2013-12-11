@@ -1,8 +1,6 @@
 <?php
 namespace Innomatic\Module\Util;
 
-require_once('innomatic/module/ModuleValueObject.php');
-
 /**
  * Generic value object whose members are defined at runtime.
  *
@@ -17,6 +15,6 @@ require_once('innomatic/module/ModuleValueObject.php');
  * @copyright Copyright 2004-2013 Innoteam Srl
  * @since 5.1
  */
-class ModuleGenericValueObject extends ModuleValueObject
+class ModuleGenericValueObject extends \Innomatic\Module\ModuleValueObject
 {
 }

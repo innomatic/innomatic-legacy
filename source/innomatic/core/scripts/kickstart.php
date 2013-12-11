@@ -17,8 +17,6 @@ require_once('scripts_container.php');
 
 $script = ScriptContainer::instance('scriptcontainer');
 
-require_once('innomatic/setup/InnomaticSetup.php');
-
 ob_end_flush();
 
 echo "
@@ -38,7 +36,7 @@ if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticC
 if (!isset($argv[1])) $argv[1] = '';
 
 echo "Starting setup...\n";
-if (InnomaticSetup::setup_by_config_file($argv[1], true)) {
+if (\Innomatic\Setup\InnomaticSetup::setup_by_config_file($argv[1], true)) {
     echo "Setup successfull.\n";
     $script->cleanExit();
 } else {

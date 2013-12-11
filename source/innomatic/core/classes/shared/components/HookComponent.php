@@ -14,7 +14,6 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/process/Hook.php');
 /**
  * Hook component handler.
  */
@@ -44,7 +43,7 @@ class HookComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['name'])) {
-            $hook = new Hook($this->rootda, $params['functionapplication'], $params['function']);
+            $hook = new \Innomatic\Process\Hook($this->rootda, $params['functionapplication'], $params['function']);
             if ($hook->add($params['event'], $this->appname, $params['hookhandler'], $params['hookmethod']))
                 $result = true;
             else
@@ -57,7 +56,7 @@ class HookComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['name'])) {
-            $xm = new Hook($this->rootda, $params['functionapplication'], $params['function']);
+            $xm = new \Innomatic\Process\Hook($this->rootda, $params['functionapplication'], $params['function']);
             if ($xm->remove($params['event'], $this->appname, $params['hookhandler'], $params['hookmethod']))
                 $result = true;
             else
@@ -70,7 +69,7 @@ class HookComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['name'])) {
-            $xm = new Hook($this->rootda, $params['functionapplication'], $params['function']);
+            $xm = new \Innomatic\Process\Hook($this->rootda, $params['functionapplication'], $params['function']);
             if ($xm->update($params['event'], $this->appname, $params['hookhandler'], $params['hookmethod']))
                 $result = true;
             else

@@ -16,29 +16,16 @@
 // NOTE: This is an old-style panel code with a single file
 // acting as model, view and controller.
 
-
-require_once('innomatic/locale/LocaleCatalog.php');
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-require_once('innomatic/wui/dispatch/WuiEvent.php');
-require_once('innomatic/application/Application.php');
-require_once('innomatic/application/ApplicationDependencies.php');
-require_once('innomatic/domain/Domain.php');
-require_once('innomatic/config/ConfigBase.php');
-require_once('innomatic/config/ConfigFile.php');
-require_once('innomatic/config/ConfigMan.php');
-require_once('innomatic/application/AppCentralRemoteServer.php');
-
 global $wuiMainStatus, $wuiPage, $wuiMainVertGroup, $gStatus, $gXmlDefinition;
 global $gPageTitle, $gToolbars, $gLocale, $gPageContent;
 
 $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-$gLocale = new LocaleCatalog(
+$gLocale = new \Innomatic\Locale\LocaleCatalog(
     'innomatic::root_applications', InnomaticContainer::instance('innomaticcontainer')->getLanguage()
 );
 $gPageContent = $gStatus = $gToolbars = $gXmlDefinition = '';
 
-$wui = Wui::instance('wui');
+$wui = \Innomatic\Wui\Wui::instance('wui');
 $wui->loadAllWidgets();
 
 $gPageTitle = $gLocale->getStr('applications_title');
@@ -51,8 +38,8 @@ $gViewDispatcher = new WuiDispatcher('view');
 $eventName = $gViewDispatcher->getEventName();
 
 if (strcmp($eventName, 'help')) {
-    $helpAction = new WuiEventsCall();
-    $helpAction->addEvent(new WuiEvent('view', 'help', array('node' => $eventName)));
+    $helpAction = new \Innomatic\Wui\WuiEventsCall();
+    $helpAction->addEvent(new \Innomatic\Wui\WuiEvent('view', 'help', array('node' => $eventName)));
     $wuiHelpButton = new WuiButton(
         'helpbutton',
         array(
@@ -70,20 +57,20 @@ $gToolbars['view'] = array(
     'default' => array(
         'label' => $gLocale->getStr('applications_button'),
         'themeimage' => 'listdetailed2',
-        'action' => WuiEventsCall::buildEventsCallString('', array(array('view', 'default', ''))),
+        'action' => \Innomatic\Wui\WuiEventsCall::buildEventsCallString('', array(array('view', 'default', ''))),
         'horiz' => 'true'
         ),
     'repository' => array(
         'label' => $gLocale->getStr('repository.toolbar'),
         'themeimage' => 'globe2',
-        'action' => WuiEventsCall::buildEventsCallString('', array(array('view', 'appcentral', ''))),
+        'action' => \Innomatic\Wui\WuiEventsCall::buildEventsCallString('', array(array('view', 'appcentral', ''))),
         'horiz' => 'true'
         ),
     'keyring' => array(
         'label' => $gLocale->getStr('keys.toolbar'),
         'themeimage' => 'keyhole',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString(
+        'action' => \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -109,8 +96,7 @@ function action_install($eventData)
     global $gLocale, $gLocale, $gStatus;
 
     if (strcmp($eventData['applicationfile']['tmp_name'], 'none') != 0) {
-        require_once('innomatic/application/Application.php');
-        $tempApplication = new Application(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), '');
+        $tempApplication = new \Innomatic\Application\Application(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), '');
 
         move_uploaded_file(
             $eventData['applicationfile']['tmp_name'],
@@ -149,13 +135,12 @@ $gActionDispatcher->addEvent('uninstall', 'action_uninstall');
 function action_uninstall($eventData)
 {
     global $gLocale, $gLocale, $wuiPage, $gStatus;
-    require_once('innomatic/application/Application.php');
-
-    $tempApplication = new Application(
+    
+    $tempApplication = new \Innomatic\Application\Application(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
         $eventData['appid']
     );
-    if (!$tempApplication->Uninstall()) {
+    if (!$tempApplication->uninstall()) {
         $unmetDeps = $tempApplication->getLastActionUnmetDeps();
         while (list ($key, $val) = each($unmetDeps))
             $unmetDepsStr.= ' '.$val;
@@ -176,11 +161,11 @@ function action_activateapplication($eventData)
     if ($domainQuery) {
         $domainData = $domainQuery->getFields();
 
-        $domain = new Domain(
+        $domain = new \Innomatic\Domain\Domain(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             $domainData['domainid'], $null
         );
-        if (!$domain->EnableApplication($eventData['appid'])) {
+        if (!$domain->enableApplication($eventData['appid'])) {
             $unmetDeps = $domain->getLastActionUnmetDeps();
 
             if (count($unmetDeps)) {
@@ -214,12 +199,12 @@ function action_deactivateapplication($eventData)
     if ($domainQuery) {
         $domainData = $domainQuery->getFields();
 
-        $domain = new Domain(
+        $domain = new \Innomatic\Domain\Domain(
             InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
             $domainData['domainid'],
             $null
         );
-        if (!$domain->DisableApplication($eventData['appid'])) {
+        if (!$domain->disableApplication($eventData['appid'])) {
             $unmetDeps = $domain->getLastActionUnmetDeps();
 
             if (count($unmetDeps)) {
@@ -256,7 +241,7 @@ function action_newrepository($eventData)
 {
     global $gLocale, $gStatus;
 
-    $remoteAc = new AppCentralRemoteServer(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+    $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
     if ($remoteAc->Add($eventData['accountid'])) $gStatus = $gLocale->getStr('repository_added.status');
     else $gStatus = $gLocale->getStr('repository_not_added.status');
 }
@@ -266,7 +251,7 @@ function action_removerepository($eventData)
 {
     global $gLocale, $gStatus;
 
-    $remoteAc = new AppCentralRemoteServer(
+    $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['id']
     );
     if ($remoteAc->Remove()) $gStatus = $gLocale->getStr('repository_removed.status');
@@ -281,7 +266,7 @@ function action_installapplication($eventData)
 {
     global $gLocale, $gStatus;
 
-    $remoteAc = new AppCentralRemoteServer(
+    $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
         $eventData['id']
     );
@@ -305,9 +290,7 @@ $gActionDispatcher->addEvent(
 function action_newkey($eventData)
 {
     global $gStatus, $gLocale;
-    require_once('innomatic/application/ApplicationKeyRing.php');
-
-    $keyring = new ApplicationKeyRing();
+    $keyring = new \Innomatic\Application\ApplicationKeyRing();
     if (
         $keyring->AddKey(
             $eventData['key']['tmp_name']
@@ -326,9 +309,8 @@ $gActionDispatcher->addEvent(
 function action_removekey($eventData)
 {
     global $gStatus, $gLocale;
-    require_once('innomatic/application/ApplicationKeyRing.php');
 
-    $keyring = new ApplicationKeyRing();
+    $keyring = new \Innomatic\Application\ApplicationKeyRing();
     $keyring->RemoveKey($eventData['id']);
 
     $gStatus = $gLocale->getStr('removekey_removed.status');
@@ -342,7 +324,7 @@ $gViewDispatcher = new WuiDispatcher('view');
 
 function applications_list_action_builder($pageNumber)
 {
-    return WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -356,7 +338,7 @@ function applications_list_action_builder($pageNumber)
 
 function applications_tab_action_builder($tab)
 {
-    return WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -486,9 +468,9 @@ function main_default($eventData)
 
                 $wuiApplicationToolbar[$data['category']][$row] = new WuiHorizgroup('applicationtoolbar'.$row);
 
-                $detailsAction[$data['category']][$row] = new WuiEventsCall();
+                $detailsAction[$data['category']][$row] = new \Innomatic\Wui\WuiEventsCall();
                 $detailsAction[$data['category']][$row]->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\WuiEvent(
                         'view',
                         'details',
                         array(
@@ -508,9 +490,9 @@ function main_default($eventData)
                 $wuiApplicationToolbar[$data['category']][$row]->addChild($wuiDetailsButton[$data['category']][$row]);
 
                 if (strcmp($data['appid'], 'innomatic')) {
-                    $depsAction[$data['category']][$row] = new WuiEventsCall();
+                    $depsAction[$data['category']][$row] = new \Innomatic\Wui\WuiEventsCall();
                     $depsAction[$data['category']][$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\WuiEvent(
                             'view',
                             'dependencies',
                             array(
@@ -531,16 +513,16 @@ function main_default($eventData)
                         $wuiDepsButton[$data['category']][$row]
                     );
 
-                    $removeAction[$data['category']][$row] = new WuiEventsCall();
+                    $removeAction[$data['category']][$row] = new \Innomatic\Wui\WuiEventsCall();
                     $removeAction[$data['category']][$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\WuiEvent(
                             'view',
                             'default',
                             ''
                             )
                     );
                     $removeAction[$data['category']][$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\WuiEvent(
                             'action',
                             'uninstall',
                             array(
@@ -576,9 +558,9 @@ function main_default($eventData)
                         )->getHome().'core/applications/'.$data['appid'].'/application.log'
                     )
                 ) {
-                    $logAction[$data['category']][$row] = new WuiEventsCall();
+                    $logAction[$data['category']][$row] = new \Innomatic\Wui\WuiEventsCall();
                     $logAction[$data['category']][$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\WuiEvent(
                             'view',
                             'applicationlog',
                             array(
@@ -643,7 +625,7 @@ function main_default($eventData)
       <args>
         <action type="encoded">'
         .urlencode(
-            WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -685,7 +667,7 @@ function main_default($eventData)
         <label type="encoded">'.urlencode($gLocale->getStr('newapplication_submit')).'</label>
         <action type="encoded">'
         .urlencode(
-            WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -1000,7 +982,6 @@ $gViewDispatcher->addEvent('dependencies', 'main_dependencies');
 function main_dependencies($eventData)
 {
     global $gLocale, $gPageTitle, $gXmlDefinition;
-    require_once('innomatic/application/ApplicationDependencies.php');
 
     $query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
         'SELECT appid FROM applications WHERE id='.$eventData['appid'].' '
@@ -1008,7 +989,7 @@ function main_dependencies($eventData)
 
     $applicationData = $query->getFields();
 
-    $tempDeps = new ApplicationDependencies(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+    $tempDeps = new \Innomatic\Application\ApplicationDependencies(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
 
     $applicationDeps = array();
     $applicationSuggs = array();
@@ -1016,19 +997,19 @@ function main_dependencies($eventData)
     $suggestingMods = array();
     $enabledDomains = array();
 
-    $applicationDepsArray = $tempDeps->DependsOn($applicationData['appid']);
+    $applicationDepsArray = $tempDeps->dependsOn($applicationData['appid']);
     if (is_array($applicationDepsArray)) {
         while (list ($key, $val) = each($applicationDepsArray)) {
-            if ($val['deptype'] == ApplicationDependencies::TYPE_DEPENDENCY)
+            if ($val['deptype'] == \Innomatic\Application\ApplicationDependencies::TYPE_DEPENDENCY)
                 $applicationDeps[$val['moddep']] = $val['moddep'].' '.$val['version'];
             else
                 $applicationSuggs[$val['moddep']] = $val['moddep'].' '.$val['version'];
         }
     }
 
-    $dependingModsArray = $tempDeps->CheckDependingApplications(
+    $dependingModsArray = $tempDeps->checkDependingApplications(
         $applicationData['appid'],
-        ApplicationDependencies::TYPE_DEPENDENCY
+        \Innomatic\Application\ApplicationDependencies::TYPE_DEPENDENCY
     );
     if (is_array($dependingModsArray)) {
         while (list ($key, $val) = each($dependingModsArray)) {
@@ -1036,9 +1017,9 @@ function main_dependencies($eventData)
         }
     }
 
-    $suggestingModsArray = $tempDeps->CheckDependingApplications(
+    $suggestingModsArray = $tempDeps->checkDependingApplications(
         $applicationData['appid'],
-        ApplicationDependencies::TYPE_SUGGESTION
+        \Innomatic\Application\ApplicationDependencies::TYPE_SUGGESTION
     );
     if (is_array($suggestingModsArray)) {
         while (list ($key, $val) = each($suggestingModsArray)) {
@@ -1144,16 +1125,16 @@ function main_applicationlog($eventData)
     ) {
             $logToolbar = new WuiToolBar('logbar');
 
-            $cleanLogAction = new WuiEventsCall();
+            $cleanLogAction = new \Innomatic\Wui\WuiEventsCall();
             $cleanLogAction->addEvent(
-                new WuiEvent(
+                new \Innomatic\Wui\WuiEvent(
                     'view',
                     'default',
                     ''
                 )
             );
             $cleanLogAction->addEvent(
-                new WuiEvent(
+                new \Innomatic\Wui\WuiEvent(
                     'action',
                     'cleanmodlog',
                     array(
@@ -1187,7 +1168,7 @@ function main_applicationlog($eventData)
             array(
                 'disp' => 'action',
                 'readonly' => 'true',
-                'value' => Wui::utf8_entities($appLogContent),
+                'value' => \Innomatic\Wui\Wui::utf8_entities($appLogContent),
                 'rows' => '20',
                 'cols' => '120'
             )
@@ -1215,7 +1196,7 @@ function main_help($eventData)
 
 function reps_tab_action_builder($tab)
 {
-    return WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -1275,7 +1256,7 @@ function main_appcentral($eventData)
         <method>post</method>
         <action type="encoded">'
         .urlencode(
-            WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -1316,7 +1297,7 @@ function main_appcentral($eventData)
         <label type="encoded">'.urlencode($gLocale->getStr('new_repository.submit')).'</label>
         <action type="encoded">'
         .urlencode(
-            WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -1364,7 +1345,7 @@ function main_appcentral($eventData)
 
         $repsQuery->MoveFirst();
         while (!$repsQuery->eof) {
-            $acRemote = new AppCentralRemoteServer(
+            $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
                 InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
                 $repsQuery->getFields('id')
             );
@@ -1394,7 +1375,7 @@ function main_appcentral($eventData)
               <label>'.WuiXml::cdata($gLocale->getStr('repository_applications.button')).'</label>
         <themeimage>listdetailed</themeimage>
         <horiz>true</horiz>
-        <action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
+        <action>'.WuiXml::cdata(\Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -1425,7 +1406,7 @@ function main_appcentral($eventData)
             <frame>false</frame>
             <action type="encoded">'
             .urlencode(
-                WuiEventsCall::buildEventsCallString(
+                \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array(
@@ -1471,7 +1452,7 @@ $gXmlDefinition .=
                         'label' => $gLocale->getStr('refresh.button'),
                         'themeimage' => 'cycle',
                         'horiz' => 'true',
-                        'action' => WuiEventsCall::buildEventsCallString(
+                        'action' => \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1508,7 +1489,7 @@ $gXmlDefinition .=
             <frame>false</frame>
             <action type="encoded">'
             .urlencode(
-                WuiEventsCall::buildEventsCallString(
+                \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                     'webservices',
                     array(
                         array(
@@ -1537,7 +1518,7 @@ function repapplications_list_action_builder($pageNumber)
     $tempDisp = new WuiDispatcher('view');
     $eventData = $tempDisp->GetEventData();
 
-    return WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -1559,7 +1540,7 @@ function appcentral_applications_tab_action_builder($tab)
     $gMainDisp = new WuiDispatcher('view');
     $eventData = $gMainDisp->GetEventData();
 
-    return WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -1579,11 +1560,8 @@ $gViewDispatcher->addEvent('repositoryapplications', 'main_repositoryapplication
 function main_repositoryapplications($eventData)
 {
     global $gLocale, $gXmlDefinition, $gPageTitle, $gToolbars;
-    require_once('innomatic/application/ApplicationDependencies.php');
-    require_once('innomatic/application/ApplicationSettings.php');
-    require_once('innomatic/application/ApplicationComponentRegister.php');
 
-    $acRemote = new AppCentralRemoteServer(
+    $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
         $eventData['id']
     );
@@ -1667,7 +1645,7 @@ function main_repositoryapplications($eventData)
         if (
             strlen($data['dependencies'])
         ) {
-            $appDeps = new ApplicationDependencies(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+            $appDeps = new \Innomatic\Application\ApplicationDependencies(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
             $depCheck = $appDeps->checkApplicationDependencies(
                 0,
                 '',
@@ -1690,23 +1668,23 @@ function main_repositoryapplications($eventData)
                 $appQuery->getNumberRows()
             ) {
                 switch (
-                    ApplicationDependencies::compareVersionNumbers(
+                    \Innomatic\Application\ApplicationDependencies::compareVersionNumbers(
                         $data['lastversion'],
                         $currentVersion
                     )
                 )
                 {
-                case ApplicationDependencies::VERSIONCOMPARE_EQUAL:
+                case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_EQUAL:
                     $label = $gLocale->getStr('reinstall_application.button');
                     $icon = 'cycle';
                     break;
 
-                case ApplicationDependencies::VERSIONCOMPARE_MORE:
+                case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_MORE:
                     $label = $gLocale->getStr('update_application.button');
                     $icon = 'up';
                     break;
 
-                case ApplicationDependencies::VERSIONCOMPARE_LESS:
+                case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_LESS:
                     $label = $gLocale->getStr('downgrade_application.button');
                     $icon = 'down';
                     break;
@@ -1732,7 +1710,7 @@ function main_repositoryapplications($eventData)
               <label>'.WuiXml::cdata($gLocale->getStr('application_versions.button')).'</label>
         <themeimage>listdetailed</themeimage>
         <horiz>true</horiz>
-        <action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
+        <action>'.WuiXml::cdata(\Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -1758,7 +1736,7 @@ function main_repositoryapplications($eventData)
               <label>'.WuiXml::cdata($label).'</label>
         <themeimage>'.$icon.'</themeimage>
         <horiz>true</horiz>
-        <action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
+        <action>'.WuiXml::cdata(\Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array(
@@ -1840,7 +1818,7 @@ function main_repositoryapplications($eventData)
                         'label' => $gLocale->getStr('refresh.button'),
                         'themeimage' => 'cycle',
                         'horiz' => 'true',
-                        'action' => WuiEventsCall::buildEventsCallString(
+                        'action' => \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1864,9 +1842,8 @@ $gViewDispatcher->addEvent('applicationversions', 'main_applicationversions');
 function main_applicationversions($eventData)
 {
     global $gLocale, $gXmlDefinition, $gPageTitle, $gToolbars;
-    require_once('innomatic/application/ApplicationDependencies.php');
 
-    $acRemote = new AppCentralRemoteServer(
+    $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
         InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
         $eventData['id']
     );
@@ -1935,7 +1912,7 @@ function main_applicationversions($eventData)
         if (
             strlen($data['dependencies'])
         ) {
-            $appDeps = new ApplicationDependencies(
+            $appDeps = new \Innomatic\Application\ApplicationDependencies(
                 InnomaticContainer::instance('innomaticcontainer')->getDataAccess()
             );
             $depCheck = $appDeps->checkApplicationDependencies(
@@ -1960,22 +1937,22 @@ function main_applicationversions($eventData)
                 $appQuery->getNumberRows()
             ) {
                 switch (
-                    ApplicationDependencies::compareVersionNumbers(
+                    \Innomatic\Application\ApplicationDependencies::compareVersionNumbers(
                         $version,
                         $currentVersion
                     )
                 ) {
-                case ApplicationDependencies::VERSIONCOMPARE_EQUAL:
+                case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_EQUAL:
                     $label = $gLocale->getStr('reinstall_application.button');
                     $icon = 'reload';
                     break;
 
-                case ApplicationDependencies::VERSIONCOMPARE_MORE:
+                case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_MORE:
                     $label = $gLocale->getStr('update_application.button');
                     $icon = 'folder_new';
                     break;
 
-                case ApplicationDependencies::VERSIONCOMPARE_LESS:
+                case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_LESS:
                     $label = $gLocale->getStr('downgrade_application.button');
                     $icon = 'down';
                     break;
@@ -2002,7 +1979,7 @@ function main_applicationversions($eventData)
               <label>'.WuiXml::cdata($label).'</label>
         <themeimage>'.$icon.'</themeimage>
         <horiz>true</horiz>
-        <action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
+        <action>'.WuiXml::cdata(\Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array(
@@ -2074,7 +2051,7 @@ function main_applicationversions($eventData)
             'label' => $gLocale->getStr('refresh.button'),
             'themeimage' => 'cycle',
             'horiz' => 'true',
-            'action' => WuiEventsCall::buildEventsCallString(
+            'action' => \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -2097,7 +2074,7 @@ function main_applicationversions($eventData)
 
 function keys_page_action_builder($page)
 {
-    return WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -2158,7 +2135,7 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
         <horiz>true</horiz>
                 <needconfirm>true</needconfirm>
                     <confirmmessage>'.WuiXml::cdata($gLocale->getStr('remove_key.confirm')).'</confirmmessage>
-        <action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString(
+        <action>'.WuiXml::cdata(\Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -2238,7 +2215,7 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
       <args>
         <action type="encoded">'
         .urlencode(
-            WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(
@@ -2279,7 +2256,7 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
         <label type="encoded">'.urlencode($gLocale->getStr('newkey.submit')).'</label>
         <action type="encoded">'
         .urlencode(
-            WuiEventsCall::buildEventsCallString(
+            \Innomatic\Wui\WuiEventsCall::buildEventsCallString(
                 '',
                 array(
                     array(

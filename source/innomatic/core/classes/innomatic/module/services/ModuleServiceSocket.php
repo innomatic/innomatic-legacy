@@ -1,9 +1,6 @@
 <?php
 namespace Innomatic\Module\Services;
 
-require_once('innomatic/net/socket/SequentialServerSocket.php');
-require_once('innomatic/module/services/ModuleServiceSocketHandler.php');
-
 /**
  * Module service socket launcher.
  *
@@ -33,7 +30,7 @@ class ModuleServiceSocket extends ModuleServerSocket
             $bindAddress = '127.0.0.1';
         }
 
-        $server = new SequentialServerSocket($bindAddress, $port);
+        $server = new \Innomatic\Net\Socket\SequentialServerSocket($bindAddress, $port);
         $server->setHandler(new ModuleServiceSocketHandler());
         $server->start();
     }

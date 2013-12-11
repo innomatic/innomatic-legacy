@@ -18,9 +18,6 @@ namespace Innomatic\Webservices;
 // When a application is removed, all permission nodes
 // related to the application must be removed.
 
-
-require_once('innomatic/process/Hook.php');
-
 /*!
  @class WebServicesProfile
 
@@ -71,8 +68,8 @@ class WebServicesProfile
     {
         $result = false;
 
-        $hook = new Hook( $this->mRootDb, 'innomatic', 'webservicesprofile.add' );
-        if ( $hook->CallHooks( 'calltime', $this, array( 'name' => $profileName ) ) == Hook::RESULT_OK ) {
+        $hook = new \Innomatic\Process\Hook( $this->mRootDb, 'innomatic', 'webservicesprofile.add' );
+        if ( $hook->callHooks( 'calltime', $this, array( 'name' => $profileName ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mRootDb ) {
                 if ( !$this->mProfileId ) {
                     if ( strlen( $profileName ) ) {
@@ -88,7 +85,7 @@ class WebServicesProfile
                                                                $this->mRootDb->formatText( $profileName ).')' );
 
                             if ( $result ) {
-                                $hook->CallHooks( 'profileadded', $this, array( 'name' => $profileName ) );
+                                $hook->callHooks( 'profileadded', $this, array( 'name' => $profileName ) );
 
                                 $this->mLog->logEvent( 'Innomatic',
                                                       'Created new web services profile', \Innomatic\Logging\Logger::NOTICE );
@@ -119,8 +116,8 @@ class WebServicesProfile
     {
         $result = false;
 
-        $hook = new Hook( $this->mRootDb, 'innomatic', 'webservicesprofile.remove' );
-        if ( $hook->CallHooks( 'calltime', $this, array() ) == Hook::RESULT_OK ) {
+        $hook = new \Innomatic\Process\Hook( $this->mRootDb, 'innomatic', 'webservicesprofile.remove' );
+        if ( $hook->callHooks( 'calltime', $this, array() ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mRootDb ) {
                 if ( $this->mProfileId ) {
                     // Removes all permissions of the profile
@@ -143,7 +140,7 @@ class WebServicesProfile
                     //
                     $this->mProfileId = '';
 
-                    $hook->CallHooks( 'profileremoved', $this, array() );
+                    $hook->callHooks( 'profileremoved', $this, array() );
 
                     $result = true;
 
@@ -171,8 +168,8 @@ class WebServicesProfile
     {
         $result = false;
 
-        $hook = new Hook( $this->mRootDb, 'innomatic', 'webservicesprofile.rename' );
-        if ( $hook->CallHooks( 'calltime', $this, array( 'name' => $profileName ) ) == Hook::RESULT_OK ) {
+        $hook = new \Innomatic\Process\Hook( $this->mRootDb, 'innomatic', 'webservicesprofile.rename' );
+        if ( $hook->callHooks( 'calltime', $this, array( 'name' => $profileName ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mRootDb ) {
                 if ( $this->mProfileId ) {
                     if ( strlen( $profileName ) ) {
@@ -182,7 +179,7 @@ class WebServicesProfile
                             'SET profilename='.$this->mRootDb->formatText( $profileName ).' '.
                             'WHERE id='.(int)$this->mProfileId );
 
-                        $hook->CallHooks( 'profilerenamed', $this, array( 'name' => $profileName ) );
+                        $hook->callHooks( 'profilerenamed', $this, array( 'name' => $profileName ) );
 
                     } else $this->mLog->logEvent( 'innomatic.webservicesprofile.rename',
                                                 'Empty new profile name', \Innomatic\Logging\Logger::ERROR );

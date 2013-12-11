@@ -13,26 +13,19 @@
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/wui/dispatch/WuiEvent.php');
-require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-require_once('innomatic/locale/LocaleCatalog.php');
-
 function main_page()
 {
-    require_once('innomatic/wui/Wui.php');
-    $innomatic_locale = new LocaleCatalog('innomatic::root_menu', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
-    require_once('innomatic/application/ApplicationSettings.php');
-    $app_cfg = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+    $innomatic_locale = new \Innomatic\Locale\LocaleCatalog('innomatic::root_menu', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+    $app_cfg = new \Innomatic\Application\ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
 
     if (is_object( InnomaticContainer::instance('innomaticcontainer')->getDataAccess() ) and !(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
-        require_once('innomatic/application/ApplicationSettings.php');
-        $app_cfg = new ApplicationSettings( InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic' );
+        $app_cfg = new \Innomatic\Application\ApplicationSettings( InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic' );
         $innomatic_logo_disabled = $app_cfg->getKey( 'innomatic-biglogo-disabled' );
     } else {
         $innomatic_logo_disabled = 0;
     }
 
-    $wui = Wui::instance('wui', true);
+    $wui = \Innomatic\Wui\Wui::instance('wui', true);
     $wui->loadWidget( 'page' );
     $wui->loadWidget( 'vertgroup' );
     $wui->loadWidget( 'button' );

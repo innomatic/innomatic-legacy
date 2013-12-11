@@ -357,7 +357,7 @@ namespace Innomatic\Webservices\Xmlrpc;
             }
             $innercode .= "\$np = true;\n";
             $innercode .= "if (\$np) return new {$prefix}resp(0, {$GLOBALS['xmlrpcerr']['incorrect_params']}, '{$GLOBALS['xmlrpcstr']['incorrect_params']}'); else {\n";
-            //$innercode .= "if (\$_xmlrpcs_error_occurred) return new xmlrpcresp(0, $GLOBALS['xmlrpcerr']user, \$_xmlrpcs_error_occurred); else\n";
+            //$innercode .= "if (\$_xmlrpcs_error_occurred) return new XmlRpcResp(0, $GLOBALS['xmlrpcerr']user, \$_xmlrpcs_error_occurred); else\n";
             $innercode .= "if (is_a(\$retval, '{$prefix}resp')) return \$retval; else\n";
             if($returns == $GLOBALS['xmlrpcDateTime'] || $returns == $GLOBALS['xmlrpcBase64'])
             {

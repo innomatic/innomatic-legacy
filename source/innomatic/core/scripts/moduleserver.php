@@ -16,8 +16,6 @@
 require_once('scripts_container.php');
 $script = ScriptContainer::instance('scriptcontainer');
 
-require_once('innomatic/module/server/ModuleServerController.php');
-
         if (!isset ($argv[1]))
             $argv[1] = '';
         try {
@@ -35,31 +33,31 @@ require_once('innomatic/module/server/ModuleServerController.php');
                     $script->cleanExit();
                     break;
                 case 'wstart' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     $controller->start();
                     break;
                 case 'stop' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     $controller->shutdown();
                     break;
                 case 'wrestart' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     $controller->restart();
                     break;
                 case 'refresh' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     print($controller->refresh());
                     break;
                 case 'status' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     print($controller->status());
                     break;
                 case 'start' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     $controller->watchDogStart();
                     break;
                 case 'restart' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     $controller->watchDogRestart();
                     break;
                 default :

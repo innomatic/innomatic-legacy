@@ -60,7 +60,7 @@ only application. */
      @param rootda DataAccess class - Innomatic database handler.
      @param modserial int - serial number of the application.
      */
-    public function __construct(DataAccess $rootda, $modserial = 0)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $rootda, $modserial = 0)
     {
         $this->rootda = $rootda;
         $this->serial = $modserial;

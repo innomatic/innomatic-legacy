@@ -1,9 +1,6 @@
 <?php
 namespace Innomatic\Module\Server;
 
-require_once('innomatic/module/server/ModuleServerContext.php');
-require_once('innomatic/module/server/ModuleServerLogger.php');
-
 /**
  * Watch dog that monitors Module server execution and restarts it in case
  * of failure.

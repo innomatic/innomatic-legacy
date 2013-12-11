@@ -14,8 +14,6 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/dataaccess/DataAccess.php');
-require_once ('innomatic/dataaccess/DataAccessXmlTable.php');
 /**
  * Roottable component handler.
  */
@@ -48,7 +46,7 @@ class RoottableComponent extends \Innomatic\Application\ApplicationComponent
             $params['file'] = $this->basedir . '/core/db/' . $params['file'];
             if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']))) {
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']), 0644);
-                $xmldb = new DataAccessXmlTable($this->rootda, DataAccessXmlTable::SQL_CREATE);
+                $xmldb = new \Innomatic\Dataaccess\DataAccessXmlTable($this->rootda, \Innomatic\Dataaccess\DataAccessXmlTable::SQL_CREATE);
                 $xmldb->load_deffile(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']));
                 if ($this->rootda->execute($xmldb->getSQL())) {
                     $result = true;
@@ -65,7 +63,7 @@ class RoottableComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            $xmldb = new DataAccessXmlTable($this->rootda, DataAccessXmlTable::SQL_DROP);
+            $xmldb = new \Innomatic\Dataaccess\DataAccessXmlTable($this->rootda, \Innomatic\Dataaccess\DataAccessXmlTable::SQL_DROP);
             $xmldb->load_deffile(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']));
             if ($this->rootda->execute($xmldb->getSQL())) {
                 if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']))) {
@@ -87,8 +85,7 @@ class RoottableComponent extends \Innomatic\Application\ApplicationComponent
             if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']) . '.old'))
                 @copy(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']) . '.old', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']) . '.old2');
             @copy(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']), InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']) . '.old');
-            require_once ('innomatic/dataaccess/DataAccessXmlTableUpdater.php');
-            $xml_upd = new DataAccessXmlTableUpdater($this->rootda, InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']), $params['file']);
+            $xml_upd = new \Innomatic\Dataaccess\DataAccessXmlTableUpdater($this->rootda, InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/db/' . basename($params['file']), $params['file']);
             $xml_upd->CheckDiffs();
             $old_columns = $xml_upd->getOldColumns();
             if (is_array($old_columns)) {

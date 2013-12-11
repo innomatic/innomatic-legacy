@@ -14,10 +14,6 @@
 */
 namespace Innomatic\Wui\Widgets;
 
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/wui/theme/WuiTheme.php');
-require_once('innomatic/wui/dispatch/WuiDispatcher.php');
-
 /*!
  @class WuiWidget
  @abstract Base widget class.
@@ -74,17 +70,17 @@ abstract class WuiWidget
     {
         $this->mName = $elemName;
         $this->mArgs = &$elemArgs;
-        $this->mComments = Wui::showSourceComments();
+        $this->mComments = \Innomatic\Wui\Wui::showSourceComments();
 
         if (is_array($dispEvents)) {
             $this->mDispEvents = &$dispEvents;
         }
 
-        $currentWuiTheme = Wui::instance('wui')->getThemeName();
+        $currentWuiTheme = \Innomatic\Wui\Wui::instance('wui')->getThemeName();
         if (strlen($elemTheme) and $elemTheme != $currentWuiTheme) {
             $this->mTheme = $elemTheme;
 
-            $this->mThemeHandler = new WuiTheme(
+            $this->mThemeHandler = new \Innomatic\Wui\WuiTheme(
                 InnomaticContainer::instance(
                     'innomaticcontainer'
                 )->getDataAccess(),
@@ -92,7 +88,7 @@ abstract class WuiWidget
             );
         } else {
             $this->mTheme = $currentWuiTheme;
-            $this->mThemeHandler = Wui::instance('wui')->getTheme();
+            $this->mThemeHandler = \Innomatic\Wui\Wui::instance('wui')->getTheme();
         }
 
         if (
@@ -136,11 +132,9 @@ abstract class WuiWidget
             $ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
         }
 
-        require_once('innomatic/ajax/Xajax.php');
-        $xajax = Xajax::instance('Xajax', $ajax_request_uri);
+        $xajax = \Innomatic\Ajax\Xajax::instance('Xajax', $ajax_request_uri);
 
-        require_once('innomatic/wui/Wui.php');
-        $wuiContainer = Wui::instance('wui');
+        $wuiContainer = \Innomatic\Wui\Wui::instance('wui');
 
         // Register action ajax calls
         $theObject = new \ReflectionObject($this);
@@ -171,7 +165,7 @@ abstract class WuiWidget
      @param rwuiDisp WuiDispatcher class - Wui internal dispatcher handler.
      @result True it the structure has been built by the member.
      */
-    public function build(WuiDispatcher $rwuiDisp)
+    public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $this->mrWuiDisp = $rwuiDisp;
         return $this->generateSource();
@@ -215,10 +209,7 @@ abstract class WuiWidget
     public function storeSession($args)
     {
         if ($this->mUseSession) {
-            require_once(
-                'innomatic/desktop/controller/DesktopFrontController.php'
-            );
-            DesktopFrontController::instance(
+            \Innomatic\Desktop\Controller\DesktopFrontController::instance(
                 'desktopfrontcontroller'
             )->session->put(
                 $this->mSessionObjectName, serialize($args)
@@ -233,15 +224,14 @@ abstract class WuiWidget
      */
     public function retrieveSession()
     {
-        require_once('innomatic/desktop/controller/DesktopFrontController.php');
         if (
             $this->mUseSession == 'true'
-            and DesktopFrontController::instance(
+            and \Innomatic\Desktop\Controller\DesktopFrontController::instance(
                 'desktopfrontcontroller'
             )->session->isValid($this->mSessionObjectName)
         ) {
             return unserialize(
-                DesktopFrontController::instance(
+                \Innomatic\Desktop\Controller\DesktopFrontController::instance(
                     'desktopfrontcontroller'
                 )->session->get($this->mSessionObjectName)
             );

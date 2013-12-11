@@ -14,7 +14,6 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/wui/theme/WuiColorsSet.php');
 /**
  * Wuicolorsset component handler.
  */
@@ -51,7 +50,7 @@ class WuicolorssetComponent extends \Innomatic\Application\ApplicationComponent
             }
             if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
-                $wui_component = new WuiColorsSet($this->rootda, $params['name']);
+                $wui_component = new \Innomatic\Wui\Theme\WuiColorsSet($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Install($params)) {
                     $result = true;
@@ -67,7 +66,7 @@ class WuicolorssetComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            $wui_component = new WuiColorsSet($this->rootda, $params['name']);
+            $wui_component = new \Innomatic\Wui\Theme\WuiColorsSet($this->rootda, $params['name']);
             if ($wui_component->Remove($params)) {
                 if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                     $result = true;
@@ -89,7 +88,7 @@ class WuicolorssetComponent extends \Innomatic\Application\ApplicationComponent
             }
             if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
-                $wui_component = new WuiColorsSet($this->rootda, $params['name']);
+                $wui_component = new \Innomatic\Wui\Theme\WuiColorsSet($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Update($params)) {
                     $result = true;

@@ -14,8 +14,6 @@
 */
 namespace Innomatic\Wui\Theme;
 
-require_once('innomatic/dataaccess/DataAccess.php');
-
 /**
  * WUI icons set handler.
  *

@@ -14,7 +14,6 @@
  */
 namespace Shared\Components;
 
-require_once ('innomatic/wui/theme/WuiStyle.php');
 /**
  * Wuistyle component handler.
  */
@@ -51,7 +50,7 @@ class WuistyleComponent extends \Innomatic\Application\ApplicationComponent
             }
             if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
-                $wui_component = new WuiStyle($this->rootda, $params['name']);
+                $wui_component = new \Innomatic\Wui\Theme\WuiStyle($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Install($params)) {
                     $style_components = $wui_component->getStyle();
@@ -76,7 +75,7 @@ class WuistyleComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            $wui_component = new WuiStyle($this->rootda, $params['name']);
+            $wui_component = new \Innomatic\Wui\Theme\WuiStyle($this->rootda, $params['name']);
             if ($wui_component->Remove($params)) {
                 $style_components = $wui_component->getStyle();
                 while (list (, $file) = each($style_components)) {
@@ -105,7 +104,7 @@ class WuistyleComponent extends \Innomatic\Application\ApplicationComponent
             }
             if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                 @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
-                $wui_component = new WuiStyle($this->rootda, $params['name']);
+                $wui_component = new \Innomatic\Wui\Theme\WuiStyle($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Update($params)) {
                     $style_components = $wui_component->getStyle();
