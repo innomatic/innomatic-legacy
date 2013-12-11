@@ -11,7 +11,7 @@
 <!-- BEGIN vertical_menu_cell -->
 <tr>
 <td>{icontag}</td>
-<td class="nav" valign="middle" height="{ordinateStep}" nowrap style="white-space: nowrap"><a href="{link}"{refid}{onmouseover}{title}{target}>{text}</a>{arrow}</td>
+<td class="nav" valign="middle" height="{ordinateStep}" nowrap style="white-space: nowrap"><a href="{link}"{refid}{onmouseover}{title}{target}>{text}{arrow}</a></td>
 </tr>
 <!-- END vertical_menu_cell -->
 </table>

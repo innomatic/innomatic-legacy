@@ -18,6 +18,8 @@ NEW FEATURES:
   Pagnoni)
 - Added autoloader compatibility mode for applications without new namespaces
   support. (Alex Pagnoni)
+- During Innomatic setup, get the default country based on HTTP_ACCEPT_LANGUAGE
+  header. (Luca Ferri)
 
 DEPRECATED:
 
