@@ -567,7 +567,7 @@ class InnomaticSetup
         $log_content = file_get_contents(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log');
 
         $container->addChild(new WuiHorizBar('loghr'));
-        $container->addChild(new WuiText("rootlog", array('disp' => 'action', "readonly" => "true", "value" => Wui::utf8_entities($log_content), "rows" => "20", "cols" => "80")), 0, 1);
+        $container->addChild(new WuiText("rootlog", array('disp' => 'action', "readonly" => "true", "value" => \Innomatic\Wui\Wui::utf8_entities($log_content), "rows" => "20", "cols" => "80")), 0, 1);
 
         @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log');
     }

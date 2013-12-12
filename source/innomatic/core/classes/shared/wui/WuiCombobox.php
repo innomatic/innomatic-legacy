@@ -47,7 +47,7 @@ class WuiCombobox extends \Innomatic\Wui\Widgets\WuiWidget
             $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . " combobox -->\n" : '') . '<select'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : ''). $this->getEventsCompleteString() .' ' . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mArgs['hint']) . '\');" onMouseOut="wuiUnHint();" ' : '') . 'name="' . $event_data->getDataString() . "\"" . ' tabindex="' . $this->mArgs['tabindex'] . '"' . ">\n";
             reset($this->mArgs['elements']);
             while (list ($key, $val) = each($this->mArgs['elements'])) {
-                $this->mLayout .= '<option value="' . $key . '"' . ((isset($this->mArgs['default']) and $this->mArgs['default'] == $key) ? ' selected' : '') . '>' . Wui::utf8_entities($val) . "</option>\n";
+                $this->mLayout .= '<option value="' . $key . '"' . ((isset($this->mArgs['default']) and $this->mArgs['default'] == $key) ? ' selected' : '') . '>' . \Innomatic\Wui\Wui::utf8_entities($val) . "</option>\n";
             }
             $this->mLayout .= ($this->mComments ? "</select>\n<!-- end " . $this->mName . " combobox -->\n" : '');
             $result = true;

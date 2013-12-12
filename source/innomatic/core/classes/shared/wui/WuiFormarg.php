@@ -45,7 +45,7 @@ class WuiFormarg extends \Innomatic\Wui\Widgets\WuiWidget
             . ' string -->' : '') . '<input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' type="hidden" name="'
             . $eventData->getDataString() . '"'
             . (strlen($this->mArgs['value']) ? ' value="'
-            . Wui::utf8_entities($this->mArgs['value']) . '"' : '') . '>'
+            . \Innomatic\Wui\Wui::utf8_entities($this->mArgs['value']) . '"' : '') . '>'
             . ($this->mComments ? '<!-- end ' . $this->mName . " string -->\n"
             : '');
         return true;

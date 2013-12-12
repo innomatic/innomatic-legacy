@@ -60,7 +60,7 @@ class WuiListbox extends \Innomatic\Wui\Widgets\WuiWidget
             reset($this->mArgs['elements']);
             if (sizeof($this->mArgs['elements'])) {
                 while (list ($key, $val) = each($this->mArgs['elements'])) {
-                    $this->mLayout .= '<option value="' . $key . '"' . ((isset($this->mArgs['default']) and is_array($this->mArgs['default']) and in_array($key, $this->mArgs['default'])) ? ' selected' : '') . '>' . Wui::utf8_entities($val) . "</option>\n";
+                    $this->mLayout .= '<option value="' . $key . '"' . ((isset($this->mArgs['default']) and is_array($this->mArgs['default']) and in_array($key, $this->mArgs['default'])) ? ' selected' : '') . '>' . \Innomatic\Wui\Wui::utf8_entities($val) . "</option>\n";
                 }
             } else {
                 $this->mLayout .= '<option value=""> </option>' . "\n";

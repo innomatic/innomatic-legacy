@@ -230,7 +230,10 @@ class RootContainer extends \Innomatic\Util\Singleton
 		// if strong create a real alias known to PHP
 		if ($strong)
 		{
-			class_alias($original,$alias);
+			//echo $original."<br>\n";
+			if (!interface_exists($original)) {
+				class_alias($original,$alias);
+			}
 		}
 	
 		// In any case store the alias in a global variable

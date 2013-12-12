@@ -88,15 +88,15 @@ class WuiDispatcher
     public function dispatch()
     {
         if (!$this->mDispatched) {
-            if (count($this->mEvents) and isset(Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn']) and isset($this->mEvents[Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn']])) {
-                if (function_exists($this->mEvents[Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn']])) {
-                    $func = $this->mEvents[Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn']];
-                    $func (isset(Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evd']) ? Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evd'] : array());
+            if (count($this->mEvents) and isset(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn']) and isset($this->mEvents[\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn']])) {
+                if (function_exists($this->mEvents[\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn']])) {
+                    $func = $this->mEvents[\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn']];
+                    $func (isset(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evd']) ? \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evd'] : array());
                     return true;
                 } else {
                     
                     $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
-                    $log->logEvent('innomatic.wui.wuidispatcher.dispatch', 'Function '.$this->mEvents[Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn']]." doesn't exists", \Innomatic\Logging\Logger::ERROR);
+                    $log->logEvent('innomatic.wui.wuidispatcher.dispatch', 'Function '.$this->mEvents[\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn']]." doesn't exists", \Innomatic\Logging\Logger::ERROR);
                     return false;
                 }
             }
@@ -111,7 +111,7 @@ class WuiDispatcher
      */
     public function getEventName()
     {
-        return isset(Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn']) ? Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn'] : '';
+        return isset(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn']) ? \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evn'] : '';
     }
 
     /*!
@@ -122,18 +122,18 @@ class WuiDispatcher
      */
     public function getEventData()
     {
-        return isset(Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evd']) ? Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evd'] : '';
+        return isset(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evd']) ? \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evd'] : '';
     }
 
     public static function dispatchersList()
     {
         $result = array();
-        if (isset(Wui::instance('\Innomatic\Wui\Wui')->parameters['wui']) and is_array(Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'])) {
-            reset(Wui::instance('\Innomatic\Wui\Wui')->parameters['wui']);
-            while (list ($dispatcher_name) = each(Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'])) {
+        if (isset(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui']) and is_array(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'])) {
+            reset(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui']);
+            while (list ($dispatcher_name) = each(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'])) {
                 $result[] = $dispatcher_name;
             }
-            reset(Wui::instance('\Innomatic\Wui\Wui')->parameters['wui']);
+            reset(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui']);
         }
         return $result;
     }

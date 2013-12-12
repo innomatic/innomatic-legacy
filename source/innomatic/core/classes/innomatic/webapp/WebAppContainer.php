@@ -127,7 +127,7 @@ class WebAppContainer extends \Innomatic\Util\Singleton
      */
     public static function createWebApp($webappName, $skeleton = 'default')
     {
-        $home = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getHome();
+        $home = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getHome();
 
         // Strips any path info from the skeleton name.
         $skeleton = basename($skeleton);
@@ -159,7 +159,7 @@ class WebAppContainer extends \Innomatic\Util\Singleton
      */
     public static function eraseWebApp($webappName)
     {
-        $home = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getHome();
+        $home = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getHome();
 
         // Cannot remove innomatic webapp.
         if ($webappName == 'innomatic') {
@@ -185,7 +185,7 @@ class WebAppContainer extends \Innomatic\Util\Singleton
      */
     public static function applyNewSkeleton($webappName, $skeletonName)
     {
-        $home = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getHome();
+        $home = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getHome();
 
         // Checks that the webapp name doesn't contain a malicious path.
         if (\Innomatic\Security\SecurityManager::isAboveBasePath($home.$webappName, $home)) {

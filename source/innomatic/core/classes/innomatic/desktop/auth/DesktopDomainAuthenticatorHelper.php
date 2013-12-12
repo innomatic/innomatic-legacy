@@ -20,7 +20,7 @@ use \Innomatic\Wui\Dispatch;
 /**
  * @package Desktop
  */
-class DesktopDomainAuthenticatorHelper implements DesktopAuthenticatorHelper
+class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\DesktopAuthenticatorHelper
 {
     public function authenticate()
     {

@@ -367,7 +367,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                         $base = dirname(
                             dirname(
                                 dirname(
-                                    WebAppContainer::instance(
+                                    \Innomatic\Webapp\WebAppContainer::instance(
                                         '\Innomatic\Webapp\WebAppContainer'
                                     )->getProcessor()->getRequest()->getRequestUri()
                                 )
@@ -1795,7 +1795,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                     array(
                         'disp' => 'action',
                         'readonly' => 'true',
-                        'value' => Wui::utf8_entities($domainLogContent),
+                        'value' => \Innomatic\Wui\Wui::utf8_entities($domainLogContent),
                         'rows' => '20',
                         'cols' => '120'
                     )
@@ -1877,7 +1877,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                     array(
                         'disp' => 'action',
                         'readonly' => 'true',
-                        'value' => Wui::utf8_entities($dbLogContent),
+                        'value' => \Innomatic\Wui\Wui::utf8_entities($dbLogContent),
                         'rows' => '20',
                         'cols' => '120'
                     )
@@ -1901,7 +1901,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         DesktopFrontController::instance(
             '\Innomatic\Desktop\Controller\DesktopFrontController'
         )->session->put('INNOMATIC_AUTH_USER', \Innomatic\Domain\User\User::getAdminUsername($domainquery->getFields('domainid')));
-        WebAppContainer::instance(
+        \Innomatic\Webapp\WebAppContainer::instance(
             '\Innomatic\Webapp\WebAppContainer'
         )->getProcessor()->getResponse()->addHeader(
             'Location', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl().'/domain/'

@@ -56,7 +56,7 @@ abstract class Observable
      * @param Observer $observer oggetto di tipo Observer da notificare.
      * @return void
      */
-    public function addObserver(Observer $observer)
+    public function addObserver(\Innomatic\Util\Observer $observer)
     {
         $this->_observingObjects[] = $observer;
     }
@@ -90,7 +90,7 @@ abstract class Observable
      * @return void
      */
     /**
-    public function deleteObserver(Observer $observer)
+    public function deleteObserver(\Innomatic\Util\Observer $observer)
     {
         $hash = $observer->hashCode();
 

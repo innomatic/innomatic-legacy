@@ -207,7 +207,7 @@ class WuiXml extends \Innomatic\Wui\Widgets\WuiWidget
     public static function getContentFromXml($name, $xmlText)
     {
         $wui_widget = new WuiXml($name, array('definition' => $xmlText));
-        $wui_widget->build();
+        $wui_widget->build(new \Innomatic\Wui\Dispatch\WuiDispatcher(''));
         $content = $wui_widget->render();
         return $content;
     }

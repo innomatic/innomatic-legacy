@@ -240,7 +240,7 @@ function pass_settheme($eventData)
 
     $log->logEvent('Innomatic', 'Changed Innomatic theme', \Innomatic\Logging\Logger::NOTICE);
 
-    WebAppContainer::instance(
+    \Innomatic\Webapp\WebAppContainer::instance(
         '\Innomatic\Webapp\WebAppContainer'
     )->getProcessor()->getResponse()->addHeader(
         'Location',

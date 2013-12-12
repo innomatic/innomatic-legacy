@@ -14,7 +14,6 @@
 */
 
 use \Innomatic\Core\InnomaticContainer;
-use \Innomatic\Wui\Wui;
 use \Innomatic\Wui\Widgets;
 use \Innomatic\Wui\Dispatch;
 use \Innomatic\Locale\LocaleCatalog;
@@ -65,10 +64,10 @@ class InterfacePanelActions extends \Innomatic\Desktop\Panel\PanelActions
             $domainCfg->EditKey('wui-theme', $eventData['theme']);
         }
 
-        $wui = Wui::instance('\Innomatic\Wui\Wui');
+        $wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
         $wui->setTheme($eventData['theme']);
 
-        WebAppContainer::instance(
+        \Innomatic\Webapp\WebAppContainer::instance(
         '\Innomatic\Webapp\WebAppContainer'
                 )->getProcessor()->getResponse()->addHeader(
                 'Location',

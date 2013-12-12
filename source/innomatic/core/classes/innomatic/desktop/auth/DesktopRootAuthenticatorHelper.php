@@ -19,7 +19,7 @@ use Shared\Wui;
 /**
  * @package Desktop
  */
-class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
+class DesktopRootAuthenticatorHelper implements \Innomatic\Desktop\Auth\DesktopAuthenticatorHelper
 {
     public function authenticate()
     {

@@ -62,13 +62,13 @@ class WuiTheme
             $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
             if ($this->mTheme == 'default')
-            $this->mTheme = Wui::DEFAULT_THEME;
+            $this->mTheme = \Innomatic\Wui\Wui::DEFAULT_THEME;
             if ($this->mTheme != 'userdefined') {
                 if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.$this->mTheme.'_wuitheme.ini')) {
                     $this->mThemeFile = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.$this->mTheme.'_wuitheme.ini';
                 } else {
-                    $this->mTheme = Wui::DEFAULT_THEME;
-                    $this->mThemeFile = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.Wui::DEFAULT_THEME.'_wuitheme.ini';
+                    $this->mTheme = \Innomatic\Wui\Wui::DEFAULT_THEME;
+                    $this->mThemeFile = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.\Innomatic\Wui\Wui::DEFAULT_THEME.'_wuitheme.ini';
                 }
                 $cfg_file = @parse_ini_file($this->mThemeFile);
 
@@ -108,12 +108,12 @@ class WuiTheme
             }
 
             if (!$this->mIconsSet or !$this->mColorsSet or !$this->mStyle) {
-                if (Wui::DEFAULT_THEME == $this->mTheme) {
+                if (\Innomatic\Wui\Wui::DEFAULT_THEME == $this->mTheme) {
                     $this->mColorsSet = $wui_colors->getColorsSet();
                     $this->mIconsSet = $wui_icons->getIconsSet();
                     $this->mStyle = $wui_style->getStyle();
                 } else {
-                    $def_cfg_file = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.Wui::DEFAULT_THEME.'_wuitheme.ini');
+                    $def_cfg_file = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.\Innomatic\Wui\Wui::DEFAULT_THEME.'_wuitheme.ini');
 
                     if ($def_cfg_file !== false) {
                         $def_icons_set_name = $def_cfg_file['THEME.ICONSSET'];
@@ -122,7 +122,7 @@ class WuiTheme
                     } else {
                         
                         $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
-                        $log-> LogEvent('innomatic.wuithemes.wuitheme.inittheme', 'Unable to open default theme configuration file '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.Wui::DEFAULT_THEME.'_wuitheme.ini', \Innomatic\Logging\Logger::ERROR);
+                        $log-> LogEvent('innomatic.wuithemes.wuitheme.inittheme', 'Unable to open default theme configuration file '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.\Innomatic\Wui\Wui::DEFAULT_THEME.'_wuitheme.ini', \Innomatic\Logging\Logger::ERROR);
                     }
 
                     $wui_def_colors = new WuiColorsSet($this->mrRootDb, $def_colors_set_name);

@@ -25,10 +25,10 @@ class WuiStatusbar extends \Innomatic\Wui\Widgets\WuiWidget
         $elemArgs = '',
         $elemTheme = '',
         $dispEvents = ''
-    )
-    {
+    ) {
         parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
     }
+    
     protected function generateSource()
     {
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName
@@ -43,7 +43,7 @@ class WuiStatusbar extends \Innomatic\Wui\Widgets\WuiWidget
         $this->mLayout .= '<td class="status" nowrap style="white-space: '
             . 'nowrap">' . ((isset($this->mArgs['status']) and
             strlen($this->mArgs['status'])) ?
-            Wui::utf8_entities($this->mArgs['status']) : '&nbsp;')
+            \Innomatic\Wui\Wui::utf8_entities($this->mArgs['status']) : '&nbsp;')
             . "</td>\n";
         $this->mLayout .= '<td width="100%">&nbsp;</td></tr>' . "\n"
             . '</table>' . "\n";

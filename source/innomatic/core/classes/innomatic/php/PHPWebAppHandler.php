@@ -30,14 +30,14 @@ class PHPWebAppHandler extends WebAppHandler
     public function doGet(WebAppRequest $req, WebAppResponse $res)
     {
         $resource = substr(
-            WebAppContainer::instance(
+            \Innomatic\Webapp\WebAppContainer::instance(
                 '\Innomatic\Webapp\WebAppContainer'
             )->getCurrentWebApp()->getHome(), 0, -1
         ) . $req->getPathInfo();
 
         // If this is a directory, check that a welcome file exists
         if (is_dir($resource)) {
-            $this->welcomeFiles = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getWelcomeFiles();
+            $this->welcomeFiles = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getWelcomeFiles();
 
             $path = $this->getRelativePath($req);
             $welcomeFile = $this->findWelcomeFile($path);
@@ -74,7 +74,7 @@ class PHPWebAppHandler extends WebAppHandler
         }
 
         // Resource must reside inside the webapp
-        if (\Innomatic\Security\SecurityManager::isAboveBasePath($resource, WebAppContainer::instance(
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath($resource, \Innomatic\Webapp\WebAppContainer::instance(
                 '\Innomatic\Webapp\WebAppContainer'
             )->getCurrentWebApp()->getHome())) {
             $res->sendError(
@@ -103,7 +103,7 @@ class PHPWebAppHandler extends WebAppHandler
 
         reset($this->welcomeFiles);
         foreach ($this->welcomeFiles as $welcomefile) {
-            if (file_exists(substr(WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome(), 0, -1).$path.$welcomefile.'.php'))
+            if (file_exists(substr(\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome(), 0, -1).$path.$welcomefile.'.php'))
                 return $welcomefile;
         }
 

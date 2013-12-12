@@ -117,7 +117,7 @@ class Wui extends \Innomatic\Util\Singleton
         $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
         if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
-            $innomatic->getLoadTimer()->Mark('start - Wui::LoadAllWidgets()');
+            $innomatic->getLoadTimer()->Mark('start - \Innomatic\Wui\Wui::LoadAllWidgets()');
         }
         if ($innomatic->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP
         or ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP
@@ -135,14 +135,14 @@ class Wui extends \Innomatic\Util\Singleton
                         //
                         if (!$this->loadWidget($query->getFields('name'))) {
                             $result = false;
-                            if ($this->mLastError == Wui::LOADWIDGET_FILE_NOT_EXISTS) {
+                            if ($this->mLastError == \Innomatic\Wui\Wui::LOADWIDGET_FILE_NOT_EXISTS) {
                                 throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_WIDGET_FILE);
                             }
                         }
                         $query->moveNext();
                     }
 
-                    if (!$result and strcmp($this->mLastError, Wui::LOADALLWIDGETS_A_WIDGET_FILE_NOT_EXISTS) == 0) {
+                    if (!$result and strcmp($this->mLastError, \Innomatic\Wui\Wui::LOADALLWIDGETS_A_WIDGET_FILE_NOT_EXISTS) == 0) {
                         
                         $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                         $log->logEvent('innomatic.wui.wui.loadallwidgets', 'Unable to load at least one widget handler file', \Innomatic\Logging\Logger::ERROR);
@@ -160,7 +160,7 @@ class Wui extends \Innomatic\Util\Singleton
             throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::LOADALLWIDGETS_UNAVAILABLE);
         }
         if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
-            $innomatic->getLoadTimer()->Mark('end - Wui::LoadAllWidgets()');
+            $innomatic->getLoadTimer()->Mark('end - \Innomatic\Wui\Wui::LoadAllWidgets()');
         }
         return $result;
     }
@@ -187,7 +187,7 @@ class Wui extends \Innomatic\Util\Singleton
         if (!$this->mBuilt) {
             $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
             if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
-                $innomatic->getLoadTimer()->Mark('start - Wui::Build()');
+                $innomatic->getLoadTimer()->Mark('start - \Innomatic\Wui\Wui::Build()');
             }
 
             $children_count = count($this->mChilds);
@@ -208,7 +208,7 @@ class Wui extends \Innomatic\Util\Singleton
             $this->mDisp->Dispatch();
 
             if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
-                $innomatic->getLoadTimer()->Mark('stop - Wui::Build()');
+                $innomatic->getLoadTimer()->Mark('stop - \Innomatic\Wui\Wui::Build()');
             }
         }
         return $result;
@@ -282,7 +282,7 @@ class Wui extends \Innomatic\Util\Singleton
 
     public function getThemeName()
     {
-        return strlen($this->mThemeName) ? $this->mThemeName : Wui::DEFAULT_THEME;
+        return strlen($this->mThemeName) ? $this->mThemeName : \Innomatic\Wui\Wui::DEFAULT_THEME;
     }
 
     public function getTheme()

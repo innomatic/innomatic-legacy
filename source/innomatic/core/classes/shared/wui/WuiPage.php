@@ -362,13 +362,13 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
             $domain_name = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['domainname'];
 
-            $logout_events_call = new \Innomatic\Wui\Dispatch\WuiEventsCall(WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getRequest()->getUrlPath().'/domain');
+            $logout_events_call = new \Innomatic\Wui\Dispatch\WuiEventsCall(\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getRequest()->getUrlPath().'/domain');
             $innomatic_menu_locale = new LocaleCatalog('innomatic::domain_menu', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage());
         } else {
             $user_name = 'root';
             $domain_name = 'Innomatic';
 
-            $logout_events_call = new \Innomatic\Wui\Dispatch\WuiEventsCall(WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getRequest()->getUrlPath().'/root');
+            $logout_events_call = new \Innomatic\Wui\Dispatch\WuiEventsCall(\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getRequest()->getUrlPath().'/root');
             $innomatic_menu_locale = new LocaleCatalog('innomatic::root_menu', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
         }
         $logout_events_call->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('login', 'logout', ''));
@@ -411,7 +411,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
         $block .= '<link rel="shortcut icon" href="' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/favicon.png" type="image/png"/>' . "\n";
         $block .= "<style type=\"text/css\">\nimg {\nbehavior:    url(\"" . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/shared/' . "pngbehavior.htc\");\n}\n</style>\n";
-        $block .= "<title>" . Wui::utf8_entities($this->mArgs['title']) . "</title>\n";
+        $block .= "<title>" . \Innomatic\Wui\Wui::utf8_entities($this->mArgs['title']) . "</title>\n";
         $block .= ((isset($this->mArgs['javascript']) and strlen($this->mArgs['javascript'])) ? "<script language=\"JavaScript\">\n<!--\n" . $this->mArgs['javascript'] . "\n//-->\n</script>\n" : '');
         $block .= '<meta http-equiv="Content-Type" content="text/html; charset=' . $charset . '">' . "\n";
         $block .= '<meta name="MSSmartTagsPreventParsing" content="true">' . "\n";

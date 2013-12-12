@@ -44,7 +44,7 @@ class WuiSubmit extends \Innomatic\Wui\Widgets\WuiWidget
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName
             . ' submit -->' : '') . '<input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').$this->getEventsCompleteString().' class="normal" type="submit"'
             . ($this->mArgs['caption'] ? ' value="'
-            . Wui::utf8_entities($this->mArgs['caption']) . '"' : '')
+            . \Innomatic\Wui\Wui::utf8_entities($this->mArgs['caption']) . '"' : '')
             . ' tabindex="' . $this->mArgs['tabindex'] . '"'
             . ((isset($this->mArgs['needconfirm']) and
             $this->mArgs['needconfirm'] == 'true') ?
