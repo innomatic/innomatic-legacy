@@ -583,7 +583,7 @@ class SecurityManager
         for ($i = 0; $i < sizeof($vars); $i ++) {
             $parts = explode('|', $vars[$i]);
             $key = $parts[0];
-            $val = unserialize($parts[1].';');
+            $val = isset($parts[1]) ? @unserialize($parts[1].';') : '';
 
             $sessArray[$key] = $val;
         }

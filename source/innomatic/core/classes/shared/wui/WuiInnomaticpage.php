@@ -61,7 +61,7 @@ class WuiInnomaticpage extends \Shared\Wui\WuiXml
             <icon type="encoded">' . urlencode($this->mIcon) . '</icon>
           </args>
         </titlebar>';
-        if (strlen($this->mArgs['menu'])) {
+        if (isset($this->mArgs['menu']) and strlen($this->mArgs['menu'])) {
             $this->mDefinition .= '<horizgroup><name>menuframe</name><children><menu><name>mainmenu</name><args><menu type="encoded">' . urlencode($this->mArgs['menu']) . '</menu></args></menu></children></horizgroup>';
         }
         if (is_array($this->mArgs['toolbars'])) {

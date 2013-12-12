@@ -39,7 +39,7 @@ class Application
     public $serial;
     /*! @public onlyextension bool - True if the application is an extension
 only application. */
-    public $onlyextension = truerue;
+    public $onlyextension = true;
     public $basedir;
 
     const INSTALL_MODE_INSTALL = 0;
@@ -1596,6 +1596,7 @@ only application. */
                             $tmpclassname = $this->eltypes->types[$eltype]['classname'];
                             //if ( !$tmpclassname ) $tmpclassname = $eltype;
                             if ($tmpclassname) {
+                            	$tmpclassname = $tmpclassname;
                                 $tmpcomponent = new $tmpclassname(
                                     $this->rootda, $this->domainda, $this->appname, $val['name'], $tmpdir
                                 );

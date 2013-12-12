@@ -78,6 +78,9 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
     }
     protected function generateSourceBegin()
     {
+    	$dashboard_id = '';
+    	$prefs_id = '';
+    			
                         if (!(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
                         if (!\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->isDomainStarted()) {
                             $root_db = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();

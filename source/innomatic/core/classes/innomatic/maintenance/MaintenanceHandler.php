@@ -24,7 +24,7 @@ class MaintenanceHandler
         $this->mApplicationSettings = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
 
         $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile(), false, INI_SCANNER_RAW);
-        $result = $cfg['MaintenanceInterval'];
+        $result = isset($cfg['MaintenanceInterval']) ? $cfg['MaintenanceInterval'] : '';
         if (!strlen($result))
             $result = 0;
         $this->mMaintenanceInterval = $result;
@@ -128,7 +128,7 @@ class MaintenanceHandler
     public function getReportsEnableStatus()
     {
         $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
-        if ($cfg['MaintenanceReportsEnabled'] == '1') {
+        if (isset($cfg['MaintenanceReportsEnabled']) and $cfg['MaintenanceReportsEnabled'] == '1') {
             return true;
         }
         return false;
@@ -144,7 +144,7 @@ class MaintenanceHandler
     {
         $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
 
-        return $cfg['MaintenanceReportsEmail'];
+        return isset($cfg['MaintenanceReportsEmail']) ? $cfg['MaintenanceReportsEmail'] : '';
     }
 
     public function SendReport($maintenanceResult)

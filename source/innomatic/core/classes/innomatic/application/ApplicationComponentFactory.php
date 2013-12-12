@@ -84,7 +84,7 @@ class ApplicationComponentFactory
                             );
                             $result = false;
                         }
-                        $className = ucfirst($data['typename']).'Component';
+                        $className = '\\Shared\\Components\\'.ucfirst($data['typename']).'Component';
                         if (class_exists($className, true)) {
                             $this->types[call_user_func(array($className, 'getType'))] = array(
                                 'type' => call_user_func(array($className, 'getType')),
