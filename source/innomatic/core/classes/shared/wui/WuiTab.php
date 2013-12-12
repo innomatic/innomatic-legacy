@@ -48,12 +48,12 @@ class WuiTab extends \Innomatic\Wui\Widgets\WuiContainerWidget
                 $this->mArgs['activetab'] = 0;
         $this->StoreSession(array('activetab' => $this->mArgs['activetab']));
     }
-    public function addChild(WuiWidget $childWidget)
+    public function addChild(\Innomatic\Wui\Widgets\WuiWidget $childWidget)
     {
         $this->mArgs['tabpages'][] = $childWidget;
         return true;
     }
-    public function build(WuiDispatcher $rwuiDisp)
+    public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $result = false;
         $this->mrWuiDisp = $rwuiDisp;

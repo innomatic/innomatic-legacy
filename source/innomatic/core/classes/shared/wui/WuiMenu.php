@@ -44,14 +44,14 @@ class WuiMenu extends \Innomatic\Wui\Widgets\WuiWidget
         } else {
             $mid = $registry->getGlobalObject('singleton xlayersmenu');
         }
-        $mid->libdir = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $mid->libdir = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getHome() . 'core/lib/';
-        $mid->libwww = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $mid->libwww = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getBaseUrl(false) . '/shared/';
-        $mid->tpldir = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $mid->tpldir = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getHome() . 'core/conf/layersmenu/';
         $mid->imgdir = $this->mThemeHandler->mStyleDir;
         $mid->imgwww = $this->mThemeHandler->mStyleBase

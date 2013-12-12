@@ -21,7 +21,7 @@ class ModuleServerContext extends \Innomatic\Util\Singleton
      */
     public function ___construct()
     {
-        $home = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome();
+        $home = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome();
 
         if (substr($home, -1) != '/' and substr($home, -1) != '\\') {
             $home .= DIRECTORY_SEPARATOR;

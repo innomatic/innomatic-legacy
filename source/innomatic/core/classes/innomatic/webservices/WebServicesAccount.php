@@ -71,14 +71,14 @@ class WebServicesAccount
      @param rrootDb DataAccess class - Innomatic database handler.
      @param id integer - Account id.
      */
-    public function __construct(&$rrootDb, $id = '')
+    public function __construct($rrootDb, $id = '')
     {
-        $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-        $this->mWebServicesLog = new \Innomatic\Logging\Logger( InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log' );
+        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+        $this->mWebServicesLog = new \Innomatic\Logging\Logger( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log' );
 
         $this->mId = $id;
 
-        if ( is_object( $rrootDb ) ) $this->mrRootDb = &$rrootDb;
+        if ( is_object( $rrootDb ) ) $this->mrRootDb = $rrootDb;
         else $this->mLog->logEvent( 'innomatic.webservicesaccount',
                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 

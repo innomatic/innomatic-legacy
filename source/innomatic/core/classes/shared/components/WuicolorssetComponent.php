@@ -45,11 +45,11 @@ class WuicolorssetComponent extends \Innomatic\Application\ApplicationComponent
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
-            if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/')) {
-                \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/', 0755);
+            if (! is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/')) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/', 0755);
             }
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
+            if (@copy($params['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
+                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
                 $wui_component = new \Innomatic\Wui\Theme\WuiColorsSet($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Install($params)) {
@@ -57,7 +57,7 @@ class WuicolorssetComponent extends \Innomatic\Application\ApplicationComponent
                 } else
                     $this->mLog->logEvent('innomatic.wuicolorssetcomponent.wuicolorsset.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', \Innomatic\Logging\Logger::ERROR);
             } else
-                $this->mLog->logEvent('innomatic.wuicolorssetcomponent.wuicolorsset.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('innomatic.wuicolorssetcomponent.wuicolorsset.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.wuicolorssetcomponent.wuicolorsset.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
@@ -68,7 +68,7 @@ class WuicolorssetComponent extends \Innomatic\Application\ApplicationComponent
         if (strlen($params['file'])) {
             $wui_component = new \Innomatic\Wui\Theme\WuiColorsSet($this->rootda, $params['name']);
             if ($wui_component->Remove($params)) {
-                if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
+                if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                     $result = true;
                 }
             } else
@@ -83,11 +83,11 @@ class WuicolorssetComponent extends \Innomatic\Application\ApplicationComponent
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
-            if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/')) {
-                \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/', 0755);
+            if (! is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/')) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/', 0755);
             }
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
+            if (@copy($params['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
+                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
                 $wui_component = new \Innomatic\Wui\Theme\WuiColorsSet($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Update($params)) {
@@ -95,7 +95,7 @@ class WuicolorssetComponent extends \Innomatic\Application\ApplicationComponent
                 } else
                     $this->mLog->logEvent('innomatic.wuicolorssetcomponent.wuicolorsset.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update component', \Innomatic\Logging\Logger::ERROR);
             } else
-                $this->mLog->logEvent('innomatic.wuicolorssetcomponent.wuicolorsset.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/themes/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('innomatic.wuicolorssetcomponent.wuicolorsset.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.wuicolorssetcomponent.wuicolorsset.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;

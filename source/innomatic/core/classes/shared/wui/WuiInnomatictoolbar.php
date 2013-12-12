@@ -72,7 +72,7 @@ class WuiInnomatictoolbar extends \Shared\Wui\WuiXml
                     while (list ($button_name, $button) = each($tbar)) {
                         $this->mDefinition .= '<button>
   <name>' . $button_name . '</name>
-                            <args><label type="encoded">' . urlencode($button['label']) . '</label><themeimage>' . (isset($button['themeimage']) ? $button['themeimage'] : '') . '</themeimage><themeimagetype>' . (isset($button['themeimagetype']) ? $button['themeimagetype'] : '') . '</themeimagetype><image>' . (isset($button['image']) ? InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/' . $button['image'] : '') . '</image><action type="encoded">' . urlencode(isset($button['action']) ? $button['action'] : '') . '</action>';
+                            <args><label type="encoded">' . urlencode($button['label']) . '</label><themeimage>' . (isset($button['themeimage']) ? $button['themeimage'] : '') . '</themeimage><themeimagetype>' . (isset($button['themeimagetype']) ? $button['themeimagetype'] : '') . '</themeimagetype><image>' . (isset($button['image']) ? \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/shared/' . $button['image'] : '') . '</image><action type="encoded">' . urlencode(isset($button['action']) ? $button['action'] : '') . '</action>';
                         if (isset($button['needconfirm']) and isset($button['confirmmessage']) and ($button['needconfirm'] == 'true') and strlen($button['confirmmessage']))
                             $this->mDefinition .= '<needconfirm>true</needconfirm><confirmmessage type="encoded">' . urlencode($button['confirmmessage']) . '</confirmmessage>';
                         if (isset($button['horiz']))

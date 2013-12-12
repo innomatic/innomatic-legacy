@@ -52,7 +52,7 @@ abstract class WuiContainerWidget extends WuiWidget
     structure.
      @result Always true if childWidget is a real object.
      */
-    public function addChild(WuiWidget $rchildWidget)
+    public function addChild(\Innomatic\Wui\Widgets\WuiWidget $rchildWidget)
     {
         $this->mChilds[] = $rchildWidget;
         return true;

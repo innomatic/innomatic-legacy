@@ -25,14 +25,14 @@ use \Shared\Wui;
 
 global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-$log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+$log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 $innomaticLocale = new LocaleCatalog(
     'innomatic::domain_profiles',
-    InnomaticContainer::instance(
-        'innomaticcontainer'
+    \Innomatic\Core\InnomaticContainer::instance(
+        '\Innomatic\Core\InnomaticContainer'
     )->getCurrentUser()->getLanguage()
 );
-$wui = \Innomatic\Wui\Wui::instance('wui');
+$wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $wui->loadWidget('button');
 $wui->loadWidget('checkbox');
 $wui->loadWidget('combobox');
@@ -168,8 +168,8 @@ $wuiToolBarFrame->addChild($wuiUsersToolBar);
 
 if (
     User::isAdminUser(
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserName(),
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
     )
 ) {
     $motdTb = new WuiToolBar('motdtb');
@@ -206,9 +206,9 @@ function pass_newgroup($eventData)
     global $innomaticLocale, $wuiMainStatus;
 
     $tempGroup = new Group(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['id']
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id']
     );
     $groupData['groupname'] = $eventData['groupname'];
     $tempGroup->createGroup($groupData);
@@ -220,9 +220,9 @@ function pass_rengroup($eventData)
     global $innomaticLocale, $wuiMainStatus;
 
     $tempGroup = new Group(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['id'],
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
         $eventData['gid']
     );
     $groupData['groupname'] = $eventData['groupname'];
@@ -240,9 +240,9 @@ function pass_removegroup($eventData)
         $deleteUsersToo = false;
 
     $tempGroup = new Group(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['id'],
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
         $eventData['gid']
     );
     $tempGroup->removeGroup($deleteUsersToo);
@@ -254,14 +254,14 @@ function pass_adduser($eventData)
     global $innomaticLocale, $wuiMainStatus;
 
     if ($eventData['passworda'] == $eventData['passwordb']) {
-        $tempUser = new User(InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['id']);
-        $userData['domainid'] = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $tempUser = new User(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id']);
+        $userData['domainid'] = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getCurrentDomain()->domaindata['id'];
         $userData['groupid'] = $eventData['groupid'];
         $userData['username'] = $eventData['username']
-            . (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'
-            .InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId() : '');
+            . (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'
+            .\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId() : '');
         $userData['password'] = $eventData['passworda'];
         $userData['fname'] = $eventData['fname'];
         $userData['lname'] = $eventData['lname'];
@@ -277,7 +277,7 @@ function pass_edituser($eventData)
 {
     global $innomaticLocale, $wuiMainStatus;
         $tempUser = new User(
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['id'],
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
             $eventData['uid']
         );
         $userData['groupid'] = $eventData['groupid'];
@@ -301,7 +301,7 @@ function pass_chpasswd($eventData)
 {
     global $innomaticLocale, $wuiMainStatus;
         $tempUser = new User(
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['id'],
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
             $eventData['uid']
         );
         $tempUser->changePassword($eventData['password']);
@@ -313,7 +313,7 @@ function pass_chprofile($eventData)
     global $innomaticLocale, $wuiMainStatus;
 
         $tempUser = new User(
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['id'],
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
             $eventData['uid']
         );
         $userData['groupid'] = $eventData['profileid'];
@@ -326,7 +326,7 @@ function pass_removeuser($eventData)
     global $innomaticLocale, $wuiMainStatus;
 
         $tempUser = new User(
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['id'],
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
             $eventData['uid']
         );
         $tempUser->remove();
@@ -338,7 +338,7 @@ function pass_enablenode($eventData)
     global $innomaticLocale, $wuiMainStatus;
 
     $tempPerm = new Permissions(
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
         $eventData['gid']
     );
     $tempPerm->enable($eventData['node'], $eventData['ntype']);
@@ -350,7 +350,7 @@ function pass_disablenode($eventData)
     global $innomaticLocale, $wuiMainStatus;
 
     $tempPerm = new Permissions(
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
         $eventData['gid']
     );
     $tempPerm->disable($eventData['node'], $eventData['ntype']);
@@ -358,8 +358,8 @@ function pass_disablenode($eventData)
 
 if (
     User::isAdminUser(
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserName(),
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
     )
 ) {
     $actionDispatcher->addEvent('setmotd', 'pass_setmotd');
@@ -368,9 +368,9 @@ if (
         global $innomaticLocale, $wuiMainStatus;
 
         $domain = new \Innomatic\Domain\Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId(),
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
         );
 
         $domain->setMotd($eventData['motd']);
@@ -389,8 +389,8 @@ function main_default($eventData)
 {
     global $innomaticLocale, $wuiMainFrame, $wuiTitleBar;
 
-    $profQuery = InnomaticContainer::instance(
-        'innomaticcontainer'
+    $profQuery = \Innomatic\Core\InnomaticContainer::instance(
+        '\Innomatic\Core\InnomaticContainer'
     )->getCurrentDomain()->getDataAccess()->execute(
         'SELECT * FROM domain_users_groups ORDER BY groupname'
     );
@@ -472,21 +472,21 @@ function main_editprofile($eventData)
 {
     global $innomaticLocale, $wuiMainFrame, $wuiTitleBar;
 
-    $profQuery = InnomaticContainer::instance(
-        'innomaticcontainer'
+    $profQuery = \Innomatic\Core\InnomaticContainer::instance(
+        '\Innomatic\Core\InnomaticContainer'
     )->getCurrentDomain()->getDataAccess()->execute(
         'SELECT * FROM domain_users_groups WHERE id='.$eventData['profileid']
     );
 
     $profData = $profQuery->getFields();
 
-    $groupsQuery = InnomaticContainer::instance(
-        'innomaticcontainer'
+    $groupsQuery = \Innomatic\Core\InnomaticContainer::instance(
+        '\Innomatic\Core\InnomaticContainer'
     )->getCurrentDomain()->getDataAccess()->execute('SELECT * FROM domain_panels_groups ORDER BY name');
 
     if ($groupsQuery->getNumberRows()) {
         $perm = new Permissions(
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
             $eventData['profileid']
         );
         $row = 0;
@@ -502,7 +502,7 @@ function main_editprofile($eventData)
             $groupData = $groupsQuery->getFields();
             $tempLocale = new LocaleCatalog(
                 $groupData['catalog'],
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
             );
             $nodeState = $perm->Check($groupData['id'], Permissions::NODETYPE_GROUP);
 
@@ -609,8 +609,8 @@ function main_editprofile($eventData)
 
             $row ++;
 
-            $pagesQuery = InnomaticContainer::instance(
-                'innomaticcontainer'
+            $pagesQuery = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getCurrentDomain()->getDataAccess()->execute(
                 'SELECT * FROM domain_panels WHERE groupid='.$groupData['id'].' ORDER BY name'
             );
@@ -619,7 +619,7 @@ function main_editprofile($eventData)
                 $pageData = $pagesQuery->getFields();
                 $tempLocale = new LocaleCatalog(
                     $pageData['catalog'],
-                    InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
                 );
                 $nodeState = $perm->Check($pageData['id'], 'page');
 
@@ -808,7 +808,7 @@ function main_deleteprofile($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiTitleBar;
 
-    $profQuery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute(
+    $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
         'SELECT * FROM domain_users_groups WHERE id='.$eventData['profileid']
     );
 
@@ -936,7 +936,7 @@ function main_renameprofile($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $profQuery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute(
+    $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
         'SELECT * FROM domain_users_groups WHERE id='.$eventData['profileid']
     );
 
@@ -1013,10 +1013,10 @@ function main_users($eventData)
 {
     global $innomaticLocale, $wuiMainFrame, $wuiTitleBar;
 
-    $usersQuery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute(
+    $usersQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
         'SELECT id,username,fname,lname,email,groupid FROM domain_users ORDER BY username'
     );
-    $profQuery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute(
+    $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
         'SELECT id,groupname FROM domain_users_groups ORDER BY groupname'
     );
 
@@ -1053,7 +1053,7 @@ function main_users($eventData)
                     array(
                         'label' => strcmp(
                             $userData['username'],
-                            InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
                         )
                         != 0 ? $userData['lname'].' '.$userData['fname']
                         : $innomaticLocale->getStr('superuser_label')
@@ -1077,7 +1077,7 @@ function main_users($eventData)
             if (
                 !User::isAdminUser(
                     $userData['username'],
-                    InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
                 )
             ) {
                 $wuiUserToolbar[$row] = new WuiHorizgroup('usertoolbar'.$row);
@@ -1179,7 +1179,7 @@ function main_newuser($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $profQuery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute(
+    $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
         'SELECT * FROM domain_users_groups'
     );
 
@@ -1408,7 +1408,7 @@ function main_deleteuser($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiTitleBar;
 
-    $userQuery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute(
+    $userQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
         'SELECT * FROM domain_users WHERE id='.$eventData['userid']
     );
 
@@ -1495,12 +1495,12 @@ function main_edituser($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $userQuery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute(
+    $userQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
         'SELECT * FROM domain_users WHERE id='.$eventData['userid']
     );
     $userData = $userQuery->getFields();
 
-    $profQuery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute(
+    $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
         'SELECT * FROM domain_users_groups'
     );
 
@@ -1652,7 +1652,7 @@ function main_chpassword($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $userQuery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute(
+    $userQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
         'SELECT * FROM domain_users WHERE id='.$eventData['userid']
     );
     $userData = $userQuery->getFields();
@@ -1733,12 +1733,12 @@ function main_chprofile($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $userQuery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute(
+    $userQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
         'SELECT * FROM domain_users WHERE id='.$eventData['userid'].' '
     );
     $userData = $userQuery->getFields();
 
-    $profQuery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute(
+    $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
         'SELECT * FROM domain_users_groups ORDER BY groupname'
     );
 
@@ -1811,8 +1811,8 @@ function main_chprofile($eventData)
 
 if (
     User::isAdminUser(
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserName(),
-        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
     )
 ) {
     $viewDispatcher->addEvent('motd', 'main_motd');
@@ -1821,9 +1821,9 @@ if (
         global $wuiTitleBar, $wuiMainFrame, $innomaticLocale;
 
         $domain = new \Innomatic\Domain\Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId(),
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
         );
 
         $xmlDef = '<vertgroup><name>motd</name>
@@ -1915,7 +1915,7 @@ function main_help($eventData)
             array(
                 'base' => 'innomatic',
                 'node' => 'innomatic.domain.profiles.'.$eventData['node'].'.html',
-                'language' => InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+                'language' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
             )
         )
     );

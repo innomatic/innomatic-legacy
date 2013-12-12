@@ -46,7 +46,7 @@ class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
 
      @abstract Class constructor.
      */
-    public function __construct(DataAccess $db, $act)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $db, $act)
     {
         parent::__construct();
         $this->mAction = $act;

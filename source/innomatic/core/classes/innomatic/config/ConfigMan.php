@@ -51,7 +51,7 @@ class ConfigMan extends ConfigBase
         $this->application = $application;
         else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logDie('innomatic.configman.configman.configman', 'No application id name', LOGGER_FAULT);
         }
         $this->commentPrefix = '';
@@ -117,7 +117,7 @@ class ConfigMan extends ConfigBase
                 $result = true;
             } else {
                 
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic.configman.configman.addsegment',
                     'Unable to open destination configuration file '.$this->getdestfile(),
@@ -128,7 +128,7 @@ class ConfigMan extends ConfigBase
             $this->unlockfile();
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.configman.configman.addsegment',
                 'Missing segment id and/or segment',
@@ -186,7 +186,7 @@ class ConfigMan extends ConfigBase
                     @fclose($fhd);
                 } else {
                     
-                    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                     $log->logEvent(
                         'innomatic.configman.configman.removesegment',
                         'Unable to open destination configuration file '.$this->getdestfile(),
@@ -199,7 +199,7 @@ class ConfigMan extends ConfigBase
             $this->UpdateLock();
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic.configman.configman.removesegment', 'Missing segment id', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
@@ -216,7 +216,7 @@ class ConfigMan extends ConfigBase
             $result = $this->addsegment($segid, $segment, $position);
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.configman.configman.changesegment',
                 'Missing segment id and/or segment',

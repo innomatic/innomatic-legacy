@@ -35,8 +35,8 @@ class ApplicationSettings
             $this->_appname = $appname;
         } else {
             
-            $log = InnomaticContainer::instance(
-                'innomaticcontainer'
+            $log = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getLogger();
             $log->logEvent(
                 'innomatic.applications.applicationsettings'

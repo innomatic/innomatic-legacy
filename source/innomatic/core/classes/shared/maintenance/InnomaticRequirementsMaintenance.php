@@ -37,9 +37,9 @@ class InnomaticRequirementsMaintenance extends \Innomatic\Maintenance\Maintenanc
         if (!(function_exists('mysql_connect') or function_exists('pg_connect'))) $result = false;
 
         // Applications extensions
-        $app_deps = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+        $app_deps = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
             'SELECT moddep FROM applications_dependencies WHERE moddep LIKE '
-            . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText('%.extension'));
+            . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText('%.extension'));
 
         while (!$app_deps->eof) {
             $dep = substr($app_deps->getFields('moddep'), 0, -10);

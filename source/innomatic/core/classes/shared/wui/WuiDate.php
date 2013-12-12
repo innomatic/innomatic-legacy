@@ -62,18 +62,18 @@ class WuiDate extends \Innomatic\Wui\Widgets\WuiWidget
         if (isset($this->mArgs['country']) and strlen($this->mArgs['country']))
             $this->mCountry = $this->mArgs['country'];
         else
-            if (InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
-                $this->mCountry = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getCountry();
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->isDomainStarted()) {
+                $this->mCountry = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getCountry();
             } else {
-                $this->mCountry = InnomaticContainer::instance('innomaticcontainer')->getCountry();
+                $this->mCountry = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCountry();
             }
         if (isset($this->mArgs['language']) and strlen($this->mArgs['language']))
             $this->mLanguage = $this->mArgs['language'];
         else
-            if (InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
-                $this->mLanguage = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage();
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->isDomainStarted()) {
+                $this->mLanguage = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage();
             } else {
-                $this->mLanguage = InnomaticContainer::instance('innomaticcontainer')->getLanguage();
+                $this->mLanguage = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage();
             }
         $this->mLocaleCountryHandler = new LocaleCountry($this->mCountry);
         $this->mLocaleHandler = new LocaleCatalog('innomatic::wui', $this->mLanguage);

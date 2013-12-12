@@ -35,7 +35,7 @@ class ApplicationDependencies
     /*!
      @param rrootDb DataAccess class - Innomatic database handler.
      */
-    public function __construct(DataAccess $rrootDb)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $rrootDb)
     {
         $this->mrRootDb = $rrootDb;
     }
@@ -104,7 +104,7 @@ class ApplicationDependencies
         } else {
             if (empty($appid)) {
                 
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.appdeps.adddepsarray',
                     'Empty application id',
@@ -139,7 +139,7 @@ class ApplicationDependencies
             );
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.adddep',
                 'Empty application serial ('.$modSerial.') or application id ('.$appId.') '
@@ -171,7 +171,7 @@ class ApplicationDependencies
             );
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.remdep',
                 'Empty application serial ('.$modserial.') or application id ('.$appid.') or dependency type',
@@ -194,7 +194,7 @@ class ApplicationDependencies
             );
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic.applications.appdeps.remalldep', 'Empty application serial', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
@@ -245,7 +245,7 @@ class ApplicationDependencies
             }
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic.applications.appdeps.isinstalled', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
         }
         return false;
@@ -287,7 +287,7 @@ class ApplicationDependencies
                 }
             } else {
                 
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.appdeps.dependson',
                     'Application $appid is not installed',
@@ -296,7 +296,7 @@ class ApplicationDependencies
             }
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic.applications.appdeps.dependson', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
@@ -372,7 +372,7 @@ class ApplicationDependencies
             }
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkapplicationdeps',
                 'Empty application id ('.$appid.') and dependency type or dependencies array',
@@ -423,7 +423,7 @@ class ApplicationDependencies
             }
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdependingapplications',
                 'Empty application id',
@@ -483,7 +483,7 @@ class ApplicationDependencies
             }
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.isenabled',
                 'Empty application id ('.$appid.') or domain id ('.$domainid.')',
@@ -547,7 +547,7 @@ class ApplicationDependencies
             }
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdomainapplicationdeps',
                 'Empty application id ('.$appid.') or domain id ('.$domainid.') or dependency type',
@@ -608,7 +608,7 @@ class ApplicationDependencies
                 $result = false;
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdomaindependingapplications',
                 'Empty application id ('.$appid.') or domain id ('.$domainid.')',
@@ -643,7 +643,7 @@ class ApplicationDependencies
             }
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkenableddomains',
                 'Empty application serial',

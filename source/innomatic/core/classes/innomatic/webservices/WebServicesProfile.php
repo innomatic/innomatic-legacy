@@ -44,11 +44,11 @@ class WebServicesProfile
      @param rootDb DataAccess class - Innomatic database handler.
      @param profileId integer - Profile serial.
      */
-    public function __construct(&$innomaticDb, $profileId = '')
+    public function __construct($innomaticDb, $profileId = '')
     {
-        $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
-        if ( $innomaticDb ) $this->mRootDb = &$innomaticDb;
+        if ( $innomaticDb ) $this->mRootDb = $innomaticDb;
         else $this->mLog->LogDie( 'innomatic.webservicesprofile.webservicesprofile',
                                  'Invalid Innomatic database handler' );
 
@@ -387,7 +387,7 @@ class WebServicesProfile
 
         if ( $this->mRootDb ) {
             if ( $this->mProfileId ) {
-                $unsecure_lock = InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value( 'SecurityLockUnsecureWebservices' );
+                $unsecure_lock = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->Value( 'SecurityLockUnsecureWebservices' );
 
                 $query = &$this->mRootDb->execute(
                                                  'SELECT webservices_methods.name AS name, '.

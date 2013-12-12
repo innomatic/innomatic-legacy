@@ -18,7 +18,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     private $_localeCatalog;
     public $status;
 
-    public function __construct(PanelController $controller)
+    public function __construct(\Innomatic\Desktop\Panel\PanelController $controller)
     {
         parent::__construct($controller);
     }
@@ -27,7 +27,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     {
         $this->_localeCatalog = new \Innomatic\Locale\LocaleCatalog(
             'innomatic::root_domains',
-            InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
         );
     }
 
@@ -37,8 +37,8 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function executeCreatedomain($eventData)
     {
-        $domain = new \Innomatic\Domain\Domain(InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domain = new \Innomatic\Domain\Domain(\Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess(), 0, null);
 
         $domainData['domainid'] = $eventData['domainid'];
@@ -65,8 +65,8 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function executeUpdatedomain($eventData)
     {
-        $domainQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT domainid FROM domains WHERE id='
             . $eventData['domainserial']
@@ -74,7 +74,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
         $null = null;
         $domain = new \Innomatic\Domain\Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $domainQuery->getFields('domainid'),
             $null
         );
@@ -120,7 +120,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     {
         $null = null;
         $domain = new \Innomatic\Domain\Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $eventData['domainid'],
             $null
         );
@@ -136,7 +136,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     {
         $null = null;
         $domain = new \Innomatic\Domain\Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $eventData['domainid'],
             $null
         );
@@ -158,7 +158,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     {
         $null = null;
         $domain = new \Innomatic\Domain\Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $eventData['domainid'],
             $null
         );
@@ -178,7 +178,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     {
         $null = null;
         $domain = new \Innomatic\Domain\Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $eventData['domainid'],
             $null
         );
@@ -198,8 +198,8 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function executeActivateapplication($eventData)
     {
-        $domainQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT domainid FROM domains WHERE id = '
             . $eventData['domainid']
@@ -210,8 +210,8 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
             $null = null;
             $domain = new \Innomatic\Domain\Domain(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getDataAccess(),
                 $domainData['domainid'],
                 $null
@@ -244,7 +244,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function executeActivateallapplications($eventData)
     {
-        $domainQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
             'SELECT domainid FROM domains WHERE id = '.$eventData['domainid']
         );
 
@@ -252,7 +252,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             $domainData = $domainQuery->getFields();
 
             $domain = new \Innomatic\Domain\Domain(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
                 $domainData['domainid'],
                 ''
             );
@@ -268,7 +268,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function executeDeactivateallapplications($eventData)
     {
-        $domainQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
             'SELECT domainid FROM domains WHERE id = '.$eventData['domainid']
         );
 
@@ -276,7 +276,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             $domainData = $domainQuery->getFields();
 
             $domain = new \Innomatic\Domain\Domain(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
                 $domainData['domainid'],
                 ''
             );
@@ -291,7 +291,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     public function executeEnableoption($eventData)
     {
         $application = new \Innomatic\Application\Application(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $eventData['applicationid']
         );
 
@@ -305,7 +305,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     public function executeDisableoption($eventData)
     {
         $application = new \Innomatic\Application\Application(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $eventData['applicationid']
         );
         $application->disableOption($eventData['option'], $eventData['domainid']);
@@ -317,7 +317,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function executeDeactivateapplication($eventData)
     {
-        $domainQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
             'SELECT domainid FROM domains WHERE id = '.$eventData['domainid']
         );
 
@@ -326,7 +326,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
             $null = null;
             $domain = new \Innomatic\Domain\Domain(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
                 $domainData['domainid'],
                 $null
             );
@@ -350,7 +350,7 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     public function executeCleandomainlog($eventData)
     {
         $tempLog = new \Innomatic\Logging\Logger(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             .'core/domains/'.$eventData['domainid'].'/log/domain.log'
         );
 
@@ -365,12 +365,12 @@ class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function executeCleandataaccesslog($eventData)
     {
-        $query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+        $query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
             'SELECT domainid FROM domains WHERE id='.$eventData['domainid']
         );
 
         $tempLog = new \Innomatic\Logging\Logger(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             .'core/domains/'.$query->getFields('domainid').'/log/dataaccess.log'
         );
 

@@ -359,11 +359,11 @@ function __construct(
     $this->prependedUrl = "";
 
         $this->dirroot = '';
-        $this->libdir = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/lib/';
-        $this->libwww = InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/';
-        $this->tpldir = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/layersmenu/';
-        $this->imgdir = InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/';
-        $this->imgwww = InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/';
+        $this->libdir = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/lib/';
+        $this->libwww = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/';
+        $this->tpldir = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/layersmenu/';
+        $this->imgdir = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/';
+        $this->imgwww = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/';
 
     $this->horizontalMenuTpl = $this->dirroot . $this->tpldir . "layersmenu-horizontal_menu.ihtml";
     $this->verticalMenuTpl = $this->dirroot . $this->tpldir . "layersmenu-vertical_menu.ihtml";

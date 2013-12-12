@@ -78,9 +78,9 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
     }
     protected function generateSourceBegin()
     {
-                        if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
-                        if (!InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
-                            $root_db = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
+                        if (!(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
+                        if (!\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->isDomainStarted()) {
+                            $root_db = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
 
                             $groups_query = $root_db->execute('SELECT * FROM root_panels_groups ORDER BY name');
                             $num_groups = $groups_query->getNumberRows();
@@ -96,7 +96,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                     $group_data = $groups_query->getFields();
 
                                     if (strlen($group_data['catalog'])) {
-                                        $tmp_locale = new LocaleCatalog($group_data['catalog'], InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+                                        $tmp_locale = new LocaleCatalog($group_data['catalog'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
                                         $el[$group_data['id']]['groupname'] = $tmp_locale->getStr($group_data['name']);
                                     } else {
                                         $el[$group_data['id']]['groupname'] = $group_data['name'];
@@ -113,7 +113,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                                 $pagedata = $pagesquery->getFields();
 
                                                 if (strlen($pagedata['catalog']) > 0) {
-                                                    $tmploc = new LocaleCatalog($pagedata['catalog'], InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+                                                    $tmploc = new LocaleCatalog($pagedata['catalog'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
                                                     $descstr = $tmploc->getStr($pagedata['name']);
                                                 }
 
@@ -151,7 +151,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                                     $pagedata = $pagesquery->getFields();
 
                                                     if (strlen($pagedata['catalog']) > 0) {
-                                                        $tmploc = new LocaleCatalog($pagedata['catalog'], InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+                                                        $tmploc = new LocaleCatalog($pagedata['catalog'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
                                                         $descstr = $tmploc->getStr($pagedata['name']);
                                                     }
 
@@ -186,12 +186,12 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
 
 
-                        $tmpperm = new \Innomatic\Domain\User\Permissions( InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(), InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getGroup() );
+                        $tmpperm = new \Innomatic\Domain\User\Permissions( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup() );
 
                         $tabs = array();
                         $tab_pages = array();
 
-                        $groupsquery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute( 'select * from domain_panels_groups order by name' );
+                        $groupsquery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute( 'select * from domain_panels_groups order by name' );
                         $numgroups   = $groupsquery->getNumberRows();
 
                         if ( $numgroups > 0 ) {
@@ -222,14 +222,14 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                     }
 
                                     if ( strlen( $groupdata['catalog'] ) > 0 ) {
-                                        $tmploc = new LocaleCatalog( $groupdata['catalog'], InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage() );
+                                        $tmploc = new LocaleCatalog( $groupdata['catalog'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage() );
                                         $descstr = $tmploc->getStr( $groupdata['name'] );
                                         $el[$groupdata['id']]['groupname'] = $descstr;
                                 } else {
                                     $el[$group_data['id']]['groupname'] = $groupdata['name'];
                                 }
 
-                                    $pagesquery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute( 'select * from domain_panels where groupid = '.$groupdata['id'].' order by name' );
+                                    $pagesquery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute( 'select * from domain_panels where groupid = '.$groupdata['id'].' order by name' );
                                     $pagesnum = $pagesquery->getNumberRows();
 
                                     if ( $pagesnum > 0 ) {
@@ -241,7 +241,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
                                             if ( $tmpperm->check( $pagedata['id'], 'page' ) != \Innomatic\Domain\User\Permissions::NODE_NOTENABLED ) {
                                                 if ( strlen( $pagedata['catalog'] ) > 0 ) {
-                                                    $tmploc = new LocaleCatalog( $pagedata['catalog'], InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage() );
+                                                    $tmploc = new LocaleCatalog( $pagedata['catalog'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage() );
                                                     $descstr = $tmploc->getStr( $pagedata['name'] );
 
                                                     $tmp_eventscall = new \Innomatic\Wui\Dispatch\WuiEventsCall($pagedata['name']);
@@ -331,14 +331,14 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                             $mid = $registry->getGlobalObject('singleton xlayersmenu');
                         }
 
-                        $mid->libdir = InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        $mid->libdir = \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getHome() . 'core/lib/';
-                        $mid->libwww = InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        $mid->libwww = \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getBaseUrl(false) . '/shared/';
-                        $mid->tpldir = InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        $mid->tpldir = \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getHome() . 'core/conf/layersmenu/';
                         $mid->imgdir = $this->mThemeHandler->mStyleDir;
                         $mid->imgwww = $this->mThemeHandler->mStyleBase
@@ -356,38 +356,38 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
 
         // User data
-        if (InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
-            $user_data = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserData();
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->isDomainStarted()) {
+            $user_data = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserData();
             $user_name = $user_data['fname'].' '.$user_data['lname'];
 
-            $domain_name = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->domaindata['domainname'];
+            $domain_name = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['domainname'];
 
-            $logout_events_call = new \Innomatic\Wui\Dispatch\WuiEventsCall(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath().'/domain');
-            $innomatic_menu_locale = new LocaleCatalog('innomatic::domain_menu', InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage());
+            $logout_events_call = new \Innomatic\Wui\Dispatch\WuiEventsCall(WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getRequest()->getUrlPath().'/domain');
+            $innomatic_menu_locale = new LocaleCatalog('innomatic::domain_menu', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage());
         } else {
             $user_name = 'root';
             $domain_name = 'Innomatic';
 
-            $logout_events_call = new \Innomatic\Wui\Dispatch\WuiEventsCall(WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath().'/root');
-            $innomatic_menu_locale = new LocaleCatalog('innomatic::root_menu', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+            $logout_events_call = new \Innomatic\Wui\Dispatch\WuiEventsCall(WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getRequest()->getUrlPath().'/root');
+            $innomatic_menu_locale = new LocaleCatalog('innomatic::root_menu', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
         }
         $logout_events_call->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('login', 'logout', ''));
 
         // Check the environment type and set the title and the header bar color
-        switch(InnomaticContainer::instance('innomaticcontainer')->getEnvironment()) {
-            case InnomaticContainer::ENVIRONMENT_DEVELOPMENT:
+        switch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEnvironment()) {
+            case \Innomatic\Core\InnomaticContainer::ENVIRONMENT_DEVELOPMENT:
                 $domain_name .= ' ('.$innomatic_menu_locale->getStr('environment_development').')';
                 $env_class = 'headerbar_dev';
                 break;
-            case InnomaticContainer::ENVIRONMENT_INTEGRATION:
+            case \Innomatic\Core\InnomaticContainer::ENVIRONMENT_INTEGRATION:
                 $domain_name .= ' ('.$innomatic_menu_locale->getStr('environment_integration').')';
                 $env_class = 'headerbar_integration';
                 break;
-            case InnomaticContainer::ENVIRONMENT_STAGING:
+            case \Innomatic\Core\InnomaticContainer::ENVIRONMENT_STAGING:
                 $domain_name .= ' ('.$innomatic_menu_locale->getStr('environment_staging').')';
                 $env_class = 'headerbar_staging';
                 break;
-            case InnomaticContainer::ENVIRONMENT_PRODUCTION:
+            case \Innomatic\Core\InnomaticContainer::ENVIRONMENT_PRODUCTION:
                 $env_class = 'headerbar';
                 break;
             }
@@ -398,19 +398,19 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
         $block = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' . "\n";
         $block .= "<html>\n";
         $block .= "<head>\n";
-        $block .= '<script language="JavaScript" type="text/javascript" src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/wui.js"></script>' . "\n";
-        $block .= "<script language=\"JavaScript\" type=\"text/javascript\" src=\"" . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/' . "layersmenu.js\"></script>\n";
+        $block .= '<script language="JavaScript" type="text/javascript" src="' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/shared/wui.js"></script>' . "\n";
+        $block .= "<script language=\"JavaScript\" type=\"text/javascript\" src=\"" . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/shared/' . "layersmenu.js\"></script>\n";
         $block .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $this->mThemeHandler->mStyle['css'] . "\">\n";
 
         // JQuery
-        $block .= '<link href="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/jquery/css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet">' . "\n";
-        $block .= '<script language="JavaScript" type="text/javascript" src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/jquery/js/jquery-1.9.1.js"></script>' . "\n";
-        $block .= '<script language="JavaScript" type="text/javascript" src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/jquery/js/jquery-ui-1.10.3.custom.min.js"></script>' . "\n";
-        $block .= '<link href="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/jquery/css/jquery_validation_errors.css" rel="stylesheet">' . "\n";
-        $block .= '<script language="JavaScript" type="text/javascript" src="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/jquery/js/jquery.validate.js"></script>' . "\n";
+        $block .= '<link href="' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/shared/jquery/css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet">' . "\n";
+        $block .= '<script language="JavaScript" type="text/javascript" src="' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/shared/jquery/js/jquery-1.9.1.js"></script>' . "\n";
+        $block .= '<script language="JavaScript" type="text/javascript" src="' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/shared/jquery/js/jquery-ui-1.10.3.custom.min.js"></script>' . "\n";
+        $block .= '<link href="' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/shared/jquery/css/jquery_validation_errors.css" rel="stylesheet">' . "\n";
+        $block .= '<script language="JavaScript" type="text/javascript" src="' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/shared/jquery/js/jquery.validate.js"></script>' . "\n";
 
-        $block .= '<link rel="shortcut icon" href="' . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/favicon.png" type="image/png"/>' . "\n";
-        $block .= "<style type=\"text/css\">\nimg {\nbehavior:    url(\"" . InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/' . "pngbehavior.htc\");\n}\n</style>\n";
+        $block .= '<link rel="shortcut icon" href="' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/favicon.png" type="image/png"/>' . "\n";
+        $block .= "<style type=\"text/css\">\nimg {\nbehavior:    url(\"" . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/shared/' . "pngbehavior.htc\");\n}\n</style>\n";
         $block .= "<title>" . Wui::utf8_entities($this->mArgs['title']) . "</title>\n";
         $block .= ((isset($this->mArgs['javascript']) and strlen($this->mArgs['javascript'])) ? "<script language=\"JavaScript\">\n<!--\n" . $this->mArgs['javascript'] . "\n//-->\n</script>\n" : '');
         $block .= '<meta http-equiv="Content-Type" content="text/html; charset=' . $charset . '">' . "\n";
@@ -431,7 +431,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 <tr>
 <td valign="' . $this->mArgs['valign'] . '" align="' . $this->mArgs['align'] . '" style="height: 100%;">' . "\n";
         if ($this->mArgs['border'] == 'true') {
-            if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
+            if (!(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
                 $menu_header = ((isset($GLOBALS['gEnv']['runtime']['wui_menu']['header'])) ? '' : $mid->MakeHeader()) . $mid->getMenu($this->mName);
                 $menu_footer = $mid->MakeFooter();
             }
@@ -440,7 +440,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
             . '<thead class="page"><tr class="'.$env_class.'">'."\n"
             . "<td style=\"width: 100%; height: 45px; align: center; padding-left: 16px;\" align=\"left\"><img src=\"".$this->mThemeHandler->mStyle['titlelogo'] ."\" align=\"left\" width=\"25\" height=\"25\" style=\"margin-right: 15px;\" alt=\"Innomatic\"><span nowrap class=\"headerbar\" style=\"white-space: nowrap;\">".$domain_name.'</span></td>'
                             . '<td align="right" valign="middle" nowrap style="white-space: nowrap; padding-right: 10px;"><table border="0" style="margin: 0px; padding: 0px;" cellpadding="0" cellspacing="0"><tr>';
-            if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
+            if (!(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
                 $block .= '<td><span class="headerbar" style="white-space: nowrap;">' . $user_name . "</span></td>";
                 $block .= '<td><a href="'.$logout_events_call->getEventsCallString().'" alt="'.$innomatic_menu_locale->getStr('logout').'"><img width="25" height="25" align="right" style="margin-left: 15px;" src="'.$this->mThemeHandler->mStyle['logout'].'" alt="'.$innomatic_menu_locale->getStr('logout').'" /></a></td>';
             }
@@ -488,20 +488,20 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
         }
         $block .= "</td></tr></table>\n";
         // Ajax support.
-        if (\Innomatic\Wui\Wui::instance('wui')->countRegisteredAjaxCalls() > 0) {
+        if (\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->countRegisteredAjaxCalls() > 0) {
             $xajax = \Innomatic\Ajax\Xajax::instance('Xajax');
             // Show the ajax loader?
             $xajax->ajaxLoader = $this->mArgs['ajaxloader'] == 'true' ?  true : false;
 
             // Set debug mode
-            if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
                 $xajax->debugOn();
             }
 
-            $block .= $xajax->getJavascript(InnomaticContainer::instance('innomaticcontainer')->getBaseUrl() . '/shared', 'xajax.js');
+            $block .= $xajax->getJavascript(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl() . '/shared', 'xajax.js');
             // Setup calls.
-            if (\Innomatic\Wui\Wui::instance('wui')->countRegisteredAjaxSetupCalls() > 0) {
-                $setup_calls = \Innomatic\Wui\Wui::instance('wui')->getRegisteredAjaxSetupCalls();
+            if (\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->countRegisteredAjaxSetupCalls() > 0) {
+                $setup_calls = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getRegisteredAjaxSetupCalls();
                 $block .= '<script type="text/javascript">' . "\n";
                 foreach ($setup_calls as $call) {
                     $block .= $call . ";\n";

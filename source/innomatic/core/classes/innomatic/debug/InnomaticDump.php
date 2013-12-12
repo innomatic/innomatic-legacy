@@ -116,8 +116,8 @@ class InnomaticDump extends \Innomatic\Util\Singleton
         $this->environment['phpversion'] = phpversion();
         $this->environment['declared_classes'] = get_declared_classes();
 
-        $innomaticContainer = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $innomaticContainer = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         );
         $this->innomatic['state'] = $innomaticContainer->getState();
         $this->innomatic['interface'] = $innomaticContainer->getInterface();

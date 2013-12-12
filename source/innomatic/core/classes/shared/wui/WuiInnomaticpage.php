@@ -82,12 +82,12 @@ class WuiInnomaticpage extends \Shared\Wui\WuiXml
                 </args>
                 <children>';
         }
-        if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG)
-            InnomaticContainer::instance('innomaticcontainer')->getLoadTimer()->Mark('start - WuiInnomaticPage::serialize');
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG)
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLoadTimer()->Mark('start - WuiInnomaticPage::serialize');
         if (is_object($this->mArgs['maincontent']))
             $this->mDefinition .= '<wuiobject>' . urlencode(serialize($this->mArgs['maincontent'])) . '</wuiobject>';
-        if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG)
-            InnomaticContainer::instance('innomaticcontainer')->getLoadTimer()->Mark('end - WuiInnomaticPage::serialize');
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG)
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLoadTimer()->Mark('end - WuiInnomaticPage::serialize');
         if (isset($this->mArgs['alerttext']) and strlen($this->mArgs['alerttext'])) {
             $this->mDefinition .= '</children>
                 </alertframe>';

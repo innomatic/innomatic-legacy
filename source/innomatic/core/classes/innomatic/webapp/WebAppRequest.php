@@ -341,7 +341,7 @@ class WebAppRequest
 
     public function isUrlRewriteOn()
     {
-        return WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getInitParameter('useRewrite') == 'true' ? true : false;
+        return WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getInitParameter('useRewrite') == 'true' ? true : false;
         /*
         if (substr($_SERVER['REQUEST_URI'], 0, strlen($_SERVER['SCRIPT_NAME'])) == $_SERVER['SCRIPT_NAME']
             or $_SERVER['REQUEST_URI'].self::RECEIVER == $_SERVER['SCRIPT_NAME']) {

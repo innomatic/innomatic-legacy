@@ -47,7 +47,7 @@ abstract class ModuleObject implements \Serializable
      * @since 5.1
      * @param ModuleConfig $config Configuration object.
      */
-    public function __construct(ModuleConfig $config)
+    public function __construct(\Innomatic\Module\ModuleConfig $config)
     {
         // Assigns the config and retrieves fully qualified name for value object.
         $this->config = $config;

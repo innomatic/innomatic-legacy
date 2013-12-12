@@ -28,8 +28,8 @@ class ModuleComponent extends \Innomatic\Application\ApplicationComponent
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Checks if the classes folder exists
-        if (! is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/modules/')) {
-            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/modules/', 0755);
+        if (! is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/modules/')) {
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/modules/', 0755);
             clearstatcache();
         }
     }

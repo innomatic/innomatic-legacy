@@ -19,13 +19,13 @@
 global $wuiMainStatus, $wuiPage, $wuiMainVertGroup, $gStatus, $gXmlDefinition;
 global $gPageTitle, $gToolbars, $gLocale, $gPageContent;
 
-$log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+$log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 $gLocale = new \Innomatic\Locale\LocaleCatalog(
-    'innomatic::root_applications', InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+    'innomatic::root_applications', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
 );
 $gPageContent = $gStatus = $gToolbars = $gXmlDefinition = '';
 
-$wui = \Innomatic\Wui\Wui::instance('wui');
+$wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $wui->loadAllWidgets();
 
 $gPageTitle = $gLocale->getStr('applications_title');
@@ -96,17 +96,17 @@ function action_install($eventData)
     global $gLocale, $gLocale, $gStatus;
 
     if (strcmp($eventData['applicationfile']['tmp_name'], 'none') != 0) {
-        $tempApplication = new \Innomatic\Application\Application(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), '');
+        $tempApplication = new \Innomatic\Application\Application(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), '');
 
         move_uploaded_file(
             $eventData['applicationfile']['tmp_name'],
-            InnomaticContainer::instance(
-                'innomaticcontainer'
+            \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getHome().'core/temp/'.$eventData['applicationfile']['name']
         );
         if (
             !$tempApplication->Install(
-                InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/'
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/'
                 .$eventData['applicationfile']['name']
             )
         ) {
@@ -137,7 +137,7 @@ function action_uninstall($eventData)
     global $gLocale, $gLocale, $wuiPage, $gStatus;
     
     $tempApplication = new \Innomatic\Application\Application(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['appid']
     );
     if (!$tempApplication->uninstall()) {
@@ -154,7 +154,7 @@ function action_activateapplication($eventData)
 {
     global $gLocale, $gLocale, $gStatus;
 
-    $domainQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $domainQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT domainid FROM domains WHERE id = '.$eventData['domainid']
     );
 
@@ -162,7 +162,7 @@ function action_activateapplication($eventData)
         $domainData = $domainQuery->getFields();
 
         $domain = new \Innomatic\Domain\Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $domainData['domainid'], $null
         );
         if (!$domain->enableApplication($eventData['appid'])) {
@@ -192,7 +192,7 @@ function action_deactivateapplication($eventData)
 {
     global $gLocale, $gLocale, $gStatus;
 
-    $domainQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $domainQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT domainid FROM domains WHERE id = '.$eventData['domainid']
     );
 
@@ -200,7 +200,7 @@ function action_deactivateapplication($eventData)
         $domainData = $domainQuery->getFields();
 
         $domain = new \Innomatic\Domain\Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $domainData['domainid'],
             $null
         );
@@ -225,7 +225,7 @@ function action_cleanmodlog($eventData)
     global $gLocale, $gLocale, $gStatus;
 
     $tempLog = new \Innomatic\Logging\Logger(
-        InnomaticContainer::instance('innomaticcontainer')->getHome().'core/applications/'.$eventData['appid']
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/applications/'.$eventData['appid']
         .'/application.log'
     );
 
@@ -241,7 +241,7 @@ function action_newrepository($eventData)
 {
     global $gLocale, $gStatus;
 
-    $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+    $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
     if ($remoteAc->Add($eventData['accountid'])) $gStatus = $gLocale->getStr('repository_added.status');
     else $gStatus = $gLocale->getStr('repository_not_added.status');
 }
@@ -252,7 +252,7 @@ function action_removerepository($eventData)
     global $gLocale, $gStatus;
 
     $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['id']
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['id']
     );
     if ($remoteAc->Remove()) $gStatus = $gLocale->getStr('repository_removed.status');
     else $gStatus = $gLocale->getStr('repository_not_removed.status');
@@ -267,7 +267,7 @@ function action_installapplication($eventData)
     global $gLocale, $gStatus;
 
     $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['id']
     );
     if (
@@ -356,7 +356,7 @@ function main_default($eventData)
     global $wuiMainFrame, $gLocale, $gPageContent;
     $gPageContent = new WuiVertgroup('apps');
 
-    $applicationsQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $applicationsQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT * FROM applications ORDER BY category,appid'
     );
 
@@ -419,8 +419,8 @@ function main_default($eventData)
                             'icon'.$row,
                             array(
                                 'hint' => $data['appid'],
-                                'imageurl' => InnomaticContainer::instance(
-                                    'innomaticcontainer'
+                                'imageurl' => \Innomatic\Core\InnomaticContainer::instance(
+                                    '\Innomatic\Core\InnomaticContainer'
                                 )->getBaseUrl(false).'/core/applications/'.$data['appid'].'/'.$data['iconfile']
                             )
                         ),
@@ -553,8 +553,8 @@ function main_default($eventData)
 
                 if (
                     file_exists(
-                        InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getHome().'core/applications/'.$data['appid'].'/application.log'
                     )
                 ) {
@@ -702,7 +702,7 @@ function main_details($eventData)
 {
     global $wuiMainFrame, $gLocale, $gPageTitle, $gPageContent;
 
-    $query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT * FROM applications WHERE id='.$eventData['appid'].' '
     );
 
@@ -914,12 +914,12 @@ function main_details($eventData)
 
     if (
         strlen($applicationData['licensefile']) and file_exists(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             .'core/applications/'.$applicationData['appid'].'/'.$applicationData['licensefile']
         )
     ) {
             $licenseText = file_get_contents(
-                InnomaticContainer::instance('innomaticcontainer')->getHome()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                 .'core/applications/'.$applicationData['appid'].'/'.$applicationData['licensefile']
             );
             $detailsGrid->addChild(
@@ -940,12 +940,12 @@ function main_details($eventData)
 
     if (
         strlen($applicationData['changesfile']) and file_exists(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             .'core/applications/'.$applicationData['appid'].'/'.$applicationData['changesfile']
         )
     ) {
             $changesText = file_get_contents(
-                InnomaticContainer::instance('innomaticcontainer')->getHome()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                 .'core/applications/'.$applicationData['appid'].'/'.$applicationData['changesfile']
             );
             $detailsGrid->addChild(
@@ -983,13 +983,13 @@ function main_dependencies($eventData)
 {
     global $gLocale, $gPageTitle, $gXmlDefinition;
 
-    $query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT appid FROM applications WHERE id='.$eventData['appid'].' '
     );
 
     $applicationData = $query->getFields();
 
-    $tempDeps = new \Innomatic\Application\ApplicationDependencies(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+    $tempDeps = new \Innomatic\Application\ApplicationDependencies(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
 
     $applicationDeps = array();
     $applicationSuggs = array();
@@ -1107,7 +1107,7 @@ function main_applicationlog($eventData)
 {
     global $gLocale, $gLocale, $gPageTitle, $wuiMainVertGroup, $gPageContent;
 
-    $query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT appid FROM applications WHERE id='.$eventData['appid']
     );
 
@@ -1119,7 +1119,7 @@ function main_applicationlog($eventData)
 
     if (
         file_exists(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             .'core/applications/'.$applicationData['appid'].'/application.log'
         )
     ) {
@@ -1157,7 +1157,7 @@ function main_applicationlog($eventData)
             $wuiMainVertGroup->addChild($logFrame);
 
             $appLogContent = file_get_contentes(
-                InnomaticContainer::instance('innomaticcontainer')->getHome()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                 .'core/applications/'.$applicationData['appid'].'/application.log'
             );
     }
@@ -1188,7 +1188,7 @@ function main_help($eventData)
         array(
             'base' => 'innomatic',
             'node' => 'innomatic.root.applications.'.$eventData['node'].'.html',
-            'language' => InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+            'language' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
         )
     );
 }
@@ -1215,7 +1215,7 @@ function main_appcentral($eventData)
 {
     global $gLocale, $gXmlDefinition, $gPageTitle, $gStatus, $gToolbars;
 
-    $repsQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $repsQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT
             applications_repositories.id AS id,
             applications_repositories.accountid AS accountid,
@@ -1230,7 +1230,7 @@ function main_appcentral($eventData)
 
         $newRepXml = '';
 
-    $accsQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $accsQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT
             id,
              name
@@ -1346,7 +1346,7 @@ function main_appcentral($eventData)
         $repsQuery->MoveFirst();
         while (!$repsQuery->eof) {
             $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
                 $repsQuery->getFields('id')
             );
             $availReps = $acRemote->ListAvailableRepositories(isset($eventData['refresh']) ? true : false);
@@ -1562,7 +1562,7 @@ function main_repositoryapplications($eventData)
     global $gLocale, $gXmlDefinition, $gPageTitle, $gToolbars;
 
     $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['id']
     );
 
@@ -1590,7 +1590,7 @@ function main_repositoryapplications($eventData)
     reset($availModsSortedList);
 
     $xAccount = new WebServicesAccount(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $acRemote->mAccountId
     );
 
@@ -1635,17 +1635,17 @@ function main_repositoryapplications($eventData)
     $row = 0;
 
     while (list($id, $data) = each($availMods)) {
-        $appQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->Execute(
+        $appQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->Execute(
             'SELECT appversion '.
             'FROM applications '.
             'WHERE appid='
-            .InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText($data['appid'])
+            .\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText($data['appid'])
         );
 
         if (
             strlen($data['dependencies'])
         ) {
-            $appDeps = new \Innomatic\Application\ApplicationDependencies(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+            $appDeps = new \Innomatic\Application\ApplicationDependencies(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
             $depCheck = $appDeps->checkApplicationDependencies(
                 0,
                 '',
@@ -1844,7 +1844,7 @@ function main_applicationversions($eventData)
     global $gLocale, $gXmlDefinition, $gPageTitle, $gToolbars;
 
     $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['id']
     );
 
@@ -1865,7 +1865,7 @@ function main_applicationversions($eventData)
 
 
     $xAccount = new WebServicesAccount(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $acRemote->mAccountId
     );
 
@@ -1899,11 +1899,11 @@ function main_applicationversions($eventData)
 
     $row = 0;
 
-    $appQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $appQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT appversion '.
         'FROM applications '.
         'WHERE appid='
-        .InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText(
+        .\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText(
             $availMods[$eventData['applicationid']]['appid']
         )
     );
@@ -1913,7 +1913,7 @@ function main_applicationversions($eventData)
             strlen($data['dependencies'])
         ) {
             $appDeps = new \Innomatic\Application\ApplicationDependencies(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()
             );
             $depCheck = $appDeps->checkApplicationDependencies(
                 0,
@@ -2096,7 +2096,7 @@ function main_keyring($eventData)
 {
     global $gXmlDefinition, $gLocale, $gPageTitle, $gStatus;
 
-    $query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->Execute(
+    $query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->Execute(
         'SELECT * '.
         'FROM applications_keyring_keys '.
         'ORDER BY application,version,domain'
@@ -2304,7 +2304,7 @@ function main_about($eventData)
               <args>
                 <imageurl type="encoded">'
                 .urlencode(
-                    InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false)
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false)
                     .'/shared/innomatic_logo.png'
                 ).'</imageurl>
                 <width>310</width>

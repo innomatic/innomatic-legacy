@@ -36,7 +36,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     {
         $this->_localeCatalog = new \Innomatic\Locale\LocaleCatalog(
             'innomatic::root_domains',
-            InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
         );
 
         $this->_wuiContainer->loadWidget('innomatictoolbar');
@@ -101,15 +101,15 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $wuiMainToolBar->addChild($wuiHomeButton);
 
         if (
-            InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ENTERPRISE
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE
         ) {
-            $domainQuery = InnomaticContainer::instance(
-                'innomaticcontainer'
+            $domainQuery = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getDataAccess()->execute('SELECT count(*) AS domains FROM domains');
         }
 
-        if (InnomaticContainer::instance('innomaticcontainer')
-            ->getEdition() == InnomaticContainer::EDITION_SAAS or !$domainQuery->getFields('domains') > 0) {
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
+            ->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS or !$domainQuery->getFields('domains') > 0) {
             $newAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $newAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'newdomain', ''));
             $wuiNewButton = new WuiButton(
@@ -186,18 +186,18 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewDefault($eventData)
     {
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM domains ORDER BY domainname');
 
-        $applicationsQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $applicationsQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT id FROM applications WHERE onlyextension <> '
-            .InnomaticContainer::instance('innomaticcontainer')
+            .\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
             ->getDataAccess()->formatText(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getDataAccess()->fmttrue
             )
         );
@@ -223,8 +223,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             while (!$query->eof) {
                 $data = $query->getFields();
                 if (
-                    $data['domainactive'] == InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    $data['domainactive'] == \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getDataAccess()->fmttrue
                 )
                 $wuiDomainsTable->addChild(
@@ -337,8 +337,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 $wuiDomainToolBar[$row]->addChild($wuiNotesButton[$row]);
 
                 if (
-                    $data['domainactive'] == InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    $data['domainactive'] == \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getDataAccess()->fmttrue
                 ) {
                     $accessAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
@@ -368,7 +368,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                             dirname(
                                 dirname(
                                     WebAppContainer::instance(
-                                        'webappcontainer'
+                                        '\Innomatic\Webapp\WebAppContainer'
                                     )->getProcessor()->getRequest()->getRequestUri()
                                 )
                             )
@@ -388,8 +388,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 }
 
                 if (
-                    $data['domainactive'] == InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    $data['domainactive'] == \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getDataAccess()->fmttrue
                 ) {
                     $disableAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
@@ -502,8 +502,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
                 if (
                     file_exists(
-                        InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getHome().'core/domains/'.$data['domainid'].'/log/domain.log'
                     )
                 ) {
@@ -530,8 +530,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
                 if (
                     file_exists(
-                        InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getHome().'core/domains/'.$data['domainid'].'/log/dataaccess.log'
                     )
                 ) {
@@ -572,8 +572,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $dbtypes = \Innomatic\Dataaccess\DataAccessFactory::getDrivers();
 
         // Retrieves the list of available webapp skeletons.
-        $skeletonsQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $skeletonsQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT name,catalog FROM webapps_skeletons');
 
         $skeletons = array();
@@ -581,7 +581,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         while (!$skeletonsQuery->eof) {
             $tmpLocale = new \Innomatic\Locale\LocaleCatalog(
             $skeletonsQuery->getFields('catalog'),
-            InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
             $skeletons[$skeletonsQuery->getFields('name')] = $tmpLocale->getStr($skeletonsQuery->getFields('name'));
             $skeletonsQuery->moveNext();
         }
@@ -742,7 +742,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             7, 1
         );
 
-        if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
             // Database fields
             //
             $wuiDomainGrid->addChild(
@@ -772,8 +772,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                         'disp' => 'action',
                         'tabindex' => $tabIndex ++,
                         'elements' => $dbtypes,
-                        'default' => InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        'default' => \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getConfig()->value('RootDatabaseType')
                         )
                     ),
@@ -963,16 +963,16 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     {
         $dbtypes = \Innomatic\Dataaccess\DataAccessFactory::getDrivers();
 
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM domains WHERE id='.$eventData['domainid'].' ORDER BY domainname');
 
         if ($query->getNumberRows()) {
             $domainData = $query->getFields();
 
             // Retrieves the list of available webapp skeletons.
-            $skeletonsQuery = InnomaticContainer::instance(
-                'innomaticcontainer'
+            $skeletonsQuery = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getDataAccess()->execute('SELECT name,catalog FROM webapps_skeletons');
 
             $skeletons = array();
@@ -980,7 +980,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             while (!$skeletonsQuery->eof) {
                 $tmpLocale = new \Innomatic\Locale\LocaleCatalog(
                 $skeletonsQuery->getFields('catalog'),
-                InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
                 $skeletons[$skeletonsQuery->getFields('name')] = $tmpLocale->getStr(
                     $skeletonsQuery->getFields('name')
                 );
@@ -1146,7 +1146,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 7, 1
             );
 
-            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
                 // Database fields
                 //
                 $wuiDomainGrid->addChild(
@@ -1337,8 +1337,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewEditDomainNotes($eventData)
     {
-        $domainQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT domainid,domainname,notes FROM domains WHERE id='.$eventData['domainid']
         );
@@ -1428,23 +1428,23 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     {
         $dbtypes = \Innomatic\Dataaccess\DataAccessFactory::getDrivers();
 
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM domains WHERE id='.$eventData['domainid']);
 
         if ($query->getNumberRows()) {
             $domainData = $query->getFields();
 
             // Retrieves the webapp skeleton catalog and localized name.
-            $skeletonsQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+            $skeletonsQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
                 'SELECT catalog FROM webapps_skeletons '.
-                'WHERE name='.InnomaticContainer::instance(
-                    'innomaticcontainer'
+                'WHERE name='.\Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getDataAccess()->formatText($domainData['webappskeleton'])
             );
             $tmpLocale = new \Innomatic\Locale\LocaleCatalog(
             $skeletonsQuery->getFields('catalog'),
-            InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
             $skeletonName = $tmpLocale->getStr($domainData['webappskeleton']);
 
             $wuiVGroup = new WuiVertgroup('vgroup');
@@ -1579,7 +1579,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 6, 1
             );
 
-            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
                 // Database fields
                 //
                 $wuiDomainGrid->addChild(
@@ -1730,8 +1730,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewshowdomainlog($eventData)
     {
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT domainid,domainname FROM domains WHERE id='.$eventData['domainid']);
 
         if ($query->getNumberRows()) {
@@ -1743,8 +1743,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
             if (
                 file_exists(
-                    InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getHome().'core/domains/'.$domainData['domainid'].'/log/domain.log'
                 )
             ) {
@@ -1783,8 +1783,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 $this->wuiMainvertgroup->addChild($logToolbar);
 
                 $domainLogContent = file_get_contents(
-                    InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getHome().'core/domains/'.$domainData['domainid'].'/log/domain.log'
                 );
             }
@@ -1812,8 +1812,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewshowdataaccesslog($eventData)
     {
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM domains WHERE id='.$eventData['domainid']);
 
         if ($query->getNumberRows()) {
@@ -1825,8 +1825,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
             if (
                 file_exists(
-                    InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getHome().'core/domains/'.$domainData['domainid'].'/log/dataaccess.log'
                 )
             ) {
@@ -1865,8 +1865,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 $this->wuiMainvertgroup->addChild($logToolbar);
 
                 $dbLogContent = file_get_contents(
-                    InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getHome().'core/domains/'.$domainData['domainid'].'/log/dataaccess.log'
                 );
             }
@@ -1895,34 +1895,34 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewAccessDomain($eventData)
     {
-        $domainquery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domainquery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT domainid FROM domains WHERE id='.$eventData['domainid']);
         DesktopFrontController::instance(
-            'desktopfrontcontroller'
+            '\Innomatic\Desktop\Controller\DesktopFrontController'
         )->session->put('INNOMATIC_AUTH_USER', \Innomatic\Domain\User\User::getAdminUsername($domainquery->getFields('domainid')));
         WebAppContainer::instance(
-            'webappcontainer'
+            '\Innomatic\Webapp\WebAppContainer'
         )->getProcessor()->getResponse()->addHeader(
-            'Location', InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/domain/'
+            'Location', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl().'/domain/'
         );
     }
 
     public function viewdomainapplications($eventData)
     {
-        $domainQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM domains WHERE id='.$eventData['domainid']);
         $domainData = $domainQuery->getFields();
 
-        $applicationsQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $applicationsQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT * FROM applications WHERE onlyextension <> '
-            .InnomaticContainer::instance('innomaticcontainer')
+            .\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
             ->getDataAccess()
             ->formatText(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmttrue
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmttrue
             )
             .' ORDER BY appid'
         );
@@ -1942,8 +1942,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                     $applicationsData = $applicationsQuery->getFields();
 
                     if ($applicationsData['appid'] != 'innomatic') {
-                        $actQuery = InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        $actQuery = \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->execute(
                             'SELECT * FROM applications_enabled WHERE domainid = '
                             .$eventData['domainid'].' AND applicationid = '.$applicationsData['id']
@@ -1952,7 +1952,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                         $wuiEnGroup[$row] = new WuiVertgroup('enable');
                         $wuiDomainApplicationsToolbar[$row] = new WuiHorizgroup('domainapplicationstoolbar'.$row);
                         $appDep = new \Innomatic\Application\ApplicationDependencies(
-                            InnomaticContainer::instance('innomaticcontainer')->getDataAccess()
+                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()
                         );
 
                         if ($actQuery->getNumberRows()) {
@@ -1994,8 +1994,8 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                             );
 
                             $application = new \Innomatic\Application\Application(
-                                InnomaticContainer::instance(
-                                    'innomaticcontainer'
+                                \Innomatic\Core\InnomaticContainer::instance(
+                                    '\Innomatic\Core\InnomaticContainer'
                                 )->getDataAccess(), $applicationsData['id']
                             );
 
@@ -2285,18 +2285,18 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewsituation($eventData)
     {
-        $domainsQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domainsQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT domainid FROM domains ORDER BY domainid');
 
-        $applicationsQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $applicationsQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT appid FROM applications WHERE onlyextension='
-            .InnomaticContainer::instance(
-                'innomaticcontainer'
+            .\Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getDataAccess()->formatText(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmtfalse
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmtfalse
             ).' ORDER BY appid'
         );
 
@@ -2325,7 +2325,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
         $row = 0;
 
-        $appDeps = new \Innomatic\Application\ApplicationDependencies(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+        $appDeps = new \Innomatic\Application\ApplicationDependencies(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
 
         while (!$domainsQuery->eof) {
             $xmlDef.= '<label row="'.$row.'" col="0">
@@ -2378,7 +2378,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 array(
                     'base' => 'innomatic',
                     'node' => 'innomatic.root.domains.'.$eventData['node'].'.html',
-                    'language' => InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+                    'language' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
                 )
             )
         );

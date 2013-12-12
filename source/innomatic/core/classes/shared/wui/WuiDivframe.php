@@ -116,10 +116,10 @@ class WuiDivframe extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
         if ($this->mArgs['iscollapsible']) {
             $session_args = $this->retrieveSession();
-            if (InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()) {
-                $language = InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage();
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->isDomainStarted()) {
+                $language = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage();
             } else {
-                $language = InnomaticContainer::instance('innomaticcontainer')->getLanguage();
+                $language = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage();
             }
             $locale = new LocaleCatalog('innomatic::wui', $language);
         }

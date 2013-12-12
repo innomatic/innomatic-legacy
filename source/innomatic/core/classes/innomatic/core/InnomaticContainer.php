@@ -50,9 +50,9 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     private $pid;
     private $state;
     private $environment;
-    private $mode = InnomaticContainer::MODE_BASE;
-    private $interface = InnomaticContainer::INTERFACE_UNKNOWN;
-    private $edition = InnomaticContainer::EDITION_SAAS;
+    private $mode = \Innomatic\Core\InnomaticContainer::MODE_BASE;
+    private $interface = \Innomatic\Core\InnomaticContainer::INTERFACE_UNKNOWN;
+    private $edition = \Innomatic\Core\InnomaticContainer::EDITION_SAAS;
     private $rootDb;
     /**
      * Root language
@@ -180,65 +180,65 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             while (file_exists(
                 $this->home . 'core/temp/upgrading_system_lock'
             )) {
-                $this->state = InnomaticContainer::STATE_UPGRADE;
+                $this->state = \Innomatic\Core\InnomaticContainer::STATE_UPGRADE;
                 clearstatcache();
                 sleep(1);
             }
         }
         // Checks if system is in setup phase and sets the state
         if (file_exists($this->home . 'core/temp/setup_lock')) {
-            $this->state = InnomaticContainer::STATE_SETUP;
+            $this->state = \Innomatic\Core\InnomaticContainer::STATE_SETUP;
             if (extension_loaded('APD')) {
                 apd_set_session_trace(35);
             }
         } else {
             switch ($this->config->value('PlatformState')) {
                 case 'debug':
-                    $this->state = InnomaticContainer::STATE_DEBUG;
+                    $this->state = \Innomatic\Core\InnomaticContainer::STATE_DEBUG;
                     if (extension_loaded('APD')) {
                         apd_set_session_trace(35);
                     }
                     break;
                 case 'production':
-                    $this->state = InnomaticContainer::STATE_PRODUCTION;
+                    $this->state = \Innomatic\Core\InnomaticContainer::STATE_PRODUCTION;
                     break;
                 default:
-                    $this->state = InnomaticContainer::STATE_PRODUCTION;
+                    $this->state = \Innomatic\Core\InnomaticContainer::STATE_PRODUCTION;
             }
         }
 
         // Environment
         switch ($this->config->value('PlatformEnvironment')) {
             case 'development':
-                $this->environment = InnomaticContainer::ENVIRONMENT_DEVELOPMENT;
+                $this->environment = \Innomatic\Core\InnomaticContainer::ENVIRONMENT_DEVELOPMENT;
                 break;
             case 'integration':
-                $this->environment = InnomaticContainer::ENVIRONMENT_INTEGRATION;
+                $this->environment = \Innomatic\Core\InnomaticContainer::ENVIRONMENT_INTEGRATION;
                 break;
             case 'staging':
-                $this->environment = InnomaticContainer::ENVIRONMENT_STAGING;
+                $this->environment = \Innomatic\Core\InnomaticContainer::ENVIRONMENT_STAGING;
                 break;
             case 'production':
-                $this->environment = InnomaticContainer::ENVIRONMENT_PRODUCTION;
+                $this->environment = \Innomatic\Core\InnomaticContainer::ENVIRONMENT_PRODUCTION;
                 break;
             default:
-                $this->environment = InnomaticContainer::ENVIRONMENT_PRODUCTION;
+                $this->environment = \Innomatic\Core\InnomaticContainer::ENVIRONMENT_PRODUCTION;
         }
 
         // Interface
-        //$this->interface = InnomaticContainer::INTERFACE_UNKNOWN;
+        //$this->interface = \Innomatic\Core\InnomaticContainer::INTERFACE_UNKNOWN;
         // Mode
-        //$this->mode = InnomaticContainer::MODE_ROOT;
+        //$this->mode = \Innomatic\Core\InnomaticContainer::MODE_ROOT;
         // Edition
         if ($this->config->value('PlatformEdition') == 'enterprise') {
-            $this->edition = InnomaticContainer::EDITION_ENTERPRISE;
+            $this->edition = \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE;
         }
 
         // *********************************************************************
         // Pid and shutdown function
         // *********************************************************************
 
-        if ($this->state != InnomaticContainer::STATE_SETUP) {
+        if ($this->state != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
             $this->pid = md5(microtime());
             if (!file_exists($this->home . 'core/temp/pids/')) {
                 @mkdir($this->home . 'core/temp/pids/');
@@ -258,7 +258,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         // Innomatic error handler
         // *********************************************************************
 
-        set_error_handler(array($this, 'errorHandler'));
+        //set_error_handler(array($this, 'errorHandler'));
 
         // *********************************************************************
         // Innomatic root
@@ -267,7 +267,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         $this->country = $this->config->value('RootCountry');
         $this->language = $this->config->value('RootLanguage');
 
-        if ($this->state != InnomaticContainer::STATE_SETUP) {
+        if ($this->state != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
             // Innomatic central database
             //
             $dasnString = $this->config->value('RootDatabaseType') . '://'
@@ -277,7 +277,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             . $this->config->value('RootDatabasePort') . '/'
             . $this->config->value('RootDatabaseName') . '?'
             . 'logfile='
-            . InnomaticContainer::instance('innomaticcontainer')->getHome()
+            . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/log/innomatic_root_db.log';
             $this->rootDb = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(
                 new \Innomatic\Dataaccess\DataAccessSourceName($dasnString)
@@ -292,7 +292,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         // *********************************************************************
 
         // Debugger
-        if ($this->state == InnomaticContainer::STATE_DEBUG) {
+        if ($this->state == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
             $this->loadTimer = new \Innomatic\Debug\LoadTime(
                 LoadTime::LOADTIME_MODE_CONTINUOUS
             );
@@ -326,7 +326,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         // Maintenance
         $maintenanceInterval = $this->config->value('MaintenanceInterval');
         if (
-            $this->state != InnomaticContainer::STATE_MAINTENANCE
+            $this->state != \Innomatic\Core\InnomaticContainer::STATE_MAINTENANCE
             and $maintenanceInterval > 0
         ) {
             $lastMaintenance = $this->config->value(
@@ -361,7 +361,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         }
 
         // Startup hook
-        if ($this->state != InnomaticContainer::STATE_SETUP) {
+        if ($this->state != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
             $hook = new \Innomatic\Process\Hook($this->rootDb, 'innomatic', 'instance');
             $null = '';
             switch ($hook->callHooks('startup', $null, '')) {
@@ -382,7 +382,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
      */
     public function startRoot($userId = 'root')
     {
-        $this->setMode(InnomaticContainer::MODE_ROOT);
+        $this->setMode(\Innomatic\Core\InnomaticContainer::MODE_ROOT);
 
         if ($this->rootStarted) {
             return;
@@ -394,7 +394,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     public function startDomain($domainId, $userId = '')
     {
         $result = false;
-        $this->setMode(InnomaticContainer::MODE_DOMAIN);
+        $this->setMode(\Innomatic\Core\InnomaticContainer::MODE_DOMAIN);
 
         if (is_object($this->currentDomain) or $this->domainStarted) {
             // A domain has been already started
@@ -407,7 +407,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             // Check if domain is active
             //
             if (
-                $this->getInterface() != InnomaticContainer::INTERFACE_WEB
+                $this->getInterface() != \Innomatic\Core\InnomaticContainer::INTERFACE_WEB
                 and $this->currentDomain->domaindata['domainactive']
                 == $this->rootDb->fmtfalse
             ) {
@@ -419,7 +419,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
                     'innomatic::authentication',
                     $this->language
                 );
-                InnomaticContainer::instance('innomaticcontainer')->abort(
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->abort(
                     $adloc->getStr('nodb')
                 );
             }
@@ -436,9 +436,9 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             //
             // TODO check in Enterprise edition if the admin@domainid part is ok
             // $admin_username = 'admin'
-            // .(InnomaticContainer::instance(
-            //      'innomaticcontainer'
-            // )->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'.$domain
+            // .(\Innomatic\Core\InnomaticContainer::instance(
+            //      '\Innomatic\Core\InnomaticContainer'
+            // )->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'.$domain
             // : '');
             $this->currentUser = new \Innomatic\Domain\User\User(
                 $this->currentDomain->domainserial,
@@ -456,7 +456,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     public function stopDomain()
     {
         if ($this->domainStarted) {
-            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
                 $this->currentDomain->getDataAccess()->close();
             }
             // TODO implement
@@ -473,7 +473,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             $this->domainStarted = false;
             $this->currentDomain = null;
-            $this->setMode(InnomaticContainer::MODE_ROOT);
+            $this->setMode(\Innomatic\Core\InnomaticContainer::MODE_ROOT);
         }
     }
 
@@ -484,14 +484,14 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
     public function startMaintenance()
     {
-        $this->setState(InnomaticContainer::STATE_MAINTENANCE);
-        $this->setInterface(InnomaticContainer::INTERFACE_CONSOLE);
+        $this->setState(\Innomatic\Core\InnomaticContainer::STATE_MAINTENANCE);
+        $this->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_CONSOLE);
 
         $hook = new \Innomatic\Process\Hook($this->rootDb, 'innomatic', 'instance');
         $null = null;
         switch ($hook->callHooks('maintenance', $null, '')) {
             case \Innomatic\Process\Hook::RESULT_ABORT:
-                InnomaticContainer::instance('innomaticcontainer')->abort(
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->abort(
                     'Maintenance aborted'
                 );
                 break;
@@ -512,14 +512,14 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
      */
     public function halt($status = '')
     {
-        $rootContainer = \Innomatic\Core\RootContainer::instance('rootcontainer');
+        $rootContainer = RootContainer::instance('rootcontainer');
         $rootContainer->stop();
         exit($status);
     }
 
     public function shutdown()
     {
-        if ($this->state != InnomaticContainer::STATE_SETUP) {
+        if ($this->state != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
             if (is_object($this->rootDb)) {
                 $hook = new \Innomatic\Process\Hook($this->rootDb, 'innomatic', 'instance');
                 $null = '';
@@ -532,7 +532,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         }
 
         switch ($this->state) {
-            case InnomaticContainer::STATE_DEBUG:
+            case \Innomatic\Core\InnomaticContainer::STATE_DEBUG:
                 if (
                     is_object($this->loadTimer)
                     and RootContainer::instance('rootcontainer')->isClean()
@@ -591,7 +591,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         if (
             !RootContainer::instance('rootcontainer')->isClean()
             or (
-                $this->state != InnomaticContainer::STATE_DEBUG
+                $this->state != \Innomatic\Core\InnomaticContainer::STATE_DEBUG
                 and file_exists(
                     $this->home . 'core/temp/pids/' . $this->pid
                 )
@@ -611,7 +611,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             $interface = $this->interface;
         }
 
-        if ($interface == InnomaticContainer::INTERFACE_EXTERNAL) {
+        if ($interface == \Innomatic\Core\InnomaticContainer::INTERFACE_EXTERNAL) {
             /*
              if (
                  isset(
@@ -624,29 +624,29 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
              $func ($text);
              } else {
              */
-            $interface = InnomaticContainer::INTERFACE_WEB;
-            $this->interface = InnomaticContainer::INTERFACE_WEB;
+            $interface = \Innomatic\Core\InnomaticContainer::INTERFACE_WEB;
+            $this->interface = \Innomatic\Core\InnomaticContainer::INTERFACE_WEB;
             //}
         }
 
         switch ($interface) {
-            case InnomaticContainer::INTERFACE_GUI :
+            case \Innomatic\Core\InnomaticContainer::INTERFACE_GUI :
                 // break was intentionally omitted
-            case InnomaticContainer::INTERFACE_UNKNOWN :
+            case \Innomatic\Core\InnomaticContainer::INTERFACE_UNKNOWN :
                 // break was intentionally omitted
-            case InnomaticContainer::INTERFACE_WEBSERVICES :
+            case \Innomatic\Core\InnomaticContainer::INTERFACE_WEBSERVICES :
                 // break was intentionally omitted
-            case InnomaticContainer::INTERFACE_EXTERNAL :
+            case \Innomatic\Core\InnomaticContainer::INTERFACE_EXTERNAL :
                 break;
-            case InnomaticContainer::INTERFACE_CONSOLE :
+            case \Innomatic\Core\InnomaticContainer::INTERFACE_CONSOLE :
                 echo "\n".$text."\n";
                 break;
-            case InnomaticContainer::INTERFACE_WEB :
-                $tmpWui = \Innomatic\Wui\Wui::instance('wui');
+            case \Innomatic\Core\InnomaticContainer::INTERFACE_WEB :
+                $tmpWui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
                 $tmpWui->loadWidget('empty');
                 //$tmp_elem = new WuiEmpty('empty');
 
-                $dieImage = \Innomatic\Wui\Wui::instance('wui')->getTheme()->mStyle['biglogo'];
+                $dieImage = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getTheme()->mStyle['biglogo'];
 
                 ?>
 <html>
@@ -654,7 +654,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 <basefont face="Verdana" />
 <title>Innomatic</title>
 <link rel="stylesheet" type="text/css"
-    href="<?php echo \Innomatic\Wui\Wui::instance('wui')->getTheme()->mStyle['css'];
+    href="<?php echo \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getTheme()->mStyle['css'];
                 ?>">
 </head>
 
@@ -668,8 +668,8 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     </tr>
     <tr>
         <td align="center" valign="middle"><a
-            href="<?php echo InnomaticContainer::instance(
-                'innomaticcontainer'
+            href="<?php echo \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getExternalBaseUrl();
             ?>"
             target="_top"><img src="<?php echo $dieImage;
@@ -738,18 +738,18 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         $logError[E_USER_NOTICE]['log'] = false;
         $logError[E_USER_NOTICE]['die'] = false;
 
-        if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
-            $phpLog = InnomaticContainer::instance(
-                'innomaticcontainer'
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
+            $phpLog = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getHome() . 'core/log/php.log';
         } else {
-            $phpLog = InnomaticContainer::instance(
-                'innomaticcontainer'
+            $phpLog = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getHome() . 'core/log/innomatic.log';
         }
 
         switch ($this->state) {
-            case InnomaticContainer::STATE_DEBUG :
+            case \Innomatic\Core\InnomaticContainer::STATE_DEBUG :
                 $logError[E_NOTICE]['log'] = true;
                 $logError[E_USER_NOTICE]['log'] = true;
                 $logError[E_WARNING]['log'] = true;
@@ -758,7 +758,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
                 $logError[E_USER_WARNING]['log'] = true;
                 break;
 
-            case InnomaticContainer::STATE_SETUP :
+            case \Innomatic\Core\InnomaticContainer::STATE_SETUP :
                 /* For debug purposes in setup procedure add these commands:
                  $log_err[E_NOTICE]['log'] = true;
                  $log_err[E_USER_NOTICE]['log'] = true;
@@ -770,8 +770,8 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
                 $logError[E_USER_WARNING]['log'] = true;
                 break;
 
-            case InnomaticContainer::STATE_PRODUCTION :
-            case InnomaticContainer::STATE_UPGRADE :
+            case \Innomatic\Core\InnomaticContainer::STATE_PRODUCTION :
+            case \Innomatic\Core\InnomaticContainer::STATE_UPGRADE :
                 break;
         }
 
@@ -1125,15 +1125,15 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     public function setState($state)
     {
         switch ($state) {
-            case InnomaticContainer::STATE_SETUP:
+            case \Innomatic\Core\InnomaticContainer::STATE_SETUP:
                 // break was intentionally omitted
-            case InnomaticContainer::STATE_DEBUG:
+            case \Innomatic\Core\InnomaticContainer::STATE_DEBUG:
                 // break was intentionally omitted
-            case InnomaticContainer::STATE_PRODUCTION:
+            case \Innomatic\Core\InnomaticContainer::STATE_PRODUCTION:
                 // break was intentionally omitted
-            case InnomaticContainer::STATE_UPGRADE:
+            case \Innomatic\Core\InnomaticContainer::STATE_UPGRADE:
                 // break was intentionally omitted
-            case InnomaticContainer::STATE_MAINTENANCE:
+            case \Innomatic\Core\InnomaticContainer::STATE_MAINTENANCE:
                 $this->state = $state;
                 break;
         }
@@ -1147,13 +1147,13 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     public function setEnvironment($environment)
     {
         switch ($environment) {
-            case InnomaticContainer::ENVIRONMENT_DEVELOPMENT:
+            case \Innomatic\Core\InnomaticContainer::ENVIRONMENT_DEVELOPMENT:
                 // break was intentionally omitted
-            case InnomaticContainer::ENVIRONMENT_INTEGRATION:
+            case \Innomatic\Core\InnomaticContainer::ENVIRONMENT_INTEGRATION:
                 // break was intentionally omitted
-            case InnomaticContainer::ENVIRONMENT_PRODUCTION:
+            case \Innomatic\Core\InnomaticContainer::ENVIRONMENT_PRODUCTION:
                 // break was intentionally omitted
-            case InnomaticContainer::ENVIRONMENT_STAGING:
+            case \Innomatic\Core\InnomaticContainer::ENVIRONMENT_STAGING:
                 $this->environment = $environment;
                 break;
         }
@@ -1168,9 +1168,9 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     {
         // Mode Base cannot be set
         switch ($mode) {
-            case InnomaticContainer::MODE_ROOT:
+            case \Innomatic\Core\InnomaticContainer::MODE_ROOT:
                 // break was intentionally omitted
-            case InnomaticContainer::MODE_DOMAIN:
+            case \Innomatic\Core\InnomaticContainer::MODE_DOMAIN:
                 $this->mode = $mode;
                 break;
         }
@@ -1184,17 +1184,17 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     public function setInterface($interface)
     {
         switch ($interface) {
-            case InnomaticContainer::INTERFACE_UNKNOWN:
+            case \Innomatic\Core\InnomaticContainer::INTERFACE_UNKNOWN:
                 // break was intentionally omitted
-            case InnomaticContainer::INTERFACE_CONSOLE:
+            case \Innomatic\Core\InnomaticContainer::INTERFACE_CONSOLE:
                 // break was intentionally omitted
-            case InnomaticContainer::INTERFACE_WEB:
+            case \Innomatic\Core\InnomaticContainer::INTERFACE_WEB:
                 // break was intentionally omitted
-            case InnomaticContainer::INTERFACE_WEBSERVICES:
+            case \Innomatic\Core\InnomaticContainer::INTERFACE_WEBSERVICES:
                 // break was intentionally omitted
-            case InnomaticContainer::INTERFACE_GUI:
+            case \Innomatic\Core\InnomaticContainer::INTERFACE_GUI:
                 // break was intentionally omitted
-            case InnomaticContainer::INTERFACE_EXTERNAL:
+            case \Innomatic\Core\InnomaticContainer::INTERFACE_EXTERNAL:
                 $this->interface = $interface;
                 break;
         }
@@ -1244,15 +1244,15 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     {
         // Erases all semaphores.
         $handle = opendir(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/temp/semaphores'
         );
         if ($handle) {
             while (($file = readdir($handle)) !== false) {
                 if ($file != '.' and $file != '..') {
                     @unlink(
-                        InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getHome()
                         . 'core/temp/semaphores/' . $file
                     );
@@ -1264,21 +1264,21 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         // Erases system upgrading lock if it exists.
         if (
             file_exists(
-                InnomaticContainer::instance('innomaticcontainer')->getHome()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                 . 'core/temp/upgrading_system_lock'
             )
         ) {
             if (
                 @unlink(
-                    InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getHome()
                     . 'core/temp/upgrading_system_lock'
                 )
             ) {
                 
-                $tmpLog = InnomaticContainer::instance(
-                    'innomaticcontainer'
+                $tmpLog = \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getLogger();
                 $tmpLog->logEvent(
                     'Innomatic',
@@ -1306,7 +1306,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     {
         if ($addHostname) {
             $port = \Innomatic\Webapp\WebAppContainer::instance(
-                'webappcontainer'
+                '\Innomatic\Webapp\WebAppContainer'
             )->getProcessor()->getRequest()->getServerPort();
 
             if (!strlen($port) or $port == 80) {
@@ -1318,15 +1318,15 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
         return (
             $addHostname ? \Innomatic\Webapp\WebAppContainer::instance(
-                'webappcontainer'
+                '\Innomatic\Webapp\WebAppContainer'
             )->getProcessor()->getRequest()->getScheme()
             . '://' . \Innomatic\Webapp\WebAppContainer::instance(
-                'webappcontainer'
+                '\Innomatic\Webapp\WebAppContainer'
             )->getProcessor()->getRequest()->getServerName().$port : ''
         )
         . ( $addController ? $this->baseUrl : (
             \Innomatic\Webapp\WebAppContainer::instance(
-                'webappcontainer'
+                '\Innomatic\Webapp\WebAppContainer'
             )->getProcessor()->getRequest()->isUrlRewriteOn() ? $this->baseUrl
             : substr($this->baseUrl, 0, -10)
         ));
@@ -1357,7 +1357,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         // Should be empty only during setup phase.
         if (empty($this->externalBaseUrl)) {
             $this->externalBaseUrl = \Innomatic\Webapp\WebAppContainer::instance(
-                'webappcontainer'
+                '\Innomatic\Webapp\WebAppContainer'
             )->getProcessor()->getRequest()->getRequestURL();
             // Checks if the URL contains the setup layout frames names
             // and strips them away.
@@ -1381,7 +1381,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         $result = false;
 
         $fh = @fopen(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/conf/rootpasswd.ini',
             'r'
         );
@@ -1393,16 +1393,16 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         if (md5($oldPassword) == $cpassword) {
             if (strlen($newPassword)) {
                 $fh = @fopen(
-                    InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getHome()
                     . 'core/conf/rootpasswd.ini',
                     'w'
                 );
                 if ($fh) {
                     
-                    $log = InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    $log = \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getLogger();
 
                     fputs($fh, md5($newPassword));
@@ -1415,13 +1415,13 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
                         \Innomatic\Logging\Logger::NOTICE
                     );
                 } else {
-                    $result = InnomaticContainer::SETROOTPASSWORD_UNABLE_TO_WRITE_NEW_PASSWORD;
+                    $result = \Innomatic\Core\InnomaticContainer::SETROOTPASSWORD_UNABLE_TO_WRITE_NEW_PASSWORD;
                 }
             } else {
-                $result = InnomaticContainer::SETROOTPASSWORD_NEW_PASSWORD_IS_EMPTY;
+                $result = \Innomatic\Core\InnomaticContainer::SETROOTPASSWORD_NEW_PASSWORD_IS_EMPTY;
             }
         } else {
-            $result = InnomaticContainer::SETROOTPASSWORD_OLD_PASSWORD_IS_WRONG;
+            $result = \Innomatic\Core\InnomaticContainer::SETROOTPASSWORD_OLD_PASSWORD_IS_WRONG;
         }
 
         return $result;

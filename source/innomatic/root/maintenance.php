@@ -21,10 +21,10 @@
 
 $gLocale = new \Innomatic\Locale\LocaleCatalog(
     'innomatic::root_maintenance',
-    InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
 );
 
-$gWui = \Innomatic\Wui\Wui::instance('wui');
+$gWui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $gWui->loadWidget('xml');
 $gWui->loadWidget('innomaticpage');
 $gWui->loadWidget('innomatictoolbar');
@@ -67,7 +67,7 @@ $gToolbars['view'] = array(
 
 // Info tool bar
 //
-if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')) {
+if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log')) {
     $innomaticLogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
     $innomaticLogAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'showrootlog', ''));
     $gToolbars['info']['rootlog'] = array(
@@ -78,7 +78,7 @@ if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'c
     );
 }
 
-if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log')) {
+if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log')) {
     $innomaticWebServicesLogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
     $innomaticWebServicesLogAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'showrootwebserviceslog', ''));
     $gToolbars['info']['webserviceslog'] = array(
@@ -377,9 +377,9 @@ function action_run_maintenance($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    $innomatic = InnomaticContainer::instance('innomaticcontainer');
+    $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
     $innomatic->startMaintenance();
-    $innomatic->setInterface(InnomaticContainer::INTERFACE_WEB);
+    $innomatic->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_WEB);
 
     $gPageStatus = $gLocale->getStr('maintenance_done.status');
 }
@@ -389,7 +389,7 @@ function action_cleanrootlog($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $tempLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $tempLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
     if ($tempLog->cleanLog()) {
         $gPageStatus = $gLocale->getStr('logcleaned_status');
@@ -403,7 +403,7 @@ function action_cleanrootwebserviceslog($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    $tempLog = new \Innomatic\Logging\Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log');
+    $tempLog = new \Innomatic\Logging\Logger(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log');
 
     if ($tempLog->cleanLog()) {
         $gPageStatus = $gLocale->getStr('logcleaned_status');
@@ -436,7 +436,7 @@ function main_default($eventData)
     $tabs[1]['label'] = $gLocale->getStr('general_report.tab');
     $tabs[2]['label'] = $gLocale->getStr('general_tasks.tab');
 
-    $country = new \Innomatic\Locale\LocaleCountry(InnomaticContainer::instance('innomaticcontainer')->getCountry());
+    $country = new \Innomatic\Locale\LocaleCountry(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCountry());
 
     $dateArray = $country->getDateArrayFromUnixTimestamp($mainTime);
 
@@ -493,7 +493,7 @@ function main_default($eventData)
 
             <horizbar/>';
 
-    $maintenanceResult = &InnomaticContainer::instance('innomaticcontainer')->getMaintenanceResult();
+    $maintenanceResult = &\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getMaintenanceResult();
     if (is_array($maintenanceResult)) {
         $row = 0;
 
@@ -761,7 +761,7 @@ function main_innomatic($eventData)
 {
     global $gXmlDefinition, $gLocale, $gPageTitle;
 
-    $country = new \Innomatic\Locale\LocaleCountry(InnomaticContainer::instance('innomaticcontainer')->getCountry());
+    $country = new \Innomatic\Locale\LocaleCountry(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCountry());
 
     $tabs[0]['label'] = $gLocale->getStr('innomatic_status.tab');
     $tabs[1]['label'] = $gLocale->getStr('innomatic_requirements.tab');
@@ -1245,7 +1245,7 @@ function main_innomatic($eventData)
     //
     $row ++;
 
-    if (strlen(InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootCrontab'))) {
+    if (strlen(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootCrontab'))) {
         $ball = $wuiWidget->mThemeHandler->mStyle['greenball'];
         $checkResult = $gLocale->getStr('crontab_available_label');
     } else {
@@ -1694,7 +1694,7 @@ function main_showrootlog($eventData)
 
     $logContent = '';
 
-    if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')) {
+    if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log')) {
 
         $cleanLogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $cleanLogAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'showrootlog', ''));
@@ -1707,9 +1707,9 @@ function main_showrootlog($eventData)
             'action' => $cleanLogAction->getEventsCallString()
         );
 
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')) {
+        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log')) {
             $logContent = file_get_contents(
-                InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log'
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log'
             );
         }
     }
@@ -1734,13 +1734,13 @@ $gViewDispatcher->addEvent('showrootwebserviceslog', 'main_showrootwebserviceslo
 function main_showrootwebserviceslog($eventData)
 {
     global $gLocale, $gPageTitle, $gXmlDefinition, $gToolbars;
-$gWui = \Innomatic\Wui\Wui::instance('wui');
+$gWui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $gWui->loadWidget('vertgroup');
 $gWui->loadWidget('toolbars');
 
     $logContent = '';
 
-    if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log')) {
+    if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log')) {
         $cleanLogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $cleanLogAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'showrootwebserviceslog', ''));
         $cleanLogAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'cleanrootwebserviceslog', ''));
@@ -1752,9 +1752,9 @@ $gWui->loadWidget('toolbars');
             'action' => $cleanLogAction->getEventsCallString()
         ));
 
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log')) {
+        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log')) {
             $logContent = file_get_contents(
-                InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log'
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log'
             );
         }
     }

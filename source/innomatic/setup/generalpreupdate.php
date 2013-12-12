@@ -14,23 +14,23 @@
 */
 
 /*
-if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome()
+if (file_exists(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                 . 'core/db/innomatic_root.xml.old')) {
-      @copy(InnomaticContainer::instance('innomaticcontainer')->getHome()
+      @copy(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
            . 'core/db/innomatic_root.xml.old',
-           InnomaticContainer::instance('innomaticcontainer')->getHome()
+           InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
            . 'core/db/innomatic_root.xml.old2' );
 }
-if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome()
+if (file_exists(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                 . 'core/db/innomatic_root.xml')) {
-    @copy(InnomaticContainer::instance('innomaticcontainer')->getHome()
+    @copy(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
           . 'core/db/innomatic_root.xml',
-          InnomaticContainer::instance('innomaticcontainer')->getHome()
+          InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
           . 'core/db/innomatic_root.xml.old' );
 }
 */
 
 chmod(
-    InnomaticContainer::instance('innomaticcontainer')->getHome()
+    InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
     . 'core/temp/pids', 0777
 );

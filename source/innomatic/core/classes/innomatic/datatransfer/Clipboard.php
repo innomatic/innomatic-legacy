@@ -62,8 +62,8 @@ class Clipboard
         $this->_application = $application;
         $this->_domain = $domain;
         $this->_user = $user;
-        $this->_fileName = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $this->_fileName = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getHome() . 'core/temp/clipboard/'
         . $this->_type . '_' . $this->_customType . '_' . $this->_unit
         . '_' . $this->_application . '_' . $this->_domain

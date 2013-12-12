@@ -20,8 +20,8 @@ class ScriptContainer extends \Innomatic\Util\Singleton
 {
     public function ___construct()
     {
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
-        $innomatic->setInterface(InnomaticContainer::INTERFACE_CONSOLE);
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $innomatic->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_CONSOLE);
         $home = RootContainer::instance('rootcontainer')->getHome()
             . 'innomatic/';
         $innomatic->bootstrap($home, $home . 'core/conf/innomatic.ini');

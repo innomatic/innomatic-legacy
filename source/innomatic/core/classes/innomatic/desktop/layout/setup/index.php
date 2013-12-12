@@ -13,20 +13,23 @@
  * @since      Class available since Release 5.0
 */
 
-\Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"');
-\Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT');
-\Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('Last-Modified', gmdate('D, d M Y H:i:s'));
-\Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('Cache-control', 'no-cache, must-revalidate');
-\Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('Pragma', 'no-cache');
+use \Innomatic\Core\InnomaticContainer;
+use \Share\Wui;
+
+\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"');
+\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT');
+\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader('Last-Modified', gmdate('D, d M Y H:i:s'));
+\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader('Cache-control', 'no-cache, must-revalidate');
+\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader('Pragma', 'no-cache');
 
 function setup_entry(&$progress, $phases, $phaseMark, $phaseCompleted, $phaseName, $wui_table, $row)
 {
-    if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/'.$phaseMark)) {
+    if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/'.$phaseMark)) {
         $ball_icon = $wui_table->mThemeHandler->mStyle['goldball'];
         $font_color = 'yellow';
         $pre = '<b>';
         $post = '</b>';
-    } elseif (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/'.$phaseCompleted)) {
+    } elseif (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/'.$phaseCompleted)) {
         $ball_icon = $wui_table->mThemeHandler->mStyle['redball'];
         $font_color = 'black';
         $pre = '';
@@ -46,15 +49,15 @@ function setup_entry(&$progress, $phases, $phaseMark, $phaseCompleted, $phaseNam
 // Checks if Innomatic is in setup phase
 //
 /*
- if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
+ if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
  main_page();
  }
  */
 
-$innomaticLocale = new \Innomatic\Locale\LocaleCatalog('innomatic::setup', isset($language) ? $language : InnomaticContainer::instance('innomaticcontainer')->getLanguage());
-$log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+$innomaticLocale = new \Innomatic\Locale\LocaleCatalog('innomatic::setup', isset($language) ? $language : \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
+$log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
-$wui = \Innomatic\Wui\Wui::instance('wui');
+$wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $wui->loadWidget('button');
 $wui->loadWidget('checkbox');
 $wui->loadWidget('combobox');
@@ -91,7 +94,7 @@ $actionDispatcher->addEvent('checksystem', 'pass_checksystem');
 function pass_checksystem($eventData)
 {
     global $innomaticLocale;
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     \Innomatic\Setup\InnomaticSetup::checksystem($eventData, $log);
 }
 
@@ -99,7 +102,7 @@ $actionDispatcher->addEvent('installfiles', 'pass_installfiles');
 function pass_installfiles($eventData)
 {
     global $innomaticLocale, $log;
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     \Innomatic\Setup\InnomaticSetup::installfiles($eventData, $log);
 }
 
@@ -107,7 +110,7 @@ $actionDispatcher->addEvent('setedition', 'pass_setedition');
 function pass_setedition($eventData)
 {
     global $innomaticLocale;
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     \Innomatic\Setup\InnomaticSetup::setedition($eventData, $log);
 }
 
@@ -115,7 +118,7 @@ $actionDispatcher->addEvent('createdataaccessdrivers', 'pass_createdataaccessdri
 function pass_createdataaccessdrivers($eventData)
 {
     global $innomaticLocale;
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     \Innomatic\Setup\InnomaticSetup::dataaccessdrivers($eventData, $log);
 }
 
@@ -123,7 +126,7 @@ $actionDispatcher->addEvent('createdb', 'pass_createdb');
 function pass_createdb($eventData)
 {
     global $innomaticLocale;
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     \Innomatic\Setup\InnomaticSetup::createdb($eventData, $log);
 }
 
@@ -131,7 +134,7 @@ $actionDispatcher->addEvent('initializecomponents', 'pass_initializecomponents')
 function pass_initializecomponents($eventData)
 {
     global $innomaticLocale;
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     \Innomatic\Setup\InnomaticSetup::initializecomponents($eventData, $log);
 }
 
@@ -139,7 +142,7 @@ $actionDispatcher->addEvent('setpassword', 'pass_setpassword');
 function pass_setpassword($eventData)
 {
     global $innomaticLocale;
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     \Innomatic\Setup\InnomaticSetup::setpassword($eventData, $log);
 }
 
@@ -147,7 +150,7 @@ $actionDispatcher->addEvent('setinnomatichost', 'pass_setinnomatichost');
 function pass_setinnomatichost($eventData)
 {
     global $innomaticLocale;
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     \Innomatic\Setup\InnomaticSetup::setinnomatichost($eventData, $log);
 }
 
@@ -155,7 +158,7 @@ $actionDispatcher->addEvent('setcountry', 'pass_setcountry');
 function pass_setcountry($eventData)
 {
     global $innomaticLocale;
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     \Innomatic\Setup\InnomaticSetup::setcountry($eventData, $log);
 }
 
@@ -170,7 +173,7 @@ function pass_setlanguage($eventData)
  function pass_setappcentral($eventData)
  {
  global $wui_mainstatus, $innomatic_locale;
- $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+ $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
  \Innomatic\Setup\InnomaticSetup::appcentral($eventData, $log);
  }
  */
@@ -178,7 +181,7 @@ $actionDispatcher->addEvent('cleanup', 'pass_cleanup');
 function pass_cleanup($eventData)
 {
     global $innomaticLocale;
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     \Innomatic\Setup\InnomaticSetup::setBaseUrl();
     \Innomatic\Setup\InnomaticSetup::cleanup($eventData, $log);
 }
@@ -187,7 +190,7 @@ $actionDispatcher->addEvent('finish', 'pass_finish');
 function pass_finish($eventData)
 {
     global $innomaticLocale;
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     \Innomatic\Setup\InnomaticSetup::finish($eventData, $log);
 }
 
@@ -250,8 +253,8 @@ $progress_vert_group->addChild(new WuiProgressBar('progress', array('progress' =
 
 // Checks if there are remaining setup phases
 //
-if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_lock')) {
-    $uri = dirname(\Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getRequestURI());
+if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_lock')) {
+    $uri = dirname(\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getRequest()->getRequestURI());
     $wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('innomaticsetup_title'), 'javascript' => "parent.location.href='".$uri."'"));
     $wuiPage->addChild($wuiMainVertGroup);
     $wui->addChild($wuiPage);
@@ -259,13 +262,13 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 } else {
     // System check
     //
-    if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_systemchecked')) {
+    if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_systemchecked')) {
         $wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('innomaticsetup_title')));
 
         $systemok = true;
         $row = 0;
 
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_checkingsystem', time());
+        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_checkingsystem', time());
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('systemcheck_title');
 
@@ -407,10 +410,10 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         if ($systemok) {
             $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'checksystem', ''));
-            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
         } else {
             $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
-            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('retry_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/reload.png', 'action' => $next_action->getEventsCallString()));
+            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('retry_button'), 'horiz' => 'true', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/reload.png', 'action' => $next_action->getEventsCallString()));
         }
 
         $wui_vgroup->addChild(new WuiHorizBar('horizbar'));
@@ -422,16 +425,16 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Files installation
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_filesinstalled')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_installingfiles', time());
+    else if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_filesinstalled')) {
+        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_installingfiles', time());
         $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'installfiles', ''));
-        \Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('Location', $next_action->getEventsCallString());
+        \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader('Location', $next_action->getEventsCallString());
     }
     // Innomatic edition
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_editionset')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingedition', time());
+    else if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_editionset')) {
+        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingedition', time());
 
         $wui_vgroup = new WuiVertgroup('vgroup');
 
@@ -457,7 +460,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
         $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'setedition', ''));
         $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'edition', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'edition', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.'icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'edition', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/'.'icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
@@ -473,14 +476,14 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Database creation
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_dataaccessdriverscreated')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_creatingdataaccessdrivers', time());
+    else if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_dataaccessdriverscreated')) {
+        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_creatingdataaccessdrivers', time());
 
         $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'createdataaccessdrivers', ''));
-        \Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('Location', $next_action->getEventsCallString());
-    } elseif (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_dbcreated')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_creatingdb', time());
+        \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader('Location', $next_action->getEventsCallString());
+    } elseif (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_dbcreated')) {
+        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_creatingdb', time());
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('dbcreation_title');
 
         $wui_vgroup = new WuiVertgroup('vgroup');
@@ -519,7 +522,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'createdb', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'createdb', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.'icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'createdb', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/'.'icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
@@ -533,8 +536,8 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Components initialization
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_componentsinitialized')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_initializingcomponents', time());
+    else if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_componentsinitialized')) {
+        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_initializingcomponents', time());
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('components_title');
 
@@ -545,7 +548,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'initializecomponents', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup->addChild(new WuiHorizBar('hr'));
         $wui_vgroup->addChild($next_button);
@@ -554,8 +557,8 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Innomatic host name and group
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_innomatichostset')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinginnomatichost', time());
+    else if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_innomatichostset')) {
+        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settinginnomatichost', time());
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('innomatichost_title');
 
@@ -580,7 +583,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'setinnomatichost', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'setinnomatichost', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'setinnomatichost', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
@@ -594,16 +597,16 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Root administration country
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_countryset')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingcountry', time());
+    else if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_countryset')) {
+        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingcountry', time());
 
-        $args['dbname'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseName');
-        $args['dbhost'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseHost');
-        $args['dbport'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabasePort');
-        $args['dbuser'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseUser');
-        $args['dbpass'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabasePassword');
-        $args['dbtype'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseType');
-        $args['dblog']  = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log';
+        $args['dbname'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseName');
+        $args['dbhost'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseHost');
+        $args['dbport'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabasePort');
+        $args['dbuser'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseUser');
+        $args['dbpass'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabasePassword');
+        $args['dbtype'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseType');
+        $args['dblog']  = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic_root_db.log';
         $dasn_string = $args['dbtype'].'://'.
         $args['dbuser'].':'.
         $args['dbpass'].'@'.
@@ -613,12 +616,12 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
                         'logfile='.$args['dblog'];
         $tmpdb = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(new \Innomatic\Dataaccess\DataAccessSourceName($dasn_string));
         if ($tmpdb->Connect()) {
-            $tmploc = new \Innomatic\Locale\LocaleCatalog('innomatic::localization', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+            $tmploc = new \Innomatic\Locale\LocaleCatalog('innomatic::localization', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
 
             $country_query = &$tmpdb->execute('SELECT * '.
                                                   'FROM locale_countries');
 
-            $country_locale = new \Innomatic\Locale\LocaleCatalog('innomatic::localization', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+            $country_locale = new \Innomatic\Locale\LocaleCatalog('innomatic::localization', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
 
             $wui_vgroup = new WuiVertgroup('vgroup');
 
@@ -647,7 +650,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
             $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'setcountry', ''));
-            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'country', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'country', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
             $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
@@ -665,23 +668,23 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Root administration language
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_languageset')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settinglanguage', time());
+    else if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_languageset')) {
+        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settinglanguage', time());
 
         $pass_data = $actionDispatcher->getEventData();
         $country = $pass_data['country'];
 
         if (!strlen($country)) {
-            $country = InnomaticContainer::instance('innomaticcontainer')->getCountry();
+            $country = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCountry();
         }
 
-        $args['dbname'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseName');
-        $args['dbhost'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseHost');
-        $args['dbport'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabasePort');
-        $args['dbuser'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseUser');
-        $args['dbpass'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabasePassword');
-        $args['dbtype'] = InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseType');
-        $args['dblog']  = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic_root_db.log';
+        $args['dbname'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseName');
+        $args['dbhost'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseHost');
+        $args['dbport'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabasePort');
+        $args['dbuser'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseUser');
+        $args['dbpass'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabasePassword');
+        $args['dbtype'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseType');
+        $args['dblog']  = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic_root_db.log';
         $dasn_string = $args['dbtype'].'://'.
         $args['dbuser'].':'.
         $args['dbpass'].'@'.
@@ -694,7 +697,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
             $loc_country = new \Innomatic\Locale\LocaleCountry($country);
             $country_language = $loc_country->Language();
 
-            $language_locale = new \Innomatic\Locale\LocaleCatalog('innomatic::localization', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+            $language_locale = new \Innomatic\Locale\LocaleCatalog('innomatic::localization', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
 
             $selected_language = $actionDispatcher->getEventData();
             if (isset($selected_language['language'])) {
@@ -731,7 +734,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
             $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'setlanguage', ''));
             $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'language', ''));
-            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'language', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+            $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'language', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
             $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
@@ -749,8 +752,8 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     }
     // Password choice
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_passwordset')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingpassword', time());
+    else if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_passwordset')) {
+        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingpassword', time());
 
         $wui_grid = new WuiGrid('grid');
 
@@ -772,7 +775,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'setpassword', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'password', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'password', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
@@ -789,8 +792,8 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     // AppCentral
     //
     /*
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_appcentralset')) {
-    @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_settingappcentral', time());
+    else if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_appcentralset')) {
+    @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingappcentral', time());
 
     $wui_vgroup = new WuiVertgroup('vgroup');
 
@@ -811,7 +814,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
     $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
     $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'setappcentral', ''));
-    $next_button = new WuiButton('nextbutton', array('label' => $innomatic_locale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'appcentral', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.'icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+    $next_button = new WuiButton('nextbutton', array('label' => $innomatic_locale->getStr('next_button'), 'horiz' => 'true', 'formsubmit' => 'appcentral', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/'.'icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
     $wui_vgroup2 = new WuiVertgroup('vgroup2');
 
@@ -828,8 +831,8 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
     */
     // Final cleanup
     //
-    else if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_cleanedup')) {
-        @touch(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_cleaningup', time());
+    else if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_cleanedup')) {
+        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_cleaningup', time());
 
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('cleanup_title');
 
@@ -840,13 +843,13 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'cleanup', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup->addChild(new WuiHorizBar('hr'));
         $wui_vgroup->addChild($next_button);
         \Innomatic\Setup\InnomaticSetup::check_log($wui_vgroup);
         $wuiMainFrame->addChild($wui_vgroup);
-    } elseif (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/setup_done')) {
+    } elseif (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_done')) {
         $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('finish_title');
 
         $wui_vgroup = new WuiVertgroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
@@ -856,7 +859,7 @@ if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'
 
         $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'finish', ''));
-        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
+        $next_button = new WuiButton('nextbutton', array('label' => $innomaticLocale->getStr('next_button'), 'horiz' => 'true', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/icons/crystalflat/actions/forward.png', 'action' => $next_action->getEventsCallString()));
 
         $wui_vgroup->addChild(new WuiHorizBar('hr'));
         $wui_vgroup->addChild($next_button);

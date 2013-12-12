@@ -167,6 +167,7 @@ class RootContainer extends \Innomatic\Util\Singleton
 	{
 		// Backwards compatibility system
 		if (!isset($GLOBALS['system_classes'])) {
+			if (file_exists('innomatic/core/applications/innomatic/application.xml')) {
 			$xml = file_get_contents('innomatic/core/applications/innomatic/application.xml');
 			$file = new \SimpleXMLElement($xml);
 			$classes = array();
@@ -199,6 +200,7 @@ class RootContainer extends \Innomatic\Util\Singleton
 			
 				$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
 				$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+			}
 			}
 		}
 		

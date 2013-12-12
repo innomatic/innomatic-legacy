@@ -31,85 +31,85 @@ class ApplicationKeyRing
 
                 copy(
                     $keyFile,
-                    InnomaticContainer::instance('innomaticcontainer')->getHome().'core/keyring/'.$keyName
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/keyring/'.$keyName
                 );
 
-                $checkQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+                $checkQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
                     'SELECT id '.
                     'FROM applications_keyring_keys '
-                    .'WHERE application='.InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    .'WHERE application='.\Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getDataAccess()->formatText($innocoderKey['applicationid'])
                     .' AND domain='
-                    .InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    .\Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getDataAccess()->formatText($innocoderKey['domainid'])
                 );
 
                 if ( $checkQuery->getNumberRows() ) {
-                    InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->Execute(
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->Execute(
                         'UPDATE applications_keyring_keys '.
                         'SET version='
-                        .InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($innocoderKey['version']).','
                         .'maxdomainusers='.(
                             strlen($innocoderKey['maxdomainusers'])
                             ? $innocoderKey['maxdomainusers']
                             : '0'
                         ).','.'validip='
-                        .InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($innocoderKey['validip'])
                         .','.'validrange='
-                        .InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($innocoderKey['validrange'])
                         .','.'expirydate='
-                        .InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($innocoderKey['expirydate'])
                         .' '.'WHERE application='
-                        .InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($innocoderKey['applicationid'])
                         .' '.'AND domain='
-                        .InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($innocoderKey['domainid'])
                     );
                 } else {
-                    $id = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->getNextSequenceValue(
+                    $id = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->getNextSequenceValue(
                         'applications_keyring_keys_id_seq'
                     );
-                    InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->Execute(
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->Execute(
                         'INSERT INTO applications_keyring_keys '.
                         'VALUES ('.$id.','
-                        .InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($innocoderKey['applicationid']).','
-                        .InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($innocoderKey['version']).','
-                        .InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($innocoderKey['domainid']).','
                         .(
                             strlen($innocoderKey['maxdomainusers'])
                             ? $innocoderKey['maxdomainusers']
                             : '0'
                         )
-                        .','.InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .','.\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($innocoderKey['validip']).','
-                        .InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($innocoderKey['validrange']).','
-                        .InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($innocoderKey['expirydate']).','
-                        .InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        .\Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->formatText($keyName).')'
                     );
                 }
@@ -130,20 +130,20 @@ class ApplicationKeyRing
         $id = (int)$id;
 
         if ( $id ) {
-            $checkQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+            $checkQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
                 'SELECT file '.
                 'FROM applications_keyring_keys '.
                 'WHERE id='.$id
             );
 
             if ( $checkQuery->getNumberRows() ) {
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->Execute(
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->Execute(
                     'DELETE FROM applications_keyring_keys '.
                     'WHERE id='.$id
                 );
 
                 unlink(
-                    InnomaticContainer::instance('innomaticcontainer')->getHome()
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                     .'core/keyring/'.$checkQuery->getFields('file')
                 );
             }
@@ -160,16 +160,16 @@ class ApplicationKeyRing
         if (
             !ApplicationKeyRing::checkKey(
                 $applicationName,
-                InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()
-                ? InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->isDomainStarted()
+                ? \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
                 : '',
                 $password
             )
         ) {
             ApplicationKeyRing::dieKey(
                 $applicationName,
-                InnomaticContainer::instance('innomaticcontainer')->isDomainStarted()
-                ? InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->isDomainStarted()
+                ? \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
                 : ''
             );
         }
@@ -187,9 +187,9 @@ class ApplicationKeyRing
 
         // If in upgrade state we must ensure Innomatic runs anyway
         if (
-            InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_UPGRADE
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_UPGRADE
         ) {
-            $filename = InnomaticContainer::instance('innomaticcontainer')->getHome()
+            $filename = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             .'core/keyring/'.$applicationName;
             if ( strlen($domainName) ) $filename .= '-'.$domainName;
             $filename .= '.key';
@@ -217,12 +217,12 @@ class ApplicationKeyRing
         $domainName = ''
         )
     {
-        InnomaticContainer::instance('innomaticcontainer')->abort(
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->abort(
             'Key for application '.$applicationName.(
                 strlen($domainName) ? ', domain '.$domainName : ''
             )
             .' is missing or has expired',
-            InnomaticContainer::INTERFACE_WEB
+            \Innomatic\Core\InnomaticContainer::INTERFACE_WEB
         );
     }
 }

@@ -45,12 +45,12 @@ class SharedComponent extends \Innomatic\Application\ApplicationComponent
         if (strlen($params['name'])) {
             $file = $this->basedir . '/shared/' . $params['name'];
             if (is_dir($file)) {
-                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($file.'/', InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/'.basename($file).'/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($file.'/', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/'.basename($file).'/')) {
                     $result = true;
                 }
             } else {
-                if (@copy($file, InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file))) {
-                    @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file), 0644);
+                if (@copy($file, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($file))) {
+                    @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($file), 0644);
                     $result = true;
                 }
             }
@@ -62,11 +62,11 @@ class SharedComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['name'])) {
-            if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
-                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']));
+            if (is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($params['name']))) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($params['name']));
                 $result = true;
             } else {
-                if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
+                if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($params['name']))) {
                     $result = true;
                 }
             }
@@ -77,23 +77,23 @@ class SharedComponent extends \Innomatic\Application\ApplicationComponent
     public function DoUpdateAction($params)
     {
         if (strlen($params['name'])) {
-            if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
-                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']));
+            if (is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($params['name']))) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($params['name']));
                 $result = true;
             } else {
-                if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
+                if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($params['name']))) {
                     $result = true;
                 }
             }
 
             $file = $this->basedir . '/shared/' . $params['name'];
             if (is_dir($file)) {
-                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($file.'/', InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/'.basename($file).'/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($file.'/', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/'.basename($file).'/')) {
                     $result = true;
                 }
             } else {
-                if (@copy($file, InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file))) {
-                    @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file), 0644);
+                if (@copy($file, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($file))) {
+                    @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($file), 0644);
                     $result = true;
                 }
             }

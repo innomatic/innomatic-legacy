@@ -28,7 +28,7 @@ class InterfacePanelActions extends \Innomatic\Desktop\Panel\PanelActions
     public $status;
     public $javascript;
 
-    public function __construct(PanelController $controller)
+    public function __construct(\Innomatic\Desktop\Panel\PanelController $controller)
     {
         parent::__construct($controller);
     }
@@ -37,7 +37,7 @@ class InterfacePanelActions extends \Innomatic\Desktop\Panel\PanelActions
     {
         $this->_localeCatalog = new LocaleCatalog(
             'innomatic::domain_interface',
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
         );
     }
 
@@ -48,28 +48,28 @@ class InterfacePanelActions extends \Innomatic\Desktop\Panel\PanelActions
     public function executesettheme($eventData)
     {
         $userCfg = new UserSettings(
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId());
         $userCfg->setKey('wui-theme', $eventData['theme']);
 
         if (
                 User::isAdminUser(
-                        InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserName(),
-                        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+                        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName(),
+                        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
                 )
         ) {
             $domainCfg = new DomainSettings(
-                    InnomaticContainer::instance(
-                            'innomaticcontainer'
+                    \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                     )->getCurrentDomain()->getDataAccess());
             $domainCfg->EditKey('wui-theme', $eventData['theme']);
         }
 
-        $wui = Wui::instance('wui');
+        $wui = Wui::instance('\Innomatic\Wui\Wui');
         $wui->setTheme($eventData['theme']);
 
         WebAppContainer::instance(
-        'webappcontainer'
+        '\Innomatic\Webapp\WebAppContainer'
                 )->getProcessor()->getResponse()->addHeader(
                 'Location',
                 WuiEventsCall::buildEventsCallString(
@@ -93,20 +93,20 @@ class InterfacePanelActions extends \Innomatic\Desktop\Panel\PanelActions
     public function executesetlanguage($eventData)
     {
         $userCfg = new UserSettings(
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId());
         $userCfg->setKey('desktop-language', $eventData['language']);
 
         $domainSets = new DomainSettings(
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
         );
 
         if (
                 User::isAdminUser(
-                        InnomaticContainer::instance(
-                                'innomaticcontainer'
+                        \Innomatic\Core\InnomaticContainer::instance(
+                                '\Innomatic\Core\InnomaticContainer'
                         )->getCurrentUser()->getUserName(),
-                        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+                        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
                 )
         ) {
             $domainSets->EditKey('desktop-language', $eventData['language']);
@@ -122,20 +122,20 @@ class InterfacePanelActions extends \Innomatic\Desktop\Panel\PanelActions
     public function executesetcountry($eventData)
     {
         $userCfg = new UserSettings(
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId());
         $userCfg->setKey('desktop-country', $eventData['country']);
 
         $domainSettings = new DomainSettings(
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
         );
 
         if (
                 User::isAdminUser(
-                        InnomaticContainer::instance(
-                                'innomaticcontainer'
+                        \Innomatic\Core\InnomaticContainer::instance(
+                                '\Innomatic\Core\InnomaticContainer'
                         )->getCurrentUser()->getUserName(),
-                        InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDomainId()
+                        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
                 )
         ) {
             $domainSettings->EditKey('desktop-country', $eventData['country']);

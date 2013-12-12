@@ -28,13 +28,13 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
         $login_disp->addEvent('logout', '\Innomatic\Desktop\Auth\login_logout');
         $login_disp->Dispatch();
 
-        if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value('SecurityOnlyHttpsRootAccessAllowed') == '1') {
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->Value('SecurityOnlyHttpsRootAccessAllowed') == '1') {
             if (!isset($_SERVER['HTTPS']) or ($_SERVER['HTTPS'] != 'on')) {
                 self::doAuth(true, 'only_https_allowed');
             }
         }
 
-        $session = \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->session;
+        $session = \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session;
         if (!$session->isValid('INNOMATIC_ROOT_AUTH_USER')) {
             self::doAuth();
         }
@@ -43,18 +43,18 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
             $session->remove('root_login_attempts');
         }
 
-        InnomaticContainer::instance('innomaticcontainer')->startRoot($session->get('INNOMATIC_ROOT_AUTH_USER'));
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->startRoot($session->get('INNOMATIC_ROOT_AUTH_USER'));
 
         return true;
     }
 
     public static function doAuth($wrong = false, $reason = '')
     {
-        $innomatic_locale = new \Innomatic\Locale\LocaleCatalog('innomatic::authentication', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+        $innomatic_locale = new \Innomatic\Locale\LocaleCatalog('innomatic::authentication', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
 
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
-        $wui = \Innomatic\Wui\Wui::instance('wui');
+        $wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
         $wui->loadWidget('button');
         $wui->loadWidget('empty');
         $wui->loadWidget('formarg');
@@ -105,7 +105,7 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
         $wui_form = new WuiForm('form', array('action' => $form_events_call->getEventsCallString()));
 
         $wui_hgroup = new WuiHorizgroup('horizgroup', array('align' => 'middle'));
-        $wui_hgroup->addChild(new WuiButton('password', array('themeimage' => 'keyhole', 'themeimagetype' => 'big', 'action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/', 'highlight' => false)));
+        $wui_hgroup->addChild(new WuiButton('password', array('themeimage' => 'keyhole', 'themeimagetype' => 'big', 'action' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl().'/', 'highlight' => false)));
         $wui_hgroup->addChild($wui_vgroup);
 
         $wui_form->addChild($wui_hgroup);
@@ -113,10 +113,10 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
 
         // Wrong account check
         //
-        $session = \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->session;
+        $session = \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session;
 
         if ($wrong) {
-            if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value('SecurityAlertOnWrongLocalRootLogin') == '1') {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->Value('SecurityAlertOnWrongLocalRootLogin') == '1') {
                 $innomatic_security = new \Innomatic\Security\SecurityManager();
                 $innomatic_security->sendAlert('Wrong root local login from remote address '.$_SERVER['REMOTE_ADDR']);
                 $innomatic_security->logFailedAccess('', true, $_SERVER['REMOTE_ADDR']);
@@ -124,10 +124,10 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
                 unset($innomatic_security);
             }
 
-            $sleep_time = InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value('WrongLoginDelay');
+            $sleep_time = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->Value('WrongLoginDelay');
             if (!strlen($sleep_time))
             $sleep_time = 1;
-            $max_attempts = InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value('MaxWrongLogins');
+            $max_attempts = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->Value('MaxWrongLogins');
             if (!strlen($max_attempts))
             $max_attempts = 3;
 
@@ -136,7 +136,7 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
             if ($session->isValid('root_login_attempts')) {
                 $session->put('root_login_attempts', $session->get('root_login_attempts') + 1);
                 if ($session->get('root_login_attempts') >= $max_attempts) {
-                    InnomaticContainer::instance('innomaticcontainer')->abort($innomatic_locale->getStr('wrongpwd'));
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->abort($innomatic_locale->getStr('wrongpwd'));
                 }
             } else {
                 $session->put('root_login_attempts', 1);
@@ -154,7 +154,7 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
         // Page render
         //
         $wui_maingroup->addChild($wui_titlebar);
-        //$wui_maingroup->addChild( new WuiButton( 'innomaticlogo', array( 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/styles/cleantheme/innomatic_big_asp.png', 'action' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/' ) ) );
+        //$wui_maingroup->addChild( new WuiButton( 'innomaticlogo', array( 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/styles/cleantheme/innomatic_big_asp.png', 'action' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl().'/' ) ) );
         $wui_mainbframe->addChild($wui_mainframe);
         $wui_mainbframe->addChild(new WuiHorizBar('hb'));
         $wui_mainbframe->addChild(new WuiLink('copyright', array('label' => $innomatic_locale->getStr('auth_copyright.label'), 'link' => 'http://www.innoteam.it/', 'target' => '_blank')));
@@ -165,7 +165,7 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
         $wui->addChild($wui_page);
         $wui->render();
 
-        InnomaticContainer::instance('innomaticcontainer')->halt();
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
     }
 
     public function authorize()
@@ -176,11 +176,11 @@ class DesktopRootAuthenticatorHelper implements DesktopAuthenticatorHelper
 
 function login_login($eventData)
 {
-    $fh = @fopen(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/rootpasswd.ini', 'r');
+    $fh = @fopen(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/rootpasswd.ini', 'r');
     if ($fh) {
         $cpassword = fgets($fh, 4096);
         if ($eventData['username'] == 'root' and md5($eventData['password']) == $cpassword) {
-            \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->session->put(
+            \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session->put(
                 'INNOMATIC_ROOT_AUTH_USER',
                 $eventData['username']);
 
@@ -190,7 +190,7 @@ function login_login($eventData)
             unset($innomatic_security);
         } else {
             DesktopRootAuthenticatorHelper::doAuth(true);
-            \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->session->remove('INNOMATIC_ROOT_AUTH_USER');
+            \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session->remove('INNOMATIC_ROOT_AUTH_USER');
         }
     } else {
         DesktopRootAuthenticatorHelper::doAuth(true);
@@ -203,7 +203,7 @@ function login_logout($eventData)
     $innomatic_security = new \Innomatic\Security\SecurityManager();
     $innomatic_security->LogAccess('', true, true, $_SERVER['REMOTE_ADDR']);
 
-    \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->session->remove('INNOMATIC_ROOT_AUTH_USER');
+    \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session->remove('INNOMATIC_ROOT_AUTH_USER');
     unset($innomatic_security);
     DesktopRootAuthenticatorHelper::doAuth();
 }

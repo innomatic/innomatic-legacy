@@ -30,12 +30,12 @@ abstract class PanelViews implements \Innomatic\Util\Observer
     protected $_helper;
     protected $_wuiContainer;
 
-    public function __construct(PanelController $controller)
+    public function __construct(\Innomatic\Desktop\Panel\PanelController $controller)
     {
         $this->_controller = $controller;
 
         // Sets Wui container instance
-        $this->_wuiContainer = \Innomatic\Wui\Wui::instance('wui');
+        $this->_wuiContainer = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
     }
 
     abstract public function beginHelper();

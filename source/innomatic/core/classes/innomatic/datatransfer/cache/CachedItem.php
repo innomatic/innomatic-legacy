@@ -57,7 +57,7 @@ class CachedItem
      */
     public function __construct(\Innomatic\Dataaccess\DataAccess $rrootDb, $application, $itemId, $domainId = 0, $userId = 0)
     {
-        $this->cachePath = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/cache/';
+        $this->cachePath = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/cache/';
         $domainId = (int) $domainId;
         $userId = (int) $userId;
         $this->mrRootDb = $rrootDb;

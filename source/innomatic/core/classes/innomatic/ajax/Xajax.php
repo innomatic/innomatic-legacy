@@ -675,7 +675,7 @@ class Xajax extends \Innomatic\Util\Singleton
         if ($this->bErrorHandler) restore_error_handler();
 
         if ($this->bExitAllowed)
-            InnomaticContainer::instance('innomaticcontainer')->halt();
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
     }
 
     /**
@@ -869,7 +869,7 @@ class Xajax extends \Innomatic\Util\Singleton
             } else {
                 print "xajax Error: xajax failed to automatically identify your Request URI.";
                 print "Please set the Request URI explicitly when you instantiate the xajax object.";
-                InnomaticContainer::instance('innomaticcontainer')->halt();
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
             }
         }
 

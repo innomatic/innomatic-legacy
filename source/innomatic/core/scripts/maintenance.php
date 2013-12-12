@@ -17,7 +17,7 @@ require_once('scripts_container.php');
 
 $script = ScriptContainer::instance('scriptcontainer');
 
-$innomatic = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer');
+$innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 $innomatic->startMaintenance();
 
 $script->cleanExit();

@@ -69,7 +69,7 @@ class Hook
             if ($query) {
 
                 $result = Hook::RESULT_OK;
-                $innomatic = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer');
+                $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
                 while (!$query->eof) {
                     $data = $query->getFields();
                     if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {

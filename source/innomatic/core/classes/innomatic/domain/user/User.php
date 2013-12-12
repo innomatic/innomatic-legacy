@@ -33,14 +33,14 @@ class User
      */
     public function __construct($domainSerial, $userId = 0)
     {
-        $this->rootDA = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
+        $this->rootDA = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
         $this->domainserial = $domainSerial;
         $this->userid = $userId;
 
-        $domain = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain();
+        $domain = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain();
         if (!is_object($domain)) {
             $domain_query = $this->rootDA->execute('SELECT domainid FROM domains WHERE id='.$domainSerial);
-            $domain = new \Innomatic\Domain\Domain(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $domain_query->getFields('domainid'), null);
+            $domain = new \Innomatic\Domain\Domain(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $domain_query->getFields('domainid'), null);
         }
         $this->domainDA = $domain->getDataAccess();
 
@@ -97,7 +97,7 @@ class User
     public static function getUserIdByUsername($username)
     {
         if (!empty($username)) {
-            $uquery = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->execute('SELECT id FROM domain_users WHERE username='.InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess()->formatText($username));
+            $uquery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute('SELECT id FROM domain_users WHERE username='.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->formatText($username));
             return $uquery->getFields('id');
         }
         return false;
@@ -148,7 +148,7 @@ class User
 
                         $result = $seqval;
 
-                        \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$max_users_query->getFields('domainid').'/users/'.$userdata['username'].'/', 0755);
+                        \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/domains/'.$max_users_query->getFields('domainid').'/users/'.$userdata['username'].'/', 0755);
 
                         if ($hook->callHooks('useradded', $this, array('domainserial' => $this->domainserial, 'userdata' => $userdata)) != \Innomatic\Process\Hook::RESULT_OK)
                             $result = false;
@@ -170,7 +170,7 @@ class User
         $domainsquery = $this->rootDA->execute('SELECT id FROM domains WHERE domainid='.$this->rootDA->formatText($domainid));
 
         $userdata['domainid'] = $domainsquery->getFields('id');
-        $userdata['username'] = 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'.$domainid : '');
+        $userdata['username'] = 'admin'.(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'.$domainid : '');
         $userdata['lname'] = 'Administrator';
         $userdata['password'] = $domainpassword;
         $userdata['groupid'] = 0;
@@ -213,12 +213,12 @@ class User
                         $result = false;
                 } else {
                     
-                    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                     $log->logEvent('innomatic.users.users.edituser', 'Empty username or group id', \Innomatic\Logging\Logger::WARNING);
                 }
             } else {
                 
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent('innomatic.users.users.edituser', 'Invalid user id '.$this->userid, \Innomatic\Logging\Logger::WARNING);
             }
         }
@@ -306,10 +306,10 @@ class User
                 $result = $this->domainDA->execute('DELETE FROM domain_users WHERE id='. (int) $this->userid);
 
                 // Remove user dir
-                $domain_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('SELECT domainid FROM domains WHERE id='. (int) $this->domainserial);
+                $domain_query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute('SELECT domainid FROM domains WHERE id='. (int) $this->domainserial);
 
-                if (InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domain_query->getFields('domainid').'/users/'.$this->username != InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domain_query->getFields('domainid').'/users/') {
-                    \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/domains/'.$domain_query->getFields('domainid').'/users/'.$this->username, 0755);
+                if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/domains/'.$domain_query->getFields('domainid').'/users/'.$this->username != \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/domains/'.$domain_query->getFields('domainid').'/users/') {
+                    \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/domains/'.$domain_query->getFields('domainid').'/users/'.$this->username, 0755);
                 }
 
                 // Remove cached items
@@ -343,8 +343,8 @@ class User
 
     public static function extractDomainID($username)
     {
-        if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ENTERPRISE) {
-            $domain_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('SELECT domainid FROM domains LIMIT 1');
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE) {
+            $domain_query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute('SELECT domainid FROM domains LIMIT 1');
             if ($domain_query->getNumberRows() == 1) {
                 return $domain_query->getFields('domainid');
             }
@@ -359,32 +359,32 @@ class User
     public function getLanguage()
     {
         $user_settings = new \Innomatic\Domain\User\UserSettings(
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId());
         $lang = $user_settings->getKey('desktop-language');
 
-        return strlen($lang) ? $lang : InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getLanguage();
+        return strlen($lang) ? $lang : \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getLanguage();
     }
 
     public function getCountry()
     {
         $user_settings = new \Innomatic\Domain\User\UserSettings(
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess(),
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserId());
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId());
         $country = $user_settings->getKey('desktop-country');
 
-        return strlen($country) ? $country : InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getCountry();
+        return strlen($country) ? $country : \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getCountry();
     }
 
     public static function isAdminUser($username, $domain)
     {
-        $admin_username = 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
+        $admin_username = 'admin'.(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
         return $username == $admin_username ? true : false;
     }
 
     public static function getAdminUsername($domain)
     {
-        return 'admin'.(InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
+        return 'admin'.(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
     }
 
 }

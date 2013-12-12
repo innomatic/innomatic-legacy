@@ -23,9 +23,9 @@ $alertText = '';
 
 $gLocale = new \Innomatic\Locale\LocaleCatalog(
     'innomatic::root_security',
-    InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
 );
-$gWui = \Innomatic\Wui\Wui::instance('wui');
+$gWui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $gWui->loadWidget('xml');
 $gWui->loadWidget('innomaticpage');
 $gWui->loadWidget('innomatictoolbar');
@@ -203,22 +203,22 @@ function action_change_password($eventData)
     global $gPageStatus, $gLocale;
 
     if ($eventData['newpassworda'] == $eventData['newpasswordb']) {
-        $result = InnomaticContainer::setRootPassword($eventData['oldpassword'], $eventData['newpassworda']);
+        $result = \Innomatic\Core\InnomaticContainer::setRootPassword($eventData['oldpassword'], $eventData['newpassworda']);
 
         switch ($result) {
             case 1 :
                 $gPageStatus = $gLocale->getStr('passwordchanged_status');
                 break;
 
-            case InnomaticContainer::SETROOTPASSWORD_NEW_PASSWORD_IS_EMPTY :
+            case \Innomatic\Core\InnomaticContainer::SETROOTPASSWORD_NEW_PASSWORD_IS_EMPTY :
                 $gPageStatus = $gLocale->getStr('newpasswordisempty_status');
                 break;
 
-            case InnomaticContainer::SETROOTPASSWORD_UNABLE_TO_WRITE_NEW_PASSWORD :
+            case \Innomatic\Core\InnomaticContainer::SETROOTPASSWORD_UNABLE_TO_WRITE_NEW_PASSWORD :
                 $gPageStatus = $gLocale->getStr('unabletowritenewpassword_status');
                 break;
 
-            case InnomaticContainer::SETROOTPASSWORD_OLD_PASSWORD_IS_WRONG :
+            case \Innomatic\Core\InnomaticContainer::SETROOTPASSWORD_OLD_PASSWORD_IS_WRONG :
                 $gPageStatus = $gLocale->getStr('wrongoldpassword_status');
                 break;
         }

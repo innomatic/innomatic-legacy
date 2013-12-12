@@ -28,7 +28,7 @@ abstract class PanelActions extends \Innomatic\Util\Observable
 {
     protected $_controller;
 
-    public function __construct(PanelController $controller)
+    public function __construct(\Innomatic\Desktop\Panel\PanelController $controller)
     {
         $this->_controller = $controller;
     }

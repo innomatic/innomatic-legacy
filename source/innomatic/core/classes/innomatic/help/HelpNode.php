@@ -49,33 +49,33 @@ class HelpNode
 
             // Tries specified language catalog
             //
-            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/help/'.$this->_base.'/'.$this->_language.'/'.$node_name)) {
+            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/help/'.$this->_base.'/'.$this->_language.'/'.$node_name)) {
                 $help_node_file = $this->_base.'/'.$this->_language.'/'.$node_name;
             }
             // Tries default catalog
             //
             else
-                if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/help/'.$this->_base.'/'.$node_name)) {
+                if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/help/'.$this->_base.'/'.$node_name)) {
                     $help_node_file = $this->_base.'/'.$node_name;
                 }
             // Tries Innomatic language catalog
             //
             else
-                if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/help/'.$this->_base.'/'.InnomaticContainer::instance('innomaticcontainer')->getLanguage().'/'.$node_name)) {
-                    $help_node_file = $this->_base.'/'.InnomaticContainer::instance('innomaticcontainer')->getLanguage().'/'.$node_name;
+                if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/help/'.$this->_base.'/'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage().'/'.$node_name)) {
+                    $help_node_file = $this->_base.'/'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage().'/'.$node_name;
                 }
             // Tries English catalog
             //
             else
-                if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/help/'.$this->_base.'/en/'.$node_name)) {
+                if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/help/'.$this->_base.'/en/'.$node_name)) {
                     $help_node_file = $this->_base.'/en/'.$node_name;
                 } else {
                     
-                    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                     $log->logEvent('innomatic.txt.txt.getcontent', 'Unable to find an help node file for the specified help node ('.$node_name.') and language ('.$this->_language.') or fallback to another language', \Innomatic\Logging\Logger::ERROR);
                 }
             if (!empty($help_node_file)) {
-                return InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/help/'.$help_node_file.$anchor;
+                return \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/help/'.$help_node_file.$anchor;
             }
         }
         return $result;

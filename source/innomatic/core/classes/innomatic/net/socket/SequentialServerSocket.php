@@ -211,7 +211,7 @@ class SequentialServerSocket extends \Innomatic\Net\Socket\ServerSocket
     public function shutDown()
     {
         if (isset ($GLOBALS["_Net_Server_Status"]) and $GLOBALS["_Net_Server_Status"] != "running") {
-            InnomaticContainer::instance('innomaticcontainer')->halt();
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
         }
         $GLOBALS["_Net_Server_Status"] = "stopped";
 
@@ -224,6 +224,6 @@ class SequentialServerSocket extends \Innomatic\Net\Socket\ServerSocket
 
         @socket_close($this->initFD);
 
-        InnomaticContainer::instance('innomaticcontainer')->halt();
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
     }
 }

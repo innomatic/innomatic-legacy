@@ -100,7 +100,7 @@ function Content_type($contenttype)
     $this->content_type=$contenttype;
     //echo $this->content_type;
     //echo '<br>';
-    //InnomaticContainer::instance('innomaticcontainer')->halt();
+    //\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
 }
 
 /*

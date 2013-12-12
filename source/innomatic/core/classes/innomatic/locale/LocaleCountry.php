@@ -83,7 +83,7 @@ class LocaleCountry
             $this->open();
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic/locale/LocaleCountry', 'Empty country name', \Innomatic\Logging\Logger::ERROR);
         }
     }
@@ -95,7 +95,7 @@ class LocaleCountry
     public function open()
     {
         $result = false;
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
         $country_file = @parse_ini_file($innomatic->getHome().'core/locale/countries/'.$this->country.'.ini', false, INI_SCANNER_RAW);
         if ($country_file !== false) {
@@ -124,7 +124,7 @@ class LocaleCountry
             $result = true;
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic/locale/LocaleCountry', 'Unable to open country file '.$innomatic->getHome().'core/locale/countries/'.$this->country.'.ini', \Innomatic\Logging\Logger::ERROR);
         }
 

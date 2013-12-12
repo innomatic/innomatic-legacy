@@ -37,7 +37,7 @@ class WebServicesUser
      */
     public function __construct($rootda, $userId = '')
     {
-        $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
         if ( $rootda ) $this->mRootDb = $rootda;
         else $this->mLog->LogDie( 'innomatic.webservicesuser',

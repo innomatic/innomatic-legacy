@@ -51,15 +51,15 @@ class DesktopSession implements \Innomatic\Webapp\WebAppSession
         // This must be set before session_start
         if (
             strlen(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getConfig()->value(
                     'DesktopSessionLifetime'
                 )
             )
         ) {
-            $lifetime = InnomaticContainer::instance(
-                'innomaticcontainer'
+            $lifetime = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getConfig()->value(
                 'DesktopSessionLifetime'
             ) * 60;
@@ -70,12 +70,12 @@ class DesktopSession implements \Innomatic\Webapp\WebAppSession
         ini_set('session.cookie_lifetime', $lifetime);
 
         if (
-            InnomaticContainer::instance('innomaticcontainer')->getState()
-            != InnomaticContainer::STATE_SETUP
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState()
+            != \Innomatic\Core\InnomaticContainer::STATE_SETUP
         ) {
             ini_set(
                 'session.save_path',
-                InnomaticContainer::instance('innomaticcontainer')->getHome()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                 . 'core/temp/phpsessions/'
             );
         }

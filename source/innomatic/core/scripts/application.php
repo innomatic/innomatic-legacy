@@ -30,7 +30,7 @@ try {
             break;
 
         case 'deploy' :
-            $app = new \Innomatic\Application\Application(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+            $app = new \Innomatic\Application\Application(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
             if (file_exists($argv[2]) and $app->install($argv[2])) {
                 print("Application $app->appname deployed\n");
                 $script->cleanExit();
@@ -42,7 +42,7 @@ try {
 
         case 'undeploy' :
             $appid = \Innomatic\Application\Application::getAppIdFromName($argv[2]);
-            $app = new \Innomatic\Application\Application(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $appid);
+            $app = new \Innomatic\Application\Application(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $appid);
             if ($app->uninstall()) {
                 print("Application $argv[2] undeployed\n");
                 $script->cleanExit();

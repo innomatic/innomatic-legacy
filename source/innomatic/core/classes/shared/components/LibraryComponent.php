@@ -50,8 +50,8 @@ class LibraryComponent extends \Innomatic\Application\ApplicationComponent
         $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/lib/' . $params['file'];
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/lib/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/lib/' . basename($params['file']), 0644);
+            if (@copy($params['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/lib/' . basename($params['file']))) {
+                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/lib/' . basename($params['file']), 0644);
                 $result = true;
             }
         } else
@@ -62,10 +62,10 @@ class LibraryComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/lib/' . basename($params['file']))) {
+            if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/lib/' . basename($params['file']))) {
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.phpcomponent.phpcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/lib/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('innomatic.phpcomponent.phpcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/lib/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.phpcomponent.phpcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty library file name', \Innomatic\Logging\Logger::ERROR);
         return $result;

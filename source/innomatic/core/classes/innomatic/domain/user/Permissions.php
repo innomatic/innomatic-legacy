@@ -30,7 +30,7 @@ class Permissions
     const NODE_PARTIALLYENABLED = 2;
     const NODE_NOTENABLED = 3;
 
-    public function __construct(DataAccess $domainda, $gid)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $domainda, $gid)
     {
         $this->db = $domainda;
         $this->gid = $gid;

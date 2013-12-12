@@ -28,7 +28,7 @@ echo "
 
 ";
 
-if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
+if (InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != InnomaticContainer::STATE_SETUP) {
     echo "Innomatic has been already installed.\n";
     $script->cleanExit(1);
 }

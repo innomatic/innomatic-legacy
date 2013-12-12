@@ -48,7 +48,7 @@ abstract class Singleton
         //$class = strtolower($class);
         switch ($class) {
         	case 'innomaticcontainer':
-        		$class = 'InnomaticContainer';
+        		$class = '\Innomatic\Core\InnomaticContainer';
         		break;
         	case 'rootcontainer':
         		$class = '\Innomatic\Core\RootContainer';

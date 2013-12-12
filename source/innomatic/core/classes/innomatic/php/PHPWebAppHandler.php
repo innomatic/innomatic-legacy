@@ -31,13 +31,13 @@ class PHPWebAppHandler extends WebAppHandler
     {
         $resource = substr(
             WebAppContainer::instance(
-                'webappcontainer'
+                '\Innomatic\Webapp\WebAppContainer'
             )->getCurrentWebApp()->getHome(), 0, -1
         ) . $req->getPathInfo();
 
         // If this is a directory, check that a welcome file exists
         if (is_dir($resource)) {
-            $this->welcomeFiles = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getWelcomeFiles();
+            $this->welcomeFiles = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getWelcomeFiles();
 
             $path = $this->getRelativePath($req);
             $welcomeFile = $this->findWelcomeFile($path);
@@ -75,7 +75,7 @@ class PHPWebAppHandler extends WebAppHandler
 
         // Resource must reside inside the webapp
         if (\Innomatic\Security\SecurityManager::isAboveBasePath($resource, WebAppContainer::instance(
-                'webappcontainer'
+                '\Innomatic\Webapp\WebAppContainer'
             )->getCurrentWebApp()->getHome())) {
             $res->sendError(
                     WebAppResponse::SC_FORBIDDEN,
@@ -103,7 +103,7 @@ class PHPWebAppHandler extends WebAppHandler
 
         reset($this->welcomeFiles);
         foreach ($this->welcomeFiles as $welcomefile) {
-            if (file_exists(substr(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).$path.$welcomefile.'.php'))
+            if (file_exists(substr(WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome(), 0, -1).$path.$welcomefile.'.php'))
                 return $welcomefile;
         }
 

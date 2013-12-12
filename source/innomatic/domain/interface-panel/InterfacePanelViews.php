@@ -43,7 +43,7 @@ class InterfacePanelViews extends \Innomatic\Desktop\Panel\PanelViews
     {
         $this->_localeCatalog = new LocaleCatalog(
             'innomatic::domain_interface',
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
         );
 
         $this->_wuiContainer->loadWidget('button');
@@ -167,16 +167,16 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
     public function viewdefault($eventData)
     {
         //$app_cfg = new ApplicationSettings(
-        //    InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic' );
+        //    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic' );
 
-        $themesQuery = InnomaticContainer::instance(
-                'innomaticcontainer'
+        $themesQuery = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT name,catalog FROM wui_themes');
 
         while (!$themesQuery->eof) {
             $tmpLocale = new LocaleCatalog(
                     $themesQuery->getFields('catalog'),
-                    InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getLanguage()
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getLanguage()
             );
             $elements[$themesQuery->getFields('name')] = $tmpLocale->getStr($themesQuery->getFields('name'));
 
@@ -204,7 +204,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
           <listbox row="1" col="0"><name>theme</name><args><elements type="array">'
                                 .WuiXml::encode($elements)
                                 .'</elements><default>'
-                                        . (\Innomatic\Wui\Wui::instance('wui')->getThemeName()).
+                                        . (\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getThemeName()).
                                         '</default><disp>action</disp><size>10</size></args></listbox>
         </children></grid>
         <submit><name>submit</name><args><caption type="encoded">'
@@ -226,7 +226,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
 
         $countryLocale = new LocaleCatalog(
                 'innomatic::localization',
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
         );
 
         $selectedCountry = '';
@@ -236,8 +236,8 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
 
         $wuiVGroup = new WuiVertgroup('vgroup');
 
-        $countryQuery = InnomaticContainer::instance(
-                'innomaticcontainer'
+        $countryQuery = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM locale_countries');
 
         while (!$countryQuery->eof) {
@@ -263,8 +263,8 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
                                 'disp' => 'action',
                                 'elements' => $countries,
                                 'default' => (
-                                        $selectedCountry ? $selectedCountry : InnomaticContainer::instance(
-                                                'innomaticcontainer'
+                                        $selectedCountry ? $selectedCountry : \Innomatic\Core\InnomaticContainer::instance(
+                                                '\Innomatic\Core\InnomaticContainer'
                                         )->getCurrentUser()->getCountry()
                                 )
                         )
@@ -291,15 +291,15 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
         $this->wuiMainframe->addChild($wuiForm);
 
         $locCountry = new LocaleCountry(
-                InnomaticContainer::instance(
-                        'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                 )->getCurrentUser()->getCountry()
         );
         $countryLanguage = $locCountry->Language();
 
         $languageLocale = new LocaleCatalog(
                 'innomatic::localization',
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
         );
 
         $selectedLanguage = '';
@@ -309,8 +309,8 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
 
         $wuiVGroup = new WuiVertgroup('vgroup');
 
-        $languageQuery = InnomaticContainer::instance(
-                'innomaticcontainer'
+        $languageQuery = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM locale_languages');
 
         while (!$languageQuery->eof) {
@@ -336,8 +336,8 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
                                 'disp' => 'action',
                                 'elements' => $languages,
                                 'default' => (
-                                        $selectedLanguage ? $selectedLanguage : InnomaticContainer::instance(
-                                                'innomaticcontainer'
+                                        $selectedLanguage ? $selectedLanguage : \Innomatic\Core\InnomaticContainer::instance(
+                                                '\Innomatic\Core\InnomaticContainer'
                                         )->getCurrentUser()->getLanguage())
                         )
                 ),
@@ -382,13 +382,13 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
         $actionDispatcher = new WuiDispatcher('action');
 
         $locCountry = new LocaleCountry(
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getCountry()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getCountry()
         );
         $countryLanguage = $locCountry->Language();
 
         $languageLocale = new LocaleCatalog(
                 'innomatic::localization',
-                InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
         );
 
         $selectedLanguage = $actionDispatcher->getEventData();
@@ -398,8 +398,8 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
 
         $wuiVGroup = new WuiVertgroup('vgroup');
 
-        $languageQuery = InnomaticContainer::instance(
-                'innomaticcontainer'
+        $languageQuery = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM locale_languages');
 
         while (!$languageQuery->eof) {
@@ -426,8 +426,8 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
                         array(
                                 'disp' => 'action',
                                 'elements' => $languages,
-                                'default' => ($selectedLanguage ? $selectedLanguage : InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                'default' => ($selectedLanguage ? $selectedLanguage : \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                 )->getCurrentUser()->getLanguage())
                         )
                 ),
@@ -476,7 +476,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
                         array(
                                 'base' => 'innomatic',
                                 'node' => 'innomatic.domain.interface.'.$eventData['node'].'.html',
-                                'language' => InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getLanguage()
+                                'language' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getLanguage()
                         )
                 )
         );

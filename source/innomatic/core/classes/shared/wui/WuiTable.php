@@ -96,7 +96,7 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
             $this->mArgs['width'] = "100%";
         }
     }
-    public function addChild(WuiWidget $childWidget, $row, $col, $halign = '', $valign = '', $nowrap = 'false', $width = '')
+    public function addChild(\Innomatic\Wui\Widgets\WuiWidget $childWidget, $row, $col, $halign = '', $valign = '', $nowrap = 'false', $width = '')
     {
         if ($row >= $this->mRows)
             $this->mRows = $row + 1;
@@ -111,7 +111,7 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
         $this->mArgs['cells'][$row][$col]['width'] = $width;
         return true;
     }
-    public function build(WuiDispatcher $rwuiDisp)
+    public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $result = false;
         $this->mrWuiDisp = $rwuiDisp;

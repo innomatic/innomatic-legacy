@@ -39,7 +39,7 @@ class ModuleSession
      * @param strind $id Optional session identifier.
      * @since 5.1
      */
-    public function __construct(ModuleContext $context, $id = false)
+    public function __construct(\Innomatic\Module\ModuleContext $context, $id = false)
     {
         $this->context = $context;
         $this->id = $id;

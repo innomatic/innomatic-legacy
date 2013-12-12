@@ -49,12 +49,12 @@ class DashboardwidgetComponent extends \Innomatic\Application\ApplicationCompone
         $args['file'] = $this->basedir . '/core/classes/shared/dashboard/' . basename($args['file']);
 
         // Check if the shared dashboard widgets directory exists
-        if (!is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/')) {
-            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/', 0755);
+        if (!is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/dashboard/')) {
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/dashboard/', 0755);
         }
 
-        @copy($args['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . basename($args['file']));
-        @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . basename($args['file']), 0644);
+        @copy($args['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/dashboard/' . basename($args['file']));
+        @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/dashboard/' . basename($args['file']), 0644);
         return true;
     }
 
@@ -62,7 +62,7 @@ class DashboardwidgetComponent extends \Innomatic\Application\ApplicationCompone
     {
         if (strlen($args['file'])) {
             $args['file'] = $this->basedir . '/core/classes/shared/dashboard/' . basename($args['file']);
-            @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . $args['file']);
+            @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/dashboard/' . $args['file']);
         }
         return true;
     }
@@ -72,8 +72,8 @@ class DashboardwidgetComponent extends \Innomatic\Application\ApplicationCompone
         if (strlen($args['file'])) {
             $args['file'] = $this->basedir . '/core/classes/shared/dashboard/' . basename($args['file']);
             if (file_exists($args['file'])) {
-                @copy($args['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . basename($args['file']));
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . basename($args['file']), 0644);
+                @copy($args['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/dashboard/' . basename($args['file']));
+                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/dashboard/' . basename($args['file']), 0644);
             }
         }
         return true;

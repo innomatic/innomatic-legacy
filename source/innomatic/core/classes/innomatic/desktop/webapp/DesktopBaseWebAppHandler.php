@@ -42,7 +42,7 @@ class DesktopBaseWebAppHandler extends \Innomatic\Webapp\WebAppHandler
     public function doGet(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)
     {
         // identify the requested resource path
-        $resource = substr(\Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).$req->getPathInfo();
+        $resource = substr(\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome(), 0, -1).$req->getPathInfo();
 
         // make sure that this path exists on disk
         switch (substr($resource, strrpos($resource, '/') + 1)) {
@@ -59,7 +59,7 @@ class DesktopBaseWebAppHandler extends \Innomatic\Webapp\WebAppHandler
         }
 
         // Bootstraps Innomatic
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
         // Sets Innomatic base URL
         $baseUrl = '';
@@ -69,15 +69,15 @@ class DesktopBaseWebAppHandler extends \Innomatic\Webapp\WebAppHandler
         }
         $innomatic->setBaseUrl($baseUrl);
 
-        $innomatic->setInterface(InnomaticContainer::INTERFACE_WEB);
-        $home = \Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome();
+        $innomatic->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_WEB);
+        $home = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome();
         $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
 
         if (!headers_sent()) {
             // Starts output compression.
             if (
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getConfig()->value('CompressedOutputBuffering') == '1'
             ) {
                 ini_set('zlib.output_compression', 'on');
@@ -85,7 +85,7 @@ class DesktopBaseWebAppHandler extends \Innomatic\Webapp\WebAppHandler
             }
         }
 
-        \Innomatic\Desktop\Controller\DesktopFrontController::instance('desktopfrontcontroller')->execute(InnomaticContainer::MODE_BASE, $resource);
+        \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->execute(\Innomatic\Core\InnomaticContainer::MODE_BASE, $resource);
     }
 
     public function doPost(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)

@@ -30,29 +30,29 @@ class XajaxWebAppHandler extends WebAppHandler
     {
         // Start Innomatic and Domain
 
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
-        $innomatic->setInterface(InnomaticContainer::INTERFACE_EXTERNAL);
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $innomatic->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_EXTERNAL);
         $root = \Innomatic\Core\RootContainer::instance('rootcontainer');
         $innomatic_home = $root->getHome().'innomatic/';
         $innomatic->bootstrap($innomatic_home, $innomatic_home.'core/conf/innomatic.ini');
-        InnomaticContainer::instance('innomaticcontainer')->startDomain(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getName());
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->startDomain(WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getName());
 
-        $request_uri = WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath(true).'/_xajax/call.xajax';
+        $request_uri = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getRequest()->getUrlPath(true).'/_xajax/call.xajax';
         $xajax = Xajax::instance('Xajax', $request_uri);
 
         // Set debug mode
-        if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
             $xajax->debugOn();
         }
 
         $xajax->setLogFile(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/log/ajax.log'
         );
 
         $cfg = XajaxConfig :: getInstance(
-                WebAppContainer::instance('webappcontainer')->getCurrentWebApp(),
-                WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'core/conf/ajax.xml');
+                WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp(),
+                WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome().'core/conf/ajax.xml');
 
         if (isset($cfg->functions)) {
             foreach($cfg->functions as $name => $functionData) {
@@ -78,7 +78,7 @@ class XajaxWebAppHandler extends WebAppHandler
     /*
     public function explodeWebAppURI()
     {
-        return WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome().'core/xajax'.substr( $this->sRequestURI,strpos($this->sRequestURI, 'index.php/')+9).'.php';
+        return WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome().'core/xajax'.substr( $this->sRequestURI,strpos($this->sRequestURI, 'index.php/')+9).'.php';
     }
     */
 }

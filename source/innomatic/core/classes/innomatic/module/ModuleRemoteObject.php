@@ -34,7 +34,7 @@ abstract class ModuleRemoteObject
      * @param ModuleLocator $locator Module locator object.
      * @since 5.1
      */
-    public function __construct(ModuleLocator $locator)
+    public function __construct(\Innomatic\Module\ModuleLocator $locator)
     {
         $this->locator = $locator;
         $this->path = '';

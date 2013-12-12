@@ -62,7 +62,7 @@ class WebappskeletonComponent extends \Innomatic\Application\ApplicationComponen
             return false;
         }
         // Destination folder.
-        $skeleton_destination = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
+        $skeleton_destination = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
         // Copies the skeleton folder to the destination.
         $result = \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($skeleton_source, $skeleton_destination);
         if (!$result) {
@@ -85,7 +85,7 @@ class WebappskeletonComponent extends \Innomatic\Application\ApplicationComponen
             return false;
         }
         // Skeleton folder.
-        $skeleton_folder = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel';
+        $skeleton_folder = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel';
         // Removes skeleton directory.
         $result = \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($skeleton_folder);
         if (!$result) {
@@ -116,7 +116,7 @@ class WebappskeletonComponent extends \Innomatic\Application\ApplicationComponen
             return false;
         }
         // Destination folder.
-        $skeleton_destination = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
+        $skeleton_destination = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
         // Removes previous skeleton directory.
         \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($skeleton_folder);
         // Copies the skeleton folder to the destination.

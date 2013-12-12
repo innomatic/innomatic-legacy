@@ -27,7 +27,7 @@ class ApplicationComponentRegister
      @abstract Class constructor.
      @param rootda DataAccess class - Innomatic database handler.
      */
-    public function __construct(DataAccess $rootda)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $rootda)
     {
         $this->rootda = $rootda;
     }

@@ -27,7 +27,7 @@ class DefaultWebAppHandler extends WebAppHandler
     public function init()
     {
         $this->listings = $this->getInitParameter('listings');
-        $this->welcomeFiles = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getWelcomeFiles();
+        $this->welcomeFiles = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getWelcomeFiles();
     }
 
     public function destroy()
@@ -57,7 +57,7 @@ class DefaultWebAppHandler extends WebAppHandler
 
         reset($this->welcomeFiles);
         foreach ($this->welcomeFiles as $welcomefile) {
-            if (file_exists(substr(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).$path.$welcomefile))
+            if (file_exists(substr(WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome(), 0, -1).$path.$welcomefile))
                 return $path.$welcomefile;
         }
 
@@ -77,7 +77,7 @@ class DefaultWebAppHandler extends WebAppHandler
     {
         $result = '';
 
-        $container = WebAppContainer::instance('webappcontainer');
+        $container = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
         $processor = $container->getProcessor();
         $webAppPath = $request->getUrlPath();
         if (!is_null($webAppPath) && $webAppPath != '/') {
@@ -101,7 +101,7 @@ class DefaultWebAppHandler extends WebAppHandler
         // identify the requested resource path
         $path = $this->getRelativePath($request);
 
-        $resource = substr(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).$path;
+        $resource = substr(WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome(), 0, -1).$path;
 
         // make sure that this path exists on disk
         if (!file_exists($resource)) {
@@ -134,7 +134,7 @@ class DefaultWebAppHandler extends WebAppHandler
 
         if ($content) {
             // we are serving up an actual file here, which we know exists
-            $contentType = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getMimeType($resource);
+            $contentType = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getMimeType($resource);
             if (!is_null($contentType)) {
                 $response->setContentType($contentType);
             }
@@ -158,7 +158,7 @@ class DefaultWebAppHandler extends WebAppHandler
      */
     public function renderListing($request, $webAppPath, $path, $resource)
     {
-        $container = WebAppContainer::instance('webappcontainer');
+        $container = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
         $processor = $container->getProcessor();
         $contextPath = $request->getUrlPath();
         // build our base context path with the controller info
@@ -214,7 +214,7 @@ class DefaultWebAppHandler extends WebAppHandler
         }
 
         // TODO sistemare
-        $receiver = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getInitParameter('receiverfile');
+        $receiver = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getInitParameter('receiverfile');
         if (!strlen($receiver))
             $receiver = 'index.php';
 

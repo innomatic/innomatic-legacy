@@ -66,17 +66,17 @@ class ApplicationComponentFactory
                         unset($component);
                         if (
                             file_exists(
-                                InnomaticContainer::instance('innomaticcontainer')->getHome()
+                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                                 .'core/classes/shared/components/'.$data['file']
                             )
                         ) {
                             // TODO gestire con require_once una volta migliorata la gestione della variabile $component
                             require_once(
-                                InnomaticContainer::instance('innomaticcontainer')->getHome()
+                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                                 .'core/classes/shared/components/'.$data['file']
                             );
                         } else {
-                            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                             $log->logEvent(
                                 'innomatic/application/ApplicationComponentFactory::fillTypes()',
                                 'Component file '.$data['file']." doesn't exists in components directory",
@@ -98,7 +98,7 @@ class ApplicationComponentFactory
                 }
                 $query->free();
             } else {
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::fillTypes()',
                     'Unable to select component types from table',
@@ -153,8 +153,8 @@ class ApplicationComponentFactory
             }
         } else {
             if (!file_exists($filepath)) {
-                $log = InnomaticContainer::instance(
-                    'innomaticcontainer'
+                $log = \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getLogger();
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::install()',
@@ -242,7 +242,7 @@ class ApplicationComponentFactory
             }
         } else {
             if (!file_exists($filepath)) {
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::update()',
                     'Given file (' . $filepath . ') does not exists',
@@ -283,7 +283,7 @@ class ApplicationComponentFactory
         } else {
             if (!file_exists($filepath)) {
                 
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::uninstall()',
                     'Given file (' . $filepath . ') does not exists',

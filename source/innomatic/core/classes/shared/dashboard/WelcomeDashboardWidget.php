@@ -8,13 +8,13 @@ class WelcomeDashboardWidget extends \Innomatic\Desktop\Dashboard\DashboardWidge
     public function getWidgetXml()
     {
         // Get the message of the day
-        $message = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getMotd();
+        $message = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getMotd();
 
         // Check if the motd is empty. If it is empty, get the generic welcome message
         if (!strlen($message)) {
             $catalog = new \Innomatic\Locale\LocaleCatalog(
                     'innomatic::dashboard_welcome',
-                    InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
             );
 
             $message = $catalog->getStr('welcome_message');

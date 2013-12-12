@@ -47,7 +47,7 @@ class WebApp
         }
 
         // Sets var directory
-        $container = WebAppContainer::instance('webappcontainer');
+        $container = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
         if ($container->useDefaults() or !$container->isKey('webapps.var_dir') or $container->getKey('webapps.var_dir') == 'shared') {
             $this->varDir = \Innomatic\Core\RootContainer::instance('rootcontainer')->getHome().'innomatic/core/domains/'.$this->getName().'/var/';
         } else {
@@ -69,10 +69,10 @@ class WebApp
      */
     protected function parseConfig($xmlconfig)
     {
-        $container = WebAppContainer::instance('webappcontainer');
+        $container = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
         if ($container->useDefaults() or !$container->isKey('webapps.cache_config') or $container->getKey('webapps.cache_config')) {
             $cache_dir = $this->getVarDir().'cache/';
-            if (file_exists($cache_dir.'WebAppConfig.ser')) {
+            if (false and file_exists($cache_dir.'WebAppConfig.ser')) {
                 $cfg = unserialize(file_get_contents($cache_dir.'WebAppConfig.ser'));
             } else {
                 $cfg = simplexml_load_file($xmlconfig);

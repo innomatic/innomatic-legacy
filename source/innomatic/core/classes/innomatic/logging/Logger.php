@@ -41,7 +41,7 @@ class Logger
         if (!empty($logFile)) {
             $this->mLogFile = $logFile;
         } else {
-            InnomaticContainer::instance('innomaticcontainer')->abort('innomatic.logger.logger.logger : Missing logfile');
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->abort('innomatic.logger.logger.logger : Missing logfile');
         }
     }
 
@@ -68,11 +68,11 @@ class Logger
 
                 case \Innomatic\Logging\Logger::WARNING :
                     $evtype = 'WARNING';
-                    $innomatic = InnomaticContainer::instance('innomaticcontainer');
+                    $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
                     switch ($innomatic->getState()) {
-                        case InnomaticContainer::STATE_DEBUG :
-                        case InnomaticContainer::STATE_SETUP :
+                        case \Innomatic\Core\InnomaticContainer::STATE_DEBUG :
+                        case \Innomatic\Core\InnomaticContainer::STATE_SETUP :
                             $log_event = true;
                     }
                     break;
@@ -94,8 +94,8 @@ class Logger
 
                 case \Innomatic\Logging\Logger::DEBUG :
                     $evtype = 'DEBUG';
-                    $innomatic = InnomaticContainer::instance('innomaticcontainer');
-                    if ($innomatic->getState() == InnomaticContainer::STATE_DEBUG)
+                    $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+                    if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG)
                         $log_event = true;
                     break;
 
@@ -112,8 +112,8 @@ class Logger
                 //$logstr = "$date[mday]/$date[mon]/$date[year] - $date[hours]:$date[minutes]:$date[seconds] - ".$evtype." - ".$contest." : ".$eventstring;
                 @error_log($logstr."\n", 3, $this->mLogFile);
 
-                $innomatic = InnomaticContainer::instance('innomaticcontainer');
-                if ($innomatic->getState() == InnomaticContainer::STATE_DEBUG) {
+                $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+                if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
                     $dump = \Innomatic\Debug\InnomaticDump::instance('innomaticdump');
                     $dump->logs[$this->mLogFile][] = $logstr;
                 }
@@ -121,7 +121,7 @@ class Logger
             $result = $logstr;
 
             if ($evtype == \Innomatic\Logging\Logger::FAILURE)
-                InnomaticContainer::instance('innomaticcontainer')->abort($logstring);
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->abort($logstring);
         }
         return $result;
     }
@@ -136,7 +136,7 @@ class Logger
     public function logDie($contest, $eventstring, $type = \Innomatic\Logging\Logger::FAILURE)
     {
         $logstring = $this->logEvent($contest, $eventstring, $type);
-        InnomaticContainer::instance('innomaticcontainer')->abort($logstring);
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->abort($logstring);
         die('');
     }
 

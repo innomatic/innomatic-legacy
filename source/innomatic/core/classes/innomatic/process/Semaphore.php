@@ -98,7 +98,7 @@ class Semaphore
     public function getFileName()
     {
         if ($this->resourceType and $this->resource) {
-            return InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/semaphores/'.md5($this->resourceType.'_'.$this->resource).'.semaphore';
+            return \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/semaphores/'.md5($this->resourceType.'_'.$this->resource).'.semaphore';
         }
         return '';
     }
@@ -141,13 +141,13 @@ class Semaphore
                     clearstatcache();
                     if (!file_exists($this->getFileName())) {
                         if ($fh = fopen($this->getFileName(), 'w')) {
-                            $innomatic = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer');
+                            $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
                             fputs($fh, serialize(array('pid' => $innomatic->getPid(), 'time' => time(), 'resource' => $this->resource)));
                             fclose($fh);
                         } else {
-                            if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/semaphores/')) {
-                                mkdir(\Innomatic\Core\InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/semaphores/');
+                            if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/semaphores/')) {
+                                mkdir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/semaphores/');
                             }
                             return false;
                         }

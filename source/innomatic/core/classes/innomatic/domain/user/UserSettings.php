@@ -19,7 +19,7 @@ class UserSettings
     public $mUserId;
     public $mrDomainDA;
 
-    public function __construct(DataAccess $domainDA, $userId)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $domainDA, $userId)
     {
         $this->mrDomainDA = $domainDA;
         $this->mUserId = (int) $userId;

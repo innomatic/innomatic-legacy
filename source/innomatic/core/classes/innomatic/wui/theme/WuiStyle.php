@@ -37,7 +37,7 @@ class WuiStyle
      */
     public function __construct($rrootDb, $styleName)
     {
-        if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
+        if (!(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
             $this->mrRootDb = $rrootDb;
         }
         $this->mStyleName = $styleName;
@@ -77,7 +77,7 @@ class WuiStyle
                 $check_query = $this->mrRootDb->execute('SELECT name FROM wui_styles WHERE name='.$this->mrRootDb->formatText($this->mStyleName));
 
                 if ($check_query->getNumberRows()) {
-                    if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
+                    if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
                         $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
 
                         $cached_item->Destroy();
@@ -103,7 +103,7 @@ class WuiStyle
         if ($this->mrRootDb) {
             if (strlen($this->mStyleName)) {
 
-                if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
+                if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
                     $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
                     $cached_item->Destroy();
                 }
@@ -116,7 +116,7 @@ class WuiStyle
     public function getStyle()
     {
         $result = array();
-        $values = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini');
+        $values = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini');
         if ($values !== false) {
             while (list ($key, $val) = each($values)) {
                 $key = trim($key);
@@ -130,8 +130,8 @@ class WuiStyle
             }
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open style file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini', \Innomatic\Logging\Logger::ERROR);
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open style file '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }

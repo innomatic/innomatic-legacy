@@ -24,7 +24,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
     {
         
 
-        $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
         return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($log->RawReadLog()));
     }
@@ -35,7 +35,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
     {
         
 
-        $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
         return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($log->cleanLog()));
     }
@@ -48,7 +48,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
 
         
 
-        $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
         $event_caller = $m->getParam(0);
         $event_string = $m->getParam(1);
@@ -72,7 +72,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
         
 
         $log = new \Innomatic\Logging\Logger(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/log/webservices.log'
         );
 
@@ -85,7 +85,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
     {
         
         $log = new \Innomatic\Logging\Logger(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/log/webservices.log'
         );
         return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($log->cleanLog()));
@@ -98,7 +98,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
         
 
         $log = new \Innomatic\Logging\Logger(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/log/webservices.log'
         );
 
@@ -122,7 +122,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
     public static function log_db_get()
     {
         
-        $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
         return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($log->rawReadLog()));
     }
 
@@ -132,7 +132,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
     {
         
 
-        $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
         return new \Innomatic\Webservices\Xmlrpc\XmlRpcResp(new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($log->cleanLog()));
     }
@@ -142,7 +142,7 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
     public static function log_db_logevent()
     {
         
-        $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
         $event_caller = $m->getParam(0);
         $event_string = $m->getParam(1);
@@ -165,8 +165,8 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
     {
         $result = '';
 
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT appversion FROM applications WHERE appid='
             . $this->mrRootDb->formatText('innomatic')
@@ -185,8 +185,8 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
     {
         $result = array();
 
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT appid,appversion,appdate '
             . 'FROM applications'
@@ -245,8 +245,8 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
     public static function domains_list()
     {
         $result = array();
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT domainid,domainname FROM domains');
 
         if ($query) {
@@ -272,8 +272,8 @@ class InnomaticWebServicesHandler extends \Innomatic\Webservices\WebServicesHand
         if (isset($domainid) and ($domainid->ScalarTyp() == 'string')) {
             $result = array();
 
-            $query = InnomaticContainer::instance(
-                'innomaticcontainer'
+            $query = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getDataAccess()->execute(
                 'SELECT applications.appid ' .
                 'FROM applications_enabled,domains,applications ' .

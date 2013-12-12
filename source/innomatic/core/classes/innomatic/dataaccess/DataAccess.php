@@ -63,10 +63,10 @@ abstract class DataAccess
      @discussion It should be called through DataAccessFactory::getDataAccess() method
      @param params array - Database parameters
      */
-    public function __construct(DataAccessSourceName $dasn)
+    public function __construct(\Innomatic\Dataaccess\DataAccessSourceName $dasn)
     {
         $this->dasn = $dasn;
-        $this->innomatic = \Innomatic\Core\InnomaticContainer::instance('innomaticcontainer');
+        $this->innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         if ($this->innomatic->getConfig()->value('RootDatabaseDebug') == '1') {
             $this->debug = true;
         }
@@ -378,7 +378,7 @@ abstract class DataAccess
                     $this->log->logEvent('innomatic.dataaccess.execute', $this->lastError, \Innomatic\Logging\Logger::ERROR);
                     $result = false;
                 } elseif (($i == count($pieces) - 1) and ($resid != 1)) {
-                    $rsname = ucfirst(strtolower($this->driver)).'DataAccessResult';
+                	$rsname = '\\Innomatic\\Dataaccess\\Drivers\\'.ucfirst(strtolower($this->driver)).'\\'.ucfirst(strtolower($this->driver)).'DataAccessResult';
                     $result = new $rsname($resid);
                     $this->lastError = '';
                 } else {

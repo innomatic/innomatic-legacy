@@ -35,7 +35,7 @@ class AjaxcallComponent extends \Innomatic\Application\ApplicationComponent
         // Flushes the xajax call function list cache.
         $ajax_cfg = new \Innomatic\Ajax\XajaxConfig();
         $ajax_cfg->flushCache(
-            \Innomatic\Webapp\WebAppContainer::instance('webappcontainer')->getCurrentWebApp()
+            \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()
         );
     }
     public static function getType()
@@ -62,8 +62,8 @@ class AjaxcallComponent extends \Innomatic\Application\ApplicationComponent
             return false;
         }
 
-        $ajax_xml_file = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $ajax_xml_file = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getHome()
         . 'core/conf/ajax.xml';
 
@@ -102,7 +102,7 @@ class AjaxcallComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('AjaxcallComponent::doUninstallAction', 'Empty parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome()
+        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/conf/ajax.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Removes the Ajax call function.
@@ -127,7 +127,7 @@ class AjaxcallComponent extends \Innomatic\Application\ApplicationComponent
             );
             return false;
         }
-        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome()
+        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/conf/ajax.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Keeps track if the Ajax call function is found in ajax.xml file.

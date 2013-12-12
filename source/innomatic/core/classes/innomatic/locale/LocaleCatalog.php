@@ -73,7 +73,7 @@ class LocaleCatalog
         $this->catalog = null;
         $this->lang = null;
         if (empty($lang)) {
-            $lang = InnomaticContainer::instance('innomaticcontainer')->getLanguage();
+            $lang = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage();
         }
         $this->setLocaleCT($catalog);
         $this->setLocaleLang($lang);
@@ -151,7 +151,7 @@ class LocaleCatalog
         }
 
         list($base, $catalog) = explode('::', $this->catalog);
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
         // Tries specified language catalog
         //
@@ -160,8 +160,8 @@ class LocaleCatalog
         }
         // Tries Innomatic language catalog
         //
-        else if (file_exists($innomatic->getHome().'core/locale/catalogs/'.$base.'/'.InnomaticContainer::instance('innomaticcontainer')->getLanguage().'/'.$catalog.'.ini')) {
-            $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/'.InnomaticContainer::instance('innomaticcontainer')->getLanguage().'/'.$catalog.'.ini';
+        else if (file_exists($innomatic->getHome().'core/locale/catalogs/'.$base.'/'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage().'/'.$catalog.'.ini')) {
+            $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage().'/'.$catalog.'.ini';
         }
         // Tries English catalog
         //
@@ -169,7 +169,7 @@ class LocaleCatalog
             $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/en/'.$catalog.'.ini';
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic/locale/Locale/opencatalog', 'Unable to find a catalog file for the specified catalog ('.$this->catalog.') and language ('.$this->lang.') or fallback to another language', \Innomatic\Logging\Logger::ERROR);
         }
 

@@ -54,7 +54,7 @@ abstract class ApplicationComponent
      @param basedir string - Application temporary directory path.
      */
     public function __construct(
-        DataAccess $rootda,
+        \Innomatic\Dataaccess\DataAccess $rootda,
         $domainda,
         $appname,
         $name,
@@ -77,7 +77,7 @@ abstract class ApplicationComponent
         }
 
         $this->applicationsComponentsRegister = new ApplicationComponentRegister($this->rootda);
-        $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     }
 
     /*!
@@ -247,18 +247,18 @@ component not found.
                                     .' AND applicationid='. (int) $appid
                                 );
                                 if ($actquery->getNumberRows()) {
-                                    InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                    \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                     )->startDomain($domaindata['domainid']);
-                                    $this->domainda = InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                    $this->domainda = \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                     )->getCurrentDomain()->getDataAccess();
 
                                     if (!$this->Enable($domainsquery->getFields('id'), $params)) {
                                         $result = false;
                                     }
 
-                                    InnomaticContainer::instance('innomaticcontainer')->stopDomain();
+                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->stopDomain();
                                 }
 
                                 $actquery->free();
@@ -289,11 +289,11 @@ component not found.
                                     . (int) $domaindata['id'].' AND applicationid='. (int) $appid
                                 );
                                 if ($actquery->getNumberRows()) {
-                                    InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                    \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                     )->startDomain($domaindata['domainid']);
-                                    $this->domainda = InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                    $this->domainda = \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                     )->getCurrentDomain()->getDataAccess();
 
 
@@ -301,7 +301,7 @@ component not found.
                                         $result = false;
                                     }
 
-                                    InnomaticContainer::instance('innomaticcontainer')->stopDomain();
+                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->stopDomain();
                                 }
 
                                 $actquery->free();
@@ -333,11 +333,11 @@ component not found.
                                     .' AND applicationid='. (int) $appid
                                 );
                                 if ($actquery->getNumberRows()) {
-                                    InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                    \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                     )->startDomain($domaindata['domainid']);
-                                    $this->domainda = InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                    $this->domainda = \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                     )->getCurrentDomain()->getDataAccess();
 
                                     if (
@@ -363,8 +363,8 @@ component not found.
                                         include($domainpostscript);
                                     }
 
-                                    InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                    \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                     )->stopDomain();
                                 }
 
@@ -377,8 +377,8 @@ component not found.
                 break;
 
             default:
-                $log = InnomaticContainer::instance(
-                    'innomaticcontainer'
+                $log = \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applicationcomponent.update',

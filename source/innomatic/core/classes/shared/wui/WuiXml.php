@@ -48,7 +48,7 @@ class WuiXml extends \Innomatic\Wui\Widgets\WuiWidget
             $this->mDefinition = '<?xml version="1.0" encoding="utf-8" ?>' . $this->mDefinition;
         }
     }
-    public function build(WuiDispatcher $rwuiDisp)
+    public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $this->mrWuiDisp = $rwuiDisp;
         if ($this->mDefinition == null) {
@@ -165,8 +165,8 @@ class WuiXml extends \Innomatic\Wui\Widgets\WuiWidget
         //
         if (! class_exists($elementType, true)) {
             $widget_name = strtolower($element['tag']);
-            if (! defined(strtoupper($widget_name . '_WUI')) and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php')) {
-                include_once (InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php');
+            if (! defined(strtoupper($widget_name . '_WUI')) and file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php')) {
+                include_once (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php');
             }
         }
         // Create the element and add children if any
@@ -186,7 +186,7 @@ class WuiXml extends \Innomatic\Wui\Widgets\WuiWidget
                 }
             }
         } else {
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic.xml_wui.wuixml.getelementstructure', 'Element of type ' . $elementType . ' is not defined', \Innomatic\Logging\Logger::WARNING);
         }
         return $result;

@@ -46,7 +46,7 @@ class WuiEventsCall
         if (strlen($eventsCall)) {
             $this->mCall = $eventsCall;
         } else {
-            //$this->mCall = WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath();
+            //$this->mCall = WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getRequest()->getUrlPath();
             $this->mCall = $_SERVER['REQUEST_URI'];
             if (strpos($this->mCall, '?')) {
                 $this->mCall = substr($this->mCall, 0, strpos($this->mCall, '?'));

@@ -31,7 +31,7 @@ abstract class DataAccessObject
      * @param DataAccess $dataAccess
      * @return void
      */
-    public function __construct(DataAccess $dataAccess)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $dataAccess)
     {
         $this->_dataAccess = $dataAccess;
     }

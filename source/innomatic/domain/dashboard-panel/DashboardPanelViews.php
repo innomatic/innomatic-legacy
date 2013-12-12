@@ -36,7 +36,7 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     {
         $this->localeCatalog = new LocaleCatalog(
             'innomatic::domain_dashboard',
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
         );
 
         $this->_wuiContainer->loadAllWidgets();
@@ -84,7 +84,7 @@ $this->wuiMainframe = new WuiVertframe('mainframe');
                 $start_column = false;
             }
             // Add ajax setup call
-            \Innomatic\Wui\Wui::instance('wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\''.$widget['name'].'\')');
+            \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\''.$widget['name'].'\')');
 
             $width = 0;
             $height = 0;
@@ -106,7 +106,7 @@ $this->wuiMainframe = new WuiVertframe('mainframe');
             // Widget title
             $widget_locale = new LocaleCatalog(
                     $widget['catalog'],
-                    InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
             );
             $headers = array();
             $headers[0]['label'] = $widget_locale->getStr($widget['title']);

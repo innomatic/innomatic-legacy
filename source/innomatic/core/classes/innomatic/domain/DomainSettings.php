@@ -30,7 +30,7 @@ class DomainSettings
 
      @param domainDA DataAccess class - Domain database handler
      */
-    public function __construct(DataAccess $domainDA)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $domainDA)
     {
         $this->domainDA = $domainDA;
     }

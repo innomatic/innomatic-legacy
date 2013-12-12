@@ -37,7 +37,7 @@ class WuiIconsSet
      */
     public function __construct($rrootDb, $setName)
     {
-        if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
+        if (!(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
             if (is_object($rrootDb)) {
                 $this->mrRootDb = $rrootDb;
             }
@@ -78,7 +78,7 @@ class WuiIconsSet
                 $check_query = $this->mrRootDb->execute('SELECT name FROM wui_iconssets WHERE name='.$this->mrRootDb->formatText($this->mSetName));
 
                 if ($check_query->getNumberRows()) {
-                    if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
+                    if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
                         $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuiiconsset-'.$this->mSetName);
                         $cached_item->Destroy();
                     }
@@ -102,7 +102,7 @@ class WuiIconsSet
         if ($this->mrRootDb) {
             if (strlen($this->mSetName)) {
 
-                if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
+                if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
                     $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuiiconsset-'.$this->mSetName);
                     $cached_item->Destroy();
                 }
@@ -115,7 +115,7 @@ class WuiIconsSet
     public function getIconsSet()
     {
         $result = array();
-        $values = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuiiconsset.ini');
+        $values = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuiiconsset.ini');
         if ($values !== false) {
             while (list ($key, $val) = each($values)) {
                 $key = trim($key);
@@ -132,8 +132,8 @@ class WuiIconsSet
             }
         } else {
             
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open icons set file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuiiconsset.ini', \Innomatic\Logging\Logger::ERROR);
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open icons set file '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuiiconsset.ini', \Innomatic\Logging\Logger::ERROR);
         }
 
         return $result;

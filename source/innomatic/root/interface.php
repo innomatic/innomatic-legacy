@@ -21,10 +21,10 @@ global $wuiMainStatus, $wuiPage, $wuiComments, $compressedOb, $actionDispatcher;
 
 $innomaticLocale = new \Innomatic\Locale\LocaleCatalog(
     'innomatic::root_interface',
-    InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
 );
-$innomaticLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-$wui = \Innomatic\Wui\Wui::instance('wui');
+$innomaticLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+$wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $wui->loadWidget('button');
 $wui->loadWidget('checkbox');
 $wui->loadWidget('combobox');
@@ -162,10 +162,10 @@ function pass_setserviceprovider($eventData)
 {
     global $wuiMainStatus, $innomaticLocale, $wuiPage;
 
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
     $appCfg = new \Innomatic\Application\ApplicationSettings(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         'innomatic'
     );
     $appCfg->setKey('serviceprovider-name', $eventData['serviceprovidername']);
@@ -179,8 +179,8 @@ function pass_setserviceprovider($eventData)
             );
             move_uploaded_file(
                 $eventData['serviceproviderbiglogo']['tmp_name'],
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getHome().'shared/serviceproviderbiglogo'.$extension
             );
             $appCfg->setKey('serviceprovider-biglogo-filename', 'serviceproviderbiglogo'.$extension);
@@ -195,8 +195,8 @@ function pass_setserviceprovider($eventData)
             );
             move_uploaded_file(
                 $eventData['serviceproviderlinklogo']['tmp_name'],
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getHome().'shared/serviceproviderlinklogo'.$extension
             );
             $appCfg->setKey('serviceprovider-link-filename', 'serviceproviderlinklogo'.$extension);
@@ -213,8 +213,8 @@ function pass_setenabledicons($eventData)
 {
     global $wuiMainStatus, $innomaticLocale, $wuiPage;
 
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-    $appCfg = new \Innomatic\Application\ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+    $appCfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
     $appCfg->setKey('innomatic-link-disabled', $eventData['innomaticicon'] == 'on' ? 0 : 1);
     $appCfg->setKey('serviceprovider-link-disabled', $eventData['serviceprovidericon'] == 'on' ? 0 : 1);
     $appCfg->setKey('innomatic-biglogo-disabled', $eventData['innomaticbigicon'] == 'on' ? 0 : 1);
@@ -230,18 +230,18 @@ function pass_settheme($eventData)
 {
     global $wuiMainStatus, $innomaticLocale, $wuiPageGlobal;
 
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
-    $appCfg = new \Innomatic\Application\ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+    $appCfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
     $appCfg->setKey('wui-root-theme', $eventData['theme']);
 
-    $wui = \Innomatic\Wui\Wui::instance('wui');
+    $wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
     $wui->setTheme($eventData['theme']);
 
     $log->logEvent('Innomatic', 'Changed Innomatic theme', \Innomatic\Logging\Logger::NOTICE);
 
     WebAppContainer::instance(
-        'webappcontainer'
+        '\Innomatic\Webapp\WebAppContainer'
     )->getProcessor()->getResponse()->addHeader(
         'Location',
         \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
@@ -266,12 +266,12 @@ function pass_setadvanced($eventData)
 {
     global $wuiMainStatus, $innomaticLocale, $wuiPage, $wuiComments, $compressedOb;
 
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
-    $innomaticCfg = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    $innomaticCfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
     $innomaticCfg->setValue('ShowWuiSourceComments', $eventData['wui-comments'] == 'on' ? '1' : '0');
     $innomaticCfg->setValue('CompressedOutputBuffering', $eventData['compressed-ob'] == 'on' ? '1' : '0');
-    InnomaticContainer::instance('innomaticcontainer')->getConfig()->refresh();
+    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->refresh();
     $wuiComments = 'false';
     $compressedOb = 'false';
 
@@ -290,11 +290,11 @@ function pass_setlanguage($eventData)
 {
     global $wuiMainStatus, $innomaticLocale, $wuiPage;
 
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
-    $innomaticConfig = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    $innomaticConfig = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
     $innomaticConfig->setValue('RootLanguage', $eventData['language']);
-    InnomaticContainer::instance('innomaticcontainer')->getConfig()->refresh();
+    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->refresh();
 
     $log->logEvent('Innomatic', 'Changed Innomatic root language', \Innomatic\Logging\Logger::NOTICE);
 
@@ -306,11 +306,11 @@ function pass_setcountry($eventData)
 {
     global $wuiMainStatus, $innomaticLocale, $wuiPage;
 
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
-    $innomaticConfig = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    $innomaticConfig = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
     $innomaticConfig->setValue('RootCountry', $eventData['country']);
-    InnomaticContainer::instance('innomaticcontainer')->getConfig()->refresh();
+    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->refresh();
     $log->logEvent('Innomatic', 'Changed Innomatic root country', \Innomatic\Logging\Logger::NOTICE);
 
     $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('countryset_status');
@@ -321,9 +321,9 @@ function pass_editname($eventData)
 {
     global $wuiPage, $wuiMainStatus, $innomaticLocale;
 
-    $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
-    $innomaticcfg = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    $innomaticcfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
     $innomaticcfg->setValue('PlatformName', $eventData['name']);
     $innomaticcfg->setValue('PlatformGroup', $eventData['domain']);
 
@@ -346,15 +346,15 @@ function main_default($eventData)
 {
     global $wuiMainFrame, $wuiTitleBar, $innomaticLocale, $actionDispatcher,
            $wuiMainStatus, $wuiComments, $compressedOb;
-    $appCfg = new \Innomatic\Application\ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+    $appCfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
 
-    $themesQuery = InnomaticContainer::instance(
-        'innomaticcontainer'
+    $themesQuery = \Innomatic\Core\InnomaticContainer::instance(
+        '\Innomatic\Core\InnomaticContainer'
     )->getDataAccess()->execute('SELECT name,catalog FROM wui_themes ');
     while (!$themesQuery->eof) {
         $tmpLocale = new \Innomatic\Locale\LocaleCatalog(
             $themesQuery->getFields('catalog'),
-            InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
         );
         $elements[$themesQuery->getFields('name')] = $tmpLocale->getStr($themesQuery->getFields('name'));
         $themesQuery->moveNext();
@@ -378,7 +378,7 @@ function main_default($eventData)
             .urlencode($innomaticLocale->getStr('themes_label')).'</label><bold>true</bold></args></label>
             <listbox row="1" col="0"><name>theme</name><args><elements type="array">'
             .WuiXml::encode($elements).'</elements><default>'
-            . (\Innomatic\Wui\Wui::instance('wui')->getThemeName())
+            . (\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getThemeName())
             .'</default><disp>action</disp><size>10</size></args></listbox>
         </children></grid>
         <submit><name>submit</name><args><caption type="encoded">'
@@ -659,8 +659,8 @@ function main_default($eventData)
 
     if (!strlen($compressedOb)) {
         if (
-            InnomaticContainer::instance(
-                'innomaticcontainer'
+            \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getConfig()->value('CompressedOutputBuffering') == '1'
         ) {
             $compressedOb = 'true';
@@ -761,7 +761,7 @@ function main_localization($eventData)
 
     $countryLocale = new \Innomatic\Locale\LocaleCatalog(
         'innomatic::localization',
-        InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
     );
 
     $selectedCountry = '';
@@ -771,8 +771,8 @@ function main_localization($eventData)
 
     $wuiVGroup = new WuiVertgroup('vgroup');
 
-    $countryQuery = InnomaticContainer::instance(
-        'innomaticcontainer'
+    $countryQuery = \Innomatic\Core\InnomaticContainer::instance(
+        '\Innomatic\Core\InnomaticContainer'
     )->getDataAccess()->execute('SELECT * FROM locale_countries');
 
     while (!$countryQuery->eof) {
@@ -800,8 +800,8 @@ function main_localization($eventData)
                 'disp' => 'action',
                 'elements' => $countries,
                 'default' => (
-                    $selectedCountry ? $selectedCountry : InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    $selectedCountry ? $selectedCountry : \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getCountry()
                 )
             )
@@ -829,12 +829,12 @@ function main_localization($eventData)
 
     $wuiMainFrame->addChild($wuiForm);
 
-    $locCountry = new \Innomatic\Locale\LocaleCountry(InnomaticContainer::instance('innomaticcontainer')->getCountry());
+    $locCountry = new \Innomatic\Locale\LocaleCountry(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCountry());
     $countryLanguage = $locCountry->Language();
 
     $languageLocale = new \Innomatic\Locale\LocaleCatalog(
         'innomatic::localization',
-        InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
     );
 
     $selectedLanguage = '';
@@ -844,8 +844,8 @@ function main_localization($eventData)
 
     $wuiVGroup = new WuiVertgroup('vgroup');
 
-    $languageQuery = InnomaticContainer::instance(
-        'innomaticcontainer'
+    $languageQuery = \Innomatic\Core\InnomaticContainer::instance(
+        '\Innomatic\Core\InnomaticContainer'
     )->getDataAccess()->execute('SELECT * FROM locale_languages');
 
     while (!$languageQuery->eof) {
@@ -873,8 +873,8 @@ function main_localization($eventData)
                 'disp' => 'action',
                 'elements' => $languages,
                 'default' => (
-                    $selectedLanguage ? $selectedLanguage : InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    $selectedLanguage ? $selectedLanguage : \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getLanguage()
                 )
             )
@@ -927,12 +927,12 @@ function main_name($eventData)
 
         $name = $pdData['name'];
         $domain = $pdData['domain'];
-//    $innomaticcfg = new \Innomatic\Config\ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+//    $innomaticcfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
 //    $name = $innomaticcfg->setValue('PlatformName', $eventData['name']);
 //    $domain = $innomaticcfg->setValue('PlatformGroup', $eventData['domain']);
     } else {
-        $name = InnomaticContainer::instance('innomaticcontainer')->getPlatformName();
-        $domain = InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup();
+        $name = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformName();
+        $domain = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformGroup();
     }
 
 
@@ -971,7 +971,7 @@ function main_help($eventData)
             array(
                 'base' => 'innomatic',
                 'node' => 'innomatic.root.interface.html#'.$eventData['node'],
-                'language' => InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+                'language' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
             )
         )
     );

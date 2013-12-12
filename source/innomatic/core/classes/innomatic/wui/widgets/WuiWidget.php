@@ -76,19 +76,19 @@ abstract class WuiWidget
             $this->mDispEvents = &$dispEvents;
         }
 
-        $currentWuiTheme = \Innomatic\Wui\Wui::instance('wui')->getThemeName();
+        $currentWuiTheme = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getThemeName();
         if (strlen($elemTheme) and $elemTheme != $currentWuiTheme) {
             $this->mTheme = $elemTheme;
 
             $this->mThemeHandler = new \Innomatic\Wui\WuiTheme(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getDataAccess(),
                 $this->mTheme
             );
         } else {
             $this->mTheme = $currentWuiTheme;
-            $this->mThemeHandler = \Innomatic\Wui\Wui::instance('wui')->getTheme();
+            $this->mThemeHandler = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getTheme();
         }
 
         if (
@@ -119,8 +119,8 @@ abstract class WuiWidget
         }
 
         $this->mSessionObjectName = ($this->mSessionObjectNoUser == 'true' ? ''
-            : (is_object(InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()) ?
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserName() : 'root')
+            : (is_object(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()) ?
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName() : 'root')
              .'_') . ($this->mSessionObjectNoPage == 'true' ? '' : $_SERVER['PHP_SELF'].'_') .
              ($this->mSessionObjectNoType == 'true' ? '' : get_class($this).'_') .
              ($this->mSessionObjectNoName == 'true' ? '' : $this->mName) .
@@ -134,7 +134,7 @@ abstract class WuiWidget
 
         $xajax = \Innomatic\Ajax\Xajax::instance('Xajax', $ajax_request_uri);
 
-        $wuiContainer = \Innomatic\Wui\Wui::instance('wui');
+        $wuiContainer = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 
         // Register action ajax calls
         $theObject = new \ReflectionObject($this);
@@ -210,7 +210,7 @@ abstract class WuiWidget
     {
         if ($this->mUseSession) {
             \Innomatic\Desktop\Controller\DesktopFrontController::instance(
-                'desktopfrontcontroller'
+                '\Innomatic\Desktop\Controller\DesktopFrontController'
             )->session->put(
                 $this->mSessionObjectName, serialize($args)
             );
@@ -227,12 +227,12 @@ abstract class WuiWidget
         if (
             $this->mUseSession == 'true'
             and \Innomatic\Desktop\Controller\DesktopFrontController::instance(
-                'desktopfrontcontroller'
+                '\Innomatic\Desktop\Controller\DesktopFrontController'
             )->session->isValid($this->mSessionObjectName)
         ) {
             return unserialize(
                 \Innomatic\Desktop\Controller\DesktopFrontController::instance(
-                    'desktopfrontcontroller'
+                    '\Innomatic\Desktop\Controller\DesktopFrontController'
                 )->session->get($this->mSessionObjectName)
             );
         } else {

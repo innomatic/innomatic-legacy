@@ -36,7 +36,7 @@ abstract class ModulePersistentObject extends ModuleObject
      * @param ModuleConfig $config Module configuration object.
      * @since 5.1
      */
-    public function __construct(ModuleConfig $config)
+    public function __construct(\Innomatic\Module\ModuleConfig $config)
     {
         parent::__construct($config);
 
@@ -49,7 +49,7 @@ abstract class ModulePersistentObject extends ModuleObject
         $this->dataAccess = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess($dasn);
         */
 
-        $this->dataAccess = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getDataAccess();
+        $this->dataAccess = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
 
         // Data Access Object object
         $this->dataAccessObject = new \Innomatic\Module\Persist\ModuleAccessObject($this->dataAccess);

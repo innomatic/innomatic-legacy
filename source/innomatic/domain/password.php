@@ -26,15 +26,15 @@ use \Shared\Wui;
 
 global $wuiMainStatus, $wuiMainFrame, $innomaticLocale, $wuiTitleBar;
 
-$log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+$log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 $innomaticLocale = new LocaleCatalog(
     'innomatic::domain_password',
-    InnomaticContainer::instance(
-        'innomaticcontainer'
+    \Innomatic\Core\InnomaticContainer::instance(
+        '\Innomatic\Core\InnomaticContainer'
     )->getCurrentUser()->getLanguage()
 );
 
-$wui = Wui::instance('wui');
+$wui = Wui::instance('\Innomatic\Wui\Wui');
 $wui->loadWidget('button');
 $wui->loadWidget('checkbox');
 $wui->loadWidget('combobox');
@@ -148,13 +148,13 @@ function pass_edit($eventData)
     if ($eventData['newpassworda'] == $eventData['newpasswordb']) {
         if (strlen($eventData['newpassworda'])) {
             $tempUser = new User(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getCurrentDomain()->domaindata['id']
             );
             $tempUser->setUserIdByUsername(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getCurrentUser()->getUserName()
             );
 
@@ -265,8 +265,8 @@ function main_help($eventData)
                 'base' => 'innomatic',
                 'node' => 'innomatic.domain.password.' . $eventData['node']
                 . '.html',
-                'language' => InnomaticContainer::instance(
-                    'innomaticcontainer'
+                'language' => \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getCurrentUser()->getLanguage()
             )
         )

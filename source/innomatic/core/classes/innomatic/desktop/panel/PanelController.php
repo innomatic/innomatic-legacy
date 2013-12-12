@@ -37,13 +37,13 @@ abstract class PanelController implements \Innomatic\Util\Observer
     public function __construct($mode, $application)
     {
         // Builds the application home path
-        $home = InnomaticContainer::instance('innomaticcontainer')->getHome();
+        $home = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome();
         switch ($mode) {
-            case InnomaticContainer::MODE_ROOT:
+            case \Innomatic\Core\InnomaticContainer::MODE_ROOT:
                 $home .= 'root/';
                 break;
 
-            case InnomaticContainer::MODE_DOMAIN:
+            case \Innomatic\Core\InnomaticContainer::MODE_DOMAIN:
                 $home .= 'domain/';
                 break;
         }
@@ -104,10 +104,10 @@ abstract class PanelController implements \Innomatic\Util\Observer
         $xajax = \Innomatic\Ajax\Xajax::instance('Xajax', $ajax_request_uri);
 
         // Set debug mode
-        if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
             $xajax->debugOn();
         }
-        $xajax->setLogFile(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/ajax.log');
+        $xajax->setLogFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/ajax.log');
 
         // Register action ajax calls
         $theClass = new \ReflectionClass($actionClassName);

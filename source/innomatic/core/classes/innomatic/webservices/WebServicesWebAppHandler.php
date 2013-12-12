@@ -34,36 +34,36 @@ class WebServicesWebAppHandler extends \Innomatic\Webapp\WebAppHandler
         $path = $this->getRelativePath($req);
 
         // Bootstraps Innomatic
-        $container = \Innomatic\Webapp\WebAppContainer::instance('webappcontainer');
+        $container = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
         $home = $container->getCurrentWebApp()->getHome();
 
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
-        $innomatic->setMode(InnomaticContainer::MODE_ROOT);
-        $innomatic->setInterface(InnomaticContainer::INTERFACE_WEBSERVICES);
+        $innomatic->setMode(\Innomatic\Core\InnomaticContainer::MODE_ROOT);
+        $innomatic->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_WEBSERVICES);
 
-        if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP) {
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
             $innomatic->abort('Setup phase');
         }
 
-        $xuser = new WebServicesUser(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+        $xuser = new WebServicesUser(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
         if ($xuser->setByAccount($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
-            $container = InnomaticContainer::instance('innomaticcontainer');
+            $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
             $container->setWebServicesUser($_SERVER['PHP_AUTH_USER']);
             $container->setWebServicesProfile($xuser->mProfileId);
 
             if ($xuser->mDomainId) {
-                $domain_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('SELECT domainid FROM domains WHERE id='.$xuser->mDomainId);
+                $domain_query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute('SELECT domainid FROM domains WHERE id='.$xuser->mDomainId);
                 if ($domain_query->getNumberRows()) {
-                    $innomatic = InnomaticContainer::instance('innomaticcontainer');
+                    $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
                     $innomatic->startDomain($domain_query->getFields('domainid'));
                 }
             }
 
-            $xprofile = new WebServicesProfile(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $container->getWebServicesProfile());
+            $xprofile = new WebServicesProfile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $container->getWebServicesProfile());
             $container->setWebServicesMethods($xprofile->AvailableMethods());
         } else {
-            if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value('SecurityAlertOnWrongWebServicesLogin') == '1') {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->Value('SecurityAlertOnWrongWebServicesLogin') == '1') {
                 $innomatic_security = new \Innomatic\Security\SecurityManager();
                 $innomatic_security->sendAlert('Wrong web services login for user '.$_SERVER['PHP_AUTH_USER'].' from remote address '.$_SERVER['REMOTE_ADDR']);
                 unset($innomatic_security);
@@ -71,12 +71,12 @@ class WebServicesWebAppHandler extends \Innomatic\Webapp\WebAppHandler
         }
         $structure = array();
 
-        $methods = InnomaticContainer::instance('innomaticcontainer')->getWebServicesMethods();
+        $methods = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getWebServicesMethods();
         while (list (, $tmpdata) = each($methods)) {
             if ($tmpdata['handler'] and $tmpdata['name'] and $tmpdata['function']) {
                 // TODO Fixare gestione handler servizi remoti
                 if (!defined(strtoupper($tmpdata['handler']).'_XMLRPCMETHOD')) {
-                    require_once(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/classes/shared/webservices/'.ucfirst($tmpdata['handler']).'WebServicesHandler.php');
+                    require_once(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/classes/shared/webservices/'.ucfirst($tmpdata['handler']).'WebServicesHandler.php');
                 }
 
                 $structure[$tmpdata['name']]['function'] = $tmpdata['function'];
@@ -120,7 +120,7 @@ class WebServicesWebAppHandler extends \Innomatic\Webapp\WebAppHandler
     {
         $result = '';
 
-        $container = \Innomatic\Webapp\WebAppContainer::instance('webappcontainer');
+        $container = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
         $processor = $container->getProcessor();
         $webAppPath = $request->getUrlPath();
 
