@@ -54,7 +54,9 @@ class WuiXml extends \Innomatic\Wui\Widgets\WuiWidget
         if ($this->mDefinition == null) {
             return false;
         }
-        $root_element = &$this->getElementStructure(array_shift(XMLParser::getXmlTree($this->mDefinition)));
+        $def = XMLParser::getXmlTree($this->mDefinition);
+        $def = array_shift($def);
+        $root_element = &$this->getElementStructure($def);
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' xml -->' : '') . ($root_element->build($this->mrWuiDisp) ? $root_element->render() : '') . ($this->mComments ? '<!-- end ' . $this->mName . " xml -->\n" : '');
         $this->mBuilt = true;
         return true;
