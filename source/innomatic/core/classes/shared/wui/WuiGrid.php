@@ -31,7 +31,7 @@ class WuiGrid extends \Innomatic\Wui\Widgets\WuiContainerWidget
         else
             $this->mArgs['compact'] = 'false';
     }
-    public function addChild(\Innomatic\Wui\Widgets\WuiWidget $childWidget, $row, $col, $halign = '', $valign = '')
+    public function addChild(\Innomatic\Wui\Widgets\WuiWidget $childWidget, $row = '', $col = '', $halign = '', $valign = '')
     {
         if (! isset($this->mArgs['rows']) or $row >= $this->mArgs['rows']) {
             $this->mArgs['rows'] = $row + 1;
