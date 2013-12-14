@@ -30,7 +30,7 @@ if ($webAppHome == dirname(__FILE__).'/') {
 
 // Starts the Root Container.
 require_once(dirname(__FILE__).'/innomatic/core/classes/innomatic/core/RootContainer.php');
-$rootContainer = \Innomatic\Core\RootContainer::instance('rootcontainer');
+$rootContainer = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer');
 
 // Starts the WebAppContainer.
 $container = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
