@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2013 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -118,7 +118,7 @@ class WebappskeletonComponent extends \Innomatic\Application\ApplicationComponen
         // Destination folder.
         $skeleton_destination = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
         // Removes previous skeleton directory.
-        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($skeleton_folder);
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($skeleton_destination);
         // Copies the skeleton folder to the destination.
         $result = \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($skeleton_source, $skeleton_destination);
         if (! $result) {
