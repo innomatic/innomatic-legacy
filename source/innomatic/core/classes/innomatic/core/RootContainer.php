@@ -111,13 +111,14 @@ class RootContainer extends \Innomatic\Util\Singleton
      * @param string $class_name
      */
     public static function autoload($class_name)
-	{
+	{		
 	    if (strpos($class_name, '\\') !== false) {
 	        $orig = $class_name;
 	        $class_pop = explode('\\',$class_name);
 	        $class_name = array_pop($class_pop);
 	        $file = self::getClassFile($orig);
 	    } else {
+	        $skip = false;
 	    	$file = self::getClassFile($class_name);
 	    }
 	    // use some function to find the file that declares the class requested
@@ -167,40 +168,50 @@ class RootContainer extends \Innomatic\Util\Singleton
 	{
 		// Backwards compatibility system
 		if (!isset($GLOBALS['system_classes'])) {
-			if (file_exists('innomatic/core/applications/innomatic/application.xml')) {
-			$xml = file_get_contents('innomatic/core/applications/innomatic/application.xml');
-			$file = new \SimpleXMLElement($xml);
-			$classes = array();
-			
-			foreach($file->components->class as $class) {
-				$path = "{$class['name']}";
-				$elements = explode('/', $path);
-				$class = str_replace('.php', '', array_pop($elements));
-				array_walk(
-					$elements,
-					function (&$match, $key) {
-						$match = ucfirst($match);
+			if ($handle = opendir('innomatic/core/applications/')) {
+				while (false !== ($entry = readdir($handle))) {
+					if (
+						$entry != "."
+						&& $entry != ".."
+						&& is_dir('innomatic/core/applications/'.$entry)
+						&& file_exists('innomatic/core/applications/'.$entry.'/application.xml')
+					) {
+						$xml = file_get_contents('innomatic/core/applications/'.$entry.'/application.xml');
+						$file = new \SimpleXMLElement($xml);
+						
+						foreach($file->components->class as $class) {
+							$path = "{$class['name']}";
+							$elements = explode('/', $path);
+							$class = str_replace('.php', '', array_pop($elements));
+							array_walk(
+								$elements,
+								function (&$match, $key) {
+									$match = ucfirst($match);
+								}
+							);
+							
+							$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
+							$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+						}
+						
+						foreach($file->components->wuiwidget as $class) {
+							$path = "shared/wui/{$class['file']}";
+							$elements = explode('/', $path);
+							$class = str_replace('.php', '', array_pop($elements));
+							array_walk(
+								$elements,
+								function (&$match, $key) {
+									$match = ucfirst($match);
+								}
+							);
+						
+							$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
+							$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+						}
 					}
-				);
-				
-				$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
-				$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
-			}
-			
-			foreach($file->components->wuiwidget as $class) {
-				$path = "shared/wui/{$class['file']}";
-				$elements = explode('/', $path);
-				$class = str_replace('.php', '', array_pop($elements));
-				array_walk(
-				$elements,
-				function (&$match, $key) {
-					$match = ucfirst($match);
 				}
-				);
-			
-				$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
-				$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
-			}
+				
+				closedir($handle);
 			}
 		}
 		
