@@ -46,8 +46,6 @@ class DirectoryUtils
 
         $this_path = getcwd();
         if (!is_dir($to_path)) {
-            if (strpos(strtolower($_ENV['OS']), 'windows') !== false)
-                $to_path = str_replace('/', '\\', $to_path);
             mkdir($to_path, 0775, true);
         }
 
