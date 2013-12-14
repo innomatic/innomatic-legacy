@@ -41,7 +41,7 @@ class DomainsettingsComponent extends \Innomatic\Application\ApplicationComponen
     {
         return false;
     }
-    public function doEnableDomainAction($params)
+    public function doEnableDomainAction($domainid, $params)
     {
         $result = false;
         if (strlen($params['file']) and isset($params['key'])) {
@@ -51,7 +51,7 @@ class DomainsettingsComponent extends \Innomatic\Application\ApplicationComponen
             $this->mLog->logEvent('innomatic.domainsettingscomponent.domainsettingscomponent.doenabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function doDisableDomainAction($params)
+    public function doDisableDomainAction($domainid, $params)
     {
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {
@@ -63,7 +63,7 @@ class DomainsettingsComponent extends \Innomatic\Application\ApplicationComponen
             $this->mLog->logEvent('innomatic.domainsettingscomponent.domainsettingscomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function doUpdateDomainAction($params)
+    public function doUpdateDomainAction($domainid, $params)
     {
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {
