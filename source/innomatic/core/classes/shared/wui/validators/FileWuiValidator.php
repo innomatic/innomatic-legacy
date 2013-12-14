@@ -41,7 +41,7 @@ if (
                 = each($_FILES['wuifiles'][$args[$i]][$disp]['evd'])
             ) {
                 \Innomatic\Wui\Wui::instance(
-                    'wui'
+                    '\Innomatic\Wui\Wui'
                 )->parameters['wui'][$disp]['evd'][$eventdataname][$args[$i]]
                 = $eventdatacontent;
             }
