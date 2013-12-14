@@ -1576,7 +1576,7 @@ function main_accounts($eventData)
                 'headers' => $headers,
                 'rowsperpage' => '10',
                 'pagesactionfunction' => 'accounts_list_action_builder',
-                'pagenumber' => $eventData['accountspage']
+                'pagenumber' => isset($eventData['accountspage']) ? $eventData['accountspage'] : ''
             )
         );
 

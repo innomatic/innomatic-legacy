@@ -28,9 +28,9 @@ abstract class WebAppHandler
         return isset($this->parameters[$param]) ? $this->parameters[$param] : null;
     }
 
-    public function setInitParameters(&$params)
+    public function setInitParameters($params)
     {
-        $this->parameters = &$params;
+        $this->parameters = $params;
     }
 
     abstract public function init();

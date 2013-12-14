@@ -468,7 +468,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
     protected function generateSourceEnd()
     {
         // Add titlebar
-        $this->mLayout = str_replace('{[wui-titlebar-title]}', $GLOBALS['wui']['titlebar-title'], $this->mLayout);
+		$this->mLayout = str_replace('{[wui-titlebar-title]}', isset($GLOBALS['wui']['titlebar-title']) ? $GLOBALS['wui']['titlebar-title'] : '', $this->mLayout);
 
         // Extract toolbars
         $string = '';
