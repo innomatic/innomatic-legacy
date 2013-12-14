@@ -124,7 +124,7 @@ class ApplicationComponentFactory
         $filepath = $componentData['filepath'];
 
         if ($this->rootda and file_exists($filepath)) {
-            $className = substr(basename($filepath), 0, -4);
+            $className = '\\Shared\\Components\\'.ucfirst(substr(basename($filepath), 0, -4));
             if (class_exists($className, true)) {
 
                 if (
@@ -179,7 +179,7 @@ class ApplicationComponentFactory
 
         if ($this->rootda and file_exists($filepath)) {
             require_once($filepath);
-            $className = substr(basename($filepath), 0, -4);
+            $className = '\\Shared\\Components\\'.ucfirst(substr(basename($filepath), 0, -4));
             if (class_exists($className, true)) {
 
                 if (call_user_func(array($className, 'getType')) and $className) {
@@ -265,7 +265,7 @@ class ApplicationComponentFactory
         $filepath = $componentData['filepath'];
         if ($this->rootda and file_exists($filepath)) {
             require_once($filepath);
-            $className = substr(basename($filepath), 0, -4);
+            $className = '\\Shared\\Components\\'.ucfirst(substr(basename($filepath), 0, -4));
             if (class_exists($className, true)) {
 
                 if (
