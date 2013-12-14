@@ -73,7 +73,7 @@ class Hook
                 while (!$query->eof) {
                     $data = $query->getFields();
                     if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
-                        $dump = \Innomatic\Debug\InnomaticDump::instance('innomaticdump');
+                        $dump = \Innomatic\Debug\InnomaticDump::instance('\Innomatic\Debug\InnomaticDump');
                         $dump->hooks[$this->application.'::'.$this->function.'::'.$event][] = $data['hookhandler'].' - '.$data['hookmethod'];
                     }
                     require_once('shared/hooks/'.$data['hookhandler']);

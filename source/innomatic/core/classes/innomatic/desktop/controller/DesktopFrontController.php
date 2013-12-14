@@ -168,7 +168,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
                 \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState()
                 == \Innomatic\Core\InnomaticContainer::STATE_DEBUG
             ) {
-                $dump = \Innomatic\Debug\InnomaticDump::instance('innomaticdump');
+                $dump = \Innomatic\Debug\InnomaticDump::instance('\Innomatic\Debug\InnomaticDump');
                 $dump->desktopApplication = $desktopPanel;
             }
 
@@ -254,7 +254,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
 
             $desktopPanel = basename($resource);
             if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
-                $dump = \Innomatic\Debug\InnomaticDump::instance('innomaticdump');
+                $dump = \Innomatic\Debug\InnomaticDump::instance('\Innomatic\Debug\InnomaticDump');
                 $dump->desktopApplication = $desktopPanel;
             }
 

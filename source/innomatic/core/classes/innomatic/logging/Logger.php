@@ -105,16 +105,15 @@ class Logger
                     break;
             }
 
+            $logstr = '';
             if ($log_event) {
-
-
                 $logstr = sprintf("%04s/%02s/%02s - %02s:%02s:%02s - %s - %s : %s", $date['year'], $date['mon'], $date['mday'], $date['hours'], $date['minutes'], $date['seconds'], $evtype, $contest, $eventstring);
                 //$logstr = "$date[mday]/$date[mon]/$date[year] - $date[hours]:$date[minutes]:$date[seconds] - ".$evtype." - ".$contest." : ".$eventstring;
                 @error_log($logstr."\n", 3, $this->mLogFile);
 
                 $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
                 if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
-                    $dump = \Innomatic\Debug\InnomaticDump::instance('innomaticdump');
+                    $dump = \Innomatic\Debug\InnomaticDump::instance('\Innomatic\Debug\InnomaticDump');
                     $dump->logs[$this->mLogFile][] = $logstr;
                 }
             }

@@ -1593,7 +1593,7 @@ only application. */
 
                             // Creates a new instance of the component type class and installs the component
                             //
-                            $tmpclassname = $this->eltypes->types[$eltype]['classname'];
+                            $tmpclassname = isset($this->eltypes->types[$eltype]) ? $this->eltypes->types[$eltype]['classname'] : '';
                             //if ( !$tmpclassname ) $tmpclassname = $eltype;
                             if ($tmpclassname) {
                             	$tmpclassname = $tmpclassname;

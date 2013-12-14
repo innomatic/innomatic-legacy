@@ -553,7 +553,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
                         'w'
                     );
                     if ($fh) {
-                        $dump = \Innomatic\Debug\InnomaticDump::instance('innomaticdump');
+                        $dump = \Innomatic\Debug\InnomaticDump::instance('\Innomatic\Debug\InnomaticDump');
                         $dump->snapshot();
                         @fwrite($fh, serialize($dump));
                         @fclose($fh);
@@ -580,7 +580,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
                 'w'
             );
             if ($fh) {
-                $dump = \Innomatic\Debug\InnomaticDump::instance('innomaticdump');
+                $dump = \Innomatic\Debug\InnomaticDump::instance('\Innomatic\Debug\InnomaticDump');
                 $dump->snapshot();
                 @fwrite($fh, serialize($dump));
                 @fclose($fh);
