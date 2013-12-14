@@ -75,8 +75,8 @@ class WuiDate extends \Innomatic\Wui\Widgets\WuiWidget
             } else {
                 $this->mLanguage = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage();
             }
-        $this->mLocaleCountryHandler = new LocaleCountry($this->mCountry);
-        $this->mLocaleHandler = new LocaleCatalog('innomatic::wui', $this->mLanguage);
+        $this->mLocaleCountryHandler = new \Innomatic\Locale\LocaleCountry($this->mCountry);
+        $this->mLocaleHandler = new \Innomatic\Locale\LocaleCatalog('innomatic::wui', $this->mLanguage);
         if (isset($this->mArgs['readonly']))
             $this->mReadOnly = $this->mArgs['readonly'];
         if (isset($this->mArgs['type'])) {

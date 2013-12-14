@@ -152,7 +152,7 @@ class WuiDivframe extends \Innomatic\Wui\Widgets\WuiContainerWidget
             } else {
                 $language = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage();
             }
-            $locale = new LocaleCatalog('innomatic::wui', $language);
+            $locale = new \Innomatic\Locale\LocaleCatalog('innomatic::wui', $language);
         }
 
         $myLayout = ( $this->mComments ? '<!-- begin '.$this->mName.' divframe -->' : '' ).
