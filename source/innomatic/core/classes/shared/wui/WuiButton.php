@@ -52,7 +52,10 @@ class WuiButton extends \Innomatic\Wui\Widgets\WuiWidget
             $this->mArgs['themeimagetype'] = 'actions';
 
         if (isset($this->mArgs['themeimage']) and strlen($this->mArgs['themeimage'])) {
-            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/icons/'.$this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['file'])) {
+            if (
+            	isset($this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base']) and
+            	file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/icons/'.$this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['file'])
+			) {
                 $this->mArgs['image'] = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['file'];
             } else {
                 // Fallback to old icon set style

@@ -42,7 +42,10 @@ class WuiTitlebar extends \Innomatic\Wui\Widgets\WuiWidget
     protected function generateSource()
     {
         if (strlen($this->mIcon)) {
-            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/icons/'.$this->mThemeHandler->mIconsSet['icons'][$this->mIcon]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mIcon]['file'])) {
+            if (
+            	isset($this->mThemeHandler->mIconsSet['icons'][$this->mIcon]['base']) and
+            	file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/icons/'.$this->mThemeHandler->mIconsSet['icons'][$this->mIcon]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mIcon]['file'])
+			) {
                 $iconname = $this->mIcon;
             } else {
                 $iconname = 'document';
