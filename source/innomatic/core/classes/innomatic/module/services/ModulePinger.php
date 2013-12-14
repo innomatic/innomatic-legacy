@@ -96,7 +96,7 @@ class ModulePinger
            $this->ping_interval = $args[3];
            $this->refresh_needed = false;
            $this->shutdown = false;
-           $this->authenticator = \Innomatic\Module\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+           $this->authenticator = \Innomatic\Module\ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
            $this->socket = new \Innomatic\Net\Socket\Socket();
         $this->registry = array ();
         $this->registryHandler = new ModuleRegistryHandler();
@@ -157,7 +157,7 @@ class ModulePinger
      */
     protected function deletePeerFromRegistry($address, $port)
     {
-        $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         $xmldoc = simplexml_load_file($context->getHome().'core/conf/modules-netregistry.xml');
 //var_dump($xmldoc);
         $xml_string = "<?xml version=\"1.0\"?>\n<registry>\n\t";
@@ -169,7 +169,7 @@ class ModulePinger
         }
         $xml_string .= "\n</registry>";
         print($xml_string);
-        $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         $file_registry = fopen($context->getHome().'core/conf/modules-netregistry.xml', 'x');
         if($file_registry==false) {
             unlink($context->getHome().'core/conf/modules-netregistry.xml');
@@ -194,7 +194,7 @@ class ModulePinger
         print("force_refresh"."\n");
         $request = '';
         $address = '127.0.0.1';
-        $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         try {
             $port = $context->getConfig()->getKey('service_port');;
             $this->socket->connect($address, $port);

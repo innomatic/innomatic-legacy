@@ -60,7 +60,7 @@ class ModuleRegistryHandler
      */
     public function parseRegistry($host = null, $port = null)
     {
-        $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         $mode = $context->getConfig()->getKey('load_services_register');
          if($host == null || $port == null) {//loading registry for the first time
             if ($mode == 'local') {
@@ -94,7 +94,7 @@ class ModuleRegistryHandler
      */
     private function loadLocalRegistry($filename)
     {
-        $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         $xmldoc = simplexml_load_file($context->getHome().'core/conf/'.$filename);
         $this->registry = array ();
         $nodename = 0;
@@ -127,7 +127,7 @@ class ModuleRegistryHandler
  print("downloadRemoteRegistry: inizio\r\n");
          $result = '';
          try {
-            $auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+            $auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
             $socket = new \Innomatic\Net\Socket\Socket();
             $socket->connect($address, $port);
             $request = 'GET_REGISTRY Module/1.1'."\r\n";
@@ -141,7 +141,7 @@ print("Result content:\r\n".$result."\n");
          } catch (\Innomatic\Net\Socket\SocketException $e) {
             $result = "Module: services-extension cannot download up-to-date registry from $address:$port";
          }
-         $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
+         $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
          $file_registry = fopen($context->getHome().'core/conf/modules-netregistry-remote.xml', 'x');
          if($file_registry==false) {
             unlink($context->getHome().'core/conf/modules-netregistry-remote.xml');

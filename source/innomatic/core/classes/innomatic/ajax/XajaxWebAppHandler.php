@@ -32,7 +32,7 @@ class XajaxWebAppHandler extends WebAppHandler
 
         $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         $innomatic->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_EXTERNAL);
-        $root = \Innomatic\Core\RootContainer::instance('rootcontainer');
+        $root = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer');
         $innomatic_home = $root->getHome().'innomatic/';
         $innomatic->bootstrap($innomatic_home, $innomatic_home.'core/conf/innomatic.ini');
         \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->startDomain(\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getName());

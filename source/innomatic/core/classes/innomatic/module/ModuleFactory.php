@@ -57,12 +57,12 @@ class ModuleFactory
         $location = $locator->getLocation();
 
         // Authenticates
-        $authenticator = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+        $authenticator = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
         if (!$authenticator->authenticate($locator->getUsername(), $locator->getPassword())) {
             throw new ModuleException('Not authorized');
         }
 
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
 
         // Checks if Module exists
         $classes_dir = $context->getHome().'core/modules/'.$location.'/classes/';

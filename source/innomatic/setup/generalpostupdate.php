@@ -16,10 +16,10 @@
 // Updates the front receiver file.
 @copy(
     $tmpdir.'/../index.php',
-    \Innomatic\Core\RootContainer::instance('rootcontainer')->getHome()
+    \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome()
     . 'index.php'
 );
-@chmod(\Innomatic\Core\RootContainer::instance('rootcontainer')->getHome() . 'index.php', 0644);
+@chmod(\Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome() . 'index.php', 0644);
 
 /*
 @copy($tmpdir . '/core/web.xml',

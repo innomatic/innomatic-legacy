@@ -40,7 +40,7 @@ class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
      */
     public function parseConfig()
     {
-        $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         $xmldoc = simplexml_load_file($context->getHome().'core/conf/modules-users.xml');
         $this->structure = array ();
         foreach ($xmldoc->user as $user) {

@@ -19,7 +19,7 @@ class ModuleServerSocket
      */
     public function start()
     {
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         $port = $context->getConfig()->getKey('server_port');
         if (!strlen($port)) {
             $port = '9000';

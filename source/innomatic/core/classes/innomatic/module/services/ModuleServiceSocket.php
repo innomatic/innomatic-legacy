@@ -20,7 +20,7 @@ class ModuleServiceSocket extends ModuleServerSocket
     public function start()
     {
         print('service socket: start'."\n");
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         $port = $context->getConfig()->getKey('service_port');
         if (!strlen($port)) {
             $port = '9001';

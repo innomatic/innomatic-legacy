@@ -49,7 +49,7 @@ class WebApp
         // Sets var directory
         $container = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
         if ($container->useDefaults() or !$container->isKey('webapps.var_dir') or $container->getKey('webapps.var_dir') == 'shared') {
-            $this->varDir = \Innomatic\Core\RootContainer::instance('rootcontainer')->getHome().'innomatic/core/domains/'.$this->getName().'/var/';
+            $this->varDir = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().'innomatic/core/domains/'.$this->getName().'/var/';
         } else {
             $this->varDir = $this->getHome().'core/var/';
         }

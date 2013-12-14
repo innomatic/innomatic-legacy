@@ -22,7 +22,7 @@ if (substr(phpversion(), 0, 1) < 5) {
 require_once(
     dirname(__FILE__) . '/../classes/innomatic/core/RootContainer.php'
 );
-$rootContainer = \Innomatic\Core\RootContainer::instance('rootcontainer');
+$rootContainer = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer');
 
 // Starts the Script Container
 require_once(

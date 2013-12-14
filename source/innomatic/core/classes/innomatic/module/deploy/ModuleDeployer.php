@@ -28,7 +28,7 @@ class ModuleDeployer
             return false;
         }
 
-        $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
 
         $tmp_dir = $context->getHome().'core/temp/appinst/deploy_'.rand().DIRECTORY_SEPARATOR;
         mkdir($tmp_dir, 0755, true);
@@ -78,7 +78,7 @@ class ModuleDeployer
         \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
 
         // Runs Module deploy hooked actions.
-        //$auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+        //$auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
         //$module = \Innomatic\Module\ModuleFactory::getModule(new ModuleLocator('module://admin:'.$auth->getPassword('admin').'@/'.$cfg->getName()));
         //$module->deploy();
 
@@ -106,7 +106,7 @@ class ModuleDeployer
             throw new \Innomatic\Module\ModuleException('Unable to find Module');
         }
 
-        $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
 
         $tmp_dir = $context->getHome().'core/temp/appinst/deploy_'.rand().DIRECTORY_SEPARATOR;
         mkdir($tmp_dir, 0755, true);
@@ -161,7 +161,7 @@ class ModuleDeployer
         \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
 
         // Executes Module redeploy hooked actions.
-        //$auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+        //$auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
         //$module = \Innomatic\Module\ModuleFactory::getModule(new ModuleLocator('module://admin:'.$auth->getPassword('admin').'@/'.$cfg->getName()));
         //$module->redeploy();
 
@@ -185,13 +185,13 @@ class ModuleDeployer
     public function undeploy($location)
     {
         // Checks if the specified Module exists.
-        $context = \Innomatic\Module\Server\ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         if (!is_dir($context->getHome().'core/modules'.DIRECTORY_SEPARATOR.$location)) {
             throw new \Innomatic\Module\ModuleException('No such Module');
         }
 
         // Executes Module undeploy hooked actions.
-        $auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+        $auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
         $module = \Innomatic\Module\ModuleFactory::getModule(new ModuleLocator('module://admin:'.$auth->getPassword('admin').'@/'.$location));
         $module->undeploy();
 

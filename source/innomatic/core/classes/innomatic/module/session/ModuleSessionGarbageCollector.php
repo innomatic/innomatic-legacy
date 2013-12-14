@@ -22,7 +22,7 @@ class ModuleSessionGarbageCollector
     public static function clean()
     {
         // Obtains Modules list.
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         $module_list = $context->getModuleList();
 
         // Cleans session files for each Module context.

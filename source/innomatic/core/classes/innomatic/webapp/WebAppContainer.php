@@ -29,7 +29,7 @@ class WebAppContainer extends \Innomatic\Util\Singleton
 
     public function ___construct()
     {
-        $root_home = \Innomatic\Core\RootContainer::instance('rootcontainer')->getHome();
+        $root_home = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome();
         $this->home = $root_home;
         $this->config = array();
         if (file_exists($root_home.'innomatic/core/conf/webapp.ini')) {

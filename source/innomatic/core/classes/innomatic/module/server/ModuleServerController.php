@@ -43,11 +43,11 @@ class ModuleServerController
      */
     public function __construct()
     {
-        $this->host = ModuleServerContext::instance('ModuleServerContext')->getConfig()->getKey('server_address');
+        $this->host = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext')->getConfig()->getKey('server_address');
         if (!$this->host) {
             $this->host = 'localhost';
         }
-        $this->port = ModuleServerContext::instance('ModuleServerContext')->getConfig()->getKey('server_port');
+        $this->port = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext')->getConfig()->getKey('server_port');
         if (!$this->port) {
             $this->port = 9000;
         }
@@ -124,7 +124,7 @@ class ModuleServerController
      */
     public function shutdown()
     {
-        $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+        $auth = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
         $this->socket->connect($this->host, $this->port);
         $request = 'SHUTDOWN Module/1.0'."\r\n";
         $request .= 'User: admin'."\r\n";
@@ -144,7 +144,7 @@ class ModuleServerController
     {
         try {
             $result = '';
-            $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+            $auth = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
             $this->socket->connect($this->host, $this->port);
             $request = 'STATUS Module/1.0'."\r\n";
             $request .= 'User: admin'."\r\n";
@@ -169,7 +169,7 @@ class ModuleServerController
     {
         try {
             $result = '';
-            $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+            $auth = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
             $this->socket->connect($this->host, $this->port);
             $request = 'REFRESH Module/1.0'."\r\n";
             $request .= 'User: admin'."\r\n";

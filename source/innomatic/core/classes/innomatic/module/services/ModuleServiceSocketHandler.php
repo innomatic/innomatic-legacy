@@ -91,7 +91,7 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      * @since 5.1
      */
     public function onStart() { //OK
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         if ($context->getConfig()->getKey('log_server_events') == 1 or $context->getConfig()->useDefaults()) {
             $this->serverLogEnabled = true;
             $this->serverLogger = new ModuleServerLogger($context->getHome().'core/log/module-services.log');
@@ -102,7 +102,7 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
         }
 
         \Innomatic\Module\Session\ModuleSessionGarbageCollector::clean();
-        $this->authenticator = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+        $this->authenticator = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
 
         if ($this->serverLogEnabled) {
             $this->serverLogger->logEvent('Start');
@@ -238,7 +238,7 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
                 case 'GET_REGISTRY' : //OK
                     if ($this->authenticator->authorizeAction($headers['User'], 'get_registry')) {
                         $this->logAccess($clientId, $headers['User'], $command_line);
-                        $context = ModuleServerContext::instance('ModuleServerContext');
+                        $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
                            if($file_content = file_get_contents($context->getHome().'core/conf/modules-netregistry.xml')) {
                             $response->setBuffer($file_content);
                            } else {

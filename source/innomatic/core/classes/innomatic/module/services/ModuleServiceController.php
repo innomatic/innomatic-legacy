@@ -20,11 +20,11 @@ class ModuleServiceController extends ModuleServerController
      */
     public function __construct()
     {
-        $this->host = ModuleServerContext::instance('ModuleServerContext')->getConfig()->getKey('server_address');
+        $this->host = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext')->getConfig()->getKey('server_address');
         if (!$this->host) {
             $this->host = 'localhost';
         }
-        $this->port = ModuleServerContext::instance('ModuleServerContext')->getConfig()->getKey('service_port');
+        $this->port = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext')->getConfig()->getKey('service_port');
         if (!$this->port) {
             $this->port = 9001;
         }
@@ -107,7 +107,7 @@ class ModuleServiceController extends ModuleServerController
      */
     public function shutdown()
     {
-        $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+        $auth = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
         $this->socket->connect($this->host, $this->port);
         $request = 'SHUTDOWN Module/1.0'."\r\n";
         $request .= 'User: admin'."\r\n";
@@ -128,7 +128,7 @@ class ModuleServiceController extends ModuleServerController
     {
         try {
             $result = '';
-            $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+            $auth = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
             $this->socket->connect($this->host, $this->port);
             $request = 'STATUS Module/1.0'."\r\n";
             $request .= 'User: admin'."\r\n";
@@ -153,7 +153,7 @@ class ModuleServiceController extends ModuleServerController
     {
         try {
             $result = '';
-            $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+            $auth = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
             $this->socket->connect($this->host, $this->port);
             $request = 'REFRESH Module/1.0'."\r\n";
             $request .= 'User: admin'."\r\n";
@@ -180,7 +180,7 @@ class ModuleServiceController extends ModuleServerController
     {
         // TODO
            if (strtoupper(substr(PHP_OS, 0, 3) == 'WIN')) {
-             $context = ModuleServerContext::instance('ModuleServerContext');
+             $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
             $path = $context->getHome().'classes\\it\\innoteam\\module\\services\\';
             $WshShell1 = new COM("WScript.Shell");
             $WshShell2 = new COM("WScript.Shell");
@@ -203,8 +203,8 @@ class ModuleServiceController extends ModuleServerController
     private function stopPinger()
     {
             $result = '';
-            $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
-            $context = ModuleServerContext::instance('ModuleServerContext');
+            $auth = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
+            $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
             $this->socket->connect('127.0.0.1', $context->getConfig()->getKey('pinger_port'));
             $request = 'SHUTDOWN Module/1.0'."\r\n";
             $request .= 'User: admin'."\r\n";

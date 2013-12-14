@@ -70,7 +70,7 @@ class ModuleServerSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      */
     public function onStart()
     {
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         if ($context->getConfig()->getKey('log_server_events') == 1 or $context->getConfig()->useDefaults()) {
             $this->serverLogEnabled = true;
             $this->serverLogger = new ModuleServerLogger($context->getHome().'core/log'.DIRECTORY_SEPARATOR.'module-server.log');
@@ -81,7 +81,7 @@ class ModuleServerSocketHandler extends \Innomatic\Net\Socket\SocketHandler
         }
 
         \Innomatic\Module\Session\ModuleSessionGarbageCollector::clean();
-        $this->authenticator = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+        $this->authenticator = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
 
         if ($this->serverLogEnabled) {
             $this->serverLogger->logEvent('Start');

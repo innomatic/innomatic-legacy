@@ -22,14 +22,14 @@ class ScriptContainer extends \Innomatic\Util\Singleton
     {
         $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         $innomatic->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_CONSOLE);
-        $home = RootContainer::instance('rootcontainer')->getHome()
+        $home = RootContainer::instance('\Innomatic\Core\RootContainer')->getHome()
             . 'innomatic/';
         $innomatic->bootstrap($home, $home . 'core/conf/innomatic.ini');
     }
 
     public static function cleanExit($status = 0)
     {
-        RootContainer::instance('rootcontainer')->stop();
+        RootContainer::instance('\Innomatic\Core\RootContainer')->stop();
         exit($status);
     }
 }

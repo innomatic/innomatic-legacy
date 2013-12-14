@@ -14,7 +14,7 @@
  */
 
 require_once('scripts_container.php');
-$script = ScriptContainer::instance('scriptcontainer');
+$script = \Innomatic\Scripts\ScriptContainer::instance('\Innomatic\Scripts\ScriptContainer');
 
 if (!isset ($argv[1])) $argv[1] = '';
 

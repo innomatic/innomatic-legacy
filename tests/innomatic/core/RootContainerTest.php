@@ -16,7 +16,7 @@ class RootContainerTest extends PHPUnit_Framework_TestCase
     protected function setUp ()
     {
         parent::setUp();
-        $this->RootContainer = RootContainer::instance('rootcontainer');
+        $this->RootContainer = RootContainer::instance('\Innomatic\Core\RootContainer');
     }
     /**
      * Cleans up the environment after running a test.

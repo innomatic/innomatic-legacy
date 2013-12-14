@@ -512,7 +512,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
      */
     public function halt($status = '')
     {
-        $rootContainer = RootContainer::instance('rootcontainer');
+        $rootContainer = RootContainer::instance('\Innomatic\Core\RootContainer');
         $rootContainer->stop();
         exit($status);
     }
@@ -535,7 +535,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             case \Innomatic\Core\InnomaticContainer::STATE_DEBUG:
                 if (
                     is_object($this->loadTimer)
-                    and RootContainer::instance('rootcontainer')->isClean()
+                    and RootContainer::instance('\Innomatic\Core\RootContainer')->isClean()
                     == true
                 ) {
                     $this->loadTimer->Mark('end');
@@ -562,7 +562,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
                 break;
         }
 
-        if (!RootContainer::instance('rootcontainer')->isClean()) {
+        if (!RootContainer::instance('\Innomatic\Core\RootContainer')->isClean()) {
             if (is_object($this->loadTimer)) {
                 $this->loadTimer->Mark('end');
 
@@ -589,7 +589,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         }
 
         if (
-            !RootContainer::instance('rootcontainer')->isClean()
+            !RootContainer::instance('\Innomatic\Core\RootContainer')->isClean()
             or (
                 $this->state != \Innomatic\Core\InnomaticContainer::STATE_DEBUG
                 and file_exists(

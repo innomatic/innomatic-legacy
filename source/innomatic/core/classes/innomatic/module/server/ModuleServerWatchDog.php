@@ -29,7 +29,7 @@ class ModuleServerWatchDog
                 break;
             }
 
-            $context = ModuleServerContext::instance('ModuleServerContext');
+            $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
             $logger = new ModuleServerLogger($context->getHome().'core/log/module-watchdog.log');
             $logger->logEvent('------------------------------------------------------');
             $logger->logEvent($result);
