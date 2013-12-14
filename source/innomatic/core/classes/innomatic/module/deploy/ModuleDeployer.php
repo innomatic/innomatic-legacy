@@ -78,7 +78,7 @@ class ModuleDeployer
         \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
 
         // Runs Module deploy hooked actions.
-        //$auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
+        //$auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
         //$module = \Innomatic\Module\ModuleFactory::getModule(new ModuleLocator('module://admin:'.$auth->getPassword('admin').'@/'.$cfg->getName()));
         //$module->deploy();
 
@@ -161,7 +161,7 @@ class ModuleDeployer
         \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($tmp_dir);
 
         // Executes Module redeploy hooked actions.
-        //$auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
+        //$auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
         //$module = \Innomatic\Module\ModuleFactory::getModule(new ModuleLocator('module://admin:'.$auth->getPassword('admin').'@/'.$cfg->getName()));
         //$module->redeploy();
 
@@ -191,7 +191,7 @@ class ModuleDeployer
         }
 
         // Executes Module undeploy hooked actions.
-        $auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
+        $auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
         $module = \Innomatic\Module\ModuleFactory::getModule(new ModuleLocator('module://admin:'.$auth->getPassword('admin').'@/'.$location));
         $module->undeploy();
 

@@ -51,7 +51,7 @@ class ModulePingerServer extends \Innomatic\Net\Socket\SocketHandler
     public function onStart()
     {
         print('Pinger Server ready ('.$this->bindAddress.":".$this->port.")\n");
-        $this->authenticator = \Innomatic\Modules\Server\ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
+        $this->authenticator = \Innomatic\Modules\Server\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
     }
 
     public function onShutDown()

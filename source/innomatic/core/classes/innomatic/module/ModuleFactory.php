@@ -57,7 +57,7 @@ class ModuleFactory
         $location = $locator->getLocation();
 
         // Authenticates
-        $authenticator = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
+        $authenticator = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
         if (!$authenticator->authenticate($locator->getUsername(), $locator->getPassword())) {
             throw new ModuleException('Not authorized');
         }

@@ -102,7 +102,7 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
         }
 
         \Innomatic\Module\Session\ModuleSessionGarbageCollector::clean();
-        $this->authenticator = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
+        $this->authenticator = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
 
         if ($this->serverLogEnabled) {
             $this->serverLogger->logEvent('Start');

@@ -127,7 +127,7 @@ class ModuleRegistryHandler
  print("downloadRemoteRegistry: inizio\r\n");
          $result = '';
          try {
-            $auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
+            $auth = \Innomatic\Module\Server\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
             $socket = new \Innomatic\Net\Socket\Socket();
             $socket->connect($address, $port);
             $request = 'GET_REGISTRY Module/1.1'."\r\n";

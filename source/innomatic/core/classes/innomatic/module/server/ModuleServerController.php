@@ -124,7 +124,7 @@ class ModuleServerController
      */
     public function shutdown()
     {
-        $auth = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
+        $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
         $this->socket->connect($this->host, $this->port);
         $request = 'SHUTDOWN Module/1.0'."\r\n";
         $request .= 'User: admin'."\r\n";
@@ -144,7 +144,7 @@ class ModuleServerController
     {
         try {
             $result = '';
-            $auth = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
+            $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
             $this->socket->connect($this->host, $this->port);
             $request = 'STATUS Module/1.0'."\r\n";
             $request .= 'User: admin'."\r\n";
@@ -169,7 +169,7 @@ class ModuleServerController
     {
         try {
             $result = '';
-            $auth = ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
+            $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
             $this->socket->connect($this->host, $this->port);
             $request = 'REFRESH Module/1.0'."\r\n";
             $request .= 'User: admin'."\r\n";

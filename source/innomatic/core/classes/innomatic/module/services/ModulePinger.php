@@ -96,7 +96,7 @@ class ModulePinger
            $this->ping_interval = $args[3];
            $this->refresh_needed = false;
            $this->shutdown = false;
-           $this->authenticator = \Innomatic\Module\ModuleServerAuthenticator::instance('\Innomatic\Modules\Server\ModuleServerAuthenticator');
+           $this->authenticator = \Innomatic\Module\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
            $this->socket = new \Innomatic\Net\Socket\Socket();
         $this->registry = array ();
         $this->registryHandler = new ModuleRegistryHandler();
