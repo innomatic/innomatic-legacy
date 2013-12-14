@@ -33,7 +33,7 @@ require_once(dirname(__FILE__).'/innomatic/core/classes/innomatic/core/RootConta
 $rootContainer = \Innomatic\Core\RootContainer::instance('rootcontainer');
 
 // Starts the WebAppContainer.
-$container = \Innomatic\Webapp\WebAppContainer::instance('webappcontainer');
+$container = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
 
 // Starts the WebApp. This is where all the real stuff is done.
 $container->startWebApp($webAppHome);

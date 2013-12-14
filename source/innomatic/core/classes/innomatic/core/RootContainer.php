@@ -114,7 +114,8 @@ class RootContainer extends \Innomatic\Util\Singleton
 	{
 	    if (strpos($class_name, '\\') !== false) {
 	        $orig = $class_name;
-	        $class_name = array_pop(explode('\\',$class_name));
+	        $class_pop = explode('\\',$class_name);
+	        $class_name = array_pop($class_pop);
 	        $file = self::getClassFile($orig);
 	    } else {
 	    	$file = self::getClassFile($class_name);
@@ -229,7 +230,6 @@ class RootContainer extends \Innomatic\Util\Singleton
 		// if strong create a real alias known to PHP
 		if ($strong)
 		{
-			//echo $original."<br>\n";
 			if (!interface_exists($original)) {
 				class_alias($original,$alias);
 			}

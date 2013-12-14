@@ -81,13 +81,17 @@ class Wui extends \Innomatic\Util\Singleton
         if (class_exists('\Shared\Wui\Wui'.ucfirst($widgetName), true)) {
             return true;
         }
+        
+        if (class_exists('Wui'.ucfirst($widgetName), false)) {
+        	return true;
+        }
 
+        // @todo remove compatibility mode
         $widgetFile = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/classes/shared/wui/Wui' . ucfirst($widgetName) . '.php';
         $result = include_once($widgetFile);
 
-        if (!$result) {
-            
+        if (!$result) {            
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.wui.wui.loadwidget',
