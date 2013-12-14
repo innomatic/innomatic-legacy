@@ -21,7 +21,7 @@ namespace Innomatic\Application;
  * for their intended use.
  *
  */
-abstract class ApplicationComponent
+abstract class ApplicationComponent implements ApplicationComponentBase
 {
     /*! @public rootda DataAccess class - Innomatic database handler. */
     public $rootda;
@@ -613,28 +613,4 @@ structure.
     {
         return true;
     }
-
-    /**
-     * Tells the component type identifier string.
-     *
-     */
-    abstract public static function getType();
-
-    /**
-     * Tells the component priority over the other ones.
-     *
-     */
-    abstract public static function getPriority();
-
-    /**
-     * Tells if the component supports the domain abilitation.
-     *
-     */
-    abstract public static function getIsDomain();
-
-    /**
-     * Tells if the component supports the override feature.
-     *
-     */
-    abstract public static function getIsOverridable();
 }

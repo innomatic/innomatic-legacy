@@ -248,6 +248,7 @@
 		<class name="innomatic/application/Application.php" />
 		<class name="innomatic/application/ApplicationSettings.php" />
 		<class name="innomatic/application/ApplicationDependencies.php" />
+        <class name="innomatic/application/ApplicationComponentBase.php" />
 		<class name="innomatic/application/ApplicationComponent.php" />
 		<class
 			name="innomatic/application/ApplicationComponentFactory.php" />
