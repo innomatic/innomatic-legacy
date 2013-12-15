@@ -13,11 +13,6 @@
  * @since      Class available since Release 5.0
 */
 
-// PHP 5 check, in order to not show fatal errors.
-if (substr(phpversion(), 0, 1) < 5) {
-    die('ERROR: this application requires PHP 5 or newer.');
-}
-
 // Saves webapp home.
 $webAppHome = getcwd().'/';
 
