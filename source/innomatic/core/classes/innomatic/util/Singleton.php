@@ -44,17 +44,18 @@ abstract class Singleton
     }
 
     final public static function instance($class)
-    {
-        //$class = strtolower($class);
-        switch ($class) {
-        	case 'innomaticcontainer':
-        		$class = '\Innomatic\Core\InnomaticContainer';
-        		break;
-        	case 'rootcontainer':
-        		$class = '\Innomatic\Core\RootContainer';
-        		break;
-        }
+    {   
         $registry = \Innomatic\Util\Registry::instance();
+
+        // @todo compatibility mode
+        
+        if ($registry->isGlobalObject('system_classes')) {
+        	$system_classes = $registry->getGlobalObject('system_classes');
+        	if (isset($system_classes[$class])) {
+        		$class = $system_classes[$class]['fqcn'];
+        	}
+        }
+        
         if (!$registry->isGlobalObject('singleton ' . $class)) {
             $singleton = new $class();
             $registry->setGlobalObject('singleton ' . $class, $singleton);
