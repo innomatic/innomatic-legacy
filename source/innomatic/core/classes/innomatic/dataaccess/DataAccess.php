@@ -338,7 +338,7 @@ abstract class DataAccess
         }
 
         // add any rest to the returned array
-        if (!empty($sql) && ereg('[^[:space:]]+', $sql)) {
+        if (!empty($sql)) {
             $ret[] = $sql;
         }
 
