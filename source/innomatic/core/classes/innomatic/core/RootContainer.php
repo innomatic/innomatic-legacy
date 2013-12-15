@@ -166,8 +166,10 @@ class RootContainer extends \Innomatic\Util\Singleton
 
 	public static function getClassFile($className)
 	{
+		$registry = \Innomatic\Util\Registry::instance();
 		// Backwards compatibility system
-		if (!isset($GLOBALS['system_classes'])) {
+		if (!$registry->isGlobalObject('system_classes')) {
+			$system_classes = array();
 			if ($handle = opendir('innomatic/core/applications/')) {
 				while (false !== ($entry = readdir($handle))) {
 					if (
@@ -191,7 +193,7 @@ class RootContainer extends \Innomatic\Util\Singleton
 							);
 							
 							$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
-							$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+							$system_classes[strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
 						}
 						
 						foreach($file->components->wuiwidget as $class) {
@@ -206,13 +208,14 @@ class RootContainer extends \Innomatic\Util\Singleton
 							);
 						
 							$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
-							$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+							$system_classes[strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
 						}
 					}
 				}
 				
 				closedir($handle);
 			}
+			$registry->setGlobalObject('system_classes', $system_classes);
 		}
 		
 		$className = ltrim($className, '\\');
@@ -224,23 +227,19 @@ class RootContainer extends \Innomatic\Util\Singleton
 			$fileName  = strtolower(str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR);
 		}
 		
-		if (isset($GLOBALS['system_classes'][strtolower($className)]))
-		{
-			$fileName = $GLOBALS['system_classes'][strtolower($className)]['path'];
-		}
-		else
-		{
+		if (isset($registry->getGlobalObject('system_classes')[strtolower($className)])) {
+			$fileName = $registry->getGlobalObject('system_classes')[strtolower($className)]['path'];
+		} else {
 			$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 		}
 		
 		return $fileName;
 	}
 	
-	public static function createClassAlias($original,$alias,$strong=false)
+	public static function createClassAlias($original, $alias, $strong=false)
 	{
 		// if strong create a real alias known to PHP
-		if ($strong)
-		{
+		if ($strong) {
 			if (!interface_exists($original)) {
 				class_alias($original,$alias);
 			}
@@ -248,16 +247,19 @@ class RootContainer extends \Innomatic\Util\Singleton
 	
 		// In any case store the alias in a global variable
 		$alias = strtolower($alias);
-		if( isset($GLOBALS['system_class_alias'][$alias]) )
-		{
-			if( $GLOBALS['system_class_alias'][$alias] == $original )
+		
+		if (isset($GLOBALS['system_class_alias'][$alias])) {
+			if ($GLOBALS['system_class_alias'][$alias] == $original) {
 				return;
+			}
 	
-			if( !is_array($GLOBALS['system_class_alias'][$alias]) )
+			if (!is_array($GLOBALS['system_class_alias'][$alias])) {
 				$GLOBALS['system_class_alias'][$alias] = array($GLOBALS['system_class_alias'][$alias]);
+			}
+			
 			$GLOBALS['system_class_alias'][$alias][] = $original;
-		}
-		else
+		} else {
 			$GLOBALS['system_class_alias'][$alias] = $original;
+		}
 	}
 }
