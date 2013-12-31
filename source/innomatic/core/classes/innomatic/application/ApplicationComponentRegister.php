@@ -64,7 +64,7 @@ class ApplicationComponentRegister
                     '',
                     $override
                 ) == false
-            ) or $ignoreduplicate == TRU
+            ) or $ignoreduplicate == true
         ) {
             $tmpquery = $this->rootda->execute(
                 'SELECT id FROM applications_components_types WHERE typename='
