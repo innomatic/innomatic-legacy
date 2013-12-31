@@ -39,7 +39,7 @@ class TempdirComponent extends \Innomatic\Application\ApplicationComponent
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['name'])) {
@@ -52,7 +52,7 @@ class TempdirComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.tempdircomponent.tempdircomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty temporary directory name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['name'])) {
@@ -65,8 +65,8 @@ class TempdirComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.tempdircomponent.tempdircomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty temporary directory file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
-        return $this->DoInstallAction($params);
+        return $this->doInstallAction($params);
     }
 }

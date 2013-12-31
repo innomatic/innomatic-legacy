@@ -39,7 +39,7 @@ class HelpnodeComponent extends \Innomatic\Application\ApplicationComponent
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
@@ -59,7 +59,7 @@ class HelpnodeComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.helpnodecomponent.helpnodecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty helpnode file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
@@ -70,9 +70,9 @@ class HelpnodeComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.helpnodecomponent.helpnodecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty helpnode file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
         \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/help/' . basename($params['file']));
-        return $this->DoInstallAction($params);
+        return $this->doInstallAction($params);
     }
 }

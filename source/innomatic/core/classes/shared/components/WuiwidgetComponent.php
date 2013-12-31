@@ -39,7 +39,7 @@ class WuiwidgetComponent extends \Innomatic\Application\ApplicationComponent
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
@@ -56,7 +56,7 @@ class WuiwidgetComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
@@ -70,7 +70,7 @@ class WuiwidgetComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.wuiwidgetcomponent.wuiwidget.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {

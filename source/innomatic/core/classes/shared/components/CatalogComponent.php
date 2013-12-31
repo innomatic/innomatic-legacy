@@ -67,6 +67,6 @@ class CatalogComponent extends \Innomatic\Application\ApplicationComponent
     public function doUpdateAction($params)
     {
         \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/locale/catalogs/' . basename($params['name']));
-        return $this->DoInstallAction($params);
+        return $this->doInstallAction($params);
     }
 }

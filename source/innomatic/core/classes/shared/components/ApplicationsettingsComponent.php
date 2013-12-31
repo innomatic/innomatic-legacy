@@ -39,7 +39,7 @@ class ApplicationsettingsComponent extends \Innomatic\Application\ApplicationCom
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {
@@ -49,7 +49,7 @@ class ApplicationsettingsComponent extends \Innomatic\Application\ApplicationCom
             $this->mLog->logEvent('innomatic.applicationsettingscomponent.applicationsettingscomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {
@@ -61,7 +61,7 @@ class ApplicationsettingsComponent extends \Innomatic\Application\ApplicationCom
             $this->mLog->logEvent('innomatic.applicationsettingscomponent.applicationsettingscomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {

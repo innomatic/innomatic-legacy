@@ -122,7 +122,7 @@ class ClassComponent extends \Innomatic\Application\ApplicationComponent
 
     public function doUpdateAction($params)
     {
-        $result = $this->DoInstallAction($params);
+        $result = $this->doInstallAction($params);
     }
 
     /**

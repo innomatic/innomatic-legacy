@@ -41,7 +41,7 @@ class ComponentComponent extends \Innomatic\Application\ApplicationComponent
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         /*
@@ -66,7 +66,7 @@ class ComponentComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         $params['filepath'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']);
@@ -77,7 +77,7 @@ class ComponentComponent extends \Innomatic\Application\ApplicationComponent
         }
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {

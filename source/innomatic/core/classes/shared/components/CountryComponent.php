@@ -39,7 +39,7 @@ class CountryComponent extends \Innomatic\Application\ApplicationComponent
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['file']) and strlen($params['name']) and strlen($params['short'])) {
@@ -52,7 +52,7 @@ class CountryComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.countrycomponent.countrycomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty country file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['file']) and strlen($params['name']) and strlen($params['short'])) {
@@ -63,7 +63,7 @@ class CountryComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.countrycomponent.countrycomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty country file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
         $result = false;
         if (strlen($params['name']) and strlen($params['short']) and strlen($params['file'])) {

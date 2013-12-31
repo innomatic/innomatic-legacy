@@ -39,7 +39,7 @@ class LanguageComponent extends \Innomatic\Application\ApplicationComponent
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['name']) and strlen($params['short'])) {
@@ -48,7 +48,7 @@ class LanguageComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.languagecomponent.languagecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty language name (' . $params['name'] . ') or short name (' . $params['short'] . ')', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['name']) and strlen($params['short'])) {
@@ -57,7 +57,7 @@ class LanguageComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.languagecomponent.languagecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty language name (' . $params['name'] . ') or short name (' . $params['short'] . ')', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
         $result = false;
         if (strlen($params['name']) and strlen($params['short'])) {

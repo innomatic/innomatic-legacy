@@ -39,7 +39,7 @@ class MaintenancetaskComponent extends \Innomatic\Application\ApplicationCompone
     {
         return false;
     }
-    public function DoInstallAction($args)
+    public function doInstallAction($args)
     {
         $result = false;
         $args['file'] = $this->basedir . '/core/classes/shared/maintenance/' . basename($args['file']);
@@ -56,7 +56,7 @@ class MaintenancetaskComponent extends \Innomatic\Application\ApplicationCompone
         }
         return $result;
     }
-    public function DoUninstallAction($args)
+    public function doUninstallAction($args)
     {
         $result = false;
         $args['file'] = $this->basedir . '/core/classes/shared/maintenance/' . basename($args['file']);
@@ -66,7 +66,7 @@ class MaintenancetaskComponent extends \Innomatic\Application\ApplicationCompone
         }
         return $result;
     }
-    public function DoUpdateAction($args)
+    public function doUpdateAction($args)
     {
         $result = false;
         $args['file'] = $this->basedir . '/core/classes/shared/maintenance/' . basename($args['file']);

@@ -39,7 +39,7 @@ class RootpanelComponent extends \Innomatic\Application\ApplicationComponent
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         $name = $params['name'];
@@ -92,7 +92,7 @@ class RootpanelComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Empty application file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (! isset($params['icon']))
@@ -129,7 +129,7 @@ class RootpanelComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty application file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
         $result = false;
         $name = $params['name'];

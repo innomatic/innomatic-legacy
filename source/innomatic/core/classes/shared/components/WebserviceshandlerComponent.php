@@ -39,7 +39,7 @@ class WebserviceshandlerComponent extends \Innomatic\Application\ApplicationComp
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
@@ -53,7 +53,7 @@ class WebserviceshandlerComponent extends \Innomatic\Application\ApplicationComp
             $this->mLog->logEvent('shared.components.webserviceshandlercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty xmlrpc handler file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
@@ -68,8 +68,8 @@ class WebserviceshandlerComponent extends \Innomatic\Application\ApplicationComp
             $this->mLog->logEvent('shared.components.webserviceshandlercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty xmlrpc handler file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
-        return $this->DoInstallAction($params);
+        return $this->doInstallAction($params);
     }
 }

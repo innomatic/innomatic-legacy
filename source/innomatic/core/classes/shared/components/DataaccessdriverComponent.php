@@ -41,7 +41,7 @@ class DataaccessdriverComponent extends \Innomatic\Application\ApplicationCompon
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
@@ -52,7 +52,7 @@ class DataaccessdriverComponent extends \Innomatic\Application\ApplicationCompon
             $this->mLog->logEvent('innomatic.dataaccessdrivercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty DataAccess driver file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
@@ -63,7 +63,7 @@ class DataaccessdriverComponent extends \Innomatic\Application\ApplicationCompon
             $this->mLog->logEvent('innomatic.dataaccessdrivercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty DataAccess driver file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {

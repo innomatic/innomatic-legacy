@@ -39,7 +39,7 @@ class DomainpanelComponent extends \Innomatic\Application\ApplicationComponent
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['name'])) {
@@ -70,7 +70,7 @@ class DomainpanelComponent extends \Innomatic\Application\ApplicationComponent
         }
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['name'])) {
@@ -99,9 +99,9 @@ class DomainpanelComponent extends \Innomatic\Application\ApplicationComponent
         }
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
-        return $this->DoInstallAction($params);
+        return $this->doInstallAction($params);
     }
     public function doEnableDomainAction($domainid, $params)
     {
