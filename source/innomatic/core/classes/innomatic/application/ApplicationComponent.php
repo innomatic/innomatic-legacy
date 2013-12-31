@@ -16,7 +16,7 @@ namespace Innomatic\Application;
 
 /**
  * This class is to be extended for every component type. Extended classes
- * should define DoInstallAction(), DoUninstallAction(), DoUpdateAction(),
+ * should define doInstallAction(), doUninstallAction(), doUpdateAction(),
  * doEnableDomainAction() and doDisableDomainAction(), or some of them,
  * for their intended use.
  *
@@ -269,10 +269,8 @@ component not found.
                 }
                 break;
 
-            case Application::UPDATE_MODE_REMOVE :
-                if ($this->DoUninstallAction($params)) {
-                    $result = true;
-
+            case Application::UPDATE_MODE_REMOVE:
+            	// Disables the component for each domain, before uninstalling it
                     if (
                         $this->getIsDomain()
                         or (
@@ -289,15 +287,10 @@ component not found.
                                     . (int) $domaindata['id'].' AND applicationid='. (int) $appid
                                 );
                                 if ($actquery->getNumberRows()) {
-                                    \Innomatic\Core\InnomaticContainer::instance(
-                                        '\Innomatic\Core\InnomaticContainer'
-                                    )->startDomain($domaindata['domainid']);
-                                    $this->domainda = \Innomatic\Core\InnomaticContainer::instance(
-                                        '\Innomatic\Core\InnomaticContainer'
-                                    )->getCurrentDomain()->getDataAccess();
+                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->startDomain($domaindata['domainid']);
+                                    $this->domainda = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
 
-
-                                    if (!$this->Disable($domainsquery->getFields('id'), $params)) {
+                                    if (!$this->disable($domainsquery->getFields('id'), $params)) {
                                         $result = false;
                                     }
 
@@ -310,11 +303,14 @@ component not found.
                             }
                         }
                     }
+                
+                if ($this->doUninstallAction($params)) {
+                   	$result = true;
                 }
                 break;
 
             case Application::UPDATE_MODE_CHANGE :
-                if ($this->DoUpdateAction($params)) {
+                if ($this->doUpdateAction($params)) {
                     $result = true;
 
                     if (
