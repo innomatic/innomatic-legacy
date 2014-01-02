@@ -35,6 +35,7 @@ class DashboardPanelController extends \Innomatic\Desktop\Panel\PanelController
             if (strlen($panel)) {
                 $node_id = $perm->getNodeIdFromFileName($panel);
                 if ( $perm->check( $node_id, \Innomatic\Domain\User\Permissions::NODETYPE_PAGE ) == \Innomatic\Domain\User\Permissions::NODE_NOTENABLED ) {
+                	$widget_query->moveNext();
                     continue;
                 }
             }
