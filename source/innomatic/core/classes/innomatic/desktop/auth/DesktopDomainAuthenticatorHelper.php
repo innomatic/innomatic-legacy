@@ -15,7 +15,6 @@
 namespace Innomatic\Desktop\Auth;
 
 use \Innomatic\Core\InnomaticContainer;
-use \Innomatic\Wui\Dispatch;
 
 /**
  * @package Desktop
@@ -113,9 +112,9 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
         $wuiVGroup->addChild($wuiGrid);
         $wuiVGroup->addChild(new WuiSubmit('submit', array('caption' => $innomaticLocale->getStr('enter'))));
 
-        $formEventsCall = new WuiEventsCall();
-        $formEventsCall->addEvent(new WuiEvent('login', 'login', ''));
-        $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
+        $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+        $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('login', 'login', ''));
+        $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
 
         $wuiForm = new WuiForm('form', array('action' => $formEventsCall->getEventsCallString()));
 
