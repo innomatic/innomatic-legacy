@@ -15,6 +15,7 @@ FIXES:
 - Fixed order of components uninstallation in domain mode. (Alex Pagnoni)
 - Fixed wrong handling of application components register when updating
   components in add/remove mode. (Alex Pagnoni)
+- Fixed session page name handling in Wui Widget session keys. (Alex Pagnoni)
   
 CHANGES:
 NEW FEATURES:

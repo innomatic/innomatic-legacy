@@ -118,10 +118,20 @@ abstract class WuiWidget
                 $this->mArgs['sessionobjectusername'];
         }
 
+        $url_path = '';
+        
+        if ($this->mSessionObjectNoPage != 'true') {
+	        $url_path = $_SERVER['REQUEST_URI'];
+	        if (strpos($url_path, '?')) {
+	        	$url_path = substr($url_path, 0, strpos($url_path, '?'));
+	        }
+	        $url_path .= '_';
+        }
+        
         $this->mSessionObjectName = ($this->mSessionObjectNoUser == 'true' ? ''
             : (is_object(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()) ?
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName() : 'root')
-             .'_') . ($this->mSessionObjectNoPage == 'true' ? '' : $_SERVER['PHP_SELF'].'_') .
+             .'_') .$url_path.
              ($this->mSessionObjectNoType == 'true' ? '' : get_class($this).'_') .
              ($this->mSessionObjectNoName == 'true' ? '' : $this->mName) .
              (strlen($this->mSessionObjectUserName) ? '_'.$this->mSessionObjectUserName : '');
