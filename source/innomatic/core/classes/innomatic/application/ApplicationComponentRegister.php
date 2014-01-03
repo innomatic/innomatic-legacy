@@ -93,7 +93,7 @@ class ApplicationComponentRegister
      @param appname string - name of the application.
      @param exclude boolean - if you want to exclude appname (if given)
     from check.
-     @result Modname if registered.
+     @result Application name if registered.
      */
     public function checkRegisterComponent(
         $category,

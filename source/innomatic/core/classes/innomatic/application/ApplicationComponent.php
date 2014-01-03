@@ -146,7 +146,7 @@ structure.
     }
 
     /*!
-     @abstract Uninstalls the component and unregisters the component from
+     @abstract Uninstalls the component and unregisters it from
 the application register.
      @param params array - Array of the parameters in the component definition
 structure.
@@ -228,7 +228,7 @@ component not found.
 
         switch ($updatemode) {
             case Application::UPDATE_MODE_ADD :
-                if ($this->DoInstallAction($params)) {
+                if ($this->doInstallAction($params)) {
                     $result = true;
 
                     if (
@@ -254,7 +254,7 @@ component not found.
                                         '\Innomatic\Core\InnomaticContainer'
                                     )->getCurrentDomain()->getDataAccess();
 
-                                    if (!$this->Enable($domainsquery->getFields('id'), $params)) {
+                                    if (!$this->enable($domainsquery->getFields('id'), $params)) {
                                         $result = false;
                                     }
 
