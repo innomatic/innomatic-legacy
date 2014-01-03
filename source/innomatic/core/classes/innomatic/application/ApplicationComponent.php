@@ -228,36 +228,40 @@ component not found.
 
         switch ($updatemode) {
             case Application::UPDATE_MODE_ADD :
-                if ($this->doInstallAction($params)) {
+                if ($this->install($params)) {
                     $result = true;
 
                     if (
                         $this->getIsDomain()
-                        or (
-                            isset($params['override'])
-                            and $params['override'] == self::OVERRIDE_DOMAIN
-                        )
+                        or (isset($params['override']) and $params['override'] == self::OVERRIDE_DOMAIN)
                     ) {
                         if ($domainsquery->getNumberRows() > 0) {
                             while (!$domainsquery->eof) {
                                 $domaindata = $domainsquery->getFields();
 
+                                // Check if the application is enabled for the current iteration domain
                                 $actquery = $this->rootda->execute(
-                                    'SELECT * FROM applications_enabled WHERE domainid='. (int) $domaindata['id']
-                                    .' AND applicationid='. (int) $appid
+                                    'SELECT * FROM applications_enabled WHERE domainid='.(int)$domaindata['id']
+                                    .' AND applicationid='.(int)$appid
                                 );
+                                
                                 if ($actquery->getNumberRows()) {
+                                	// Start domain
                                     \Innomatic\Core\InnomaticContainer::instance(
                                         '\Innomatic\Core\InnomaticContainer'
                                     )->startDomain($domaindata['domainid']);
+                                    
+                                    // Set the domain dataaccess for the component
                                     $this->domainda = \Innomatic\Core\InnomaticContainer::instance(
                                         '\Innomatic\Core\InnomaticContainer'
                                     )->getCurrentDomain()->getDataAccess();
 
+                                    // Enable the component for the current iteration domain
                                     if (!$this->enable($domainsquery->getFields('id'), $params)) {
                                         $result = false;
                                     }
 
+                                    // Stop domain
                                     \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->stopDomain();
                                 }
 
@@ -273,10 +277,7 @@ component not found.
             	// Disables the component for each domain, before uninstalling it
                     if (
                         $this->getIsDomain()
-                        or (
-                            isset($params['override'])
-                            and $params['override'] == self::OVERRIDE_DOMAIN
-                        )
+                        or (isset($params['override']) and $params['override'] == self::OVERRIDE_DOMAIN)
                     ) {
                         if ($domainsquery->getNumberRows() > 0) {
                             while (!$domainsquery->eof) {
@@ -287,24 +288,28 @@ component not found.
                                     . (int) $domaindata['id'].' AND applicationid='. (int) $appid
                                 );
                                 if ($actquery->getNumberRows()) {
+                                	// Start domain
                                     \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->startDomain($domaindata['domainid']);
+                                    
+                                    // Set the domain dataaccess for the component
                                     $this->domainda = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
 
+                                    // Disable the component for the current iteration domain
                                     if (!$this->disable($domainsquery->getFields('id'), $params)) {
                                         $result = false;
                                     }
 
+                                    // Stop domain
                                     \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->stopDomain();
                                 }
 
                                 $actquery->free();
-
                                 $domainsquery->moveNext();
                             }
                         }
                     }
                 
-                if ($this->doUninstallAction($params)) {
+                if ($this->uninstall($params)) {
                    	$result = true;
                 }
                 break;
