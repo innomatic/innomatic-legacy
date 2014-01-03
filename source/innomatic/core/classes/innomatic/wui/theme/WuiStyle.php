@@ -78,7 +78,7 @@ class WuiStyle
 
                 if ($check_query->getNumberRows()) {
                     if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
-                        $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
+                        $cached_item = new \Innomatic\Datatransfer\Cache\CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
 
                         $cached_item->Destroy();
                     }
@@ -104,7 +104,7 @@ class WuiStyle
             if (strlen($this->mStyleName)) {
 
                 if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
-                    $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
+                    $cached_item = new \Innomatic\Datatransfer\Cache\CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
                     $cached_item->Destroy();
                 }
                 $result = $this->mrRootDb->execute('DELETE FROM wui_styles WHERE name='.$this->mrRootDb->formatText($this->mStyleName));

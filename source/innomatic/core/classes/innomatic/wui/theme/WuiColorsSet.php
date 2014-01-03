@@ -79,7 +79,7 @@ class WuiColorsSet
 
                 if ($check_query->getNumberRows()) {
                     if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
-                        $cached_item = new CachedItem($this->rootdataaccess, 'innomatic', 'wuicolorsset-'.$this->setname);
+                        $cached_item = new \Innomatic\Datatransfer\Cache\CachedItem($this->rootdataaccess, 'innomatic', 'wuicolorsset-'.$this->setname);
                         $cached_item->Destroy();
                     }
                     $result = $this->rootdataaccess->execute('UPDATE wui_colorssets SET file='.$this->rootdataaccess->formatText($args['file']).',catalog='.$this->rootdataaccess->formatText($args['catalog']).' WHERE name='.$this->rootdataaccess->formatText($this->setname));
@@ -103,7 +103,7 @@ class WuiColorsSet
             if (strlen($this->setname)) {
 
                 if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
-                    $cached_item = new CachedItem($this->rootdataaccess, 'innomatic', 'wuicolorsset-'.$this->setname);
+                    $cached_item = new \Innomatic\Datatransfer\Cache\CachedItem($this->rootdataaccess, 'innomatic', 'wuicolorsset-'.$this->setname);
                     $cached_item->Destroy();
                 }
                 $result = $this->rootdataaccess->execute('DELETE FROM wui_colorssets WHERE name='.$this->rootdataaccess->formatText($this->setname));

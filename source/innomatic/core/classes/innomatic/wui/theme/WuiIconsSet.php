@@ -79,7 +79,7 @@ class WuiIconsSet
 
                 if ($check_query->getNumberRows()) {
                     if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
-                        $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuiiconsset-'.$this->mSetName);
+                        $cached_item = new \Innomatic\Datatransfer\Cache\CachedItem($this->mrRootDb, 'innomatic', 'wuiiconsset-'.$this->mSetName);
                         $cached_item->Destroy();
                     }
                     $result = $this->mrRootDb->execute('UPDATE wui_iconssets SET file='.$this->mrRootDb->formatText($args['file']).',catalog='.$this->mrRootDb->formatText($args['catalog']).' WHERE name='.$this->mrRootDb->formatText($this->mSetName));
@@ -103,7 +103,7 @@ class WuiIconsSet
             if (strlen($this->mSetName)) {
 
                 if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
-                    $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuiiconsset-'.$this->mSetName);
+                    $cached_item = new \Innomatic\Datatransfer\Cache\CachedItem($this->mrRootDb, 'innomatic', 'wuiiconsset-'.$this->mSetName);
                     $cached_item->Destroy();
                 }
                 $result = $this->mrRootDb->execute('DELETE FROM wui_iconssets WHERE name='.$this->mrRootDb->formatText($this->mSetName));
