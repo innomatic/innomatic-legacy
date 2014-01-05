@@ -1,6 +1,5 @@
 <?php
-
-require_once('innomatic/module/server/ModuleServerContext.php');
+namespace Innomatic\Module;
 
 /**
  * The context in which a Module runs.
@@ -9,7 +8,7 @@ require_once('innomatic/module/server/ModuleServerContext.php');
  * like its location and filesystem home directory.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
 class ModuleContext
@@ -40,7 +39,7 @@ class ModuleContext
      */
     public function __construct($location)
     {
-        $serverContext = ModuleServerContext::instance('ModuleServerContext');
+        $serverContext = \Innomatic\Module\Server\ModuleServerContext::instance('moduleservercontext');
         $this->location = $location;
         $this->home = $serverContext->getHome().'modules'.DIRECTORY_SEPARATOR.$location.DIRECTORY_SEPARATOR;
     }

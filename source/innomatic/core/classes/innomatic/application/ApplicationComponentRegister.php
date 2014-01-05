@@ -7,13 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/application/ApplicationComponent.php');
+namespace Innomatic\Application;
 
 /*!
  @class ApplicationComponentRegister
@@ -28,7 +27,7 @@ class ApplicationComponentRegister
      @abstract Class constructor.
      @param rootda DataAccess class - Innomatic database handler.
      */
-    public function __construct(DataAccess $rootda)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $rootda)
     {
         $this->rootda = $rootda;
     }
@@ -53,7 +52,7 @@ class ApplicationComponentRegister
         $componentname,
         $domainid = '',
         $override = ApplicationComponent::OVERRIDE_NONE,
-        $ignoreduplicate = FALSE
+        $ignoreduplicate = false
     )
     {
         if (
@@ -64,8 +63,8 @@ class ApplicationComponentRegister
                     $domainid,
                     '',
                     $override
-                ) == FALSE
-            ) or $ignoreduplicate == TRU
+                ) == false
+            ) or $ignoreduplicate == true
         ) {
             $tmpquery = $this->rootda->execute(
                 'SELECT id FROM applications_components_types WHERE typename='
@@ -94,7 +93,7 @@ class ApplicationComponentRegister
      @param appname string - name of the application.
      @param exclude boolean - if you want to exclude appname (if given)
     from check.
-     @result Modname if registered.
+     @result Application name if registered.
      */
     public function checkRegisterComponent(
         $category,
@@ -105,7 +104,7 @@ class ApplicationComponentRegister
         $exclude = false
     )
     {
-        $result = FALSE;
+        $result = false;
 
         $catquery = $this->rootda->execute(
             'SELECT id FROM applications_components_types WHERE typename='
@@ -156,7 +155,7 @@ class ApplicationComponentRegister
             $appname,
             $override
         );
-        if ($regdata != FALSE) {
+        if ($regdata != false) {
             $catquery = $this->rootda->execute(
                 'SELECT id FROM applications_components_types WHERE typename='
                 . $this->rootda->formatText($category)

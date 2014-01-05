@@ -7,13 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/dataaccess/DataAccess.php');
+namespace Innomatic\Process;
 
 /*!
  @class Hook
@@ -25,12 +24,12 @@ require_once('innomatic/dataaccess/DataAccess.php');
  */
 class Hook
 {
-    /*! @var mRootDb DataAccess class - Innomatic database handler. */
-    private $mRootDb;
-    /*! @var mApplication string - Application of the function containing the hook. */
-    private $mApplication;
-    /*! @var mFunction string - Name of the function containing the hook. */
-    private $mFunction;
+    /*! @var rootdataaccess DataAccess class - Innomatic database handler. */
+    private $rootdataaccess;
+    /*! @var application string - Application of the function containing the hook. */
+    private $application;
+    /*! @var function string - Name of the function containing the hook. */
+    private $function;
     const RESULT_OK = 1;
     const RESULT_CANCEL = 2;
     const RESULT_ABORT = 3;
@@ -43,11 +42,11 @@ class Hook
      @param application string - Application of the function containing the hook.
      @param function string - Name of the function containing the hook.
      */
-    public function __construct(DataAccess $innomaticDb, $application, $function)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $innomaticDb, $application, $function)
     {
-        $this->mRootDb = $innomaticDb;
-        $this->mApplication = $application;
-        $this->mFunction = $function;
+        $this->rootdataaccess = $innomaticDb;
+        $this->application = $application;
+        $this->function = $function;
     }
 
     /*!
@@ -62,22 +61,20 @@ class Hook
     public function callHooks($event, $obj, $args = '')
     {
         $result = false;
-        if ($this->mRootDb) {
-            $query = $this->mRootDb->execute(
-                'SELECT * FROM hooks WHERE functionapplication='.$this->mRootDb->formatText($this->mApplication).
-                ' AND function='.$this->mRootDb->formatText($this->mFunction).
-                ' AND event='.$this->mRootDb->formatText($event));
+        if ($this->rootdataaccess) {
+            $query = $this->rootdataaccess->execute(
+                'SELECT * FROM hooks WHERE functionapplication='.$this->rootdataaccess->formatText($this->application).
+                ' AND function='.$this->rootdataaccess->formatText($this->function).
+                ' AND event='.$this->rootdataaccess->formatText($event));
             if ($query) {
 
                 $result = Hook::RESULT_OK;
-                require_once('innomatic/core/InnomaticContainer.php');
-                $innomatic = InnomaticContainer::instance('innomaticcontainer');
+                $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
                 while (!$query->eof) {
                     $data = $query->getFields();
-                    if ($innomatic->getState() == InnomaticContainer::STATE_DEBUG) {
-                        require_once('innomatic/debug/InnomaticDump.php');
-                        $dump = InnomaticDump::instance('innomaticdump');
-                        $dump->hooks[$this->mApplication.'::'.$this->mFunction.'::'.$event][] = $data['hookhandler'].' - '.$data['hookmethod'];
+                    if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
+                        $dump = \Innomatic\Debug\InnomaticDump::instance('\Innomatic\Debug\InnomaticDump');
+                        $dump->hooks[$this->application.'::'.$this->function.'::'.$event][] = $data['hookhandler'].' - '.$data['hookmethod'];
                     }
                     require_once('shared/hooks/'.$data['hookhandler']);
 
@@ -119,14 +116,14 @@ class Hook
             // :TODO: Alex Pagnoni 020114: add check
             // The function should check if the method already exists.
 
-            $result = $this->mRootDb->execute(
-                'INSERT INTO hooks VALUES ('.$this->mRootDb->getNextSequenceValue('hooks_id_seq').
-                ','.$this->mRootDb->formatText($this->mApplication).
-                ','.$this->mRootDb->formatText($this->mFunction).
-                ','.$this->mRootDb->formatText($event).
-                ','.$this->mRootDb->formatText($hookApplication).
-                ','.$this->mRootDb->formatText($hookHandler).
-                ','.$this->mRootDb->formatText($hookMethod).' )');
+            $result = $this->rootdataaccess->execute(
+                'INSERT INTO hooks VALUES ('.$this->rootdataaccess->getNextSequenceValue('hooks_id_seq').
+                ','.$this->rootdataaccess->formatText($this->application).
+                ','.$this->rootdataaccess->formatText($this->function).
+                ','.$this->rootdataaccess->formatText($event).
+                ','.$this->rootdataaccess->formatText($hookApplication).
+                ','.$this->rootdataaccess->formatText($hookHandler).
+                ','.$this->rootdataaccess->formatText($hookMethod).' )');
         }
         return $result;
     }
@@ -142,11 +139,11 @@ class Hook
     public function remove($event, $hookApplication)
     {
         if ($event) {
-            return $this->mRootDb->execute(
-                'DELETE FROM hooks WHERE functionapplication='.$this->mRootDb->formatText($this->mApplication).
-                ' AND function='.$this->mRootDb->formatText($this->mFunction).
-                ' AND event='.$this->mRootDb->formatText($event).
-                ' AND hookapplication='.$this->mRootDb->formatText($hookApplication));
+            return $this->rootdataaccess->execute(
+                'DELETE FROM hooks WHERE functionapplication='.$this->rootdataaccess->formatText($this->application).
+                ' AND function='.$this->rootdataaccess->formatText($this->function).
+                ' AND event='.$this->rootdataaccess->formatText($event).
+                ' AND hookapplication='.$this->rootdataaccess->formatText($hookApplication));
         }
         return false;
     }
@@ -160,13 +157,13 @@ class Hook
     public function update($event, $hookApplication, $hookHandler, $hookMethod)
     {
         if ($hookMethod and $hookHandler) {
-            return $this->mRootDb->execute(
-                'UPDATE hooks SET hookhandler='.$this->mRootDb->formatText($hookHandler).
-                ', hookmethod='.$this->mRootDb->formatText($hookMethod).
-                ' WHERE functionapplication='.$this->mRootDb->formatText($this->mApplication).
-                ' AND event='.$this->mRootDb->formatText($event).
-                ' AND hookapplication='.$this->mRootDb->formatText($hookApplication).
-                ' AND function='.$this->mRootDb->formatText($this->mFunction));
+            return $this->rootdataaccess->execute(
+                'UPDATE hooks SET hookhandler='.$this->rootdataaccess->formatText($hookHandler).
+                ', hookmethod='.$this->rootdataaccess->formatText($hookMethod).
+                ' WHERE functionapplication='.$this->rootdataaccess->formatText($this->application).
+                ' AND event='.$this->rootdataaccess->formatText($event).
+                ' AND hookapplication='.$this->rootdataaccess->formatText($hookApplication).
+                ' AND function='.$this->rootdataaccess->formatText($this->function));
         }
         return false;
     }
@@ -184,11 +181,11 @@ class Hook
         if ($event) {
             // :TODO: Alex Pagnoni 020114: add check
             // The function should check if the method already exists.
-            $result = $this->mRootDb->execute(
-                'INSERT INTO hooks_events VALUES ('.$this->mRootDb->getNextSequenceValue('hooks_events_id_seq').
-                ','.$this->mRootDb->formatText($this->mApplication).
-                ','.$this->mRootDb->formatText($this->mFunction).
-                ','.$this->mRootDb->formatText($event).' )');
+            $result = $this->rootdataaccess->execute(
+                'INSERT INTO hooks_events VALUES ('.$this->rootdataaccess->getNextSequenceValue('hooks_events_id_seq').
+                ','.$this->rootdataaccess->formatText($this->application).
+                ','.$this->rootdataaccess->formatText($this->function).
+                ','.$this->rootdataaccess->formatText($event).' )');
         }
         return $result;
     }
@@ -204,10 +201,10 @@ class Hook
     {
         $result = false;
         if ($event) {
-            $result = $this->mRootDb->execute(
-                'DELETE FROM hooks_events WHERE functionapplication='.$this->mRootDb->formatText($this->mApplication).
-                ' AND function='.$this->mRootDb->formatText($this->mFunction).
-                ' AND event='.$this->mRootDb->formatText($event));
+            $result = $this->rootdataaccess->execute(
+                'DELETE FROM hooks_events WHERE functionapplication='.$this->rootdataaccess->formatText($this->application).
+                ' AND function='.$this->rootdataaccess->formatText($this->function).
+                ' AND event='.$this->rootdataaccess->formatText($event));
         }
         return $result;
     }

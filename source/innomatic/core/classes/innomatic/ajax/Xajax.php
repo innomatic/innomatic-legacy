@@ -1,9 +1,5 @@
 <?php
-
-require_once('innomatic/util/Singleton.php');
-require_once('innomatic/ajax/XajaxConfig.php');
-require_once('innomatic/ajax/XajaxResponse.php');
-require_once('innomatic/webapp/WebAppContainer.php');
+namespace Innomatic\Ajax;
 
 /**
  * xajax.inc.php :: Main xajax class and setup file
@@ -73,7 +69,7 @@ if (!defined ('XAJAX_POST')) {
  *
  * @package xajax
  */
-class Xajax extends Singleton
+class Xajax extends \Innomatic\Util\Singleton
 {
     /**#@+
      * @access protected
@@ -564,7 +560,7 @@ class Xajax extends Singleton
         if ($this->sPreFunction) {
             if (!$this->_isFunctionCallable($this->sPreFunction)) {
                 $bFoundFunction = false;
-                $objResponse = new xajaxResponse();
+                $objResponse = new XajaxResponse();
                 $objResponse->addAlert("Unknown Pre-Function ". $this->sPreFunction);
                 $sResponse = $objResponse->getXML();
             }
@@ -584,13 +580,13 @@ class Xajax extends Singleton
                     $bFunctionIsCatchAll = true;
                 } else {
                     $bFoundFunction = false;
-                    $objResponse = new xajaxResponse();
+                    $objResponse = new XajaxResponse();
                     $objResponse->addAlert("Unknown Function $sFunctionName.");
                     $sResponse = $objResponse->getXML();
                 }
             } elseif ($this->aFunctionRequestTypes[$sFunctionName] != $requestMode) {
                 $bFoundFunction = false;
-                $objResponse = new xajaxResponse();
+                $objResponse = new XajaxResponse();
                 $objResponse->addAlert("Incorrect Request Type.");
                 $sResponse = $objResponse->getXML();
             }
@@ -628,7 +624,7 @@ class Xajax extends Singleton
 
             if (!$bEndRequest) {
                 if (!$this->_isFunctionCallable($sFunctionName)) {
-                    $objResponse = new xajaxResponse();
+                    $objResponse = new XajaxResponse();
                     $objResponse->addAlert("The Registered Function $sFunctionName Could Not Be Found.");
                     $sResponse = $objResponse->getXML();
                 } else {
@@ -640,12 +636,12 @@ class Xajax extends Singleton
                 if (is_a($sResponse, "xajaxResponse")) {
                     $sResponse = $sResponse->getXML();
                 }
-                if (!is_string($sResponse) || strpos($sResponse, "<xjx>") === FALSE) {
-                    $objResponse = new xajaxResponse();
+                if (!is_string($sResponse) || strpos($sResponse, "<xjx>") === false) {
+                    $objResponse = new XajaxResponse();
                     $objResponse->addAlert("No XML Response Was Returned By Function $sFunctionName.");
                     $sResponse = $objResponse->getXML();
                 } elseif ($sPreResponse != "") {
-                    $sNewResponse = new xajaxResponse($this->sEncoding, $this->bOutputEntities);
+                    $sNewResponse = new XajaxResponse($this->sEncoding, $this->bOutputEntities);
                     $sNewResponse->loadXML($sPreResponse);
                     $sNewResponse->loadXML($sResponse);
                     $sResponse = $sNewResponse->getXML();
@@ -658,7 +654,7 @@ class Xajax extends Singleton
             $sContentHeader .= " charset=".$this->sEncoding;
         header($sContentHeader);
         if ($this->bErrorHandler && !empty( $GLOBALS['xajaxErrorHandlerText'] )) {
-            $sErrorResponse = new xajaxResponse();
+            $sErrorResponse = new XajaxResponse();
             $sErrorResponse->addAlert("** PHP Error Messages: **" . $GLOBALS['xajaxErrorHandlerText']);
             if ($this->sLogFile) {
                 $fH = @fopen($this->sLogFile, "a");
@@ -679,7 +675,7 @@ class Xajax extends Singleton
         if ($this->bErrorHandler) restore_error_handler();
 
         if ($this->bExitAllowed)
-            InnomaticContainer::instance('innomaticcontainer')->halt();
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
     }
 
     /**
@@ -707,7 +703,7 @@ class Xajax extends Singleton
      *               engine located within the xajax installation folder.
      *               Defaults to xajax_js/xajax.js.
      */
-    public function printJavascript($sJsURI="", $sJsFile=NULL)
+    public function printJavascript($sJsURI="", $sJsFile=null)
     {
         print $this->getJavascript($sJsURI, $sJsFile);
     }
@@ -736,7 +732,7 @@ class Xajax extends Singleton
      *               Defaults to xajax_js/xajax.js.
      * @return string
      */
-    public function getJavascript($sJsURI="", $sJsFile=NULL)
+    public function getJavascript($sJsURI="", $sJsFile=null)
     {
         $html = $this->getJavascriptConfig();
         $html .= $this->getJavascriptInclude($sJsURI, $sJsFile);
@@ -786,9 +782,9 @@ class Xajax extends Singleton
      *               Defaults to xajax_js/xajax.js.
      * @return string
      */
-    public function getJavascriptInclude($sJsURI="", $sJsFile=NULL)
+    public function getJavascriptInclude($sJsURI="", $sJsFile=null)
     {
-        if ($sJsFile == NULL) $sJsFile = "xajax_js/xajax.js";
+        if ($sJsFile == null) $sJsFile = "xajax_js/xajax.js";
 
         if ($sJsURI != "" && substr($sJsURI, -1) != "/") $sJsURI .= "/";
 
@@ -807,7 +803,7 @@ class Xajax extends Singleton
      * @param string an optional argument containing the full server file path
      *               of xajax.js.
      */
-    public function autoCompressJavascript($sJsFullFilename=NULL)
+    public function autoCompressJavascript($sJsFullFilename=null)
     {
         $sJsFile = "xajax_js/xajax.js";
 
@@ -824,8 +820,7 @@ class Xajax extends Singleton
             if (!file_exists($srcFile)) {
                 trigger_error("The xajax uncompressed Javascript file could not be found in the <b>" . dirname($realJsFile) . "</b> folder. Error ", E_USER_ERROR);
             }
-            require_once('core/xajax/classes/XajaxCompressJavascript.php');
-            //require(dirname(__FILE__)."/xajaxCompress.php");
+            
             $javaScript = implode('', file($srcFile));
             $compressedScript = XajaxCompressJavascript($javaScript);
             $fH = @fopen($realJsFile, "w");
@@ -874,7 +869,7 @@ class Xajax extends Singleton
             } else {
                 print "xajax Error: xajax failed to automatically identify your Request URI.";
                 print "Please set the Request URI explicitly when you instantiate the xajax object.";
-                InnomaticContainer::instance('innomaticcontainer')->halt();
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
             }
         }
 
@@ -1123,7 +1118,7 @@ class Xajax extends Singleton
     {
         $sValue = $sData;
         if ($this->bDecodeUTF8Input) {
-            $sFuncToUse = NULL;
+            $sFuncToUse = null;
 
             if (function_exists('iconv')) {
                 $sFuncToUse = "iconv";

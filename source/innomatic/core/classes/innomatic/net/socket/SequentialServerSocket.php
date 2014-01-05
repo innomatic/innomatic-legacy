@@ -7,20 +7,19 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/net/socket/ServerSocket.php');
+namespace Innomatic\Net\Socket;
 
 /**
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2003-2012 Innoteam Srl
  * @since 1.0
  */
-class SequentialServerSocket extends ServerSocket
+class SequentialServerSocket extends \Innomatic\Net\Socket\ServerSocket
 {
     protected $clients = 0;
     protected $initFD;
@@ -39,7 +38,7 @@ class SequentialServerSocket extends ServerSocket
     {
         $this->initFD = @socket_create(AF_INET, SOCK_STREAM, 0);
         if (!$this->initFD) {
-            throw new RuntimeException('Could not create socket.');
+            throw new \RuntimeException('Could not create socket.');
         }
         // adress may be reused
         socket_setopt($this->initFD, SOL_SOCKET, SO_REUSEADDR, 1);
@@ -47,13 +46,13 @@ class SequentialServerSocket extends ServerSocket
         if (!@socket_bind($this->initFD, $this->bindAddr, $this->port)) {
             $error = $this->getLastSocketError($this->initFd);
             @socket_close($this->initFD);
-            throw new RuntimeException("Could not bind socket to ".$this->bindAddr." on port ".$this->port." (".$error.").");
+            throw new \RuntimeException("Could not bind socket to ".$this->bindAddr." on port ".$this->port." (".$error.").");
         }
         // listen on selected port
         if (!@socket_listen($this->initFD, $this->maxQueue)) {
             $error = $this->getLastSocketError($this->initFd);
             @socket_close($this->initFD);
-            throw new RuntimeException("Could not listen (".$error.").");
+            throw new \RuntimeException("Could not listen (".$error.").");
         }
 
         // this allows the shutdown function to check whether the server is already shut down
@@ -193,7 +192,7 @@ class SequentialServerSocket extends ServerSocket
     public function closeConnection($id = 0)
     {
         if (!isset ($this->clientFD[$id])) {
-            throw new RuntimeException("Connection already has been closed.");
+            throw new \RuntimeException("Connection already has been closed.");
         }
 
         $this->handler->onClose($id);
@@ -212,7 +211,7 @@ class SequentialServerSocket extends ServerSocket
     public function shutDown()
     {
         if (isset ($GLOBALS["_Net_Server_Status"]) and $GLOBALS["_Net_Server_Status"] != "running") {
-            InnomaticContainer::instance('innomaticcontainer')->halt();
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
         }
         $GLOBALS["_Net_Server_Status"] = "stopped";
 
@@ -225,6 +224,6 @@ class SequentialServerSocket extends ServerSocket
 
         @socket_close($this->initFD);
 
-        InnomaticContainer::instance('innomaticcontainer')->halt();
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
     }
 }

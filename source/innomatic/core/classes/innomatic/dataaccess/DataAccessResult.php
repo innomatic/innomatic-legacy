@@ -7,11 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Dataaccess;
 
 /*!
  @class DataAccessResult
@@ -29,11 +30,11 @@ abstract class DataAccessResult
     /*! @var currfields array - Array of the fields in the current row */
     public $currfields;
     /*! @var opened bool - False if the DataAccessResult has been flushed by DataAccessResult->free */
-    protected $opened = TRUE;
+    protected $opened = true;
     /*! @var currentrow int - Current row pointer */
     public $currentrow = -1;
     /*! @var eof bool - True if the row pointer is at the end of record set */
-    public $eof = FALSE;
+    public $eof = false;
     /*! @var supp array - Array of the supported functions */
     public $supp = array();
 
@@ -57,9 +58,9 @@ abstract class DataAccessResult
 
         if ($this->resultrows != 0 && $this->resultfields != 0 && $this->currentrow == -1) {
             $this->currentrow = 0;
-            $this->eof = ($this->fetch() === FALSE);
+            $this->eof = ($this->fetch() === false);
         } else
-            $this->eof = TRUE;
+            $this->eof = true;
     }
 
     /*!
@@ -69,7 +70,7 @@ abstract class DataAccessResult
     {
         if ($this->opened) {
             if ( $this->doFree() ) {
-                $this->opened = FALSE;
+                $this->opened = false;
                 return true;
             }
         }
@@ -152,30 +153,30 @@ abstract class DataAccessResult
                 if ($this->seek($row)) {
                     $this->currentrow = $row;
                     if ($this->fetch()) {
-                        $this->eof = FALSE;
-                        return TRUE;
+                        $this->eof = false;
+                        return true;
                     }
                 } else
-                    return FALSE;
+                    return false;
             } else {
                 if ($row < $this->currentrow)
-                    return FALSE;
+                    return false;
 
                 while (!$this->eof && $this->currentrow < $row) {
                     $this->currentrow++;
 
                     if (!$this->fetch())
-                        $this->eof = TRUE;
+                        $this->eof = true;
                 }
                 if ($this->eof)
-                    return FALSE;
-                return TRUE;
+                    return false;
+                return true;
             }
             $this->currfields = null;
-            $this->eof = TRUE;
-            return FALSE;
+            $this->eof = true;
+            return false;
         } else
-            return FALSE;
+            return false;
     }
 
     /*!
@@ -189,9 +190,9 @@ abstract class DataAccessResult
 
             while (!$this->eof)
                 $this->movenext();
-            return TRUE;
+            return true;
         } else
-            return FALSE;
+            return false;
     }
 
     // ----------------------------------------------------
@@ -203,7 +204,7 @@ abstract class DataAccessResult
      */
     public function getNumberRows()
     {
-        return $this->opened ? $this->resultrows : FALSE;
+        return $this->opened ? $this->resultrows : false;
     }
 
     /*!
@@ -211,7 +212,7 @@ abstract class DataAccessResult
      */
     public function getNumberFields()
     {
-        return $this->opened ? $this->resultfields : FALSE;
+        return $this->opened ? $this->resultfields : false;
     }
 
     /*!
@@ -219,15 +220,15 @@ abstract class DataAccessResult
      */
     public function getCurrentRow()
     {
-        return $this->opened ? $this->currentrow : FALSE;
+        return $this->opened ? $this->currentrow : false;
     }
 
     /*!
      @abstract Returns the current row columns
-     @param column string - Optional column name. Defaults to FALSE
+     @param column string - Optional column name. Defaults to false
      @result An array of the fields. If the column argument is given, only the field with that name is returned
      */
-    public function getFields($column = FALSE)
+    public function getFields($column = false)
     {
         if ($this->opened) {
             if ($column !== false and strlen($column))

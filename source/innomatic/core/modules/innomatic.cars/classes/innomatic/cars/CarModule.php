@@ -1,8 +1,6 @@
 <?php
 
-require_once('innomatic/module/ModulePersistentObject.php');
-
-class CarModule extends ModulePersistentObject
+class CarModule extends \Innomatic\Module\ModulePersistentObject
 {
     public function moduleRun()
     {

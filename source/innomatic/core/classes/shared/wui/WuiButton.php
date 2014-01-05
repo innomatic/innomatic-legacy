@@ -7,16 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiButton extends WuiWidget
+class WuiButton extends \Innomatic\Wui\Widgets\WuiWidget
 {
     //public $mAction;
     //public $mLabel;
@@ -51,7 +52,10 @@ class WuiButton extends WuiWidget
             $this->mArgs['themeimagetype'] = 'actions';
 
         if (isset($this->mArgs['themeimage']) and strlen($this->mArgs['themeimage'])) {
-            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/icons/'.$this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['file'])) {
+            if (
+            	isset($this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base']) and
+            	file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/icons/'.$this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['file'])
+			) {
                 $this->mArgs['image'] = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['file'];
             } else {
                 // Fallback to old icon set style
@@ -127,8 +131,8 @@ class WuiButton extends WuiWidget
             . ((isset($this->mArgs['target']) and $this->mArgs['target'] == '_blank') ? 'window.open(\'' : 'location.href=\'') . $this->mArgs['action'] . ((isset($this->mArgs['target']) and $this->mArgs['target'] == '_blank') ? '\')' : '\''))) . ((isset($this->mArgs['needconfirm']) and $this->mArgs['needconfirm'] == 'true') ? '}' : '') . '"')
             . '><tr valign="middle"><td class="normalbig" align="center" ' . ($this->mArgs['nowrap'] == 'true' ? 'nowrap style="white-space: nowrap" ' : '') . ' valign="middle"><center>' . ((isset($this->mArgs['image']) and strlen($this->mArgs['image'])) ? '<img src="' . $this->mArgs['image']
             . '" align="middle" border="0"' . $sizes . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? ' alt="' . $this->mArgs['hint'] . '"' : 'alt=""') . '>' . ((isset($this->mArgs['horiz']) and $this->mArgs['horiz']) == 'true' ? '</center></td><td class="normalbig" align="center" ' . ($this->mArgs['nowrap'] == 'true' ? 'nowrap style="white-space: nowrap"' : '')
-            . ' valign="middle"><center>' : '<br>') : '') . ($this->mArgs['disabled'] == 'true' ? '<font color="' . $this->mThemeHandler->mColorsSet['buttons']['disabledtext'] . '">' . ((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? Wui::utf8_entities($this->mArgs['label']) : "") . '</font>' : '<font color="' . $this->mThemeHandler->mColorsSet['buttons']['text'] . '"><span class="buttontext">'
-            . ((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? Wui::utf8_entities($this->mArgs['label']) : "")) . '</span></font></center></td></tr></table>' . ($this->mComments ? '<!-- end ' . $this->mName . " button -->\n" : '');
+            . ' valign="middle"><center>' : '<br>') : '') . ($this->mArgs['disabled'] == 'true' ? '<font color="' . $this->mThemeHandler->mColorsSet['buttons']['disabledtext'] . '">' . ((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? \Innomatic\Wui\Wui::utf8_entities($this->mArgs['label']) : "") . '</font>' : '<font color="' . $this->mThemeHandler->mColorsSet['buttons']['text'] . '"><span class="buttontext">'
+            . ((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? \Innomatic\Wui\Wui::utf8_entities($this->mArgs['label']) : "")) . '</span></font></center></td></tr></table>' . ($this->mComments ? '<!-- end ' . $this->mName . " button -->\n" : '');
         return true;
     }
 }

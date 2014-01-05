@@ -7,16 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiAlertframe extends WuiContainerWidget
+class WuiAlertframe extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     /*! @public mAlign string - Frame alignment. */
     //public $mAlign;
@@ -30,7 +31,7 @@ class WuiAlertframe extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget(
+        parent::__construct(
             $elemName,
             $elemArgs,
             $elemTheme,

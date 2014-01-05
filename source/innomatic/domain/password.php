@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -16,29 +16,24 @@
 // NOTE: This is an old-style panel code with a single file
 // acting as model, view and controller.
 
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/wui/widgets/WuiWidget.php');
-require_once('innomatic/wui/widgets/WuiContainerWidget.php');
-require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-require_once('innomatic/wui/dispatch/WuiEvent.php');
-require_once('innomatic/wui/dispatch/WuiEventRawData.php');
-require_once('innomatic/wui/dispatch/WuiDispatcher.php');
-require_once('innomatic/locale/LocaleCatalog.php');
-require_once('innomatic/domain/user/Group.php');
-require_once('innomatic/domain/user/Permissions.php');
-require_once('innomatic/domain/user/User.php');
+use \Innomatic\Core\InnomaticContainer;
+use \Innomatic\Wui\Widgets;
+use \Innomatic\Wui\Dispatch;
+use \Innomatic\Locale\LocaleCatalog;
+use \Innomatic\Domain\User;
+use \Shared\Wui;
 
 global $wuiMainStatus, $wuiMainFrame, $innomaticLocale, $wuiTitleBar;
 
-$log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+$log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 $innomaticLocale = new LocaleCatalog(
     'innomatic::domain_password',
-    InnomaticContainer::instance(
-        'innomaticcontainer'
+    \Innomatic\Core\InnomaticContainer::instance(
+        '\Innomatic\Core\InnomaticContainer'
     )->getCurrentUser()->getLanguage()
 );
 
-$wui = Wui::instance('wui');
+$wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $wui->loadWidget('button');
 $wui->loadWidget('checkbox');
 $wui->loadWidget('combobox');
@@ -77,7 +72,7 @@ $wuiPage = new WuiPage(
     'page',
     array('title' => $innomaticLocale->getStr('password_title'))
 );
-$wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
+$wuiMainVertGroup = new WuiVertgroup('mainvertgroup');
 $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array(
@@ -131,13 +126,13 @@ if (strcmp($eventName, 'help')) {
 
 // Toolbar frame
 //
-$wuiToolBarFrame = new WuiHorizGroup('toolbarframe');
+$wuiToolBarFrame = new WuiHorizgroup('toolbarframe');
 
 $wuiToolBarFrame->addChild($wuiMainToolbar);
 $wuiToolBarFrame->addChild($wuiHelpToolBar);
 $wuiMainVertGroup->addChild($wuiToolBarFrame);
 
-$wuiMainFrame = new WuiHorizFrame('mainframe');
+$wuiMainFrame = new WuiHorizframe('mainframe');
 $wuiMainStatus = new WuiStatusBar('mainstatusbar');
 
 // Pass dispatcher
@@ -152,13 +147,13 @@ function pass_edit($eventData)
     if ($eventData['newpassworda'] == $eventData['newpasswordb']) {
         if (strlen($eventData['newpassworda'])) {
             $tempUser = new User(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getCurrentDomain()->domaindata['id']
             );
             $tempUser->setUserIdByUsername(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getCurrentUser()->getUserName()
             );
 
@@ -232,7 +227,7 @@ function main_default($eventData)
     );
     $wuiGrid->addChild(new WuiString('newpasswordb', array('disp' => 'action', 'password' => 'true')), 2, 1);
 
-    $wuiVGroup = new WuiVertGroup('vertgroup', array('align' => 'center'));
+    $wuiVGroup = new WuiVertgroup('vertgroup', array('align' => 'center'));
     $wuiVGroup->addChild($wuiGrid);
 
     $wuiVGroup->addChild(
@@ -269,8 +264,8 @@ function main_help($eventData)
                 'base' => 'innomatic',
                 'node' => 'innomatic.domain.password.' . $eventData['node']
                 . '.html',
-                'language' => InnomaticContainer::instance(
-                    'innomaticcontainer'
+                'language' => \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getCurrentUser()->getLanguage()
             )
         )

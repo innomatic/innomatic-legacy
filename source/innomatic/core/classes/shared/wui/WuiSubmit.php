@@ -7,16 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiSubmit extends WuiWidget
+class WuiSubmit extends \Innomatic\Wui\Widgets\WuiWidget
 {
     //public $mCaption;
     //public $mHint;
@@ -43,7 +44,7 @@ class WuiSubmit extends WuiWidget
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName
             . ' submit -->' : '') . '<input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').$this->getEventsCompleteString().' class="normal" type="submit"'
             . ($this->mArgs['caption'] ? ' value="'
-            . Wui::utf8_entities($this->mArgs['caption']) . '"' : '')
+            . \Innomatic\Wui\Wui::utf8_entities($this->mArgs['caption']) . '"' : '')
             . ' tabindex="' . $this->mArgs['tabindex'] . '"'
             . ((isset($this->mArgs['needconfirm']) and
             $this->mArgs['needconfirm'] == 'true') ?

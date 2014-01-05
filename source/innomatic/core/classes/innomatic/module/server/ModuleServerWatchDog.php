@@ -1,14 +1,12 @@
 <?php
-
-require_once('innomatic/module/server/ModuleServerContext.php');
-require_once('innomatic/module/server/ModuleServerLogger.php');
+namespace Innomatic\Module\Server;
 
 /**
  * Watch dog that monitors Module server execution and restarts it in case
  * of failure.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
 class ModuleServerWatchDog
@@ -31,7 +29,7 @@ class ModuleServerWatchDog
                 break;
             }
 
-            $context = ModuleServerContext::instance('ModuleServerContext');
+            $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
             $logger = new ModuleServerLogger($context->getHome().'core/log/module-watchdog.log');
             $logger->logEvent('------------------------------------------------------');
             $logger->logEvent($result);

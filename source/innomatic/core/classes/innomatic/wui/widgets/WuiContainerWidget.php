@@ -7,14 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/wui/widgets/WuiWidget.php');
-require_once('innomatic/wui/dispatch/WuiDispatcher.php');
+namespace Innomatic\Wui\Widgets;
 
 /**
  * Base widget containers class.
@@ -36,7 +34,7 @@ abstract class WuiContainerWidget extends WuiWidget
     Currently unuseful.
      @param dispEvents array - Dispatcher events.
      */
-    public function WuiContainerWidget(
+    public function __construct(
         $elemName,
         $elemArgs = '',
         $elemTheme = '',
@@ -54,7 +52,7 @@ abstract class WuiContainerWidget extends WuiWidget
     structure.
      @result Always true if childWidget is a real object.
      */
-    public function addChild(WuiWidget $rchildWidget)
+    public function addChild(\Innomatic\Wui\Widgets\WuiWidget $rchildWidget)
     {
         $this->mChilds[] = $rchildWidget;
         return true;
@@ -68,7 +66,7 @@ abstract class WuiContainerWidget extends WuiWidget
      @param rwuiDisp WuiDispatcher class - Wui internal dispatcher handler.
      @result True if the structure has been built by the member.
      */
-    public function build(WuiDispatcher $rwuiDisp)
+    public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $result = false;
         $this->mrWuiDisp = $rwuiDisp;

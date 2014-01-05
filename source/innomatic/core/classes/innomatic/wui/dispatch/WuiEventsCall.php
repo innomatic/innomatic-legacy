@@ -7,11 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Wui\Dispatch;
 
 /**
  * WUI events call builder.
@@ -45,7 +46,7 @@ class WuiEventsCall
         if (strlen($eventsCall)) {
             $this->mCall = $eventsCall;
         } else {
-            //$this->mCall = WebAppContainer::instance('webappcontainer')->getProcessor()->getRequest()->getUrlPath();
+            //$this->mCall = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getRequest()->getUrlPath();
             $this->mCall = $_SERVER['REQUEST_URI'];
             if (strpos($this->mCall, '?')) {
                 $this->mCall = substr($this->mCall, 0, strpos($this->mCall, '?'));
@@ -108,7 +109,6 @@ class WuiEventsCall
     {
         $tmp_action = new WuiEventsCall($eventsCallUrl);
         if (is_array($eventsArray)) {
-            require_once('innomatic/wui/dispatch/WuiEvent.php');
             while (list (, $event) = each($eventsArray)) {
                 $tmp_action->addEvent(new WuiEvent($event[0], $event[1], isset($event[2]) ? $event[2] : ''));
             }

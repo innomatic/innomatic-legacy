@@ -7,21 +7,19 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/webapp/WebApp.php');
-require_once('innomatic/util/Singleton.php');
+namespace Innomatic\Webapp;
 
 /**
  * @since 5.0
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2005-2012 Innoteam Srl
  */
-class WebAppContainer extends Singleton
+class WebAppContainer extends \Innomatic\Util\Singleton
 {
     private $config;
     private $useDefaults;
@@ -31,8 +29,7 @@ class WebAppContainer extends Singleton
 
     public function ___construct()
     {
-        require_once('innomatic/core/RootContainer.php');
-        $root_home = RootContainer::instance('rootcontainer')->getHome();
+        $root_home = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome();
         $this->home = $root_home;
         $this->config = array();
         if (file_exists($root_home.'innomatic/core/conf/webapp.ini')) {
@@ -41,7 +38,6 @@ class WebAppContainer extends Singleton
         } else {
             $this->useDefaults = true;
         }
-        require_once('innomatic/webapp/WebAppProcessor.php');
         $this->processor = new WebAppProcessor();
     }
 
@@ -131,14 +127,13 @@ class WebAppContainer extends Singleton
      */
     public static function createWebApp($webappName, $skeleton = 'default')
     {
-        $home = WebAppContainer::instance('webappcontainer')->getHome();
+        $home = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getHome();
 
         // Strips any path info from the skeleton name.
         $skeleton = basename($skeleton);
 
         // Checks that the webapp name doesn't contain a malicious path.
-        require_once('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath($home.$webappName, $home)) {
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath($home.$webappName, $home)) {
             return false;
         }
 
@@ -151,8 +146,7 @@ class WebAppContainer extends Singleton
         }
 
         // Copies the skeleton to the webapp directory.
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        return DirectoryUtils::dirCopy(
+        return \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy(
               $home.'innomatic/core/conf/skel/webapps/'.$skeleton.'-skel/',
             $home.$webappName.'/');
     }
@@ -165,7 +159,7 @@ class WebAppContainer extends Singleton
      */
     public static function eraseWebApp($webappName)
     {
-        $home = WebAppContainer::instance('webappcontainer')->getHome();
+        $home = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getHome();
 
         // Cannot remove innomatic webapp.
         if ($webappName == 'innomatic') {
@@ -173,14 +167,12 @@ class WebAppContainer extends Singleton
         }
 
         // Checks that the webapp name doesn't contain a malicious path.
-        require_once('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath($home.$webappName, $home)) {
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath($home.$webappName, $home)) {
             return false;
         }
 
         // Removes the webapp.
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        DirectoryUtils::unlinkTree($home.$webappName);
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($home.$webappName);
     }
 
     /**
@@ -193,11 +185,10 @@ class WebAppContainer extends Singleton
      */
     public static function applyNewSkeleton($webappName, $skeletonName)
     {
-        $home = WebAppContainer::instance('webappcontainer')->getHome();
+        $home = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getHome();
 
         // Checks that the webapp name doesn't contain a malicious path.
-        require_once('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath($home.$webappName, $home)) {
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath($home.$webappName, $home)) {
             return false;
         }
 
@@ -210,8 +201,7 @@ class WebAppContainer extends Singleton
         }
 
         // Copies the skeleton to the webapp directory, overwriting previos skeleton.
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        return DirectoryUtils::dirCopy(
+        return \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy(
               $home.'innomatic/core/conf/skel/webapps/'.$skeletonName.'-skel/',
             $home.$webappName.'/');
     }

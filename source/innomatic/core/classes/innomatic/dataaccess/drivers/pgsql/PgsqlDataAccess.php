@@ -7,28 +7,27 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/dataaccess/DataAccess.php');
+namespace Innomatic\Dataaccess\Drivers\Pgsql;
 
 /*!
 @class PgsqlDataAccess
 
 @abstract DataAccess for PostgreSQL.
 */
-class PgsqlDataAccess extends DataAccess
+class PgsqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 {
     public $driver = 'pgsql';
     public $fmtquote = "''";
     public $fmttrue = 't';
     public $fmtfalse = 'f';
 
-    //var $suppautoinc      = true;
-    //var $suppblob         = true;
+    //public $suppautoinc      = true;
+    //public $suppblob         = true;
 
     public $lastquery = false;
 
@@ -197,7 +196,7 @@ class PgsqlDataAccess extends DataAccess
 
     public function addColumn($params)
     {
-        $result = FALSE;
+        $result = false;
 
         if (!empty($params['tablename']) and !empty($params['columnformat']) and $this->opened)
             $result = $this->doExecute('ALTER TABLE '.$params['tablename'].' ADD COLUMN '.$params['columnformat']);

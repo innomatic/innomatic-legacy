@@ -1,7 +1,7 @@
 <?php
+namespace Innomatic\Module\Session;
 
-require_once('innomatic/module/ModuleContext.php');
-require_once('innomatic/module/ModuleObject.php');
+use \Innomatic\Module;
 
 /**
  * Object for storing a ModuleObject's object value in a session.
@@ -10,7 +10,7 @@ require_once('innomatic/module/ModuleObject.php');
  * requests for a same Module remote instance.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
 class ModuleSession
@@ -39,7 +39,7 @@ class ModuleSession
      * @param strind $id Optional session identifier.
      * @since 5.1
      */
-    public function __construct(ModuleContext $context, $id = false)
+    public function __construct(\Innomatic\Module\ModuleContext $context, $id = false)
     {
         $this->context = $context;
         $this->id = $id;

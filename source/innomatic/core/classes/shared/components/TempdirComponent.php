@@ -7,18 +7,19 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/application/ApplicationComponent.php');
+namespace Shared\Components;
+
 /**
  * Tempdir component handler.
  */
-class TempdirComponent extends ApplicationComponent
+class TempdirComponent extends \Innomatic\Application\ApplicationComponent
 {
-    public function TempdirComponent($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
@@ -38,34 +39,34 @@ class TempdirComponent extends ApplicationComponent
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['name'])) {
             $result = true;
-            if (! file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/temp/' . $params['name']))
-                $result = @mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/temp/' . $params['name'], 0755);
+            if (! file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/temp/' . $params['name']))
+                $result = @mkdir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/temp/' . $params['name'], 0755);
             if (! $result)
-                $this->mLog->logEvent('innomatic.tempdircomponent.tempdircomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to create temporary directory', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.tempdircomponent.tempdircomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to create temporary directory', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.tempdircomponent.tempdircomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty temporary directory name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.tempdircomponent.tempdircomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty temporary directory name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['name'])) {
-            require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-            if (DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/temp/' . $params['name']))
+            if (\Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/temp/' . $params['name'])) {
                 $result = true;
-            else
-                $this->mLog->logEvent('innomatic.tempdircomponent.tempdircomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove temporary directory', Logger::ERROR);
+            } else {
+                $this->mLog->logEvent('innomatic.tempdircomponent.tempdircomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove temporary directory', \Innomatic\Logging\Logger::ERROR);
+            }
         } else
-            $this->mLog->logEvent('innomatic.tempdircomponent.tempdircomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty temporary directory file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.tempdircomponent.tempdircomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty temporary directory file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
-        return $this->DoInstallAction($params);
+        return $this->doInstallAction($params);
     }
 }

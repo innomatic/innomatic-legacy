@@ -1,6 +1,5 @@
 <?php
-
-//require_once "PEAR.php";
+namespace Innomatic\Wui\Widgets\Layersmenu;
 
 /**
  * Converted PHPLIB Template class
@@ -76,7 +75,7 @@ class LayersTemplate
      * @param  string template root directory
      * @param  string how to handle unknown variables
      */
-    public function LayersTemplate($root = ".", $unknowns = "remove")
+    public function __construct($root = ".", $unknowns = "remove")
     {
         $this->setRoot($root);
         $this->setUnknowns($unknowns);
@@ -264,7 +263,7 @@ class LayersTemplate
      *
      * Parses handle $handle into $target, eventually
      * appending handle at $target if $append is defined
-     * as TRUE.
+     * as true.
      *
      * @access public
      * @param  string target handle to parse into
@@ -476,7 +475,7 @@ class LayersTemplate
      *
      * @access private
      * @param  string handle
-     * @return bool   FALSE if error, true if all is ok
+     * @return bool   false if error, true if all is ok
      */
     public function _loadFile($handle)
     {

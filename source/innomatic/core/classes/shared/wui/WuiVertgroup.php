@@ -7,16 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiVertgroup extends WuiContainerWidget
+class WuiVertgroup extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     /*! @public mAlign string - Alignment of group elements. */
     //public $mAlign;
@@ -29,7 +30,7 @@ class WuiVertgroup extends WuiContainerWidget
     /*! @public mWidth string - Group width. */
     //public $mWidth;
     /*!
-     @function WuiVertGroup
+     @function WuiVertgroup
 
      @abstract Class constructor.
 
@@ -42,7 +43,7 @@ class WuiVertgroup extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget($elemName, $elemArgs, $elemTheme, $dispEvents);
+        parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
         if (isset($this->mArgs['align'])) {
             switch ($this->mArgs['align']) {
                 case 'left':

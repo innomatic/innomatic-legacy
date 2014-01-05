@@ -1,13 +1,11 @@
 <?php
-
-require_once('innomatic/net/socket/SequentialServerSocket.php');
-require_once('innomatic/module/server/ModuleServerSocketHandler.php');
+namespace Innomatic\Module\Server;
 
 /**
  * Module server socket launcher.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
 class ModuleServerSocket
@@ -21,7 +19,7 @@ class ModuleServerSocket
      */
     public function start()
     {
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         $port = $context->getConfig()->getKey('server_port');
         if (!strlen($port)) {
             $port = '9000';
@@ -31,7 +29,7 @@ class ModuleServerSocket
             $bindAddress = '127.0.0.1';
         }
 
-        $server = new SequentialServerSocket($bindAddress, $port);
+        $server = new \Innomatic\Net\Socket\SequentialServerSocket($bindAddress, $port);
         $server->setHandler(new ModuleServerSocketHandler());
         $server->start();
     }

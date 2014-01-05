@@ -7,13 +7,14 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Datatransfer\Cache;
 
-require_once('innomatic/dataaccess/DataAccess.php');
+use Innomatic\Core\InnomaticContainer;
 
 /*!
  @class CachedItem
@@ -54,9 +55,9 @@ class CachedItem
      @param application string - Application id name.
      @param itemId string - Item id.
      */
-    public function CachedItem(DataAccess $rrootDb, $application, $itemId, $domainId = 0, $userId = 0)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $rrootDb, $application, $itemId, $domainId = 0, $userId = 0)
     {
-        $this->cachePath = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/cache/';
+        $this->cachePath = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/cache/';
         $domainId = (int) $domainId;
         $userId = (int) $userId;
         $this->mrRootDb = $rrootDb;
@@ -89,7 +90,7 @@ class CachedItem
      @discussion Stores the item in the cache.
      @param $content string - Item content.
      @param $validator string - Optional validator.
-     @result TRUE if the item has been stored.
+     @result true if the item has been stored.
      */
     public function store($content, $validator = '')
     {
@@ -101,9 +102,8 @@ class CachedItem
         }
 
         $goon = false;
-        require_once('innomatic/process/Semaphore.php');
-        $sem = new Semaphore('cache', $this->mItemFile);
-        $sem->WaitGreen();
+        $sem = new \Innomatic\Process\Semaphore('cache', $this->mItemFile);
+        $sem->waitGreen();
         $sem->setRed();
 
         if (strlen($this->mItemFile) and file_exists($this->mItemFile)) {
@@ -119,8 +119,7 @@ class CachedItem
             $name = $this->cachePath.date('Ymd').'_cacheditem_'.rand();
 
             if (!file_exists($this->cachePath)) {
-                require_once('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::mktree($this->cachePath, 0755);
+                \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->cachePath, 0755);
             }
             if ($fh = @fopen($name, 'w')) {
                 if (@fwrite($fh, $content)) {
@@ -164,9 +163,8 @@ class CachedItem
     public function retrieve($md5 = '')
     {
         $result = false;
-        require_once('innomatic/process/Semaphore.php');
-        $sem = new Semaphore('cache', $this->mItemFile);
-        $sem->WaitGreen();
+        $sem = new \Innomatic\Process\Semaphore('cache', $this->mItemFile);
+        $sem->waitGreen();
 
         if (strlen($this->mItemFile) and file_exists($this->mItemFile)) {
             $sem->setRed();
@@ -196,7 +194,7 @@ class CachedItem
      @abstract Checks if the optional validator is equal to a given one.
      @discussion Checks if the optional validator is equal to a given one.
      @param validator string - Validator to be checked.
-     @result TRUE if the validators are equals.
+     @result true if the validators are equals.
      */
     public function checkValidator($validator)
     {
@@ -212,14 +210,13 @@ class CachedItem
      @function Destroy
      @abstract Destroys the item from the cache.
      @discussion Destroys the item from the cache.
-     @result TRUE if the item has been destroyed.
+     @result true if the item has been destroyed.
      */
     public function destroy()
     {
         $result = false;
-        require_once('innomatic/process/Semaphore.php');
-        $sem = new Semaphore('cache', $this->mItemFile);
-        $sem->WaitGreen();
+        $sem = new \Innomatic\Process\Semaphore('cache', $this->mItemFile);
+        $sem->waitGreen();
         $sem->setRed();
         if (strlen($this->mItemFile) and file_exists($this->mItemFile)) {
             $result = @unlink($this->mItemFile);
@@ -236,7 +233,7 @@ class CachedItem
      @abstract Checks if the md5 of the cached item is equal to the md5 of a given item.
      @discussion Checks if the md5 of the cached item is equal to the md5 of a given item.
      @param itemContent string - Content of the item to be checked.
-     @result TRUE if the md5 of the items are equals.
+     @result true if the md5 of the items are equals.
      */
     public function compareMd5($itemContent)
     {

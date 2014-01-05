@@ -7,20 +7,19 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/xml/XMLParser.php');
+namespace Innomatic\Dataaccess;
 
 /*!
 @class DataAccessXmlTable
 
 @abstract Xml DataAccess class provides parsing of XSQL xml files.
 */
-class DataAccessXmlTable extends XMLParser
+class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
 {
     /*! @var mLog log handler */
     public $mLog;
@@ -47,7 +46,7 @@ class DataAccessXmlTable extends XMLParser
 
      @abstract Class constructor.
      */
-    public function __construct(DataAccess $db, $act)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $db, $act)
     {
         parent::__construct();
         $this->mAction = $act;

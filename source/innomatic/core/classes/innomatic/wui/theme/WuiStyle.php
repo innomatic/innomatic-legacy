@@ -7,13 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/dataaccess/DataAccess.php');
+namespace Innomatic\Wui\Theme;
 
 /**
  * WUI style handler.
@@ -38,7 +37,7 @@ class WuiStyle
      */
     public function __construct($rrootDb, $styleName)
     {
-        if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
+        if (!(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
             $this->mrRootDb = $rrootDb;
         }
         $this->mStyleName = $styleName;
@@ -53,7 +52,7 @@ class WuiStyle
      */
     public function install($args)
     {
-        $result = FALSE;
+        $result = false;
         if ($this->mrRootDb) {
             if (strlen($args['name']) and strlen($args['file'])) {
                 $result = $this->mrRootDb->execute('INSERT INTO wui_styles VALUES ('.$this->mrRootDb->getNextSequenceValue('wui_styles_id_seq').','.$this->mrRootDb->formatText($args['name']).','.$this->mrRootDb->formatText($args['file']).','.$this->mrRootDb->formatText($args['catalog']).')');
@@ -71,15 +70,15 @@ class WuiStyle
      */
     public function update($args)
     {
-        $result = FALSE;
+        $result = false;
 
         if ($this->mrRootDb) {
             if (strlen($this->mStyleName)) {
                 $check_query = $this->mrRootDb->execute('SELECT name FROM wui_styles WHERE name='.$this->mrRootDb->formatText($this->mStyleName));
 
                 if ($check_query->getNumberRows()) {
-                    if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
-                        $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
+                    if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
+                        $cached_item = new \Innomatic\Datatransfer\Cache\CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
 
                         $cached_item->Destroy();
                     }
@@ -99,13 +98,13 @@ class WuiStyle
      */
     public function remove()
     {
-        $result = FALSE;
+        $result = false;
 
         if ($this->mrRootDb) {
             if (strlen($this->mStyleName)) {
 
-                if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
-                    $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
+                if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
+                    $cached_item = new \Innomatic\Datatransfer\Cache\CachedItem($this->mrRootDb, 'innomatic', 'wuistyle-'.$this->mStyleName);
                     $cached_item->Destroy();
                 }
                 $result = $this->mrRootDb->execute('DELETE FROM wui_styles WHERE name='.$this->mrRootDb->formatText($this->mStyleName));
@@ -117,8 +116,8 @@ class WuiStyle
     public function getStyle()
     {
         $result = array();
-        $values = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini');
-        if ($values !== FALSE) {
+        $values = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini');
+        if ($values !== false) {
             while (list ($key, $val) = each($values)) {
                 $key = trim($key);
                 $val = trim($val);
@@ -130,9 +129,9 @@ class WuiStyle
                 }
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open style file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini', Logger::ERROR);
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.wuithemes.wuistyle.getstyle', 'Unable to open style file '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.$this->mStyleName.'_wuistyle.ini', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }

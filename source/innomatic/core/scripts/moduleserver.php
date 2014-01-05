@@ -7,16 +7,14 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2013 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.1
  */
 
 require_once('scripts_container.php');
-$script = ScriptContainer::instance('scriptcontainer');
-
-require_once('innomatic/module/server/ModuleServerController.php');
+$script = \Innomatic\Scripts\ScriptContainer::instance('\Innomatic\Scripts\ScriptContainer');
 
         if (!isset ($argv[1]))
             $argv[1] = '';
@@ -35,38 +33,38 @@ require_once('innomatic/module/server/ModuleServerController.php');
                     $script->cleanExit();
                     break;
                 case 'wstart' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     $controller->start();
                     break;
                 case 'stop' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     $controller->shutdown();
                     break;
                 case 'wrestart' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     $controller->restart();
                     break;
                 case 'refresh' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     print($controller->refresh());
                     break;
                 case 'status' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     print($controller->status());
                     break;
                 case 'start' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     $controller->watchDogStart();
                     break;
                 case 'restart' :
-                    $controller = new ModuleServerController();
+                    $controller = new \Innomatic\Module\Server\ModuleServerController();
                     $controller->watchDogRestart();
                     break;
                 default :
                     print('Usage: php innomatic/core/scripts/moduleserver.php command'."\n");
                     print('Type moduleserver.php -h for a list of supported commands'."\n");
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo $e;
         }
 

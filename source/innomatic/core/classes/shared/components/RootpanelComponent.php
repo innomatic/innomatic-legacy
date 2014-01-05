@@ -7,16 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/application/ApplicationComponent.php');
+namespace Shared\Components;
+
 /**
  * Rootpanel component handler.
  */
-class RootpanelComponent extends ApplicationComponent
+class RootpanelComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
@@ -38,7 +39,7 @@ class RootpanelComponent extends ApplicationComponent
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         $name = $params['name'];
@@ -53,24 +54,23 @@ class RootpanelComponent extends ApplicationComponent
         if (strlen($params['name'])) {
             if (strlen($params['icon'])) {
                 $params['icon'] = $this->basedir . '/root/' . $params['icon'];
-                if (@copy($params['icon'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']))) {
-                    @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), 0644);
+                if (@copy($params['icon'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['icon']))) {
+                    @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['icon']), 0644);
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy root application icon ' . $params['icon'] . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy root application icon ' . $params['icon'] . ' to destination ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['icon']), \Innomatic\Logging\Logger::ERROR);
             }
             $params['name'] = $this->basedir . '/root/' . $params['name'];
             $result = false;
             if (is_dir($params['name'] . '-panel')) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                if (DirectoryUtils::dirCopy($params['name'] . '-panel/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($params['name'] . '-panel/', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '-panel/')) {
                     $result = true;
                 }
             } else
                 if (file_exists($params['name'] . '.php')) {
-                    $result = @copy($params['name'] . '.php', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php');
+                    $result = @copy($params['name'] . '.php', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '.php');
                     if ($result) {
-                        @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php', 0644);
+                        @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '.php', 0644);
                     }
                 }
             if ($result) {
@@ -83,16 +83,16 @@ class RootpanelComponent extends ApplicationComponent
                     $ins = 'INSERT INTO root_panels VALUES (' . $this->rootda->getNextSequenceValue('root_panels_id_seq') . ',' . $this->rootda->formatText($name) . ',' . $this->rootda->formatText(basename($params['icon'])) . ',' . $this->rootda->formatText($params['catalog']) . ',' . $this->rootda->formatText($group_id) . ',' . $this->rootda->formatText($params['themeicon']) . ',' . $this->rootda->formatText($params['themeicontype']) . ')';
                     $result = $this->rootda->execute($ins);
                     if (! $result)
-                        $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to insert root application in root_panels table', Logger::ERROR);
+                        $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to insert root application in root_panels table', \Innomatic\Logging\Logger::ERROR);
                 } else
                     $result = true;
             } else
-                $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to copy root application ' . $name . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to copy root application ' . $name . ' to destination ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']), \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Empty application file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.rootpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $name . ': Empty application file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (! isset($params['icon']))
@@ -105,32 +105,31 @@ class RootpanelComponent extends ApplicationComponent
             $params['themeicontype'] = '';
         if (strlen($params['name'])) {
             if (strlen($params['icon'])) {
-                if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']))) {
+                if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['icon']))) {
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove icon file ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove icon file ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['icon']), \Innomatic\Logging\Logger::ERROR);
             }
-            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php')) {
-                $result = @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php');
+            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '.php')) {
+                $result = @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '.php');
             }
-            if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel')) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                $result = DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel');
+            if (is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '-panel')) {
+                $result = \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '-panel');
             }
             if (! $result) {
-                $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove root application file ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove root application file ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']), \Innomatic\Logging\Logger::ERROR);
             }
             if ($params['show'] != 'no') {
                 $result = &$this->rootda->execute('DELETE FROM root_panels WHERE name = ' . $this->rootda->formatText($params['name']));
                 if (! $result)
-                    $this->mLog->logEvent('innomatic.rootpanelcomponen.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove root application from root_panels table', Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.rootpanelcomponen.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove root application from root_panels table', \Innomatic\Logging\Logger::ERROR);
             } else
                 $result = true;
         } else
-            $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty application file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty application file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
         $result = false;
         $name = $params['name'];
@@ -145,31 +144,29 @@ class RootpanelComponent extends ApplicationComponent
         if (strlen($params['name'])) {
             if (isset($params['icon']) and strlen($params['icon'])) {
                 $params['icon'] = $this->basedir . '/root/' . $params['icon'];
-                if (@copy($params['icon'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']))) {
-                    @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), 0644);
+                if (@copy($params['icon'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['icon']))) {
+                    @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['icon']), 0644);
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy root application icon ' . $params['icon'] . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['icon']), Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy root application icon ' . $params['icon'] . ' to destination ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['icon']), \Innomatic\Logging\Logger::ERROR);
             }
             $params['name'] = $this->basedir . '/root/' . $params['name'];
             $result = false;
-            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php')) {
-                @unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php');
+            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '.php')) {
+                @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '.php');
             }
-            if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel')) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel');
+            if (is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '-panel')) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '-panel');
             }
             if (is_dir($params['name'] . '-panel')) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                if (DirectoryUtils::dirCopy($params['name'] . '-panel/', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '-panel/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($params['name'] . '-panel/', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '-panel/')) {
                     $result = true;
                 }
             } else
                 if (file_exists($params['name']) . '.php') {
-                    $result = @copy($params['name'] . '.php', InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php');
+                    $result = @copy($params['name'] . '.php', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '.php');
                     if ($result) {
-                        @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($params['name']) . '.php', 0644);
+                        @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']) . '.php', 0644);
                     }
                 }
             if ($result) {
@@ -182,11 +179,11 @@ class RootpanelComponent extends ApplicationComponent
                     $group_id = '';
                 $result = &$this->rootda->execute('UPDATE root_panels SET iconfile=' . $this->rootda->formatText(basename($params['icon'])) . ',' . 'catalog=' . $this->rootda->formatText($params['catalog']) . ',' . 'themeicon=' . $this->rootda->formatText($params['themeicon']) . ',' . 'themeicontype=' . $this->rootda->formatText($params['themeicontype']) . ($group_id ? ',groupid=' . $group_id : '') . ' WHERE name=' . $this->rootda->formatText($name));
                 if (! $result)
-                    $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to update root application in root_panels table', Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to update root application in root_panels table', \Innomatic\Logging\Logger::ERROR);
             } else
-                $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to copy root application file ' . $name . ' to destination ' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'root/' . basename($name), Logger::ERROR);
+                $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to copy root application file ' . $name . ' to destination ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($name), \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Empty application file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Empty application file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
 }

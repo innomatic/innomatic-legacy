@@ -7,15 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/webapp/WebAppRequest.php');
-require_once('innomatic/webapp/WebAppResponse.php');
-require_once('innomatic/webapp/WebApp.php');
+namespace Innomatic\Webapp;
 
 class WebAppProcessor
 {
@@ -45,7 +42,7 @@ class WebAppProcessor
             $this->response->startBuffer();
             try {
                 $handler->service($this->request, $this->response);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->response->sendError(WebAppResponse::SC_INTERNAL_SERVER_ERROR, get_class($e), $e);
             }
         }
@@ -65,15 +62,13 @@ class WebAppProcessor
      */
     public function report(WebAppRequest $req, WebAppResponse $res)
     {
-        require_once('innomatic/core/RootContainer.php');
-        $statusReportsTree = simplexml_load_file(RootContainer::instance('rootcontainer')->getHome().'innomatic/core/conf/webapp/statusreports.xml');
+        $statusReportsTree = simplexml_load_file(\Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().'innomatic/core/conf/webapp/statusreports.xml');
         $statusReports = array();
         foreach($statusReportsTree->status as $status) {
             $statusReports[sprintf('%s', $status->statuscode)] = sprintf('%s', $status->statusreport);
         }
 
-        require_once('innomatic/php/PHPTemplate.php');
-        $tpl = new PHPTemplate(RootContainer::instance('rootcontainer')->getHome().'innomatic/core/conf/webapp/report.tpl.php');
+        $tpl = new \Innomatic\Php\PHPTemplate(\Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().'innomatic/core/conf/webapp/report.tpl.php');
         $tpl->set('status_code', $res->getStatus());
         $tpl->set('message', htmlspecialchars($res->getMessage()));
         $tpl->set('report', str_replace('{0}', $res->getMessage(), isset($statusReports[$res->getStatus()]) ? $statusReports[$res->getStatus()] : ''));
@@ -117,8 +112,7 @@ class WebAppProcessor
         }
 
         $requestURI = $url_path.$path_info;
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        $normalizedURI = DirectoryUtils::normalize($requestURI);
+        $normalizedURI = \Innomatic\Io\Filesystem\DirectoryUtils::normalize($requestURI);
         if ($url_path != '/' && $url_path == $normalizedURI) {
             $normalizedURI .= '/';
         }
@@ -323,8 +317,9 @@ class WebAppProcessor
         }
 
         // Loads Webapp Handler class
-        $classname = substr($fqclassname, strrpos($fqclassname, '/') + 1, -4);
-        if (!class_exists($classname, false)) {
+        $classname = str_replace('/', '\\', substr($fqclassname, 0, -4));
+
+        if (!class_exists($classname, true)) {
             $this->response->sendError(WebAppResponse::SC_INTERNAL_SERVER_ERROR, 'Malformed handler found');
             return;
         }

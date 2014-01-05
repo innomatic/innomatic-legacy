@@ -1,7 +1,5 @@
 <?php
-require_once('innomatic/module/ModuleConfig.php');
-require_once('innomatic/module/ModuleValueObject.php');
-require_once('innomatic/dataaccess/DataAccessFactory.php');
+namespace Innomatic\Module;
 
 /**
  * Base class for encapsulating business logic.
@@ -19,10 +17,10 @@ require_once('innomatic/dataaccess/DataAccessFactory.php');
  * situations this is the only way, like when accessing remote Modules.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-abstract class ModuleObject implements Serializable
+abstract class ModuleObject implements \Serializable
 {
     /**
      * Config object.
@@ -49,7 +47,7 @@ abstract class ModuleObject implements Serializable
      * @since 5.1
      * @param ModuleConfig $config Configuration object.
      */
-    public function __construct(ModuleConfig $config)
+    public function __construct(\Innomatic\Module\ModuleConfig $config)
     {
         // Assigns the config and retrieves fully qualified name for value object.
         $this->config = $config;
@@ -62,8 +60,7 @@ abstract class ModuleObject implements Serializable
 
         require_once($vo_fqcn.'.php');
         $vo_class = strpos($vo_fqcn, '/') ? substr($vo_fqcn, strrpos($vo_fqcn, '/') + 1) : $vo_fqcn;
-        if (!class_exists($vo_class, false)) {
-            require_once('innomatic/module/ModuleException.php');
+        if (!class_exists($vo_class, true)) {
             throw new ModuleException('Value object class '.$vo_class.' does not exists');
         }
 

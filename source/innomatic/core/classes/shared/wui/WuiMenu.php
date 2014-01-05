@@ -7,17 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/layersmenu/XLayersMenu.php');
-require_once ('innomatic/wui/widgets/WuiWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiMenu extends WuiWidget
+class WuiMenu extends \Innomatic\Wui\Widgets\WuiWidget
 {
     //public $mMenu;
     /*!
@@ -37,22 +37,21 @@ class WuiMenu extends WuiWidget
     protected function generateSource()
     {
         /*
-        require_once ('innomatic/util/Registry.php');
-        $registry = Registry::instance();
+        $registry = \Innomatic\Util\Registry::instance();
         if (! $registry->isGlobalObject('singleton xlayersmenu')) {
             $mid = new XLayersMenu();
             $registry->setGlobalObject('singleton xlayersmenu', $mid);
         } else {
             $mid = $registry->getGlobalObject('singleton xlayersmenu');
         }
-        $mid->libdir = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $mid->libdir = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getHome() . 'core/lib/';
-        $mid->libwww = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $mid->libwww = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getBaseUrl(false) . '/shared/';
-        $mid->tpldir = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $mid->tpldir = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getHome() . 'core/conf/layersmenu/';
         $mid->imgdir = $this->mThemeHandler->mStyleDir;
         $mid->imgwww = $this->mThemeHandler->mStyleBase

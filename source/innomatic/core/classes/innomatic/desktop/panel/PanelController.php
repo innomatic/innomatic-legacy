@@ -7,13 +7,14 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Desktop\Panel;
 
-require_once('innomatic/util/Observer.php');
+use \Innomatic\Core\InnomaticContainer;
 
 /**
  * Abstract class for implementing a controller in a Desktop Panel following
@@ -25,7 +26,7 @@ require_once('innomatic/util/Observer.php');
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-abstract class PanelController implements Observer
+abstract class PanelController implements \Innomatic\Util\Observer
 {
     protected $_application;
     protected $_mode;
@@ -35,17 +36,14 @@ abstract class PanelController implements Observer
 
     public function __construct($mode, $application)
     {
-        require_once('innomatic/wui/dispatch/WuiDispatcher.php');
-        require_once('innomatic/core/InnomaticContainer.php');
-
         // Builds the application home path
-        $home = InnomaticContainer::instance('innomaticcontainer')->getHome();
+        $home = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome();
         switch ($mode) {
-            case InnomaticContainer::MODE_ROOT:
+            case \Innomatic\Core\InnomaticContainer::MODE_ROOT:
                 $home .= 'root/';
                 break;
 
-            case InnomaticContainer::MODE_DOMAIN:
+            case \Innomatic\Core\InnomaticContainer::MODE_DOMAIN:
                 $home .= 'domain/';
                 break;
         }
@@ -57,8 +55,7 @@ abstract class PanelController implements Observer
             $this->_applicationHome = $home;
             $this->_application = $application;
         } else {
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::INVALID_APPLICATION);
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::INVALID_APPLICATION);
         }
 
         // TODO Verificare, dopo questa impostazione, quanto ancora sia utile di WuiDispatcher
@@ -67,7 +64,7 @@ abstract class PanelController implements Observer
         $action = null;
 
         // View initialization
-        $viewDispatcher = new WuiDispatcher('view');
+        $viewDispatcher = new \Innomatic\Wui\Dispatch\WuiDispatcher('view');
         $viewEvent = $viewDispatcher->getEventName();
         if (!strlen($viewEvent)) {
             $viewEvent = 'default';
@@ -75,13 +72,12 @@ abstract class PanelController implements Observer
         $viewClassName = ucfirst($this->_application).'PanelViews';
 
         // Checks if view file and definition exist
+        // @todo update to new namespaces model
         if (!include_once($this->_applicationHome.$viewClassName.'.php')) {
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::MISSING_VIEWS_FILE);
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_VIEWS_FILE);
         }
-        if (!class_exists($viewClassName, false)) {
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::MISSING_VIEWS_CLASS);
+        if (!class_exists($viewClassName, true)) {
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_VIEWS_CLASS);
         }
 
         // Instantiate views class
@@ -93,12 +89,10 @@ abstract class PanelController implements Observer
 
         // Checks if class file and definition exist
         if (!include_once($this->_applicationHome.$actionClassName.'.php')) {
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::MISSING_ACTIONS_FILE);
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_ACTIONS_FILE);
         }
-        if (!class_exists($actionClassName, false)) {
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::MISSING_ACTIONS_CLASS);
+        if (!class_exists($actionClassName, true)) {
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_ACTIONS_CLASS);
         }
 
         // AJAX
@@ -107,21 +101,20 @@ abstract class PanelController implements Observer
             $ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
         }
 
-        require_once('innomatic/ajax/Xajax.php');
-        $xajax = Xajax::instance('Xajax', $ajax_request_uri);
+        $xajax = \Innomatic\Ajax\Xajax::instance('Xajax', $ajax_request_uri);
 
         // Set debug mode
-        if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
             $xajax->debugOn();
         }
-        $xajax->setLogFile(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/ajax.log');
+        $xajax->setLogFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/ajax.log');
 
         // Register action ajax calls
-        $theClass = new ReflectionClass($actionClassName);
+        $theClass = new \ReflectionClass($actionClassName);
         $methods = $theClass->getMethods();
         foreach ($methods as $method) {
             // Ignore private methods
-            $theMethod = new ReflectionMethod($theClass->getName(), $method->getName());
+            $theMethod = new \ReflectionMethod($theClass->getName(), $method->getName());
             if (!$theMethod->isPublic()) {
                 continue;
             }
@@ -141,7 +134,7 @@ abstract class PanelController implements Observer
         $xajax->processRequests();
 
         // Action execution, if set
-        $actionDispatcher = new WuiDispatcher('action');
+        $actionDispatcher = new \Innomatic\Wui\Dispatch\WuiDispatcher('action');
         $actionEvent = $actionDispatcher->getEventName();
         if (strlen($actionEvent)) {
 
@@ -166,8 +159,7 @@ abstract class PanelController implements Observer
             $this->_view->endHelper();
             $this->_view->display();
         } else {
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::NO_VIEW_DEFINED);
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::NO_VIEW_DEFINED);
         }
     }
 

@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Io\Archive\Archivers;
 
 /*
 =======================================================================
@@ -100,7 +101,7 @@ class Tar
     }
 
 
-    // Converts a NULL padded string to a non-NULL padded string
+    // Converts a null padded string to a non-null padded string
     // PRIVATE ACCESS FUNCTION
     public function __parseNullPaddedString($string)
     {
@@ -228,7 +229,7 @@ class Tar
             if(!function_exists("gzinflate"))
                 return false;
 
-            $this->isGzipped = TRUE;
+            $this->isGzipped = true;
 
             $this->tar_file = gzinflate(substr($this->tar_file,10,-4));
         }
@@ -326,7 +327,7 @@ class Tar
             }
         }
 
-        // Add 512 bytes of NULLs to designate EOF
+        // Add 512 bytes of nulls to designate EOF
         $this->tar_file .= str_repeat(chr(0),512);
 
         return true;

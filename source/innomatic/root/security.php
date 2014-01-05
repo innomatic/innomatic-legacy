@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -16,21 +16,16 @@
 // NOTE: This is an old-style panel code with a single file
 // acting as model, view and controller.
 
-require_once('innomatic/locale/LocaleCatalog.php');
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-require_once('innomatic/security/SecurityManager.php');
-
     global $gLocale, $gPageStatus, $alertText;
     global $gXmlDefinition, $gLocale, $gPageTitle;
 
 $alertText = '';
 
-$gLocale = new LocaleCatalog(
+$gLocale = new \Innomatic\Locale\LocaleCatalog(
     'innomatic::root_security',
-    InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
 );
-$gWui = Wui::instance('wui');
+$gWui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $gWui->loadWidget('xml');
 $gWui->loadWidget('innomaticpage');
 $gWui->loadWidget('innomatictoolbar');
@@ -43,7 +38,7 @@ $gToolbars['main'] = array(
         'label' => $gLocale->getStr('check.toolbar'),
         'themeimage' => 'security',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString(
+        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -58,7 +53,7 @@ $gToolbars['main'] = array(
         'label' => $gLocale->getStr('settings.toolbar'),
         'themeimage' => 'gear',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString(
+        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -75,7 +70,7 @@ $gToolbars['password'] = array(
     'change_password' => array(
         'label' => $gLocale->getStr('chpasswd_button'),
         'themeimage' => 'key',
-        'horiz' => 'true', 'action' => WuiEventsCall::buildEventsCallString(
+        'horiz' => 'true', 'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -93,7 +88,7 @@ $gToolbars['help'] = array(
         'label' => $gLocale->getStr('help.toolbar'),
         'themeimage' => 'info',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString(
+        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -115,7 +110,7 @@ function action_set_security_preset($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
 
     $innomaticSecurity->setPredefinedLevel($eventData['preset']);
 
@@ -127,7 +122,7 @@ function action_set_access_prefs($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
 
     $innomaticSecurity->setSessionLifetime($eventData['sessionlifetime']);
     $innomaticSecurity->setMaxWrongLogins($eventData['maxwronglogins']);
@@ -148,7 +143,7 @@ function action_set_alerts_prefs($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
 
     $alerts['wronglocalrootlogin'] = $eventData['wronglocalrootlogin'] == 'on' ? true : false;
     $alerts['wronglocaluserlogin'] = $eventData['wronglocaluserlogin'] == 'on' ? true : false;
@@ -168,7 +163,7 @@ function action_set_reports_prefs($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
 
     $innomaticSecurity->setReportsEmail($eventData['reportdestinationemail']);
     $innomaticSecurity->setReportsInterval($eventData['enablereports'] == 'on' ? $eventData['reportsinterval'] : '0');
@@ -181,7 +176,7 @@ function action_clean_access_log($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
 
     $innomaticSecurity->EraseAccessLog();
 
@@ -193,7 +188,7 @@ function action_logout_sessions($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
 
     foreach ($eventData['sessions'] as $id => $session) {
         $innomaticSecurity->LogoutSession($session);
@@ -208,22 +203,22 @@ function action_change_password($eventData)
     global $gPageStatus, $gLocale;
 
     if ($eventData['newpassworda'] == $eventData['newpasswordb']) {
-        $result = InnomaticContainer::setRootPassword($eventData['oldpassword'], $eventData['newpassworda']);
+        $result = \Innomatic\Core\InnomaticContainer::setRootPassword($eventData['oldpassword'], $eventData['newpassworda']);
 
         switch ($result) {
             case 1 :
                 $gPageStatus = $gLocale->getStr('passwordchanged_status');
                 break;
 
-            case InnomaticContainer::SETROOTPASSWORD_NEW_PASSWORD_IS_EMPTY :
+            case \Innomatic\Core\InnomaticContainer::SETROOTPASSWORD_NEW_PASSWORD_IS_EMPTY :
                 $gPageStatus = $gLocale->getStr('newpasswordisempty_status');
                 break;
 
-            case InnomaticContainer::SETROOTPASSWORD_UNABLE_TO_WRITE_NEW_PASSWORD :
+            case \Innomatic\Core\InnomaticContainer::SETROOTPASSWORD_UNABLE_TO_WRITE_NEW_PASSWORD :
                 $gPageStatus = $gLocale->getStr('unabletowritenewpassword_status');
                 break;
 
-            case InnomaticContainer::SETROOTPASSWORD_OLD_PASSWORD_IS_WRONG :
+            case \Innomatic\Core\InnomaticContainer::SETROOTPASSWORD_OLD_PASSWORD_IS_WRONG :
                 $gPageStatus = $gLocale->getStr('wrongoldpassword_status');
                 break;
         }
@@ -240,7 +235,7 @@ $gViewDispatcher = new WuiDispatcher('view');
 
 function default_tab_builder($tab)
 {
-    return WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('tab' => $tab))));
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('tab' => $tab))));
 }
 
 $gViewDispatcher->addEvent('default', 'main_default');
@@ -253,8 +248,8 @@ function main_default($eventData)
     $tabs[1]['label'] = $gLocale->getStr('loggedusers.tab');
     $tabs[2]['label'] = $gLocale->getStr('securitycheck.tab');
 
-    $innomaticSecurity = new SecurityManager();
-    $securityCheck = $innomaticSecurity->SecurityCheck();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
+    $securityCheck = $innomaticSecurity->securityCheck();
 
     if ($securityCheck['rootpasswordcheck'] == false
     or $securityCheck['rootdapasswordcheck'] == false
@@ -321,7 +316,7 @@ function main_default($eventData)
                     <frame>false</frame>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -360,7 +355,7 @@ function main_default($eventData)
               <args>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -396,7 +391,7 @@ function main_default($eventData)
                 <formsubmit>rootsessions</formsubmit>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -424,7 +419,7 @@ function main_default($eventData)
               <args>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -460,7 +455,7 @@ function main_default($eventData)
                 <formsubmit>userssessions</formsubmit>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -674,7 +669,7 @@ function main_default($eventData)
 
 function settings_tab_builder($tab)
 {
-    return WuiEventsCall::buildEventsCallString('', array(array('view', 'settings', array('tab' => $tab))));
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array('view', 'settings', array('tab' => $tab))));
 }
 
 $gViewDispatcher->addEvent('settings', 'main_settings');
@@ -682,7 +677,7 @@ function main_settings($eventData)
 {
     global $gXmlDefinition, $gLocale, $gPageTitle;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
     $sessionLifeTime = $innomaticSecurity->getSessionLifetime();
     $maxWrongLogins = $innomaticSecurity->getMaxWrongLogins();
     $wrongLoginDelay = $innomaticSecurity->getWrongLoginDelay();
@@ -743,7 +738,7 @@ function main_settings($eventData)
                     <frame>false</frame>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -780,7 +775,7 @@ function main_settings($eventData)
                     <frame>false</frame>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -817,7 +812,7 @@ function main_settings($eventData)
                     <frame>false</frame>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -854,7 +849,7 @@ function main_settings($eventData)
                     <frame>false</frame>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -905,7 +900,7 @@ function main_settings($eventData)
                     <method>post</method>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1024,7 +1019,7 @@ function main_settings($eventData)
                     <formsubmit>access</formsubmit>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1065,7 +1060,7 @@ function main_settings($eventData)
                     <method>post</method>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1210,7 +1205,7 @@ function main_settings($eventData)
                     <formsubmit>alerts</formsubmit>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1250,7 +1245,7 @@ function main_settings($eventData)
                     <method>post</method>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1329,7 +1324,7 @@ function main_settings($eventData)
                     <formsubmit>alerts</formsubmit>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1378,7 +1373,7 @@ function main_change_password($eventData)
                     <method>post</method>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1456,7 +1451,7 @@ function main_change_password($eventData)
                     <formsubmit>password</formsubmit>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(

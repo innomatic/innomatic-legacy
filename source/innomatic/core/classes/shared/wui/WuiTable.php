@@ -7,16 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiTable extends WuiContainerWidget
+class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     //public $mHeaders;
     //public $mCells;
@@ -38,7 +39,7 @@ class WuiTable extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget($elemName, $elemArgs, $elemTheme, $dispEvents);
+        parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
         $tmp_sess = $this->RetrieveSession();
         //if ( isset($this->mArgs['headers'] ) ) $this->mArgs['headers']        = $this->mArgs['headers'];
         $this->mRows = $this->mCols = 0;
@@ -95,7 +96,7 @@ class WuiTable extends WuiContainerWidget
             $this->mArgs['width'] = "100%";
         }
     }
-    public function addChild(WuiWidget $childWidget, $row, $col, $halign = '', $valign = '', $nowrap = 'false', $width = '')
+    public function addChild(\Innomatic\Wui\Widgets\WuiWidget $childWidget, $row = '', $col = '', $halign = '', $valign = '', $nowrap = 'false', $width = '')
     {
         if ($row >= $this->mRows)
             $this->mRows = $row + 1;
@@ -110,7 +111,7 @@ class WuiTable extends WuiContainerWidget
         $this->mArgs['cells'][$row][$col]['width'] = $width;
         return true;
     }
-    public function build(WuiDispatcher $rwuiDisp)
+    public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $result = false;
         $this->mrWuiDisp = $rwuiDisp;

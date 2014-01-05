@@ -1,18 +1,13 @@
 <?php
+namespace Innomatic\Module\Server;
 
-require_once('innomatic/module/ModuleFactory.php');
-require_once('innomatic/module/ModuleException.php');
-require_once('innomatic/module/ModuleContext.php');
-require_once('innomatic/module/ModuleLocator.php');
-require_once('innomatic/module/session/ModuleSession.php');
-require_once('innomatic/module/server/ModuleServerRequest.php');
-require_once('innomatic/module/server/ModuleServerResponse.php');
+use \Innomatic\Module;
 
 /**
  * Processor for Module server XmlRpc messages.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
 class ModuleServerXmlRpcProcessor
@@ -55,7 +50,7 @@ class ModuleServerXmlRpcProcessor
         } catch (ModuleException $e) {
             $response->sendWarning(ModuleServerResponse::SC_INTERNAL_SERVER_ERROR, $e->__toString());
             return;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response->sendWarning(ModuleServerResponse::SC_INTERNAL_SERVER_ERROR, $e->__toString());
             return;
         }
@@ -65,11 +60,11 @@ class ModuleServerXmlRpcProcessor
             return;
         }
 
-        $theClass = new ReflectionObject($this->module);
+        $theClass = new \ReflectionObject($this->module);
         $methods = $theClass->getMethods();
         foreach ($methods as $method) {
             // Ignore private methods
-            $theMethod = new ReflectionMethod($theClass->getName(), $method->getName());
+            $theMethod = new \ReflectionMethod($theClass->getName(), $method->getName());
             if (!$theMethod->isPublic()) {
                 continue;
             }
@@ -85,14 +80,14 @@ class ModuleServerXmlRpcProcessor
             $buffer = xmlrpc_server_call_method($xmlrpc_server, $request->getPayload(), '', array ('output_type' => 'xml'));
             $response->addHeader('Module/1.0 '.ModuleServerResponse::SC_OK);
             $response->setBuffer($buffer);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response->addHeader('Module/1.0 '.ModuleServerResponse::SC_INTERNAL_ERROR);
             $response->setBuffer($buffer);
         }
         xmlrpc_server_destroy($xmlrpc_server);
 
         $context = new ModuleContext($module_location);
-        $session = new ModuleSession($context, $sessionId);
+        $session = new \Innomatic\Module\Session\ModuleSession($context, $sessionId);
         $session->save($this->module);
         $response->addHeader('Session: '.$session->getId());
     }

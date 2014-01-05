@@ -7,11 +7,14 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Security;
+
+use \Innomatic\Config\ConfigFile;
 
 class SecurityManager
 {
@@ -31,8 +34,8 @@ class SecurityManager
      */
     public function __construct()
     {
-        $this->mSecurityLog = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/security.log';
-        $this->mAccessLog = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/access.log';
+        $this->mSecurityLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/security.log';
+        $this->mAccessLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/access.log';
     }
 
     /*!
@@ -101,10 +104,9 @@ class SecurityManager
     public function setAlertsEmail($email)
     {
         $result = '';
-        require_once('innomatic/config/ConfigFile.php');
         $cfg = new ConfigFile(
-            InnomaticContainer::instance(
-                'innomaticcontainer'
+            \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getConfigurationFile()
         );
         $result = $cfg->setValue('SecurityAlertsEmail', $email);
@@ -119,8 +121,8 @@ class SecurityManager
     public function getAlertsEmail()
     {
         $cfg = @parse_ini_file(
-            InnomaticContainer::instance(
-                'innomaticcontainer'
+            \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getConfigurationFile()
         );
         return $cfg['SecurityAlertsEmail'];
@@ -134,8 +136,7 @@ class SecurityManager
     public function setReportsEmail($email)
     {
         $result = '';
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = new ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result = $cfg->setValue('SecurityReportsEmail', $email);
         return $result;
     }
@@ -147,7 +148,7 @@ class SecurityManager
      */
     public function getReportsEmail()
     {
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         return isset($cfg['SecurityReportsEmail']) ? $cfg['SecurityReportsEmail'] : '';
     }
 
@@ -159,8 +160,7 @@ class SecurityManager
     public function setSessionLifetime($lifeTime)
     {
         $result = '';
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = new ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result = $cfg->setValue('DesktopSessionLifetime', $lifeTime);
         return $result;
     }
@@ -172,7 +172,7 @@ class SecurityManager
      */
     public function getSessionLifetime()
     {
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         return $cfg['DesktopSessionLifetime'];
     }
 
@@ -185,8 +185,7 @@ class SecurityManager
     public function setMaxWrongLogins($maxWrongLogins)
     {
         $result = '';
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = new ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result = $cfg->setValue('MaxWrongLogins', $maxWrongLogins);
         return $result;
     }
@@ -198,7 +197,7 @@ class SecurityManager
      */
     public function getMaxWrongLogins()
     {
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result = $cfg['MaxWrongLogins'];
         if (!strlen($result))
         $result = 3;
@@ -214,8 +213,7 @@ class SecurityManager
      */
     public function setWrongLoginDelay($delay)
     {
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = new ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result = $cfg->setValue('WrongLoginDelay', $delay);
         return $result;
     }
@@ -227,7 +225,7 @@ class SecurityManager
      */
     public function getWrongLoginDelay()
     {
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result = $cfg['WrongLoginDelay'];
         if (!strlen($result))
         $result = 1;
@@ -241,8 +239,7 @@ class SecurityManager
      */
     public function lockUnsecureWebServices()
     {
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = new ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result = $cfg->setValue('SecurityLockUnsecureWebservices', '1');
         return $result;
     }
@@ -255,7 +252,7 @@ class SecurityManager
     public function getUnsecureWebServicesLock()
     {
         $result = false;
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         if ($cfg['SecurityLockUnsecureWebservices'] == '1')
         $result = true;
         return $result;
@@ -267,8 +264,7 @@ class SecurityManager
      */
     public function acceptOnlyHttpsRootAccess($accept = true)
     {
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = new ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result = $cfg->setValue('SecurityOnlyHttpsRootAccessAllowed', $accept ? '1' : '0');
         return $result;
     }
@@ -281,7 +277,7 @@ class SecurityManager
     public function getOnlyHttpsRootAccess()
     {
         $result = false;
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         if ($cfg['SecurityOnlyHttpsRootAccessAllowed'] == '1')
         $result = true;
         return $result;
@@ -291,10 +287,9 @@ class SecurityManager
      @function AcceptOnlyHttpsDomainAccess
      @result Always true.
      */
-    public function AcceptOnlyHttpsDomainAccess($accept = true)
+    public function acceptOnlyHttpsDomainAccess($accept = true)
     {
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = new ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result = $cfg->setValue('SecurityOnlyHttpsDomainAccessAllowed', $accept ? '1' : '0');
         return $result;
     }
@@ -307,7 +302,7 @@ class SecurityManager
     public function getOnlyHttpsDomainAccess()
     {
         $result = false;
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         if ($cfg['SecurityOnlyHttpsDomainAccessAllowed'] == '1')
         $result = true;
         return $result;
@@ -320,8 +315,7 @@ class SecurityManager
      */
     public function unlockUnsecureWebServices()
     {
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = new ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result = $cfg->setValue('SecurityLockUnsecureWebservices', '0');
         return $result;
     }
@@ -333,9 +327,8 @@ class SecurityManager
      */
     public function logAccess($user = '', $logout = false, $root = false, $ip = '')
     {
-        require_once('innomatic/logging/Logger.php');
-        $log = new Logger($this->mAccessLog);
-        $log->logEvent('innomatic', ($root ? 'Root ' : 'User '.$user.' '). ($logout ? 'logged out' : 'logged in'). (strlen($ip) ? ' from address '.$ip : ''), Logger::NOTICE);
+        $log = new \Innomatic\Logging\Logger($this->mAccessLog);
+        $log->logEvent('innomatic', ($root ? 'Root ' : 'User '.$user.' '). ($logout ? 'logged out' : 'logged in'). (strlen($ip) ? ' from address '.$ip : ''), \Innomatic\Logging\Logger::NOTICE);
         return true;
     }
 
@@ -346,9 +339,8 @@ class SecurityManager
      */
     public function logFailedAccess($user = '', $root = false, $ip = '')
     {
-        require_once('innomatic/logging/Logger.php');
-        $log = new Logger($this->mAccessLog);
-        $log->logEvent('innomatic', 'Wrong access from '. ($root ? 'root ' : 'user '.$user.' '). (strlen($ip) ? 'from address '.$ip : ''), Logger::NOTICE);
+        $log = new \Innomatic\Logging\Logger($this->mAccessLog);
+        $log->logEvent('innomatic', 'Wrong access from '. ($root ? 'root ' : 'user '.$user.' '). (strlen($ip) ? 'from address '.$ip : ''), \Innomatic\Logging\Logger::NOTICE);
         return true;
     }
 
@@ -372,8 +364,7 @@ class SecurityManager
      */
     public function eraseAccessLog()
     {
-        require_once('innomatic/logging/Logger.php');
-        $log = new Logger($this->mAccessLog);
+        $log = new \Innomatic\Logging\Logger($this->mAccessLog);
         $log->cleanLog();
         return true;
     }
@@ -394,8 +385,8 @@ class SecurityManager
     {
         $result = true;
         if (strlen($session)) {
-            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/phpsessions/'.$session))
-            $result = unlink(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/phpsessions/'.$session);
+            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/phpsessions/'.$session))
+            $result = unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/phpsessions/'.$session);
         } else
         $result = false;
         return $result;
@@ -424,7 +415,7 @@ class SecurityManager
     public function getUnsecureWebServicesProfiles()
     {
         $result = array();
-        $innomatic_db = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
+        $innomatic_db = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
 
         $query = $innomatic_db->execute('SELECT webservices_permissions.profileid AS profileid,webservices_profiles.profilename AS profilename FROM webservices_permissions,webservices_methods,webservices_profiles WHERE ((webservices_permissions.method=webservices_methods.name AND webservices_methods.unsecure='.$innomatic_db->formatText($innomatic_db->fmttrue).') OR (webservices_permissions.method=\'\' AND webservices_permissions.application=webservices_methods.application AND webservices_methods.unsecure='.$innomatic_db->formatText($innomatic_db->fmttrue).')) AND webservices_profiles.id=webservices_permissions.profileid GROUP BY webservices_permissions.profileid,webservices_profiles.profilename');
         while (!$query->eof) {
@@ -443,10 +434,10 @@ class SecurityManager
     public function getUnsecureLocalAccounts()
     {
         $result = array();
-        // TODO Must be adapted to new domain_users table stored in domains database
+        // @todo Must be adapted to new domain_users table stored in domains database
         return $result;
 
-        $innomaticDA = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
+        $innomaticDA = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
         $usersQuery = $innomaticDA->execute('SELECT username,password FROM domain_users ORDER BY username');
         while (!$usersQuery->eof) {
             $completeUsername = $usersQuery->getFields('username');
@@ -477,7 +468,7 @@ class SecurityManager
     public function getUnsecureWebServicesAccounts()
     {
         $result = array();
-        $innomaticDA = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
+        $innomaticDA = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
         $usersQuery = $innomaticDA->execute('SELECT username,password FROM webservices_users ORDER BY username');
         while (!$usersQuery->eof) {
             $username = $usersQuery->getFields('username');
@@ -495,7 +486,7 @@ class SecurityManager
     public function checkRootPassword()
     {
         $result = true;
-        $fh = @fopen(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/rootpasswd.ini', 'r');
+        $fh = @fopen(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/rootpasswd.ini', 'r');
         if ($fh) {
             $password = fgets($fh, 4096);
             if (md5('') == $password or md5('root') == $password)
@@ -508,7 +499,7 @@ class SecurityManager
     public function checkRootDatabasePassword()
     {
         $result = true;
-        $cfg = InnomaticContainer::instance('innomaticcontainer')->getConfig();
+        $cfg = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig();
         $username = $cfg->Value('RootDatabaseUser');
         $password = $cfg->Value('RootDatabasePassword');
 
@@ -521,7 +512,7 @@ class SecurityManager
     {
         $result = array();
 
-        $innomaticDA = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
+        $innomaticDA = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
         $domainsQuery = $innomaticDA->execute('SELECT id,domainid FROM domains WHERE dataaccessuser=dataaccesspassword OR dataaccesspassword=\'\' ORDER BY domainid');
         while (!$domainsQuery->eof) {
             $result[$domainsQuery->getFields('id')] = $domainsQuery->getFields('domainid');
@@ -556,7 +547,7 @@ class SecurityManager
     public function getLoggedSessions()
     {
         $result['root'] = $result['domains'] = array();
-        $dir = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/phpsessions/';
+        $dir = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/phpsessions/';
 
         if (is_dir($dir)) {
             $dh = opendir($dir);
@@ -566,7 +557,7 @@ class SecurityManager
                         if (filesize($dir.$file)) {
                             $content = file($dir.$file);
 
-                            $extracted = $this->_sessStringToArray($content[0]);
+                            $extracted = $this->sessStringToArray($content[0]);
 
                             if (isset($extracted['INNOMATIC_ROOT_AUTH_USER'])) {
                                 $result['root'][] = $file;
@@ -585,14 +576,14 @@ class SecurityManager
         return $result;
     }
 
-    private function _sessStringToArray($sd)
+    private function sessStringToArray($sd)
     {
         $sessArray = Array();
         $vars = explode(';', $sd);
         for ($i = 0; $i < sizeof($vars); $i ++) {
             $parts = explode('|', $vars[$i]);
             $key = $parts[0];
-            $val = unserialize($parts[1].';');
+            $val = isset($parts[1]) ? @unserialize($parts[1].';') : '';
 
             $sessArray[$key] = $val;
         }
@@ -603,15 +594,14 @@ class SecurityManager
 
     public function setReportsInterval($interval)
     {
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = new ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result = $cfg->setValue('SecurityReportsInterval', $interval);
         return $result;
     }
 
     public function getReportsInterval()
     {
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result = $cfg['SecurityReportsInterval'];
         if (!strlen($result)) {
             $result = 0;
@@ -678,15 +668,14 @@ class SecurityManager
             }
 
             $config = '';
-            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile())) {
-                $config = file_get_contents(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile())) {
+                $config = file_get_contents(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
             }
 
-            $result = mail($email, '[INNOMATIC SECURITY REPORT] - Scheduled security report about '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName().'.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup(), 'This is the scheduled security report about '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName().'.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup()."\n\n".'== SECURITY CHECK RESULTS =='."\n"."\n".'--> Root password check'."\n".$rootPasswordCheck."\n".'--> Root database password check'."\n".$rootDbPasswordCheck."\n".'--> Domains with unsecure database password'."\n".$unsecureDbDomains."\n".'--> Unsecure local accounts'."\n".$unsecureLocalAccounts."\n".'--> Unsecure web services profiles'."\n".$unsecureWebServicesProfiles."\n".'--> Unsecure web services accounts'."\n".$unsecureWebServicesAccounts."\n".'== CURRENT INNOMATIC CONFIGURATION FILE CONTENT =='."\n\n".$config);
+            $result = mail($email, '[INNOMATIC SECURITY REPORT] - Scheduled security report about '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformName().'.'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformGroup(), 'This is the scheduled security report about '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformName().'.'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformGroup()."\n\n".'== SECURITY CHECK RESULTS =='."\n"."\n".'--> Root password check'."\n".$rootPasswordCheck."\n".'--> Root database password check'."\n".$rootDbPasswordCheck."\n".'--> Domains with unsecure database password'."\n".$unsecureDbDomains."\n".'--> Unsecure local accounts'."\n".$unsecureLocalAccounts."\n".'--> Unsecure web services profiles'."\n".$unsecureWebServicesProfiles."\n".'--> Unsecure web services accounts'."\n".$unsecureWebServicesAccounts."\n".'== CURRENT INNOMATIC CONFIGURATION FILE CONTENT =='."\n\n".$config);
 
             if ($result) {
-                require_once('innomatic/config/ConfigFile.php');
-                $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+                $cfg = new ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
                 $cfg->setValue('SecurityLastReportTime', time());
             }
         }
@@ -706,8 +695,7 @@ class SecurityManager
      */
     public function setAlertEvents($events)
     {
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = new ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $cfg->setValue('SecurityAlertOnWrongLocalRootLogin', $events['wronglocalrootlogin'] ? '1' : '0');
         $cfg->setValue('SecurityAlertOnWrongLocalUserLogin', $events['wronglocaluserlogin'] ? '1' : '0');
         $cfg->setValue('SecurityAlertOnWrongWebServicesLogin', $events['wrongwebserviceslogin'] ? '1' : '0');
@@ -725,7 +713,7 @@ class SecurityManager
     public function getAlertEvents()
     {
         $result = array();
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $result['wronglocalrootlogin'] = $cfg['SecurityAlertOnWrongLocalRootLogin'] == '1' ? true : false;
         $result['wronglocaluserlogin'] = $cfg['SecurityAlertOnWrongLocalUserLogin'] == '1' ? true : false;
         $result['wrongwebserviceslogin'] = $cfg['SecurityAlertOnWrongWebServicesLogin'] == '1' ? true : false;
@@ -746,7 +734,7 @@ class SecurityManager
         $result = false;
         $email = $this->getAlertsEmail();
         if (strlen($email)) {
-            $result = mail($email, '[INNOMATIC SECURITY ALERT] - Security alert on '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName().'.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup(), 'Warning: an event marked to be notified has been issued on '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName().'.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup()."\n\n".'Event was: '.$event);
+            $result = mail($email, '[INNOMATIC SECURITY ALERT] - Security alert on '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformName().'.'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformGroup(), 'Warning: an event marked to be notified has been issued on '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformName().'.'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformGroup()."\n\n".'Event was: '.$event);
         }
         return $result;
     }

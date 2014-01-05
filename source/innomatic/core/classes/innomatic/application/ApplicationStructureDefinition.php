@@ -7,13 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/xml/XMLParser.php');
+namespace Innomatic\Application;
 
 /*!
  @class ApplicationStructureDefinition
@@ -22,7 +21,7 @@ require_once('innomatic/xml/XMLParser.php');
 
  @discussion This class reads a xml definition file and gives the application components structure.
  */
-class ApplicationStructureDefinition extends XMLParser
+class ApplicationStructureDefinition extends \Innomatic\Xml\XMLParser
 {
     /*! @public mLog logger class - Log handler. */
     public $mLog;
@@ -49,8 +48,7 @@ class ApplicationStructureDefinition extends XMLParser
      */
     public function __construct($rootda, $basedir = '')
     {
-        $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-        require_once('innomatic/application/ApplicationComponentFactory.php');
+        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
         $this->eltypes = new ApplicationComponentFactory($rootda);
         $this->eltypes->fillTypes();
         parent::__construct();

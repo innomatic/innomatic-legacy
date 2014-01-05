@@ -1,6 +1,5 @@
 <?php
-
-require_once('innomatic/wui/widgets/layersmenu/LayersTemplate.php');
+namespace Innomatic\Wui\Widgets\Layersmenu;
 
 // PHP Layers Menu 2.3.5 (C) 2001-2003 Marco Pratesi (marco at telug dot it)
 
@@ -23,9 +22,6 @@ require_once('innomatic/wui/widgets/layersmenu/LayersTemplate.php');
 //
 //
 
-
-//require_once "PEAR.php";
-//require_once "DB.php";
 
 /**
 * This is the base class of the PHP Layers Menu system.
@@ -349,7 +345,7 @@ public $_tmpArray = array();
 * The constructor method; it initializates the menu system
 * @return void
 */
-function LayersMenu(
+function __construct(
     $abscissaStep = 140,
     $ordinateStep = 28,
     $thresholdY = 20
@@ -363,11 +359,11 @@ function LayersMenu(
     $this->prependedUrl = "";
 
         $this->dirroot = '';
-        $this->libdir = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/lib/';
-        $this->libwww = InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/';
-        $this->tpldir = InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/layersmenu/';
-        $this->imgdir = InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/';
-        $this->imgwww = InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/';
+        $this->libdir = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/lib/';
+        $this->libwww = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/';
+        $this->tpldir = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/layersmenu/';
+        $this->imgdir = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/';
+        $this->imgwww = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/';
 
     $this->horizontalMenuTpl = $this->dirroot . $this->tpldir . "layersmenu-horizontal_menu.ihtml";
     $this->verticalMenuTpl = $this->dirroot . $this->tpldir . "layersmenu-vertical_menu.ihtml";

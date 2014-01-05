@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Ajax;
 
 /**
  * xajaxResponse.inc.php :: xajax XML response class
@@ -100,7 +101,7 @@ class XajaxResponse
      *                converted to HTML entities
      *
      */
-    public function XajaxResponse($sEncoding=XAJAX_DEFAULT_CHAR_ENCODING, $bOutputEntities=false)
+    public function __construct($sEncoding=XAJAX_DEFAULT_CHAR_ENCODING, $bOutputEntities=false)
     {
         $this->setCharEncoding($sEncoding);
         $this->bOutputEntities = $bOutputEntities;
@@ -255,10 +256,10 @@ class XajaxResponse
         //can't just use parse_url() cos we could be dealing with a relative URL which
         //  parse_url() can't deal with.
         $queryStart = strpos($sURL, '?', strrpos($sURL, '/'));
-        if ($queryStart !== FALSE) {
+        if ($queryStart !== false) {
             $queryStart++;
             $queryEnd = strpos($sURL, '#', $queryStart);
-            if ($queryEnd === FALSE)
+            if ($queryEnd === false)
                 $queryEnd = strlen($sURL);
             $queryPart = substr($sURL, $queryStart, $queryEnd-$queryStart);
             parse_str($queryPart, $queryParts);

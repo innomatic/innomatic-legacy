@@ -7,14 +7,14 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Desktop\Webapp;
 
-require_once('innomatic/webapp/WebAppHandler.php');
-require_once('innomatic/webapp/WebAppProcessor.php');
+use \Innomatic\Core\InnomaticContainer;
 
 /**
  * WebApp Handler for the base desktop.
@@ -33,16 +33,16 @@ require_once('innomatic/webapp/WebAppProcessor.php');
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-class DesktopBaseWebAppHandler extends WebAppHandler
+class DesktopBaseWebAppHandler extends \Innomatic\Webapp\WebAppHandler
 {
     public function init()
     {
     }
 
-    public function doGet(WebAppRequest $req, WebAppResponse $res)
+    public function doGet(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)
     {
         // identify the requested resource path
-        $resource = substr(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).$req->getPathInfo();
+        $resource = substr(\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome(), 0, -1).$req->getPathInfo();
 
         // make sure that this path exists on disk
         switch (substr($resource, strrpos($resource, '/') + 1)) {
@@ -53,14 +53,13 @@ class DesktopBaseWebAppHandler extends WebAppHandler
 
             default:
                 if (substr($resource, -1, 1) != '/' and !file_exists($resource.'.php') and !is_dir($resource.'-panel')) {
-                    $res->sendError(WebAppResponse::SC_NOT_FOUND, $req->getRequestURI());
+                    $res->sendError(\Innomatic\Webapp\WebAppResponse::SC_NOT_FOUND, $req->getRequestURI());
                     return;
                 }
         }
 
         // Bootstraps Innomatic
-        require_once('innomatic/core/InnomaticContainer.php');
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
         // Sets Innomatic base URL
         $baseUrl = '';
@@ -70,15 +69,15 @@ class DesktopBaseWebAppHandler extends WebAppHandler
         }
         $innomatic->setBaseUrl($baseUrl);
 
-        $innomatic->setInterface(InnomaticContainer::INTERFACE_WEB);
-        $home = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome();
+        $innomatic->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_WEB);
+        $home = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome();
         $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
 
         if (!headers_sent()) {
             // Starts output compression.
             if (
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getConfig()->value('CompressedOutputBuffering') == '1'
             ) {
                 ini_set('zlib.output_compression', 'on');
@@ -86,11 +85,10 @@ class DesktopBaseWebAppHandler extends WebAppHandler
             }
         }
 
-        require_once('innomatic/desktop/controller/DesktopFrontController.php');
-        DesktopFrontController::instance('desktopfrontcontroller')->execute(InnomaticContainer::MODE_BASE, $resource);
+        \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->execute(\Innomatic\Core\InnomaticContainer::MODE_BASE, $resource);
     }
 
-    public function doPost(WebAppRequest $req, WebAppResponse $res)
+    public function doPost(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)
     {
         $this->doGet($req, $res);
     }
@@ -99,11 +97,10 @@ class DesktopBaseWebAppHandler extends WebAppHandler
     {
     }
 
-    protected function getRelativePath(WebAppRequest $request)
+    protected function getRelativePath(\Innomatic\Webapp\WebAppRequest $request)
     {
         $result = $request->getPathInfo();
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        return DirectoryUtils::normalize(strlen($result) ? $result : '/');
+        return \Innomatic\Io\Filesystem\DirectoryUtils::normalize(strlen($result) ? $result : '/');
     }
 
     /**
@@ -115,7 +112,7 @@ class DesktopBaseWebAppHandler extends WebAppHandler
      * @return string
      * @access protected
      */
-    protected function getURL(WebAppRequest $request, $redirectPath)
+    protected function getURL(\Innomatic\Webapp\WebAppRequest $request, $redirectPath)
     {
         $result = '';
         $webAppPath = $request->getUrlPath();

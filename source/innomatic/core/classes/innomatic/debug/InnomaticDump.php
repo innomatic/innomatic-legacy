@@ -7,20 +7,19 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/util/Singleton.php');
+namespace Innomatic\Debug;
 
 /**
  * Stores a dump of the main Innomatic instance information.
  *
  * @since 5.0
  */
-class InnomaticDump extends Singleton
+class InnomaticDump extends \Innomatic\Util\Singleton
 {
     // Snapshot time filled information
 
@@ -117,8 +116,8 @@ class InnomaticDump extends Singleton
         $this->environment['phpversion'] = phpversion();
         $this->environment['declared_classes'] = get_declared_classes();
 
-        $innomaticContainer = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $innomaticContainer = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         );
         $this->innomatic['state'] = $innomaticContainer->getState();
         $this->innomatic['interface'] = $innomaticContainer->getInterface();

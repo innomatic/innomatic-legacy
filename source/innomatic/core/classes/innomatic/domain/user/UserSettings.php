@@ -7,20 +7,19 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/dataaccess/DataAccess.php');
+namespace Innomatic\Domain\User;
 
 class UserSettings
 {
     public $mUserId;
     public $mrDomainDA;
 
-    public function __construct(DataAccess $domainDA, $userId)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $domainDA, $userId)
     {
         $this->mrDomainDA = $domainDA;
         $this->mUserId = (int) $userId;
@@ -34,8 +33,7 @@ class UserSettings
             if ($key_query->getNumberRows()) {
                 return $key_query->getFields('val');
             } elseif ($fallbackToDomainSetting == true) {
-                require_once('innomatic/domain/DomainSettings.php');
-                $sets = new DomainSettings($this->mrDomainDA);
+                $sets = new \Innomatic\Domain\DomainSettings($this->mrDomainDA);
                 return $sets->getKey($key);
             }
         }

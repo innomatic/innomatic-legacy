@@ -7,18 +7,19 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/application/ApplicationComponent.php');
+namespace Shared\Components;
+
 /**
  * Shared component handler.
  */
-class SharedComponent extends ApplicationComponent
+class SharedComponent extends \Innomatic\Application\ApplicationComponent
 {
-    public function SharedComponent($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
@@ -38,70 +39,66 @@ class SharedComponent extends ApplicationComponent
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['name'])) {
             $file = $this->basedir . '/shared/' . $params['name'];
             if (is_dir($file)) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                if (DirectoryUtils::dirCopy($file.'/', InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/'.basename($file).'/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($file.'/', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/'.basename($file).'/')) {
                     $result = true;
                 }
             } else {
-                if (@copy($file, InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file))) {
-                    @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file), 0644);
+                if (@copy($file, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($file))) {
+                    @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($file), 0644);
                     $result = true;
                 }
             }
         } else
-            $this->mLog->logEvent('innomatic.sharedcomponent.sharedcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty shared file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.sharedcomponent.sharedcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty shared file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['name'])) {
-            if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']));
+            if (is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($params['name']))) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($params['name']));
                 $result = true;
             } else {
-                if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
+                if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($params['name']))) {
                     $result = true;
                 }
             }
         } else
-            $this->mLog->logEvent('innomatic.sharedcomponent.sharedcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty shared file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.sharedcomponent.sharedcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty shared file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
         if (strlen($params['name'])) {
-            if (is_dir(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                DirectoryUtils::unlinkTree(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']));
+            if (is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($params['name']))) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($params['name']));
                 $result = true;
             } else {
-                if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($params['name']))) {
+                if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($params['name']))) {
                     $result = true;
                 }
             }
 
             $file = $this->basedir . '/shared/' . $params['name'];
             if (is_dir($file)) {
-                require_once ('innomatic/io/filesystem/DirectoryUtils.php');
-                if (DirectoryUtils::dirCopy($file.'/', InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/'.basename($file).'/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($file.'/', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/'.basename($file).'/')) {
                     $result = true;
                 }
             } else {
-                if (@copy($file, InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file))) {
-                    @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'shared/' . basename($file), 0644);
+                if (@copy($file, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($file))) {
+                    @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/' . basename($file), 0644);
                     $result = true;
                 }
             }
         } else
-            $this->mLog->logEvent('innomatic.sharedcomponent.sharedcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty shared file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.sharedcomponent.sharedcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty shared file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
 }

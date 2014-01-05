@@ -7,16 +7,14 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2013 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.1
  */
 
 require_once('scripts_container.php');
-$script = ScriptContainer::instance('scriptcontainer');
-
-require_once('innomatic/application/Application.php');
+$script = \Innomatic\Scripts\ScriptContainer::instance('\Innomatic\Scripts\ScriptContainer');
 
 if (!isset ($argv[1])) $argv[1] = '';
 
@@ -32,7 +30,7 @@ try {
             break;
 
         case 'deploy' :
-            $app = new Application(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+            $app = new \Innomatic\Application\Application(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
             if (file_exists($argv[2]) and $app->install($argv[2])) {
                 print("Application $app->appname deployed\n");
                 $script->cleanExit();
@@ -43,8 +41,8 @@ try {
             break;
 
         case 'undeploy' :
-            $appid = Application::getAppIdFromName($argv[2]);
-            $app = new Application(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $appid);
+            $appid = \Innomatic\Application\Application::getAppIdFromName($argv[2]);
+            $app = new \Innomatic\Application\Application(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $appid);
             if ($app->uninstall()) {
                 print("Application $argv[2] undeployed\n");
                 $script->cleanExit();
@@ -58,7 +56,7 @@ try {
             print('Usage: php innomatic/core/scripts/application.php command'."\n");
             print('Type application.php -h for a list of supported commands'."\n");
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     echo $e;
 }
 

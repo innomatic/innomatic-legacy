@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2013 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -16,24 +16,14 @@
 // NOTE: This is an old-style panel code with a single file
 // acting as model, view and controller.
 
-require_once('innomatic/logging/Logger.php');
-require_once('innomatic/locale/LocaleCatalog.php');
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-require_once('innomatic/wui/dispatch/WuiEvent.php');
-require_once('innomatic/webservices/WebServicesAccount.php');
-require_once('innomatic/webservices/WebServicesProfile.php');
-require_once('innomatic/webservices/WebServicesUser.php');
-require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
-
 global $innomaticLocale, $wuiMainFrame, $wuiTitleBar, $wuiMainStatus;
 
-$log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-$innomaticLocale = new LocaleCatalog(
+$log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+$innomaticLocale = new \Innomatic\Locale\LocaleCatalog(
     'innomatic::root_webservices',
-    InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
 );
-$wui = Wui::instance('wui');
+$wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $wui->loadWidget('button');
 $wui->loadWidget('checkbox');
 $wui->loadWidget('combobox');
@@ -70,7 +60,7 @@ $wui->loadWidget('vertgroup');
 $wui->loadWidget('xml');
 
 $wuiPage = new WuiPage('page', array('title' => $innomaticLocale->getStr('xmlrpc_title')));
-$wuiMainVertGroup = new WuiVertGroup('mainvertgroup');
+$wuiMainVertGroup = new WuiVertgroup('mainvertgroup');
 $wuiTitleBar = new WuiTitleBar(
     'titlebar',
     array(
@@ -84,8 +74,8 @@ $wuiMainVertGroup->addChild($wuiTitleBar);
 //
 $wuiProfilesToolBar = new WuiToolBar('profilestoolbar');
 
-$homeAction = new WuiEventsCall();
-$homeAction->addEvent(new WuiEvent('view', 'default', ''));
+$homeAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+$homeAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
 $wuiHomeButton = new WuiButton(
     'homebutton',
     array(
@@ -97,8 +87,8 @@ $wuiHomeButton = new WuiButton(
 );
 $wuiProfilesToolBar->addChild($wuiHomeButton);
 
-$newProfileAction = new WuiEventsCall();
-$newProfileAction->addEvent(new WuiEvent('view', 'newprofile', ''));
+$newProfileAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+$newProfileAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'newprofile', ''));
 $wuiNewProfileButton = new WuiButton(
     'newprofilebutton',
     array(
@@ -114,8 +104,8 @@ $wuiProfilesToolBar->addChild($wuiNewProfileButton);
 //
 $wuiUsersToolBar = new WuiToolBar('userstoolbar');
 
-$usersAction = new WuiEventsCall();
-$usersAction->addEvent(new WuiEvent('view', 'users', ''));
+$usersAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+$usersAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'users', ''));
 $wuiUsersButton = new WuiButton(
     'usersbutton',
     array(
@@ -127,8 +117,8 @@ $wuiUsersButton = new WuiButton(
 );
 $wuiUsersToolBar->addChild($wuiUsersButton);
 
-$newUserAction = new WuiEventsCall();
-$newUserAction->addEvent(new WuiEvent('view', 'newuser', ''));
+$newUserAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+$newUserAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'newuser', ''));
 $wuiNewUserButton = new WuiButton(
     'newuserbutton',
     array(
@@ -144,8 +134,8 @@ $wuiUsersToolBar->addChild($wuiNewUserButton);
 //
 $wuiAccountsToolBar = new WuiToolBar('accountstoolbar');
 
-$accountsAction = new WuiEventsCall();
-$accountsAction->addEvent(new WuiEvent('view', 'accounts', ''));
+$accountsAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+$accountsAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'accounts', ''));
 $wuiAccountsButton = new WuiButton(
     'accountsbutton',
     array(
@@ -157,9 +147,9 @@ $wuiAccountsButton = new WuiButton(
 );
 $wuiAccountsToolBar->addChild($wuiAccountsButton);
 
-$newAccountAction = new WuiEventsCall();
+$newAccountAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
 $newAccountAction->addEvent(
-    new WuiEvent(
+    new \Innomatic\Wui\Dispatch\WuiEvent(
         'view',
         'newaccount',
         ''
@@ -184,8 +174,8 @@ $viewDispatcher = new WuiDispatcher('view');
 $eventName = $viewDispatcher->getEventName();
 
 if (strcmp($eventName, 'help')) {
-    $helpAction = new WuiEventsCall();
-    $helpAction->addEvent(new WuiEvent('view', 'help', array('node' => $eventName)));
+    $helpAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $helpAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'help', array('node' => $eventName)));
     $wuiHelpButton = new WuiButton(
         'helpbutton',
         array(
@@ -201,7 +191,7 @@ if (strcmp($eventName, 'help')) {
 
 // Toolbar frame
 //
-$wuiToolBarFrame = new WuiHorizGroup('toolbarframe');
+$wuiToolBarFrame = new WuiHorizgroup('toolbarframe');
 
 $wuiToolBarFrame->addChild($wuiProfilesToolBar);
 $wuiToolBarFrame->addChild($wuiUsersToolBar);
@@ -209,7 +199,7 @@ $wuiToolBarFrame->addChild($wuiAccountsToolBar);
 $wuiToolBarFrame->addChild($wuiHelpToolBar);
 $wuiMainVertGroup->addChild($wuiToolBarFrame);
 
-$wuiMainFrame = new WuiHorizFrame('mainframe');
+$wuiMainFrame = new WuiHorizframe('mainframe');
 $wuiMainStatus = new WuiStatusBar('mainstatusbar');
 
 // Pass dispatcher
@@ -223,8 +213,8 @@ function pass_adduser($eventData)
 
     $result = false;
 
-    $xuser = new WebServicesUser(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess()
+    $xuser = new \Innomatic\Webservices\WebServicesUser(
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()
     );
     $result = $xuser->Add(
         $eventData['username'], $eventData['password'], $eventData['profileid'], $eventData['domainid']
@@ -243,8 +233,8 @@ function pass_removeuser($eventData)
     $result = false;
 
     if (!empty($eventData['userid'])) {
-        $xuser = new WebServicesUser(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['userid']
+        $xuser = new \Innomatic\Webservices\WebServicesUser(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['userid']
         );
         $result = $xuser->Remove();
     }
@@ -263,8 +253,8 @@ function pass_chpasswd($eventData)
 
     if (!empty($eventData['userid'])) {
         if (strlen($eventData['password'])) {
-            $xuser = new WebServicesUser(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['userid']
+            $xuser = new \Innomatic\Webservices\WebServicesUser(
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['userid']
             );
             $result = $xuser->ChangePassword($eventData['password']);
         }
@@ -283,8 +273,8 @@ function pass_assignprofile($eventData)
     $result = false;
 
     if (!empty($eventData['userid'])) {
-        $xuser = new WebServicesUser(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['userid']
+        $xuser = new \Innomatic\Webservices\WebServicesUser(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['userid']
         );
         $result = $xuser->AssignProfile($eventData['profileid']);
     }
@@ -302,8 +292,8 @@ function pass_assigndomain($eventData)
     $result = false;
 
     if (!empty($eventData['userid'])) {
-        $xuser = new WebServicesUser(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['userid']
+        $xuser = new \Innomatic\Webservices\WebServicesUser(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['userid']
         );
         $result = $xuser->assignDomain($eventData['domainid']);
     }
@@ -321,7 +311,7 @@ function pass_newprofile($eventData)
     $result = false;
 
     if (!empty($eventData['profilename'])) {
-        $xprofile = new WebServicesProfile(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+        $xprofile = new \Innomatic\Webservices\WebServicesProfile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
         $result = $xprofile->Add($eventData['profilename']);
     }
 
@@ -338,8 +328,8 @@ function pass_remprofile($eventData)
     $result = false;
 
     if (!empty($eventData['profileid'])) {
-        $xprofile = new WebServicesProfile(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['profileid']
+        $xprofile = new \Innomatic\Webservices\WebServicesProfile(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['profileid']
         );
         $result = $xprofile->Remove();
     }
@@ -357,8 +347,8 @@ function pass_renprofile($eventData)
     $result = false;
 
     if (!empty($eventData['profileid']) and !empty($eventData['profilename'])) {
-        $xprofile = new WebServicesProfile(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['profileid']
+        $xprofile = new \Innomatic\Webservices\WebServicesProfile(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['profileid']
         );
         $result = $xprofile->Rename($eventData['profilename']);
     }
@@ -376,8 +366,8 @@ function pass_enablenode($eventData)
     $result = false;
 
     if (!empty($eventData['profileid']) and strlen($eventData['nodetype']) and !empty($eventData['application'])) {
-        $xprofile = new WebServicesProfile(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['profileid']
+        $xprofile = new \Innomatic\Webservices\WebServicesProfile(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['profileid']
         );
         $result = $xprofile->EnableNode(
             $eventData['nodetype'], $eventData['application'], isset($eventData['method']) ? $eventData['method'] : ''
@@ -397,8 +387,8 @@ function pass_disablenode($eventData)
     $result = false;
 
     if (!empty($eventData['profileid']) and strlen($eventData['nodetype']) and !empty($eventData['application'])) {
-        $xprofile = new WebServicesProfile(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['profileid']
+        $xprofile = new \Innomatic\Webservices\WebServicesProfile(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['profileid']
         );
         $result = $xprofile->DisableNode($eventData['nodetype'], $eventData['application'], $eventData['method']);
     }
@@ -413,7 +403,7 @@ function pass_createaccount($eventData)
 {
     global $wuiMainStatus, $innomaticLocale;
 
-    $acc = new WebServicesAccount(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+    $acc = new \Innomatic\Webservices\WebServicesAccount(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
     if (
         $acc->Create(
             $eventData['name'],
@@ -440,8 +430,8 @@ function pass_removeaccount($eventData)
     $result = false;
 
     if (!empty($eventData['accountid'])) {
-        $acc = new WebServicesAccount(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['accountid']
+        $acc = new \Innomatic\Webservices\WebServicesAccount(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['accountid']
         );
         $result = $acc->Remove();
     }
@@ -459,8 +449,8 @@ function pass_updateaccount($eventData)
     $result = false;
 
     if (!empty($eventData['accountid'])) {
-        $acc = new WebServicesAccount(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $eventData['accountid']
+        $acc = new \Innomatic\Webservices\WebServicesAccount(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['accountid']
         );
         $result = $acc->Update(
             $eventData['name'],
@@ -487,7 +477,7 @@ $viewDispatcher = new WuiDispatcher('view');
 
 function webservicesprofiles_list_action_builder($pageNumber)
 {
-    return WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(
@@ -506,7 +496,7 @@ function main_default($eventData)
 {
     global $innomaticLocale, $wuiMainFrame, $wuiTitleBar, $wuiMainStatus;
 
-    $profilesQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $profilesQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT id,profilename FROM webservices_profiles ORDER BY profilename'
     );
 
@@ -537,10 +527,10 @@ function main_default($eventData)
         while (list ($id, $profileName) = each($profiles)) {
             $wuiProfilesTable->addChild(new WuiLabel('profnamelabel'.$row, array('label' => $profileName)), $row, 0);
 
-            $wuiProfileToolBar[$row] = new WuiHorizGroup('applicationtoolbar'.$row);
+            $wuiProfileToolBar[$row] = new WuiHorizgroup('applicationtoolbar'.$row);
 
-            $profileAction[$row] = new WuiEventsCall();
-            $profileAction[$row]->addEvent(new WuiEvent('view', 'editprofile', array('profileid' => $id)));
+            $profileAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+            $profileAction[$row]->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'editprofile', array('profileid' => $id)));
             $wuiProfileButton[$row] = new WuiButton(
                 'profilebutton'.$row,
                 array('label' => $innomaticLocale->getStr('editprofile_label'),
@@ -551,8 +541,8 @@ function main_default($eventData)
             );
             $wuiProfileToolBar[$row]->addChild($wuiProfileButton[$row]);
 
-            $renameAction[$row] = new WuiEventsCall();
-            $renameAction[$row]->addEvent(new WuiEvent('view', 'renameprofile', array('profileid' => $id)));
+            $renameAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+            $renameAction[$row]->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'renameprofile', array('profileid' => $id)));
             $wuiRenameButton[$row] = new WuiButton(
                 'renamebutton'.$row,
                 array(
@@ -564,9 +554,9 @@ function main_default($eventData)
             );
             $wuiProfileToolBar[$row]->addChild($wuiRenameButton[$row]);
 
-            $removeAction[$row] = new WuiEventsCall();
-            $removeAction[$row]->addEvent(new WuiEvent('view', 'default', ''));
-            $removeAction[$row]->addEvent(new WuiEvent('action', 'remprofile', array('profileid' => $id)));
+            $removeAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+            $removeAction[$row]->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
+            $removeAction[$row]->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'remprofile', array('profileid' => $id)));
             $wuiRemoveButton[$row] = new WuiButton(
                 'removebutton'.$row,
                 array(
@@ -597,7 +587,7 @@ function main_newprofile($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiTitleBar;
 
-    $wuiVertGroup = new WuiVertGroup('vgroup');
+    $wuiVertGroup = new WuiVertgroup('vgroup');
 
     $wuiProfileGrid = new WuiGrid('newprofilegrid', array('rows' => '2', 'cols' => '2'));
 
@@ -640,9 +630,9 @@ function main_newprofile($eventData)
         )
     );
 
-    $formEventsCall = new WuiEventsCall();
-    $formEventsCall->addEvent(new WuiEvent('action', 'newprofile', ''));
-    $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'newprofile', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
 
     $wuiForm = new WuiForm('newprofileform', array('action' => $formEventsCall->getEventsCallString()));
     $wuiForm->addChild($wuiVertGroup);
@@ -657,13 +647,13 @@ function main_renameprofile($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $profilesQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $profilesQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT * FROM webservices_profiles WHERE id='.$eventData['profileid']
     );
 
     $profileData = $profilesQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiProfileGrid = new WuiGrid('renprofilegrid', array('rows' => '2', 'cols' => '2'));
 
@@ -698,11 +688,11 @@ function main_renameprofile($eventData)
     $wuiVGroup->addChild(
         new WuiLabel('reqfieldslabel', array('label' => $innomaticLocale->getStr('requiredfields_label')))
     );
-    $formEventsCall = new WuiEventsCall();
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
     $formEventsCall->addEvent(
-        new WuiEvent('action', 'renprofile', array('profileid' => $eventData['profileid']))
+        new \Innomatic\Wui\Dispatch\WuiEvent('action', 'renprofile', array('profileid' => $eventData['profileid']))
     );
-    $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
 
     $wuiForm = new WuiForm('renameprofileform', array('action' => $formEventsCall->getEventsCallString()));
     $wuiForm->addChild($wuiVGroup);
@@ -737,13 +727,13 @@ function main_editprofile($eventData)
 {
     global $innomaticLocale, $wuiMainFrame, $wuiTitleBar;
 
-    $profilesQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $profilesQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT * FROM webservices_profiles WHERE id='.$eventData['profileid']
     );
 
     $profileData = $profilesQuery->getFields();
 
-    $methodsQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $methodsQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT application,name,unsecure,catalog FROM webservices_methods ORDER BY application, name'
     );
 
@@ -756,14 +746,14 @@ function main_editprofile($eventData)
 
             $sec[$methodsQuery->getFields('application')][$methodsQuery->getFields('name')]
             = $methodsQuery->getFields('unsecure')
-            == InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmttrue ? false : true;
+            == \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmttrue ? false : true;
 
             $tmpDescription = '';
             if (strlen($methodsQuery->getFields('catalog'))) {
                 if ($prevCatalog != $methodsQuery->getFields('catalog'))
-                    $tmpLocale = new LocaleCatalog(
+                    $tmpLocale = new \Innomatic\Locale\LocaleCatalog(
                         $methodsQuery->getFields('catalog'),
-                        InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+                        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
                     );
 
                 $desc[$methodsQuery->getFields('application')][$methodsQuery->getFields('name')]
@@ -796,24 +786,24 @@ function main_editprofile($eventData)
         );
 
         while (list ($application, $methods) = each($nodes)) {
-            $xprofile = new WebServicesProfile(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            $xprofile = new \Innomatic\Webservices\WebServicesProfile(
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
                 $eventData['profileid']
             );
-            $nodeState = $xprofile->NodeCheck(WebServicesProfile::NODETYPE_APPLICATION, $application);
+            $nodeState = $xprofile->NodeCheck(\Innomatic\Webservices\WebServicesProfile::NODETYPE_APPLICATION, $application);
 
             switch ($nodeState) {
-                case WebServicesProfile::APPLICATIONNODE_FULLYENABLED :
+                case \Innomatic\Webservices\WebServicesProfile::APPLICATIONNODE_FULLYENABLED :
                     $icon = $wuiMainFrame->mThemeHandler->mStyle['greenball'];
                     $enabled = true;
                     break;
 
-                case WebServicesProfile::APPLICATIONNODE_PARTIALLYENABLED :
+                case \Innomatic\Webservices\WebServicesProfile::APPLICATIONNODE_PARTIALLYENABLED :
                     $icon = $wuiMainFrame->mThemeHandler->mStyle['goldball'];
                     $enabled = true;
                     break;
 
-                case WebServicesProfile::APPLICATIONNODE_NOTENABLED :
+                case \Innomatic\Webservices\WebServicesProfile::APPLICATIONNODE_NOTENABLED :
                     $icon = $wuiMainFrame->mThemeHandler->mStyle['redball'];
                     $enabled = false;
                     break;
@@ -822,23 +812,23 @@ function main_editprofile($eventData)
             $wuiMethodsTable->addChild(new WuiImage('statusimage'.$row, array('imageurl' => $icon)), $row, 0);
             $wuiMethodsTable->addChild(new WuiLabel('applicationlabel'.$row, array('label' => $application)), $row, 1);
 
-            $wuiApplicationToolBar[$row] = new WuiHorizGroup('applicationtoolbar'.$row);
+            $wuiApplicationToolBar[$row] = new WuiHorizgroup('applicationtoolbar'.$row);
 
             if ($enabled) {
-                $disableAction[$row] = new WuiEventsCall();
+                $disableAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                 $disableAction[$row]->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'view',
                         'editprofile',
                         array('profileid' => $eventData['profileid'])
                     )
                 );
                 $disableAction[$row]->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'action',
                         'disablenode',
                         array(
-                            'nodetype' => WebServicesProfile::NODETYPE_APPLICATION,
+                            'nodetype' => \Innomatic\Webservices\WebServicesProfile::NODETYPE_APPLICATION,
                             'application' => $application,
                             'profileid' => $eventData['profileid']
                         )
@@ -857,21 +847,21 @@ function main_editprofile($eventData)
                 $wuiApplicationToolBar[$row]->addChild($wuiDisableButton[$row]);
             }
 
-            if (!$enabled or $nodeState == WebServicesProfile::APPLICATIONNODE_PARTIALLYENABLED) {
-                $enableAction[$row] = new WuiEventsCall();
+            if (!$enabled or $nodeState == \Innomatic\Webservices\WebServicesProfile::APPLICATIONNODE_PARTIALLYENABLED) {
+                $enableAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                 $enableAction[$row]->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'view',
                         'editprofile',
                         array('profileid' => $eventData['profileid'])
                     )
                 );
                 $enableAction[$row]->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'action',
                         'enablenode',
                         array(
-                            'nodetype' => WebServicesProfile::NODETYPE_APPLICATION,
+                            'nodetype' => \Innomatic\Webservices\WebServicesProfile::NODETYPE_APPLICATION,
                             'application' => $application,
                             'profileid' => $eventData['profileid']
                         )
@@ -895,15 +885,15 @@ function main_editprofile($eventData)
             $row ++;
 
             while (list (, $method) = each($methods)) {
-                $nodeState = $xprofile->NodeCheck(WebServicesProfile::NODETYPE_METHOD, $application, $method);
+                $nodeState = $xprofile->NodeCheck(\Innomatic\Webservices\WebServicesProfile::NODETYPE_METHOD, $application, $method);
 
                 switch ($nodeState) {
-                    case WebServicesProfile::METHODNODE_ENABLED :
+                    case \Innomatic\Webservices\WebServicesProfile::METHODNODE_ENABLED :
                         $icon = $wuiMainFrame->mThemeHandler->mStyle['greenball'];
                         $enabled = true;
                         break;
 
-                    case WebServicesProfile::METHODNODE_NOTENABLED :
+                    case \Innomatic\Webservices\WebServicesProfile::METHODNODE_NOTENABLED :
                         $icon = $wuiMainFrame->mThemeHandler->mStyle['redball'];
                         $enabled = false;
                         break;
@@ -932,23 +922,23 @@ function main_editprofile($eventData)
                     $row, 5
                 );
 
-                $wuiMethodToolbar[$row] = new WuiHorizGroup('methodtoolbar'.$row);
+                $wuiMethodToolbar[$row] = new WuiHorizgroup('methodtoolbar'.$row);
 
                 if ($enabled) {
-                    $disableAction[$row] = new WuiEventsCall();
+                    $disableAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                     $disableAction[$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'view',
                             'editprofile',
                             array('profileid' => $eventData['profileid'])
                         )
                     );
                     $disableAction[$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'action',
                             'disablenode',
                             array(
-                                'nodetype' => WebServicesProfile::NODETYPE_METHOD,
+                                'nodetype' => \Innomatic\Webservices\WebServicesProfile::NODETYPE_METHOD,
                                 'method' => $method,
                                 'application' => $application,
                                 'profileid' => $eventData['profileid']
@@ -967,20 +957,20 @@ function main_editprofile($eventData)
                     );
                     $wuiMethodToolbar[$row]->addChild($wuiDisableButton[$row]);
                 } else {
-                    $enableAction[$row] = new WuiEventsCall();
+                    $enableAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                     $enableAction[$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'view',
                             'editprofile',
                             array('profileid' => $eventData['profileid'])
                         )
                     );
                     $enableAction[$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'action',
                             'enablenode',
                             array(
-                                'nodetype' => WebServicesProfile::NODETYPE_METHOD,
+                                'nodetype' => \Innomatic\Webservices\WebServicesProfile::NODETYPE_METHOD,
                                 'method' => $method,
                                 'application' => $application,
                                 'profileid' => $eventData['profileid']
@@ -1022,11 +1012,11 @@ function main_users($eventData)
 {
     global $innomaticLocale, $wuiMainFrame, $wuiTitleBar, $wuiMainStatus;
 
-    $usersQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $usersQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT id,username,profileid,domainid FROM webservices_users ORDER BY username'
     );
 
-    $profQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT id,profilename FROM webservices_profiles ORDER BY profilename'
     );
 
@@ -1059,7 +1049,7 @@ function main_users($eventData)
 
             $domainId = '';
             if ($userData['domainid']) {
-                $domainQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+                $domainQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
                     'SELECT domainid FROM domains WHERE id='.$userData['domainid']
                 );
                 $domainId = $domainQuery->getFields('domainid');
@@ -1099,11 +1089,11 @@ function main_users($eventData)
                 $row, 2
             );
 
-            $wuiUserToolbar[$row] = new WuiHorizGroup('usertoolbar'.$row);
+            $wuiUserToolbar[$row] = new WuiHorizgroup('usertoolbar'.$row);
 
-            $profileAction[$row] = new WuiEventsCall();
+            $profileAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $profileAction[$row]->addEvent(
-                new WuiEvent(
+                new \Innomatic\Wui\Dispatch\WuiEvent(
                     'view',
                     'chprofile',
                     array(
@@ -1122,9 +1112,9 @@ function main_users($eventData)
             );
             $wuiUserToolbar[$row]->addChild($wuiProfileButton[$row]);
 
-            $domainAction[$row] = new WuiEventsCall();
+            $domainAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $domainAction[$row]->addEvent(
-                new WuiEvent(
+                new \Innomatic\Wui\Dispatch\WuiEvent(
                     'view',
                     'chdomain',
                     array(
@@ -1143,9 +1133,9 @@ function main_users($eventData)
             );
             $wuiUserToolbar[$row]->addChild($wuiDomainButton[$row]);
 
-            $chpasswdAction[$row] = new WuiEventsCall();
+            $chpasswdAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $chpasswdAction[$row]->addEvent(
-                new WuiEvent(
+                new \Innomatic\Wui\Dispatch\WuiEvent(
                     'view',
                     'chpassword',
                     array(
@@ -1164,9 +1154,9 @@ function main_users($eventData)
             );
             $wuiUserToolbar[$row]->addChild($wuiChPasswdButton[$row]);
 
-            $removeAction[$row] = new WuiEventsCall();
-            $removeAction[$row]->addEvent(new WuiEvent('view', 'users', ''));
-            $removeAction[$row]->addEvent(new WuiEvent('action', 'removeuser', array('userid' => $userData['id'])));
+            $removeAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+            $removeAction[$row]->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'users', ''));
+            $removeAction[$row]->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'removeuser', array('userid' => $userData['id'])));
             $wuiRemoveButton[$row] = new WuiButton(
                 'removebutton'.$row,
                 array(
@@ -1201,7 +1191,7 @@ function main_newuser($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiTitleBar;
 
-    $profQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT id,profilename FROM webservices_profiles ORDER BY profilename'
     );
 
@@ -1213,7 +1203,7 @@ function main_newuser($eventData)
         $profQuery->moveNext();
     }
 
-    $domainsQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $domainsQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT id,domainid FROM domains ORDER BY domainid'
     );
 
@@ -1224,7 +1214,7 @@ function main_newuser($eventData)
         $domainsQuery->moveNext();
     }
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiUserGrid = new WuiGrid('newusergrid', array('rows' => '4', 'cols' => '2'));
 
@@ -1320,9 +1310,9 @@ function main_newuser($eventData)
         )
     );
 
-    $formEventsCall = new WuiEventsCall();
-    $formEventsCall->addEvent(new WuiEvent('action', 'adduser', ''));
-    $formEventsCall->addEvent(new WuiEvent('view', 'users', ''));
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'adduser', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'users', ''));
 
     $wuiForm = new WuiForm('newuserform', array('action' => $formEventsCall->getEventsCallString()));
     $wuiForm->addChild($wuiVGroup);
@@ -1337,13 +1327,13 @@ function main_chpassword($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiTitleBar;
 
-    $userQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $userQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT * FROM webservices_users WHERE id='.$eventData['userid']
     );
 
     $userData = $userQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiUserGrid = new WuiGrid('chpasswdgrid', array('rows' => '2', 'cols' => '2'));
 
@@ -1383,9 +1373,9 @@ function main_chpassword($eventData)
         )
     );
 
-    $formEventsCall = new WuiEventsCall();
-    $formEventsCall->addEvent(new WuiEvent('action', 'chpasswd', array('userid' => $eventData['userid'])));
-    $formEventsCall->addEvent(new WuiEvent('view', 'users', ''));
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'chpasswd', array('userid' => $eventData['userid'])));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'users', ''));
 
     $wuiForm = new WuiForm('chpasswdform', array('action' => $formEventsCall->getEventsCallString()));
     $wuiForm->addChild($wuiVGroup);
@@ -1400,13 +1390,13 @@ function main_chprofile($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $userQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $userQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT * FROM webservices_users WHERE id='.$eventData['userid'].' '
     );
 
     $userData = $userQuery->getFields();
 
-    $profQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT id,profilename FROM webservices_profiles ORDER BY profilename'
     );
 
@@ -1418,7 +1408,7 @@ function main_chprofile($eventData)
         $profQuery->moveNext();
     }
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiUserGrid = new WuiGrid('chprofilegrid', array('rows' => '2', 'cols' => '2'));
 
@@ -1451,15 +1441,15 @@ function main_chprofile($eventData)
         )
     );
 
-    $formEventsCall = new WuiEventsCall();
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
     $formEventsCall->addEvent(
-        new WuiEvent(
+        new \Innomatic\Wui\Dispatch\WuiEvent(
             'action',
             'assignprofile',
             array('userid' => $eventData['userid'])
         )
     );
-    $formEventsCall->addEvent(new WuiEvent('view', 'users', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'users', ''));
 
     $wuiForm = new WuiForm('chprofileform', array('action' => $formEventsCall->getEventsCallString()));
     $wuiForm->addChild($wuiVGroup);
@@ -1474,13 +1464,13 @@ function main_chdomain($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $userQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $userQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT * FROM webservices_users WHERE id='.$eventData['userid'].' '
     );
 
     $userData = $userQuery->getFields();
 
-    $domainsQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $domainsQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT id,domainid FROM domains ORDER BY domainid'
     );
 
@@ -1491,7 +1481,7 @@ function main_chdomain($eventData)
         $domainsQuery->moveNext();
     }
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiUserGrid = new WuiGrid(
         'chprofilegrid',
@@ -1532,16 +1522,16 @@ function main_chdomain($eventData)
         )
     );
 
-    $formEventsCall = new WuiEventsCall();
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
     $formEventsCall->addEvent(
-        new WuiEvent(
+        new \Innomatic\Wui\Dispatch\WuiEvent(
             'action',
             'assigndomain',
             array('userid' => $eventData['userid']
             )
         )
     );
-    $formEventsCall->addEvent(new WuiEvent('view', 'users', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'users', ''));
 
     $wuiForm = new WuiForm('chprofileform', array('action' => $formEventsCall->getEventsCallString()));
     $wuiForm->addChild($wuiVGroup);
@@ -1570,7 +1560,7 @@ function main_accounts($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $accQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $accQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT id,name,host FROM webservices_accounts ORDER BY name'
     );
 
@@ -1586,7 +1576,7 @@ function main_accounts($eventData)
                 'headers' => $headers,
                 'rowsperpage' => '10',
                 'pagesactionfunction' => 'accounts_list_action_builder',
-                'pagenumber' => $eventData['accountspage']
+                'pagenumber' => isset($eventData['accountspage']) ? $eventData['accountspage'] : ''
             )
         );
 
@@ -1609,11 +1599,11 @@ function main_accounts($eventData)
                 $row, 1
             );
 
-            $wuiAccountToolbar[$row] = new WuiHorizGroup('accounttoolbar'.$row);
+            $wuiAccountToolbar[$row] = new WuiHorizgroup('accounttoolbar'.$row);
 
-            $showAction[$row] = new WuiEventsCall();
+            $showAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $showAction[$row]->addEvent(
-                new WuiEvent(
+                new \Innomatic\Wui\Dispatch\WuiEvent(
                     'view',
                     'showaccount',
                     array('accountid' => $accData['id']
@@ -1631,9 +1621,9 @@ function main_accounts($eventData)
             );
             $wuiAccountToolbar[$row]->addChild($wuiShowButton[$row]);
 
-            $methodsAction[$row] = new WuiEventsCall();
+            $methodsAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $methodsAction[$row]->addEvent(
-                new WuiEvent(
+                new \Innomatic\Wui\Dispatch\WuiEvent(
                     'view',
                     'showmethods',
                     array('accountid' => $accData['id']
@@ -1651,8 +1641,8 @@ function main_accounts($eventData)
             );
             $wuiAccountToolbar[$row]->addChild($wuiMethodsButton[$row]);
 
-            $editAction[$row] = new WuiEventsCall();
-            $editAction[$row]->addEvent(new WuiEvent('view', 'updateaccount', array('accountid' => $accData['id'])));
+            $editAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+            $editAction[$row]->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'updateaccount', array('accountid' => $accData['id'])));
             $wuiEditButton[$row] = new WuiButton(
                 'editbutton'.$row,
                 array(
@@ -1664,10 +1654,10 @@ function main_accounts($eventData)
             );
             $wuiAccountToolbar[$row]->addChild($wuiEditButton[$row]);
 
-            $removeAction[$row] = new WuiEventsCall();
-            $removeAction[$row]->addEvent(new WuiEvent('view', 'accounts', ''));
+            $removeAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+            $removeAction[$row]->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'accounts', ''));
             $removeAction[$row]->addEvent(
-                new WuiEvent(
+                new \Innomatic\Wui\Dispatch\WuiEvent(
                     'action',
                     'removeaccount',
                     array('accountid' => $accData['id'])
@@ -1707,7 +1697,7 @@ function main_newaccount($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiFormGrid = new WuiGrid('newaccountgrid', array('rows' => '6', 'cols' => '2'));
 
@@ -1806,9 +1796,9 @@ function main_newaccount($eventData)
         )
     );
 
-    $formEventsCall = new WuiEventsCall();
-    $formEventsCall->addEvent(new WuiEvent('action', 'createaccount', ''));
-    $formEventsCall->addEvent(new WuiEvent('view', 'accounts', ''));
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'createaccount', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'accounts', ''));
 
     $wuiForm = new WuiForm('newdomainform', array('action' => $formEventsCall->getEventsCallString()));
     $wuiForm->addChild($wuiVGroup);
@@ -1823,13 +1813,13 @@ function main_updateaccount($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $accQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $accQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT * FROM webservices_accounts WHERE id='.$eventData['accountid']
     );
 
     $accData = $accQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiFormGrid = new WuiGrid('newaccountgrid', array('rows' => '6', 'cols' => '2'));
 
@@ -1969,15 +1959,15 @@ function main_updateaccount($eventData)
         )
     );
 
-    $formEventsCall = new WuiEventsCall();
+    $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
     $formEventsCall->addEvent(
-        new WuiEvent(
+        new \Innomatic\Wui\Dispatch\WuiEvent(
             'action',
             'updateaccount',
             array('accountid' => $eventData['accountid'])
         )
     );
-    $formEventsCall->addEvent(new WuiEvent('view', 'accounts', ''));
+    $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'accounts', ''));
 
     $wuiForm = new WuiForm('newdomainform', array('action' => $formEventsCall->getEventsCallString()));
     $wuiForm->addChild($wuiVGroup);
@@ -1992,13 +1982,13 @@ function main_showaccount($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $accQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $accQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT * FROM webservices_accounts WHERE id='.$eventData['accountid']
     );
 
     $accData = $accQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
     $wuiFormGrid = new WuiGrid('newaccountgrid', array('rows' => '6', 'cols' => '2'));
 
@@ -2153,30 +2143,30 @@ function main_showmethods($eventData)
 {
     global $wuiMainFrame, $innomaticLocale, $wuiMainStatus, $wuiTitleBar;
 
-    $accQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+    $accQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT name FROM webservices_accounts WHERE id='.$eventData['accountid']
     );
 
     $accData = $accQuery->getFields();
 
-    $wuiVGroup = new WuiVertGroup('vgroup');
+    $wuiVGroup = new WuiVertgroup('vgroup');
 
-    $xmlrpcAccount = new WebServicesAccount(
-        InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+    $xmlrpcAccount = new \Innomatic\Webservices\WebServicesAccount(
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['accountid']
     );
-    $xmlrpcClient = new XmlRpc_Client($xmlrpcAccount->mPath, $xmlrpcAccount->mHost, $xmlrpcAccount->mPort);
+    $xmlrpcClient = new \Innomatic\Webservices\Xmlrpc\XmlRpc_Client($xmlrpcAccount->mPath, $xmlrpcAccount->mHost, $xmlrpcAccount->mPort);
     $xmlrpcClient->setProxy($xmlrpcAccount->mProxy, $xmlrpcAccount->mProxyPort);
     $xmlrpcClient->setCredentials($xmlrpcAccount->mUsername, $xmlrpcAccount->mPassword);
 
-    $xmlrpcMessage = new XmlRpcMsg('system.listMethods');
+    $xmlrpcMessage = new \Innomatic\Webservices\Xmlrpc\XmlRpcMsg('system.listMethods');
     $xmlrpcResp = $xmlrpcClient->Send($xmlrpcMessage);
 
     if ($xmlrpcResp) {
         if (!$xmlrpcResp->FaultCode()) {
             $xv = $xmlrpcResp->Value();
             if (is_object($xv)) {
-                $methods = php_xmlrpc_decode($xv);
+                $methods = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($xv);
                 //$methods_val = $xv->scalarVal();
 
                 if (is_array($methods)) {
@@ -2226,7 +2216,7 @@ function main_help($eventData)
             array(
                 'base' => 'innomatic',
                 'node' => 'innomatic.root.xmlrpc.'.$eventData['node'].'.html',
-                'language' => InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+                'language' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
             )
         )
     );

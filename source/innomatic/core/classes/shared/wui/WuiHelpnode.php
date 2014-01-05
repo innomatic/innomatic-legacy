@@ -7,17 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiWidget.php');
-require_once ('innomatic/help/HelpNode.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiHelpnode extends WuiWidget
+class WuiHelpnode extends \Innomatic\Wui\Widgets\WuiWidget
 {
     public $mHint;
     public $mBase;
@@ -50,7 +50,7 @@ class WuiHelpnode extends WuiWidget
     }
     protected function generateSource()
     {
-        $help_node = new HelpNode($this->mBase, $this->mNode, $this->mLanguage);
+        $help_node = new \Innomatic\Help\HelpNode($this->mBase, $this->mNode, $this->mLanguage);
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' helpnode -->' : '') . '<iframe name="' . $this->mName . '"' . (strlen($this->mWidth) ? ' width="' . $this->mWidth . '"' : '') . (strlen($this->mHeight) ? ' height="' . $this->mHeight . '"' : '') . ' src="' . $help_node->getUrl() . '"' . ' frameborder="0">Your user agent does not support frames or is currently configured not to display frames.</iframe>' . ($this->mComments ? '<!-- end ' . $this->mName . " helpnode -->\n" : '');
         return true;
     }

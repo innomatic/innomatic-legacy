@@ -1,14 +1,13 @@
 <?php
+namespace Innomatic\Module\Services;
 
-require_once('innomatic/module/server/ModuleServerController.php');
-require_once('innomatic/module/services/ModuleServiceSocket.php');
-require_once('innomatic/module/server/ModuleServerContext.php');
+use \Innomatic\Module\Server;
 
 /**
  * Controls Module server execution with service support.
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2013 Innoteam Srl
+ * @copyright Copyright 2005-2014 Innoteam Srl
  * @since 5.1
  */
 class ModuleServiceController extends ModuleServerController
@@ -21,11 +20,11 @@ class ModuleServiceController extends ModuleServerController
      */
     public function __construct()
     {
-        $this->host = ModuleServerContext::instance('ModuleServerContext')->getConfig()->getKey('server_address');
+        $this->host = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext')->getConfig()->getKey('server_address');
         if (!$this->host) {
             $this->host = 'localhost';
         }
-        $this->port = ModuleServerContext::instance('ModuleServerContext')->getConfig()->getKey('service_port');
+        $this->port = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext')->getConfig()->getKey('service_port');
         if (!$this->port) {
             $this->port = 9001;
         }
@@ -61,7 +60,7 @@ class ModuleServiceController extends ModuleServerController
     {
         try {
             $this->shutdown();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             print('Module: services-extension was not running.'."\n");
         }
         $this->start();
@@ -77,7 +76,6 @@ class ModuleServiceController extends ModuleServerController
      */
     public function watchDogStart()
     {
-        require_once('innomatic/module/server/ModuleServerWatchDog.php');
         $wdog = new ModuleServerWatchDog();
         $wdog->watch('php core/scripts/moduleservices.php wstart');
     }
@@ -93,10 +91,9 @@ class ModuleServiceController extends ModuleServerController
     {
         try {
             $this->shutdown();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             print('Module: services-extension was not running.'."\n");
         }
-        require_once('innomatic/module/server/ModuleServerWatchDog.php');
         $wdog = new ModuleServerWatchDog();
         $wdog->watch('php core/scripts/moduleservices.php wstart');
     }
@@ -129,7 +126,6 @@ class ModuleServiceController extends ModuleServerController
      */
     public function status()
     {
-        require_once('innomatic/net/socket/SocketException.php');
         try {
             $result = '';
             $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -140,7 +136,7 @@ class ModuleServiceController extends ModuleServerController
             $this->socket->write($request);
             $result = $this->socket->readAll();
             $this->socket->disconnect();
-        } catch (SocketException $e) {
+        } catch (\Innomatic\Net\Socket\SocketException $e) {
             $result = 'Module: services-extension is down.';
         }
         return $result;
@@ -155,7 +151,6 @@ class ModuleServiceController extends ModuleServerController
      */
     public function refresh()
     {
-        require_once('innomatic/net/socket/SocketException.php');
         try {
             $result = '';
             $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -166,7 +161,7 @@ class ModuleServiceController extends ModuleServerController
             $this->socket->write($request);
             $result = $this->socket->readAll();
             $this->socket->disconnect();
-        } catch (SocketException $e) {
+        } catch (\Innomatic\Net\Socket\SocketException $e) {
             $result = 'Module: service-extension is down.';
         }
         return $result;
@@ -185,7 +180,7 @@ class ModuleServiceController extends ModuleServerController
     {
         // TODO
            if (strtoupper(substr(PHP_OS, 0, 3) == 'WIN')) {
-             $context = ModuleServerContext::instance('ModuleServerContext');
+             $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
             $path = $context->getHome().'classes\\it\\innoteam\\module\\services\\';
             $WshShell1 = new COM("WScript.Shell");
             $WshShell2 = new COM("WScript.Shell");
@@ -209,7 +204,7 @@ class ModuleServiceController extends ModuleServerController
     {
             $result = '';
             $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
-            $context = ModuleServerContext::instance('ModuleServerContext');
+            $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
             $this->socket->connect('127.0.0.1', $context->getConfig()->getKey('pinger_port'));
             $request = 'SHUTDOWN Module/1.0'."\r\n";
             $request .= 'User: admin'."\r\n";

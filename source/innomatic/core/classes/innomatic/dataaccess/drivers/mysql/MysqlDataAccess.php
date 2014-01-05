@@ -7,20 +7,19 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/dataaccess/DataAccess.php');
+namespace Innomatic\Dataaccess\Drivers\Mysql;
 
 /*!
 @class MysqlDataAccess
 
 @abstract DataAccess for MySql.
 */
-class MysqlDataAccess extends DataAccess
+class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 {
     public $driver = 'mysql';
     public $fmtquote = "''";
@@ -142,9 +141,9 @@ class MysqlDataAccess extends DataAccess
         $this->lastquery = @mysql_query($query, $this->dbhandler);
         //if ( defined( 'DEBUG' ) and !$this->lastquery ) echo mysql_error();
         if (@mysql_error($this->dbhandler)) {
-            require_once('innomatic/logging/Logger.php');
-        $this->log = new Logger($this->dasn->getOption('logfile'));
-            $this->log->logEvent('innomatic.mysqldataaccess.mysqldataaccess._query', 'Error: '.@mysql_error($this->dbhandler), Logger::ERROR);
+            
+        $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
+            $this->log->logEvent('innomatic.mysqldataaccess.mysqldataaccess._query', 'Error: '.@mysql_error($this->dbhandler), \Innomatic\Logging\Logger::ERROR);
         }
         return $this->lastquery;
     }
@@ -159,7 +158,7 @@ class MysqlDataAccess extends DataAccess
 
     public function addColumn($params)
     {
-        $result = FALSE;
+        $result = false;
 
         if (!empty($params['tablename']) and !empty($params['columnformat']) and $this->opened)
             $result = $this->doExecute('ALTER TABLE '.$params['tablename'].' ADD COLUMN '.$params['columnformat']);

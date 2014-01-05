@@ -7,11 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Application;
 
 /*!
  @class ApplicationComponentFactory
@@ -43,7 +44,7 @@ class ApplicationComponentFactory
      */
     public function fillTypes()
     {
-        $result = TRUE;
+        $result = true;
 
         // Flushes current types
         //
@@ -65,27 +66,26 @@ class ApplicationComponentFactory
                         unset($component);
                         if (
                             file_exists(
-                                InnomaticContainer::instance('innomaticcontainer')->getHome()
+                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                                 .'core/classes/shared/components/'.$data['file']
                             )
                         ) {
                             // TODO gestire con require_once una volta migliorata la gestione della variabile $component
                             require_once(
-                                InnomaticContainer::instance('innomaticcontainer')->getHome()
+                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                                 .'core/classes/shared/components/'.$data['file']
                             );
                         } else {
-                            require_once('innomatic/logging/Logger.php');
-                            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                             $log->logEvent(
                                 'innomatic/application/ApplicationComponentFactory::fillTypes()',
                                 'Component file '.$data['file']." doesn't exists in components directory",
-                                Logger::WARNING
+                                \Innomatic\Logging\Logger::WARNING
                             );
-                            $result = FALSE;
+                            $result = false;
                         }
-                        $className = ucfirst($data['typename']).'Component';
-                        if (class_exists($className, false)) {
+                        $className = '\\Shared\\Components\\'.ucfirst($data['typename']).'Component';
+                        if (class_exists($className, true)) {
                             $this->types[call_user_func(array($className, 'getType'))] = array(
                                 'type' => call_user_func(array($className, 'getType')),
                                 'classname' => $className,
@@ -98,16 +98,15 @@ class ApplicationComponentFactory
                 }
                 $query->free();
             } else {
-                require_once('innomatic/logging/Logger.php');
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::fillTypes()',
                     'Unable to select component types from table',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
-                $result = FALSE;
+                $result = false;
             }
-            $result = FALSE;
+            $result = false;
         }
 
         return $result;
@@ -121,14 +120,12 @@ class ApplicationComponentFactory
      */
     public function install($componentData)
     {
-        $result = FALSE;
+        $result = false;
         $filepath = $componentData['filepath'];
 
         if ($this->rootda and file_exists($filepath)) {
-            require_once($filepath);
-
-            $className = substr(basename($filepath), 0, -4);
-            if (class_exists($className, false)) {
+            $className = '\\Shared\\Components\\'.ucfirst(substr(basename($filepath), 0, -4));
+            if (class_exists($className, true)) {
 
                 if (
                     call_user_func(array($className, 'getType'))
@@ -156,14 +153,13 @@ class ApplicationComponentFactory
             }
         } else {
             if (!file_exists($filepath)) {
-                require_once('innomatic/logging/Logger.php');
-                $log = InnomaticContainer::instance(
-                    'innomaticcontainer'
+                $log = \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getLogger();
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::install()',
                     'Given file (' . $filepath . ') does not exists',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         }
@@ -178,13 +174,13 @@ class ApplicationComponentFactory
      */
     public function update($componentData)
     {
-        $result = FALSE;
+        $result = false;
         $filepath = $componentData['filepath'];
 
         if ($this->rootda and file_exists($filepath)) {
             require_once($filepath);
-            $className = substr(basename($filepath), 0, -4);
-            if (class_exists($className, false)) {
+            $className = '\\Shared\\Components\\'.ucfirst(substr(basename($filepath), 0, -4));
+            if (class_exists($className, true)) {
 
                 if (call_user_func(array($className, 'getType')) and $className) {
                     /*
@@ -246,12 +242,11 @@ class ApplicationComponentFactory
             }
         } else {
             if (!file_exists($filepath)) {
-                require_once('innomatic/logging/Logger.php');
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::update()',
                     'Given file (' . $filepath . ') does not exists',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         }
@@ -266,12 +261,12 @@ class ApplicationComponentFactory
      */
     public function uninstall($componentData)
     {
-        $result = FALSE;
+        $result = false;
         $filepath = $componentData['filepath'];
         if ($this->rootda and file_exists($filepath)) {
             require_once($filepath);
-            $className = substr(basename($filepath), 0, -4);
-            if (class_exists($className, false)) {
+            $className = '\\Shared\\Components\\'.ucfirst(substr(basename($filepath), 0, -4));
+            if (class_exists($className, true)) {
 
                 if (
                     call_user_func(array($className, 'getType'))
@@ -287,12 +282,12 @@ class ApplicationComponentFactory
             }
         } else {
             if (!file_exists($filepath)) {
-                require_once('innomatic/logging/Logger.php');
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                
+                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic/application/ApplicationComponentFactory::uninstall()',
                     'Given file (' . $filepath . ') does not exists',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         }

@@ -7,16 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiHorizframe extends WuiContainerWidget
+class WuiHorizframe extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     //public $mAlign;
     //public $mBgColor;
@@ -27,7 +28,7 @@ class WuiHorizframe extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget($elemName, $elemArgs, $elemTheme, $dispEvents);
+        parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
         if (isset($this->mArgs['align'])) {
             switch ($this->mArgs['align']) {
                 case 'top':

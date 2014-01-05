@@ -7,17 +7,14 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2013 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.1
  */
 
 require_once('scripts_container.php');
-$script = ScriptContainer::instance('scriptcontainer');
-
-require_once('innomatic/domain/Domain.php');
-require_once('innomatic/application/Application.php');
+$script = \Innomatic\Scripts\ScriptContainer::instance('\Innomatic\Scripts\ScriptContainer');
 
 if (!isset ($argv[1])) $argv[1] = '';
 
@@ -38,7 +35,7 @@ try {
             break;
 
         case 'enable' :
-            $domain = new Domain(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $argv[2], null);
+            $domain = new \Innomatic\Domain\Domain(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $argv[2], null);
             if ($domain->enable()) {
                 print("Domain $argv[2] enabled\n");
                 $script->cleanExit();
@@ -49,7 +46,7 @@ try {
             break;
 
         case 'disable' :
-            $domain = new Domain(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $argv[2], null);
+            $domain = new \Innomatic\Domain\Domain(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $argv[2], null);
             if ($domain->disable()) {
                 print("Domain $argv[2] disabled\n");
                 $script->cleanExit();
@@ -60,7 +57,7 @@ try {
             break;
 
         case 'create' :
-            $domain = new Domain(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 0, null);
+            $domain = new \Innomatic\Domain\Domain(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 0, null);
             $data['domainid'] = $argv[2];
             $data['domainname'] = $argv[3];
             $data['domainpassword'] = $argv[4];
@@ -75,7 +72,7 @@ try {
             break;
 
         case 'remove' :
-            $domain = new Domain(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $argv[2], null);
+            $domain = new \Innomatic\Domain\Domain(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $argv[2], null);
             if ($domain->remove()) {
                 print("Domain $argv[2] removed\n");
                 $script->cleanExit();
@@ -86,7 +83,7 @@ try {
             break;
 
         case 'applist' :
-            $domain = new Domain(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $argv[2], null);
+            $domain = new \Innomatic\Domain\Domain(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $argv[2], null);
             $list = $domain->getEnabledApplications();
             foreach($list as $app) {
                 print($app."\n");
@@ -95,8 +92,8 @@ try {
             break;
 
         case 'appenable' :
-            $domain = new Domain(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $argv[2], null);
-            $appid = Application::getAppIdFromName($argv[3]);
+            $domain = new \Innomatic\Domain\Domain(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $argv[2], null);
+            $appid = \Innomatic\Application\Application::getAppIdFromName($argv[3]);
             if ($domain->enableApplication($appid)) {
                 print("Application $argv[3] enabled to domain $argv[2]\n");
                 $script->cleanExit();
@@ -107,8 +104,8 @@ try {
             break;
 
         case 'appdisable' :
-            $domain = new Domain(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), $argv[2], null);
-            $appid = Application::getAppIdFromName($argv[3]);
+            $domain = new \Innomatic\Domain\Domain(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $argv[2], null);
+            $appid = \Innomatic\Application\Application::getAppIdFromName($argv[3]);
             if ($domain->disableApplication($appid)) {
                 print("Application $argv[3] disabled from domain $argv[2]\n");
                 $script->cleanExit();
@@ -122,7 +119,7 @@ try {
             print('Usage: php innomatic/core/scripts/domain.php command'."\n");
             print('Type domain.php -h for a list of supported commands'."\n");
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     echo $e;
 }
 

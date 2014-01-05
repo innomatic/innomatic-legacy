@@ -1,8 +1,6 @@
 <?php
 
-require_once('innomatic/module/ModuleObject.php');
-
-class HelloWorldModule extends ModuleObject
+class HelloWorldModule extends \Innomatic\Module\ModuleObject
 {
     public function moduleHelloWorld()
     {

@@ -1,6 +1,7 @@
 <?php
+namespace Innomatic\Webservices\Xmlrpc;
 
-require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
+use Innomatic\Webservices\Xmlrpc\XmlRpc_Client;
 
 // by Edd Dumbill (C) 1999-2002
 // <edd@usefulinc.com>
@@ -39,24 +40,23 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
     // XML RPC Server class
-    // requires: xmlrpc.inc
 
     $GLOBALS['xmlrpcs_capabilities'] = array(
         // xmlrpc spec: always supported
-        'xmlrpc' => new xmlrpcval(array(
-            'specUrl' => new xmlrpcval('http://www.xmlrpc.com/spec', 'string'),
-            'specVersion' => new xmlrpcval(1, 'int')
+        'xmlrpc' => new XmlRpcVal(array(
+            'specUrl' => new XmlRpcVal('http://www.xmlrpc.com/spec', 'string'),
+            'specVersion' => new XmlRpcVal(1, 'int')
         ), 'struct'),
         // if we support system.xxx functions, we always support multicall, too...
         // Note that, as of 2006/09/17, the following URL does not respond anymore
-        'system.multicall' => new xmlrpcval(array(
-            'specUrl' => new xmlrpcval('http://www.xmlrpc.com/discuss/msgReader$1208', 'string'),
-            'specVersion' => new xmlrpcval(1, 'int')
+        'system.multicall' => new XmlRpcVal(array(
+            'specUrl' => new XmlRpcVal('http://www.xmlrpc.com/discuss/msgReader$1208', 'string'),
+            'specVersion' => new XmlRpcVal(1, 'int')
         ), 'struct'),
         // introspection: version 2! we support 'mixed', too
-        'introspection' => new xmlrpcval(array(
-            'specUrl' => new xmlrpcval('http://phpxmlrpc.sourceforge.net/doc-2/ch10.html', 'string'),
-            'specVersion' => new xmlrpcval(2, 'int')
+        'introspection' => new XmlRpcVal(array(
+            'specUrl' => new XmlRpcVal('http://phpxmlrpc.sourceforge.net/doc-2/ch10.html', 'string'),
+            'specVersion' => new XmlRpcVal(2, 'int')
         ), 'struct')
     );
 
@@ -69,12 +69,12 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         $outAr = $GLOBALS['xmlrpcs_capabilities'];
         // NIL extension
         if ($GLOBALS['xmlrpc_null_extension']) {
-            $outAr['nil'] = new xmlrpcval(array(
-                'specUrl' => new xmlrpcval('http://www.ontosys.com/xml-rpc/extensions.php', 'string'),
-                'specVersion' => new xmlrpcval(1, 'int')
+            $outAr['nil'] = new XmlRpcVal(array(
+                'specUrl' => new XmlRpcVal('http://www.ontosys.com/xml-rpc/extensions.php', 'string'),
+                'specVersion' => new XmlRpcVal(1, 'int')
             ), 'struct');
         }
-        return new xmlrpcresp(new xmlrpcval($outAr, 'struct'));
+        return new XmlRpcResp(new XmlRpcVal($outAr, 'struct'));
     }
 
     // listMethods: signature was either a string, or nothing.
@@ -88,16 +88,16 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         $outAr=array();
         foreach($server->dmap as $key => $val)
         {
-            $outAr[]=new xmlrpcval($key, 'string');
+            $outAr[]=new XmlRpcVal($key, 'string');
         }
         if($server->allow_system_funcs)
         {
             foreach($GLOBALS['_xmlrpcs_dmap'] as $key => $val)
             {
-                $outAr[]=new xmlrpcval($key, 'string');
+                $outAr[]=new XmlRpcVal($key, 'string');
             }
         }
-        return new xmlrpcresp(new xmlrpcval($outAr, 'array'));
+        return new XmlRpcResp(new XmlRpcVal($outAr, 'array'));
     }
 
     $_xmlrpcs_methodSignature_sig=array(array($GLOBALS['xmlrpcArray'], $GLOBALS['xmlrpcString']));
@@ -133,22 +133,22 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
                     $cursig=array();
                     foreach($inSig as $sig)
                     {
-                        $cursig[]=new xmlrpcval($sig, 'string');
+                        $cursig[]=new XmlRpcVal($sig, 'string');
                     }
-                    $sigs[]=new xmlrpcval($cursig, 'array');
+                    $sigs[]=new XmlRpcVal($cursig, 'array');
                 }
-                $r=new xmlrpcresp(new xmlrpcval($sigs, 'array'));
+                $r=new XmlRpcResp(new XmlRpcVal($sigs, 'array'));
             }
             else
             {
                 // NB: according to the official docs, we should be returning a
                 // "none-array" here, which means not-an-array
-                $r=new xmlrpcresp(new xmlrpcval('undef', 'string'));
+                $r=new XmlRpcResp(new XmlRpcVal('undef', 'string'));
             }
         }
         else
         {
-            $r=new xmlrpcresp(0,$GLOBALS['xmlrpcerr']['introspect_unknown'], $GLOBALS['xmlrpcstr']['introspect_unknown']);
+            $r=new XmlRpcResp(0,$GLOBALS['xmlrpcerr']['introspect_unknown'], $GLOBALS['xmlrpcstr']['introspect_unknown']);
         }
         return $r;
     }
@@ -180,16 +180,16 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         {
             if(isset($dmap[$methName]['docstring']))
             {
-                $r=new xmlrpcresp(new xmlrpcval($dmap[$methName]['docstring']), 'string');
+                $r=new XmlRpcResp(new XmlRpcVal($dmap[$methName]['docstring']), 'string');
             }
             else
             {
-                $r=new xmlrpcresp(new xmlrpcval('', 'string'));
+                $r=new XmlRpcResp(new XmlRpcVal('', 'string'));
             }
         }
         else
         {
-            $r=new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['introspect_unknown'], $GLOBALS['xmlrpcstr']['introspect_unknown']);
+            $r=new XmlRpcResp(0, $GLOBALS['xmlrpcerr']['introspect_unknown'], $GLOBALS['xmlrpcstr']['introspect_unknown']);
         }
         return $r;
     }
@@ -210,9 +210,9 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
             $str = $err->faultString();
         }
         $struct = array();
-        $struct['faultCode'] = new xmlrpcval($code, 'int');
-        $struct['faultString'] = new xmlrpcval($str, 'string');
-        return new xmlrpcval($struct, 'struct');
+        $struct['faultCode'] = new XmlRpcVal($code, 'int');
+        $struct['faultString'] = new XmlRpcVal($str, 'string');
+        return new XmlRpcVal($struct, 'struct');
     }
 
     function _xmlrpcs_multicall_do_call($server, $call)
@@ -246,13 +246,13 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         }
         $numParams = $params->arraysize();
 
-        $msg = new xmlrpcmsg($methName->scalarval());
+        $msg = new XmlRpcMsg($methName->scalarval());
         for($i = 0; $i < $numParams; $i++)
         {
             if(!$msg->addParam($params->arraymem($i)))
             {
                 $i++;
-                return _xmlrpcs_multicall_error(new xmlrpcresp(0,
+                return _xmlrpcs_multicall_error(new XmlRpcResp(0,
                     $GLOBALS['xmlrpcerr']['incorrect_params'],
                     $GLOBALS['xmlrpcstr']['incorrect_params'] . ": probable xml error in param " . $i));
             }
@@ -265,7 +265,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
             return _xmlrpcs_multicall_error($result);        // Method returned fault.
         }
 
-        return new xmlrpcval(array($result->value()), 'array');
+        return new XmlRpcVal(array($result->value()), 'array');
     }
 
     function _xmlrpcs_multicall_do_call_phpvals($server, $call)
@@ -309,7 +309,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
             return _xmlrpcs_multicall_error($result);        // Method returned fault.
         }
 
-        return new xmlrpcval(array($result->value()), 'array');
+        return new XmlRpcVal(array($result->value()), 'array');
     }
 
     function _xmlrpcs_multicall($server, $m)
@@ -335,7 +335,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
             }
         }
 
-        return new xmlrpcresp(new xmlrpcval($result, 'array'));
+        return new XmlRpcResp(new XmlRpcVal($result, 'array'));
     }
 
     $GLOBALS['_xmlrpcs_dmap']=array(
@@ -478,7 +478,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         * @param array $dispmap the dispatch map withd efinition of exposed services
         * @param boolean $servicenow set to false to prevent the server from runnung upon construction
         */
-        function xmlrpc_server($dispMap=null, $serviceNow=true)
+        function __construct($dispMap=null, $serviceNow=true)
         {
             // if ZLIB is enabled, let the server by default accept compressed requests,
             // and compress responses sent to clients that support them
@@ -817,14 +817,14 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
                         }
                         else
                         {
-                            $r = new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['server_decompress_fail'], $GLOBALS['xmlrpcstr']['server_decompress_fail']);
+                            $r = new XmlRpcResp(0, $GLOBALS['xmlrpcerr']['server_decompress_fail'], $GLOBALS['xmlrpcstr']['server_decompress_fail']);
                             return $r;
                         }
                     }
                     else
                     {
                         //error_log('The server sent deflated data. Your php install must have the Zlib extension compiled in to support this.');
-                        $r = new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['server_cannot_decompress'], $GLOBALS['xmlrpcstr']['server_cannot_decompress']);
+                        $r = new XmlRpcResp(0, $GLOBALS['xmlrpcerr']['server_cannot_decompress'], $GLOBALS['xmlrpcstr']['server_cannot_decompress']);
                         return $r;
                     }
                 }
@@ -955,7 +955,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
             if(!xml_parse($parser, $data, 1))
             {
                 // return XML error as a faultCode
-                $r=new xmlrpcresp(0,
+                $r=new XmlRpcResp(0,
                 $GLOBALS['xmlrpcerrxml']+xml_get_error_code($parser),
                 sprintf('XML error: %s at line %d, column %d',
                     xml_error_string(xml_get_error_code($parser)),
@@ -965,7 +965,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
             else if ($GLOBALS['_xh']['isf'])
             {
                 xml_parser_free($parser);
-                $r=new xmlrpcresp(0,
+                $r=new XmlRpcResp(0,
                     $GLOBALS['xmlrpcerr']['invalid_request'],
                     $GLOBALS['xmlrpcstr']['invalid_request'] . ' ' . $GLOBALS['_xh']['isf_reason']);
             }
@@ -983,7 +983,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
                 else
                 {
                     // build an xmlrpcmsg object with data parsed from xml
-                    $m=new xmlrpcmsg($GLOBALS['_xh']['method']);
+                    $m=new XmlRpcMsg($GLOBALS['_xh']['method']);
                     // now add parameters in
                     for($i=0; $i<count($GLOBALS['_xh']['params']); $i++)
                     {
@@ -1024,7 +1024,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
             if(!isset($dmap[$methName]['function']))
             {
                 // No such method
-                return new xmlrpcresp(0,
+                return new XmlRpcResp(0,
                     $GLOBALS['xmlrpcerr']['unknown_method'],
                     $GLOBALS['xmlrpcstr']['unknown_method']);
             }
@@ -1044,7 +1044,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
                 if(!$ok)
                 {
                     // Didn't match.
-                    return new xmlrpcresp(
+                    return new XmlRpcResp(
                         0,
                         $GLOBALS['xmlrpcerr']['incorrect_params'],
                         $GLOBALS['xmlrpcstr']['incorrect_params'] . ": ${errstr}"
@@ -1062,7 +1062,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
             if(!is_callable($func))
             {
                 error_log("XML-RPC: xmlrpc_server::execute: function $func registered as method handler is not callable");
-                return new xmlrpcresp(
+                return new XmlRpcResp(
                     0,
                     $GLOBALS['xmlrpcerr']['server_error'],
                     $GLOBALS['xmlrpcstr']['server_error'] . ": no function matches method"
@@ -1090,11 +1090,11 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
                     error_log("XML-RPC: xmlrpc_server::execute: function $func registered as method handler does not return an xmlrpcresp object");
                     if (is_a($r, 'xmlrpcval'))
                     {
-                        $r = new xmlrpcresp($r);
+                        $r = new XmlRpcResp($r);
                     }
                     else
                     {
-                        $r = new xmlrpcresp(
+                        $r = new XmlRpcResp(
                             0,
                             $GLOBALS['xmlrpcerr']['server_error'],
                             $GLOBALS['xmlrpcstr']['server_error'] . ": function does not return xmlrpcresp object"
@@ -1120,13 +1120,13 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
                         // an eror response
                         if (is_array($r) && array_key_exists('faultCode', $r) && array_key_exists('faultString', $r))
                         {
-                            $r = new xmlrpcresp(0, (integer)$r['faultCode'], (string)$r['faultString']);
+                            $r = new XmlRpcResp(0, (integer)$r['faultCode'], (string)$r['faultString']);
                         }
                         else
                         {
                             // functions using EPI api should NOT return resp objects,
                             // so make sure we encode the return type correctly
-                            $r = new xmlrpcresp(php_xmlrpc_encode($r, array('extension_api')));
+                            $r = new XmlRpcResp(php_xmlrpc_encode($r, array('extension_api')));
                         }
                     }
                     else
@@ -1139,7 +1139,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
                 {
                     // what should we assume here about automatic encoding of datetimes
                     // and php classes instances???
-                    $r = new xmlrpcresp(php_xmlrpc_encode($r, array('auto_dates')));
+                    $r = new XmlRpcResp(php_xmlrpc_encode($r, array('auto_dates')));
                 }
             }
             if($this->debug > 2)
@@ -1189,7 +1189,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         */
         function echoInput()
         {
-            $r=new xmlrpcresp(new xmlrpcval( "'Aha said I: '" . $GLOBALS['HTTP_RAW_POST_DATA'], 'string'));
+            $r=new XmlRpcResp(new XmlRpcVal( "'Aha said I: '" . $GLOBALS['HTTP_RAW_POST_DATA'], 'string'));
             print $r->serialize();
         }
     }
