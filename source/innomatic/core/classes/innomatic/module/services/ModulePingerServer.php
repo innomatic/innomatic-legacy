@@ -6,7 +6,7 @@ namespace Innomatic\Module\Services;
  * (wait for "ping" requests from other peers and replays with "pong" message
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2013 Innoteam Srl
+ * @copyright Copyright 2005-2014 Innoteam Srl
  * @since 5.1
  */
 class ModulePingerServer extends \Innomatic\Net\Socket\SocketHandler

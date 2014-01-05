@@ -5,7 +5,7 @@ namespace Innomatic\Module;
  * Class for transparently access a remote Module object.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
 abstract class ModuleRemoteObject
