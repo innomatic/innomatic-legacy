@@ -71,7 +71,7 @@ class WuiInnomaticpage extends \Shared\Wui\WuiXml
                 }
             }
         }
-        $this->mDefinition .= '        <horizframe>
+        $this->mDefinition .= '        <horizgroup>
           <name>mainhorizframe</name>
           <children>';
         if (isset($this->mArgs['alerttext']) and strlen($this->mArgs['alerttext'])) {
@@ -93,7 +93,7 @@ class WuiInnomaticpage extends \Shared\Wui\WuiXml
                 </alertframe>';
         }
         $this->mDefinition .= '          </children>
-        </horizframe>';
+        </horizgroup>';
         $this->mDefinition .= '
 
         <statusbar>

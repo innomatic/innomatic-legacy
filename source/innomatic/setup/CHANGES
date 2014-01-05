@@ -18,6 +18,8 @@ FIXES:
 - Fixed session page name handling in Wui Widget session keys. (Alex Pagnoni)
   
 CHANGES:
+- Removed the frame in Wui Innomatic Page widget. (Alex Pagnoni)
+
 NEW FEATURES:
 - Added namespace support compliant with autoloading standard PSR-0. (Alex
   Pagnoni)
