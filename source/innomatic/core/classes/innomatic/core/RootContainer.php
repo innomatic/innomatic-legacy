@@ -125,8 +125,7 @@ class RootContainer extends \Innomatic\Util\Singleton
 	    
 	    // remember the defined classes, include the $file and detect newly declared classes
 	    $pre = array_merge(get_declared_classes(), get_declared_interfaces());
-	    //require_once($file);
-	    include_once($file);
+	    require_once($file);
 	    $post = array_unique(array_diff(array_merge(get_declared_classes(), get_declared_interfaces()), $pre));
 	    
 	    // loop through the new class definitions and create weak aliases if they are given with qualified names
