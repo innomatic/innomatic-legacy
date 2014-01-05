@@ -4,16 +4,16 @@
 	<definition>
 		<idname>innomatic</idname>
 		<release>
-			<version>6.1</version>
-			<date>2013/12/01</date>
+			<version>6.2</version>
+			<date>2014/01/07</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description><![CDATA[<strong>Innomatic 6000</strong> Cloud Applications Platform.]]></description>
 		<category>innomatic</category>
 		<iconfile>innomatic.png</iconfile>
 		<dependencies>
-			<dependency>innomatic[6.0]</dependency>
-			<dependency>php[5.0]</dependency>
+			<dependency>innomatic[6.1]</dependency>
+			<dependency>php[5.3.0]</dependency>
 			<dependency>zlib.extension</dependency>
 			<suggestion>curl.extension</suggestion>
 			<suggestion>pcntl.extension</suggestion>
@@ -28,7 +28,7 @@
 				<email>info@innoteam.it</email>
 				<web>http://www.innoteam.it/</web>
 			</author>
-			<copyright>Copyright (C) 1999-2013 Innoteam Srl</copyright>
+			<copyright>Copyright (C) 1999-2014 Innoteam Srl</copyright>
 			<license>New BSD</license>
 			<licensefile>LICENSE</licensefile>
 		</legal>
@@ -129,6 +129,7 @@
 		<class name="innomatic/core/InnomaticContainer.php" />
 		<class name="innomatic/core/InnomaticSettings.php" />
 		<class name="innomatic/debug/InnomaticDump.php" />
+        <class name="innomatic/debug/LoadTime.php" />
 
 		<catalog name="innomatic" />
 
@@ -247,6 +248,7 @@
 		<class name="innomatic/application/Application.php" />
 		<class name="innomatic/application/ApplicationSettings.php" />
 		<class name="innomatic/application/ApplicationDependencies.php" />
+        <class name="innomatic/application/ApplicationComponentBase.php" />
 		<class name="innomatic/application/ApplicationComponent.php" />
 		<class
 			name="innomatic/application/ApplicationComponentFactory.php" />
@@ -477,6 +479,9 @@
 		<class name="innomatic/webservices/xmlrpc/XmlRpc_Client.php" />
 		<class name="innomatic/webservices/xmlrpc/XmlRpc_Server.php" />
 		<class name="innomatic/webservices/xmlrpc/XmlRpc_Wrappers.php" />
+        <class name="innomatic/webservices/xmlrpc/XmlRpcMsg.php" />
+        <class name="innomatic/webservices/xmlrpc/XmlRpcResp.php" />
+        <class name="innomatic/webservices/xmlrpc/XmlRpcVal.php" />
 
 		<webapphandler name="webservices"
 			class="innomatic/webservices/WebServicesWebAppHandler.php"
@@ -913,7 +918,7 @@
 		<domaintable name="domain_dashboards_widgets"
 			file="domain_dashboards_widgets.xml" />
 
-		<dashboardwidget name="welcome" panel="dashboard" file="WelcomeDashboardWidget.php" catalog="innomatic::dashboard_welcome" title="welcome_title" class="WelcomeDashboardWidget" />
+		<dashboardwidget name="welcome" panel="dashboard" file="WelcomeDashboardWidget.php" catalog="innomatic::dashboard_welcome" title="welcome_title" class="\\Shared\\Dashboard\\WelcomeDashboardWidget" />
 
 		<!-- Modules -->
 

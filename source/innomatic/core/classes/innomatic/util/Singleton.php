@@ -7,11 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Util;
 
 require_once(dirname(__FILE__).'/Registry.php');
 
@@ -37,15 +38,24 @@ abstract class Singleton
 {
     public function Singleton()
     {
-        $registry = Registry::instance();
+        $registry = \Innomatic\Util\Registry::instance();
         if ($registry->isGlobalObject('singleton ' . get_class($this))) {
         }
     }
 
     final public static function instance($class)
-    {
-        $class = strtolower($class);
-        $registry = Registry::instance();
+    {   
+        $registry = \Innomatic\Util\Registry::instance();
+
+        // @todo compatibility mode
+        
+        if ($registry->isGlobalObject('system_classes')) {
+        	$system_classes = $registry->getGlobalObject('system_classes');
+        	if (isset($system_classes[$class])) {
+        		$class = $system_classes[$class]['fqcn'];
+        	}
+        }
+        
         if (!$registry->isGlobalObject('singleton ' . $class)) {
             $singleton = new $class();
             $registry->setGlobalObject('singleton ' . $class, $singleton);

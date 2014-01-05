@@ -4,6 +4,8 @@
  * Author: Boris Penck <boris@gamate.com>
  * Date: 2001-06-24
  */
+namespace Innomatic\Config;
+
 class FileMan
 {
     public $basefile = '';

@@ -7,11 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Webapp;
 
 /**
  * @since 5.0
@@ -46,10 +47,9 @@ class WebApp
         }
 
         // Sets var directory
-        require_once('innomatic/webapp/WebAppContainer.php');
-        $container = WebAppContainer::instance('webappcontainer');
+        $container = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
         if ($container->useDefaults() or !$container->isKey('webapps.var_dir') or $container->getKey('webapps.var_dir') == 'shared') {
-            $this->varDir = RootContainer::instance('rootcontainer')->getHome().'innomatic/core/domains/'.$this->getName().'/var/';
+            $this->varDir = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().'innomatic/core/domains/'.$this->getName().'/var/';
         } else {
             $this->varDir = $this->getHome().'core/var/';
         }
@@ -69,11 +69,10 @@ class WebApp
      */
     protected function parseConfig($xmlconfig)
     {
-        require_once('innomatic/webapp/WebAppContainer.php');
-        $container = WebAppContainer::instance('webappcontainer');
+        $container = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
         if ($container->useDefaults() or !$container->isKey('webapps.cache_config') or $container->getKey('webapps.cache_config')) {
             $cache_dir = $this->getVarDir().'cache/';
-            if (file_exists($cache_dir.'WebAppConfig.ser')) {
+            if (false and file_exists($cache_dir.'WebAppConfig.ser')) {
                 $cfg = unserialize(file_get_contents($cache_dir.'WebAppConfig.ser'));
             } else {
                 $cfg = simplexml_load_file($xmlconfig);
@@ -117,8 +116,7 @@ class WebApp
     public function refresh()
     {
         if (is_dir($this->getVarDir().'cache/')) {
-            require_once('innomatic/io/filesystem/DirectoryUtils.php');
-            DirectoryUtils::unlinkTree($this->getVarDir());
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($this->getVarDir());
         }
     }
 

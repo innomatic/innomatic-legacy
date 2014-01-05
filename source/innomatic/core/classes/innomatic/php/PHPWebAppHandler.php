@@ -7,19 +7,19 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2013 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Php;
 
-require_once('innomatic/webapp/WebAppHandler.php');
-require_once('innomatic/webapp/WebAppProcessor.php');
+use \Innomatic\Webapp;
 
 /**
  * @since 5.0
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2012-2013 Innoteam Srl
+ * @copyright Copyright 2012-2014 Innoteam Srl
  */
 class PHPWebAppHandler extends WebAppHandler
 {
@@ -30,14 +30,14 @@ class PHPWebAppHandler extends WebAppHandler
     public function doGet(WebAppRequest $req, WebAppResponse $res)
     {
         $resource = substr(
-            WebAppContainer::instance(
-                'webappcontainer'
+            \Innomatic\Webapp\WebAppContainer::instance(
+                '\Innomatic\Webapp\WebAppContainer'
             )->getCurrentWebApp()->getHome(), 0, -1
         ) . $req->getPathInfo();
 
         // If this is a directory, check that a welcome file exists
         if (is_dir($resource)) {
-            $this->welcomeFiles = WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getWelcomeFiles();
+            $this->welcomeFiles = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getWelcomeFiles();
 
             $path = $this->getRelativePath($req);
             $welcomeFile = $this->findWelcomeFile($path);
@@ -74,9 +74,8 @@ class PHPWebAppHandler extends WebAppHandler
         }
 
         // Resource must reside inside the webapp
-        require_once('innomatic/security/SecurityManager.php');
-        if (SecurityManager::isAboveBasePath($resource,  WebAppContainer::instance(
-                'webappcontainer'
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath($resource, \Innomatic\Webapp\WebAppContainer::instance(
+                '\Innomatic\Webapp\WebAppContainer'
             )->getCurrentWebApp()->getHome())) {
             $res->sendError(
                     WebAppResponse::SC_FORBIDDEN,
@@ -104,7 +103,7 @@ class PHPWebAppHandler extends WebAppHandler
 
         reset($this->welcomeFiles);
         foreach ($this->welcomeFiles as $welcomefile) {
-            if (file_exists(substr(WebAppContainer::instance('webappcontainer')->getCurrentWebApp()->getHome(), 0, -1).$path.$welcomefile.'.php'))
+            if (file_exists(substr(\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome(), 0, -1).$path.$welcomefile.'.php'))
                 return $welcomefile;
         }
 
@@ -114,7 +113,6 @@ class PHPWebAppHandler extends WebAppHandler
     protected function getRelativePath(WebAppRequest $request)
     {
         $result = $request->getPathInfo();
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        return DirectoryUtils::normalize(strlen($result) ? $result : '/');
+        return \Innomatic\Io\Filesystem\DirectoryUtils::normalize(strlen($result) ? $result : '/');
     }
 }

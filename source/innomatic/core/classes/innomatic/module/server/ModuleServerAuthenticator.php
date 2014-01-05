@@ -1,17 +1,15 @@
 <?php
-
-require_once('innomatic/module/server/ModuleServerContext.php');
-require_once('innomatic/util/Singleton.php');
+namespace Innomatic\Module\Server;
 
 /**
  * Authenticates and authorizes access to a Module object against an
  * username/password couple.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerAuthenticator extends Singleton
+class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
 {
     /**
      * Users structure.
@@ -42,7 +40,7 @@ class ModuleServerAuthenticator extends Singleton
      */
     public function parseConfig()
     {
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         $xmldoc = simplexml_load_file($context->getHome().'core/conf/modules-users.xml');
         $this->structure = array ();
         foreach ($xmldoc->user as $user) {

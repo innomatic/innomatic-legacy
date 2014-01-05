@@ -7,18 +7,19 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('shared/wui/WuiXml.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  *
  * This class is deprecated.
  */
-class WuiInnomatictoolbar extends WuiXml
+class WuiInnomatictoolbar extends \Shared\Wui\WuiXml
 {
     //public $mToolBars;
     //public $mFrame;
@@ -56,7 +57,7 @@ class WuiInnomatictoolbar extends WuiXml
     }
     protected function _fillDefinition()
     {
-        $result = FALSE;
+        $result = false;
         $this->mDefinition = '';
         if ($this->mArgs['frame'] == 'true')
             $this->mDefinition .= '<horizframe><name>toolbarframe</name><children>';
@@ -71,7 +72,7 @@ class WuiInnomatictoolbar extends WuiXml
                     while (list ($button_name, $button) = each($tbar)) {
                         $this->mDefinition .= '<button>
   <name>' . $button_name . '</name>
-                            <args><label type="encoded">' . urlencode($button['label']) . '</label><themeimage>' . (isset($button['themeimage']) ? $button['themeimage'] : '') . '</themeimage><themeimagetype>' . (isset($button['themeimagetype']) ? $button['themeimagetype'] : '') . '</themeimagetype><image>' . (isset($button['image']) ? InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false) . '/shared/' . $button['image'] : '') . '</image><action type="encoded">' . urlencode(isset($button['action']) ? $button['action'] : '') . '</action>';
+                            <args><label type="encoded">' . urlencode($button['label']) . '</label><themeimage>' . (isset($button['themeimage']) ? $button['themeimage'] : '') . '</themeimage><themeimagetype>' . (isset($button['themeimagetype']) ? $button['themeimagetype'] : '') . '</themeimagetype><image>' . (isset($button['image']) ? \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/shared/' . $button['image'] : '') . '</image><action type="encoded">' . urlencode(isset($button['action']) ? $button['action'] : '') . '</action>';
                         if (isset($button['needconfirm']) and isset($button['confirmmessage']) and ($button['needconfirm'] == 'true') and strlen($button['confirmmessage']))
                             $this->mDefinition .= '<needconfirm>true</needconfirm><confirmmessage type="encoded">' . urlencode($button['confirmmessage']) . '</confirmmessage>';
                         if (isset($button['horiz']))

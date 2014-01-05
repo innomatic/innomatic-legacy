@@ -7,13 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/util/Observer.php');
+namespace Innomatic\Util;
 
 /**
  * Questa classe rappresenta un oggetto osservabile.
@@ -57,7 +56,7 @@ abstract class Observable
      * @param Observer $observer oggetto di tipo Observer da notificare.
      * @return void
      */
-    public function addObserver(Observer $observer)
+    public function addObserver(\Innomatic\Util\Observer $observer)
     {
         $this->_observingObjects[] = $observer;
     }
@@ -91,7 +90,7 @@ abstract class Observable
      * @return void
      */
     /**
-    public function deleteObserver(Observer $observer)
+    public function deleteObserver(\Innomatic\Util\Observer $observer)
     {
         $hash = $observer->hashCode();
 

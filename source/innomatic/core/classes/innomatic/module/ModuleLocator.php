@@ -1,4 +1,6 @@
 <?php
+namespace Innomatic\Module;
+
 /**
  * Object containing the indicator for locating a Module.
  *
@@ -28,7 +30,7 @@
  * Username and password are generally required for accessing a Module.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
 class ModuleLocator

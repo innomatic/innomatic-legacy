@@ -7,20 +7,21 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Application;
 
 /**
  * This class is to be extended for every component type. Extended classes
- * should define DoInstallAction(), DoUninstallAction(), DoUpdateAction(),
+ * should define doInstallAction(), doUninstallAction(), doUpdateAction(),
  * doEnableDomainAction() and doDisableDomainAction(), or some of them,
  * for their intended use.
  *
  */
-abstract class ApplicationComponent
+abstract class ApplicationComponent implements ApplicationComponentBase
 {
     /*! @public rootda DataAccess class - Innomatic database handler. */
     public $rootda;
@@ -36,7 +37,7 @@ abstract class ApplicationComponent
     /*! @public basedir string - Application temporary directory path, where the
     application has been extracted. */
     public $basedir;
-    /*! @public setup bool - Setup flag, TRUE when in Innomatic setup phase. */
+    /*! @public setup bool - Setup flag, true when in Innomatic setup phase. */
     public $setup = false;
     public $mLog;
     const OVERRIDE_NONE = 'false';
@@ -53,7 +54,7 @@ abstract class ApplicationComponent
      @param basedir string - Application temporary directory path.
      */
     public function __construct(
-        DataAccess $rootda,
+        \Innomatic\Dataaccess\DataAccess $rootda,
         $domainda,
         $appname,
         $name,
@@ -75,9 +76,8 @@ abstract class ApplicationComponent
             $this->basedir = $basedir;
         }
 
-        require_once('innomatic/application/ApplicationComponentRegister.php');
         $this->applicationsComponentsRegister = new ApplicationComponentRegister($this->rootda);
-        $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     }
 
     /*!
@@ -107,9 +107,9 @@ structure.
                 '',
                 '',
                 $override
-            ) == FALSE
+            ) == false
         ) {
-            //if ( isset($params['donotinstall'] ) or $this->setup ) $result = TRUE;
+            //if ( isset($params['donotinstall'] ) or $this->setup ) $result = true;
             if (
                 (
                     isset($params['donotinstall'])
@@ -146,16 +146,16 @@ structure.
     }
 
     /*!
-     @abstract Uninstalls the component and unregisters the component from
+     @abstract Uninstalls the component and unregisters it from
 the application register.
      @param params array - Array of the parameters in the component definition
 structure.
-     @result True if successfully uninstalled and unregistered, FALSE if
+     @result True if successfully uninstalled and unregistered, false if
 component not found.
      */
     public function uninstall($params)
     {
-        $result = FALSE;
+        $result = false;
         $override = self::OVERRIDE_NONE;
         if (isset($params['override'])) {
             switch($params['override']) {
@@ -173,7 +173,7 @@ component not found.
                 '',
                 $this->appname,
                 $override
-            ) != FALSE
+            ) != false
         ) {
             if (
                 $this->applicationsComponentsRegister->checkRegisterComponent(
@@ -182,8 +182,8 @@ component not found.
                     '',
                     $this->appname,
                     $override,
-                    TRUE
-                ) == FALSE
+                    true
+                ) == false
             ) {
                 $result = $this->doUninstallAction($params);
                 $this->applicationsComponentsRegister->unregisterComponent(
@@ -216,8 +216,7 @@ component not found.
      */
     public function update($updatemode, $params, $domainprescript = '', $domainpostscript = '')
     {
-        require_once('innomatic/application/Application.php');
-        $result = FALSE;
+        $result = false;
 
         if ($this->getIsDomain() or (isset($params['override']) and $params['override'] == self::OVERRIDE_DOMAIN)) {
             $domainsquery = $this->rootda->execute('SELECT * FROM domains');
@@ -229,37 +228,41 @@ component not found.
 
         switch ($updatemode) {
             case Application::UPDATE_MODE_ADD :
-                if ($this->DoInstallAction($params)) {
-                    $result = TRUE;
+                if ($this->install($params)) {
+                    $result = true;
 
                     if (
                         $this->getIsDomain()
-                        or (
-                            isset($params['override'])
-                            and $params['override'] == self::OVERRIDE_DOMAIN
-                        )
+                        or (isset($params['override']) and $params['override'] == self::OVERRIDE_DOMAIN)
                     ) {
                         if ($domainsquery->getNumberRows() > 0) {
                             while (!$domainsquery->eof) {
                                 $domaindata = $domainsquery->getFields();
 
+                                // Check if the application is enabled for the current iteration domain
                                 $actquery = $this->rootda->execute(
-                                    'SELECT * FROM applications_enabled WHERE domainid='. (int) $domaindata['id']
-                                    .' AND applicationid='. (int) $appid
+                                    'SELECT * FROM applications_enabled WHERE domainid='.(int)$domaindata['id']
+                                    .' AND applicationid='.(int)$appid
                                 );
+                                
                                 if ($actquery->getNumberRows()) {
-                                    InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                	// Start domain
+                                    \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                     )->startDomain($domaindata['domainid']);
-                                    $this->domainda = InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                    
+                                    // Set the domain dataaccess for the component
+                                    $this->domainda = \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                     )->getCurrentDomain()->getDataAccess();
 
-                                    if (!$this->Enable($domainsquery->getFields('id'), $params)) {
-                                        $result = FALSE;
+                                    // Enable the component for the current iteration domain
+                                    if (!$this->enable($domainsquery->getFields('id'), $params)) {
+                                        $result = false;
                                     }
 
-                                    InnomaticContainer::instance('innomaticcontainer')->stopDomain();
+                                    // Stop domain
+                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->stopDomain();
                                 }
 
                                 $actquery->free();
@@ -270,16 +273,11 @@ component not found.
                 }
                 break;
 
-            case Application::UPDATE_MODE_REMOVE :
-                if ($this->DoUninstallAction($params)) {
-                    $result = TRUE;
-
+            case Application::UPDATE_MODE_REMOVE:
+            	// Disables the component for each domain, before uninstalling it
                     if (
                         $this->getIsDomain()
-                        or (
-                            isset($params['override'])
-                            and $params['override'] == self::OVERRIDE_DOMAIN
-                        )
+                        or (isset($params['override']) and $params['override'] == self::OVERRIDE_DOMAIN)
                     ) {
                         if ($domainsquery->getNumberRows() > 0) {
                             while (!$domainsquery->eof) {
@@ -290,33 +288,35 @@ component not found.
                                     . (int) $domaindata['id'].' AND applicationid='. (int) $appid
                                 );
                                 if ($actquery->getNumberRows()) {
-                                    InnomaticContainer::instance(
-                                        'innomaticcontainer'
-                                    )->startDomain($domaindata['domainid']);
-                                    $this->domainda = InnomaticContainer::instance(
-                                        'innomaticcontainer'
-                                    )->getCurrentDomain()->getDataAccess();
+                                	// Start domain
+                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->startDomain($domaindata['domainid']);
+                                    
+                                    // Set the domain dataaccess for the component
+                                    $this->domainda = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
 
-
-                                    if (!$this->Disable($domainsquery->getFields('id'), $params)) {
-                                        $result = FALSE;
+                                    // Disable the component for the current iteration domain
+                                    if (!$this->disable($domainsquery->getFields('id'), $params)) {
+                                        $result = false;
                                     }
 
-                                    InnomaticContainer::instance('innomaticcontainer')->stopDomain();
+                                    // Stop domain
+                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->stopDomain();
                                 }
 
                                 $actquery->free();
-
                                 $domainsquery->moveNext();
                             }
                         }
                     }
+                
+                if ($this->uninstall($params)) {
+                   	$result = true;
                 }
                 break;
 
             case Application::UPDATE_MODE_CHANGE :
-                if ($this->DoUpdateAction($params)) {
-                    $result = TRUE;
+                if ($this->doUpdateAction($params)) {
+                    $result = true;
 
                     if (
                         $this->getIsDomain()
@@ -334,11 +334,11 @@ component not found.
                                     .' AND applicationid='. (int) $appid
                                 );
                                 if ($actquery->getNumberRows()) {
-                                    InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                    \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                     )->startDomain($domaindata['domainid']);
-                                    $this->domainda = InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                    $this->domainda = \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                     )->getCurrentDomain()->getDataAccess();
 
                                     if (
@@ -354,7 +354,7 @@ component not found.
                                             $params
                                         )
                                     ) {
-                                        $result = FALSE;
+                                        $result = false;
                                     }
 
                                     if (
@@ -364,8 +364,8 @@ component not found.
                                         include($domainpostscript);
                                     }
 
-                                    InnomaticContainer::instance(
-                                        'innomaticcontainer'
+                                    \Innomatic\Core\InnomaticContainer::instance(
+                                        '\Innomatic\Core\InnomaticContainer'
                                     )->stopDomain();
                                 }
 
@@ -378,14 +378,13 @@ component not found.
                 break;
 
             default:
-                require_once('innomatic/logging/Logger.php');
-                $log = InnomaticContainer::instance(
-                    'innomaticcontainer'
+                $log = \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applicationcomponent.update',
                     'Invalid update mode',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
                 break;
         }
@@ -437,7 +436,7 @@ component not found.
                     $domainid,
                     '',
                     $override
-                ) == FALSE
+                ) == false
             ) {
                 if ($this->doEnableDomainAction($domainid, $params)) {
                     $this->applicationsComponentsRegister->registerComponent(
@@ -447,7 +446,7 @@ component not found.
                         $domainid,
                         $override
                     );
-                    $result = TRUE;
+                    $result = true;
                 }
             } else {
                 $result = $this->applicationsComponentsRegister->registerComponent(
@@ -456,11 +455,11 @@ component not found.
                     $this->name,
                     $domainid,
                     $override,
-                    TRUE
+                    true
                 );
             }
         } else {
-            $result = TRUE;
+            $result = true;
         }
         return $result;
     }
@@ -474,7 +473,7 @@ structure.
      */
     public function disable($domainid, $params)
     {
-        $result = FALSE;
+        $result = false;
         $override = self::OVERRIDE_NONE;
         if (isset($params['override'])) {
             switch($params['override']) {
@@ -499,7 +498,7 @@ structure.
                     $domainid,
                     $this->appname,
                     $override
-                ) != FALSE
+                ) != false
             ) {
                 if (
                     $this->applicationsComponentsRegister->checkRegisterComponent(
@@ -508,8 +507,8 @@ structure.
                         $domainid,
                         $this->appname,
                         $override,
-                        TRUE
-                    ) == FALSE
+                        true
+                    ) == false
                 ) {
                     $result = $this->doDisableDomainAction($domainid, $params);
                     $this->applicationsComponentsRegister->unregisterComponent(
@@ -530,7 +529,7 @@ structure.
                 }
             }
         } else {
-            $result = TRUE;
+            $result = true;
         }
         return $result;
     }
@@ -545,7 +544,7 @@ structure
      */
     public function doInstallAction($params)
     {
-        return TRUE;
+        return true;
     }
 
     /*!
@@ -558,7 +557,7 @@ structure.
      */
     public function doUninstallAction($params)
     {
-        return TRUE;
+        return true;
     }
 
     /*!
@@ -571,7 +570,7 @@ structure.
      */
     public function doUpdateAction($params)
     {
-        return TRUE;
+        return true;
     }
 
     /*!
@@ -585,7 +584,7 @@ structure.
      */
     public function doEnableDomainAction($domainid, $params)
     {
-        return TRUE;
+        return true;
     }
 
     /*!
@@ -599,7 +598,7 @@ structure.
      */
     public function doDisableDomainAction($domainid, $params)
     {
-        return TRUE;
+        return true;
     }
 
     /*!
@@ -613,30 +612,6 @@ structure.
      */
     public function doUpdateDomainAction($domainid, $params)
     {
-        return TRUE;
+        return true;
     }
-
-    /**
-     * Tells the component type identifier string.
-     *
-     */
-    abstract public static function getType();
-
-    /**
-     * Tells the component priority over the other ones.
-     *
-     */
-    abstract public static function getPriority();
-
-    /**
-     * Tells if the component supports the domain abilitation.
-     *
-     */
-    abstract public static function getIsDomain();
-
-    /**
-     * Tells if the component supports the override feature.
-     *
-     */
-    abstract public static function getIsOverridable();
 }

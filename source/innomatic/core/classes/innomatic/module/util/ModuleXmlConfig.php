@@ -1,6 +1,5 @@
 <?php
-
-require_once('innomatic/module/ModuleConfig.php');
+namespace Innomatic\Module\Util;
 
 /**
  * XML based configuration parser.
@@ -11,10 +10,10 @@ require_once('innomatic/module/ModuleConfig.php');
  * This class must be instanced using the ModuleLXmlConfig::getInstance() method.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-class ModuleXmlConfig extends ModuleConfig
+class ModuleXmlConfig extends \Innomatic\Module\ModuleConfig
 {
     /**
      * Value object structure.
@@ -57,8 +56,7 @@ class ModuleXmlConfig extends ModuleConfig
     {
         // Checks if the configuration file exists.
         if (!file_exists($configFile)) {
-            require_once('innomatic/module/ModuleException.php');
-            throw new ModuleException('Cannot find '.$configFile.' configuration file');
+            throw new \Innomatic\Module\ModuleException('Cannot find '.$configFile.' configuration file');
         }
 
         // Parses the configuration file.

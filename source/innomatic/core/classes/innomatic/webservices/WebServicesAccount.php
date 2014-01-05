@@ -7,14 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/logging/Logger.php');
-require_once('innomatic/process/Hook.php');
+namespace Innomatic\Webservices;
 
 /*!
  @class WebServicesAccount
@@ -73,16 +71,16 @@ class WebServicesAccount
      @param rrootDb DataAccess class - Innomatic database handler.
      @param id integer - Account id.
      */
-    public function WebServicesAccount(&$rrootDb, $id = '')
+    public function __construct($rrootDb, $id = '')
     {
-        $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-        $this->mWebServicesLog = new Logger( InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log' );
+        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+        $this->mWebServicesLog = new \Innomatic\Logging\Logger( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log' );
 
         $this->mId = $id;
 
-        if ( is_object( $rrootDb ) ) $this->mrRootDb = &$rrootDb;
+        if ( is_object( $rrootDb ) ) $this->mrRootDb = $rrootDb;
         else $this->mLog->logEvent( 'innomatic.webservicesaccount',
-                                   'Invalid Innomatic database handler', Logger::ERROR );
+                                   'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         if ( $this->mId ) {
             $acc_query = &$this->mrRootDb->execute( 'SELECT * '.
@@ -101,7 +99,7 @@ class WebServicesAccount
                 $this->mProxy       = $acc_data['proxy'];
                 $this->mProxyPort   = $acc_data['proxyport'];
             } else $this->mLog->logEvent( 'innomatic.webservicesaccount',
-                                       'Invalid account id', Logger::ERROR );
+                                       'Invalid account id', \Innomatic\Logging\Logger::ERROR );
         }
     }
 
@@ -134,8 +132,8 @@ class WebServicesAccount
     {
         $result = false;
 
-        $hook = new Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.create' );
-        if ( $hook->CallHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == Hook::RESULT_OK ) {
+        $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.create' );
+        if ( $hook->callHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( strlen( $name ) ) {
                 $acc_seq = $this->mrRootDb->getNextSequenceValue( 'webservices_accounts_id_seq' );
 
@@ -155,7 +153,7 @@ class WebServicesAccount
                     $this->mLog->logEvent(
                         'Innomatic',
                         'Created new web services profile account',
-                        Logger::NOTICE
+                        \Innomatic\Logging\Logger::NOTICE
                         );
 
                     $this->mId = $acc_seq;
@@ -169,7 +167,7 @@ class WebServicesAccount
                     $this->mProxyPort = $proxyPort;
 
                     if (
-                        $hook->CallHooks(
+                        $hook->callHooks(
                             'accountcreated',
                             $this,
                             array(
@@ -183,7 +181,7 @@ class WebServicesAccount
                                 'proxyport' => $proxyPort,
                                 'id' => $this->mId
                                 )
-                            ) != Hook::RESULT_OK
+                            ) != \Innomatic\Process\Hook::RESULT_OK
                         ) $result = false;
                 } else $result = WebServicesAccount::CREATE_UNABLE_TO_INSERT_ACCOUNT;
             } else {
@@ -207,16 +205,16 @@ class WebServicesAccount
     {
         $result = false;
 
-        $hook = new Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.remove' );
-        if ( $hook->CallHooks( 'calltime', $this, array( 'id' => $this->mId ) ) == Hook::RESULT_OK ) {
+        $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.remove' );
+        if ( $hook->callHooks( 'calltime', $this, array( 'id' => $this->mId ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mId ) {
                 $result = &$this->mrRootDb->execute( 'DELETE FROM webservices_accounts WHERE id='.(int)$this->mId );
 
                 if ( $result ) {
                     $this->mLog->logEvent( 'Innomatic',
-                                           'Removed web services profile account', Logger::NOTICE );
+                                           'Removed web services profile account', \Innomatic\Logging\Logger::NOTICE );
 
-                    if ( $hook->CallHooks( 'accountremoved', $this, array( 'id' => $this->mId ) ) != Hook::RESULT_OK ) $result = false;
+                    if ( $hook->callHooks( 'accountremoved', $this, array( 'id' => $this->mId ) ) != \Innomatic\Process\Hook::RESULT_OK ) $result = false;
                     $this->mId = '';
                 } else $result = WebServicesAccount::REMOVE_UNABLE_TO_REMOVE_ACCOUNT;
             } else $result = WebServicesAccount::REMOVE_EMPTY_ACCOUNT_ID;
@@ -243,8 +241,8 @@ class WebServicesAccount
     {
         $result = false;
 
-        $hook = new Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.update' );
-        if ( $hook->CallHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == Hook::RESULT_OK ) {
+        $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.update' );
+        if ( $hook->callHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mId ) {
                 if ( strlen( $name ) ) {
                     $result = &$this->mrRootDb->execute( 'UPDATE webservices_accounts '.
@@ -260,7 +258,7 @@ class WebServicesAccount
                                                         'WHERE id='.(int)$this->mId );
 
                     if ( $result ) {
-                        if ( $hook->CallHooks( 'accountudpated', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password, 'id' => $this->mId ) ) != Hook::RESULT_OK ) $result = false;
+                        if ( $hook->callHooks( 'accountudpated', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password, 'id' => $this->mId ) ) != \Innomatic\Process\Hook::RESULT_OK ) $result = false;
                     } else $result = WebServicesAccount::UPDATE_UNABLE_TO_UPDATE_ACCOUNT;
                 } else {
                     $result = WebServicesAccount::UPDATE_EMPTY_ACCOUNT_NAME;

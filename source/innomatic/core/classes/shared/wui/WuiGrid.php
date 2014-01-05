@@ -7,16 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiGrid extends WuiContainerWidget
+class WuiGrid extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     //public $mCells;
     //public $mRows;
@@ -24,13 +25,13 @@ class WuiGrid extends WuiContainerWidget
     //public $mCompact;
     public function __construct($elemName, $elemArgs = '', $elemTheme = '', $dispEvents = '')
     {
-        $this->WuiContainerWidget($elemName, $elemArgs, $elemTheme, $dispEvents);
+        parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
         if (isset($this->mArgs['compact']))
             $this->mArgs['compact'] = $this->mArgs['compact'] == 'true' ? 'true' : 'false';
         else
             $this->mArgs['compact'] = 'false';
     }
-    public function addChild(WuiWidget $childWidget, $row, $col, $halign = '', $valign = '')
+    public function addChild(\Innomatic\Wui\Widgets\WuiWidget $childWidget, $row = '', $col = '', $halign = '', $valign = '')
     {
         if (! isset($this->mArgs['rows']) or $row >= $this->mArgs['rows']) {
             $this->mArgs['rows'] = $row + 1;
@@ -45,7 +46,7 @@ class WuiGrid extends WuiContainerWidget
             $this->mArgs['cells'][$row][$col]['valign'] = $valign;
         return true;
     }
-    public function build(WuiDispatcher $rwuiDisp)
+    public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $result = false;
         $this->mrWuiDisp = $rwuiDisp;

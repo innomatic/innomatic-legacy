@@ -1,27 +1,25 @@
 <?php
-
-require_once('innomatic/module/ModuleObject.php');
-require_once('innomatic/dataaccess/DataAccessResult.php');
+namespace Innomatic\Module\Persist;
 
 /**
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
 class ModuleReadOnlyResultSet
 {
     private $resultSet;
 
-    public function __construct(DataAccessResult $resultSet)
+    public function __construct(\Innomatic\Dataaccess\DataAccessResult $resultSet)
     {
         $this->resultSet = $resultSet;
     }
 
-    public function getNext(ModuleObject $businessObject)
+    public function getNext(\Innomatic\Module\ModuleObject $businessObject)
     {
         $row = $this->resultSet->getFields();
 
-        $class = new ReflectionObject($businessObject->moduleGetVO());
+        $class = new \ReflectionObject($businessObject->moduleGetVO());
         $properties = $class->getProperties();
 
         for ($i = 0; $i < count($properties); $i ++) {

@@ -1,13 +1,11 @@
 <?php
-
-require_once('innomatic/module/ModuleLocator.php');
-require_once('innomatic/module/ModuleException.php');
+namespace Innomatic\Module;
 
 /**
  * Class for transparently access a remote Module object.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
 abstract class ModuleRemoteObject
@@ -36,7 +34,7 @@ abstract class ModuleRemoteObject
      * @param ModuleLocator $locator Module locator object.
      * @since 5.1
      */
-    public function __construct(ModuleLocator $locator)
+    public function __construct(\Innomatic\Module\ModuleLocator $locator)
     {
         $this->locator = $locator;
         $this->path = '';
@@ -135,7 +133,7 @@ abstract class ModuleRemoteObject
         if (isset ($response_headers['Session']))
             $this->sessionId = $response_headers['Session'];
 
-        $return_value = php_xmlrpc_decode($response_body);
+        $return_value = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($response_body);
         if ($return_value == null) {
             throw new ModuleException('XML-RPC decode failed, invalid XML-RPC response from Module server');
         }

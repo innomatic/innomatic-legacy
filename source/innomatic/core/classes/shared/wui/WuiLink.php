@@ -7,16 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiLink extends WuiWidget
+class WuiLink extends \Innomatic\Wui\Widgets\WuiWidget
 {
     //public $mLink;
     //public $mLabel;
@@ -84,6 +85,6 @@ class WuiLink extends WuiWidget
             '</strong>' : '') . '</a>' : $this->mArgs['label'])
             . '</td></tr></table>' . ($this->mComments ? '<!-- end '
             . $this->mName . " link -->\n" : '');
-        return TRUE;
+        return true;
     }
 }

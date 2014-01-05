@@ -7,15 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/wui/theme/WuiTheme.php');
-require_once('innomatic/wui/dispatch/WuiDispatcher.php');
+namespace Innomatic\Wui\Widgets;
 
 /*!
  @class WuiWidget
@@ -38,10 +35,10 @@ abstract class WuiWidget
     public $mThemeHandler;
     /*! @var mDispEvents array - Dispatcher events. */
     public $mDispEvents = array();
-    /*! @var mComments boolean - Set to TRUE if element should contain comment
+    /*! @var mComments boolean - Set to true if element should contain comment
     blocks. */
     public $mComments;
-    /*! @var mUseSession boolean - TRUE if the widget should use the stored
+    /*! @var mUseSession boolean - true if the widget should use the stored
     session parameters. */
     public $mUseSession;
     /*! @var mSessionObjectName string - Name of this widget as object
@@ -73,25 +70,25 @@ abstract class WuiWidget
     {
         $this->mName = $elemName;
         $this->mArgs = &$elemArgs;
-        $this->mComments = Wui::showSourceComments();
+        $this->mComments = \Innomatic\Wui\Wui::showSourceComments();
 
         if (is_array($dispEvents)) {
             $this->mDispEvents = &$dispEvents;
         }
 
-        $currentWuiTheme = Wui::instance('wui')->getThemeName();
+        $currentWuiTheme = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getThemeName();
         if (strlen($elemTheme) and $elemTheme != $currentWuiTheme) {
             $this->mTheme = $elemTheme;
 
-            $this->mThemeHandler = new WuiTheme(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+            $this->mThemeHandler = new \Innomatic\Wui\WuiTheme(
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getDataAccess(),
                 $this->mTheme
             );
         } else {
             $this->mTheme = $currentWuiTheme;
-            $this->mThemeHandler = Wui::instance('wui')->getTheme();
+            $this->mThemeHandler = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getTheme();
         }
 
         if (
@@ -121,10 +118,20 @@ abstract class WuiWidget
                 $this->mArgs['sessionobjectusername'];
         }
 
+        $url_path = '';
+        
+        if ($this->mSessionObjectNoPage != 'true') {
+	        $url_path = $_SERVER['REQUEST_URI'];
+	        if (strpos($url_path, '?')) {
+	        	$url_path = substr($url_path, 0, strpos($url_path, '?'));
+	        }
+	        $url_path .= '_';
+        }
+        
         $this->mSessionObjectName = ($this->mSessionObjectNoUser == 'true' ? ''
-            : (is_object(InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()) ?
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserName() : 'root')
-             .'_') . ($this->mSessionObjectNoPage == 'true' ? '' : $_SERVER['PHP_SELF'].'_') .
+            : (is_object(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()) ?
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName() : 'root')
+             .'_') .$url_path.
              ($this->mSessionObjectNoType == 'true' ? '' : get_class($this).'_') .
              ($this->mSessionObjectNoName == 'true' ? '' : $this->mName) .
              (strlen($this->mSessionObjectUserName) ? '_'.$this->mSessionObjectUserName : '');
@@ -135,18 +142,16 @@ abstract class WuiWidget
             $ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
         }
 
-        require_once('innomatic/ajax/Xajax.php');
-        $xajax = Xajax::instance('Xajax', $ajax_request_uri);
+        $xajax = \Innomatic\Ajax\Xajax::instance('Xajax', $ajax_request_uri);
 
-        require_once('innomatic/wui/Wui.php');
-        $wuiContainer = Wui::instance('wui');
+        $wuiContainer = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 
         // Register action ajax calls
-        $theObject = new ReflectionObject($this);
+        $theObject = new \ReflectionObject($this);
         $methods = $theObject->getMethods();
         foreach ($methods as $method) {
             // Ignore private methods
-            $theMethod = new ReflectionMethod($theObject->getName(), $method->getName());
+            $theMethod = new \ReflectionMethod($theObject->getName(), $method->getName());
             if (!$theMethod->isPublic()) {
                 continue;
             }
@@ -170,7 +175,7 @@ abstract class WuiWidget
      @param rwuiDisp WuiDispatcher class - Wui internal dispatcher handler.
      @result True it the structure has been built by the member.
      */
-    public function build(WuiDispatcher $rwuiDisp)
+    public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $this->mrWuiDisp = $rwuiDisp;
         return $this->generateSource();
@@ -214,11 +219,8 @@ abstract class WuiWidget
     public function storeSession($args)
     {
         if ($this->mUseSession) {
-            require_once(
-                'innomatic/desktop/controller/DesktopFrontController.php'
-            );
-            DesktopFrontController::instance(
-                'desktopfrontcontroller'
+            \Innomatic\Desktop\Controller\DesktopFrontController::instance(
+                '\Innomatic\Desktop\Controller\DesktopFrontController'
             )->session->put(
                 $this->mSessionObjectName, serialize($args)
             );
@@ -232,16 +234,15 @@ abstract class WuiWidget
      */
     public function retrieveSession()
     {
-        require_once('innomatic/desktop/controller/DesktopFrontController.php');
         if (
             $this->mUseSession == 'true'
-            and DesktopFrontController::instance(
-                'desktopfrontcontroller'
+            and \Innomatic\Desktop\Controller\DesktopFrontController::instance(
+                '\Innomatic\Desktop\Controller\DesktopFrontController'
             )->session->isValid($this->mSessionObjectName)
         ) {
             return unserialize(
-                DesktopFrontController::instance(
-                    'desktopfrontcontroller'
+                \Innomatic\Desktop\Controller\DesktopFrontController::instance(
+                    '\Innomatic\Desktop\Controller\DesktopFrontController'
                 )->session->get($this->mSessionObjectName)
             );
         } else {

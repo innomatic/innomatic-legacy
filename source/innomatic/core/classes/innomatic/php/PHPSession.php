@@ -7,30 +7,29 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/webapp/WebAppSession.php');
+namespace Innomatic\Php;
 
 /**
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
  * @copyright Copyright 2012 Innoteam Srl
  * @since 1.0
  */
-class PHPSession implements WebAppSession
+class PHPSession implements \Innomatic\Webapp\WebAppSession
 {
-    protected $_id;
+    protected $id;
 
     public function start($id = '')
     {
         if (strlen($id)) {
-            $this->_id = $id;
+            $this->id = $id;
             session_id($id);
         } else {
-            $this->_id = session_id();
+            $this->id = session_id();
         }
         if (!headers_sent()) {
             session_start();
@@ -61,7 +60,7 @@ class PHPSession implements WebAppSession
 
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     public function setSavePath($path)

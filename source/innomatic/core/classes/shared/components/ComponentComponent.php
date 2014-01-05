@@ -7,23 +7,23 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/application/ApplicationComponent.php');
+namespace Shared\Components;
+
 /**
  * Component component handler.
  */
-class ComponentComponent extends ApplicationComponent
+class ComponentComponent extends \Innomatic\Application\ApplicationComponent
 {
     public $eltype;
-    public function ComponentComponent($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
-        require_once ('innomatic/application/ApplicationComponentFactory.php');
-        $this->eltype = new ApplicationComponentFactory($rootda);
+        $this->eltype = new \Innomatic\Application\ApplicationComponentFactory($rootda);
     }
     public static function getType()
     {
@@ -41,12 +41,11 @@ class ComponentComponent extends ApplicationComponent
     {
         return false;
     }
-    public function DoInstallAction($params)
+    public function doInstallAction($params)
     {
         $result = false;
         /*
         if (strlen($params['class'])) {
-            require_once('innomatic/application.components.ClassComponent');
             $class_elem = new ClassComponent($this->rootda,$this->domainda,$this->appname,$params['class'],$params['class'],$this->basedir);
             $class_params['name'] = $class_params['file'] = $params['class'];
             $class_elem->Install($class_params);
@@ -55,44 +54,44 @@ class ComponentComponent extends ApplicationComponent
         */
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/classes/shared/components/' . basename($params['file']);
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']), 0644);
-                $params['filepath'] = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']);
+            if (@copy($params['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']))) {
+                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']), 0644);
+                $params['filepath'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']);
                 if ($this->eltype->Install($params)) {
                     $result = true;
                 }
             } else
-                $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']) . ')', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy component file (' . $params['file'] . ') to its destination (' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    public function DoUninstallAction($params)
+    public function doUninstallAction($params)
     {
         $result = false;
-        $params['filepath'] = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']);
+        $params['filepath'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']);
         if ($this->eltype->Uninstall($params)) {
-            if (@unlink(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']))) {
+            if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']))) {
                 $result = true;
             }
         }
         return $result;
     }
-    public function DoUpdateAction($params)
+    public function doUpdateAction($params)
     {
         $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/classes/shared/components/' . basename($params['file']);
-            if (@copy($params['file'], InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']))) {
-                @chmod(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']), 0644);
-                $params['filepath'] = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']);
+            if (@copy($params['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']))) {
+                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']), 0644);
+                $params['filepath'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']);
                 if ($this->eltype->Update($params)) {
                     $result = true;
                 }
             } else
-                $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy component file (' . $params['file'] . ') to its destination (' . InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']) . ')', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy component file (' . $params['file'] . ') to its destination (' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
 }

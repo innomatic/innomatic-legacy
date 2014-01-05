@@ -7,16 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiFormarg extends WuiWidget
+class WuiFormarg extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mValue string - Default content. */
     //public $mValue;
@@ -39,13 +40,12 @@ class WuiFormarg extends WuiWidget
     }
     protected function generateSource()
     {
-        require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
-        $eventData = new WuiEventRawData($this->mArgs['disp'], $this->mName);
+        $eventData = new \Innomatic\Wui\Dispatch\WuiEventRawData($this->mArgs['disp'], $this->mName);
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName
             . ' string -->' : '') . '<input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' type="hidden" name="'
             . $eventData->getDataString() . '"'
             . (strlen($this->mArgs['value']) ? ' value="'
-            . Wui::utf8_entities($this->mArgs['value']) . '"' : '') . '>'
+            . \Innomatic\Wui\Wui::utf8_entities($this->mArgs['value']) . '"' : '') . '>'
             . ($this->mComments ? '<!-- end ' . $this->mName . " string -->\n"
             : '');
         return true;

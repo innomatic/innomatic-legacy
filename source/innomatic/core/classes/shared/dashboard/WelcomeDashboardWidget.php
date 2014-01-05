@@ -1,27 +1,26 @@
 <?php
+namespace Shared\Dashboard;
 
-require_once 'innomatic/desktop/dashboard/DashboardWidget.php';
+use \Innomatic\Core\InnomaticContainer;
 
-class WelcomeDashboardWidget extends DashboardWidget
+class WelcomeDashboardWidget extends \Innomatic\Desktop\Dashboard\DashboardWidget
 {
     public function getWidgetXml()
     {
         // Get the message of the day
-        $message = InnomaticContainer::instance('innomaticcontainer')->getCurrentDomain()->getMotd();
+        $message = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getMotd();
 
         // Check if the motd is empty. If it is empty, get the generic welcome message
         if (!strlen($message)) {
-            require_once('innomatic/locale/LocaleCatalog.php');
-            $catalog = new LocaleCatalog(
+            $catalog = new \Innomatic\Locale\LocaleCatalog(
                     'innomatic::dashboard_welcome',
-                    InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
             );
 
             $message = $catalog->getStr('welcome_message');
         }
 
-        require_once 'shared/wui/WuiXml.php';
-        $xml = '<label><args><label>'.WuiXml::cdata($message).'</label></args></label>';
+        $xml = '<label><args><label>'.\Shared\Wui\WuiXml::cdata($message).'</label></args></label>';
 
         return $xml;
     }

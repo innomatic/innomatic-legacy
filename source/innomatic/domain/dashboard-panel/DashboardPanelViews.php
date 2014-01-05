@@ -7,22 +7,26 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2013 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 6.1
 */
+use \Innomatic\Core\InnomaticContainer;
+use \Innomatic\Wui\Widgets;
+use \Innomatic\Wui\Dispatch;
+use \Innomatic\Locale\LocaleCatalog;
+use \Innomatic\Domain\User;
+use \Shared\Wui;
 
-require_once('innomatic/desktop/panel/PanelViews.php');
-
-class DashboardPanelViews extends PanelViews
+class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 {
     public $wuiPage;
     public $wuiMainvertgroup;
     public $wuiMainframe;
     public $wuiMainstatus;
     public $wuiTitlebar;
-    protected $_localeCatalog;
+    protected $localeCatalog;
 
     public function update($observable, $arg = '')
     {
@@ -30,30 +34,22 @@ class DashboardPanelViews extends PanelViews
 
     public function beginHelper()
     {
-        require_once('innomatic/locale/LocaleCatalog.php');
-        require_once('innomatic/wui/Wui.php');
-        require_once('innomatic/wui/widgets/WuiWidget.php');
-        require_once('innomatic/wui/widgets/WuiContainerWidget.php');
-        require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-        require_once('innomatic/wui/dispatch/WuiEvent.php');
-        require_once('innomatic/wui/dispatch/WuiEventRawData.php');
-        require_once('innomatic/wui/dispatch/WuiDispatcher.php');
-        $this->_localeCatalog = new LocaleCatalog(
+        $this->localeCatalog = new LocaleCatalog(
             'innomatic::domain_dashboard',
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
         );
 
         $this->_wuiContainer->loadAllWidgets();
 
-$this->wuiPage = new WuiPage('page', array('title' => $this->_localeCatalog->getStr('dashboard_pagetitle')));
-$this->wuiMainvertgroup = new WuiVertGroup('mainvertgroup');
+$this->wuiPage = new WuiPage('page', array('title' => $this->localeCatalog->getStr('dashboard_pagetitle')));
+$this->wuiMainvertgroup = new WuiVertgroup('mainvertgroup');
 $this->wuiTitlebar = new WuiTitleBar(
                                'titlebar',
-                               array('title' => $this->_localeCatalog->getStr('dashboard_title'), 'icon' => 'elements')
+                               array('title' => $this->localeCatalog->getStr('dashboard_title'), 'icon' => 'elements')
                               );
 $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
 
-$this->wuiMainframe = new WuiVertFrame('mainframe');
+$this->wuiMainframe = new WuiVertframe('mainframe');
     }
 
     public function endHelper()
@@ -88,25 +84,19 @@ $this->wuiMainframe = new WuiVertFrame('mainframe');
                 $start_column = false;
             }
             // Add ajax setup call
-            Wui::instance('wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\''.$widget['name'].'\')');
+            \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\''.$widget['name'].'\')');
 
             $width = 0;
             $height = 0;
 
-            // Check if the class file exists
-            if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . $widget['file'])) {
-                require_once(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/dashboard/' . $widget['file']);
+            $class = $widget['class'];
 
-                $class = $widget['class'];
-
-                // Check if the class exists
-                if (class_exists($class, false)) {
-                    // Fetch the widget xml definition
-                    $widget_obj = new $class;
-                    $width = $widget_obj->getWidth() * $def_width;
-                    $height = $widget_obj->getHeight();
-                }
-
+            // Check if the class exists            
+            if (class_exists($class, true)) {
+                // Fetch the widget xml definition
+                $widget_obj = new $class;
+                $width = $widget_obj->getWidth() * $def_width;
+                $height = $widget_obj->getHeight();
             }
 
             // Check width and height parameters
@@ -116,7 +106,7 @@ $this->wuiMainframe = new WuiVertFrame('mainframe');
             // Widget title
             $widget_locale = new LocaleCatalog(
                     $widget['catalog'],
-                    InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getLanguage()
+                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
             );
             $headers = array();
             $headers[0]['label'] = $widget_locale->getStr($widget['title']);

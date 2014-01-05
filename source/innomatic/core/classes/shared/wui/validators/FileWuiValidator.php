@@ -7,11 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Shared\Wui\Validators;
 
 // Handling of uploaded files wui eventdata
 //
@@ -31,7 +32,6 @@ if (
     $args[2] = 'tmp_name';
     $args[3] = 'size';
 
-    require_once('innomatic/wui/Wui.php');
     for ($i = 0; $i < 4; $i ++) {
         reset($disps);
         reset($_FILES);
@@ -40,8 +40,8 @@ if (
                 list ($eventdataname, $eventdatacontent)
                 = each($_FILES['wuifiles'][$args[$i]][$disp]['evd'])
             ) {
-                Wui::instance(
-                    'wui'
+                \Innomatic\Wui\Wui::instance(
+                    '\Innomatic\Wui\Wui'
                 )->parameters['wui'][$disp]['evd'][$eventdataname][$args[$i]]
                 = $eventdatacontent;
             }

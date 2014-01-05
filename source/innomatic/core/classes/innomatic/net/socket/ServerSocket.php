@@ -7,11 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Net\Socket;
 
 /**
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
@@ -85,7 +86,7 @@ abstract class ServerSocket
         while ($buf = socket_read($this->clientFD[$clientId], $this->readBufSize, PHP_BINARY_READ)) {
             $data .= $buf;
 
-            if ($buf == NULL || strlen($buf) < $this->readBufSize) {
+            if ($buf == null || strlen($buf) < $this->readBufSize) {
                 break;
             }
 
@@ -105,7 +106,7 @@ abstract class ServerSocket
     public function sendData($clientId, $data)
     {
         if (!isset($this->clientFD[$clientId]) || $this->clientFD[$clientId] == null) {
-            throw new RuntimeException("Client does not exist.");
+            throw new \RuntimeException("Client does not exist.");
         }
 
         if (!@socket_write($this->clientFD[$clientId], $data)) {
@@ -123,8 +124,8 @@ abstract class ServerSocket
 
     public function getClientInfo($id)
     {
-            if (!isset($this->clientFD[$id]) || $this->clientFD[$id] == NULL) {
-            return NULL;
+            if (!isset($this->clientFD[$id]) || $this->clientFD[$id] == null) {
+            return null;
         }
         return $this->clientInfo[$id];
     }

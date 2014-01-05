@@ -7,14 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/util/Observable.php');
-require_once('innomatic/desktop/panel/PanelController.php');
+namespace Innomatic\Desktop\Panel;
 
 /**
  * Abstract class for implementing a set of actions in a Desktop Panel following
@@ -26,11 +24,11 @@ require_once('innomatic/desktop/panel/PanelController.php');
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-abstract class PanelActions extends Observable
+abstract class PanelActions extends \Innomatic\Util\Observable
 {
     protected $_controller;
 
-    public function __construct(PanelController $controller)
+    public function __construct(\Innomatic\Desktop\Panel\PanelController $controller)
     {
         $this->_controller = $controller;
     }
@@ -60,8 +58,7 @@ abstract class PanelActions extends Observable
             $top = $args[1];
             $left = $args[2];
 
-            require_once('shared/wui/WuiDivframe.php');
-            $empty = new WuiDivframe($name);
+            $empty = new \Shared\Wui\WuiDivframe($name);
             $session_args = $empty->retrieveSession();
 
             if( isset($session_args['top']) ) {

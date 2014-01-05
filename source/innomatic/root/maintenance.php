@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -16,22 +16,15 @@
 // NOTE: This is an old-style panel code with a single file
 // acting as model, view and controller.
 
-require_once('innomatic/locale/LocaleCatalog.php');
-require_once('innomatic/locale/LocaleCountry.php');
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-
-require_once('innomatic/maintenance/MaintenanceHandler.php');
-
     global $gPageStatus, $gLocale;
     global $gXmlDefinition, $gLocale, $gPageTitle, $gToolbars;
 
-$gLocale = new LocaleCatalog(
+$gLocale = new \Innomatic\Locale\LocaleCatalog(
     'innomatic::root_maintenance',
-    InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
 );
 
-$gWui = Wui::instance('wui');
+$gWui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $gWui->loadWidget('xml');
 $gWui->loadWidget('innomaticpage');
 $gWui->loadWidget('innomatictoolbar');
@@ -44,7 +37,7 @@ $gToolbars['view'] = array(
         'label' => $gLocale->getStr('general.toolbar'),
         'themeimage' => 'gear',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString(
+        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -59,7 +52,7 @@ $gToolbars['view'] = array(
         'label' => $gLocale->getStr('innomatic.toolbar'),
         'themeimage' => 'gear',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString(
+        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -74,9 +67,9 @@ $gToolbars['view'] = array(
 
 // Info tool bar
 //
-if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')) {
-    $innomaticLogAction = new WuiEventsCall();
-    $innomaticLogAction->addEvent(new WuiEvent('view', 'showrootlog', ''));
+if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log')) {
+    $innomaticLogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $innomaticLogAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'showrootlog', ''));
     $gToolbars['info']['rootlog'] = array(
         'label' => $gLocale->getStr('rootlog_button'),
         'themeimage' => 'alignjustify',
@@ -85,9 +78,9 @@ if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'c
     );
 }
 
-if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log')) {
-    $innomaticWebServicesLogAction = new WuiEventsCall();
-    $innomaticWebServicesLogAction->addEvent(new WuiEvent('view', 'showrootwebserviceslog', ''));
+if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log')) {
+    $innomaticWebServicesLogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+    $innomaticWebServicesLogAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'showrootwebserviceslog', ''));
     $gToolbars['info']['webserviceslog'] = array(
         'label' => $gLocale->getStr('rootwebserviceslog_button'),
         'themeimage' => 'alignjustify',
@@ -102,7 +95,7 @@ $gToolbars['help'] = array(
         'label' => $gLocale->getStr('help.toolbar'),
         'themeimage' => 'info',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString(
+        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -124,14 +117,13 @@ function action_clear_systemlogs($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    require_once('shared/maintenance/InnomaticLogsMaintenance.php');
-    $maint = new InnomaticLogsMaintenance();
+    $maint = new \Shared\Maintenance\InnomaticLogsMaintenance();
     $maint->mCleanRootLog = true;
     $maint->mCleanRootDbLog = true;
     $maint->mCleanPhpLog = true;
     $maint->mCleanWebServicesLog = true;
     $maint->mCleanAccessLog = true;
-    $maint->CleanSystemLogs();
+    $maint->cleanSystemLogs();
 
     $gPageStatus = $gLocale->getStr('systemlogs_cleaned.status');
 }
@@ -141,10 +133,8 @@ function action_clear_domainslogs($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    require_once('shared/maintenance/InnomaticLogsMaintenance.php');
-    $maint = new InnomaticLogsMaintenance();
-
-    $maint->CleanDomainsLogs();
+    $maint = new \Shared\Maintenance\InnomaticLogsMaintenance();
+    $maint->cleanDomainsLogs();
 
     $gPageStatus = $gLocale->getStr('domainslogs_cleaned.status');
 }
@@ -154,9 +144,8 @@ function action_clear_cache($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    require_once('shared/maintenance/InnomaticCacheMaintenance.php');
-    $maint = new InnomaticCacheMaintenance();
-    $maint->CleanCache();
+    $maint = new \Shared\Maintenance\InnomaticCacheMaintenance();
+    $maint->cleanCache();
 
     $gPageStatus = $gLocale->getStr('cache_cleaned.status');
 }
@@ -166,9 +155,8 @@ function action_clear_pidfiles($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    require_once('shared/maintenance/InnomaticCacheMaintenance.php');
-    $maint = new InnomaticCacheMaintenance();
-    $maint->CleanPidFiles();
+    $maint = new \Shared\Maintenance\InnomaticCacheMaintenance();
+    $maint->cleanPidFiles();
 
     $gPageStatus = $gLocale->getStr('pidfiles_cleaned.status');
 }
@@ -178,9 +166,8 @@ function action_clear_sessions($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    require_once('shared/maintenance/InnomaticCacheMaintenance.php');
-    $maint = new InnomaticCacheMaintenance();
-    $maint->CleanSessions();
+    $maint = new \Shared\Maintenance\InnomaticCacheMaintenance();
+    $maint->cleanSessions();
 
     $gPageStatus = $gLocale->getStr('sessions_cleaned.status');
 }
@@ -190,8 +177,7 @@ function action_clear_tempdirs($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    require_once('shared/maintenance/InnomaticCacheMaintenance.php');
-    $maint = new InnomaticCacheMaintenance();
+    $maint = new \Shared\Maintenance\InnomaticCacheMaintenance();
     $maint->CleanRootTempDirs();
 
     $gPageStatus = $gLocale->getStr('tempdirs_cleaned.status');
@@ -202,8 +188,7 @@ function action_clear_clipboard($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    require_once('shared/maintenance/InnomaticCacheMaintenance.php');
-    $maint = new InnomaticCacheMaintenance();
+    $maint = new \Shared\Maintenance\InnomaticCacheMaintenance();
     $maint->CleanClipboard();
 
     $gPageStatus = $gLocale->getStr('clipboard_cleaned.status');
@@ -214,16 +199,14 @@ function action_clear_all($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    require_once('shared/maintenance/InnomaticCacheMaintenance.php');
-    $maint = new InnomaticCacheMaintenance();
+    $maint = new \Shared\Maintenance\InnomaticCacheMaintenance();
     $maint->CleanCache();
     $maint->CleanSessions();
     $maint->CleanPidFiles();
     $maint->CleanRootTempDirs();
     $maint->CleanClipboard();
 
-    require_once('shared/maintenance/InnomaticLogsMaintenance.php');
-    $maint = new InnomaticLogsMaintenance();
+    $maint = new \Shared\Maintenance\InnomaticLogsMaintenance();
     $maint->mCleanRootLog = true;
     $maint->mCleanRootDbLog = true;
     $maint->mCleanPhpLog = true;
@@ -240,8 +223,7 @@ function action_set_innomatic($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    require_once('shared/maintenance/InnomaticCacheMaintenance.php');
-    $maint = new InnomaticCacheMaintenance();
+    $maint = new \Shared\Maintenance\InnomaticCacheMaintenance();
     $maint->setCleanCache(
         isset($eventData['cache']) and $eventData['cache'] == 'on' ? true : false
     );
@@ -258,8 +240,7 @@ function action_set_innomatic($eventData)
         isset($eventData['clipboard']) and $eventData['clipboard'] == 'on' ? true : false
     );
 
-    require_once('shared/maintenance/InnomaticLogsMaintenance.php');
-    $maint = new InnomaticLogsMaintenance();
+    $maint = new \Shared\Maintenance\InnomaticLogsMaintenance();
 
     switch ($eventData['rootlog']) {
         case 'clean' :
@@ -359,7 +340,7 @@ function action_set_report($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    $main = new MaintenanceHandler();
+    $main = new \Innomatic\Maintenance\MaintenanceHandler();
 
     if (isset($eventData['reportenabled']) and $eventData['reportenabled'] == 'on') {
         $main->EnableReports();
@@ -377,7 +358,7 @@ function action_set_general($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    $main = new MaintenanceHandler();
+    $main = new \Innomatic\Maintenance\MaintenanceHandler();
     $tasks = $main->getTasksList();
 
     foreach ($tasks as $task) {
@@ -396,9 +377,9 @@ function action_run_maintenance($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    $innomatic = InnomaticContainer::instance('innomaticcontainer');
+    $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
     $innomatic->startMaintenance();
-    $innomatic->setInterface(InnomaticContainer::INTERFACE_WEB);
+    $innomatic->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_WEB);
 
     $gPageStatus = $gLocale->getStr('maintenance_done.status');
 }
@@ -408,7 +389,7 @@ function action_cleanrootlog($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $tempLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+    $tempLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
     if ($tempLog->cleanLog()) {
         $gPageStatus = $gLocale->getStr('logcleaned_status');
@@ -422,7 +403,7 @@ function action_cleanrootwebserviceslog($eventData)
 {
     global $gPageStatus, $gLocale;
 
-    $tempLog = new Logger(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log');
+    $tempLog = new \Innomatic\Logging\Logger(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log');
 
     if ($tempLog->cleanLog()) {
         $gPageStatus = $gLocale->getStr('logcleaned_status');
@@ -439,7 +420,7 @@ $gViewDispatcher = new WuiDispatcher('view');
 
 function general_tab_builder($tab)
 {
-    return WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('tab' => $tab))));
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('tab' => $tab))));
 }
 
 $gViewDispatcher->addEvent('default', 'main_default');
@@ -447,7 +428,7 @@ function main_default($eventData)
 {
     global $gXmlDefinition, $gLocale, $gPageTitle;
 
-    $main = new MaintenanceHandler();
+    $main = new \Innomatic\Maintenance\MaintenanceHandler();
     $mainTime = $main->getLastMaintenanceTime();
     $tasks = $main->getTasksList();
 
@@ -455,7 +436,7 @@ function main_default($eventData)
     $tabs[1]['label'] = $gLocale->getStr('general_report.tab');
     $tabs[2]['label'] = $gLocale->getStr('general_tasks.tab');
 
-    $country = new LocaleCountry(InnomaticContainer::instance('innomaticcontainer')->getCountry());
+    $country = new \Innomatic\Locale\LocaleCountry(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCountry());
 
     $dateArray = $country->getDateArrayFromUnixTimestamp($mainTime);
 
@@ -512,7 +493,7 @@ function main_default($eventData)
 
             <horizbar/>';
 
-    $maintenanceResult = &InnomaticContainer::instance('innomaticcontainer')->getMaintenanceResult();
+    $maintenanceResult = &\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getMaintenanceResult();
     if (is_array($maintenanceResult)) {
         $row = 0;
 
@@ -552,7 +533,7 @@ function main_default($eventData)
                 <frame>false</frame>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -586,7 +567,7 @@ function main_default($eventData)
               <args>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -650,7 +631,7 @@ function main_default($eventData)
                 <formsubmit>report</formsubmit>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -684,7 +665,7 @@ function main_default($eventData)
               <args>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -741,7 +722,7 @@ function main_default($eventData)
                 <formsubmit>settings</formsubmit>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -772,7 +753,7 @@ function main_default($eventData)
 
 function innomatic_tab_builder($tab)
 {
-    return WuiEventsCall::buildEventsCallString('', array(array('view', 'innomatic', array('tab' => $tab))));
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array('view', 'innomatic', array('tab' => $tab))));
 }
 
 $gViewDispatcher->addEvent('innomatic', 'main_innomatic');
@@ -780,17 +761,14 @@ function main_innomatic($eventData)
 {
     global $gXmlDefinition, $gLocale, $gPageTitle;
 
-    require_once('shared/maintenance/InnomaticCacheMaintenance.php');
-    require_once('shared/maintenance/InnomaticLogsMaintenance.php');
-
-    $country = new LocaleCountry(InnomaticContainer::instance('innomaticcontainer')->getCountry());
+    $country = new \Innomatic\Locale\LocaleCountry(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCountry());
 
     $tabs[0]['label'] = $gLocale->getStr('innomatic_status.tab');
     $tabs[1]['label'] = $gLocale->getStr('innomatic_requirements.tab');
     $tabs[2]['label'] = $gLocale->getStr('innomatic_settings.tab');
 
-    $logsMain = new InnomaticLogsMaintenance();
-    $cacheMain = new InnomaticCacheMaintenance();
+    $logsMain = new \Shared\Maintenance\InnomaticLogsMaintenance();
+    $cacheMain = new \Shared\Maintenance\InnomaticCacheMaintenance();
 
     $gXmlDefinition = '<tab><name>innomatic</name>
       <args>
@@ -835,7 +813,7 @@ function main_innomatic($eventData)
                 <frame>false</frame>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -874,7 +852,7 @@ function main_innomatic($eventData)
                 <frame>false</frame>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -913,7 +891,7 @@ function main_innomatic($eventData)
                 <frame>false</frame>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -952,7 +930,7 @@ function main_innomatic($eventData)
                 <frame>false</frame>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -991,7 +969,7 @@ function main_innomatic($eventData)
                 <frame>false</frame>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -1030,7 +1008,7 @@ function main_innomatic($eventData)
                 <frame>false</frame>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -1069,7 +1047,7 @@ function main_innomatic($eventData)
                 <frame>false</frame>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -1113,7 +1091,7 @@ function main_innomatic($eventData)
                 <frame>false</frame>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -1267,7 +1245,7 @@ function main_innomatic($eventData)
     //
     $row ++;
 
-    if (strlen(InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootCrontab'))) {
+    if (strlen(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootCrontab'))) {
         $ball = $wuiWidget->mThemeHandler->mStyle['greenball'];
         $checkResult = $gLocale->getStr('crontab_available_label');
     } else {
@@ -1352,7 +1330,7 @@ function main_innomatic($eventData)
               <args>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -1683,7 +1661,7 @@ function main_innomatic($eventData)
                 <formsubmit>settings</formsubmit>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -1716,11 +1694,11 @@ function main_showrootlog($eventData)
 
     $logContent = '';
 
-    if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')) {
+    if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log')) {
 
-        $cleanLogAction = new WuiEventsCall();
-        $cleanLogAction->addEvent(new WuiEvent('view', 'showrootlog', ''));
-        $cleanLogAction->addEvent(new WuiEvent('action', 'cleanrootlog', ''));
+        $cleanLogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+        $cleanLogAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'showrootlog', ''));
+        $cleanLogAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'cleanrootlog', ''));
 
         $gToolbars['logs']['cleanlog'] = array(
             'label' => $gLocale->getStr('cleanlog_button'),
@@ -1729,9 +1707,9 @@ function main_showrootlog($eventData)
             'action' => $cleanLogAction->getEventsCallString()
         );
 
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log')) {
+        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log')) {
             $logContent = file_get_contents(
-                InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/innomatic.log'
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log'
             );
         }
     }
@@ -1744,7 +1722,7 @@ function main_showrootlog($eventData)
           <readonly>true</readonly>
           <rows>20</rows>
           <cols>120</cols>
-          <value type="encoded">'.urlencode(Wui::utf8_entities($logContent)).'</value>
+          <value type="encoded">'.urlencode(\Innomatic\Wui\Wui::utf8_entities($logContent)).'</value>
         </args>
       </text>
     </children>
@@ -1756,16 +1734,16 @@ $gViewDispatcher->addEvent('showrootwebserviceslog', 'main_showrootwebserviceslo
 function main_showrootwebserviceslog($eventData)
 {
     global $gLocale, $gPageTitle, $gXmlDefinition, $gToolbars;
-$gWui = Wui::instance('wui');
+$gWui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $gWui->loadWidget('vertgroup');
 $gWui->loadWidget('toolbars');
 
     $logContent = '';
 
-    if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log')) {
-        $cleanLogAction = new WuiEventsCall();
-        $cleanLogAction->addEvent(new WuiEvent('view', 'showrootwebserviceslog', ''));
-        $cleanLogAction->addEvent(new WuiEvent('action', 'cleanrootwebserviceslog', ''));
+    if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log')) {
+        $cleanLogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+        $cleanLogAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'showrootwebserviceslog', ''));
+        $cleanLogAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'cleanrootwebserviceslog', ''));
 
         $gToolbars['logs']['cleanlog'] = array('view' => array(
             'label' => $gLocale->getStr('cleanlog_button'),
@@ -1774,9 +1752,9 @@ $gWui->loadWidget('toolbars');
             'action' => $cleanLogAction->getEventsCallString()
         ));
 
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log')) {
+        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log')) {
             $logContent = file_get_contents(
-                InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/webservices.log'
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log'
             );
         }
     }
@@ -1789,7 +1767,7 @@ $gWui->loadWidget('toolbars');
           <readonly>true</readonly>
           <rows>20</rows>
           <cols>120</cols>
-          <value type="encoded">'.urlencode(Wui::utf8_entities($logContent)).'</value>
+          <value type="encoded">'.urlencode(\Innomatic\Wui\Wui::utf8_entities($logContent)).'</value>
         </args>
       </text>
     </children>

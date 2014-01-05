@@ -1,6 +1,5 @@
 <?php
-
-require_once('innomatic/net/socket/SocketException.php');
+namespace Innomatic\Net\Socket;
 
 //
 // +----------------------------------------------------------------------+
@@ -23,8 +22,6 @@ require_once('innomatic/net/socket/SocketException.php');
 //
 // $Id: Socket.php,v 1.7 2004/09/14 13:53:02 alex Exp $
 //
-
-//require_once 'PEAR.php';
 
 /**
  * Generalized Socket class. More docs to be written.
@@ -67,7 +64,7 @@ class Socket
      *
      * @access public
      */
-    public function Socket()
+    public function __construct()
     {
         //$this->PEAR();
     }
@@ -115,7 +112,7 @@ class Socket
         }
 
         if (!$fp) {
-            throw new SocketException($errstr.' '.$errno);
+            throw new \Innomatic\Net\Socket\SocketException($errstr.' '.$errno);
             //return $this->raiseError($errstr, $errno);
         }
 
@@ -139,7 +136,7 @@ class Socket
             $this->fp = null;
             return true;
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -175,7 +172,7 @@ class Socket
             socket_set_blocking($this->fp, $this->blocking);
             return true;
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -196,7 +193,7 @@ class Socket
             socket_set_timeout($this->fp, $seconds, $microseconds);
             return true;
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -221,7 +218,7 @@ class Socket
         if (is_resource($this->fp)) {
             return socket_get_status($this->fp);
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -239,7 +236,7 @@ class Socket
         if (is_resource($this->fp)) {
             return fgets($this->fp, $size);
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -261,7 +258,7 @@ class Socket
         if (is_resource($this->fp)) {
             return fread($this->fp, $size);
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -278,7 +275,7 @@ class Socket
         if (is_resource($this->fp)) {
             return fwrite($this->fp, $data);
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -295,7 +292,7 @@ class Socket
         if (is_resource($this->fp)) {
             return $this->write($data . "\r\n");
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -326,7 +323,7 @@ class Socket
         if (is_resource($this->fp)) {
             return ord($this->read(1));
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -345,7 +342,7 @@ class Socket
             $buf = $this->read(2);
             return (ord($buf[0]) + (ord($buf[1]) << 8));
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -365,7 +362,7 @@ class Socket
             return (ord($buf[0]) + (ord($buf[1]) << 8) +
                     (ord($buf[2]) << 16) + (ord($buf[3]) << 24));
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -387,7 +384,7 @@ class Socket
             }
             return $string;
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -407,7 +404,7 @@ class Socket
             return sprintf("%s.%s.%s.%s", ord($buf[0]), ord($buf[1]),
                            ord($buf[2]), ord($buf[3]));
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -437,7 +434,7 @@ class Socket
             }
             return $line;
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}
@@ -459,7 +456,7 @@ class Socket
                 $data .= $this->read($this->lineLength);
             return $data;
         }
-        throw new SocketException('Not connected');
+        throw new \Innomatic\Net\Socket\SocketException('Not connected');
         //return $this->raiseError("not connected");
     }
     // }}}

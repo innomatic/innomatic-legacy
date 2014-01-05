@@ -1,10 +1,5 @@
 <?php
-
-require_once('innomatic/module/services/ModuleRegistryHandler.php');
-require_once('innomatic/module/server/ModuleServerAuthenticator.php');
-require_once('innomatic/net/socket/SocketException.php');
-require_once('innomatic/net/socket/Socket.php');
-require_once('innomatic/net/socket/SocketException.php');
+namespace Innomatic\Module\Services;
 
 /**
  * Module pinger
@@ -15,7 +10,7 @@ require_once('innomatic/net/socket/SocketException.php');
  * 2) (int) n. of seconds between 2 consecutives ping cicles
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2013 Innoteam Srl
+ * @copyright Copyright 2005-2014 Innoteam Srl
  * @since 5.1
  */
 class ModulePinger
@@ -101,8 +96,8 @@ class ModulePinger
            $this->ping_interval = $args[3];
            $this->refresh_needed = false;
            $this->shutdown = false;
-           $this->authenticator = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
-           $this->socket = new Socket();
+           $this->authenticator = \Innomatic\Module\ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+           $this->socket = new \Innomatic\Net\Socket\Socket();
         $this->registry = array ();
         $this->registryHandler = new ModuleRegistryHandler();
         $this->registryHandler->parseRegistry();
@@ -145,7 +140,7 @@ class ModulePinger
                 $result = $this->socket->readAll();
                 $this->socket->disconnect();
                 print($result);
-            } catch (SocketException $e) {
+            } catch (\Innomatic\Net\Socket\SocketException $e) {
                 print("Peer ".$address.":".$port. " failure!"."\n");
                 $this->deletePeerFromRegistry($address, $port);
             }
@@ -162,7 +157,7 @@ class ModulePinger
      */
     protected function deletePeerFromRegistry($address, $port)
     {
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         $xmldoc = simplexml_load_file($context->getHome().'core/conf/modules-netregistry.xml');
 //var_dump($xmldoc);
         $xml_string = "<?xml version=\"1.0\"?>\n<registry>\n\t";
@@ -174,7 +169,7 @@ class ModulePinger
         }
         $xml_string .= "\n</registry>";
         print($xml_string);
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         $file_registry = fopen($context->getHome().'core/conf/modules-netregistry.xml', 'x');
         if($file_registry==false) {
             unlink($context->getHome().'core/conf/modules-netregistry.xml');
@@ -199,7 +194,7 @@ class ModulePinger
         print("force_refresh"."\n");
         $request = '';
         $address = '127.0.0.1';
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = \Innomatic\Module\Server\ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         try {
             $port = $context->getConfig()->getKey('service_port');;
             $this->socket->connect($address, $port);
@@ -209,7 +204,7 @@ class ModulePinger
             $this->socket->write($request);
             $result = $this->socket->readAll();
             $this->socket->disconnect();
-        } catch (SocketException $e) {
+        } catch (\Innomatic\Net\Socket\SocketException $e) {
             print("Cannot refresh: server ".$address.":".$port. " down!"."\n");
         }
         print($result);

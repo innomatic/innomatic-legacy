@@ -1,22 +1,14 @@
 <?php
-
-require_once('innomatic/net/socket/SocketHandler.php');
-require_once('innomatic/module/server/ModuleServerXmlRpcProcessor.php');
-require_once('innomatic/module/server/ModuleServerContext.php');
-require_once('innomatic/module/server/ModuleServerLogger.php');
-require_once('innomatic/module/server/ModuleServerRequest.php');
-require_once('innomatic/module/server/ModuleServerResponse.php');
-require_once('innomatic/module/server/ModuleServerAuthenticator.php');
-require_once('innomatic/module/session/ModuleSessionGarbageCollector.php');
+namespace Innomatic\Module\Server;
 
 /**
  * Module server socket handler and requests dispatcher.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerSocketHandler extends SocketHandler
+class ModuleServerSocketHandler extends \Innomatic\Net\Socket\SocketHandler
 {
     /**
      * Access log flag.
@@ -78,7 +70,7 @@ class ModuleServerSocketHandler extends SocketHandler
      */
     public function onStart()
     {
-        $context = ModuleServerContext::instance('ModuleServerContext');
+        $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
         if ($context->getConfig()->getKey('log_server_events') == 1 or $context->getConfig()->useDefaults()) {
             $this->serverLogEnabled = true;
             $this->serverLogger = new ModuleServerLogger($context->getHome().'core/log'.DIRECTORY_SEPARATOR.'module-server.log');
@@ -88,7 +80,7 @@ class ModuleServerSocketHandler extends SocketHandler
             $this->accessLogger = new ModuleServerLogger($context->getHome().'core/log'.DIRECTORY_SEPARATOR.'module-access.log');
         }
 
-        ModuleSessionGarbageCollector::clean();
+        \Innomatic\Module\Session\ModuleSessionGarbageCollector::clean();
         $this->authenticator = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
 
         if ($this->serverLogEnabled) {
@@ -114,7 +106,7 @@ class ModuleServerSocketHandler extends SocketHandler
             $this->serverLogger->logEvent('Shutdown');
         }
         print('Module server stopped.'."\n");
-        ModuleSessionGarbageCollector::clean();
+        \Innomatic\Module\Session\ModuleSessionGarbageCollector::clean();
         $this->shutdown = true;
     }
 
@@ -141,7 +133,7 @@ class ModuleServerSocketHandler extends SocketHandler
      * @access public
      * @since 5.1
      */
-    public function onConnect($clientId = NULL)
+    public function onConnect($clientId = null)
     {
     }
 
@@ -153,7 +145,7 @@ class ModuleServerSocketHandler extends SocketHandler
      * @access public
      * @since 5.1
      */
-    public function onConnectionRefused($clientId = NULL)
+    public function onConnectionRefused($clientId = null)
     {
     }
 
@@ -165,7 +157,7 @@ class ModuleServerSocketHandler extends SocketHandler
      * @access public
      * @since 5.1
      */
-    public function onClose($clientId = NULL)
+    public function onClose($clientId = null)
     {
     }
 
@@ -183,7 +175,7 @@ class ModuleServerSocketHandler extends SocketHandler
      * @access public
      * @since 5.1
      */
-    public function onReceiveData($clientId = NULL, $data = NULL)
+    public function onReceiveData($clientId = null, $data = null)
     {
         $response = new ModuleServerResponse();
         $raw_request = explode("\n", $data);

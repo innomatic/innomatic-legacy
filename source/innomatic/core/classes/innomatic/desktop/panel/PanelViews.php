@@ -7,14 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/util/Observer.php');
-require_once('innomatic/desktop/panel/PanelController.php');
+namespace Innomatic\Desktop\Panel;
 
 /**
  * Abstract class for implementing a set of views in a Desktop Panel following
@@ -26,19 +24,18 @@ require_once('innomatic/desktop/panel/PanelController.php');
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-abstract class PanelViews implements Observer
+abstract class PanelViews implements \Innomatic\Util\Observer
 {
     protected $_controller;
     protected $_helper;
     protected $_wuiContainer;
 
-    public function __construct(PanelController $controller)
+    public function __construct(\Innomatic\Desktop\Panel\PanelController $controller)
     {
         $this->_controller = $controller;
 
         // Sets Wui container instance
-        require_once('innomatic/wui/Wui.php');
-        $this->_wuiContainer = Wui::instance('wui');
+        $this->_wuiContainer = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
     }
 
     abstract public function beginHelper();

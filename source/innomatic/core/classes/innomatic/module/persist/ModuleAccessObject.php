@@ -1,16 +1,14 @@
 <?php
-
-require_once('innomatic/dataaccess/DataAccessObject.php');
-require_once('innomatic/module/ModuleValueObject.php');
+namespace Innomatic\Module\Persist;
 
 /**
  * DAO pattern based class for accessing persistence storage.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-class ModuleAccessObject extends DataAccessObject
+class ModuleAccessObject extends \Innomatic\Dataaccess\DataAccessObject
 {
     /**
      * Value object.
@@ -50,7 +48,7 @@ class ModuleAccessObject extends DataAccessObject
      * @return void
      * @since 5.1
      */
-    public function setValueObject(ModuleValueObject $valueObject)
+    public function setValueObject(\Innomatic\Module\ModuleValueObject $valueObject)
     {
         $this->valueObject = $valueObject;
     }
@@ -68,14 +66,12 @@ class ModuleAccessObject extends DataAccessObject
     {
         $dar = $this->retrieve('SELECT * FROM '.$this->config->getTable().' WHERE '.$this->config->getIdField()."='".$id."'");
 
-        if (!$dar instanceof DataAccessResult) {
-            require_once('innomatic/module/ModuleException.php');
-            throw new ModuleException('Unable to retrieve value object for object with id '.$id);
+        if (!$dar instanceof \Innomatic\Dataaccess\DataAccessResult) {
+            throw new \Innomatic\Module\ModuleException('Unable to retrieve value object for object with id '.$id);
         }
 
         if (!$dar->getNumberRows()) {
-            require_once('innomatic/module/ModuleException.php');
-            throw new ModuleException('No object with '.$id.' exists');
+            throw new \Innomatic\Module\ModuleException('No object with '.$id.' exists');
         }
 
         $row = $dar->getFields();
@@ -99,7 +95,7 @@ class ModuleAccessObject extends DataAccessObject
         $sequence_value = $this->_dataAccess->getNextSequenceValue($this->config->getTable().'_'.$this->config->getIdField().'_seq');
         $this->valueObject->setValue($this->config->getIdField(), $sequence_value);
 
-        $obj = new ReflectionObject($this->valueObject);
+        $obj = new \ReflectionObject($this->valueObject);
         $properties = $obj->getProperties();
         foreach ($properties as $property) {
             $name = $property->getName();
@@ -126,7 +122,7 @@ class ModuleAccessObject extends DataAccessObject
         }
 
         $fields = array();
-        $obj = new ReflectionObject($this->valueObject);
+        $obj = new \ReflectionObject($this->valueObject);
         $properties = $obj->getProperties();
         foreach ($properties as $property) {
             $name = $property->getName();

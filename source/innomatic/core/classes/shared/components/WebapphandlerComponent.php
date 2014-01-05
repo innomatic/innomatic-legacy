@@ -7,12 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/application/ApplicationComponent.php');
+namespace Shared\Components;
 
 /**
  * Webapphandler component handler.
@@ -20,12 +20,12 @@ require_once ('innomatic/application/ApplicationComponent.php');
  * A Webapp Handler is the front controller for a certain mapping in a webapp
  * as defined in the web.xml file for that webapp.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-class WebapphandlerComponent extends ApplicationComponent
+class WebapphandlerComponent extends \Innomatic\Application\ApplicationComponent
 {
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
@@ -51,10 +51,10 @@ class WebapphandlerComponent extends ApplicationComponent
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['class']) or ! strlen($params['urlpattern'])) {
-            $this->mLog->logEvent('WebapphandlerComponent::doInstallAction', 'Empty webapp handler parameters in application ' . $this->appname, Logger::ERROR);
+            $this->mLog->logEvent('WebapphandlerComponent::doInstallAction', 'Empty webapp handler parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/web.xml';
+        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/web.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Handler
         $ok = true;
@@ -105,10 +105,10 @@ class WebapphandlerComponent extends ApplicationComponent
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['class']) or ! strlen($params['urlpattern'])) {
-            $this->mLog->logEvent('WebapphandlerComponent::doUninstallAction', 'Empty webapp handler parameters in application ' . $this->appname, Logger::ERROR);
+            $this->mLog->logEvent('WebapphandlerComponent::doUninstallAction', 'Empty webapp handler parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/web.xml';
+        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/web.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Removes any mapping to the webapp handler.
         foreach ($sx->handlermapping as $hm) {
@@ -131,10 +131,10 @@ class WebapphandlerComponent extends ApplicationComponent
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['class']) or ! strlen($params['urlpattern'])) {
-            $this->mLog->logEvent('WebapphandlerComponent::doUpdateAction', 'Empty webapp handler parameters in application ' . $this->appname, Logger::ERROR);
+            $this->mLog->logEvent('WebapphandlerComponent::doUpdateAction', 'Empty webapp handler parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/web.xml';
+        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/web.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Keeps track if the webapp handler is found in web.xml file.
         $found_handler = false;
@@ -163,7 +163,7 @@ class WebapphandlerComponent extends ApplicationComponent
     }
     private function simplexml_addChild($parent, $name, $value = '')
     {
-        $new_child = new SimpleXMLElement("<$name>$value</$name>");
+        $new_child = new \SimpleXMLElement("<$name>$value</$name>");
         $node1 = dom_import_simplexml($parent);
         $dom_sxe = dom_import_simplexml($new_child);
         $node2 = $node1->ownerDocument->importNode($dom_sxe, true);

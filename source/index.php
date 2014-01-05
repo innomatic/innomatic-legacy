@@ -7,16 +7,11 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-// PHP 5 check, in order to not show fatal errors.
-if (substr(phpversion(), 0, 1) < 5) {
-    die('ERROR: this application requires PHP 5 or newer.');
-}
 
 // Saves webapp home.
 $webAppHome = getcwd().'/';
@@ -30,11 +25,10 @@ if ($webAppHome == dirname(__FILE__).'/') {
 
 // Starts the Root Container.
 require_once(dirname(__FILE__).'/innomatic/core/classes/innomatic/core/RootContainer.php');
-$rootContainer = RootContainer::instance('rootcontainer');
+$rootContainer = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer');
 
 // Starts the WebAppContainer.
-require_once('innomatic/webapp/WebAppContainer.php');
-$container = WebAppContainer::instance('webappcontainer');
+$container = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
 
 // Starts the WebApp. This is where all the real stuff is done.
 $container->startWebApp($webAppHome);

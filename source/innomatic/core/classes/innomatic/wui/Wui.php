@@ -7,15 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/core/InnomaticContainer.php');
-require_once('innomatic/dataaccess/DataAccess.php');
-require_once('innomatic/util/Singleton.php');
+namespace Innomatic\Wui;
 
 /**
  * Web User Interface.
@@ -24,7 +21,7 @@ require_once('innomatic/util/Singleton.php');
  *
  * @package WUI
  */
-class Wui extends Singleton
+class Wui extends \Innomatic\Util\Singleton
 {
     /*! @var mrRootDb DataAccess class - Innomatic database handler. */
     private $mrRootDb;
@@ -40,7 +37,7 @@ class Wui extends Singleton
     public $mLoadedWidgets = array();
     /*! @var mLastError integer - Last error id. */
     public $mLastError;
-    /*! @var mForceSetup boolean - TRUE if the check for setup phase must be skipped. Useful only for Innomatic. */
+    /*! @var mForceSetup boolean - true if the check for setup phase must be skipped. Useful only for Innomatic. */
     private $mForceSetup;
     public $parameters;
     private $mThemeName = '';
@@ -52,7 +49,7 @@ class Wui extends Singleton
 
     /*!
      @param rrootDb DataAccess class - Innomatic database handler.
-     @param forceSetup boolean - TRUE if the check for setup phase must be skipped. Useful only for Innomatic.
+     @param forceSetup boolean - true if the check for setup phase must be skipped. Useful only for Innomatic.
      */
     public function ___construct($forceSetup = false)
     {
@@ -62,68 +59,72 @@ class Wui extends Singleton
         $this->parameters = $this->arrayMergeClobber(
             $this->arrayMergeClobber($_GET, $_POST), $_FILES
         );
-        require_once('innomatic/wui/dispatch/WuiDispatcher.php');
-        $this->mDisp = new WuiDispatcher('wui');
+        $this->mDisp = new \Innomatic\Wui\Dispatch\WuiDispatcher('wui');
         $this->mForceSetup = $forceSetup;
-        if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP
-        or ($this->mForceSetup and InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
-            $rootDA = InnomaticContainer::instance('innomaticcontainer')->getDataAccess();
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP
+        or ($this->mForceSetup and \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
+            $rootDA = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
             if (is_object($rootDA)) {
                 $this->mrRootDb = $rootDA;
             }
         }
     }
 
-    /*!
-     @discussion Loads the handler for a widget class.
-     @param widgetName string - widget class name to load.
-     @result True if the widget has been loaded. May return false if the widget handler file doesn't exists.
+    /**
+     * Loads the handler for a widget class.
+     * @param widgetName string - widget class name to load.
+     * @return True if the widget has been loaded. May return false if the widget handler file doesn't exists.
+     * @deprecated
      */
     public function loadWidget($widgetName)
     {
-        if (class_exists('wui'.$widgetName, false)) {
+        if (class_exists('\Shared\Wui\Wui'.ucfirst($widgetName), true)) {
             return true;
         }
+        
+        if (class_exists('Wui'.ucfirst($widgetName), false)) {
+        	return true;
+        }
 
-        $widgetFile = InnomaticContainer::instance('innomaticcontainer')->getHome()
+        // @todo remove compatibility mode
+        $widgetFile = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/classes/shared/wui/Wui' . ucfirst($widgetName) . '.php';
         $result = include_once($widgetFile);
 
-        if (!$result) {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        if (!$result) {            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.wui.wui.loadwidget',
                 'Unable to load widget handler file '
-                . InnomaticContainer::instance('innomaticcontainer')->getHome()
+                . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                 . 'core/classes/shared/wui/Wui'
-                . ucfirst($widgetName) . '.php', Logger::ERROR
+                . ucfirst($widgetName) . '.php', \Innomatic\Logging\Logger::ERROR
             );
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::MISSING_WIDGET_FILE);
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_WIDGET_FILE);
         }
 
         $this->mLoadedWidgets[$widgetName] = $widgetName;
         return true;
     }
 
-    /*!
-     @abstract Loads all the widgets.
-     @discussion Loads all the widgets in the wui_widgets table.
-     Not functional during Innomatic setup phase.
-     @result True if the widgets have been loaded.
+    /**
+     * Loads all the widgets in the wui_widgets table.
+     * Not functional during Innomatic setup phase.
+     * 
+     * @abstract Loads all the widgets.
+     * @return True if the widgets have been loaded.
+     * @deprecated
      */
     public function loadAllWidgets()
     {
         $result = false;
-        require_once('innomatic/core/InnomaticContainer.php');
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
-        if ($innomatic->getState() == InnomaticContainer::STATE_DEBUG) {
-            $innomatic->getLoadTimer()->Mark('start - Wui::LoadAllWidgets()');
+        if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
+            $innomatic->getLoadTimer()->Mark('start - \Innomatic\Wui\Wui::LoadAllWidgets()');
         }
-        if ($innomatic->getState() != InnomaticContainer::STATE_SETUP
-        or ($innomatic->getState() == InnomaticContainer::STATE_SETUP
+        if ($innomatic->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP
+        or ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP
         and $this->mForceSetup)) {
             if (is_object($this->mrRootDb)) {
                 $query = $this->mrRootDb->execute('SELECT name FROM wui_widgets');
@@ -138,46 +139,42 @@ class Wui extends Singleton
                         //
                         if (!$this->loadWidget($query->getFields('name'))) {
                             $result = false;
-                            if ($this->mLastError == Wui::LOADWIDGET_FILE_NOT_EXISTS) {
-                                require_once('innomatic/wui/WuiException.php');
-                                throw new WuiException(WuiException::MISSING_WIDGET_FILE);
+                            if ($this->mLastError == \Innomatic\Wui\Wui::LOADWIDGET_FILE_NOT_EXISTS) {
+                                throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_WIDGET_FILE);
                             }
                         }
                         $query->moveNext();
                     }
 
-                    if (!$result and strcmp($this->mLastError, Wui::LOADALLWIDGETS_A_WIDGET_FILE_NOT_EXISTS) == 0) {
-                        require_once('innomatic/logging/Logger.php');
-                        $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-                        $log->logEvent('innomatic.wui.wui.loadallwidgets', 'Unable to load at least one widget handler file', Logger::ERROR);
+                    if (!$result and strcmp($this->mLastError, \Innomatic\Wui\Wui::LOADALLWIDGETS_A_WIDGET_FILE_NOT_EXISTS) == 0) {
+                        
+                        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                        $log->logEvent('innomatic.wui.wui.loadallwidgets', 'Unable to load at least one widget handler file', \Innomatic\Logging\Logger::ERROR);
                     }
                 } else {
-                    require_once('innomatic/wui/WuiException.php');
-                    throw new WuiException(WuiException::UNABLE_TO_RETRIEVE_WIDGETS_LIST);
+                    throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::UNABLE_TO_RETRIEVE_WIDGETS_LIST);
                 }
             } else {
-                require_once('innomatic/wui/WuiException.php');
-                throw new WuiException(WuiException::INVALID_INNOMATIC_DATAACCESS);
+                throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::INVALID_INNOMATIC_DATAACCESS);
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wui.wui.loadallwidgets', 'Function unavailable during Innomatic setup phase', Logger::WARNING);
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::LOADALLWIDGETS_UNAVAILABLE);
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.wui.wui.loadallwidgets', 'Function unavailable during Innomatic setup phase', \Innomatic\Logging\Logger::WARNING);
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::LOADALLWIDGETS_UNAVAILABLE);
         }
-        if ($innomatic->getState() == InnomaticContainer::STATE_DEBUG) {
-            $innomatic->getLoadTimer()->Mark('end - Wui::LoadAllWidgets()');
+        if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
+            $innomatic->getLoadTimer()->Mark('end - \Innomatic\Wui\Wui::LoadAllWidgets()');
         }
         return $result;
     }
 
-    /*!
-     @discussion Adds a child widget to the structure.
-     @param rchildWidget class WuiWidget - Adds a child widget to the structure.
-     @result Always true.
+    /**
+     * Adds a child widget to the structure.
+     * @param rchildWidget class WuiWidget - Adds a child widget to the structure.
+     * @return Always true.
      */
-    public function addChild(WuiWidget $rchildWidget)
+    public function addChild(\Innomatic\Wui\Widgets\WuiWidget $rchildWidget)
     {
         $this->mChilds[] = $rchildWidget;
         return true;
@@ -192,10 +189,9 @@ class Wui extends Singleton
         $result = false;
 
         if (!$this->mBuilt) {
-            require_once('innomatic/core/InnomaticContainer.php');
-            $innomatic = InnomaticContainer::instance('innomaticcontainer');
-            if ($innomatic->getState() == InnomaticContainer::STATE_DEBUG) {
-                $innomatic->getLoadTimer()->Mark('start - Wui::Build()');
+            $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+            if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
+                $innomatic->getLoadTimer()->Mark('start - \Innomatic\Wui\Wui::Build()');
             }
 
             $children_count = count($this->mChilds);
@@ -215,8 +211,8 @@ class Wui extends Singleton
             //
             $this->mDisp->Dispatch();
 
-            if ($innomatic->getState() == InnomaticContainer::STATE_DEBUG) {
-                $innomatic->getLoadTimer()->Mark('stop - Wui::Build()');
+            if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
+                $innomatic->getLoadTimer()->Mark('stop - \Innomatic\Wui\Wui::Build()');
             }
         }
         return $result;
@@ -233,15 +229,14 @@ class Wui extends Singleton
         $this->Build();
 
         if ($this->mBuilt) {
-            WebAppContainer::instance('webappcontainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"');
+            \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader('P3P', 'CP="CUR ADM OUR NOR STA NID"');
             echo $this->mLayout;
             return true;
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wui.wui.render', 'Unable to render wui', Logger::ERROR);
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::UNABLE_TO_RENDER);
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.wui.wui.render', 'Unable to render wui', \Innomatic\Logging\Logger::ERROR);
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::UNABLE_TO_RENDER);
         }
         return false;
     }
@@ -256,8 +251,8 @@ class Wui extends Singleton
         static $show_comments;
 
         if (!isset($show_comments)) {
-            if (InnomaticContainer::instance('innomaticcontainer')->getConfig()->Value('ShowWuiSourceComments') == '1'
-            or InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->Value('ShowWuiSourceComments') == '1'
+            or \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
                 $show_comments = true;
             } else {
                 $show_comments = false;
@@ -291,7 +286,7 @@ class Wui extends Singleton
 
     public function getThemeName()
     {
-        return strlen($this->mThemeName) ? $this->mThemeName : Wui::DEFAULT_THEME;
+        return strlen($this->mThemeName) ? $this->mThemeName : \Innomatic\Wui\Wui::DEFAULT_THEME;
     }
 
     public function getTheme()
@@ -304,9 +299,8 @@ class Wui extends Singleton
 
     public function setTheme($name)
     {
-        require_once('innomatic/wui/theme/WuiTheme.php');
-        $this->mThemeHandler = new WuiTheme(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        $this->mThemeHandler = new \Innomatic\Wui\Theme\WuiTheme(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $name
         );
         $this->mThemeName = $name;

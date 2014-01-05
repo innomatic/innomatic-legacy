@@ -7,16 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiForm extends WuiContainerWidget
+class WuiForm extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     /*
      * action string - Submit URL
@@ -31,7 +32,7 @@ class WuiForm extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget($elemName, $elemArgs, $elemTheme, $dispEvents);
+        parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
         if (isset($this->mArgs['method']) and (strtolower($this->mArgs['method']) == 'get' or strtolower($this->mArgs['method']) == 'post'))
             $this->mArgs['method'] = $this->mArgs['method'];
         else

@@ -7,20 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
-<<<<<<< Updated upstream
- * @copyright  1999-2012 Innoteam Srl
-=======
- * @copyright  1999-2013 Innoteam Srl
->>>>>>> Stashed changes
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiString extends WuiWidget
+class WuiString extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mHint string - Help string for this element. */
     //public $mHint;
@@ -80,9 +77,8 @@ class WuiString extends WuiWidget
     }
     protected function generateSource()
     {
-        require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
-        $event_data = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
-        $event_data_id = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName.'_id');
+        $event_data = new \Innomatic\Wui\Dispatch\WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
+        $event_data_id = new \Innomatic\Wui\Dispatch\WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName.'_id');
 
         $this->mLayout = $this->mComments ? '<!-- begin ' . $this->mName . ' string -->' : '';
 
@@ -131,7 +127,7 @@ requiredFields[requiredFields.length] = new Array( "' . $event_data->getDataStri
         }
         $this->mLayout .= '<input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : ''). $this->getEventsCompleteString().' ' . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mArgs['hint']) . '\');" onMouseOut="wuiUnHint();" ' : '') . 'type="' . ((isset($this->mArgs['password']) and $this->mArgs['password'] == 'true') ? 'password' : 'text') . '" name="' . $event_data->getDataString() . '"';
         $this->mLayout .= ' tabindex="' . $this->mArgs['tabindex'] . '"';
-        $this->mLayout .= (isset($this->mArgs['value']) and strlen($this->mArgs['value'])) ? ' value="' . Wui::utf8_entities($this->mArgs['value']) . '"' : '';
+        $this->mLayout .= (isset($this->mArgs['value']) and strlen($this->mArgs['value'])) ? ' value="' . \Innomatic\Wui\Wui::utf8_entities($this->mArgs['value']) . '"' : '';
         $this->mLayout .= (isset($this->mArgs['hint']) and $this->mArgs['hint']) ? ' alt="' . $this->mArgs['hint'] . '"' : '';
         $this->mLayout .= (isset($this->mArgs['bgcolor']) and strlen($this->mArgs['bgcolor'])) ? ' style="background-color: ' . $this->mArgs['bgcolor'] . ';"' : '';
         $this->mLayout .= (isset($this->mArgs['size']) and strlen($this->mArgs['size'])) ? ' size="' . $this->mArgs['size'] . '"' : '';

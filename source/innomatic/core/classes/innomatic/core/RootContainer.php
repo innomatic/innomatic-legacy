@@ -7,11 +7,12 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2013 Innoteam Srl
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Core;
 
 // This require uses the absolute path because at this time the PHP include path
 // is still the default one and doesn't include the Innomatic container classes
@@ -33,7 +34,7 @@ require_once(dirname(__FILE__).'/../util/Singleton.php');
  * @since      Class available since Release 5.0
  * @package    Core
  */
-class RootContainer extends Singleton
+class RootContainer extends \Innomatic\Util\Singleton
 {
     /**
      * Holds the root container base directory, where all the container
@@ -66,8 +67,8 @@ class RootContainer extends Singleton
             get_include_path() . PATH_SEPARATOR . $this->home
             . 'innomatic/core/classes/'
         );
-        
-        spl_autoload_register('RootContainer::autoload', true, true);
+
+        spl_autoload_register('\Innomatic\Core\RootContainer::autoload', true, true);
     }
 
     /**
@@ -110,19 +111,22 @@ class RootContainer extends Singleton
      * @param string $class_name
      */
     public static function autoload($class_name)
-	{
+	{		
 	    if (strpos($class_name, '\\') !== false) {
 	        $orig = $class_name;
-	        $class_name = array_pop(explode('\\',$class_name));
+	        $class_pop = explode('\\',$class_name);
+	        $class_name = array_pop($class_pop);
+	        $file = self::getClassFile($orig);
+	    } else {
+	        $skip = false;
+	    	$file = self::getClassFile($class_name);
 	    }
 	    // use some function to find the file that declares the class requested
-	    $file = self::getClassFile($class_name);
 	    
 	    // remember the defined classes, include the $file and detect newly declared classes
-	    $pre = get_declared_classes();
-	    //require_once($file);
-	    include_once($file);
-	    $post = array_unique(array_diff(get_declared_classes(), $pre));
+	    $pre = array_merge(get_declared_classes(), get_declared_interfaces());
+	    require_once($file);
+	    $post = array_unique(array_diff(array_merge(get_declared_classes(), get_declared_interfaces()), $pre));
 	    
 	    // loop through the new class definitions and create weak aliases if they are given with qualified names
 	    foreach ($post as $cd) {
@@ -161,41 +165,56 @@ class RootContainer extends Singleton
 
 	public static function getClassFile($className)
 	{
+		$registry = \Innomatic\Util\Registry::instance();
 		// Backwards compatibility system
-		if (!isset($GLOBALS['system_classes'])) {
-			$xml = file_get_contents('innomatic/core/applications/innomatic/application.xml');
-			$file = new \SimpleXMLElement($xml);
-			$classes = array();
-			
-			foreach($file->components->class as $class) {
-				$path = "{$class['name']}";
-				$elements = explode('/', $path);
-				$class = str_replace('.php', '', array_pop($elements));
-				array_walk(
-					$elements,
-					function (&$match, $key) {
-						$match = ucfirst($match);
+		if (!$registry->isGlobalObject('system_classes')) {
+			$system_classes = array();
+			if ($handle = opendir('innomatic/core/applications/')) {
+				while (false !== ($entry = readdir($handle))) {
+					if (
+						$entry != "."
+						&& $entry != ".."
+						&& is_dir('innomatic/core/applications/'.$entry)
+						&& file_exists('innomatic/core/applications/'.$entry.'/application.xml')
+					) {
+						$xml = file_get_contents('innomatic/core/applications/'.$entry.'/application.xml');
+						$file = new \SimpleXMLElement($xml);
+						
+						foreach($file->components->class as $class) {
+							$path = "{$class['name']}";
+							$elements = explode('/', $path);
+							$class = str_replace('.php', '', array_pop($elements));
+							array_walk(
+								$elements,
+								function (&$match, $key) {
+									$match = ucfirst($match);
+								}
+							);
+							
+							$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
+							$system_classes[strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+						}
+						
+						foreach($file->components->wuiwidget as $class) {
+							$path = "shared/wui/{$class['file']}";
+							$elements = explode('/', $path);
+							$class = str_replace('.php', '', array_pop($elements));
+							array_walk(
+								$elements,
+								function (&$match, $key) {
+									$match = ucfirst($match);
+								}
+							);
+						
+							$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
+							$system_classes[strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+						}
 					}
-				);
-				
-				$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
-				$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
-			}
-			
-			foreach($file->components->wuiwidget as $class) {
-				$path = "shared/wui/{$class['file']}";
-				$elements = explode('/', $path);
-				$class = str_replace('.php', '', array_pop($elements));
-				array_walk(
-				$elements,
-				function (&$match, $key) {
-					$match = ucfirst($match);
 				}
-				);
-			
-				$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
-				$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+				
+				closedir($handle);
 			}
+			$registry->setGlobalObject('system_classes', $system_classes);
 		}
 		
 		$className = ltrim($className, '\\');
@@ -204,41 +223,42 @@ class RootContainer extends Singleton
 		if ($lastNsPos = strrpos($className, '\\')) {
 			$namespace = substr($className, 0, $lastNsPos);
 			$className = substr($className, $lastNsPos + 1);
-			$fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+			$fileName  = strtolower(str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR);
 		}
 		
-		if (isset($GLOBALS['system_classes'][strtolower($className)]))
-		{
-			$fileName = $GLOBALS['system_classes'][strtolower($className)]['path'];
-		}
-		else 
-		{
+		if (isset($registry->getGlobalObject('system_classes')[strtolower($className)])) {
+			$fileName = $registry->getGlobalObject('system_classes')[strtolower($className)]['path'];
+		} else {
 			$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 		}
 		
 		return $fileName;
 	}
 	
-	public static function createClassAlias($original,$alias,$strong=false)
+	public static function createClassAlias($original, $alias, $strong=false)
 	{
 		// if strong create a real alias known to PHP
-		if ($strong)
-		{
-			class_alias($original,$alias);
+		if ($strong) {
+			if (!interface_exists($original)) {
+				class_alias($original,$alias);
+			}
 		}
 	
 		// In any case store the alias in a global variable
 		$alias = strtolower($alias);
-		if( isset($GLOBALS['system_class_alias'][$alias]) )
-		{
-			if( $GLOBALS['system_class_alias'][$alias] == $original )
+		
+		if (isset($GLOBALS['system_class_alias'][$alias])) {
+			if ($GLOBALS['system_class_alias'][$alias] == $original) {
 				return;
+			}
 	
-			if( !is_array($GLOBALS['system_class_alias'][$alias]) )
+			if (!is_array($GLOBALS['system_class_alias'][$alias])) {
 				$GLOBALS['system_class_alias'][$alias] = array($GLOBALS['system_class_alias'][$alias]);
+			}
+			
 			$GLOBALS['system_class_alias'][$alias][] = $original;
-		}
-		else
+		} else {
 			$GLOBALS['system_class_alias'][$alias] = $original;
+		}
 	}
 }

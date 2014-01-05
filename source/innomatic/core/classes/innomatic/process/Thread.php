@@ -1,4 +1,5 @@
 <?php
+namespace Innomatic\Process;
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 foldmethod=marker: */
 // +----------------------------------------------------------------------+
@@ -269,7 +270,7 @@ class Thread
      * Get a variable from the shared memory segment
      *
      * @see PHP_Fork::setVariable()
-     * @return mixed the requested variable (or NULL if it doesn't exists).
+     * @return mixed the requested variable (or null if it doesn't exists).
      */
     public function getVariable($name)
     {
@@ -472,7 +473,7 @@ class Thread
             $this->run();
             // Added 21/Oct/2003: destroy the child after run() execution
             // needed to avoid unuseful child processes after execution
-            InnomaticContainer::instance('innomaticcontainer')->halt(0);
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt(0);
         } else {
             // this is the parent
             $this->_isChild = false;
