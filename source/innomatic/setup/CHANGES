@@ -8,9 +8,8 @@
                                 CHANGES
                                 =======
 
-6000 - 6.2 - "Namespaces"
----------------------
-SECURITY:
+6000 - 6.2 - 2014/01/07 - "Namespaces"
+--------------------------------------
 FIXES:
 - Fixed order of components uninstallation in domain mode. (Alex Pagnoni)
 - Fixed wrong handling of application components register when updating
@@ -18,6 +17,7 @@ FIXES:
 - Fixed session page name handling in Wui Widget session keys. (Alex Pagnoni)
   
 CHANGES:
+- Platform refactoring with PHP namespaces support. (Alex Pagnoni)
 - Removed the frame in Wui Innomatic Page widget. (Alex Pagnoni)
 
 NEW FEATURES:
@@ -27,8 +27,6 @@ NEW FEATURES:
   support. (Alex Pagnoni)
 - During Innomatic setup, get the default country based on HTTP_ACCEPT_LANGUAGE
   header. (Luca Ferri)
-
-DEPRECATED:
 
 
 
