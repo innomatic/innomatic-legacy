@@ -8,6 +8,18 @@
                                 CHANGES
                                 =======
 
+6000 - 6.x
+-----------------------
+SECURITY:
+FIXES:
+- Fixed some missing namespaces. (Alex Pagnoni)
+
+CHANGES:
+NEW FEATURES:
+DEPRECATED:
+
+
+
 6000 - 6.2 - 2014/01/07 - "Namespaces"
 --------------------------------------
 FIXES:
