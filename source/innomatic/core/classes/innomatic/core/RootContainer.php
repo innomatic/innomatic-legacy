@@ -163,12 +163,55 @@ class RootContainer extends \Innomatic\Util\Singleton
 	    }
 	}
 
+    public static function getApplicationClasses($file)
+    {
+        $xml = file_get_contents($file);
+        $file = new \SimpleXMLElement($xml);
+
+        $application_classes = array();
+        
+        foreach($file->components->class as $class) {
+            $path = "{$class['name']}";
+            $elements = explode('/', $path);
+            $class = str_replace('.php', '', array_pop($elements));
+            array_walk(
+                $elements,
+                function (&$match, $key) {
+                    $match = ucfirst($match);
+                }
+            );
+            
+            $fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
+            $application_classes[strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+        }
+        
+        foreach($file->components->wuiwidget as $class) {
+            $path = "shared/wui/{$class['file']}";
+            $elements = explode('/', $path);
+            $class = str_replace('.php', '', array_pop($elements));
+            array_walk(
+                $elements,
+                function (&$match, $key) {
+                    $match = ucfirst($match);
+                }
+            );
+        
+            $fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
+            $application_classes[strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+        }
+
+        return $application_classes;
+    }
+
 	public static function getClassFile($className)
 	{
 		$registry = \Innomatic\Util\Registry::instance();
 		// Backwards compatibility system
 		if (!$registry->isGlobalObject('system_classes')) {
 			$system_classes = array();
+            if (file_exists('innomatic/setup/application.xml')) {
+                $system_classes = self::getApplicationClasses('innomatic/setup/application.xml');
+            }
 			if ($handle = opendir('innomatic/core/applications/')) {
 				while (false !== ($entry = readdir($handle))) {
 					if (
@@ -177,38 +220,8 @@ class RootContainer extends \Innomatic\Util\Singleton
 						&& is_dir('innomatic/core/applications/'.$entry)
 						&& file_exists('innomatic/core/applications/'.$entry.'/application.xml')
 					) {
-						$xml = file_get_contents('innomatic/core/applications/'.$entry.'/application.xml');
-						$file = new \SimpleXMLElement($xml);
-						
-						foreach($file->components->class as $class) {
-							$path = "{$class['name']}";
-							$elements = explode('/', $path);
-							$class = str_replace('.php', '', array_pop($elements));
-							array_walk(
-								$elements,
-								function (&$match, $key) {
-									$match = ucfirst($match);
-								}
-							);
-							
-							$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
-							$system_classes[strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
-						}
-						
-						foreach($file->components->wuiwidget as $class) {
-							$path = "shared/wui/{$class['file']}";
-							$elements = explode('/', $path);
-							$class = str_replace('.php', '', array_pop($elements));
-							array_walk(
-								$elements,
-								function (&$match, $key) {
-									$match = ucfirst($match);
-								}
-							);
-						
-							$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
-							$system_classes[strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
-						}
+                        $application_classes = self::getApplicationClasses('innomatic/core/applications/'.$entry.'/application.xml');
+                        $system_classes = array_merge($application_classes, $system_classes);
 					}
 				}
 				
@@ -225,13 +238,13 @@ class RootContainer extends \Innomatic\Util\Singleton
 			$className = substr($className, $lastNsPos + 1);
 			$fileName  = strtolower(str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR);
 		}
-		
-		if (isset($registry->getGlobalObject('system_classes')[strtolower($className)])) {
-			$fileName = $registry->getGlobalObject('system_classes')[strtolower($className)]['path'];
+
+        $reg = $registry->getGlobalObject('system_classes');
+		if (isset($reg[strtolower($className)])){
+			$fileName = $reg[strtolower($className)]['path'];
 		} else {
 			$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 		}
-		
 		return $fileName;
 	}
 	
