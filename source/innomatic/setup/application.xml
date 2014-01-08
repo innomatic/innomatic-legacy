@@ -13,7 +13,7 @@
 		<iconfile>innomatic.png</iconfile>
 		<dependencies>
 			<dependency>innomatic[6.1]</dependency>
-			<dependency>php[5.3.0]</dependency>
+			<dependency>php[5.4.0]</dependency>
 			<dependency>zlib.extension</dependency>
 			<suggestion>curl.extension</suggestion>
 			<suggestion>pcntl.extension</suggestion>

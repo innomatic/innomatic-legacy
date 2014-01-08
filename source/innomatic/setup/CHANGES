@@ -10,10 +10,14 @@
 
 6000 - 6.2.1 - 2014/01/08
 -------------------------
+NEW FEATURES:
+- Adopted Semantic Versioning scheme http://semver.org. (Alex Pagnoni)
+
 FIXES:
 - Fixed some missing namespaces. (Alex Pagnoni)
 - Fixed missing core classes in RootContainer autoloader during setup phase.
   (Alex Pagnoni, Amanda Accalai)
+- Fixed PHP minimum version to 5.4. (Alex Pagnoni)
 
 
 
