@@ -8,15 +8,12 @@
                                 CHANGES
                                 =======
 
-6000 - 6.x
------------------------
-SECURITY:
+6000 - 6.2.1 - 2014/01/08
+-------------------------
 FIXES:
 - Fixed some missing namespaces. (Alex Pagnoni)
-
-CHANGES:
-NEW FEATURES:
-DEPRECATED:
+- Fixed missing core classes in RootContainer autoloader during setup phase.
+  (Alex Pagnoni, Amanda Accalai)
 
 
 
