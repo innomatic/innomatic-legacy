@@ -11,7 +11,7 @@
 REQUIREMENTS
 ------------
 
-- PHP >= 5.1
+- PHP >= 5.4
 - PHP files upload support enabled
 - MySQL or PostgreSQL
 - PHP support for MySQL or PostgreSQL
