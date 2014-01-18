@@ -13,6 +13,11 @@
 NEW FEATURES:
 - Added \Innomatic\Domain\Domain::getHome() method. (Alex Pagnoni)
 
+CHANGES:
+- Removed dashboard frame border. (Alex Pagnoni)
+
+
+
 6000 - 6.2.1 - 2014/01/08
 -------------------------
 NEW FEATURES:

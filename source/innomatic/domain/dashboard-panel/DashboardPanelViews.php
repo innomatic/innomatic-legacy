@@ -49,7 +49,7 @@ $this->wuiTitlebar = new WuiTitleBar(
                               );
 $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
 
-$this->wuiMainframe = new WuiVertframe('mainframe');
+$this->wuiMainframe = new WuiVertgroup('mainframe');
     }
 
     public function endHelper()
