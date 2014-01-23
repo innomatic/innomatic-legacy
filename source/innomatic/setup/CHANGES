@@ -8,13 +8,16 @@
                                 CHANGES
                                 =======
 
-6000 - 6.x
+6000 - 6.x.x
 -------------------------
 NEW FEATURES:
 - Added \Innomatic\Domain\Domain::getHome() method. (Alex Pagnoni)
 
 CHANGES:
 - Removed dashboard frame border. (Alex Pagnoni)
+
+FIXES:
+- Fixed empty loaded wigets list in WUI context. (Alex Pagnoni)
 
 
 
