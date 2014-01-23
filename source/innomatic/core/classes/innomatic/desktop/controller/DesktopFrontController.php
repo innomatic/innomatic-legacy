@@ -288,6 +288,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
                     throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_CONTROLLER_CLASS);
                 }
                 $controller = new $controllerClassName(\Innomatic\Core\InnomaticContainer::MODE_DOMAIN, $panelName);
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->setPanelController($controller);
             } else {
                 switch ($desktopPanel) {
                     case 'menu':

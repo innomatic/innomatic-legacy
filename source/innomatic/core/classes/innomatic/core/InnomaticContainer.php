@@ -86,6 +86,8 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     private $currentWebServicesUser;
     private $currentWebServicesMethods = array();
 
+    private $currentPanelController;
+    
     private $currentDomain;
     private $currentUser;
 
@@ -1459,6 +1461,18 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         return $this->currentWebServicesMethods;
     }
 
+    // Panel controller
+    
+    public function setPanelController($controller)
+    {
+    	$this->currentPanelController = $controller;
+    }
+    
+    public function getPanelController()
+    {
+    	return $this->currentPanelController;
+    }
+    
     // Domain / User methods
 
     public function getCurrentDomain()
