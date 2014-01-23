@@ -110,24 +110,13 @@ abstract class PanelController implements \Innomatic\Util\Observer
         $xajax->setLogFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/ajax.log');
 
         // Register action ajax calls
-        $theClass = new \ReflectionClass($actionClassName);
-        $methods = $theClass->getMethods();
-        foreach ($methods as $method) {
-            // Ignore private methods
-            $theMethod = new \ReflectionMethod($theClass->getName(), $method->getName());
-            if (!$theMethod->isPublic()) {
-                continue;
-            }
-
-            // Expose only methods beginning with "ajax" prefix
-            if (!(substr($method->getName(), 0, 4) == 'ajax')) {
-                continue;
-            }
-
-            // Register the ajax call
-            $call_name = substr($method->getName(), 4);
-            $this->_view->getWuiContainer()->registerAjaxCall($call_name);
-            $xajax->registerExternalFunction(array($call_name, $actionClassName, $method->getName()), $this->_applicationHome.$actionClassName.'.php');
+        $this->registerClassAjaxCalls($xajax, $actionClassName, $this->_applicationHome.$actionClassName.'.php');
+                
+        // Register WUI widgets ajax calls
+        $wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
+        $wui->loadAllWidgets();
+        foreach ($wui->mLoadedWidgets as $widget) {
+        	$this->registerClassAjaxCalls($xajax, '\Shared\Wui\Wui'.ucfirst($widget), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/classes/shared/wui/Wui'.ucfirst($widget).'.php', 'Wui'.ucfirst($widget));
         }
 
         // Process ajax requests, if any (if so, then it exits)
@@ -163,6 +152,28 @@ abstract class PanelController implements \Innomatic\Util\Observer
         }
     }
 
+    public function registerClassAjaxCalls($xajax, $className, $classFile, $prefix = '')
+    {
+    	$theClass = new \ReflectionClass($className);
+    	$methods = $theClass->getMethods();
+    	foreach ($methods as $method) {
+    		// Ignore private methods
+    		$theMethod = new \ReflectionMethod($theClass->getName(), $method->getName());
+    		if (!$theMethod->isPublic()) {
+    			continue;
+    		}
+    	
+    		// Expose only methods beginning with "ajax" prefix
+    		if (!(substr($method->getName(), 0, 4) == 'ajax')) {
+    			continue;
+    		}
+    		// Register the ajax call
+    		$call_name = $prefix.substr($method->getName(), 4);
+    		$this->_view->getWuiContainer()->registerAjaxCall($call_name);
+    		$xajax->registerExternalFunction(array($call_name, $className, $method->getName()), $classFile);
+    	}
+    }
+    
     public function getAction()
     {
         return $this->_action;

@@ -12,6 +12,7 @@
 -------------------------
 NEW FEATURES:
 - Added \Innomatic\Domain\Domain::getHome() method. (Alex Pagnoni)
+- Added support for WUI widgets ajax calls. (Alex Pagnoni)
 
 CHANGES:
 - Removed dashboard frame border. (Alex Pagnoni)
