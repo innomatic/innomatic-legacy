@@ -1361,7 +1361,7 @@ function main_appcentral($eventData)
 
             $row = 0;
 
-            if (count($availReps)) {
+            if (is_array($availReps)) {
                 while (list($id, $data) = each($availReps)) {
                     $gXmlDefinition .=
 '<label row="'.$row.'" col="0"><name>rep</name>
@@ -1580,8 +1580,10 @@ function main_repositoryapplications($eventData)
     $availModsSortedList = array();
     $tabs = array();
 
-    foreach ($availModsList as $id => $data) {
-        $availModsSortedList[$data['category'] ? $data['category'] : 'various'][$id] = $data;
+    if (is_array($availModsList)) {
+        foreach ($availModsList as $id => $data) {
+            $availModsSortedList[$data['category'] ? $data['category'] : 'various'][$id] = $data;
+        }
     }
 
     ksort($availModsSortedList);
