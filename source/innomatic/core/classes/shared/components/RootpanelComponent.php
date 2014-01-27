@@ -75,7 +75,7 @@ class RootpanelComponent extends \Innomatic\Application\ApplicationComponent
                 }
             if ($result) {
                 if (! isset($params['show']) or $params['show'] != 'no') {
-                    $group_query = &$this->rootda->execute('SELECT * FROM root_panels_groups WHERE name = ' . $this->rootda->formatText($params['category']));
+                    $group_query = $this->rootda->execute('SELECT * FROM root_panels_groups WHERE name = ' . $this->rootda->formatText($params['category']));
                     if ($group_query->getNumberRows())
                         $group_id = $group_query->getFields('id');
                     else
@@ -120,7 +120,7 @@ class RootpanelComponent extends \Innomatic\Application\ApplicationComponent
                 $this->mLog->logEvent('innomatic.rootpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove root application file ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'root/' . basename($params['name']), \Innomatic\Logging\Logger::ERROR);
             }
             if ($params['show'] != 'no') {
-                $result = &$this->rootda->execute('DELETE FROM root_panels WHERE name = ' . $this->rootda->formatText($params['name']));
+                $result = $this->rootda->execute('DELETE FROM root_panels WHERE name = ' . $this->rootda->formatText($params['name']));
                 if (! $result)
                     $this->mLog->logEvent('innomatic.rootpanelcomponen.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove root application from root_panels table', \Innomatic\Logging\Logger::ERROR);
             } else
@@ -172,12 +172,12 @@ class RootpanelComponent extends \Innomatic\Application\ApplicationComponent
             if ($result) {
                 if (! isset($params['category']))
                     $params['category'] = '';
-                $group_query = &$this->rootda->execute('SELECT * ' . 'FROM root_panels_groups ' . 'WHERE name = ' . $this->rootda->formatText($params['category']));
+                $group_query = $this->rootda->execute('SELECT * ' . 'FROM root_panels_groups ' . 'WHERE name = ' . $this->rootda->formatText($params['category']));
                 if ($group_query->getNumberRows())
                     $group_id = $group_query->getFields('id');
                 else
                     $group_id = '';
-                $result = &$this->rootda->execute('UPDATE root_panels SET iconfile=' . $this->rootda->formatText(basename($params['icon'])) . ',' . 'catalog=' . $this->rootda->formatText($params['catalog']) . ',' . 'themeicon=' . $this->rootda->formatText($params['themeicon']) . ',' . 'themeicontype=' . $this->rootda->formatText($params['themeicontype']) . ($group_id ? ',groupid=' . $group_id : '') . ' WHERE name=' . $this->rootda->formatText($name));
+                $result = $this->rootda->execute('UPDATE root_panels SET iconfile=' . $this->rootda->formatText(basename($params['icon'])) . ',' . 'catalog=' . $this->rootda->formatText($params['catalog']) . ',' . 'themeicon=' . $this->rootda->formatText($params['themeicon']) . ',' . 'themeicontype=' . $this->rootda->formatText($params['themeicontype']) . ($group_id ? ',groupid=' . $group_id : '') . ' WHERE name=' . $this->rootda->formatText($name));
                 if (! $result)
                     $this->mLog->logEvent('innomatic.rootpanelcomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $name . ': Unable to update root application in root_panels table', \Innomatic\Logging\Logger::ERROR);
             } else

@@ -46,7 +46,7 @@ class CountryComponent extends \Innomatic\Application\ApplicationComponent
             $params['file'] = $this->basedir . '/core/locale/countries/' . $params['file'];
             if (@copy($params['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/locale/countries/' . basename($params['file']))) {
                 @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/locale/countries/' . basename($params['file']), 0644);
-                $result = &$this->rootda->execute('INSERT INTO locale_countries ' . 'VALUES (' . $this->rootda->formatText($params['short']) . ',' . $this->rootda->formatText($params['name']) . ',' . $this->rootda->formatText(basename($params['file'])) . ')');
+                $result = $this->rootda->execute('INSERT INTO locale_countries ' . 'VALUES (' . $this->rootda->formatText($params['short']) . ',' . $this->rootda->formatText($params['name']) . ',' . $this->rootda->formatText(basename($params['file'])) . ')');
             }
         } else
             $this->mLog->logEvent('innomatic.countrycomponent.countrycomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty country file name', \Innomatic\Logging\Logger::ERROR);
@@ -57,7 +57,7 @@ class CountryComponent extends \Innomatic\Application\ApplicationComponent
         $result = false;
         if (strlen($params['file']) and strlen($params['name']) and strlen($params['short'])) {
             if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/locale/countries/' . basename($params['file']))) {
-                $result = &$this->rootda->execute('DELETE FROM locale_countries ' . 'WHERE countryname=' . $this->rootda->formatText($params['name']) . ' ' . 'AND countryshort=' . $this->rootda->formatText($params['short']));
+                $result = $this->rootda->execute('DELETE FROM locale_countries ' . 'WHERE countryname=' . $this->rootda->formatText($params['name']) . ' ' . 'AND countryshort=' . $this->rootda->formatText($params['short']));
             }
         } else
             $this->mLog->logEvent('innomatic.countrycomponent.countrycomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty country file name', \Innomatic\Logging\Logger::ERROR);
@@ -70,7 +70,7 @@ class CountryComponent extends \Innomatic\Application\ApplicationComponent
             $params['file'] = $this->basedir . '/core/locale/countries/' . $params['file'];
             if (@copy($params['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/locale/countries/' . basename($params['file']))) {
                 @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/locale/countries/' . basename($params['file']), 0644);
-                $result = &$this->rootda->execute('UPDATE locale_countries ' . 'SET countryshort=' . $this->rootda->formatText($params['short']) . ',' . 'countryname = ' . $this->rootda->formatText($params['name']) . ' ' . 'WHERE countryfile=' . $this->rootda->formatText(basename($params['file'])));
+                $result = $this->rootda->execute('UPDATE locale_countries ' . 'SET countryshort=' . $this->rootda->formatText($params['short']) . ',' . 'countryname = ' . $this->rootda->formatText($params['name']) . ' ' . 'WHERE countryfile=' . $this->rootda->formatText(basename($params['file'])));
             }
         } else
             $this->mLog->logEvent('innomatic.countrycomponent.countrycomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty country name (' . $params['name'] . ') or short name (' . $params['short'] . ')', \Innomatic\Logging\Logger::ERROR);

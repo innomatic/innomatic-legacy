@@ -148,7 +148,7 @@ class DomainpanelComponent extends \Innomatic\Application\ApplicationComponent
                 $tmpquery = $this->domainda->execute('SELECT id FROM domain_panels where name = ' . $this->domainda->formatText($params['name']));
                 $tmpperm = new \Innomatic\Domain\User\Permissions($this->domainda, 0);
                 $tmpperm->RemoveNodes($tmpquery->getFields('id'), 'page');
-                $result = &$this->domainda->execute('delete from domain_panels where name = ' . $this->domainda->formatText($params['name']));
+                $result = $this->domainda->execute('delete from domain_panels where name = ' . $this->domainda->formatText($params['name']));
                 if (! $result)
                     $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove desktop application from domain_panels table', \Innomatic\Logging\Logger::ERROR);
             } else
@@ -166,7 +166,7 @@ class DomainpanelComponent extends \Innomatic\Application\ApplicationComponent
             $params['themeicon'] = '';
         if (! isset($params['themeicontype']))
             $params['themeicontype'] = '';
-        if ($grquery = &$this->domainda->execute('SELECT * FROM domain_panels_groups WHERE name = ' . $this->domainda->formatText($params['category']))) {
+        if ($grquery = $this->domainda->execute('SELECT * FROM domain_panels_groups WHERE name = ' . $this->domainda->formatText($params['category']))) {
             if ($grquery->getNumberRows() > 0) {
                 $grdata = $grquery->getFields();
                 $check_query = $this->domainda->execute('SELECT id ' . 'FROM domain_panels ' . 'WHERE name=' . $this->domainda->formatText($params['name']));
