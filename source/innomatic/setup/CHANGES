@@ -20,6 +20,8 @@ CHANGES:
 
 FIXES:
 - Fixed empty loaded wigets list in WUI context. (Alex Pagnoni)
+- Fixed bug with XmlRpc classes when checking is_a(): XmlRpcMsg lost ability
+  to support parameters, etc. (Alex Pagnoni)
 
 
 

@@ -1694,7 +1694,7 @@ namespace Innomatic\Webservices\Xmlrpc;
                     }
                     else
                     {
-                        if (is_a($results, 'xmlrpcresp'))
+                        if (is_a($results, '\Innomatic\Webservices\Xmlrpc\XmlRpcResp'))
                         {
                             $result = $results;
                         }
@@ -2100,7 +2100,7 @@ namespace Innomatic\Webservices\Xmlrpc;
                 }
                 break;
             case 'object':
-                if(is_a($php_val, 'xmlrpcval'))
+                if(is_a($php_val, '\Innomatic\Webservices\Xmlrpc\XmlRpcVal'))
                 {
                     $xmlrpc_val = $php_val;
                 }

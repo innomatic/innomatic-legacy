@@ -1085,10 +1085,10 @@ use Innomatic\Webservices\Xmlrpc\XmlRpc_Client;
                 {
                     $r = call_user_func($func, $m);
                 }
-                if (!is_a($r, 'xmlrpcresp'))
+                if (!is_a($r, '\Innomatic\Webservices\Xmlrpc\XmlRpcResp'))
                 {
                     error_log("XML-RPC: xmlrpc_server::execute: function $func registered as method handler does not return an xmlrpcresp object");
-                    if (is_a($r, 'xmlrpcval'))
+                    if (is_a($r, '\Innomatic\Webservices\Xmlrpc\XmlRpcVal'))
                     {
                         $r = new XmlRpcResp($r);
                     }
@@ -1135,7 +1135,7 @@ use Innomatic\Webservices\Xmlrpc\XmlRpc_Client;
                     }
                 }
                 // the return type can be either an xmlrpcresp object or a plain php value...
-                if (!is_a($r, 'xmlrpcresp'))
+                if (!is_a($r, '\Innomatic\Webservices\Xmlrpc\XmlRpcResp'))
                 {
                     // what should we assume here about automatic encoding of datetimes
                     // and php classes instances???
