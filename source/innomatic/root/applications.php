@@ -1361,8 +1361,9 @@ function main_appcentral($eventData)
 
             $row = 0;
 
-            while (list($id, $data) = each($availReps)) {
-                $gXmlDefinition .=
+            if (count($availReps)) {
+                while (list($id, $data) = each($availReps)) {
+                    $gXmlDefinition .=
 '<label row="'.$row.'" col="0"><name>rep</name>
   <args>
     <label type="encoded">'.urlencode('<strong>'.$data['name'].'</strong><br>'.$data['description']).'</label>
@@ -1392,7 +1393,8 @@ function main_appcentral($eventData)
           </button>
         </children>
 </horizgroup>';
-                $row++;
+                    $row++;
+                }
             }
 
             $gXmlDefinition .=
