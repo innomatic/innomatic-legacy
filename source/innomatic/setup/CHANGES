@@ -23,6 +23,7 @@ FIXES:
 - Fixed bug with XmlRpc classes when checking is_a(): XmlRpcMsg lost ability
   to support parameters, etc. (Alex Pagnoni)
 - Fixed XmlRpc classes when using functions without namespaces. (Alex Pagnoni)
+- Fixed bug in Maintenance handler due to namespace support. (Alex Pagnoni)
 
 
 

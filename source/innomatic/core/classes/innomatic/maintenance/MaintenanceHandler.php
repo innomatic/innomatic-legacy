@@ -97,12 +97,10 @@ class MaintenanceHandler
 
         $tasks_query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute('SELECT * FROM maintenance_tasks WHERE enabled='.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmttrue));
         while (!$tasks_query->eof) {
-            if (include_once('shared/maintenance/'.$tasks_query->getFields('file'))) {
-                $class_name = substr($tasks_query->getFields('file'), 0, -4);
-                if (class_exists($class_name, true)) {
-                    $obj = new $class_name;
-                    $result[$tasks_query->getFields('name')] = $obj->execute();
-                }
+            $class_name = '\\Shared\\Maintenance\\'.substr($tasks_query->getFields('file'), 0, -4);
+            if (class_exists($class_name, true)) {
+                $obj = new $class_name;
+                $result[$tasks_query->getFields('name')] = $obj->execute();
             }
             $tasks_query->moveNext();
         }
