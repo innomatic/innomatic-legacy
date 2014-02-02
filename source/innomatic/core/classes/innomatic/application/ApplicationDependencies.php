@@ -2,16 +2,17 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Application;
 
 /*!
  @class ApplicationDependencies
@@ -30,11 +31,11 @@ class ApplicationDependencies
     const TYPE_ALL = 0; // Both dependency or suggestion
     const TYPE_DEPENDENCY = 1; // Dependency
     const TYPE_SUGGESTION = 2; // Suggestion
-    
+
     /*!
      @param rrootDb DataAccess class - Innomatic database handler.
      */
-    public function __construct(DataAccess $rrootDb)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $rrootDb)
     {
         $this->mrRootDb = $rrootDb;
     }
@@ -102,12 +103,12 @@ class ApplicationDependencies
             }
         } else {
             if (empty($appid)) {
-                require_once('innomatic/logging/Logger.php');
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                
+                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.appdeps.adddepsarray',
                     'Empty application id',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         }
@@ -137,13 +138,13 @@ class ApplicationDependencies
                 .$this->mrRootDb->formatText($appVersion).')'
             );
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.adddep',
                 'Empty application serial ('.$modSerial.') or application id ('.$appId.') '
                 .'or dependency type ('.$depType.')',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
             return false;
         }
@@ -169,12 +170,12 @@ class ApplicationDependencies
                 .' AND deptype='.$this->mrRootDb->formatText($deptype)
             );
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.remdep',
                 'Empty application serial ('.$modserial.') or application id ('.$appid.') or dependency type',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
             return false;
         }
@@ -192,9 +193,9 @@ class ApplicationDependencies
                 'DELETE FROM applications_dependencies WHERE appid='.$this->mrRootDb->formatText($modserial)
             );
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.applications.appdeps.remalldep', 'Empty application serial', Logger::ERROR);
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.applications.appdeps.remalldep', 'Empty application serial', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
     }
@@ -220,7 +221,7 @@ class ApplicationDependencies
                 $applicationCheck->currfields['id'] = '0';
                 $applicationCheck->currfields['appversion'] = PHP_VERSION;
                 $applicationCheck->currfields['onlyextension'] = $this->mrRootDb->fmtfalse;
-            } else if (
+            } elseif (
                 strpos($appID, '.extension')
             ) {
                 $appID = substr($appID, 0, strpos($appID, '.extension'));
@@ -243,9 +244,9 @@ class ApplicationDependencies
                 }
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.applications.appdeps.isinstalled', 'Empty application id', Logger::ERROR);
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.applications.appdeps.isinstalled', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
         }
         return false;
     }
@@ -253,15 +254,15 @@ class ApplicationDependencies
     /*!
      @abstract Lists the applications a certain application depends on.
      @param appid string - id name of the application.
-     @result Array of the applications the application depends on or FALSE if it does not have dependencies.
+     @result Array of the applications the application depends on or false if it does not have dependencies.
      */
     public function dependsOn($appid)
     {
-        $result = FALSE;
+        $result = false;
 
         if (!empty($appid)) {
             $mquery = $this->IsInstalled($appid);
-            if ($mquery != FALSE) {
+            if ($mquery != false) {
                 $mdata = $mquery->getFields();
 
                 $mdquery = $this->mrRootDb->execute(
@@ -285,18 +286,18 @@ class ApplicationDependencies
                     $result = $depmods;
                 }
             } else {
-                require_once('innomatic/logging/Logger.php');
-                $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+                
+                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.appdeps.dependson',
                     'Application $appid is not installed',
-                    Logger::ERROR
+                    \Innomatic\Logging\Logger::ERROR
                 );
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.applications.appdeps.dependson', 'Empty application id', Logger::ERROR);
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.applications.appdeps.dependson', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }
@@ -308,28 +309,28 @@ class ApplicationDependencies
 
     /*!
     @function CheckApplicationDeps
-    
+
     @abstract Checks if all dependencies or suggestions are met.
-    
+
     @param appid string - id name of the application to check.
     @param deptype int - type of dep: dependency, suggestion or both (defined).
                          Not meaningful when using $depsarray argument.
     @param depsarray string - array of the deps. Used when checking deps before installing. Defaults to nothing.
     If used, it takes precedence over $deptype. It doesn't understand difference between dep and suggestion,
     since it is passed an array of applications with no information about if they are suggestions or deps.
-    
+
     @result False if the dependencies are met, an array of the unmet deps if them are not all met
-                  or TRUE if something went wrong.
+                  or true if something went wrong.
     */
     public function checkApplicationDependencies($appid, $deptype = '', $depsarray = '')
     {
-        $result = TRUE;
-        
+        $result = true;
+
         if (!empty($depsarray) or (!(empty($appid) and empty($deptype)))) {
             if (empty($depsarray)) {
                 $appdeps = $this->DependsOn($appid);
-                if ($appdeps == FALSE) {
-                    $result = FALSE;
+                if ($appdeps == false) {
+                    $result = false;
                 }
             } else
                 $appdeps = $depsarray;
@@ -339,14 +340,14 @@ class ApplicationDependencies
             // If there are no dependencies, automatically these are
             // assumed to be met
             //
-            if ($result != FALSE) {
-                // We must set this to be TRUE in case all deps are instead
+            if ($result != false) {
+                // We must set this to be true in case all deps are instead
                 // only suggestions, or viceversa. useful when $deftype is not
                 // DEFTYPE_ALL
                 //
-                $inst = TRUE;
+                $inst = true;
                 $unmetdeps = array();
-                
+
                 foreach ($appdeps as $appID => $appVersion) {
                     if (
                         !empty($depsarray) or $deptype == ApplicationDependencies::TYPE_ALL
@@ -370,12 +371,12 @@ class ApplicationDependencies
                 }
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkapplicationdeps',
                 'Empty application id ('.$appid.') and dependency type or dependencies array',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -387,15 +388,15 @@ class ApplicationDependencies
      @param appid string - id name of the application to check.
      @param deptype int - type of dependency (defined).
      @result False if no application depends on this one, the array of the applications which depends on
-                   this one if some application depends on this one or TRUE if something is not ok.
+                   this one if some application depends on this one or true if something is not ok.
      */
     public function checkDependingApplications($appid, $deptype = ApplicationDependencies::TYPE_DEPENDENCY)
     {
-        $result = TRUE;
+        $result = true;
 
         if (!empty($appid)) {
             $modquery = $this->IsInstalled($appid);
-            if ($modquery != FALSE) {
+            if ($modquery != false) {
                 $dquery = $this->mrRootDb->execute(
                     'SELECT * FROM applications_dependencies WHERE moddep='.$this->mrRootDb->formatText($appid)
                     .' AND deptype='.$this->mrRootDb->formatText($deptype)
@@ -404,7 +405,7 @@ class ApplicationDependencies
                 if ($dquery->getNumberRows() == 0) {
                     // No dependencies
                     //
-                    $result = FALSE;
+                    $result = false;
                 } else {
                     $pendingdeps = array();
                     $d = 0;
@@ -421,12 +422,12 @@ class ApplicationDependencies
                 }
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdependingapplications',
                 'Empty application id',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -443,15 +444,15 @@ class ApplicationDependencies
      @param domainid string - id name of the domain to be checked.
      @result True if the application has been enabled to the given domain.
      */
-    public function isEnabled($appid, $domainid, $considerExtensions = TRUE)
+    public function isEnabled($appid, $domainid, $considerExtensions = true)
     {
-        $result = FALSE;
+        $result = false;
 
         if (!empty($appid) and !empty($domainid)) {
             // Looks if the given application has been installed
             //
             $modquery = $this->IsInstalled($appid);
-            if ($modquery != FALSE) {
+            if ($modquery != false) {
                 $appdata = $modquery->getFields();
 
                 // If the application is a global extension, we can be sure
@@ -481,12 +482,12 @@ class ApplicationDependencies
                 }
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.isenabled',
                 'Empty application id ('.$appid.') or domain id ('.$domainid.')',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -511,27 +512,27 @@ class ApplicationDependencies
      @param domainid string - id name of the domain to check.
      @param deptype int - type of dep: dependency, suggestion or both (defined).
      @result False if dependencies are met, an array of the unmet deps if them are not all met
-             or TRUE if something went wrong.
+             or true if something went wrong.
      */
     public function checkDomainApplicationDependencies($appid, $domainid, $deptype)
     {
-        $result = TRUE;
+        $result = true;
 
         if (!empty($appid) and !empty($domainid) and !empty($deptype)) {
             $appdeps = $this->DependsOn($appid);
 
-            if ($appdeps == FALSE)
-                $result = FALSE;
+            if ($appdeps == false)
+                $result = false;
 
-            if ($result != FALSE) {
-                $inst = TRUE;
+            if ($result != false) {
+                $inst = true;
                 $unmetdeps = array();
 
                 while (list (, $deps) = each($appdeps)) {
                     if (($deps['deptype'] == $deptype) or ($deptype == ApplicationDependencies::TYPE_ALL)) {
                         $tmpInst = $this->IsEnabled($deps['moddep'], $domainid);
-                        if ($tmpInst == FALSE) {
-                            $inst = FALSE;
+                        if ($tmpInst == false) {
+                            $inst = false;
                             $unmetdeps[] = $deps['moddep'];
                         }
                     }
@@ -539,18 +540,18 @@ class ApplicationDependencies
 
                 // All applications are installed
                 //
-                if ($inst != FALSE)
-                    $result = FALSE;
+                if ($inst != false)
+                    $result = false;
                 else
                     $result = $unmetdeps;
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdomainapplicationdeps',
                 'Empty application id ('.$appid.') or domain id ('.$domainid.') or dependency type',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -560,17 +561,17 @@ class ApplicationDependencies
      @abstract Checks which applications enabled on this domain depends on specified application.
      @param appid string - id name of the application to check.
      @param domainid string - id name of the domain to check.
-     @result Array of depending applications, FALSE if not enabled or no dependency found or TRUE if wrong appid.
+     @result Array of depending applications, false if not enabled or no dependency found or true if wrong appid.
      */
-    public function checkDomainDependingApplications($appid, $domainid, $considerExtensions = TRUE)
+    public function checkDomainDependingApplications($appid, $domainid, $considerExtensions = true)
     {
             // :KLUDGE: evil 20020507: strange appid type
         // It should be an int, but it's used as string
-        $result = TRUE;
+        $result = true;
 
         if (!empty($appid)) {
             $modquery = $this->IsEnabled($appid, $domainid);
-            if ($modquery != FALSE) {
+            if ($modquery != false) {
                 $dquery = $this->mrRootDb->execute(
                     'SELECT * FROM applications_dependencies WHERE moddep='.$this->mrRootDb->formatText($appid)
                     .' AND deptype='.$this->mrRootDb->formatText(ApplicationDependencies::TYPE_DEPENDENCY)
@@ -579,7 +580,7 @@ class ApplicationDependencies
                 if ($dquery->getNumberRows() == 0) {
                     // No dependencies
                     //
-                    $result = FALSE;
+                    $result = false;
                 } else {
                     $pendingdeps = array();
                     $d = 0;
@@ -599,19 +600,19 @@ class ApplicationDependencies
                     }
 
                     if (count($pendingdeps) == 0)
-                        $result = FALSE;
+                        $result = false;
                     else
                         $result = $pendingdeps;
                 }
             } else
-                $result = FALSE;
+                $result = false;
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdomaindependingapplications',
                 'Empty application id ('.$appid.') or domain id ('.$domainid.')',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
@@ -620,11 +621,11 @@ class ApplicationDependencies
     /*!
      @abstract Checks the domains having a certain application enabled.
      @param modserial integer - serial id of the application to check.
-     @result An array of the enabled domains if any, FALSE if there aren't domains with that applications enabled.
+     @result An array of the enabled domains if any, false if there aren't domains with that applications enabled.
      */
     public function checkEnabledDomains($modserial)
     {
-        $result = FALSE;
+        $result = false;
 
         if (!empty($modserial)) {
             $endomains = array();
@@ -641,17 +642,17 @@ class ApplicationDependencies
                 $result = $endomains;
             }
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkenableddomains',
                 'Empty application serial',
-                Logger::ERROR
+                \Innomatic\Logging\Logger::ERROR
             );
         }
         return $result;
     }
-    
+
     public static function compareVersionNumbers($a, $b)
     {
         $a = strtr($a, '-', '.');

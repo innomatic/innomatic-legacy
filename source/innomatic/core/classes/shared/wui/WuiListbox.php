@@ -2,21 +2,22 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiListBox extends WuiWidget
+class WuiListbox extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mElements array - Array of the elements. */
     //public $mElements;
@@ -44,23 +45,22 @@ class WuiListBox extends WuiWidget
         if ($this->mArgs['size'] < 2)
             $this->mArgs['size'] = 2;
         if (isset($this->mArgs['default']) and is_array($this->mArgs['default'])) {
-        } else 
+        } else
             if (isset($this->mArgs['default'])) {
                 $def = $this->mArgs['default'];
                 $this->mArgs['default'] = array();
                 $this->mArgs['default'][] = $def;
             }
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         if (is_array($this->mArgs['elements'])) {
-            require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
-            $event_data = new WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
+            $event_data = new \Innomatic\Wui\Dispatch\WuiEventRawData(isset($this->mArgs['disp']) ? $this->mArgs['disp'] : '', $this->mName);
             $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . " listbox -->\n" : '') . '<select'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : ''). $this->getEventsCompleteString().' ' . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mArgs['hint']) . '\');" onMouseOut="wuiUnHint();" ' : '') . 'name="' . $event_data->getDataString() . ((isset($this->mArgs['multiselect']) and $this->mArgs['multiselect'] == 'true') ? '[]' : '') . '" size="' . $this->mArgs['size'] . '"' . ((isset($this->mArgs['multiselect']) and $this->mArgs['multiselect'] == 'true') ? ' multiple' : '') . ' tabindex="' . $this->mArgs['tabindex'] . '"' . ">\n";
             reset($this->mArgs['elements']);
             if (sizeof($this->mArgs['elements'])) {
                 while (list ($key, $val) = each($this->mArgs['elements'])) {
-                    $this->mLayout .= '<option value="' . $key . '"' . ((isset($this->mArgs['default']) and is_array($this->mArgs['default']) and in_array($key, $this->mArgs['default'])) ? ' selected' : '') . '>' . Wui::utf8_entities($val) . "</option>\n";
+                    $this->mLayout .= '<option value="' . $key . '"' . ((isset($this->mArgs['default']) and is_array($this->mArgs['default']) and in_array($key, $this->mArgs['default'])) ? ' selected' : '') . '>' . \Innomatic\Wui\Wui::utf8_entities($val) . "</option>\n";
                 }
             } else {
                 $this->mLayout .= '<option value=""> </option>' . "\n";

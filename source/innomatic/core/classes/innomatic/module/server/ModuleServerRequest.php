@@ -1,13 +1,15 @@
 <?php
+namespace Innomatic\Module\Server;
 
 /**
  * Class that represents an incoming request to the Module server.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerRequest {
+class ModuleServerRequest
+{
     /**
      * Command to be executed.
      *
@@ -32,7 +34,7 @@ class ModuleServerRequest {
      * @since 5.1
      */
     protected $headers;
-    
+
     /**
      * Sets request payload.
      *
@@ -41,10 +43,11 @@ class ModuleServerRequest {
      * @param string $payload Payload.
      * @return void
      */
-    public function setPayload($payload) {
+    public function setPayload($payload)
+    {
         $this->payload = $payload;
     }
-    
+
     /**
      * Gets request payload.
      *
@@ -52,10 +55,11 @@ class ModuleServerRequest {
      * @since 5.1
      * @return string
      */
-    public function getPayload() {
+    public function getPayload()
+    {
         return $this->payload;
     }
-    
+
     /**
      * Sets request command.
      *
@@ -64,10 +68,11 @@ class ModuleServerRequest {
      * @param string $command Command.
      * @return void
      */
-    public function setCommand($command) {
+    public function setCommand($command)
+    {
         $this->command = $command;
     }
-    
+
     /**
      * Gets request command.
      *
@@ -75,10 +80,11 @@ class ModuleServerRequest {
      * @since 5.1
      * @return void
      */
-    public function getCommand() {
+    public function getCommand()
+    {
         return $this->command;
     }
-    
+
     /**
      * Sets an array of headers.
      *
@@ -87,10 +93,11 @@ class ModuleServerRequest {
      * @param array $headersArray Headers.
      * @return void
      */
-    public function setHeaders($headersArray) {
+    public function setHeaders($headersArray)
+    {
         $this->headers = $headersArray;
     }
-    
+
     /**
      * Gets a specific header.
      *
@@ -99,9 +106,8 @@ class ModuleServerRequest {
      * @param $header Header name.
      * @return array
      */
-    public function getHeader($header) {
+    public function getHeader($header)
+    {
         return isset($this->headers[$header]) ? $this->headers[$header] : null;
     }
 }
-
-?>

@@ -2,20 +2,20 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Shared\Maintenance;
 
-require_once('innomatic/maintenance/MaintenanceTask.php');
-
-class InnomaticCacheMaintenance extends MaintenanceTask {
+class InnomaticCacheMaintenance extends \Innomatic\Maintenance\MaintenanceTask
+{
     public $mApplicationSettings;
     public $mCleanCache;
     public $mCleanSessions;
@@ -25,10 +25,8 @@ class InnomaticCacheMaintenance extends MaintenanceTask {
 
     public function __construct()
     {
-        require_once('innomatic/application/ApplicationSettings.php');
-
-        $this->mApplicationSettings = new ApplicationSettings(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        $this->mApplicationSettings = new \Innomatic\Application\ApplicationSettings(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             'innomatic'
            );
 
@@ -134,22 +132,21 @@ class InnomaticCacheMaintenance extends MaintenanceTask {
     public function getCacheSize()
     {
         return $this->dirSize(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/temp/cache'
            );
     }
 
     public function cleanCache()
     {
-        require_once('innomatic/datatransfer/cache/CacheGarbageCollector.php');
-        $gc = new CacheGarbageCollector();
-        return $gc->EmptyCache();
+        $gc = new \Innomatic\Datatransfer\Cache\CacheGarbageCollector();
+        return $gc->emptyCache();
     }
 
     public function getSessionsSize()
     {
         return $this->dirSize(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/temp/phpsessions'
        );
     }
@@ -157,7 +154,7 @@ class InnomaticCacheMaintenance extends MaintenanceTask {
     public function cleanSessions()
     {
         return $this->eraseDirContent(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/temp/phpsessions',
             session_id()
            );
@@ -166,39 +163,38 @@ class InnomaticCacheMaintenance extends MaintenanceTask {
     public function getPidFilesSize()
     {
         return $this->dirSize(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             . 'core/temp/pids'
        );
     }
 
     public function cleanPidFiles()
     {
-        require_once('innomatic/core/InnomaticContainer.php');
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         return $this->eraseDirContent(
-            InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/pids',
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/pids',
             $innomatic->getPid()
-           );
+        );
     }
 
     public function getRootTempDirsSize()
     {
-        return $this->dirSize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/appinst');
+        return $this->dirSize(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/appinst');
     }
 
     public function cleanRootTempDirs()
     {
-        return $this->eraseDirContent(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/appinst');
+        return $this->eraseDirContent(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/appinst');
     }
 
     public function getClipboardSize()
     {
-        return $this->dirSize(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/clipboard');
+        return $this->dirSize(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/clipboard');
     }
 
     public function cleanClipboard()
     {
-        return $this->eraseDirContent(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/clipboard');
+        return $this->eraseDirContent(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/clipboard');
     }
 
     // ----- Facilities -----
@@ -257,17 +253,14 @@ class InnomaticCacheMaintenance extends MaintenanceTask {
     {
         $dirstream = @opendir($dir);
         if ($dirstream) {
-            require_once('innomatic/io/filesystem/DirectoryUtils.php');
-            
             while (false !== ($filename = readdir($dirstream))) {
-                if ($filename != '.' && $filename != '..' && $filename != $preserveFile)
-                {
+                if ($filename != '.' && $filename != '..' && $filename != $preserveFile) {
                     if (is_file($dir.'/'.$filename)) {
                         unlink($dir.'/'.$filename);
                     }
 
                     if (is_dir($dir.'/'.$filename)) {
-                        DirectoryUtils::unlinkTree($dir.'/'.$filename);
+                        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($dir.'/'.$filename);
                     }
                 }
             }

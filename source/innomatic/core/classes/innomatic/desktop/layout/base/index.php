@@ -2,39 +2,30 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/wui/dispatch/WuiEvent.php');
-require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-require_once('innomatic/locale/LocaleCatalog.php');
+function main_page()
+{
+    $innomatic_locale = new \Innomatic\Locale\LocaleCatalog('innomatic::root_menu', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
+    $app_cfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
 
-function main_page() {
-    require_once('innomatic/wui/Wui.php');
-    $innomatic_locale = new LocaleCatalog('innomatic::root_menu', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
-    require_once('innomatic/application/ApplicationSettings.php');
-    $app_cfg = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
-
-    if (is_object( InnomaticContainer::instance('innomaticcontainer')->getDataAccess() ) and !(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP))
-    {
-        require_once('innomatic/application/ApplicationSettings.php');
-        $app_cfg = new ApplicationSettings( InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic' );
+    if (is_object( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess() ) and !(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
+        $app_cfg = new \Innomatic\Application\ApplicationSettings( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic' );
         $innomatic_logo_disabled = $app_cfg->getKey( 'innomatic-biglogo-disabled' );
-    }
-    else
-    {
+    } else {
         $innomatic_logo_disabled = 0;
     }
 
-    $wui = Wui::instance('wui', true);
+    $wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui', true);
     $wui->loadWidget( 'page' );
     $wui->loadWidget( 'vertgroup' );
     $wui->loadWidget( 'button' );
@@ -42,15 +33,15 @@ function main_page() {
     $wui->loadWidget( 'horizgroup' );
     $wui->loadWidget( 'label' );
 
-    $page_params['title'] = 'Innomatic'.( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformName() ) ? ' - '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName().( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() ) ? '.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() : '' ) : '' );
+    $page_params['title'] = 'Innomatic'.( strlen( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformName() ) ? ' - '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformName().( strlen( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformGroup() ) ? '.'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformGroup() : '' ) : '' );
     $page_params['border'] = 'false';
 
     $wui_page = new WuiPage( 'page', $page_params );
-    $wui_vertgroup = new WuiVertGroup( 'vertgroup', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%', 'width' => '0%' ) );
-    $wui_center_group = new WuiVertGroup('center_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%'));
-    $wui_buttons_group = new WuiHorizGroup('buttons', array('align' => 'middle', 'groupalign' => 'center', 'width' => '0%'));
+    $wui_vertgroup = new WuiVertgroup( 'vertgroup', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%', 'width' => '0%' ) );
+    $wui_center_group = new WuiVertgroup('center_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%'));
+    $wui_buttons_group = new WuiHorizgroup('buttons', array('align' => 'middle', 'groupalign' => 'center', 'width' => '0%'));
 
-    $query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('SELECT count(id) AS domains FROM domains');
+    $query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute('SELECT count(id) AS domains FROM domains');
     if ($query->getFields('domains') > 0) {
         $wui_buttons_group->addChild(new WuiButton('domain', array('label' => $innomatic_locale->getStr('domainadmin'),
             'image' => $wui_page->mThemeHandler->mStyle['domainaccess'],
@@ -79,18 +70,17 @@ function main_page() {
     if ($app_cfg->getKey('serviceprovider-link-disabled') != '1') {
         $serviceprovider_link_filename = $app_cfg->getKey('serviceprovider-link-filename');
 
-        if (strlen($serviceprovider_link_filename) and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/'.$serviceprovider_link_filename)) {
+        if (strlen($serviceprovider_link_filename) and file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/'.$serviceprovider_link_filename)) {
         $wui_buttons_group->addChild(new WuiButton('userlogo', array('label' => $app_cfg->getKey('serviceprovider-name'),
-            'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.$serviceprovider_link_filename,
+            'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/'.$serviceprovider_link_filename,
             'horiz' => 'true',
             'action' => $app_cfg->getKey('serviceprovider-url'))));
         }
     }
 
-    $wui_logos_group = new WuiVertGroup( 'buttons_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%' ) );
-    if ( $innomatic_logo_disabled != '1' )
-    {
-        if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS ) $edition = '_asp';
+    $wui_logos_group = new WuiVertgroup( 'buttons_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%' ) );
+    if ( $innomatic_logo_disabled != '1' ) {
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ) $edition = '_asp';
         else $edition = '_enterprise';
 
         if ( isset($wui_page->mThemeHandler->mStyle['biglogo'.$edition] ) ) $biglogo_image = $wui_page->mThemeHandler->mStyle['biglogo'.$edition];
@@ -100,18 +90,15 @@ function main_page() {
         $wui_logos_group->addChild( $wui_button );
     }
 
-    if (is_object( InnomaticContainer::instance('innomaticcontainer')->getDataAccess() ) and InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP)
-    {
+    if (is_object( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess() ) and \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
         // Service Provider personalization
         //
         $serviceprovider_biglogo_filename = $app_cfg->getKey( 'serviceprovider-biglogo-filename' );
         $serviceprovider_url  = $app_cfg->getKey( 'serviceprovider-url' );
 
-        if ( $app_cfg->getKey( 'serviceprovider-biglogo-disabled' ) != '1' )
-        {
-            if ( strlen( $serviceprovider_biglogo_filename ) and file_exists( InnomaticContainer::instance('innomaticcontainer')->getHome().'shared/'.$serviceprovider_biglogo_filename ) )
-            {
-                $serviceprovider_button = new WuiButton( 'serviceproviderbutton', array( 'action' => strlen( $serviceprovider_url ) ? $serviceprovider_url : ' http://www.innoteam.it', 'target' => '_top', 'image' => InnomaticContainer::instance('innomaticcontainer')->getBaseUrl(false).'/shared/'.$serviceprovider_biglogo_filename, 'highlight' => 'false' ) );
+        if ( $app_cfg->getKey( 'serviceprovider-biglogo-disabled' ) != '1' ) {
+            if ( strlen( $serviceprovider_biglogo_filename ) and file_exists( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/'.$serviceprovider_biglogo_filename ) ) {
+                $serviceprovider_button = new WuiButton( 'serviceproviderbutton', array( 'action' => strlen( $serviceprovider_url ) ? $serviceprovider_url : ' http://www.innoteam.it', 'target' => '_top', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/'.$serviceprovider_biglogo_filename, 'highlight' => 'false' ) );
                 $wui_logos_group->addChild( $serviceprovider_button );
             }
         }
@@ -121,9 +108,8 @@ function main_page() {
     $wui_center_group->addChild(new WuiHorizBar('hb'));
     $wui_center_group->addChild($wui_logos_group);
 
-$label_text = strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformName() ) ? InnomaticContainer::instance('innomaticcontainer')->getPlatformName().( strlen( InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() ) ? '.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup() : '' ) : '';
-if ( strlen( $label_text ) )
-{
+$label_text = strlen( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformName() ) ? \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformName().( strlen( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformGroup() ) ? '.'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformGroup() : '' ) : '';
+if ( strlen( $label_text ) ) {
     //$wui_center_group->addChild(new WuiHorizBar('hb'));
     $wui_center_group->addChild( new WuiLabel( 'label', array( 'label' => $label_text, 'color' => $wui_page->mThemeHandler->mColorsSet['buttons']['text'] ) ) );
 }
@@ -136,9 +122,6 @@ if ( strlen( $label_text ) )
 
 // Checks if Innomatic is in setup phase
 //
-if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP)
-{
+if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
     main_page();
 }
-
-?>

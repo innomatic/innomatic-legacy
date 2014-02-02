@@ -2,36 +2,38 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Process;
 
 /**
  * Questa classe fornisce un meccanismo di controllo delle risorse
  * basato sul concetto di semaforo.
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @since 3.5 
+ * @since 3.5
  */
-class Semaphore {
+class Semaphore
+{
     /**
      * Tipo di risorsa da controllare.
      * @var string
-     * @access private
+     * @access protected
      */
-    private $mResourceType;
+    protected $resourceType;
     /**
      * Identificativo della risorsa da controllare.
      * @var string
-     * @access private
+     * @access protected
      */
-    private $mResource;
+    protected $resource;
     const STATUS_GREEN = 'green';
     const STATUS_RED = 'red';
 
@@ -40,9 +42,10 @@ class Semaphore {
      * @param string $resourceType tipo di risorsa da controllare.
      * @param string $resource identificativo della risorsa da controllare.
      */
-    public function Semaphore($resourceType, $resource) {
-        $this->mResourceType = $resourceType;
-        $this->mResource = $resource;
+    public function __construct($resourceType, $resource)
+    {
+        $this->resourceType = $resourceType;
+        $this->resource = $resource;
     }
 
     /**
@@ -51,8 +54,9 @@ class Semaphore {
      * @access public
      * @return void
      */
-    public function setResourceType($resourceType) {
-        $this->mResourceType = $resourceType;
+    public function setResourceType($resourceType)
+    {
+        $this->resourceType = $resourceType;
     }
 
     /**
@@ -60,8 +64,9 @@ class Semaphore {
      * @access public
      * @return string
      */
-    public function getResourceType() {
-        return $this->mResourceType;
+    public function getResourceType()
+    {
+        return $this->resourceType;
     }
 
     /**
@@ -70,8 +75,9 @@ class Semaphore {
      * @access public
      * @return void
      */
-    public function setResource($resource) {
-        $this->mResource = $resource;
+    public function setResource($resource)
+    {
+        $this->resource = $resource;
     }
 
     /**
@@ -79,8 +85,9 @@ class Semaphore {
      * @access public
      * @return string
      */
-    public function getResource() {
-        return $this->mResource;
+    public function getResource()
+    {
+        return $this->resource;
     }
 
     /**
@@ -88,20 +95,22 @@ class Semaphore {
      * @access private
      * @return string
      */
-    public function getFileName() {
-        if ($this->mResourceType and $this->mResource) {
-            return InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/semaphores/'.md5($this->mResourceType.'_'.$this->mResource).'.semaphore';
+    public function getFileName()
+    {
+        if ($this->resourceType and $this->resource) {
+            return \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/semaphores/'.md5($this->resourceType.'_'.$this->resource).'.semaphore';
         }
         return '';
     }
 
     /**
-     * Controlla in che stato � la risorsa.
+     * Controlla in che stato è la risorsa.
      * @return string
      * @access public
      */
-    public function checkStatus() {
-        if ($this->mResource) {
+    public function checkStatus()
+    {
+        if ($this->resource) {
             clearstatcache();
             if (file_exists($this->getFileName())) {
                 return Semaphore::STATUS_RED;
@@ -116,8 +125,9 @@ class Semaphore {
      * @access private
      * @return bool
      */
-    public function setStatus($status) {
-        if ($this->mResource) {
+    public function setStatus($status)
+    {
+        if ($this->resource) {
             switch ($status) {
                 case Semaphore::STATUS_GREEN :
                     clearstatcache();
@@ -131,14 +141,13 @@ class Semaphore {
                     clearstatcache();
                     if (!file_exists($this->getFileName())) {
                         if ($fh = fopen($this->getFileName(), 'w')) {
-                            require_once('innomatic/core/InnomaticContainer.php');
-                            $innomatic = InnomaticContainer::instance('innomaticcontainer');
+                            $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
-                            fputs($fh, serialize(array('pid' => $innomatic->getPid(), 'time' => time(), 'resource' => $this->mResource)));
+                            fputs($fh, serialize(array('pid' => $innomatic->getPid(), 'time' => time(), 'resource' => $this->resource)));
                             fclose($fh);
                         } else {
-                            if (!file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/semaphores/')) {
-                                mkdir(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/temp/semaphores/');
+                            if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/semaphores/')) {
+                                mkdir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/semaphores/');
                             }
                             return false;
                         }
@@ -155,7 +164,8 @@ class Semaphore {
      * @access public
      * @return void
      */
-    public function setGreen() {
+    public function setGreen()
+    {
         $this->setStatus(Semaphore::STATUS_GREEN);
     }
 
@@ -164,7 +174,8 @@ class Semaphore {
      * @access public
      * @return void
      */
-    public function setRed() {
+    public function setRed()
+    {
         $this->setStatus(Semaphore::STATUS_RED);
     }
 
@@ -174,9 +185,10 @@ class Semaphore {
      * @access public
      * @return array
      */
-    public function getSemaphoreData() {
+    public function getSemaphoreData()
+    {
         clearstatcache();
-        if ($this->mResource and file_exists($this->getFileName())) {
+        if ($this->resource and file_exists($this->getFileName())) {
             if (file_exists($this->getFileName())) {
                 return unserialize(file_get_contents($this->getFileName()));
             }
@@ -191,9 +203,10 @@ class Semaphore {
      * @return bool
      * @access public
      */
-    public function waitGreen($checkDelay = 1, $maxDelay = 0) {
+    public function waitGreen($checkDelay = 1, $maxDelay = 0)
+    {
         $result = false;
-        if ($this->mResource) {
+        if ($this->resource) {
             if ($maxDelay) {
                 $start = time();
             }

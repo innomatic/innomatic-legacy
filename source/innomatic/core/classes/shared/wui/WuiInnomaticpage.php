@@ -2,21 +2,22 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('shared/wui/WuiXml.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiInnomaticPage extends WuiXml
+class WuiInnomaticpage extends \Shared\Wui\WuiXml
 {
     //public $mPageTitle;
     //public $mMenu;
@@ -36,9 +37,9 @@ class WuiInnomaticPage extends WuiXml
             $this->mIcon = $this->mArgs['icon'];
         $this->_fillDefinition();
     }
-    protected function _fillDefinition ()
+    protected function _fillDefinition()
     {
-        $result = FALSE;
+        $result = false;
         $this->mDefinition = '
 <page>
   <name>page</name>
@@ -60,7 +61,7 @@ class WuiInnomaticPage extends WuiXml
             <icon type="encoded">' . urlencode($this->mIcon) . '</icon>
           </args>
         </titlebar>';
-        if (strlen($this->mArgs['menu'])) {
+        if (isset($this->mArgs['menu']) and strlen($this->mArgs['menu'])) {
             $this->mDefinition .= '<horizgroup><name>menuframe</name><children><menu><name>mainmenu</name><args><menu type="encoded">' . urlencode($this->mArgs['menu']) . '</menu></args></menu></children></horizgroup>';
         }
         if (is_array($this->mArgs['toolbars'])) {
@@ -70,7 +71,7 @@ class WuiInnomaticPage extends WuiXml
                 }
             }
         }
-        $this->mDefinition .= '        <horizframe>
+        $this->mDefinition .= '        <horizgroup>
           <name>mainhorizframe</name>
           <children>';
         if (isset($this->mArgs['alerttext']) and strlen($this->mArgs['alerttext'])) {
@@ -81,18 +82,18 @@ class WuiInnomaticPage extends WuiXml
                 </args>
                 <children>';
         }
-        if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG)
-            InnomaticContainer::instance('innomaticcontainer')->getLoadTimer()->Mark('start - WuiInnomaticPage::serialize');
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG)
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLoadTimer()->Mark('start - WuiInnomaticPage::serialize');
         if (is_object($this->mArgs['maincontent']))
             $this->mDefinition .= '<wuiobject>' . urlencode(serialize($this->mArgs['maincontent'])) . '</wuiobject>';
-        if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG)
-            InnomaticContainer::instance('innomaticcontainer')->getLoadTimer()->Mark('end - WuiInnomaticPage::serialize');
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG)
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLoadTimer()->Mark('end - WuiInnomaticPage::serialize');
         if (isset($this->mArgs['alerttext']) and strlen($this->mArgs['alerttext'])) {
             $this->mDefinition .= '</children>
                 </alertframe>';
         }
         $this->mDefinition .= '          </children>
-        </horizframe>';
+        </horizgroup>';
         $this->mDefinition .= '
 
         <statusbar>

@@ -2,16 +2,17 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Application;
 
 /*!
  @abstract Application configuration handling.
@@ -27,20 +28,20 @@ class ApplicationSettings
      @param rootda DataAccess class - Innomatic database handler.
      @param appname string - Application name.
      */
-    public function ApplicationSettings($rootda, $appname)
+    public function __construct($rootda, $appname)
     {
         $this->_rootda = $rootda;
         if ($appname) {
             $this->_appname = $appname;
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance(
-                'innomaticcontainer'
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getLogger();
             $log->logEvent(
                 'innomatic.applications.applicationsettings'
                 .'.applicationsettings',
-                'Empty application name', Logger::WARNING
+                'Empty application name', \Innomatic\Logging\Logger::WARNING
             );
         }
     }
@@ -56,7 +57,7 @@ class ApplicationSettings
     public function setKey($key, $val)
     {
         if ($this->_rootda and !empty($key)) {
-            if ($this->checkkey($key) != FALSE) {
+            if ($this->checkkey($key) != false) {
                 // A key with the same name already exists, it will be updated
                 //
                 return $this->_rootda->execute(

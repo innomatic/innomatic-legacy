@@ -1,22 +1,15 @@
-<?php              
-
-require_once('innomatic/net/socket/SocketHandler.php');
-require_once('innomatic/module/server/ModuleServerXmlRpcProcessor.php');
-require_once('innomatic/module/server/ModuleServerContext.php');
-require_once('innomatic/module/server/ModuleServerLogger.php');
-require_once('innomatic/module/server/ModuleServerRequest.php');
-require_once('innomatic/module/server/ModuleServerResponse.php');
-require_once('innomatic/module/server/ModuleServerAuthenticator.php');
-require_once('innomatic/module/session/ModuleSessionGarbageCollector.php');
+<?php
+namespace Innomatic\Module\Server;
 
 /**
  * Module server socket handler and requests dispatcher.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerSocketHandler extends SocketHandler {
+class ModuleServerSocketHandler extends \Innomatic\Net\Socket\SocketHandler
+{
     /**
      * Access log flag.
      *
@@ -24,7 +17,7 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access protected
      * @since 5.1
      */
-	protected $accessLogEnabled = false;
+    protected $accessLogEnabled = false;
     /**
      * Server log flag.
      *
@@ -32,7 +25,7 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access protected
      * @since 5.1
      */
-	protected $serverLogEnabled = false;
+    protected $serverLogEnabled = false;
     /**
      * Access logger object.
      *
@@ -40,7 +33,7 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access protected
      * @since 5.1
      */
-	protected $accessLogger;
+    protected $accessLogger;
     /**
      * Server logger object.
      *
@@ -48,7 +41,7 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access protected
      * @since 5.1
      */
-	protected $serverLogger;
+    protected $serverLogger;
     /**
      * Shutdown phase flag.
      *
@@ -56,7 +49,7 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access protected
      * @since 5.1
      */
-	protected $shutdown = false;
+    protected $shutdown = false;
     /**
      * Authenticator object.
      *
@@ -64,7 +57,7 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access protected
      * @since 5.1
      */
-	protected $authenticator;
+    protected $authenticator;
 
     /**
      * Actions executed at socket server startup.
@@ -75,27 +68,28 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access public
      * @since 5.1
      */
-	public function onStart() {
-		$context = ModuleServerContext::instance('ModuleServerContext');
-		if ($context->getConfig()->getKey('log_server_events') == 1 or $context->getConfig()->useDefaults()) {
-			$this->serverLogEnabled = true;
-			$this->serverLogger = new ModuleServerLogger($context->getHome().'core/log'.DIRECTORY_SEPARATOR.'module-server.log');
-		}
-		if ($context->getConfig()->getKey('log_access_events') == 1) {
-			$this->accessLogEnabled = true;
-			$this->accessLogger = new ModuleServerLogger($context->getHome().'core/log'.DIRECTORY_SEPARATOR.'module-access.log');
-		}
+    public function onStart()
+    {
+        $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
+        if ($context->getConfig()->getKey('log_server_events') == 1 or $context->getConfig()->useDefaults()) {
+            $this->serverLogEnabled = true;
+            $this->serverLogger = new ModuleServerLogger($context->getHome().'core/log'.DIRECTORY_SEPARATOR.'module-server.log');
+        }
+        if ($context->getConfig()->getKey('log_access_events') == 1) {
+            $this->accessLogEnabled = true;
+            $this->accessLogger = new ModuleServerLogger($context->getHome().'core/log'.DIRECTORY_SEPARATOR.'module-access.log');
+        }
 
-		ModuleSessionGarbageCollector::clean();
-		$this->authenticator = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
+        \Innomatic\Module\Session\ModuleSessionGarbageCollector::clean();
+        $this->authenticator = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
 
-		if ($this->serverLogEnabled) {
-			$this->serverLogger->logEvent('Start');
-		}
+        if ($this->serverLogEnabled) {
+            $this->serverLogger->logEvent('Start');
+        }
 
-		register_shutdown_function(array($this, 'onHalt'));
-		print('Module server started and listening at port '.$this->serversocket->getPort()."\n");
-	}
+        register_shutdown_function(array($this, 'onHalt'));
+        print('Module server started and listening at port '.$this->serversocket->getPort()."\n");
+    }
 
     /**
      * Actions executed at socket server shutdown.
@@ -103,17 +97,18 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access public
      * @since 5.1
      */
-	public function onShutDown() {
-		if ($this->shutdown) {
-			return;
-		}
-		if ($this->serverLogEnabled) {
-			$this->serverLogger->logEvent('Shutdown');
-		}
-		print('Module server stopped.'."\n");
-		ModuleSessionGarbageCollector::clean();
-		$this->shutdown = true;
-	}
+    public function onShutDown()
+    {
+        if ($this->shutdown) {
+            return;
+        }
+        if ($this->serverLogEnabled) {
+            $this->serverLogger->logEvent('Shutdown');
+        }
+        print('Module server stopped.'."\n");
+        \Innomatic\Module\Session\ModuleSessionGarbageCollector::clean();
+        $this->shutdown = true;
+    }
 
     /**
      * Actions execute at socker server halt.
@@ -123,11 +118,12 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access public
      * @since 5.1
      */
-	public function onHalt() {
-		if (!$this->shutdown) {
-			print('Module server failed.'."\n");
-		}
-	}
+    public function onHalt()
+    {
+        if (!$this->shutdown) {
+            print('Module server failed.'."\n");
+        }
+    }
 
     /**
      * Actions executed when a connection starts.
@@ -137,8 +133,9 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access public
      * @since 5.1
      */
-	public function onConnect($clientId = NULL) {
-	}
+    public function onConnect($clientId = null)
+    {
+    }
 
     /**
      * Actions executed when a connection is refused.
@@ -148,8 +145,9 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access public
      * @since 5.1
      */
-	public function onConnectionRefused($clientId = NULL) {
-	}
+    public function onConnectionRefused($clientId = null)
+    {
+    }
 
     /**
      * Actions executed when a connection is closed.
@@ -159,8 +157,9 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access public
      * @since 5.1
      */
-	public function onClose($clientId = NULL) {
-	}
+    public function onClose($clientId = null)
+    {
+    }
 
     /**
      * Actions executed when receiving data.
@@ -176,30 +175,31 @@ class ModuleServerSocketHandler extends SocketHandler {
      * @access public
      * @since 5.1
      */
-	public function onReceiveData($clientId = NULL, $data = NULL) {
-		$response = new ModuleServerResponse();
-		$raw_request = explode("\n", $data);
-		$headers = array ();
-		$body = '';
-		$body_start = false;
-		$command_line = '';
+    public function onReceiveData($clientId = null, $data = null)
+    {
+        $response = new ModuleServerResponse();
+        $raw_request = explode("\n", $data);
+        $headers = array ();
+        $body = '';
+        $body_start = false;
+        $command_line = '';
 
-		foreach ($raw_request as $line) {
-			$line = trim($line);
-			if (!$body_start and $line == '') {
-				$body_start = true;
-				continue;
-			}
-			if ($body_start) {
-				$body .= $line."\n";
-			} else {
-				if (strlen($command_line)) {
-					$headers[substr($line, 0, strpos($line, ':'))] = trim(substr($line, strpos($line, ':') + 1));
-				} else {
-					$command_line = $line;
-				}
-			}
-		}
+        foreach ($raw_request as $line) {
+            $line = trim($line);
+            if (!$body_start and $line == '') {
+                $body_start = true;
+                continue;
+            }
+            if ($body_start) {
+                $body .= $line."\n";
+            } else {
+                if (strlen($command_line)) {
+                    $headers[substr($line, 0, strpos($line, ':'))] = trim(substr($line, strpos($line, ':') + 1));
+                } else {
+                    $command_line = $line;
+                }
+            }
+        }
 
         if (!isset($headers['User'])) {
             $headers['User'] = '';
@@ -207,28 +207,28 @@ class ModuleServerSocketHandler extends SocketHandler {
         if (!isset($headers['Password'])) {
             $headers['Password'] = '';
         }
-        
-		if ($this->authenticator->authenticate($headers['User'], $headers['Password'])) {
-			$command = explode(' ', $command_line);
-			switch ($command[0]) {
-				case 'SHUTDOWN' :
-					if ($this->authenticator->authorizeAction($headers['User'], 'shutdown')) {
-						$this->serversocket->sendData($clientId, "Shutdown requested.\n", true);
-						$this->logAccess($clientId, $headers['User'], $command_line);
-						$this->serversocket->shutDown();
-						return;
-					} else {
-						$response->sendWarning(ModuleServerResponse::SC_FORBIDDEN, 'Action not authorized');
-					}
-					break;
 
-				case 'STATUS' :
-					if ($this->authenticator->authorizeAction($headers['User'], 'status')) {
-						$response->setBuffer("Module server is up.\n");
-					} else {
-						$response->sendWarning(ModuleServerResponse::SC_FORBIDDEN, 'Action not authorized');
-					}
-					break;
+        if ($this->authenticator->authenticate($headers['User'], $headers['Password'])) {
+            $command = explode(' ', $command_line);
+            switch ($command[0]) {
+                case 'SHUTDOWN' :
+                    if ($this->authenticator->authorizeAction($headers['User'], 'shutdown')) {
+                        $this->serversocket->sendData($clientId, "Shutdown requested.\n", true);
+                        $this->logAccess($clientId, $headers['User'], $command_line);
+                        $this->serversocket->shutDown();
+                        return;
+                    } else {
+                        $response->sendWarning(ModuleServerResponse::SC_FORBIDDEN, 'Action not authorized');
+                    }
+                    break;
+
+                case 'STATUS' :
+                    if ($this->authenticator->authorizeAction($headers['User'], 'status')) {
+                        $response->setBuffer("Module server is up.\n");
+                    } else {
+                        $response->sendWarning(ModuleServerResponse::SC_FORBIDDEN, 'Action not authorized');
+                    }
+                    break;
 
                 case 'REFRESH' :
                     if ($this->authenticator->authorizeAction($headers['User'], 'status')) {
@@ -239,28 +239,28 @@ class ModuleServerSocketHandler extends SocketHandler {
                     }
                     break;
 
-				case 'INVOKE' :
-					if ($this->authenticator->authorizeModule($headers['User'], $command[1])) {
-						$request = new ModuleServerRequest();
-						$request->setCommand($command_line);
-						$request->setHeaders($headers);
-						$request->setPayload($body);
+                case 'INVOKE' :
+                    if ($this->authenticator->authorizeModule($headers['User'], $command[1])) {
+                        $request = new ModuleServerRequest();
+                        $request->setCommand($command_line);
+                        $request->setHeaders($headers);
+                        $request->setPayload($body);
 
-						$server = new ModuleServerXmlRpcProcessor();
-						$server->process($request, $response);
-					} else {
-						$response->sendWarning(ModuleServerResponse::SC_FORBIDDEN, 'Module not authorized');
-					}
-					break;
-			}
-		} else {
-			$response->sendWarning(ModuleServerResponse::SC_UNAUTHORIZED, 'Authentication needed');
-		}
+                        $server = new ModuleServerXmlRpcProcessor();
+                        $server->process($request, $response);
+                    } else {
+                        $response->sendWarning(ModuleServerResponse::SC_FORBIDDEN, 'Module not authorized');
+                    }
+                    break;
+            }
+        } else {
+            $response->sendWarning(ModuleServerResponse::SC_UNAUTHORIZED, 'Authentication needed');
+        }
 
-		$this->serversocket->sendData($clientId, $response->getResponse(), true);
-		$this->logAccess($clientId, $headers['User'], $command_line);
-		$this->serversocket->closeConnection();
-	}
+        $this->serversocket->sendData($clientId, $response->getResponse(), true);
+        $this->logAccess($clientId, $headers['User'], $command_line);
+        $this->serversocket->closeConnection();
+    }
 
     /**
     * Logs an access to the server socket.
@@ -273,12 +273,11 @@ class ModuleServerSocketHandler extends SocketHandler {
     * @param string $user Username given by the client.
     * @param string $command Command that the client asked to execute.
     */
-	protected function logAccess($clientId, $user, $command) {
-		if ($this->accessLogEnabled) {
-			$client = $this->serversocket->getClientInfo($clientId);
-			$this->accessLogger->logEvent($user.'@'.$client['host'].' "'.$command.'"');
-		}
-	}
+    protected function logAccess($clientId, $user, $command)
+    {
+        if ($this->accessLogEnabled) {
+            $client = $this->serversocket->getClientInfo($clientId);
+            $this->accessLogger->logEvent($user.'@'.$client['host'].' "'.$command.'"');
+        }
+    }
 }
-
-?>

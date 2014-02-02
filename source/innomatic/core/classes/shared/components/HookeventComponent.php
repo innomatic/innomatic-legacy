@@ -2,81 +2,79 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/application/ApplicationComponent.php');
-require_once ('innomatic/process/Hook.php');
+namespace Shared\Components;
+
 /**
  * Hookevent component handler.
  */
-class HookeventComponent extends ApplicationComponent
+class HookeventComponent extends \Innomatic\Application\ApplicationComponent
 {
-    function HookeventComponent ($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'hookevent';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 10;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    function DoInstallAction ($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['name'])) {
-            $hook = new Hook($this->rootda, $this->appname, $params['function']);
+            $hook = new \Innomatic\Process\Hook($this->rootda, $this->appname, $params['function']);
             if ($hook->addEvent($params['event']))
                 $result = true;
             else
-                $this->mLog->logEvent('innomatic.hookeventcomponent.hookeventcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to add hookevent', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.hookeventcomponent.hookeventcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to add hookevent', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.hookeventcomponent.hookeventcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hookevent name', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.hookeventcomponent.hookeventcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hookevent name', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    function DoUninstallAction ($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['name'])) {
-            $xm = new Hook($this->rootda, $this->appname, $params['function']);
+            $xm = new \Innomatic\Process\Hook($this->rootda, $this->appname, $params['function']);
             if ($xm->RemoveEvent($params['event']))
                 $result = true;
             else
-                $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove hookevent', Logger::ERROR);
+                $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove hookevent', \Innomatic\Logging\Logger::ERROR);
         } else
-            $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hook nameevent', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.hookcomponent.hookcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty hook nameevent', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    function DoUpdateAction ($params)
+    public function doUpdateAction($params)
     {
         $result = false;
         $result = true;
         /*
-        if ( strlen( $params['name'] ) )
-        {
+        if ( strlen( $params['name'] ) ) {
             $xm = new WebServicesMethod( $this->rootda, $params['name'] );
             if ( $xm->Update( $params['function'], $params['handler'], $params['signature'], $params['docstring'] ) ) $result = true;
-            else $this->mLog->logEvent( 'innomatic.xmlrpccomponent.xmlrpccomponent.doupdateaction', 'In application '.$this->appname.', component '.$params['name'].': Unable to update xmlrpc method', Logger::ERROR );
-        }
-        else $this->mLog->logEvent( 'innomatic.xmlrpccomponent.xmlrpccomponent.doupdateaction', 'In application '.$this->appname.', component '.$params['name'].': Empty xmlrpc handler file name', Logger::ERROR );
+            else $this->mLog->logEvent( 'innomatic.xmlrpccomponent.xmlrpccomponent.doupdateaction', 'In application '.$this->appname.', component '.$params['name'].': Unable to update xmlrpc method', \Innomatic\Logging\Logger::ERROR );
+        } else $this->mLog->logEvent( 'innomatic.xmlrpccomponent.xmlrpccomponent.doupdateaction', 'In application '.$this->appname.', component '.$params['name'].': Empty xmlrpc handler file name', \Innomatic\Logging\Logger::ERROR );
         */
         return $result;
     }

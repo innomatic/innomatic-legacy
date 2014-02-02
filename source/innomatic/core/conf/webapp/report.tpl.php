@@ -24,13 +24,12 @@ hr { color: #525D76;}
         if (!is_null($e)) {
             echo $e->getmessage();
         } else {
-        	echo $message;
+            echo $message;
         }
 ?></u></p>
 <p><b>description</b> <u><?=$report;?></u></p>
 <?php
-        if (!is_null($e))
-        {
+        if (!is_null($e)) {
             echo '<p><b>exception</b> <pre>' . $e . '</pre></p>';
         }
 ?>

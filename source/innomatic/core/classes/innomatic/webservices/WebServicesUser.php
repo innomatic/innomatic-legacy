@@ -2,18 +2,17 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/logging/Logger.php');
+namespace Innomatic\Webservices;
 
 /*!
  @class WebServicesUser
@@ -22,11 +21,11 @@ require_once('innomatic/logging/Logger.php');
  */
 class WebServicesUser
 {
-    var $mLog;
-    var $mRootDb;
-    var $mUserId;
-    var $mProfileId = 0;
-    var $mDomainId = 0;
+    public $mLog;
+    public $mRootDb;
+    public $mUserId;
+    public $mProfileId = 0;
+    public $mDomainId = 0;
 
     /*!
      @function WebServicesUser
@@ -36,9 +35,9 @@ class WebServicesUser
      @param rootDb DataAccess class - Innomatic database handler.
      @param userId integer - User id serial.
      */
-    function WebServicesUser( $rootda, $userId = '' )
+    public function __construct($rootda, $userId = '')
     {
-        $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
         if ( $rootda ) $this->mRootDb = $rootda;
         else $this->mLog->LogDie( 'innomatic.webservicesuser',
@@ -61,14 +60,12 @@ class WebServicesUser
 
      @result True if the user has been added.
      */
-    function Add( $username, $password, $profileId = 0, $domainId = 0 )
+    public function Add($username, $password, $profileId = 0, $domainId = 0)
     {
         $result = false;
 
-        if ( $this->mRootDb )
-        {
-            if ( !$this->mUserId )
-            {
+        if ( $this->mRootDb ) {
+            if ( !$this->mUserId ) {
                 $domainId = (int)$domainId;
                 if ( !strlen( $domainId ) ) $domainId = 0;
 
@@ -79,15 +76,14 @@ class WebServicesUser
                 // :TODO: Alex Pagnoni 010710
                 // It should check if the profile exists
 
-                $query = &$this->mRootDb->execute( 'SELECT username '.
+                $query = $this->mRootDb->execute( 'SELECT username '.
                                                   'FROM webservices_users '.
                                                   'WHERE username='.$this->mRootDb->formatText( $username ) );
 
-                if ( !$query->getNumberRows() )
-                {
+                if ( !$query->getNumberRows() ) {
                     $this->mUserId = $this->mRootDb->getNextSequenceValue( 'webservices_users_id_seq' );
 
-                    $result = &$this->mRootDb->execute( 'INSERT INTO webservices_users '.
+                    $result = $this->mRootDb->execute( 'INSERT INTO webservices_users '.
                                                        'VALUES ('.
                                                        $this->mUserId.','.
                                                        $this->mRootDb->formatText( $username ).','.
@@ -95,26 +91,21 @@ class WebServicesUser
                                                        $profileId.','.
                                                        $domainId.')' );
 
-                    if ( $result )
-                    {
+                    if ( $result ) {
                         $this->mProfileId = $profileId;
                         $this->mDomainId = $domainId;
 
                         $this->mLog->logEvent( 'Innomatic',
-                                              'Created new web services profile user', Logger::NOTICE );
-                    }
-                    else
-                    {
+                                              'Created new web services profile user', \Innomatic\Logging\Logger::NOTICE );
+                    } else {
                         $this->mLog->logEvent( 'innomatic.webservicesuser.add',
-                                              'Unable to insert web services user into webservices_users table', Logger::ERROR );
+                                              'Unable to insert web services user into webservices_users table', \Innomatic\Logging\Logger::ERROR );
                     }
                 }
-            }
-            else $this->mLog->logEvent( 'innomatic.webservicesuser.add',
-                                        'Already assigned user for this object', Logger::ERROR );
-        }
-        else $this->mLog->logEvent( 'innomatic.webservicesuser.add',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+            } else $this->mLog->logEvent( 'innomatic.webservicesuser.add',
+                                        'Already assigned user for this object', \Innomatic\Logging\Logger::ERROR );
+        } else $this->mLog->logEvent( 'innomatic.webservicesuser.add',
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -132,37 +123,32 @@ class WebServicesUser
 
      @result True if the account has been found.
      */
-    function setByAccount( $username, $password )
+    public function setByAccount($username, $password)
     {
         $result = false;
 
-        if ( $this->mRootDb )
-        {
-            if ( !$this->mUserId )
-            {
+        if ( $this->mRootDb ) {
+            if ( !$this->mUserId ) {
                 // :NOTE: Alex Pagnoni 010710
                 // $username can be empty, since we can accept
                 // anonymous users
 
-                $query = &$this->mRootDb->execute( 'SELECT * '.
+                $query = $this->mRootDb->execute( 'SELECT * '.
                                                   'FROM webservices_users '.
                                                   'WHERE username='.$this->mRootDb->formatText( $username ).' '.
                                                   'AND password='.$this->mRootDb->formatText( md5( $password ) ) );
 
-                if ( $query->getNumberRows() )
-                {
+                if ( $query->getNumberRows() ) {
                     $this->mUserId = $query->getFields( 'id' );
                     $this->mProfileId = $query->getFields( 'profileid' );
                     $this->mDomainId = $query->getFields( 'domainid' );
 
                     $result = $this->mUserId;
                 }
-            }
-            else $this->mLog->logEvent( 'innomatic.webservicesuser.setbyaccount',
-                                        'Already assigned user for this object', Logger::ERROR );
-        }
-        else $this->mLog->logEvent( 'innomatic.webservicesuser.setbyaccount',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+            } else $this->mLog->logEvent( 'innomatic.webservicesuser.setbyaccount',
+                                        'Already assigned user for this object', \Innomatic\Logging\Logger::ERROR );
+        } else $this->mLog->logEvent( 'innomatic.webservicesuser.setbyaccount',
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -174,27 +160,22 @@ class WebServicesUser
 
      @result User profile id.
      */
-    function ProfileId()
+    public function ProfileId()
     {
         $result = false;
 
-        if ( $this->mRootDb )
-        {
-            if ( $this->mUserId )
-            {
-                $query = &$this->mRootDb->execute( 'SELECT profileid '.
+        if ( $this->mRootDb ) {
+            if ( $this->mUserId ) {
+                $query = $this->mRootDb->execute( 'SELECT profileid '.
                                                   'FROM webservices_users '.
                                                   'WHERE id='.(int)$this->mUserId );
-                if ( $query->getNumberRows() )
-                {
+                if ( $query->getNumberRows() ) {
                     $result = $query->getFields( 'profileid' );
                 }
-            }
-            else $this->mLog->logEvent( 'innomatic.webservicesuser.profileid',
-                                        'Object not assigned to an user', Logger::ERROR );
-        }
-        else $this->mLog->logEvent( 'innomatic.webservicesuser.profileid',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+            } else $this->mLog->logEvent( 'innomatic.webservicesuser.profileid',
+                                        'Object not assigned to an user', \Innomatic\Logging\Logger::ERROR );
+        } else $this->mLog->logEvent( 'innomatic.webservicesuser.profileid',
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -206,33 +187,26 @@ class WebServicesUser
 
      @result True it the user has been deleted. Function returns true even if the given user doesn't exists.
      */
-    function Remove()
+    public function Remove()
     {
         $result = false;
 
-        if ( $this->mRootDb )
-        {
-            if ( $this->mUserId )
-            {
-                $result = &$this->mRootDb->execute( 'DELETE FROM webservices_users '.
+        if ( $this->mRootDb ) {
+            if ( $this->mUserId ) {
+                $result = $this->mRootDb->execute( 'DELETE FROM webservices_users '.
                                                    'WHERE id='.(int)$this->mUserId );
 
-                if ( $result )
-                {
+                if ( $result ) {
                     $this->mLog->logEvent( 'Innomatic',
-                                          'Removed web services profile user', Logger::NOTICE );
-                }
-                else
-                {
+                                          'Removed web services profile user', \Innomatic\Logging\Logger::NOTICE );
+                } else {
                     $this->mLog->logEvent( 'innomatic.webservicesuser.remove',
-                                          'Unable to remove web services user from webservices_users table', Logger::ERROR );
+                                          'Unable to remove web services user from webservices_users table', \Innomatic\Logging\Logger::ERROR );
                 }
-            }
-            else $this->mLog->logEvent( 'innomatic.webservicesuser.remove',
-                                        'Object not assigned to an user', Logger::ERROR );
-        }
-        else $this->mLog->logEvent( 'innomatic.webservicesuser.remove',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+            } else $this->mLog->logEvent( 'innomatic.webservicesuser.remove',
+                                        'Object not assigned to an user', \Innomatic\Logging\Logger::ERROR );
+        } else $this->mLog->logEvent( 'innomatic.webservicesuser.remove',
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -246,34 +220,27 @@ class WebServicesUser
 
      @result True if the password has been changed.
      */
-    function ChangePassword( $newPassword )
+    public function ChangePassword($newPassword)
     {
         $result = false;
 
-        if ( $this->mRootDb )
-        {
-            if ( $this->mUserId )
-            {
-                $result = &$this->mRootDb->execute( 'UPDATE webservices_users '.
+        if ( $this->mRootDb ) {
+            if ( $this->mUserId ) {
+                $result = $this->mRootDb->execute( 'UPDATE webservices_users '.
                                                    'SET password='.$this->mRootDb->formatText( md5( $newPassword ) ).
                                                    'WHERE id='.(int)$this->mUserId );
 
-                if ( $result )
-                {
+                if ( $result ) {
                     $this->mLog->logEvent( 'Innomatic',
-                                          'Change web services profile user password', Logger::NOTICE );
-                }
-                else
-                {
+                                          'Change web services profile user password', \Innomatic\Logging\Logger::NOTICE );
+                } else {
                     $this->mLog->logEvent( 'innomatic.webservicesuser.changepassword',
-                                          'Unable to update web services user password into webservices_users table', Logger::ERROR );
+                                          'Unable to update web services user password into webservices_users table', \Innomatic\Logging\Logger::ERROR );
                 }
-            }
-            else $this->mLog->logEvent( 'innomatic.webservicesuser.changepassword',
-                                        'Object not assigned to an user', Logger::ERROR );
-        }
-        else $this->mLog->logEvent( 'innomatic.webservicesuser.changepassword',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+            } else $this->mLog->logEvent( 'innomatic.webservicesuser.changepassword',
+                                        'Object not assigned to an user', \Innomatic\Logging\Logger::ERROR );
+        } else $this->mLog->logEvent( 'innomatic.webservicesuser.changepassword',
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -287,25 +254,21 @@ class WebServicesUser
 
      @result True if the password is the same of the web services user.
      */
-    function CheckPassword( $password )
+    public function CheckPassword($password)
     {
         $result = false;
 
-        if ( $this->mRootDb )
-        {
-            if ( $this->mUserId )
-            {
-                $query = &$this->mRootDb->execute( 'SELECT FROM webservices_users '.
+        if ( $this->mRootDb ) {
+            if ( $this->mUserId ) {
+                $query = $this->mRootDb->execute( 'SELECT FROM webservices_users '.
                                                   'WHERE id='.(int)$this->mUserID.
                                                   ' AND password='.$this->mRootDb->formatText( md5( $password ) ).')' );
 
                 if ( $query->getNumberRows() ) $result = true;
-            }
-            else $this->mLog->logEvent( 'innomatic.webservicesuser.checkpassword',
-                                        'Object not assigned to an user', Logger::ERROR );
-        }
-        else $this->mLog->logEvent( 'innomatic.webservicesuser.checkpassword',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+            } else $this->mLog->logEvent( 'innomatic.webservicesuser.checkpassword',
+                                        'Object not assigned to an user', \Innomatic\Logging\Logger::ERROR );
+        } else $this->mLog->logEvent( 'innomatic.webservicesuser.checkpassword',
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -319,31 +282,25 @@ class WebServicesUser
 
      @result True if the profile has been assigned.
      */
-    function AssignProfile( $profileId )
+    public function AssignProfile($profileId)
     {
         $result = false;
 
-        if ( $this->mRootDb )
-        {
-            if ( $this->mUserId )
-            {
-                if ( strlen( $profileId ) )
-                {
-                    if ( $query = &$this->mRootDb->execute( 'UPDATE webservices_users '.
+        if ( $this->mRootDb ) {
+            if ( $this->mUserId ) {
+                if ( strlen( $profileId ) ) {
+                    if ( $query = $this->mRootDb->execute( 'UPDATE webservices_users '.
                                                            'SET profileid='.(int)$profileId.' '.
                                                            'WHERE id='.(int)$this->mUserId ) ) $result = true;
 
                     else  $this->mLog->logEvent( 'innomatic.webservicesuser.assignprofile',
-                                                 'Unable to update profile id in webservices_users table', Logger::ERROR );
-                }
-                else $this->mLog->logEvent( 'innomatic.webservicesuser.assignprofile',
-                                            'Empty profile id', Logger::ERROR );
-            }
-            else $this->mLog->logEvent( 'innomatic.webservicesuser.assignprofile',
-                                        'Object not assigned to an user', Logger::ERROR );
-        }
-        else $this->mLog->logEvent( 'innomatic.webservicesuser.assignprofile',
-                                    'Invalid Innomatic database handler', Logger::ERROR );
+                                                 'Unable to update profile id in webservices_users table', \Innomatic\Logging\Logger::ERROR );
+                } else $this->mLog->logEvent( 'innomatic.webservicesuser.assignprofile',
+                                            'Empty profile id', \Innomatic\Logging\Logger::ERROR );
+            } else $this->mLog->logEvent( 'innomatic.webservicesuser.assignprofile',
+                                        'Object not assigned to an user', \Innomatic\Logging\Logger::ERROR );
+        } else $this->mLog->logEvent( 'innomatic.webservicesuser.assignprofile',
+                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         return $result;
     }
@@ -357,18 +314,16 @@ class WebServicesUser
 
      @result True if the domain has been assigned.
      */
-    function assignDomain( $domainId )
+    public function assignDomain($domainId)
     {
         $result = false;
 
-        if ( $this->mRootDb )
-        {
-            if ( $this->mUserId )
-            {
+        if ( $this->mRootDb ) {
+            if ( $this->mUserId ) {
                 $domainId = (int)$domainId;
                 if ( !strlen( $domainId ) ) $domainId = 0;
 
-                if ( $query = &$this->mRootDb->execute(
+                if ( $query = $this->mRootDb->execute(
                     'UPDATE webservices_users '.
                     'SET domainid='.(int)$domainId.' '.
                     'WHERE id='.(int)$this->mUserId ) ) $result = true;

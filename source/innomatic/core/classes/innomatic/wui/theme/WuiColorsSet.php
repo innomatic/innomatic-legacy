@@ -2,31 +2,31 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/dataaccess/DataAccess.php');
+namespace Innomatic\Wui\Theme;
 
 /**
  * Wui colors set handler.
- * 
+ *
  * A WUI colors set definition file should have _wuicolorsset.ini as suffix.
- * 
+ *
  * @package WUI
  */
-class WuiColorsSet {
-    /*! @var mrRootDb DataAccess class - Innomatic database handler. */
-    private $mrRootDb;
-    /*! @var mSetName string - Colors set name. */
-    private $mSetName;
+class WuiColorsSet
+{
+    /*! @var rootdataaccess DataAccess class - Innomatic database handler. */
+    private $rootdataaccess;
+    /*! @var setname string - Colors set name. */
+    private $setname;
 
     /*!
      @function WuiColorsSet
@@ -35,13 +35,14 @@ class WuiColorsSet {
      @param rrootDb DataAccess class - Innomatic database handler.
      @param setName string - Colors set name.
      */
-    public function __construct($rrootDb, $setName) {
-        if (!(InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_SETUP)) {
+    public function __construct($rrootDb, $setName)
+    {
+        if (!(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
             if (is_object($rrootDb)) {
-                $this->mrRootDb = $rrootDb;
+                $this->rootdataaccess = $rrootDb;
             }
         }
-        $this->mSetName = $setName;
+        $this->setname = $setName;
     }
 
     /*!
@@ -51,11 +52,12 @@ class WuiColorsSet {
      @param args array - Component arguments in the structure.
      @result True if the colors set has been installed.
      */
-    public function install($args) {
+    public function install($args)
+    {
         $result = false;
-        if ($this->mrRootDb) {
+        if ($this->rootdataaccess) {
             if (strlen($args['name']) and strlen($args['file'])) {
-                $result = $this->mrRootDb->execute('INSERT INTO wui_colorssets VALUES ('.$this->mrRootDb->getNextSequenceValue('wui_colorssets_id_seq').','.$this->mrRootDb->formatText($args['name']).','.$this->mrRootDb->formatText($args['file']).','.$this->mrRootDb->formatText($args['catalog']).')');
+                $result = $this->rootdataaccess->execute('INSERT INTO wui_colorssets VALUES ('.$this->rootdataaccess->getNextSequenceValue('wui_colorssets_id_seq').','.$this->rootdataaccess->formatText($args['name']).','.$this->rootdataaccess->formatText($args['file']).','.$this->rootdataaccess->formatText($args['catalog']).')');
             }
         }
         return $result;
@@ -68,18 +70,19 @@ class WuiColorsSet {
      @param args array - Component arguments in the structure.
      @result True if the colors set has been updated.
      */
-    public function update($args) {
+    public function update($args)
+    {
         $result = false;
-        if ($this->mrRootDb) {
-            if (strlen($this->mSetName)) {
-                $check_query = $this->mrRootDb->execute('SELECT name FROM wui_colorssets WHERE name='.$this->mrRootDb->formatText($this->mSetName));
+        if ($this->rootdataaccess) {
+            if (strlen($this->setname)) {
+                $check_query = $this->rootdataaccess->execute('SELECT name FROM wui_colorssets WHERE name='.$this->rootdataaccess->formatText($this->setname));
 
                 if ($check_query->getNumberRows()) {
-                    if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
-                        $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuicolorsset-'.$this->mSetName);
+                    if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
+                        $cached_item = new \Innomatic\Datatransfer\Cache\CachedItem($this->rootdataaccess, 'innomatic', 'wuicolorsset-'.$this->setname);
                         $cached_item->Destroy();
                     }
-                    $result = $this->mrRootDb->execute('UPDATE wui_colorssets SET file='.$this->mrRootDb->formatText($args['file']).',catalog='.$this->mrRootDb->formatText($args['catalog']).' WHERE name='.$this->mrRootDb->formatText($this->mSetName));
+                    $result = $this->rootdataaccess->execute('UPDATE wui_colorssets SET file='.$this->rootdataaccess->formatText($args['file']).',catalog='.$this->rootdataaccess->formatText($args['catalog']).' WHERE name='.$this->rootdataaccess->formatText($this->setname));
                 } else
                     $result = $this->Install($args);
             }
@@ -93,25 +96,27 @@ class WuiColorsSet {
      @discussion Removes a Wui colors set.
      @result True if the colors set has been removed.
      */
-    public function remove() {
+    public function remove()
+    {
         $result = false;
-        if ($this->mrRootDb) {
-            if (strlen($this->mSetName)) {
-                
-                if (InnomaticContainer::instance('innomaticcontainer')->getState() != InnomaticContainer::STATE_SETUP) {
-                    $cached_item = new CachedItem($this->mrRootDb, 'innomatic', 'wuicolorsset-'.$this->mSetName);
+        if ($this->rootdataaccess) {
+            if (strlen($this->setname)) {
+
+                if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
+                    $cached_item = new \Innomatic\Datatransfer\Cache\CachedItem($this->rootdataaccess, 'innomatic', 'wuicolorsset-'.$this->setname);
                     $cached_item->Destroy();
                 }
-                $result = $this->mrRootDb->execute('DELETE FROM wui_colorssets WHERE name='.$this->mrRootDb->formatText($this->mSetName));
+                $result = $this->rootdataaccess->execute('DELETE FROM wui_colorssets WHERE name='.$this->rootdataaccess->formatText($this->setname));
             }
         }
         return $result;
     }
 
-    public function getColorsSet() {
+    public function getColorsSet()
+    {
         $result = array();
-        $cfg_file = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuicolorsset.ini');
-        if ($cfg_file !== FALSE) {
+        $cfg_file = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.$this->setname.'_wuicolorsset.ini');
+        if ($cfg_file !== false) {
             $result['pages']['bgcolor'] = $cfg_file['COLORSET.PAGES.BGCOLOR'];
             $result['pages']['border'] = $cfg_file['COLORSET.PAGES.BORDER'];
             $result['buttons']['text'] = $cfg_file['COLORSET.BUTTONS.TEXT'];
@@ -132,9 +137,9 @@ class WuiColorsSet {
             $result['tables']['headerbgcolor'] = $cfg_file['COLORSET.TABLES.HEADERBGCOLOR'];
             $result['tables']['gridcolor'] = $cfg_file['COLORSET.TABLES.GRIDCOLOR'];
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.wuithemes.wuicolorsset.getcolorsset', 'Unable to open colors set file '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/themes/'.$this->mSetName.'_wuicolorsset.ini', Logger::ERROR);
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.wuithemes.wuicolorsset.getcolorsset', 'Unable to open colors set file '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/themes/'.$this->setname.'_wuicolorsset.ini', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }

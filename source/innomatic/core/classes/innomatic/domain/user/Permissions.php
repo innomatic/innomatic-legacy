@@ -2,23 +2,25 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Domain\User;
 
 /*!
  @class Permissions
 
  @abstract Administration interface pages permissions handling
  */
-class Permissions {
+class Permissions
+{
     public $db;
     public $gid;
     public $permds;
@@ -27,14 +29,16 @@ class Permissions {
     const NODE_FULLYENABLED = 1;
     const NODE_PARTIALLYENABLED = 2;
     const NODE_NOTENABLED = 3;
-    
-    public function Permissions(DataAccess $domainda, $gid) {
+
+    public function __construct(\Innomatic\Dataaccess\DataAccess $domainda, $gid)
+    {
         $this->db = $domainda;
         $this->gid = $gid;
     }
 
     // Enable a node
-    public function enable($node, $ntype) {
+    public function enable($node, $ntype)
+    {
         $this->db->execute('DELETE FROM domain_users_permissions '."WHERE groupid = '".$this->gid."' "."AND permnode = '".$ntype.$node."'");
 
         if (strcmp($ntype, 'group') == 0) {
@@ -48,7 +52,8 @@ class Permissions {
     }
 
     // Disable a node
-    public function disable($node, $ntype) {
+    public function disable($node, $ntype)
+    {
         if ($this->check($node, $ntype) != Permissions::NODE_NOTENABLED) {
             $this->db->execute("INSERT into domain_users_permissions values ( '".$this->gid."','".$ntype.$node."')");
 
@@ -64,7 +69,8 @@ class Permissions {
     }
 
     // Check a node permission status
-    public function check($node, $ntype) {
+    public function check($node, $ntype)
+    {
         $result = Permissions::NODE_NOTENABLED;
 
         $pquery = $this->db->execute('SELECT groupid FROM domain_users_permissions WHERE groupid = '.$this->gid.' AND permnode = '.$this->db->formatText($ntype.$node));
@@ -96,13 +102,15 @@ class Permissions {
 
     // Removes every permission referred to a certain node
     // for every group
-    public function removeNodes($node, $type) {
-        //return &$this->db->execute( "DELETE FROM domain_users_permissions WHERE permnode = '".$type.$node."'" );
+    public function removeNodes($node, $type)
+    {
+        //return $this->db->execute( "DELETE FROM domain_users_permissions WHERE permnode = '".$type.$node."'" );
     }
 
     // Gets node id of a page by its filename
     //
-    public function getNodeIdFromFileName($filename) {
+    public function getNodeIdFromFileName($filename)
+    {
         $filename = basename($filename);
 
         if (!empty($filename) and $this->db) {

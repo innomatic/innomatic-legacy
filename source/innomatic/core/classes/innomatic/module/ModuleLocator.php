@@ -1,4 +1,6 @@
-<?php 
+<?php
+namespace Innomatic\Module;
+
 /**
  * Object containing the indicator for locating a Module.
  *
@@ -28,10 +30,11 @@
  * Username and password are generally required for accessing a Module.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-class ModuleLocator {
+class ModuleLocator
+{
     /**
      * Module server hostname.
      *
@@ -80,7 +83,8 @@ class ModuleLocator {
      * @param string $locator Locator string.
      * @since 5.1
      */
-    public function __construct($locator) {
+    public function __construct($locator)
+    {
         if (($pos = strpos($locator, '://')) === false) {
             return;
         }
@@ -128,7 +132,8 @@ class ModuleLocator {
      * @since 5.1
      * @return boolean
      */
-    public function isRemote() {
+    public function isRemote()
+    {
         return strlen($this->host) ? true : false;
     }
 
@@ -139,7 +144,8 @@ class ModuleLocator {
      * @since 5.1
      * @return string
      */
-    public function getHost() {
+    public function getHost()
+    {
         return $this->host;
     }
 
@@ -150,7 +156,8 @@ class ModuleLocator {
      * @since 5.1
      * @return integer
      */
-    public function getPort() {
+    public function getPort()
+    {
         return $this->port;
     }
 
@@ -161,7 +168,8 @@ class ModuleLocator {
      * @since 5.1
      * @return string
      */
-    public function getUsername() {
+    public function getUsername()
+    {
         return $this->username;
     }
 
@@ -172,7 +180,8 @@ class ModuleLocator {
      * @since 5.1
      * @return string
      */
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
@@ -183,9 +192,8 @@ class ModuleLocator {
      * @since 5.1
      * @return string
      */
-    public function getLocation() {
+    public function getLocation()
+    {
         return $this->location;
     }
 }
-
-?>

@@ -2,22 +2,23 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/xml/XMLParser.php');
-require_once ('innomatic/wui/widgets/WuiWidget.php');
+namespace Shared\Wui;
+
+use \Innomatic\Xml\XMLParser;
 /**
  * @package WUI
  */
-class WuiXml extends WuiWidget
+class WuiXml extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mDefinition string - XML definition of the widget. */
     public $mDefinition;
@@ -47,13 +48,15 @@ class WuiXml extends WuiWidget
             $this->mDefinition = '<?xml version="1.0" encoding="utf-8" ?>' . $this->mDefinition;
         }
     }
-    public function build (WuiDispatcher $rwuiDisp)
+    public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $this->mrWuiDisp = $rwuiDisp;
         if ($this->mDefinition == null) {
             return false;
         }
-        $root_element = &$this->getElementStructure(array_shift(XMLParser::getXmlTree($this->mDefinition)));
+        $def = XMLParser::getXmlTree($this->mDefinition);
+        $def = array_shift($def);
+        $root_element = &$this->getElementStructure($def);
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' xml -->' : '') . ($root_element->build($this->mrWuiDisp) ? $root_element->render() : '') . ($this->mComments ? '<!-- end ' . $this->mName . " xml -->\n" : '');
         $this->mBuilt = true;
         return true;
@@ -63,7 +66,7 @@ class WuiXml extends WuiWidget
      @param $element xml node - Element node.
      @result An Wui element object.
      */
-    private function &getElementStructure (&$element)
+    protected function &getElementStructure (&$element)
     {
         $result = false;
         $elementType = 'Wui' . strtolower($element['tag']);
@@ -94,7 +97,7 @@ class WuiXml extends WuiWidget
                                 }
                                 if ($type == 'array')
                                     $value = WuiXml::decode($arg['value']);
-                                else 
+                                else
                                     if ($type == 'encoded') {
                                         $value = urldecode($arg['value']);
                                     } else {
@@ -120,7 +123,7 @@ class WuiXml extends WuiWidget
                                 }
                                 if ($type == 'array')
                                     $value = WuiXml::decode($arg['value']);
-                                else 
+                                else
                                     if ($type == 'encoded') {
                                         $value = urldecode($arg['value']);
                                     } else {
@@ -162,15 +165,15 @@ class WuiXml extends WuiWidget
         }
         // Tries to load the widget if it wasn't loaded.
         //
-        if (! class_exists($elementType)) {
+        if (! class_exists($elementType, true)) {
             $widget_name = strtolower($element['tag']);
-            if (! defined(strtoupper($widget_name . '_WUI')) and file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php')) {
-                include_once (InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php');
+            if (! defined(strtoupper($widget_name . '_WUI')) and file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php')) {
+                include_once (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php');
             }
         }
         // Create the element and add children if any
         //
-        if (class_exists($elementType)) {
+        if (class_exists($elementType, true)) {
             $result = new $elementType($elementName, $elementArgs);
             // Adds the Javascript events to the widget.
             foreach ($elementEvents as $eventName => $eventCall) {
@@ -185,30 +188,29 @@ class WuiXml extends WuiWidget
                 }
             }
         } else {
-            require_once ('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.xml_wui.wuixml.getelementstructure', 'Element of type ' . $elementType . ' is not defined', Logger::WARNING);
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.xml_wui.wuixml.getelementstructure', 'Element of type ' . $elementType . ' is not defined', \Innomatic\Logging\Logger::WARNING);
         }
         return $result;
     }
-    public static function encode ($var)
+    public static function encode($var)
     {
         return urlencode(serialize($var));
     }
-    public static function decode ($string)
+    public static function decode($string)
     {
         return unserialize(urldecode($string));
     }
-    public static function cdata ($data)
+    public static function cdata($data)
     {
         return '<![CDATA[' . $data . ']]>';
     }
-    
+
     public static function getContentFromXml($name, $xmlText)
     {
-    	$wui_widget = new WuiXml($name, array('definition' => $xmlText));
-    	$wui_widget->build();
-    	$content = $wui_widget->render();
-    	return $content;
-    } 
+        $wui_widget = new WuiXml($name, array('definition' => $xmlText));
+        $wui_widget->build(new \Innomatic\Wui\Dispatch\WuiDispatcher(''));
+        $content = $wui_widget->render();
+        return $content;
+    }
 }

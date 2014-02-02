@@ -2,21 +2,22 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiLabel extends WuiWidget
+class WuiLabel extends \Innomatic\Wui\Widgets\WuiWidget
 {
     /*! @public mLabel string - Label text. */
     //public $mLabel;
@@ -64,7 +65,7 @@ class WuiLabel extends WuiWidget
             $this->mArgs['align'] = 'left';
         }
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
     	if (isset($this->mArgs['editable']) and $this->mArgs['editable'] == 'true' and isset($this->mArgs['id']) and $this->isEvent('click')) {
     		$this->addEvent('mouseout', "document.getElementById('".$this->mArgs['id']."').style['border'] = '0px';");

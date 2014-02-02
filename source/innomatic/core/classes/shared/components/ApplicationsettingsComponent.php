@@ -2,53 +2,54 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/application/ApplicationComponent.php');
+namespace Shared\Components;
+
 /**
  * Applicationsettings component handler.
  */
-class ApplicationsettingsComponent extends ApplicationComponent
+class ApplicationsettingsComponent extends \Innomatic\Application\ApplicationComponent
 {
-    function ApplicationsettingsComponent ($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'applicationsettings';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 10;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    function DoInstallAction ($params)
+    public function doInstallAction($params)
     {
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {
             $app_cfg = new ApplicationSettings($this->rootda, $params['application']);
             $app_cfg->setKey($params['key'], isset($params['value']) ? $params['value'] : '');
         } else
-            $this->mLog->logEvent('innomatic.applicationsettingscomponent.applicationsettingscomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.applicationsettingscomponent.applicationsettingscomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    function DoUninstallAction ($params)
+    public function doUninstallAction($params)
     {
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {
@@ -57,10 +58,10 @@ class ApplicationsettingsComponent extends ApplicationComponent
                 $app_cfg->DelKey($params['key']);
             }
         } else
-            $this->mLog->logEvent('innomatic.applicationsettingscomponent.applicationsettingscomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.applicationsettingscomponent.applicationsettingscomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
-    function DoUpdateAction ($params)
+    public function doUpdateAction($params)
     {
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {
@@ -69,7 +70,7 @@ class ApplicationsettingsComponent extends ApplicationComponent
                 $app_cfg->setKey($params['key'], isset($params['value']) ? $params['value'] : '');
             }
         } else
-            $this->mLog->logEvent('innomatic.applicationsettingscomponent.applicationsettingscomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', Logger::ERROR);
+            $this->mLog->logEvent('innomatic.applicationsettingscomponent.applicationsettingscomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
 }

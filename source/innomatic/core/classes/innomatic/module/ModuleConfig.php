@@ -1,17 +1,17 @@
-<?php   
-
-require_once('innomatic/dataaccess/DataAccessSourceName.php');
+<?php
+namespace Innomatic\Module;
 
 /**
  * This is the class for handling in-memory Module configuration.
  *
- * Configuration values have to be manually set. 
+ * Configuration values have to be manually set.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-class ModuleConfig {
+class ModuleConfig
+{
     /**
      * Module name.
      *
@@ -43,7 +43,7 @@ class ModuleConfig {
      * @var string
      * @since 5.1
      */
-	protected $voClass;
+    protected $voClass;
     /**
      * Module optional value object fields list.
      *
@@ -59,7 +59,7 @@ class ModuleConfig {
      * @var DataAccessSourceName
      * @since 5.1
      */
-	protected $dasn;
+    protected $dasn;
     /**
      * Module optional table name.
      *
@@ -67,7 +67,7 @@ class ModuleConfig {
      * @var string
      * @since 5.1
      */
-	protected $table;
+    protected $table;
     /**
      * Module optional id field.
      *
@@ -75,7 +75,7 @@ class ModuleConfig {
      * @var string
      * @since 5.1
      */
-	protected $idField;
+    protected $idField;
 
     /**
      * Object constructor.
@@ -90,17 +90,18 @@ class ModuleConfig {
      * @access public
      * @since 5.1
      */
-	public function __construct($name, $version, $fqcn, $voClass = '', $dasn = '', $table = '', $idField = '') {
+    public function __construct($name, $version, $fqcn, $voClass = '', $dasn = '', $table = '', $idField = '')
+    {
         $this->name = $name;
         $this->version = $version;
         $this->fqcn = $fqcn;
-		$this->voClass = $voClass;
-		if ($dasn instanceof DataAccessSourceName) {
-			$this->dasn = $dasn;
+        $this->voClass = $voClass;
+        if ($dasn instanceof \Innomatic\Dataaccess\DataAccessSourceName) {
+            $this->dasn = $dasn;
         }
-		$this->table = $table;
-		$this->idField = $idField;
-	}
+        $this->table = $table;
+        $this->idField = $idField;
+    }
 
     /**
      * Sets Module name.
@@ -110,7 +111,8 @@ class ModuleConfig {
      * @since 5.1
      * @return void
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
@@ -121,7 +123,8 @@ class ModuleConfig {
      * @since 5.1
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -133,7 +136,8 @@ class ModuleConfig {
      * @since 5.1
      * @return void
      */
-    public function setVersion($version) {
+    public function setVersion($version)
+    {
         $this->version = $version;
     }
 
@@ -144,7 +148,8 @@ class ModuleConfig {
      * @since 5.1
      * @return string
      */
-    public function getVersion() {
+    public function getVersion()
+    {
         return $this->version;
     }
 
@@ -156,7 +161,8 @@ class ModuleConfig {
      * @since 5.1
      * @return void
      */
-    public function setFQCN($fqcn) {
+    public function setFQCN($fqcn)
+    {
         $this->fqcn = $fqcn;
     }
 
@@ -167,7 +173,8 @@ class ModuleConfig {
      * @since 5.1
      * @return string
      */
-    public function getFQCN() {
+    public function getFQCN()
+    {
         return $this->fqcn;
     }
 
@@ -179,9 +186,10 @@ class ModuleConfig {
      * @since 5.1
      * @return void
      */
-	public function setDASN(DataAccessSourceName $dasn) {
-		$this->dasn = $dasn;
-	}
+    public function setDASN(\Innomatic\Dataaccess\DataAccessSourceName $dasn)
+    {
+        $this->dasn = $dasn;
+    }
 
     /**
      * Gets Module optional Data Access Source Name.
@@ -190,9 +198,10 @@ class ModuleConfig {
      * @since 5.1
      * @return DataAccessSourceName
      */
-	public function getDASN() {
-		return $this->dasn;
-	}
+    public function getDASN()
+    {
+        return $this->dasn;
+    }
 
     /**
      * Sets Module optional table name.
@@ -202,9 +211,10 @@ class ModuleConfig {
      * @since 5.1
      * @return void
      */
-	public function setTable($table) {
-		$this->table = $table;
-	}
+    public function setTable($table)
+    {
+        $this->table = $table;
+    }
 
     /**
      * Gets Module optional table name.
@@ -213,9 +223,10 @@ class ModuleConfig {
      * @since 5.1
      * @return string
      */
-	public function getTable() {
-		return $this->table;
-	}
+    public function getTable()
+    {
+        return $this->table;
+    }
 
     /**
      * Sets Module optional value object Fully Qualified Class Name.
@@ -225,9 +236,10 @@ class ModuleConfig {
      * @since 5.1
      * @return void
      */
-	public function setValueObjectClass($class) {
-		$this->voClass = $class;
-	}
+    public function setValueObjectClass($class)
+    {
+        $this->voClass = $class;
+    }
 
     /**
      * Gets Module optional value object Fully Qualified Class Name.
@@ -236,9 +248,10 @@ class ModuleConfig {
      * @since 5.1
      * @return string
      */
-	public function getValueObjectClass() {
-		return $this->voClass;
-	}
+    public function getValueObjectClass()
+    {
+        return $this->voClass;
+    }
 
     /**
      * Sets Module optional value object fields.
@@ -248,7 +261,8 @@ class ModuleConfig {
      * @since 5.1
      * @return void
      */
-    public function setValueObjectFields($fields) {
+    public function setValueObjectFields($fields)
+    {
         $this->voFields = $fields;
     }
 
@@ -259,7 +273,8 @@ class ModuleConfig {
      * @since 5.1
      * @return string
      */
-    public function getValueObjectFields() {
+    public function getValueObjectFields()
+    {
         return $this->voFields;
     }
 
@@ -271,9 +286,10 @@ class ModuleConfig {
      * @since 5.1
      * @return void
      */
-	public function setIdField($idField) {
-		$this->idField = $idField;
-	}
+    public function setIdField($idField)
+    {
+        $this->idField = $idField;
+    }
 
     /**
      * Gets Module optional id field.
@@ -282,9 +298,8 @@ class ModuleConfig {
      * @since 5.1
      * @return string
      */
-	public function getIdField() {
-		return $this->idField;
-	}
+    public function getIdField()
+    {
+        return $this->idField;
+    }
 }
-
-?>

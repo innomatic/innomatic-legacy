@@ -2,20 +2,18 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/desktop/panel/PanelViews.php');
-
-class DomainsPanelViews extends PanelViews
+class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 {
     public $wuiPage;
     public $wuiMainvertgroup;
@@ -36,12 +34,9 @@ class DomainsPanelViews extends PanelViews
 
     public function beginHelper()
     {
-        require_once('innomatic/locale/LocaleCatalog.php');
-        require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-        require_once('innomatic/wui/dispatch/WuiEvent.php');
-        $this->_localeCatalog = new LocaleCatalog(
+        $this->_localeCatalog = new \Innomatic\Locale\LocaleCatalog(
             'innomatic::root_domains',
-            InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
         );
 
         $this->_wuiContainer->loadWidget('innomatictoolbar');
@@ -81,7 +76,7 @@ class DomainsPanelViews extends PanelViews
         $this->_wuiContainer->loadWidget('xml');
 
         $this->wuiPage = new WuiPage('page', array('title' => $this->_localeCatalog->getStr('domains_title')));
-        $this->wuiMainvertgroup = new WuiVertGroup('mainvertgroup');
+        $this->wuiMainvertgroup = new WuiVertgroup('mainvertgroup');
         $this->wuiTitlebar = new WuiTitleBar(
             'titlebar',
             array(
@@ -90,24 +85,12 @@ class DomainsPanelViews extends PanelViews
             );
         $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
 
-        $menuFrame = new WuiHorizGroup('menuframe');
-        $menuFrame->addChild(
-            new WuiMenu(
-                'mainmenu',
-                array('menu' => InnomaticContainer::getRootWuiMenuDefinition(
-                    InnomaticContainer::instance('innomaticcontainer')->getLanguage()
-                )
-                )
-            )
-        );
-        $this->wuiMainvertgroup->addChild($menuFrame);
-
         // Main tool bar
         //
         $wuiMainToolBar = new WuiToolBar('maintoolbar');
 
-        $homeAction = new WuiEventsCall();
-        $homeAction->addEvent(new WuiEvent('view', 'default', ''));
+        $homeAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+        $homeAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
         $wuiHomeButton = new WuiButton(
             'homebutton',
             array(
@@ -118,17 +101,17 @@ class DomainsPanelViews extends PanelViews
         $wuiMainToolBar->addChild($wuiHomeButton);
 
         if (
-            InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_ENTERPRISE
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE
         ) {
-            $domainQuery = InnomaticContainer::instance(
-                'innomaticcontainer'
+            $domainQuery = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getDataAccess()->execute('SELECT count(*) AS domains FROM domains');
         }
 
-        if (InnomaticContainer::instance('innomaticcontainer')
-            ->getEdition() == InnomaticContainer::EDITION_SAAS or !$domainQuery->getFields('domains') > 0) {
-            $newAction = new WuiEventsCall();
-            $newAction->addEvent(new WuiEvent('view', 'newdomain', ''));
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
+            ->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS or !$domainQuery->getFields('domains') > 0) {
+            $newAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+            $newAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'newdomain', ''));
             $wuiNewButton = new WuiButton(
                     'newbutton',
                     array(
@@ -148,7 +131,7 @@ class DomainsPanelViews extends PanelViews
                 'label' => $this->_localeCatalog->getStr('situation.button'),
                 'themeimage' => 'listdetailed',
                 'horiz' => 'true',
-                'action' => WuiEventsCall::buildEventsCallString(
+                'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                     '',
                     array(array('view', 'situation'))
                 )
@@ -164,8 +147,8 @@ class DomainsPanelViews extends PanelViews
         $eventName = $mainDisp->getEventName();
 
         if (strcmp($eventName, 'help')) {
-            $helpAction = new WuiEventsCall();
-            $helpAction->addEvent(new WuiEvent('view', 'help', array('node' => $eventName)));
+            $helpAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+            $helpAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'help', array('node' => $eventName)));
             $wuiHelpButton = new WuiButton(
                 'helpbutton',
                 array('label' => $this->_localeCatalog->getStr('help_button'),
@@ -180,14 +163,14 @@ class DomainsPanelViews extends PanelViews
 
         // Toolbar frame
         //
-        $wuiToolbarFrame = new WuiHorizGroup('toolbarframe');
+        $wuiToolbarFrame = new WuiHorizgroup('toolbarframe');
 
         $wuiToolbarFrame->addChild($wuiMainToolBar);
         $wuiToolbarFrame->addChild($wuiSitToolbar);
         $wuiToolbarFrame->addChild($wuiHelpToolbar);
         $this->wuiMainvertgroup->addChild($wuiToolbarFrame);
 
-        $this->wuiMainframe = new WuiHorizFrame('mainframe');
+        $this->wuiMainframe = new WuiHorizframe('mainframe');
         $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
     }
 
@@ -203,18 +186,18 @@ class DomainsPanelViews extends PanelViews
 
     public function viewDefault($eventData)
     {
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM domains ORDER BY domainname');
 
-        $applicationsQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $applicationsQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT id FROM applications WHERE onlyextension <> '
-            .InnomaticContainer::instance('innomaticcontainer')
+            .\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
             ->getDataAccess()->formatText(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getDataAccess()->fmttrue
             )
         );
@@ -240,15 +223,15 @@ class DomainsPanelViews extends PanelViews
             while (!$query->eof) {
                 $data = $query->getFields();
                 if (
-                    $data['domainactive'] == InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    $data['domainactive'] == \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getDataAccess()->fmttrue
                 )
                 $wuiDomainsTable->addChild(
                     new WuiImage(
                         'status'.$row, array('imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['greenball'])),
                     $row, 0
-                ); 
+                );
                 else
                 $wuiDomainsTable->addChild(
                     new WuiImage(
@@ -289,13 +272,13 @@ class DomainsPanelViews extends PanelViews
                 //$wui_domains_table->addChild(
                 //  new WuiLabel( 'domainlabel'.$row, array( 'label' => $data['domainid'] ) ), $row, 4 );
 
-                //$wui_buttons = new WuiHorizGroup( 'buttons'.$row );
+                //$wui_buttons = new WuiHorizgroup( 'buttons'.$row );
 
-                $wuiDomainToolBar[$row] = new WuiHorizGroup('domaintoolbar'.$row);
+                $wuiDomainToolBar[$row] = new WuiHorizgroup('domaintoolbar'.$row);
 
-                $showAction[$row] = new WuiEventsCall();
+                $showAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                 $showAction[$row]->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'view',
                         'showdomainconfig',
                         array(
@@ -313,9 +296,9 @@ class DomainsPanelViews extends PanelViews
                 );
                 $wuiDomainToolBar[$row]->addChild($wuiShowButton[$row]);
 
-                $editAction[$row] = new WuiEventsCall();
+                $editAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                 $editAction[$row]->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'view',
                         'editdomainconfig',
                         array(
@@ -333,9 +316,9 @@ class DomainsPanelViews extends PanelViews
                 );
                 $wuiDomainToolBar[$row]->addChild($wuiEditButton[$row]);
 
-                $notesAction[$row] = new WuiEventsCall();
+                $notesAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                 $notesAction[$row]->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'view',
                         'editdomainnotes',
                         array(
@@ -354,13 +337,13 @@ class DomainsPanelViews extends PanelViews
                 $wuiDomainToolBar[$row]->addChild($wuiNotesButton[$row]);
 
                 if (
-                    $data['domainactive'] == InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    $data['domainactive'] == \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getDataAccess()->fmttrue
                 ) {
-                    $accessAction[$row] = new WuiEventsCall();
+                    $accessAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                     $accessAction[$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'view',
                             'accessdomain',
                             array(
@@ -373,8 +356,7 @@ class DomainsPanelViews extends PanelViews
                         array(
                             'label' => $this->_localeCatalog->getStr('accessdomain_label'),
                             'themeimage' => 'home',
-                            'action' => $accessAction[$row]->getEventsCallString(),
-                            'target' => '_top'
+                            'action' => $accessAction[$row]->getEventsCallString()
                         )
                     );
                     $wuiDomainToolBar[$row]->addChild($wuiAccessButton[$row]);
@@ -385,8 +367,8 @@ class DomainsPanelViews extends PanelViews
                         $base = dirname(
                             dirname(
                                 dirname(
-                                    WebAppContainer::instance(
-                                        'webappcontainer'
+                                    \Innomatic\Webapp\WebAppContainer::instance(
+                                        '\Innomatic\Webapp\WebAppContainer'
                                     )->getProcessor()->getRequest()->getRequestUri()
                                 )
                             )
@@ -406,19 +388,19 @@ class DomainsPanelViews extends PanelViews
                 }
 
                 if (
-                    $data['domainactive'] == InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    $data['domainactive'] == \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getDataAccess()->fmttrue
                 ) {
-                    $disableAction[$row] = new WuiEventsCall();
+                    $disableAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                     $disableAction[$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'view',
                             'default', ''
                         )
                     );
                     $disableAction[$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'action',
                             'disabledomain',
                             array(
@@ -436,16 +418,16 @@ class DomainsPanelViews extends PanelViews
                     );
                     $wuiDomainToolBar[$row]->addChild($wuiSisableButton[$row]);
                 } else {
-                    $enableAction[$row] = new WuiEventsCall();
+                    $enableAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                     $enableAction[$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'view',
                             'default',
                             ''
                         )
                     );
                     $enableAction[$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'action',
                             'enabledomain',
                             array(
@@ -464,16 +446,16 @@ class DomainsPanelViews extends PanelViews
                     $wuiDomainToolBar[$row]->addChild($wuiEnableButton[$row]);
                 }
 
-                $removeAction[$row] = new WuiEventsCall();
+                $removeAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                 $removeAction[$row]->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'view',
                         'default',
                         ''
                     )
                 );
                 $removeAction[$row]->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'action',
                         'removedomain',
                         array(
@@ -497,9 +479,9 @@ class DomainsPanelViews extends PanelViews
                 $wuiDomainToolBar[$row]->addChild($wuiRemoveButton[$row]);
 
                 if ($applicationsQuery->getNumberRows()) {
-                    $applicationsAction[$row] = new WuiEventsCall();
+                    $applicationsAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                     $applicationsAction[$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'view',
                             'domainapplications',
                             array(
@@ -520,14 +502,14 @@ class DomainsPanelViews extends PanelViews
 
                 if (
                     file_exists(
-                        InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getHome().'core/domains/'.$data['domainid'].'/log/domain.log'
                     )
                 ) {
-                    $logAction[$row] = new WuiEventsCall();
+                    $logAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                     $logAction[$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'view',
                             'showdomainlog',
                             array(
@@ -548,14 +530,14 @@ class DomainsPanelViews extends PanelViews
 
                 if (
                     file_exists(
-                        InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getHome().'core/domains/'.$data['domainid'].'/log/dataaccess.log'
                     )
                 ) {
-                    $dblogAction[$row] = new WuiEventsCall();
+                    $dblogAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                     $dblogAction[$row]->addEvent(
-                        new WuiEvent(
+                        new \Innomatic\Wui\Dispatch\WuiEvent(
                             'view',
                             'showdataaccesslog',
                             array(
@@ -587,26 +569,25 @@ class DomainsPanelViews extends PanelViews
 
     public function viewNewDomain($eventData)
     {
-        require_once('innomatic/dataaccess/DataAccessFactory.php');
-        $dbtypes = DataAccessFactory::getDrivers();
+        $dbtypes = \Innomatic\Dataaccess\DataAccessFactory::getDrivers();
 
         // Retrieves the list of available webapp skeletons.
-        $skeletonsQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $skeletonsQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT name,catalog FROM webapps_skeletons');
 
         $skeletons = array();
 
         while (!$skeletonsQuery->eof) {
-            $tmpLocale = new LocaleCatalog(
+            $tmpLocale = new \Innomatic\Locale\LocaleCatalog(
             $skeletonsQuery->getFields('catalog'),
-            InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
             $skeletons[$skeletonsQuery->getFields('name')] = $tmpLocale->getStr($skeletonsQuery->getFields('name'));
             $skeletonsQuery->moveNext();
         }
         asort($skeletons);
 
-        $wuiVgroup = new WuiVertGroup('vgroup');
+        $wuiVgroup = new WuiVertgroup('vgroup');
 
         $wuiDomainGrid = new WuiGrid('newdomaingrid');
 
@@ -761,7 +742,7 @@ class DomainsPanelViews extends PanelViews
             7, 1
         );
 
-        if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
             // Database fields
             //
             $wuiDomainGrid->addChild(
@@ -791,8 +772,8 @@ class DomainsPanelViews extends PanelViews
                         'disp' => 'action',
                         'tabindex' => $tabIndex ++,
                         'elements' => $dbtypes,
-                        'default' => InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        'default' => \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getConfig()->value('RootDatabaseType')
                         )
                     ),
@@ -923,9 +904,9 @@ class DomainsPanelViews extends PanelViews
 
         $wuiVgroup->addChild($wuiDomainGrid);
 
-        $formEventsCall = new WuiEventsCall();
-        $formEventsCall->addEvent(new WuiEvent('action', 'createdomain', ''));
-        $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
+        $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+        $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'createdomain', ''));
+        $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
 
         //$wuiVgroup->addChild(
         //  new WuiSubmit('submit1', array( 'caption' => $this->localeCatalog
@@ -980,27 +961,26 @@ class DomainsPanelViews extends PanelViews
 
     public function viewEditDomainConfig($eventData)
     {
-        require_once('innomatic/dataaccess/DataAccessFactory.php');
-        $dbtypes = DataAccessFactory::getDrivers();
+        $dbtypes = \Innomatic\Dataaccess\DataAccessFactory::getDrivers();
 
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM domains WHERE id='.$eventData['domainid'].' ORDER BY domainname');
 
         if ($query->getNumberRows()) {
             $domainData = $query->getFields();
 
             // Retrieves the list of available webapp skeletons.
-            $skeletonsQuery = InnomaticContainer::instance(
-                'innomaticcontainer'
+            $skeletonsQuery = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getDataAccess()->execute('SELECT name,catalog FROM webapps_skeletons');
 
             $skeletons = array();
 
             while (!$skeletonsQuery->eof) {
-                $tmpLocale = new LocaleCatalog(
+                $tmpLocale = new \Innomatic\Locale\LocaleCatalog(
                 $skeletonsQuery->getFields('catalog'),
-                InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
                 $skeletons[$skeletonsQuery->getFields('name')] = $tmpLocale->getStr(
                     $skeletonsQuery->getFields('name')
                 );
@@ -1008,7 +988,7 @@ class DomainsPanelViews extends PanelViews
             }
             asort($skeletons);
 
-            $wuiVgroup = new WuiVertGroup('vgroup');
+            $wuiVgroup = new WuiVertgroup('vgroup');
             $wuiDomainGrid = new WuiGrid('newdomaingrid', array('rows' => '6', 'cols' => '4'));
             $tabIndex = 1;
 
@@ -1166,7 +1146,7 @@ class DomainsPanelViews extends PanelViews
                 7, 1
             );
 
-            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
                 // Database fields
                 //
                 $wuiDomainGrid->addChild(
@@ -1310,9 +1290,9 @@ class DomainsPanelViews extends PanelViews
 
             $wuiVgroup->addChild($wuiDomainGrid);
 
-            $formEventsCall = new WuiEventsCall();
+            $formEventsCall = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $formEventsCall->addEvent(
-                new WuiEvent(
+                new \Innomatic\Wui\Dispatch\WuiEvent(
                     'action',
                     'updatedomain',
                     array(
@@ -1320,7 +1300,7 @@ class DomainsPanelViews extends PanelViews
                     )
                 )
             );
-            $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
+            $formEventsCall->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'default', ''));
 
             $wuiVgroup->addChild(
                 new WuiButton(
@@ -1357,8 +1337,8 @@ class DomainsPanelViews extends PanelViews
 
     public function viewEditDomainNotes($eventData)
     {
-        $domainQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT domainid,domainname,notes FROM domains WHERE id='.$eventData['domainid']
         );
@@ -1380,7 +1360,7 @@ class DomainsPanelViews extends PanelViews
             <method>post</method>
             <action type="encoded">'
             .urlencode(
-                WuiEventsCall::buildEventsCallString(
+                \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array('view', 'default', ''),
@@ -1417,7 +1397,7 @@ class DomainsPanelViews extends PanelViews
             <formsubmit>notes</formsubmit>
             <action type="encoded">'
             .urlencode(
-                WuiEventsCall::buildEventsCallString(
+                \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array('view', 'default', ''),
@@ -1446,29 +1426,28 @@ class DomainsPanelViews extends PanelViews
 
     public function viewShowDomainConfig($eventData)
     {
-        require_once('innomatic/dataaccess/DataAccessFactory.php');
-        $dbtypes = DataAccessFactory::getDrivers();
+        $dbtypes = \Innomatic\Dataaccess\DataAccessFactory::getDrivers();
 
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM domains WHERE id='.$eventData['domainid']);
 
         if ($query->getNumberRows()) {
             $domainData = $query->getFields();
 
             // Retrieves the webapp skeleton catalog and localized name.
-            $skeletonsQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+            $skeletonsQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
                 'SELECT catalog FROM webapps_skeletons '.
-                'WHERE name='.InnomaticContainer::instance(
-                    'innomaticcontainer'
+                'WHERE name='.\Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getDataAccess()->formatText($domainData['webappskeleton'])
             );
-            $tmpLocale = new LocaleCatalog(
+            $tmpLocale = new \Innomatic\Locale\LocaleCatalog(
             $skeletonsQuery->getFields('catalog'),
-            InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
             $skeletonName = $tmpLocale->getStr($domainData['webappskeleton']);
 
-            $wuiVGroup = new WuiVertGroup('vgroup');
+            $wuiVGroup = new WuiVertgroup('vgroup');
             $wuiDomainGrid = new WuiGrid('showdomaingrid', array('rows' => '6', 'cols' => '4'));
 
             // Domain fields
@@ -1600,7 +1579,7 @@ class DomainsPanelViews extends PanelViews
                 6, 1
             );
 
-            if (InnomaticContainer::instance('innomaticcontainer')->getEdition() == InnomaticContainer::EDITION_SAAS) {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
                 // Database fields
                 //
                 $wuiDomainGrid->addChild(
@@ -1740,7 +1719,7 @@ class DomainsPanelViews extends PanelViews
                     6, 3
                 );
             }
-                
+
             $wuiVGroup->addChild($wuiDomainGrid);
 
             $this->wuiMainframe->addChild($wuiVGroup);
@@ -1751,29 +1730,29 @@ class DomainsPanelViews extends PanelViews
 
     public function viewshowdomainlog($eventData)
     {
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT domainid,domainname FROM domains WHERE id='.$eventData['domainid']);
 
         if ($query->getNumberRows()) {
             $domainData = $query->getFields();
 
-            $wuiVgroup = new WuiVertGroup('vgroup');
+            $wuiVgroup = new WuiVertgroup('vgroup');
 
             $domainLogContent = '';
 
             if (
                 file_exists(
-                    InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getHome().'core/domains/'.$domainData['domainid'].'/log/domain.log'
                 )
             ) {
                 $logToolbar = new WuiToolBar('logbar');
 
-                $cleanlogAction = new WuiEventsCall();
+                $cleanlogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                 $cleanlogAction->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'view',
                         'showdomainlog',
                         array(
@@ -1782,7 +1761,7 @@ class DomainsPanelViews extends PanelViews
                     )
                 );
                 $cleanlogAction->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'action',
                         'cleandomainlog',
                         array(
@@ -1804,8 +1783,8 @@ class DomainsPanelViews extends PanelViews
                 $this->wuiMainvertgroup->addChild($logToolbar);
 
                 $domainLogContent = file_get_contents(
-                    InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getHome().'core/domains/'.$domainData['domainid'].'/log/domain.log'
                 );
             }
@@ -1816,7 +1795,7 @@ class DomainsPanelViews extends PanelViews
                     array(
                         'disp' => 'action',
                         'readonly' => 'true',
-                        'value' => Wui::utf8_entities($domainLogContent),
+                        'value' => \Innomatic\Wui\Wui::utf8_entities($domainLogContent),
                         'rows' => '20',
                         'cols' => '120'
                     )
@@ -1833,29 +1812,29 @@ class DomainsPanelViews extends PanelViews
 
     public function viewshowdataaccesslog($eventData)
     {
-        $query = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $query = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM domains WHERE id='.$eventData['domainid']);
 
         if ($query->getNumberRows()) {
             $domainData = $query->getFields();
 
-            $wuiVgroup = new WuiVertGroup('vgroup');
+            $wuiVgroup = new WuiVertgroup('vgroup');
 
             $dbLogContent = '';
 
             if (
                 file_exists(
-                    InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getHome().'core/domains/'.$domainData['domainid'].'/log/dataaccess.log'
                 )
             ) {
                 $logToolbar = new WuiToolBar('logbar');
 
-                $cleanlogAction = new WuiEventsCall();
+                $cleanlogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                 $cleanlogAction->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'view',
                         'showdataaccesslog',
                         array(
@@ -1864,7 +1843,7 @@ class DomainsPanelViews extends PanelViews
                     )
                 );
                 $cleanlogAction->addEvent(
-                    new WuiEvent(
+                    new \Innomatic\Wui\Dispatch\WuiEvent(
                         'action',
                         'cleandataaccesslog',
                         array(
@@ -1886,8 +1865,8 @@ class DomainsPanelViews extends PanelViews
                 $this->wuiMainvertgroup->addChild($logToolbar);
 
                 $dbLogContent = file_get_contents(
-                    InnomaticContainer::instance(
-                        'innomaticcontainer'
+                    \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
                     )->getHome().'core/domains/'.$domainData['domainid'].'/log/dataaccess.log'
                 );
             }
@@ -1898,7 +1877,7 @@ class DomainsPanelViews extends PanelViews
                     array(
                         'disp' => 'action',
                         'readonly' => 'true',
-                        'value' => Wui::utf8_entities($dbLogContent),
+                        'value' => \Innomatic\Wui\Wui::utf8_entities($dbLogContent),
                         'rows' => '20',
                         'cols' => '120'
                     )
@@ -1916,35 +1895,34 @@ class DomainsPanelViews extends PanelViews
 
     public function viewAccessDomain($eventData)
     {
-        $domainquery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domainquery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT domainid FROM domains WHERE id='.$eventData['domainid']);
-        require_once('innomatic/domain/user/User.php');
         DesktopFrontController::instance(
-            'desktopfrontcontroller'
-        )->session->put('INNOMATIC_AUTH_USER', User::getAdminUsername($domainquery->getFields('domainid')));
-        WebAppContainer::instance(
-            'webappcontainer'
+            '\Innomatic\Desktop\Controller\DesktopFrontController'
+        )->session->put('INNOMATIC_AUTH_USER', \Innomatic\Domain\User\User::getAdminUsername($domainquery->getFields('domainid')));
+        \Innomatic\Webapp\WebAppContainer::instance(
+            '\Innomatic\Webapp\WebAppContainer'
         )->getProcessor()->getResponse()->addHeader(
-            'Location', InnomaticContainer::instance('innomaticcontainer')->getBaseUrl().'/domain/'
+            'Location', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl().'/domain/'
         );
     }
 
     public function viewdomainapplications($eventData)
     {
-        $domainQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT * FROM domains WHERE id='.$eventData['domainid']);
         $domainData = $domainQuery->getFields();
 
-        $applicationsQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $applicationsQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT * FROM applications WHERE onlyextension <> '
-            .InnomaticContainer::instance('innomaticcontainer')
+            .\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
             ->getDataAccess()
             ->formatText(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmttrue
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmttrue
             )
             .' ORDER BY appid'
         );
@@ -1960,24 +1938,21 @@ class DomainsPanelViews extends PanelViews
 
                 $wuiDomainApplicationsTable = new WuiTable('domainapplicationstable', array('headers' => $headers));
 
-                require_once('innomatic/application/Application.php');
-                require_once('innomatic/application/ApplicationDependencies.php');
-
                 while (!$applicationsQuery->eof) {
                     $applicationsData = $applicationsQuery->getFields();
 
                     if ($applicationsData['appid'] != 'innomatic') {
-                        $actQuery = InnomaticContainer::instance(
-                            'innomaticcontainer'
+                        $actQuery = \Innomatic\Core\InnomaticContainer::instance(
+                            '\Innomatic\Core\InnomaticContainer'
                         )->getDataAccess()->execute(
                             'SELECT * FROM applications_enabled WHERE domainid = '
                             .$eventData['domainid'].' AND applicationid = '.$applicationsData['id']
                         );
 
-                        $wuiEnGroup[$row] = new WuiVertGroup('enable');
-                        $wuiDomainApplicationsToolbar[$row] = new WuiHorizGroup('domainapplicationstoolbar'.$row);
-                        $appDep = new ApplicationDependencies(
-                            InnomaticContainer::instance('innomaticcontainer')->getDataAccess()
+                        $wuiEnGroup[$row] = new WuiVertgroup('enable');
+                        $wuiDomainApplicationsToolbar[$row] = new WuiHorizgroup('domainapplicationstoolbar'.$row);
+                        $appDep = new \Innomatic\Application\ApplicationDependencies(
+                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()
                         );
 
                         if ($actQuery->getNumberRows()) {
@@ -2018,9 +1993,9 @@ class DomainsPanelViews extends PanelViews
                                 $applicationsData['appid'], $domainData['domainid']
                             );
 
-                            $application = new Application(
-                                InnomaticContainer::instance(
-                                    'innomaticcontainer'
+                            $application = new \Innomatic\Application\Application(
+                                \Innomatic\Core\InnomaticContainer::instance(
+                                    '\Innomatic\Core\InnomaticContainer'
                                 )->getDataAccess(), $applicationsData['id']
                             );
 
@@ -2029,9 +2004,9 @@ class DomainsPanelViews extends PanelViews
                             if (!$domainDependingApplications) {
                                 // No applications depends on this one
                                 //
-                                $disableAction[$row] = new WuiEventsCall();
+                                $disableAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                                 $disableAction[$row]->addEvent(
-                                    new WuiEvent(
+                                    new \Innomatic\Wui\Dispatch\WuiEvent(
                                         'view',
                                         'domainapplications',
                                         array(
@@ -2040,7 +2015,7 @@ class DomainsPanelViews extends PanelViews
                                     )
                                 );
                                 $disableAction[$row]->addEvent(
-                                    new WuiEvent(
+                                    new \Innomatic\Wui\Dispatch\WuiEvent(
                                         'action',
                                         'deactivateapplication',
                                         array(
@@ -2096,7 +2071,7 @@ class DomainsPanelViews extends PanelViews
                                         'compact' => 'true',
                                         'themeimagetype' => 'mini',
                                         'horiz' => 'true',
-                                        'action' => WuiEventsCall::buildEventsCallString(
+                                        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                                             '',
                                             array(
                                                 array(
@@ -2157,15 +2132,15 @@ class DomainsPanelViews extends PanelViews
                             $domainApplicationDeps = $appDep->checkDomainApplicationDependencies(
                                 $applicationsData['appid'],
                                 $domainData['domainid'],
-                                ApplicationDependencies::TYPE_DEPENDENCY
+                                \Innomatic\Application\ApplicationDependencies::TYPE_DEPENDENCY
                             );
 
                             if (!is_array($domainApplicationDeps)) {
                                 // All application dependecies are met
                                 //
-                                $enableAction[$row] = new WuiEventsCall();
+                                $enableAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                                 $enableAction[$row]->addEvent(
-                                    new WuiEvent(
+                                    new \Innomatic\Wui\Dispatch\WuiEvent(
                                         'view',
                                         'domainapplications',
                                         array(
@@ -2174,7 +2149,7 @@ class DomainsPanelViews extends PanelViews
                                     )
                                 );
                                 $enableAction[$row]->addEvent(
-                                    new WuiEvent(
+                                    new \Innomatic\Wui\Dispatch\WuiEvent(
                                         'action',
                                         'activateapplication',
                                         array(
@@ -2219,7 +2194,7 @@ class DomainsPanelViews extends PanelViews
 
                 $xmlDef = '<horizgroup>
               <children>
-            
+
                 <button>
                   <args>
                     <themeimage>buttonok</themeimage>
@@ -2229,7 +2204,7 @@ class DomainsPanelViews extends PanelViews
                     <horiz>true</horiz>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -2252,7 +2227,7 @@ class DomainsPanelViews extends PanelViews
                     .'</action>
                   </args>
                 </button>
-            
+
                 <button>
                   <args>
                     <themeimage>buttoncancel</themeimage>
@@ -2266,7 +2241,7 @@ class DomainsPanelViews extends PanelViews
                     .'</confirmmessage>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -2289,11 +2264,11 @@ class DomainsPanelViews extends PanelViews
                     .'</action>
                   </args>
                 </button>
-            
+
               </children>
             </horizgroup>';
 
-                $wuiMainVGroup = new WuiVertGroup('');
+                $wuiMainVGroup = new WuiVertgroup('');
 
                 $wuiMainVGroup->addChild($wuiDomainApplicationsTable);
                 $wuiMainVGroup->addChild(new WuiHorizBar(''));
@@ -2310,20 +2285,18 @@ class DomainsPanelViews extends PanelViews
 
     public function viewsituation($eventData)
     {
-        require_once('innomatic/application/ApplicationDependencies.php');
-
-        $domainsQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domainsQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute('SELECT domainid FROM domains ORDER BY domainid');
 
-        $applicationsQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $applicationsQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT appid FROM applications WHERE onlyextension='
-            .InnomaticContainer::instance(
-                'innomaticcontainer'
+            .\Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getDataAccess()->formatText(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmtfalse
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmtfalse
             ).' ORDER BY appid'
         );
 
@@ -2352,7 +2325,7 @@ class DomainsPanelViews extends PanelViews
 
         $row = 0;
 
-        $appDeps = new ApplicationDependencies(InnomaticContainer::instance('innomaticcontainer')->getDataAccess());
+        $appDeps = new \Innomatic\Application\ApplicationDependencies(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
 
         while (!$domainsQuery->eof) {
             $xmlDef.= '<label row="'.$row.'" col="0">
@@ -2405,7 +2378,7 @@ class DomainsPanelViews extends PanelViews
                 array(
                     'base' => 'innomatic',
                     'node' => 'innomatic.root.domains.'.$eventData['node'].'.html',
-                    'language' => InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+                    'language' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
                 )
             )
         );
@@ -2415,7 +2388,7 @@ class DomainsPanelViews extends PanelViews
 
 function domains_list_action_builder($pageNumber)
 {
-    return WuiEventsCall::buildEventsCallString(
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
         '',
         array(
             array(

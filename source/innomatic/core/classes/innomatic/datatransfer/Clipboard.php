@@ -2,16 +2,17 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Datatransfer;
 
 /**
  * Classe che implementa un meccanismo per trasferire dati
@@ -38,11 +39,11 @@ class Clipboard
     /**
      * Costruisce la classe della clipboard.
      * @param string $type tipo di dato da trattare.
-     * @param string $customType tipo utente di dato da trattare se $type � impostato a Clipboard::TYPE_CUSTOM  
+     * @param string $customType tipo utente di dato da trattare se $type � impostato a Clipboard::TYPE_CUSTOM
      * @param integer $unit unit� identificativa della clipboard da utilizzare a partire da 0
-     * @param string $application nome del modulo. 
+     * @param string $application nome del modulo.
      * @param string $domain nome del sito.
-     * @param string $user nome dell'utente. 
+     * @param string $user nome dell'utente.
      */
     public function __construct(
         $type,
@@ -61,8 +62,8 @@ class Clipboard
         $this->_application = $application;
         $this->_domain = $domain;
         $this->_user = $user;
-        $this->_fileName = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $this->_fileName = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getHome() . 'core/temp/clipboard/'
         . $this->_type . '_' . $this->_customType . '_' . $this->_unit
         . '_' . $this->_application . '_' . $this->_domain
@@ -90,9 +91,8 @@ class Clipboard
     public function store(&$item)
     {
         $result = false;
-        require_once('innomatic/process/Semaphore.php');
-        $sem = new Semaphore('clipboard', $this->_fileName);
-        $sem->WaitGreen();
+        $sem = new \Innomatic\Process\Semaphore('clipboard', $this->_fileName);
+        $sem->waitGreen();
         $sem->setRed();
 
         $fh = fopen($this->_fileName, 'wb');
@@ -139,9 +139,8 @@ class Clipboard
     public function retrieve()
     {
         $result = '';
-        require_once('innomatic/process/Semaphore.php');
-        $sem = new Semaphore('clipboard', $this->_fileName);
-        $sem->WaitGreen();
+        $sem = new \Innomatic\Process\Semaphore('clipboard', $this->_fileName);
+        $sem->waitGreen();
 
         if ($this->IsValid()) {
             $sem->setRed();
@@ -180,9 +179,8 @@ class Clipboard
     {
         $result = false;
         if ($this->IsValid()) {
-            require_once('innomatic/process/Semaphore.php');
-            $sem = new Semaphore('clipboard', $this->_fileName);
-            $sem->WaitGreen();
+            $sem = new \Innomatic\Process\Semaphore('clipboard', $this->_fileName);
+            $sem->waitGreen();
             $sem->setRed();
             $result = unlink($this->_fileName);
             $sem->setGreen();
@@ -190,22 +188,22 @@ class Clipboard
             $result = true;
         return $result;
     }
-    
+
     public function getType()
     {
         return $this->_type;
     }
-    
+
     public function getCustomType()
     {
         return $this->_customType;
     }
-    
+
     public function getUnit()
     {
         return $this->_unit;
     }
-    
+
     public function getApplication()
     {
         return $this->_application;
@@ -215,7 +213,7 @@ class Clipboard
     {
         return $this->_domain;
     }
-    
+
     public function getFileName()
     {
         return $this->_fileName;

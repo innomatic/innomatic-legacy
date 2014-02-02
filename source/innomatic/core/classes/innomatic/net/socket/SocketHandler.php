@@ -1,43 +1,47 @@
-<?php 
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Net\Socket;
 
 /**
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2003-2013 Innoteam S.r.l.
+ * @copyright Copyright 2003-2014 Innoteam Srl
  * @since 1.0
  */
-abstract class SocketHandler {
+abstract class SocketHandler
+{
     protected $serversocket;
 
-    function setServerSocket(ServerSocket $server) {
+    public function setServerSocket(ServerSocket $server)
+    {
         $this->serversocket = $server;
     }
 
-    function getServerSocket() {
+    public function getServerSocket()
+    {
         return $this->serversocket;
     }
 
-    abstract function onStart();
+    abstract public function onStart();
 
-    abstract function onShutDown();
+    abstract public function onShutDown();
 
-    abstract function onConnect($clientId = NULL);
+    abstract public function onConnect($clientId = null);
 
-    abstract function onConnectionRefused($clientId = NULL);
+    abstract public function onConnectionRefused($clientId = null);
 
-    abstract function onClose($clientId = NULL);
+    abstract public function onClose($clientId = null);
 
-    abstract function onReceiveData($clientId = NULL, $data = NULL);
+    abstract public function onReceiveData($clientId = null, $data = null);
 }

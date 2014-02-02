@@ -11,7 +11,7 @@
 		<paramname>useRewrite</paramname>
 		<paramvalue>true</paramvalue>
 	</contextparam>
-	
+
     <!-- Handler Definitions -->
     <handler>
         <handlername>default</handlername>
@@ -21,7 +21,7 @@
             <paramvalue>false</paramvalue>
         </initparam>
     </handler>
-	
+
     <!-- Handler Mappings -->
     <handlermapping>
         <handlername>default</handlername>

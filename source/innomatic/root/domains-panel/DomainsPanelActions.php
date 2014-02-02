@@ -2,45 +2,32 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
 
-require_once('innomatic/desktop/panel/PanelActions.php');
-
-class DomainsPanelActions extends PanelActions
+class DomainsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 {
     private $_localeCatalog;
     public $status;
 
-    public function __construct(PanelController $controller)
+    public function __construct(\Innomatic\Desktop\Panel\PanelController $controller)
     {
         parent::__construct($controller);
     }
 
     public function beginHelper()
     {
-        require_once('innomatic/logging/Logger.php');
-        require_once('innomatic/locale/LocaleCatalog.php');
-        require_once('innomatic/domain/Domain.php');
-        require_once('innomatic/config/ConfigBase.php');
-        require_once('innomatic/config/ConfigFile.php');
-        require_once('innomatic/config/ConfigMan.php');
-        require_once('innomatic/application/ApplicationDependencies.php');
-        require_once('innomatic/application/Application.php');
-        require_once('innomatic/domain/user/Group.php');
-        require_once('innomatic/domain/user/Permissions.php');
-        require_once('innomatic/locale/LocaleCatalog.php');
-        $this->_localeCatalog = new LocaleCatalog(
+        $this->_localeCatalog = new \Innomatic\Locale\LocaleCatalog(
             'innomatic::root_domains',
-            InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
         );
     }
 
@@ -50,8 +37,8 @@ class DomainsPanelActions extends PanelActions
 
     public function executeCreatedomain($eventData)
     {
-        $domain = new Domain(InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domain = new \Innomatic\Domain\Domain(\Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess(), 0, null);
 
         $domainData['domainid'] = $eventData['domainid'];
@@ -66,7 +53,7 @@ class DomainsPanelActions extends PanelActions
         $domainData['dataaccesstype'] = $eventData['dataaccesstype'];
         $domainData['webappskeleton'] = $eventData['webappskeleton'];
         $domainData['maxusers'] = $eventData['maxusers'];
-        
+
         if ($domain->Create($domainData, $eventData['createdomainda'] == 'on' ? true : false)) {
             $this->status = $this->_localeCatalog->getStr('domaincreated_status');
         } else {
@@ -78,20 +65,20 @@ class DomainsPanelActions extends PanelActions
 
     public function executeUpdatedomain($eventData)
     {
-        $domainQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT domainid FROM domains WHERE id='
             . $eventData['domainserial']
         );
 
         $null = null;
-        $domain = new Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        $domain = new \Innomatic\Domain\Domain(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $domainQuery->getFields('domainid'),
             $null
         );
-        
+
         // Holds previous domain webapp skeleton information before updating.
         $currentWebappSkeleton = $domain->getWebappSkeleton();
 
@@ -111,7 +98,7 @@ class DomainsPanelActions extends PanelActions
         if ($domain->edit($domainData)) {
             // Changes max users limit.
             $domain->setMaxUsers($eventData['maxusers']);
-            
+
             // Applies new webapp skeleton if changed.
             if ($eventData['webappskeleton'] != $currentWebappSkeleton) {
                 $domain->setWebappSkeleton($eventData['webappskeleton']);
@@ -132,8 +119,8 @@ class DomainsPanelActions extends PanelActions
     public function executeEditdomainnotes($eventData)
     {
         $null = null;
-        $domain = new Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        $domain = new \Innomatic\Domain\Domain(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $eventData['domainid'],
             $null
         );
@@ -148,8 +135,8 @@ class DomainsPanelActions extends PanelActions
     public function executeRemovedomain($eventData)
     {
         $null = null;
-        $domain = new Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        $domain = new \Innomatic\Domain\Domain(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $eventData['domainid'],
             $null
         );
@@ -170,8 +157,8 @@ class DomainsPanelActions extends PanelActions
     public function executeEnabledomain($eventData)
     {
         $null = null;
-        $domain = new Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        $domain = new \Innomatic\Domain\Domain(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $eventData['domainid'],
             $null
         );
@@ -190,8 +177,8 @@ class DomainsPanelActions extends PanelActions
     public function executeDisabledomain($eventData)
     {
         $null = null;
-        $domain = new Domain(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        $domain = new \Innomatic\Domain\Domain(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $eventData['domainid'],
             $null
         );
@@ -211,8 +198,8 @@ class DomainsPanelActions extends PanelActions
 
     public function executeActivateapplication($eventData)
     {
-        $domainQuery = InnomaticContainer::instance(
-            'innomaticcontainer'
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         )->getDataAccess()->execute(
             'SELECT domainid FROM domains WHERE id = '
             . $eventData['domainid']
@@ -222,9 +209,9 @@ class DomainsPanelActions extends PanelActions
             $domainData = $domainQuery->getFields();
 
             $null = null;
-            $domain = new Domain(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+            $domain = new \Innomatic\Domain\Domain(
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getDataAccess(),
                 $domainData['domainid'],
                 $null
@@ -257,19 +244,19 @@ class DomainsPanelActions extends PanelActions
 
     public function executeActivateallapplications($eventData)
     {
-        $domainQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
             'SELECT domainid FROM domains WHERE id = '.$eventData['domainid']
         );
 
         if ($domainQuery) {
             $domainData = $domainQuery->getFields();
 
-            $domain = new Domain(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            $domain = new \Innomatic\Domain\Domain(
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
                 $domainData['domainid'],
                 ''
             );
-            if ($domain->EnableAllApplications()) {
+            if ($domain->enableAllApplications()) {
                 $this->status = $this->_localeCatalog->getStr('applications_enabled.status');
             }
         } else {
@@ -281,15 +268,15 @@ class DomainsPanelActions extends PanelActions
 
     public function executeDeactivateallapplications($eventData)
     {
-        $domainQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
             'SELECT domainid FROM domains WHERE id = '.$eventData['domainid']
         );
 
         if ($domainQuery) {
             $domainData = $domainQuery->getFields();
 
-            $domain = new Domain(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            $domain = new \Innomatic\Domain\Domain(
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
                 $domainData['domainid'],
                 ''
             );
@@ -303,10 +290,8 @@ class DomainsPanelActions extends PanelActions
 
     public function executeEnableoption($eventData)
     {
-        require_once('innomatic/application/Application.php');
-
-        $application = new Application(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        $application = new \Innomatic\Application\Application(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $eventData['applicationid']
         );
 
@@ -319,10 +304,8 @@ class DomainsPanelActions extends PanelActions
 
     public function executeDisableoption($eventData)
     {
-        require_once('innomatic/application/Application.php');
-
-        $application = new Application(
-            InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+        $application = new \Innomatic\Application\Application(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             $eventData['applicationid']
         );
         $application->disableOption($eventData['option'], $eventData['domainid']);
@@ -334,7 +317,7 @@ class DomainsPanelActions extends PanelActions
 
     public function executeDeactivateapplication($eventData)
     {
-        $domainQuery = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+        $domainQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
             'SELECT domainid FROM domains WHERE id = '.$eventData['domainid']
         );
 
@@ -342,12 +325,12 @@ class DomainsPanelActions extends PanelActions
             $domainData = $domainQuery->getFields();
 
             $null = null;
-            $domain = new Domain(
-                InnomaticContainer::instance('innomaticcontainer')->getDataAccess(),
+            $domain = new \Innomatic\Domain\Domain(
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
                 $domainData['domainid'],
                 $null
             );
-            if (!$domain->DisableApplication($eventData['appid'])) {
+            if (!$domain->disableApplication($eventData['appid'])) {
                 $unmetDeps = $domain->getLastActionUnmetDeps();
 
                 if (count($unmetDeps)) {
@@ -366,8 +349,8 @@ class DomainsPanelActions extends PanelActions
 
     public function executeCleandomainlog($eventData)
     {
-        $tempLog = new Logger(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+        $tempLog = new \Innomatic\Logging\Logger(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             .'core/domains/'.$eventData['domainid'].'/log/domain.log'
         );
 
@@ -382,12 +365,12 @@ class DomainsPanelActions extends PanelActions
 
     public function executeCleandataaccesslog($eventData)
     {
-        $query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+        $query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
             'SELECT domainid FROM domains WHERE id='.$eventData['domainid']
         );
 
-        $tempLog = new Logger(
-            InnomaticContainer::instance('innomaticcontainer')->getHome()
+        $tempLog = new \Innomatic\Logging\Logger(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             .'core/domains/'.$query->getFields('domainid').'/log/dataaccess.log'
         );
 

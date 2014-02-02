@@ -2,21 +2,22 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiPushButton extends WuiWidget
+class WuiPushbutton extends \Innomatic\Wui\Widgets\WuiWidget
 {
     public $mValue;
     public $mDisp;
@@ -51,11 +52,11 @@ class WuiPushButton extends WuiWidget
         if (isset($this->mArgs['type']) and ($this->mArgs["type"] == "submit" or $this->mArgs["type"] == "reset"))
             $this->mType = $this->mArgs["type"];
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         $result = false;
         $event_data = new WuiEventRawData($this->mDisp, $this->mName);
-        $this->mLayout = ($this->mComments ? "<!-- begin " . $this->mName . " push button -->" : "") . '<button'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : ''). $this->getEventsCompleteString() . ' class="normal" ' . "name=\"" . $event_data->getDataString() . "\"" . (strlen($this->mValue) ? " value=\"" . Wui::utf8_entities($this->mValue) . "\"" : "") . ' tabindex="' . $this->mTabIndex . '"' . (strlen($this->mType) ? " type=\"" . $this->mType . "\"" : "") . ($this->mNeedConfirm == 'true' ? ' onclick="return confirm(\'' . $this->mConfirmMessage . '\')"' : '') . ">" . $this->mLabel . (strlen($this->mImage) ? "<img src=\"" . $this->mImage . "\"" . (strlen($this->mHint) ? " alt=\"" . Wui::utf8_entities($this->mHint) . "\"" : "") . ">" : "") . "</button>" . ($this->mComments ? "<!-- end " . $this->mName . " push button -->\n" : "");
+        $this->mLayout = ($this->mComments ? "<!-- begin " . $this->mName . " push button -->" : "") . '<button'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : ''). $this->getEventsCompleteString() . ' class="normal" ' . "name=\"" . $event_data->getDataString() . "\"" . (strlen($this->mValue) ? " value=\"" . \Innomatic\Wui\Wui::utf8_entities($this->mValue) . "\"" : "") . ' tabindex="' . $this->mTabIndex . '"' . (strlen($this->mType) ? " type=\"" . $this->mType . "\"" : "") . ($this->mNeedConfirm == 'true' ? ' onclick="return confirm(\'' . $this->mConfirmMessage . '\')"' : '') . ">" . $this->mLabel . (strlen($this->mImage) ? "<img src=\"" . $this->mImage . "\"" . (strlen($this->mHint) ? " alt=\"" . \Innomatic\Wui\Wui::utf8_entities($this->mHint) . "\"" : "") . ">" : "") . "</button>" . ($this->mComments ? "<!-- end " . $this->mName . " push button -->\n" : "");
         $result = true;
         return $result;
     }

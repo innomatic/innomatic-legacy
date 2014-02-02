@@ -7,13 +7,14 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Locale;
 
-require_once('innomatic/core/InnomaticContainer.php');
+use \Innomatic\Core\InnomaticContainer;
 
 /*!
  @class Locale
@@ -49,7 +50,8 @@ require_once('innomatic/core/InnomaticContainer.php');
 
  becomes: test_en.ini
  */
-class LocaleCatalog {
+class LocaleCatalog
+{
     /*! @var catalog string - Catalog name */
     private $catalog;
     /*! @var lang string - Language */
@@ -66,11 +68,12 @@ class LocaleCatalog {
      @param catalog string - catalog name
      @param lang string - language id
      */
-    public function __construct($catalog, $lang = '') {
+    public function __construct($catalog, $lang = '')
+    {
         $this->catalog = null;
         $this->lang = null;
         if (empty($lang)) {
-            $lang = InnomaticContainer::instance('innomaticcontainer')->getLanguage();
+            $lang = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage();
         }
         $this->setLocaleCT($catalog);
         $this->setLocaleLang($lang);
@@ -85,7 +88,8 @@ class LocaleCatalog {
 
      @result Always true.
      */
-    public function setLocaleCT($catalog) {
+    public function setLocaleCT($catalog)
+    {
         $this->catalog = $catalog;
         return true;
     }
@@ -95,7 +99,8 @@ class LocaleCatalog {
      @abstract Gets catalog file for this locale.
      @result Locale catalog file name.
      */
-    public function getLocaleCT() {
+    public function getLocaleCT()
+    {
         return $this->catalog;
     }
 
@@ -105,7 +110,8 @@ class LocaleCatalog {
      @param lang string - Language id.
      @result True if the catalog file was specified.
      */
-    public function setLocaleLang($lang) {
+    public function setLocaleLang($lang)
+    {
         $result = false;
         if ($this->catalog != null) {
             $this->lang = $lang;
@@ -121,7 +127,8 @@ class LocaleCatalog {
 
      @result int language id.
      */
-    public function getLocaleLang() {
+    public function getLocaleLang()
+    {
         $result = false;
         if ($this->catalog != null) {
             $result = $this->lang;
@@ -137,13 +144,14 @@ class LocaleCatalog {
      (that is the catalog with no language specification at all).
      @result True if it is able to open and read the catalog file.
      */
-    public function openCatalog() {
+    public function openCatalog()
+    {
         if (!(($this->catalog != null) and ($this->lang != null))) {
             return false;
         }
 
         list($base, $catalog) = explode('::', $this->catalog);
-        $innomatic = InnomaticContainer::instance('innomaticcontainer');
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
         // Tries specified language catalog
         //
@@ -152,31 +160,29 @@ class LocaleCatalog {
         }
         // Tries Innomatic language catalog
         //
-        else if (file_exists($innomatic->getHome().'core/locale/catalogs/'.$base.'/'.InnomaticContainer::instance('innomaticcontainer')->getLanguage().'/'.$catalog.'.ini')) {
-            $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/'.InnomaticContainer::instance('innomaticcontainer')->getLanguage().'/'.$catalog.'.ini';
+        else if (file_exists($innomatic->getHome().'core/locale/catalogs/'.$base.'/'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage().'/'.$catalog.'.ini')) {
+            $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage().'/'.$catalog.'.ini';
         }
         // Tries English catalog
         //
         else if (file_exists($innomatic->getHome().'core/locale/catalogs/'.$base.'/en/'.$catalog.'.ini')) {
             $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/en/'.$catalog.'.ini';
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic/locale/Locale/opencatalog', 'Unable to find a catalog file for the specified catalog ('.$this->catalog.') and language ('.$this->lang.') or fallback to another language', Logger::ERROR);
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic/locale/Locale/opencatalog', 'Unable to find a catalog file for the specified catalog ('.$this->catalog.') and language ('.$this->lang.') or fallback to another language', \Innomatic\Logging\Logger::ERROR);
         }
 
         if (!empty($catfile)) {
             // New way to read locale catalogs
             //
-            $this->locales = @parse_ini_file($catfile);
+            $this->locales = @parse_ini_file($catfile, false, INI_SCANNER_RAW);
 
             $result = true;
 
             /*
-                if ( sizeof( $this->locales ) == 0 )
-                {
-                if ( $fh = @fopen( $catfile, 'r' ) )
-                {
+                if ( sizeof( $this->locales ) == 0 ) {
+                if ( $fh = @fopen( $catfile, 'r' ) ) {
                 fclose( $fh );
 
                 include( $catfile );
@@ -195,7 +201,8 @@ class LocaleCatalog {
      @param id string - Locale string key.
      @result The string if the key was found, nothing otherwise.
      */
-    public function getStr($id) {
+    public function getStr($id)
+    {
         return isset($this->locales[$id]) ? $this->locales[$id] : '';
     }
 
@@ -206,7 +213,8 @@ class LocaleCatalog {
      @param id string - Locale string key.
      @result The string if the key was found, nothing otherwise.
      */
-    public function printStr($id) {
+    public function printStr($id)
+    {
         echo $this->locales[$id];
         return $this->locales[$id];
     }

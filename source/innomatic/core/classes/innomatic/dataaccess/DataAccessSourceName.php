@@ -2,16 +2,17 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Dataaccess;
 
 class DataAccessSourceName
 {
@@ -25,69 +26,69 @@ class DataAccessSourceName
     private $socket = false;
     private $database = false;
     private $options = array();
-    
+
     public function getType()
     {
         return $this->type;
     }
-    
+
     public function setType($type)
     {
-    	$this->type = $type;
+        $this->type = $type;
     }
-    
+
     public function getDbSyntax()
     {
         return $this->dbsyntax;
     }
-    
+
     public function getUsername()
     {
         return $this->username;
     }
-    
+
     public function getPassword()
     {
         return $this->password;
     }
-    
+
     public function getProtocol()
     {
         return $this->protocol;
     }
-    
+
     public function getHostSpec()
     {
         return $this->hostspec;
     }
-    
+
     public function getPort()
     {
         return $this->port;
     }
-    
+
     public function getSocket()
     {
         return $this->socket;
     }
-    
+
     public function getDatabase()
     {
         return $this->database;
     }
-    
+
     public function getOptions()
     {
         return $this->options;
     }
-    
+
     public function getOption($key)
     {
         if (isset($this->options[$key])) {
             return $this->options[$key];
         }
     }
-    
+
     /**
      * Parses a data access source name.
      *
@@ -115,7 +116,7 @@ class DataAccessSourceName
      * @author Tomas V.V.Cox <cox@idecnet.com>
      * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
      * @copyright Copyright (c) 1997-2004 The PHP Group
-     * @copyright Copyright 2004-2012 Innoteam S.r.l.
+     * @copyright Copyright 2004-2012 Innoteam Srl
      */
     public function __construct($dasn)
     {
@@ -206,7 +207,7 @@ class DataAccessSourceName
             } else {
                 $parsed['hostspec'] = $proto_opts;
             }
-        } else if ($parsed['protocol'] == 'unix') {
+        } elseif ($parsed['protocol'] == 'unix') {
             $parsed['socket'] = $proto_opts;
         }
 
@@ -262,7 +263,7 @@ class DataAccessSourceName
         $this->options = $dasn;
         return true;
     }
-    
+
     /**
      * Returns an associative array containig data access source name data.
      *

@@ -1,6 +1,5 @@
 <?php
-
-//require_once "PEAR.php";
+namespace Innomatic\Wui\Widgets\Layersmenu;
 
 /**
  * Converted PHPLIB Template class
@@ -40,7 +39,7 @@ class LayersTemplate
      * @var array
      */
     public $_varKeys = array();
-    
+
     /**
      * $_varVals[key] = "value";
      * @var array
@@ -54,13 +53,13 @@ class LayersTemplate
      * @var string
      */
     public $unknowns = "remove";
-  
+
     /**
      * "yes" => halt, "report" => report error, continue, "no" => ignore error quietly
      * @var string
      */
     public $haltOnError  = "yes";
-  
+
     /**
      * The last error message is retained here
      * @var string
@@ -76,7 +75,7 @@ class LayersTemplate
      * @param  string template root directory
      * @param  string how to handle unknown variables
      */
-    function LayersTemplate($root = ".", $unknowns = "remove")
+    public function __construct($root = ".", $unknowns = "remove")
     {
         $this->setRoot($root);
         $this->setUnknowns($unknowns);
@@ -89,15 +88,15 @@ class LayersTemplate
      * @param  string new template directory
      * @return bool
      */
-    function setRoot($root)
+    public function setRoot($root)
     {
         if (!is_dir($root)) {
             $this->halt("setRoot: $root is not a directory.");
             return false;
         }
-    
+
         $this->root = $root;
-    
+
         return true;
     }
 
@@ -114,7 +113,7 @@ class LayersTemplate
      * @access public
      * @param  string unknowns
      */
-    function setUnknowns($unknowns = "keep")
+    public function setUnknowns($unknowns = "keep")
     {
         $this->unknowns = $unknowns;
     }
@@ -134,19 +133,19 @@ class LayersTemplate
      * @param  string name of template file
      * @return bool
      */
-    function setFile($handle, $filename = "")
+    public function setFile($handle, $filename = "")
     {
         if (!is_array($handle)) {
-    
+
             if ($filename == "") {
                 $this->halt("setFile: For handle $handle filename is empty.");
                 return false;
             }
-      
+
             $this->file[$handle] = $this->_filename($filename);
 
         } else {
-    
+
             reset($handle);
             while (list($h, $f) = each($handle)) {
                 $this->file[$h] = $this->_filename($f);
@@ -175,7 +174,7 @@ class LayersTemplate
      * @param  string block name handle
      * @param  string variable substitution name
      */
-    function setBlock($parent, $handle, $name = "")
+    public function setBlock($parent, $handle, $name = "")
     {
         if (!$this->_loadFile($parent)) {
             $this->halt("subst: unable to load $parent.");
@@ -202,7 +201,7 @@ class LayersTemplate
      * @param  string name of a variable that is to be defined or an array of variables with value substitution as key/value pairs
      * @param  string value of that variable
      */
-    function setVar($varname, $value = "")
+    public function setVar($varname, $value = "")
     {
         if (!is_array($varname)) {
 
@@ -232,7 +231,7 @@ class LayersTemplate
      * @param  string name of handle
      * @return mixed string substituted content of handle
      */
-    function subst($handle)
+    public function subst($handle)
     {
         if (!$this->_loadFile($handle)) {
             $this->halt("subst: unable to load $handle.");
@@ -244,7 +243,7 @@ class LayersTemplate
 
         return $str;
     }
-  
+
     /**
      * Same as subst but printing the result
      *
@@ -253,7 +252,7 @@ class LayersTemplate
      * @param   string handle of template
      * @return  bool always false
      */
-    function pSubst($handle)
+    public function pSubst($handle)
     {
         print $this->subst($handle);
         return false;
@@ -264,7 +263,7 @@ class LayersTemplate
      *
      * Parses handle $handle into $target, eventually
      * appending handle at $target if $append is defined
-     * as TRUE.
+     * as true.
      *
      * @access public
      * @param  string target handle to parse into
@@ -272,7 +271,7 @@ class LayersTemplate
      * @param  boolean append it to $target or not?
      * @return string parsed handle
      */
-    function parse($target, $handle, $append = false)
+    public function parse($target, $handle, $append = false)
     {
         if (!is_array($handle)) {
             $str = $this->subst($handle);
@@ -304,19 +303,19 @@ class LayersTemplate
      * @param   should $handle be appended to $target?
      * @return  bool
      */
-    function pParse($target, $handle, $append = false)
+    public function pParse($target, $handle, $append = false)
     {
         print $this->parse($target, $handle, $append);
         return false;
     }
-  
+
     /**
      * Return all defined variables and their values
      *
      * @access public
      * @return array with all defined variables and their values
      */
-    function getVars()
+    public function getVars()
     {
         reset($this->_varKeys);
 
@@ -330,11 +329,11 @@ class LayersTemplate
     /**
      * Return one or more specific variable(s) with their values.
      *
-     * @access public    
+     * @access public
      * @param  mixed array with variable names or one variable name as a string
      * @return mixed array of variable names with their values or value of one specific variable
      */
-    function getVar($varname)
+    public function getVar($varname)
     {
         if (!is_array($varname)) {
             if (isset($this->_varVals[$varname])) {
@@ -344,7 +343,7 @@ class LayersTemplate
             }
         } else {
             reset($varname);
-    
+
             while (list($k, $v) = each($varname)) {
                 $result[$k] = $this->_varVals[$k];
             }
@@ -352,7 +351,7 @@ class LayersTemplate
             return $result;
         }
     }
-  
+
     /**
      * Get undefined values of a handle
      *
@@ -360,13 +359,13 @@ class LayersTemplate
      * @param  string handle name
      * @return mixed  false if an error occured or the undefined values
      */
-    function getUndefined($handle)
+    public function getUndefined($handle)
     {
         if (!$this->_loadFile($handle)) {
             $this->halt("getUndefined: unable to load $handle.");
             return false;
         }
-    
+
         preg_match_all("/\{([^}]+)\}/", $this->getVar($handle), $m);
         $m = $m[1];
         if (!is_array($m)) {
@@ -379,7 +378,7 @@ class LayersTemplate
                 $result[$v] = $v;
             }
         }
-    
+
         if (count($result)) {
             return $result;
         } else {
@@ -394,12 +393,12 @@ class LayersTemplate
      * @param  string string to finish
      * @return finished, i.e. substituted string
      */
-    function finish($str)
+    public function finish($str)
     {
         switch ($this->unknowns) {
             case "keep":
                 break;
-      
+
             case "remove":
                 $str = preg_replace('/{[^ \t\r\n}]+}/', "", $str);
                 break;
@@ -418,7 +417,7 @@ class LayersTemplate
      * @access public
      * @param  string name of variable to print
      */
-    function p($varname)
+    public function p($varname)
     {
         print $this->finish($this->getVar($varname));
     }
@@ -430,7 +429,7 @@ class LayersTemplate
      * @param  string variable to get
      * @return string string with finished variable
      */
-    function get($varname)
+    public function get($varname)
     {
         return $this->finish($this->getVar($varname));
     }
@@ -444,7 +443,7 @@ class LayersTemplate
      * @param  string filename to be completed
      * @return string completed filename
      */
-    function _filename($filename)
+    public function _filename($filename)
     {
     /*
         if (substr($filename, 0, 1) != "/") {
@@ -466,7 +465,7 @@ class LayersTemplate
      * @param  string name of replacement variable
      * @return string replaced variable
      */
-    function _varname($varname)
+    public function _varname($varname)
     {
         return preg_quote("{".$varname."}");
     }
@@ -476,9 +475,9 @@ class LayersTemplate
      *
      * @access private
      * @param  string handle
-     * @return bool   FALSE if error, true if all is ok
+     * @return bool   false if error, true if all is ok
      */
-    function _loadFile($handle)
+    public function _loadFile($handle)
     {
         if (isset($this->_varKeys[$handle]) and !empty($this->_varVals[$handle])) {
             return true;
@@ -509,7 +508,7 @@ class LayersTemplate
      * @param  string message to show
      * @return bool
      */
-    function halt($msg)
+    public function halt($msg)
     {
         $this->_lastError = $msg;
 
@@ -524,7 +523,7 @@ class LayersTemplate
 
         return false;
     }
-  
+
     /**
      * printf error message to show
      *
@@ -532,7 +531,7 @@ class LayersTemplate
      * @param  string message to show
      * @return object PEAR error object
      */
-    function haltMsg($msg)
+    public function haltMsg($msg)
     {
 //        return new PEAR_ERROR(sprintf("<b>Template Error:</b> %s<br>\n", $msg));
         printf("<b>Template Error:</b> %s<br>\n", $msg);

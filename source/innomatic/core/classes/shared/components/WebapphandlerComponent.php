@@ -2,59 +2,59 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/application/ApplicationComponent.php');
+namespace Shared\Components;
 
 /**
  * Webapphandler component handler.
- * 
+ *
  * A Webapp Handler is the front controller for a certain mapping in a webapp
  * as defined in the web.xml file for that webapp.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-class WebapphandlerComponent extends ApplicationComponent
+class WebapphandlerComponent extends \Innomatic\Application\ApplicationComponent
 {
-    public function __construct ($rootda, $domainda, $appname, $name, $basedir)
+    public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
     }
-    public static function getType ()
+    public static function getType()
     {
         return 'webapphandler';
     }
-    public static function getPriority ()
+    public static function getPriority()
     {
         return 0;
     }
-    public static function getIsDomain ()
+    public static function getIsDomain()
     {
         return false;
     }
-    public static function getIsOverridable ()
+    public static function getIsOverridable()
     {
         return false;
     }
-    public function doInstallAction ($params)
+    public function doInstallAction($params)
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['class']) or ! strlen($params['urlpattern'])) {
-            $this->mLog->logEvent('WebapphandlerComponent::doInstallAction', 'Empty webapp handler parameters in application ' . $this->appname, Logger::ERROR);
+            $this->mLog->logEvent('WebapphandlerComponent::doInstallAction', 'Empty webapp handler parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/web.xml';
+        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/web.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Handler
         $ok = true;
@@ -101,14 +101,14 @@ class WebapphandlerComponent extends ApplicationComponent
         // Updates the web.xml file.
         return file_put_contents($web_xml_file, $sx->asXML());
     }
-    public function doUninstallAction ($params)
+    public function doUninstallAction($params)
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['class']) or ! strlen($params['urlpattern'])) {
-            $this->mLog->logEvent('WebapphandlerComponent::doUninstallAction', 'Empty webapp handler parameters in application ' . $this->appname, Logger::ERROR);
+            $this->mLog->logEvent('WebapphandlerComponent::doUninstallAction', 'Empty webapp handler parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/web.xml';
+        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/web.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Removes any mapping to the webapp handler.
         foreach ($sx->handlermapping as $hm) {
@@ -127,14 +127,14 @@ class WebapphandlerComponent extends ApplicationComponent
         // Updates the web.xml file.
         return file_put_contents($web_xml_file, $sx->asXML());
     }
-    public function doUpdateAction ($params)
+    public function doUpdateAction($params)
     {
         // Checks component name.
         if (! strlen($params['name']) or ! strlen($params['class']) or ! strlen($params['urlpattern'])) {
-            $this->mLog->logEvent('WebapphandlerComponent::doUpdateAction', 'Empty webapp handler parameters in application ' . $this->appname, Logger::ERROR);
+            $this->mLog->logEvent('WebapphandlerComponent::doUpdateAction', 'Empty webapp handler parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        $web_xml_file = InnomaticContainer::instance('innomaticcontainer')->getHome() . 'core/web.xml';
+        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/web.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Keeps track if the webapp handler is found in web.xml file.
         $found_handler = false;
@@ -161,16 +161,16 @@ class WebapphandlerComponent extends ApplicationComponent
         // Updates the web.xml file.
         return file_put_contents($web_xml_file, $sx->asXML());
     }
-    private function simplexml_addChild ($parent, $name, $value = '')
+    private function simplexml_addChild($parent, $name, $value = '')
     {
-        $new_child = new SimpleXMLElement("<$name>$value</$name>");
+        $new_child = new \SimpleXMLElement("<$name>$value</$name>");
         $node1 = dom_import_simplexml($parent);
         $dom_sxe = dom_import_simplexml($new_child);
         $node2 = $node1->ownerDocument->importNode($dom_sxe, true);
         $node1->appendChild($node2);
         return simplexml_import_dom($node2);
     }
-    private function simplexml_addAttribute ($parent, $name, $value = '')
+    private function simplexml_addAttribute($parent, $name, $value = '')
     {
         $node1 = dom_import_simplexml($parent);
         $node1->setAttribute($name, $value);

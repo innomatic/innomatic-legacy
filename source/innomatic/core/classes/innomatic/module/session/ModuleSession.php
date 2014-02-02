@@ -1,7 +1,7 @@
-<?php 
+<?php
+namespace Innomatic\Module\Session;
 
-require_once('innomatic/module/ModuleContext.php');
-require_once('innomatic/module/ModuleObject.php');
+use \Innomatic\Module;
 
 /**
  * Object for storing a ModuleObject's object value in a session.
@@ -10,10 +10,11 @@ require_once('innomatic/module/ModuleObject.php');
  * requests for a same Module remote instance.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-class ModuleSession {
+class ModuleSession
+{
     /**
      * Module context.
      *
@@ -38,7 +39,8 @@ class ModuleSession {
      * @param strind $id Optional session identifier.
      * @since 5.1
      */
-    public function __construct(ModuleContext $context, $id = false) {
+    public function __construct(\Innomatic\Module\ModuleContext $context, $id = false)
+    {
         $this->context = $context;
         $this->id = $id;
     }
@@ -52,7 +54,8 @@ class ModuleSession {
      * @since 5.1
      * @return void
      */
-    public function start() {
+    public function start()
+    {
         // !!! rand too short
         $this->id = rand();
     }
@@ -65,7 +68,8 @@ class ModuleSession {
      * @since 5.1
      * @return void
      */
-    public function save(ModuleObject $module) {
+    public function save(ModuleObject $module)
+    {
         if (!$this->id) {
             $this->start();
         }
@@ -83,7 +87,8 @@ class ModuleSession {
      * @since 5.1
      * @return ModuleObject
      */
-    public function retrieve() {
+    public function retrieve()
+    {
         $sess_dir = $this->context->getHome().'sessions';
         if (!$this->id or !file_exists($sess_dir.'/sess_'.$this->id.'.ser')) {
             return null;
@@ -98,7 +103,8 @@ class ModuleSession {
      * @since 5.1
      * @return void
      */
-    public function destroy() {
+    public function destroy()
+    {
         if (!$this->id) {
             return;
         }
@@ -116,9 +122,8 @@ class ModuleSession {
      * @since 5.1
      * @return string
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 }
-
-?>

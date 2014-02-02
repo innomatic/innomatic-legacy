@@ -2,16 +2,19 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Process;
+
+use \Innomatic\Core\InnomaticContainer;
 
 /*!
  @class Crontab
@@ -23,15 +26,15 @@
 class Crontab
 {
     /*! @var mAppId string - Application id name. */
-    var $mAppId;
+    public $mAppId;
     /*! @var mRegCron ConfigMan class - Regular cron tab handler. */
-    var $mRegCron;
+    public $mRegCron;
     /*! @var mTempCron ConfigMan class - Temporary cron tab handler. */
-    var $mTempCron;
-    
+    public $mTempCron;
+
     const TYPE_REGULAR = 0;
     const TYPE_TEMPORARY = 1;
-    
+
     /*!
      @function Crontab
 
@@ -41,14 +44,14 @@ class Crontab
 
      @param appId string - Application id name.
      */
-    function Crontab( $appId )
+    public function __construct($appId)
     {
         // Arguments check
         //
         if ( !empty( $appId ) ) $this->mAppId = $appId;
         else {
-            require_once('innomatic/logging/Logger.php');
-$log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            
+$log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->LogDie( 'innomatic.cron.simplecron.simplecron',
                                  'No application id name' );
         }
@@ -57,9 +60,8 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
         else $this->mLog->logdie( 'innomatic.configman.configman.configman', '' );
         */
 
-        require_once('innomatic/config/ConfigMan.php');
-        $this->mRegCron  = new ConfigMan( $this->mAppId, InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/crontab_regular', ConfigBase::MODE_DIRECT );
-        $this->mTempCron = new ConfigMan( $this->mAppId, InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/crontab_temporary', ConfigBase::MODE_DIRECT );
+        $this->mRegCron  = new \Innomatic\Config\ConfigMan( $this->mAppId, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/crontab_regular', \Innomatic\Config\ConfigBase::MODE_DIRECT );
+        $this->mTempCron = new \Innomatic\Config\ConfigMan( $this->mAppId, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/crontab_temporary', \Innomatic\Config\ConfigBase::MODE_DIRECT );
     }
 
     /*!
@@ -73,11 +75,11 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
      @param entry string - Entry content, the command to be executed.
      @param entryType integer - Crontab::TYPE_REGULAR if a regular cron tab entry, Crontab::TYPE_TEMPORARY if a temporary cron tab entry.
 
-     @result TRUE if the entry has been added.
+     @result true if the entry has been added.
      */
-    function AddEntry( $identifier, $entry, $entryType )
+    public function AddEntry($identifier, $entry, $entryType)
     {
-        $result = FALSE;
+        $result = false;
 
         if (
             strlen( $identifier )
@@ -87,30 +89,28 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             strlen( $entryType )
            )
         {
-            switch ( $entryType )
-            {
+            switch ( $entryType ) {
             case Crontab::TYPE_REGULAR:
                 $result = $this->mRegCron->changesegment( $this->mAppId.'-'.$identifier, $entry );
                 break;
 
             case Crontab::TYPE_TEMPORARY:
                 $result = $this->mTempCron->changesegment( $this->mAppId.'-'.$identifier, $entry );
-                $this->mTempCron->changesegment( 'innomatic-cronremover', 'rm '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/crontab_temporary'."\n" );
+                $this->mTempCron->changesegment( 'innomatic-cronremover', 'rm '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/crontab_temporary'."\n" );
                 break;
 
             default:
-            require_once('innomatic/logging/Logger.php');
-$log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            
+$log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent( 'innomatic.cron.simplecron.addentry',
-                                      'Invalid entry type', Logger::ERROR );
+                                      'Invalid entry type', \Innomatic\Logging\Logger::ERROR );
                 break;
             }
-        }
-        else {
-            require_once('innomatic/logging/Logger.php');
-$log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        } else {
+            
+$log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent( 'innomatic.cron.simplecron.addentry',
-                                   'Empty identifier ('.$identifier.'), entry ('.$entry.') or entry type ('.$entryType.')', Logger::ERROR );
+                                   'Empty identifier ('.$identifier.'), entry ('.$entry.') or entry type ('.$entryType.')', \Innomatic\Logging\Logger::ERROR );
         }
         return $result;
     }
@@ -125,11 +125,11 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
      @param identifier string - Entry identifier.
      @param entryType integer - Crontab::TYPE_REGULAR if a regular cron tab entry, Crontab::TYPE_TEMPORARY if a temporary cron tab entry.
 
-     @result TRUE if the entry has been removed.
+     @result true if the entry has been removed.
      */
-    function RemoveEntry( $identifier, $entryType )
+    public function RemoveEntry($identifier, $entryType)
     {
-        $result = FALSE;
+        $result = false;
 
         if (
             strlen( $identifier )
@@ -137,30 +137,28 @@ $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
             strlen( $entryType )
            )
         {
-            switch ( $entryType )
-            {
+            switch ( $entryType ) {
             case Crontab::TYPE_REGULAR:
                 $result = $this->mRegCron->removesegment( $this->mAppId.'-'.$identifier );
                 break;
 
             case Crontab::TYPE_TEMPORARY:
                 $result = $this->mTempCron->removesegment( $this->mAppId.'-'.$identifier );
-                $this->mTempCron->changesegment( 'innomatic-cronremover', 'rm '.InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/crontab_temporary'."\n" );
+                $this->mTempCron->changesegment( 'innomatic-cronremover', 'rm '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/crontab_temporary'."\n" );
                 break;
 
             default:
-            require_once('innomatic/logging/Logger.php');
-$log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+            
+$log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent( 'innomatic.cron.simplecron.removeentry',
-                                      'Invalid entry type', Logger::ERROR );
+                                      'Invalid entry type', \Innomatic\Logging\Logger::ERROR );
                 break;
             }
-        }
-        else {
-            require_once('innomatic/logging/Logger.php');
-$log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
+        } else {
+            
+$log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent( 'innomatic.cron.simplecron.removeentry',
-                                   'Empty identifier ('.$identifier.') or entry type ('.$entryType.')', Logger::ERROR );
+                                   'Empty identifier ('.$identifier.') or entry type ('.$entryType.')', \Innomatic\Logging\Logger::ERROR );
         }
         return $result;
     }

@@ -1,19 +1,18 @@
-<?php   
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/tpl/Template.php');
+namespace Innomatic\Php;
 
 /**
  * PHP based template engine.
@@ -28,13 +27,13 @@ require_once('innomatic/tpl/Template.php');
  * Multiple templates are supported.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2012 Innoteam S.r.l.
+ * @copyright Copyright 2012 Innoteam Srl
  * @since 1.1
  */
-class PHPTemplate implements Template
+class PHPTemplate implements \Innomatic\Tpl\Template
 {
-    private $_file;
-    private $_vars;
+    private $file;
+    private $vars;
 
     /**
      * Constructor.
@@ -45,7 +44,7 @@ class PHPTemplate implements Template
      */
     public function __construct($file)
     {
-        $this->_file = $file;
+        $this->file = $file;
     }
 
     /**
@@ -69,7 +68,7 @@ class PHPTemplate implements Template
      */
     public function set($name, $value)
     {
-        $this->_vars[$name] = $value instanceof PhpTemplate ? $value->parse()
+        $this->vars[$name] = $value instanceof \Innomatic\Tpl\Template ? $value->parse()
             : $value;
     }
 
@@ -84,8 +83,8 @@ class PHPTemplate implements Template
      */
     public function get($name)
     {
-        if (isset ($this->_vars[$name])) {
-            return $this->_vars[$name];
+        if (isset ($this->vars[$name])) {
+            return $this->vars[$name];
         }
         return false;
     }
@@ -105,7 +104,7 @@ class PHPTemplate implements Template
      */
     public function setArray($name, &$value)
     {
-        $this->_vars[$name] = &$value;
+        $this->vars[$name] = &$value;
     }
 
     /**
@@ -119,8 +118,8 @@ class PHPTemplate implements Template
      */
     public function &getArray($name)
     {
-        if (isset ($this->_vars[$name])) {
-            return $this->_vars[$name];
+        if (isset ($this->vars[$name])) {
+            return $this->vars[$name];
         }
         return false;
     }
@@ -136,18 +135,30 @@ class PHPTemplate implements Template
      */
     public function parse()
     {
-        if (!file_exists($this->_file)) {
+        if (!file_exists($this->file)) {
             return "";
         }
 
-        if (is_array($this->_vars)) {
-            extract($this->_vars);
+        if (is_array($this->vars)) {
+            extract($this->vars);
         }
-        
+
         ob_start();
-        include($this->_file);
+        include($this->file);
         $contents = ob_get_contents();
         ob_end_clean();
         return $contents;
+    }
+
+    /**
+     * Returns a list of the set tag names.
+     *
+     * @access public
+     * @since 6.1
+     * @return array
+     */
+    public function getTags()
+    {
+        return array_keys($this->vars);
     }
 }

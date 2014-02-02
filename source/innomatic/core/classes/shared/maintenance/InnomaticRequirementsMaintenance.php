@@ -2,21 +2,22 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Shared\Maintenance;
 
-require_once('innomatic/maintenance/MaintenanceTask.php');
-
-class InnomaticRequirementsMaintenance extends MaintenanceTask {
-    public function execute() {
+class InnomaticRequirementsMaintenance extends \Innomatic\Maintenance\MaintenanceTask
+{
+    public function execute()
+    {
         $result = true;
 
         // TODO Update version check
@@ -36,12 +37,11 @@ class InnomaticRequirementsMaintenance extends MaintenanceTask {
         if (!(function_exists('mysql_connect') or function_exists('pg_connect'))) $result = false;
 
         // Applications extensions
-        $app_deps = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute(
+        $app_deps = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
             'SELECT moddep FROM applications_dependencies WHERE moddep LIKE '
-            . InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText('%.extension'));
+            . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText('%.extension'));
 
-        while (!$app_deps->eof)
-        {
+        while (!$app_deps->eof) {
             $dep = substr($app_deps->getFields('moddep'), 0, -10);
             if (!extension_loaded($dep)) $result = false;
 

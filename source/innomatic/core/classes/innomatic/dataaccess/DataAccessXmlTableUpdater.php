@@ -2,18 +2,17 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/dataaccess/DataAccessXmlTable.php');
+namespace Innomatic\Dataaccess;
 
 /*!
  @class DataAccessXmlTableUpdater
@@ -25,28 +24,28 @@ require_once('innomatic/dataaccess/DataAccessXmlTable.php');
 class DataAccessXmlTableUpdater
 {
     /*! @var mDb DataAccess class - Database handler. */
-    var $mrDb;
+    public $mrDb;
     /*! @var mOldTable string - Old table file full path. */
-    var $mOldTable;
+    public $mOldTable;
     /*! @var mNewTable string - New table file full path. */
-    var $mNewTable;
+    public $mNewTable;
     /*! @var mOldTableHandler DataAccessXmlTable class - DataAccessXmlTable class for old table. */
-    var $mOldTableHandler;
+    public $mOldTableHandler;
     /*! @var mNewTableHandler DataAccessXmlTable class - DataAccessXmlTable class for new table. */
-    var $mNewTableHandler;
+    public $mNewTableHandler;
     /*! @var mDiffNewColumns array - Array of the new columns. The key contains the column name and the value contains the column definition. */
-    var $mDiffNewColumns = array();
+    public $mDiffNewColumns = array();
     /*! @var mDiffOldColumns array - Array of the old columns. */
-    var $mDiffOldColumns = array();
-    /*! @var mParse boolean - TRUE when the tables have been parsed. */
-    var $mParsed = FALSE;
+    public $mDiffOldColumns = array();
+    /*! @var mParse boolean - true when the tables have been parsed. */
+    public $mParsed = false;
 
     /*!
      @param rDb DataAccess class - Database handler.
      @param oldTable string - Full path of the old XSQL table file.
      @param newTable string - Full path of the new XSQL table file.
      */
-    public function DataAccessXmlTableUpdater(DataAccess $rDb, $oldTable, $newTable)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $rDb, $oldTable, $newTable)
     {
         $this->mrDb = $rDb;
         if (file_exists($oldTable)) {
@@ -54,9 +53,9 @@ class DataAccessXmlTableUpdater
             $this->mOldTableHandler = new DataAccessXmlTable($this->mrDb, DataAccessXmlTable::SQL_UPDATE_OLD);
             $this->mOldTableHandler->load_DefFile($this->mOldTable);
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.db.xmldbupdater.xmlupdater', 'Old table file ('.$oldTable.') does not exists', Logger::WARNING);
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.db.xmldbupdater.xmlupdater', 'Old table file ('.$oldTable.') does not exists', \Innomatic\Logging\Logger::WARNING);
         }
 
         if (file_exists($newTable)) {
@@ -64,19 +63,19 @@ class DataAccessXmlTableUpdater
             $this->mNewTableHandler = new DataAccessXmlTable($this->mrDb, DataAccessXmlTable::SQL_UPDATE_NEW);
             $this->mNewTableHandler->load_DefFile($this->mNewTable);
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.db.xmldbupdater.xmlupdater', 'New table file ('.$newTable.') does not exists', Logger::WARNING);
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.db.xmldbupdater.xmlupdater', 'New table file ('.$newTable.') does not exists', \Innomatic\Logging\Logger::WARNING);
         }
     }
 
     /*!
      @discussion Checks the differences between the XSQL tables.
-     @result TRUE if the check has been performed.
+     @result true if the check has been performed.
      */
     public function checkDiffs()
     {
-        $result = FALSE;
+        $result = false;
 
         if (strlen($this->mOldTable) and strlen($this->mNewTable)) {
             $this->mOldTableHandler->Parse($this->mOldTableHandler->mData);
@@ -98,11 +97,11 @@ class DataAccessXmlTableUpdater
                 }
             }
 
-            $this->mParsed = $result = TRUE;
+            $this->mParsed = $result = true;
         } else {
-            require_once('innomatic/logging/Logger.php');
-            $log = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-            $log->logEvent('innomatic.db.xmldbupdater.checkdiffs', 'Old and new table files not specified', Logger::ERROR);
+            
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent('innomatic.db.xmldbupdater.checkdiffs', 'Old and new table files not specified', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }
@@ -113,7 +112,7 @@ class DataAccessXmlTableUpdater
      */
     public function getOldColumns()
     {
-        $result = FALSE;
+        $result = false;
         if ($this->mParsed) {
             $result = $this->mDiffOldColumns;
         }
@@ -126,7 +125,7 @@ class DataAccessXmlTableUpdater
      */
     public function getNewColumns()
     {
-        $result = FALSE;
+        $result = false;
         if ($this->mParsed) {
             $result = $this->mDiffNewColumns;
         }

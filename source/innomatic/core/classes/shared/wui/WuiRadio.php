@@ -2,22 +2,22 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiWidget.php');
-require_once ('innomatic/wui/dispatch/WuiEventRawData.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiRadio extends WuiWidget
+class WuiRadio extends \Innomatic\Wui\Widgets\WuiWidget
 {
     public $mValue;
     public $mDisp;
@@ -51,11 +51,11 @@ class WuiRadio extends WuiWidget
         if (isset($this->mArgs['hint']))
             $this->mHint = $this->mArgs['hint'];
     }
-    protected function generateSource ()
+    protected function generateSource()
     {
         $result = false;
-        $event_data = new WuiEventRawData($this->mDisp, $this->mName);
-        $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' radio -->' : '') . '<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').$this->getEventsCompleteString().' class="normal" ' . (strlen($this->mHint) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mHint) . '\');" onMouseOut="wuiUnHint();" ' : '') . 'type="radio" ' . 'name="' . $event_data->getDataString() . '"' . (strlen($this->mValue) ? ' value="' . $this->mValue . '"' : '') . ' tabindex="' . $this->mTabIndex . '"' . (strlen($this->mReadOnly) ? ' disabled' : '') . ($this->mChecked == 'true' ? ' checked' : '') . '></td><td valign="middle">' . Wui::utf8_entities($this->mLabel) . '</td></tr></table>' . ($this->mComments ? '<!-- end ' . $this->mName . " radio -->\n" : '');
+        $event_data = new \Innomatic\Wui\Dispatch\WuiEventRawData($this->mDisp, $this->mName);
+        $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' radio -->' : '') . '<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').$this->getEventsCompleteString().' class="normal" ' . (strlen($this->mHint) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mHint) . '\');" onMouseOut="wuiUnHint();" ' : '') . 'type="radio" ' . 'name="' . $event_data->getDataString() . '"' . (strlen($this->mValue) ? ' value="' . $this->mValue . '"' : '') . ' tabindex="' . $this->mTabIndex . '"' . (strlen($this->mReadOnly) ? ' disabled' : '') . ($this->mChecked == 'true' ? ' checked' : '') . '></td><td valign="middle">' . \Innomatic\Wui\Wui::utf8_entities($this->mLabel) . '</td></tr></table>' . ($this->mComments ? '<!-- end ' . $this->mName . " radio -->\n" : '');
         $result = true;
         return $result;
     }

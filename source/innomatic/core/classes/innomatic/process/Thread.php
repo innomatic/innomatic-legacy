@@ -1,4 +1,5 @@
-<?php 
+<?php
+namespace Innomatic\Process;
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 foldmethod=marker: */
 // +----------------------------------------------------------------------+
@@ -74,7 +75,8 @@
  * @version 1.0
  * @since 1.0
  */
-class Thread {
+class Thread
+{
     /**
      * The pseudo-thread name: must be unique between PHP processes
      *
@@ -86,104 +88,104 @@ class Thread {
     /**
      * PID of the child process.
      *
-     * @var integer 
-     * @access private 
+     * @var integer
+     * @access private
      */
     private $_pid;
 
     /**
      * PUID of the child process owner; if you want to set this you must create and
      * start() the pseudo-thread as root.
-     * 
-     * @var integer 
-     * @access private 
+     *
+     * @var integer
+     * @access private
      */
     private $_puid;
 
     /**
      * GUID of the child process owner; if you want to set this you must create and
      * start() the pseudo-thread as root.
-     * 
-     * @var integer 
-     * @access private 
+     *
+     * @var integer
+     * @access private
      */
     private $_guid;
 
     /**
      * Are we into the child process?
-     * 
-     * @var boolean 
-     * @access private 
+     *
+     * @var boolean
+     * @access private
      */
     private $_isChild;
 
     /**
      * A data structure to hold data for Inter Process Communications
-     * 
+     *
      * It's an associative array, some keys are reserved and cannot be used:
      * _call_method, _call_input, _call_output, _call_type, _pingTime;
-     * 
-     * @var array 
-     * @access private 
+     *
+     * @var array
+     * @access private
      */
     private $_internal_ipc_array;
 
     /**
      * KEY to access to Shared Memory Area.
-     * 
-     * @var integer 
+     *
+     * @var integer
      * @access private
      */
     private $_internal_ipc_key;
 
     /**
      * KEY to access to Sync Semaphore.
-     * 
+     *
      * The semaphore is emulated with a boolean stored into a
      * shared memory segment, because we don't want to add sem_*
      * support to PHP interpreter.
-     * 
-     * @var integer 
-     * @access private 
+     *
+     * @var integer
+     * @access private
      */
     private $_internal_sem_key;
 
     /**
      * Is Shared Memory Area OK? If not, the start() method will block
      * otherwise we'll have a running child without any communication channel.
-     * 
-     * @var boolean 
-     * @access private 
+     *
+     * @var boolean
+     * @access private
      */
     private $_ipc_is_ok;
 
     /**
      * Whether the process is yet forked or not
-     * 
-     * @var boolean 
-     * @access private 
+     *
+     * @var boolean
+     * @access private
      */
     private $_running;
 
     /**
      * Pointer to file for ftok()
      *
-     * @var string 
-     * @access private 
+     * @var string
+     * @access private
      */
     private $_ipc_file_1;
 
     /**
      * Pointer to file for ftok()
-     * 
-     * @var string 
-     * @access private 
+     *
+     * @var string
+     * @access private
      */
     private $_ipc_file_2;
 
     const PHP_FORK_VOID_METHOD = -1;
     const PHP_FORK_RETURN_METHOD = -2;
-    
+
     /**
      * PHP_Fork::PHP_Fork()
      * Allocates a new pseudo-thread object and set its name to $name.
@@ -209,7 +211,8 @@ class Thread {
      * @access public
      * @return bool true if the Shared Memory Segments are OK, false otherwise.<br>Notice that only if shared mem is ok the process will be forked.
      */
-    public function __construct($name, $puid = 0, $guid = 0, $umask = -1) {
+    public function __construct($name, $puid = 0, $guid = 0, $umask = -1)
+    {
         $this->_running = false;
 
         $this->_name = $name;
@@ -239,7 +242,8 @@ class Thread {
      *
      * @return boolean true is the child is already forked.
      */
-    public function isRunning() {
+    public function isRunning()
+    {
         if ($this->_running)
             return true;
         else
@@ -254,54 +258,58 @@ class Thread {
      *
      * @see PHP_Fork::getVariable()
      */
-    public function setVariable($name, $value) {
+    public function setVariable($name, $value)
+    {
         $this->_internal_ipc_array[$name] = $value;
         $this->_writeToIPCsegment();
     }
 
     /**
      * PHP_Fork::getVariable()
-     * 
+     *
      * Get a variable from the shared memory segment
-     * 
+     *
      * @see PHP_Fork::setVariable()
-     * @return mixed the requested variable (or NULL if it doesn't exists).
+     * @return mixed the requested variable (or null if it doesn't exists).
      */
-    public function getVariable($name) {
+    public function getVariable($name)
+    {
         $this->_readFromIPCsegment();
         return $this->_internal_ipc_array[$name];
     }
 
     /**
      * PHP_Fork::setAlive()
-     * 
+     *
      * Set a pseudo-thread property that can be read from parent process
      * in order to know the child activity.
-     * 
+     *
      * Practical usage requires that child process calls this method at regular
      * time intervals; parent will use the getLastAlive() method to know
      * the elapsed time since the last pseudo-thread life signals...
      *
      * @see PHP_Fork::getLastAlive()
      */
-    public function setAlive() {
+    public function setAlive()
+    {
         $this->setVariable('_pingTime', time());
     }
 
     /**
      * PHP_Fork::getLastAlive()
-     * 
+     *
      * Read the time elapsed since the last child setAlive() call.
-     * 
+     *
      * This method is useful because often we have a pseudo-thread pool and we
      * need to know each pseudo-thread status.
      * if the child executes the setAlive() method, the parent with
      * getLastAlive() can know that child is alive.
-     * 
+     *
      * @see PHP_Fork::setAlive()
      * @return integer the elapsed seconds since the last child setAlive() call.
      */
-    public function getLastAlive() {
+    public function getLastAlive()
+    {
         $timestamp = intval($this->getVariable('_pingTime'));
         if ($timestamp == 0)
             return 0;
@@ -312,35 +320,38 @@ class Thread {
     /**
      * PHP_Fork::getName()
      * Returns this pseudo-thread's name.
-     * 
+     *
      * @see PHP_Fork::setName()
      * @return string the name of the pseudo-thread.
      */
 
-    public function getName() {
+    public function getName()
+    {
         return $this->_name;
     }
 
     /**
      * PHP_Fork::getPid()
      * Return the PID of the current pseudo-thread.
-     * 
+     *
      * @return integer the PID.
      */
 
-    public function getPid() {
+    public function getPid()
+    {
         return $this->_pid;
     }
 
     /**
      * PHP_Fork::register_callback_func()
-     * 
+     *
      * This is called from within the parent method; all the communication stuff is done here...
      *
-     * @param  $arglist 
-     * @param  $methodname 
+     * @param  $arglist
+     * @param  $methodname
      */
-    public function register_callback_func($arglist, $methodname) {
+    public function register_callback_func($arglist, $methodname)
+    {
         // this is the parent, so we really cannot execute the method...
         // check arguments passed to the method...
         if (is_array($arglist) && count($arglist) > 1) {
@@ -396,46 +407,49 @@ class Thread {
 
     /**
      * PHP_Fork::run()
-     * 
+     *
      * This method actually implements the pseudo-thread logic.<BR>
      * Subclasses of PHP_Fork MUST override this method as v.0.2
      *
-     * @abstract 
+     * @abstract
      */
 
-    public function run() {
+    public function run()
+    {
         die("Fatal error: PHP_Fork class cannot be run by itself!\nPlease extend it and override the run() method");
     }
 
     /**
      * PHP_Fork::setName()
      * Changes the name of this thread to the given name.
-     * 
+     *
      * @see PHP_Fork::getName()
-     * @param  $name 
+     * @param  $name
      */
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->_name = $name;
     }
 
     /**
      * PHP_Fork::start()
      * Causes this pseudo-thread to begin parallel execution.
-     * 
+     *
      * <code>
      *     ...
      *       $executeThread1->start();
      *     ...
      * </code>
-     * 
+     *
      * This method check first of all the Shared Memory Segment; if ok, if forks
      * the child process, attach signal handler and returns immediatly.
      * The status is set to running, and a PID is assigned.
      * The result is that two pseudo-threads are running concurrently: the current thread (which returns from the call to the start() method) and the other thread (which executes its run() method).
      */
 
-    public function start() {
+    public function start()
+    {
         if (!$this->_ipc_is_ok) {
             die('Fatal error, unable to create SHM segments for process communications');
         }
@@ -459,7 +473,7 @@ class Thread {
             $this->run();
             // Added 21/Oct/2003: destroy the child after run() execution
             // needed to avoid unuseful child processes after execution
-            InnomaticContainer::instance('innomaticcontainer')->halt(0);
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt(0);
         } else {
             // this is the parent
             $this->_isChild = false;
@@ -471,20 +485,21 @@ class Thread {
     /**
      * PHP_Fork::stop()
      * Causes the current thread to die.
-     * 
-     * 
+     *
+     *
      * <code>
      *     ...
      *       $executeThread1->stop();
      *     ...
      * </code>
-     * 
+     *
      * The relative process is killed and disappears immediately from the processes list.
      *
      * @return boolean true if the process is succesfully stopped, false otherwise.
      */
 
-    public function stop() {
+    public function stop()
+    {
         $success = false;
 
         if ($this->_pid > 0) {
@@ -499,13 +514,14 @@ class Thread {
     // PRIVATE METHODS BEGIN
     /**
      * PHP_Fork::_cleanThreadContext()
-     * 
+     *
      * Internal method: destroy thread context and free relative resources.
-     * 
-     * @access private 
+     *
+     * @access private
      */
 
-    private function _cleanThreadContext() {
+    private function _cleanThreadContext()
+    {
         @ shmop_delete($this->_internal_ipc_key);
         @ shmop_delete($this->_internal_sem_key);
 
@@ -519,26 +535,28 @@ class Thread {
         unset($this->_pid);
     }
 
-    private function waitChildren() {
+    private function waitChildren()
+    {
         while ( pcntl_waitpid( -1, $status, WNOHANG ) > 0 ) {
         }
     }
 
     /**
      * PHP_Fork::_sig_handler()
-     * 
+     *
      * This is the signal handler that make the communications between client and server possible.<BR>
      * DO NOT override this method, otherwise the thread system will stop working...
-     * 
-     * @param  $signo 
-     * @access private 
+     *
+     * @param  $signo
+     * @access private
      */
-    private function _sig_handler($signo) {
+    private function _sig_handler($signo)
+    {
         switch ($signo) {
             case SIGCHLD:
                 $this->waitChildren();
                 break;
-            
+
             case SIGTERM :
                 // handle shutdown tasks
                 exit;
@@ -585,22 +603,24 @@ class Thread {
 
     /**
      * PHP_Fork::_sendSigUsr1()
-     * 
+     *
      * Sends signal to the child process
-     * 
-     * @access private 
+     *
+     * @access private
      */
-    private function _sendSigUsr1() {
+    private function _sendSigUsr1()
+    {
         if ($this->_pid > 0)
             posix_kill($this->_pid, SIGUSR1);
     }
 
     /**
      * PHP_Fork::_waitIPCSemaphore()
-     * 
-     * @access private 
+     *
+     * @access private
      */
-    private function _waitIPCSemaphore() {
+    private function _waitIPCSemaphore()
+    {
         while (true) {
             $ok = shmop_read($this->_internal_sem_key, 0, 1);
 
@@ -613,10 +633,11 @@ class Thread {
 
     /**
      * PHP_Fork::_readFromIPCsegment()
-     * 
-     * @access private 
+     *
+     * @access private
      */
-    private function _readFromIPCsegment() {
+    private function _readFromIPCsegment()
+    {
         $serialized_IPC_array = shmop_read($this->_internal_ipc_key, 0, shmop_size($this->_internal_ipc_key));
 
         if (!$serialized_IPC_array)
@@ -631,7 +652,8 @@ class Thread {
      *
      * @access private
      */
-    private function _writeToIPCsegment() {
+    private function _writeToIPCsegment()
+    {
         // read the transaction bit (2� bit of _internal_sem_key segment)
         // if it value is 1 we're into the execution of a self::PHP_FORK_RETURN_METHOD
         // so we must NOT write to segment (data corruption...)
@@ -648,11 +670,12 @@ class Thread {
 
     /**
      * PHP_Fork::_createIPCsegment()
-     * 
+     *
      * @return boolean true if the operation succeeded, false otherwise.
-     * @access private 
+     * @access private
      */
-    private function _createIPCsegment() {
+    private function _createIPCsegment()
+    {
         $this->_ipc_file_1 = "/tmp/".rand().md5($this->getName()).".shm";
         touch($this->_ipc_file_1);
         $shm_key = ftok($this->_ipc_file_1, 't');
@@ -668,11 +691,12 @@ class Thread {
 
     /**
      * PHP_Fork::_createIPCsemaphore()
-     * 
+     *
      * @return boolean true if the operation succeeded, false otherwise.
-     * @access private 
+     * @access private
      */
-    private function _createIPCsemaphore() {
+    private function _createIPCsemaphore()
+    {
         $this->_ipc_file_2 = "/tmp/".rand().md5($this->getName()).".sem";
         touch($this->_ipc_file_2);
         $sem_key = ftok($this->_ipc_file_2, 't');

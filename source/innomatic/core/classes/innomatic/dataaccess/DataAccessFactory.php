@@ -2,20 +2,19 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Dataaccess;
 
-require_once('innomatic/dataaccess/DataAccess.php');
-require_once('innomatic/dataaccess/DataAccessException.php');
-require_once('innomatic/dataaccess/DataAccessSourceName.php');
+use \Innomatic\Core;
 
 global $dbtypes;
 $dbtypes = array();
@@ -24,9 +23,6 @@ class DataAccessFactory
 {
     public function __construct()
     {
-        require_once('innomatic/config/ConfigBase.php');
-        require_once('innomatic/config/ConfigFile.php');
-        require_once('innomatic/config/ConfigMan.php');
         $this->retrieveAvailableDrivers();
     }
 
@@ -34,9 +30,9 @@ class DataAccessFactory
     {
         global $dbtypes;
         $dbtypes = array();
-        if (file_exists(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini')) {
-            $dbcfgfile = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini');
-            if ($dbcfgfile !== FALSE) {
+        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/dataaccessdrivers.ini')) {
+            $dbcfgfile = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/dataaccessdrivers.ini', false, INI_SCANNER_RAW);
+            if ($dbcfgfile !== false) {
                 $dbtypes = (array)$dbcfgfile;
             }
         }
@@ -44,15 +40,15 @@ class DataAccessFactory
 
     public static function getDrivers()
     {
-        return @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini');
+        return @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/dataaccessdrivers.ini', false, INI_SCANNER_RAW);
     }
 
     public function addDriver($name, $desc)
     {
         global $dbtypes;
         if (!isset($dbtypes[$name])) {
-            $cfg = new ConfigMan('innomatic', InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini', ConfigBase::MODE_DIRECT);
-            $cfg->AddSegment($name, $name.' = '.$desc."\n");
+            $cfg = new \Innomatic\Config\ConfigMan('innomatic', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/dataaccessdrivers.ini', \Innomatic\Config\ConfigBase::MODE_DIRECT);
+            $cfg->addSegment($name, $name.' = '.$desc."\n");
             $this->retrieveAvailableDrivers();
         }
     }
@@ -61,8 +57,8 @@ class DataAccessFactory
     {
         global $dbtypes;
         if (isset($dbtypes[$name])) {
-            $cfg = new ConfigMan('innomatic', InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini', ConfigBase::MODE_DIRECT);
-            $cfg->ChangeSegment($name, $name.' = '.$desc."\n");
+            $cfg = new \Innomatic\Config\ConfigMan('innomatic', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/dataaccessdrivers.ini', \Innomatic\Config\ConfigBase::MODE_DIRECT);
+            $cfg->changeSegment($name, $name.' = '.$desc."\n");
             $this->retrieveAvailableDrivers();
         }
     }
@@ -71,8 +67,8 @@ class DataAccessFactory
     {
         global $dbtypes;
         if (isset($dbtypes[$name])) {
-            $cfg = new ConfigMan('innomatic', InnomaticContainer::instance('innomaticcontainer')->getHome().'core/conf/dataaccessdrivers.ini', ConfigBase::MODE_DIRECT);
-            $cfg->RemoveSegment($name);
+            $cfg = new \Innomatic\Config\ConfigMan('innomatic', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/dataaccessdrivers.ini', \Innomatic\Config\ConfigBase::MODE_DIRECT);
+            $cfg->removeSegment($name);
             $this->retrieveAvailableDrivers();
         }
     }
@@ -89,10 +85,9 @@ class DataAccessFactory
         // Checks for database driver type
         //
         if (!strlen($dasn->getType())) {
-            require_once('innomatic/core/InnomaticContainer.php');
-            $innomatic = InnomaticContainer::instance('innomaticcontainer');
-            if ($innomatic->getState() != InnomaticContainer::STATE_SETUP) {
-                $dasn->setType(InnomaticContainer::instance('innomaticcontainer')->getConfig()->value('RootDatabaseType'));
+            $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+            if ($innomatic->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
+                $dasn->setType(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseType'));
             } else {
                 throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
             }
@@ -100,12 +95,13 @@ class DataAccessFactory
 
         // Creates a new instance of the specified database driver object
         //
-        require_once('innomatic/dataaccess/drivers/'.strtolower($dasn->getType()).'/'.ucfirst(strtolower($dasn->getType())).'DataAccess.php');
-        require_once('innomatic/dataaccess/drivers/'.strtolower($dasn->getType()).'/'.ucfirst(strtolower($dasn->getType())).'DataAccessResult.php');
+        
+        $dataaccess = '\\Innomatic\\Dataaccess\\Drivers\\'.ucfirst(strtolower($dasn->getType())).'\\'.ucfirst(strtolower($dasn->getType())).'DataAccess';
+        $dataaccessresult = '\\Innomatic\\Dataaccess\\Drivers\\'.ucfirst(strtolower($dasn->getType())).'\\'.ucfirst(strtolower($dasn->getType())).'DataAccessResult';
         $objname = ucfirst(strtolower(strtolower($dasn->getType()))).'DataAccess';
-        if (!class_exists($objname)) {
+        if (!class_exists($dataaccess, true)) {
             throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);
         }
-        return new $objname($dasn);
+        return new $dataaccess($dasn);
     }
 }

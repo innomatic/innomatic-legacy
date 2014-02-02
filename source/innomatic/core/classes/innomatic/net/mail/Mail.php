@@ -1,4 +1,6 @@
 <?php
+namespace Innomatic\Net\Mail;
+
 /*
 
 
@@ -47,38 +49,38 @@ class Mail
         list of To addresses
         @var        array
         */
-        var $sendto = array();
+        public $sendto = array();
         /*
         @var        array
         */
-        var $acc = array();
+        public $acc = array();
         /*
         @var        array
         */
-        var $abcc = array();
+        public $abcc = array();
         /*
         paths of attached files
         @var array
         */
-        var $aattach = array();
+        public $aattach = array();
         /*
         list of message headers
         @var array
         */
-        var $xheaders = array();
+        public $xheaders = array();
         /*
         message priorities referential
         @var array
         */
-        var $priorities = array( '1 (Highest)', '2 (High)', '3 (Normal)', '4 (Low)', '5 (Lowest)' );
+        public $priorities = array( '1 (Highest)', '2 (High)', '3 (Normal)', '4 (Low)', '5 (Lowest)' );
         /*
         character set of message
         @var string
         */
-        var $charset = "us-ascii";
-        var $ctencoding = "7bit";
-        var $receipt = 0;
-        var $content_type='';
+        public $charset = "us-ascii";
+        public $ctencoding = "7bit";
+        public $receipt = 0;
+        public $content_type='';
 
 /*
 
@@ -86,19 +88,19 @@ class Mail
 
 */
 
-function Mail()
+function __construct()
 {
         $this->autoCheck( true );
         $this->boundary= "--" . md5( microtime() ); // :INNOMATICPATCH:
 }
 
 
-function Content_type($contenttype){
-
+function Content_type($contenttype)
+{
     $this->content_type=$contenttype;
     //echo $this->content_type;
     //echo '<br>';
-    //InnomaticContainer::instance('innomaticcontainer')->halt();
+    //\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
 }
 
 /*
@@ -110,7 +112,7 @@ by default autoCheck feature is on
 @param boolean        $bool set to true to turn on the auto validation
 @access public
 */
-function autoCheck( $bool )
+function autoCheck($bool)
 {
         if( $bool )
                 $this->checkAddress = true;
@@ -125,7 +127,7 @@ Define the subject line of the email
 @param string $subject any monoline string
 
 */
-function Subject( $subject )
+function Subject($subject)
 {
         $this->xheaders['Subject'] = strtr( $subject, "\r\n" , "  " );
 }
@@ -138,7 +140,7 @@ set the sender of the mail
 
 */
 
-function From( $from )
+function From($from)
 {
 
         if( ! is_string($from) ) {
@@ -153,7 +155,7 @@ function From( $from )
  @param string $email should be an email address
 
 */
-function ReplyTo( $address )
+function ReplyTo($address)
 {
 
         if( ! is_string($address) )
@@ -184,7 +186,7 @@ set the mail recipient
 
 */
 
-function To( $to )
+function To($to)
 {
 
         // TODO : test validit� sur to
@@ -204,7 +206,7 @@ function To( $to )
  *                $cc : email address(es), accept both array and string
  */
 
-function Cc( $cc )
+function Cc($cc)
 {
         if( is_array($cc) )
                 $this->acc= $cc;
@@ -223,7 +225,7 @@ function Cc( $cc )
  *                $bcc : email address(es), accept both array and string
  */
 
-function Bcc( $bcc )
+function Bcc($bcc)
 {
         if( is_array($bcc) ) {
                 $this->abcc = $bcc;
@@ -242,7 +244,7 @@ function Bcc( $bcc )
  *                default to us-ascii
  *                $mail->Body( "m�l en fran�ais avec des accents", "iso-8859-1" );
  */
-function Body( $body, $charset="" )
+function Body($body, $charset="")
 {
         $this->body = $body;
 
@@ -258,7 +260,7 @@ function Body( $body, $charset="" )
  *                set the Organization header
  */
 
-function Organization( $org )
+function Organization($org)
 {
         if( trim( $org != "" )  )
                 $this->xheaders['Organization'] = $org;
@@ -271,7 +273,7 @@ function Organization( $org )
  *                ex: $mail->Priority(1) ; => Highest
  */
 
-function Priority( $priority )
+function Priority($priority)
 {
         if( ! intval( $priority ) )
                 return false;
@@ -425,7 +427,7 @@ function ValidEmail($address)
 
  */
 
-function CheckAdresses( $aad )
+function CheckAdresses($aad)
 {
         for($i=0;$i< count( $aad); $i++ ) {
                 if( ! $this->ValidEmail( $aad[$i]) ) {

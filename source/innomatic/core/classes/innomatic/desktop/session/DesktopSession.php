@@ -2,35 +2,35 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Desktop\Session;
 
-require_once('innomatic/webapp/WebAppSession.php');
-require_once('innomatic/core/InnomaticContainer.php');
+use \Innomatic\Core\InnomaticContainer;
 
 /**
  * Session class for the Desktop.
- * 
+ *
  * Desktop sessions supports the default $_SESSION PHP superglobals.
- * 
+ *
  * The session lifetime is definable with the DesktopSessionLifetime parameter
  * in the core/conf/innomatic.ini configuration file.
  *
- * @copyright  2000-2012 Innoteam S.r.l.
+ * @copyright  2000-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-class DesktopSession implements WebAppSession
+class DesktopSession implements \Innomatic\Webapp\WebAppSession
 {
     /**
      * Unique id of the session.
@@ -47,19 +47,19 @@ class DesktopSession implements WebAppSession
         } else {
             $this->_id = session_id();
         }
-        
+
         // This must be set before session_start
         if (
             strlen(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getConfig()->value(
                     'DesktopSessionLifetime'
                 )
             )
         ) {
-            $lifetime = InnomaticContainer::instance(
-                'innomaticcontainer'
+            $lifetime = \Innomatic\Core\InnomaticContainer::instance(
+                '\Innomatic\Core\InnomaticContainer'
             )->getConfig()->value(
                 'DesktopSessionLifetime'
             ) * 60;
@@ -68,14 +68,14 @@ class DesktopSession implements WebAppSession
         }
         ini_set('session.gc_maxlifetime', $lifetime);
         ini_set('session.cookie_lifetime', $lifetime);
-                
+
         if (
-            InnomaticContainer::instance('innomaticcontainer')->getState()
-            != InnomaticContainer::STATE_SETUP
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState()
+            != \Innomatic\Core\InnomaticContainer::STATE_SETUP
         ) {
             ini_set(
                 'session.save_path',
-                InnomaticContainer::instance('innomaticcontainer')->getHome()
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                 . 'core/temp/phpsessions/'
             );
         }

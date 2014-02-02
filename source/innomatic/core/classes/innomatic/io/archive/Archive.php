@@ -1,19 +1,21 @@
-<?php 
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Io\Archive;
 
-class Archive {
+class Archive
+{
     /*! @var mFile string - Full path of archive file. */
     protected $mFile;
     /*! @var mFormat string - Archive format. */
@@ -24,28 +26,30 @@ class Archive {
 
     /*!
      @function Archive
-    
+
      @abstract Class constructor.
-    
+
      @param arcFile string - Full path of archive file.
      @param arcFormat string - Archive format.
      */
-    public function __construct($arcFile, $arcFormat) {
+    public function __construct($arcFile, $arcFormat)
+    {
         $this->mFile = $arcFile;
         $this->mFormat = $arcFormat;
     }
 
     /*!
      @function Extract
-    
+
      @abstract Extracts the archive.
-    
+
      @param destinationDir string - Full path of the destination dir for the extracted files.
-    
-     @result TRUE if the archive has been successfully extracted.
+
+     @result true if the archive has been successfully extracted.
      */
-    public function Extract($destinationDir) {
-        $result = FALSE;
+    public function Extract($destinationDir)
+    {
+        $result = false;
 
         if (file_exists($destinationDir)) {
             $old_dir = getcwd();
@@ -54,9 +58,8 @@ class Archive {
                 switch ($this->mFormat) {
                     case self::FORMAT_TAR :
                     case self::FORMAT_TGZ :
-                        $result = TRUE;
-                        require_once('innomatic/io/archive/archivers/Tar.php');
-                        $tar = new tar();
+                        $result = true;
+                        $tar = new \Innomatic\Io\Archive\Archivers\Tar();
                         if ($tar->openTar($this->mFile)) {
                             if ($tar->numDirectories > 0) {
                                 foreach ($tar->directories as $id => $information) {
@@ -79,7 +82,7 @@ class Archive {
                                             $mode = substr($information['mode'], -5);
                                             @chmod($information['name'], octdec($mode));
                                         } else
-                                            $result = FALSE;
+                                            $result = false;
                                     }
                                 }
                             }
@@ -89,8 +92,7 @@ class Archive {
 
                     case self::FORMAT_ZIP :
                         $result = true;
-                        require_once('innomatic/io/archive/archivers/PclZip.php');
-                        $zip = new PclZip($this->mFile);
+                        $zip = new \Innomatic\Io\Archive\Archivers\PclZip($this->mFile);
                         $list = $zip->extract(PCLZIP_OPT_PATH, $destinationDir);
                         break;
                 }

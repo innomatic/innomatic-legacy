@@ -1,16 +1,15 @@
-<?php    
-
-require_once('innomatic/dataaccess/DataAccessObject.php');
-require_once('innomatic/module/ModuleValueObject.php');
+<?php
+namespace Innomatic\Module\Persist;
 
 /**
  * DAO pattern based class for accessing persistence storage.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-class ModuleAccessObject extends DataAccessObject {
+class ModuleAccessObject extends \Innomatic\Dataaccess\DataAccessObject
+{
     /**
      * Value object.
      *
@@ -18,15 +17,15 @@ class ModuleAccessObject extends DataAccessObject {
      * @access protected
      * @since 5.1
      */
-	protected $valueObject;
+    protected $valueObject;
     /**
      * Module configuration.
      *
      * @var ModuleConfig
      * @access protected
      * @since 5.1
-     */     
-	protected $config;
+     */
+    protected $config;
 
     /**
      * Sets Module configuration object.
@@ -36,9 +35,10 @@ class ModuleAccessObject extends DataAccessObject {
      * @return void
      * @since 5.1
      */
-	public function setConfig(ModuleConfig $config) {
-		$this->config = $config;
-	}
+    public function setConfig(ModuleConfig $config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * Sets Module value object.
@@ -47,10 +47,11 @@ class ModuleAccessObject extends DataAccessObject {
      * @param ModuleValueObject $valueObject Module value object.
      * @return void
      * @since 5.1
-     */     
-	public function setValueObject(ModuleValueObject $valueObject) {
-		$this->valueObject = $valueObject;
-	}
+     */
+    public function setValueObject(\Innomatic\Module\ModuleValueObject $valueObject)
+    {
+        $this->valueObject = $valueObject;
+    }
 
     /**
      * Retrieves a stored value object from the data access and sets it
@@ -61,24 +62,23 @@ class ModuleAccessObject extends DataAccessObject {
      * @return void
      * @since 5.1
      */
-	public function get($id) {
-		$dar = $this->retrieve('SELECT * FROM '.$this->config->getTable().' WHERE '.$this->config->getIdField()."='".$id."'");
+    public function get($id)
+    {
+        $dar = $this->retrieve('SELECT * FROM '.$this->config->getTable().' WHERE '.$this->config->getIdField()."='".$id."'");
 
-		if (!$dar instanceof DataAccessResult) {
-			require_once('innomatic/module/ModuleException.php');
-			throw new ModuleException('Unable to retrieve value object for object with id '.$id);
-		}
+        if (!$dar instanceof \Innomatic\Dataaccess\DataAccessResult) {
+            throw new \Innomatic\Module\ModuleException('Unable to retrieve value object for object with id '.$id);
+        }
 
-		if (!$dar->getNumberRows()) {
-			require_once('innomatic/module/ModuleException.php');
-			throw new ModuleException('No object with '.$id.' exists');
-		}
+        if (!$dar->getNumberRows()) {
+            throw new \Innomatic\Module\ModuleException('No object with '.$id.' exists');
+        }
 
-		$row = $dar->getFields();
-		foreach ($row as $key => $value) {
-			$this->valueObject->setValue($key, $value);
-		}
-	}
+        $row = $dar->getFields();
+        foreach ($row as $key => $value) {
+            $this->valueObject->setValue($key, $value);
+        }
+    }
 
     /**
      * Inserts an object value in the storage.
@@ -87,25 +87,26 @@ class ModuleAccessObject extends DataAccessObject {
      * @return void
      * @since 5.1
      */
-	public function insert() {
-		$fields = array();
-		$values = array();
+    public function insert()
+    {
+        $fields = array();
+        $values = array();
 
-		$sequence_value = $this->_dataAccess->getNextSequenceValue($this->config->getTable().'_'.$this->config->getIdField().'_seq');		
-		$this->valueObject->setValue($this->config->getIdField(), $sequence_value);
-		
-		$obj = new ReflectionObject($this->valueObject);
-		$properties = $obj->getProperties();
-		foreach ($properties as $property) {
-			$name = $property->getName();
-			$fields[] = $name;
-			// TODO !!! escape
-			$values[] = "'".$this->valueObject->getValue($name)."'";
-		}
+        $sequence_value = $this->_dataAccess->getNextSequenceValue($this->config->getTable().'_'.$this->config->getIdField().'_seq');
+        $this->valueObject->setValue($this->config->getIdField(), $sequence_value);
 
-		$sql = 'INSERT INTO '.$this->config->getTable().' ('.implode(',', $fields).') VALUES ('.implode(',', $values).')';
-		$dar = $this->update($sql);
-	}
+        $obj = new \ReflectionObject($this->valueObject);
+        $properties = $obj->getProperties();
+        foreach ($properties as $property) {
+            $name = $property->getName();
+            $fields[] = $name;
+            // TODO !!! escape
+            $values[] = "'".$this->valueObject->getValue($name)."'";
+        }
+
+        $sql = 'INSERT INTO '.$this->config->getTable().' ('.implode(',', $fields).') VALUES ('.implode(',', $values).')';
+        $dar = $this->update($sql);
+    }
 
     /**
      * Updates the stored value object.
@@ -114,26 +115,27 @@ class ModuleAccessObject extends DataAccessObject {
      * @return void
      * @since 5.1
      */
-	public function refresh() {
-		if (!$this->valueObject->getValue($this->config->getIdField())) {
-			return;
-		}
+    public function refresh()
+    {
+        if (!$this->valueObject->getValue($this->config->getIdField())) {
+            return;
+        }
 
-		$fields = array();
-		$obj = new ReflectionObject($this->valueObject);
-		$properties = $obj->getProperties();
-		foreach ($properties as $property) {
-			$name = $property->getName();
-			if ($name == $this->config->getIdField()) {
-				continue;
-			}
-			// TODO !!! escape
-			$fields[] = $name."='".$this->valueObject->getValue($name)."'";
-		}
+        $fields = array();
+        $obj = new \ReflectionObject($this->valueObject);
+        $properties = $obj->getProperties();
+        foreach ($properties as $property) {
+            $name = $property->getName();
+            if ($name == $this->config->getIdField()) {
+                continue;
+            }
+            // TODO !!! escape
+            $fields[] = $name."='".$this->valueObject->getValue($name)."'";
+        }
 
-		$sql = 'UPDATE '.$this->config->getTable().' SET '.implode(',', $fields).' WHERE '.$this->config->getIdField()."='".$this->valueObject->getValue($this->config->getIdField())."'";
-		$dar = $this->update($sql);
-	}
+        $sql = 'UPDATE '.$this->config->getTable().' SET '.implode(',', $fields).' WHERE '.$this->config->getIdField()."='".$this->valueObject->getValue($this->config->getIdField())."'";
+        $dar = $this->update($sql);
+    }
 
     /**
      * Removes the value object from the storage.
@@ -142,13 +144,12 @@ class ModuleAccessObject extends DataAccessObject {
      * @return void
      * @since 5.1
      */
-	public function delete($id = false) {
-		$id = $id != false ? $id : $this->valueObject->getValue($this->config->getIdField());
-		if (!$id) {
-			return;
-		}
-		$dar = $this->update('DELETE FROM '.$this->config->getTable().' WHERE '.$this->config->getIdField().'='.$id);
-	}
+    public function delete($id = false)
+    {
+        $id = $id != false ? $id : $this->valueObject->getValue($this->config->getIdField());
+        if (!$id) {
+            return;
+        }
+        $dar = $this->update('DELETE FROM '.$this->config->getTable().' WHERE '.$this->config->getIdField().'='.$id);
+    }
 }
-
-?>

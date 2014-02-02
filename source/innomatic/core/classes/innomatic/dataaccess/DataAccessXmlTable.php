@@ -2,52 +2,51 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/xml/XMLParser.php');
+namespace Innomatic\Dataaccess;
 
 /*!
 @class DataAccessXmlTable
 
 @abstract Xml DataAccess class provides parsing of XSQL xml files.
 */
-class DataAccessXmlTable extends XMLParser
+class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
 {
     /*! @var mLog log handler */
-    var $mLog;
+    public $mLog;
     /*! @var deffile definition file to parse */
-    var $deffile;
-    var $mData;
-    var $sql = array();
-    var $temp_sql;
-    var $mFields = array();
-    var $mFieldsList = array();
-    var $mTableStructure = array();
-    var $insfields = array();
-    var $values = array();
-    var $table_options;
-    var $db;
-    var $mAction;
+    public $deffile;
+    public $mData;
+    public $sql = array();
+    public $temp_sql;
+    public $mFields = array();
+    public $mFieldsList = array();
+    public $mTableStructure = array();
+    public $insfields = array();
+    public $values = array();
+    public $table_options;
+    public $db;
+    public $mAction;
     const SQL_CREATE = 1;
     const SQL_DROP = 2;
     const SQL_UPDATE_OLD = 3;
     const SQL_UPDATE_NEW = 4;
-    
+
     /*!
      @function __construct
 
      @abstract Class constructor.
      */
-    function __construct( DataAccess $db, $act )
+    public function __construct(\Innomatic\Dataaccess\DataAccess $db, $act)
     {
         parent::__construct();
         $this->mAction = $act;
@@ -55,13 +54,12 @@ class DataAccessXmlTable extends XMLParser
     }
 
 
-    function load_deffile( $deffile )
+    public function load_deffile($deffile)
     {
         $result = false;
         $this->deffile = $deffile;
         $content = file_get_contents( $this->deffile );
-        if ( $content )
-        {
+        if ( $content ) {
             $this->get_data( $content );
             $result = true;
         }
@@ -69,18 +67,16 @@ class DataAccessXmlTable extends XMLParser
         return $result;
     }
 
-    function get_data( $data )
+    public function get_data($data)
     {
         $this->mData = $data;
     }
 
-    public function doTagOpen( $tag, $attrs )
+    public function doTagOpen($tag, $attrs)
     {
-        switch ( $tag )
-        {
+        switch ( $tag ) {
         case 'TABLE':
-            switch ( $this->mAction )
-            {
+            switch ( $this->mAction ) {
             case DataAccessXmlTable::SQL_CREATE:
                 if ( isset($attrs['TEMPORARY']   ) and $attrs['TEMPORARY']   == 1  ) $temporary = 'TEMPORARY '; else $temporary = '';
                 if ( isset($attrs['IFNOTEXISTS'] ) and $attrs['IFNOTEXISTS'] == 1  ) $ifnotexists = 'IF NOT EXISTS '; else $ifnotexists = '';
@@ -99,8 +95,7 @@ class DataAccessXmlTable extends XMLParser
             break;
 
         case 'FIELD':
-            switch ( $this->mAction )
-            {
+            switch ( $this->mAction ) {
             case DataAccessXmlTable::SQL_CREATE:
             case DataAccessXmlTable::SQL_DROP:
             case DataAccessXmlTable::SQL_UPDATE_NEW:
@@ -122,8 +117,7 @@ class DataAccessXmlTable extends XMLParser
             break;
 
         case 'KEY':
-            switch ( $this->mAction )
-            {
+            switch ( $this->mAction ) {
             case DataAccessXmlTable::SQL_CREATE:
             case DataAccessXmlTable::SQL_DROP:
                 if ( isset($attrs['TYPE'] ) and $attrs['TYPE'] == 'primary' ) $this->mFields[] = 'PRIMARY KEY ('.$attrs['FIELD'].')';
@@ -138,8 +132,7 @@ class DataAccessXmlTable extends XMLParser
             break;
 
         case 'SEQUENCE':
-            switch ( $this->mAction )
-            {
+            switch ( $this->mAction ) {
             case DataAccessXmlTable::SQL_CREATE:
             case DataAccessXmlTable::SQL_DROP:
                 $attrs['name']  = $attrs['NAME'];
@@ -155,8 +148,7 @@ class DataAccessXmlTable extends XMLParser
             break;
 
         case 'INSERT':
-            switch ( $this->mAction )
-            {
+            switch ( $this->mAction ) {
             case DataAccessXmlTable::SQL_CREATE:
                 $this->temp_sql = 'INSERT INTO '.$attrs['TABLE'].' ';
                 break;
@@ -175,13 +167,11 @@ class DataAccessXmlTable extends XMLParser
         }
     }
 
-    public function doTagClose( $tag )
+    public function doTagClose($tag)
     {
-        switch ( $tag )
-        {
+        switch ( $tag ) {
         case 'TABLE':
-            switch ( $this->mAction )
-            {
+            switch ( $this->mAction ) {
             case DataAccessXmlTable::SQL_CREATE:
                 $this->sql[] = $this->temp_sql.implode( ', ', $this->mFields ).' )'.$this->table_options.' CHARACTER SET utf8 COLLATE utf8_general_ci;';
                 $this->temp_sql = '';
@@ -196,8 +186,7 @@ class DataAccessXmlTable extends XMLParser
             break;
 
         case 'INSERT':
-            switch ( $this->mAction )
-            {
+            switch ( $this->mAction ) {
             case DataAccessXmlTable::SQL_CREATE:
                 $this->sql[] = $this->temp_sql.' ( '.implode( ', ', $this->insfields ).' ) VALUES ( ';
                 $this->sql[] = implode( ', ', $this->values ).' );';
@@ -213,11 +202,13 @@ class DataAccessXmlTable extends XMLParser
             break;
         }
     }
-    
-    public function doCdata($data) {
+
+    public function doCdata($data)
+    {
     }
 
-    public function getSQL() {
+    public function getSQL()
+    {
         $ret = '';
         $this->parse( $this->mData );
 

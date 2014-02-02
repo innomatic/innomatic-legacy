@@ -2,18 +2,17 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/xml/XMLParser.php');
+namespace Innomatic\Application;
 
 /*!
  @class ApplicationStructureDefinition
@@ -22,7 +21,7 @@ require_once('innomatic/xml/XMLParser.php');
 
  @discussion This class reads a xml definition file and gives the application components structure.
  */
-class ApplicationStructureDefinition extends XMLParser
+class ApplicationStructureDefinition extends \Innomatic\Xml\XMLParser
 {
     /*! @public mLog logger class - Log handler. */
     public $mLog;
@@ -41,16 +40,15 @@ class ApplicationStructureDefinition extends XMLParser
 
     /*!
      @function ApplicationStructureDefinition
-    
+
      @abstract Class constructor.
-    
+
      @param rootda DataAccess class - Innomatic database handler.
      @param basedir string - Application base directory.
      */
     public function __construct($rootda, $basedir = '')
     {
-        $this->mLog = InnomaticContainer::instance('innomaticcontainer')->getLogger();
-        require_once('innomatic/application/ApplicationComponentFactory.php');
+        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
         $this->eltypes = new ApplicationComponentFactory($rootda);
         $this->eltypes->fillTypes();
         parent::__construct();
@@ -74,7 +72,7 @@ class ApplicationStructureDefinition extends XMLParser
      @abstract Reads the structure file.
      @param deffile string - Full path of the definition file.
      */
-    function load_deffile($deffile)
+    public function load_deffile($deffile)
     {
         $this->deffile = $deffile;
         $this->get_data(file_get_contents($this->deffile));
@@ -85,7 +83,7 @@ class ApplicationStructureDefinition extends XMLParser
      @abstract Returns the definition file content.
      @param data string - file path.
      */
-    function get_data($data)
+    public function get_data($data)
     {
         $this->data = $data;
     }

@@ -2,35 +2,35 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Webapp;
 
-require_once('innomatic/webapp/WebAppRequest.php');
-require_once('innomatic/webapp/WebAppResponse.php');
-require_once('innomatic/webapp/WebApp.php');
-
-class WebAppProcessor {
+class WebAppProcessor
+{
     private $webapp;
     private $request;
     private $response;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->request = new WebAppRequest();
         $this->response = new WebAppResponse();
     }
-    
+
     /**
      * Runs the processor
      */
-    public function process(WebApp $wa) {
+    public function process(WebApp $wa)
+    {
         $this->webapp = $wa;
         // Builds request
         $this->parseRequest();
@@ -42,7 +42,7 @@ class WebAppProcessor {
             $this->response->startBuffer();
             try {
                 $handler->service($this->request, $this->response);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->response->sendError(WebAppResponse::SC_INTERNAL_SERVER_ERROR, get_class($e), $e);
             }
         }
@@ -60,16 +60,15 @@ class WebAppProcessor {
     /**
      * Reports errors
      */
-    public function report(WebAppRequest $req, WebAppResponse $res) {
-        require_once('innomatic/core/RootContainer.php');
-        $statusReportsTree = simplexml_load_file(RootContainer::instance('rootcontainer')->getHome().'innomatic/core/conf/webapp/statusreports.xml');
+    public function report(WebAppRequest $req, WebAppResponse $res)
+    {
+        $statusReportsTree = simplexml_load_file(\Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().'innomatic/core/conf/webapp/statusreports.xml');
         $statusReports = array();
         foreach($statusReportsTree->status as $status) {
             $statusReports[sprintf('%s', $status->statuscode)] = sprintf('%s', $status->statusreport);
         }
 
-        require_once('innomatic/php/PHPTemplate.php');
-        $tpl = new PHPTemplate(RootContainer::instance('rootcontainer')->getHome().'innomatic/core/conf/webapp/report.tpl.php');
+        $tpl = new \Innomatic\Php\PHPTemplate(\Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().'innomatic/core/conf/webapp/report.tpl.php');
         $tpl->set('status_code', $res->getStatus());
         $tpl->set('message', htmlspecialchars($res->getMessage()));
         $tpl->set('report', str_replace('{0}', $res->getMessage(), isset($statusReports[$res->getStatus()]) ? $statusReports[$res->getStatus()] : ''));
@@ -84,7 +83,8 @@ class WebAppProcessor {
     /**
      * Builds the webapp request
      */
-    private function parseRequest() {
+    private function parseRequest()
+    {
         // URL path part
         //TODO ipotizza che ci sia il receiver nella URL
         $url_path = substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
@@ -112,8 +112,7 @@ class WebAppProcessor {
         }
 
         $requestURI = $url_path.$path_info;
-        require_once('innomatic/io/filesystem/DirectoryUtils.php');
-        $normalizedURI = DirectoryUtils::normalize($requestURI);
+        $normalizedURI = \Innomatic\Io\Filesystem\DirectoryUtils::normalize($requestURI);
         if ($url_path != '/' && $url_path == $normalizedURI) {
             $normalizedURI .= '/';
         }
@@ -203,7 +202,8 @@ class WebAppProcessor {
     /**
      * Maps the request to the right webapp handler
      */
-    public function mapHandler(WebAppRequest $request) {
+    public function mapHandler(WebAppRequest $request)
+    {
         $url_path = $request->getUrlPath();
         // NOTE: the requestURI comes from the pathInfo that follows our fusebox file (index.php)
         // initially the pathInfo is null since we don't know what constitutes the extra information
@@ -315,26 +315,29 @@ class WebAppProcessor {
             $this->response->sendError(WebAppResponse::SC_INTERNAL_SERVER_ERROR, 'No handler found');
             return;
         }
-            
+
         // Loads Webapp Handler class
-        $classname = substr($fqclassname, strrpos($fqclassname, '/') + 1, -4);
-        if (!class_exists($classname)) {
+        $classname = str_replace('/', '\\', substr($fqclassname, 0, -4));
+
+        if (!class_exists($classname, true)) {
             $this->response->sendError(WebAppResponse::SC_INTERNAL_SERVER_ERROR, 'Malformed handler found');
             return;
         }
-        
+
         // Instantiate Webapp Handler
         $handler = new $classname();
         $handler->setInitParameters($this->webapp->getHandlerParameters($handlerName));
         $handler->init();
         return $handler;
     }
-    
-    public function getResponse() {
+
+    public function getResponse()
+    {
         return $this->response;
     }
-    
-    public function getRequest() {
+
+    public function getRequest()
+    {
         return $this->request;
     }
 }

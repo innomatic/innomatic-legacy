@@ -1,10 +1,7 @@
 <?php
 
-require_once('innomatic/modules/ModuleValueObject.php');
-
-class CarVO extends ModuleValueObject {
-	protected $manufacturer;
-	protected $model;
+class CarVO extends \Innomatic\Module\ModuleValueObject
+{
+    protected $manufacturer;
+    protected $model;
 }
-
-?>

@@ -2,21 +2,22 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiAlertFrame extends WuiContainerWidget
+class WuiAlertframe extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     /*! @public mAlign string - Frame alignment. */
     //public $mAlign;
@@ -30,7 +31,7 @@ class WuiAlertFrame extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget(
+        parent::__construct(
             $elemName,
             $elemArgs,
             $elemTheme,
@@ -57,7 +58,7 @@ class WuiAlertFrame extends WuiContainerWidget
             $this->mArgs['bgcolor'] = 'white';
         }
     }
-    protected function generateSourceBegin ()
+    protected function generateSourceBegin()
     {
         $block = ($this->mComments ? '<!-- begin ' . $this->mName . ' vertframe -->' : '');
         $block .= '<table border="0" height="100%" cellspacing="0" ' . ((isset($this->mArgs['width']) and strlen($this->mArgs['width'])) ? 'width="' . $this->mArgs['width'] . '" ' : '') . 'cellpadding="1"><tr><td' . ">\n";
@@ -66,7 +67,7 @@ class WuiAlertFrame extends WuiContainerWidget
         $block .= '<tr><td style="padding: 10px; text-align: center; border-bottom: 1px solid ' . $this->mThemeHandler->mColorsSet['alert']['border'] . '" bgcolor="' . $this->mThemeHandler->mColorsSet['alert']['bgcolor'] . '"><font color="' . $this->mThemeHandler->mColorsSet['alert']['text'] . '"><b>' . $this->mArgs['text'] . "</b></font></td></tr>\n";
         return $block;
     }
-    protected function generateSourceEnd ()
+    protected function generateSourceEnd()
     {
         $block = '<tr><td height="100%" bgcolor="white"></td></tr>' . "\n" . '</table>' . "\n";
         $block .= '</td></tr>' . "\n" . '</table>' . "\n";
@@ -74,11 +75,11 @@ class WuiAlertFrame extends WuiContainerWidget
         $block .= ($this->mComments ? '<!-- end ' . $this->mName . ' vertframe -->' . "\n" : '');
         return $block;
     }
-    protected function generateSourceBlockBegin ()
+    protected function generateSourceBlockBegin()
     {
         return '<tr><td' . ($this->mArgs['align'] ? ' align="' . $this->mArgs['align'] . '"' : '') . ((isset($this->mArgs['width']) and strlen($this->mArgs['width'])) ? ' width="' . $this->mArgs['width'] . '"' : '') . '>';
     }
-    protected function generateSourceBlockEnd ()
+    protected function generateSourceBlockEnd()
     {
         return '</td></tr>' . "\n";
     }

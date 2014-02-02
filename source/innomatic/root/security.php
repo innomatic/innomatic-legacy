@@ -2,12 +2,12 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
@@ -16,21 +16,16 @@
 // NOTE: This is an old-style panel code with a single file
 // acting as model, view and controller.
 
-require_once('innomatic/locale/LocaleCatalog.php');
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/wui/dispatch/WuiEventsCall.php');
-require_once('innomatic/security/SecurityManager.php');
-
     global $gLocale, $gPageStatus, $alertText;
     global $gXmlDefinition, $gLocale, $gPageTitle;
-    
+
 $alertText = '';
 
-$gLocale = new LocaleCatalog(
+$gLocale = new \Innomatic\Locale\LocaleCatalog(
     'innomatic::root_security',
-    InnomaticContainer::instance('innomaticcontainer')->getLanguage()
+    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
 );
-$gWui = Wui::instance('wui');
+$gWui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $gWui->loadWidget('xml');
 $gWui->loadWidget('innomaticpage');
 $gWui->loadWidget('innomatictoolbar');
@@ -43,7 +38,7 @@ $gToolbars['main'] = array(
         'label' => $gLocale->getStr('check.toolbar'),
         'themeimage' => 'security',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString(
+        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -58,7 +53,7 @@ $gToolbars['main'] = array(
         'label' => $gLocale->getStr('settings.toolbar'),
         'themeimage' => 'gear',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString(
+        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -75,7 +70,7 @@ $gToolbars['password'] = array(
     'change_password' => array(
         'label' => $gLocale->getStr('chpasswd_button'),
         'themeimage' => 'key',
-        'horiz' => 'true', 'action' => WuiEventsCall::buildEventsCallString(
+        'horiz' => 'true', 'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -93,7 +88,7 @@ $gToolbars['help'] = array(
         'label' => $gLocale->getStr('help.toolbar'),
         'themeimage' => 'info',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString(
+        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
             '',
             array(
                 array(
@@ -115,7 +110,7 @@ function action_set_security_preset($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
 
     $innomaticSecurity->setPredefinedLevel($eventData['preset']);
 
@@ -127,7 +122,7 @@ function action_set_access_prefs($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
 
     $innomaticSecurity->setSessionLifetime($eventData['sessionlifetime']);
     $innomaticSecurity->setMaxWrongLogins($eventData['maxwronglogins']);
@@ -148,7 +143,7 @@ function action_set_alerts_prefs($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
 
     $alerts['wronglocalrootlogin'] = $eventData['wronglocalrootlogin'] == 'on' ? true : false;
     $alerts['wronglocaluserlogin'] = $eventData['wronglocaluserlogin'] == 'on' ? true : false;
@@ -168,7 +163,7 @@ function action_set_reports_prefs($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
 
     $innomaticSecurity->setReportsEmail($eventData['reportdestinationemail']);
     $innomaticSecurity->setReportsInterval($eventData['enablereports'] == 'on' ? $eventData['reportsinterval'] : '0');
@@ -181,7 +176,7 @@ function action_clean_access_log($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
 
     $innomaticSecurity->EraseAccessLog();
 
@@ -193,7 +188,7 @@ function action_logout_sessions($eventData)
 {
     global $gLocale, $gPageStatus;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
 
     foreach ($eventData['sessions'] as $id => $session) {
         $innomaticSecurity->LogoutSession($session);
@@ -208,22 +203,22 @@ function action_change_password($eventData)
     global $gPageStatus, $gLocale;
 
     if ($eventData['newpassworda'] == $eventData['newpasswordb']) {
-        $result = InnomaticContainer::setRootPassword($eventData['oldpassword'], $eventData['newpassworda']);
+        $result = \Innomatic\Core\InnomaticContainer::setRootPassword($eventData['oldpassword'], $eventData['newpassworda']);
 
         switch ($result) {
             case 1 :
                 $gPageStatus = $gLocale->getStr('passwordchanged_status');
                 break;
 
-            case InnomaticContainer::SETROOTPASSWORD_NEW_PASSWORD_IS_EMPTY :
+            case \Innomatic\Core\InnomaticContainer::SETROOTPASSWORD_NEW_PASSWORD_IS_EMPTY :
                 $gPageStatus = $gLocale->getStr('newpasswordisempty_status');
                 break;
 
-            case InnomaticContainer::SETROOTPASSWORD_UNABLE_TO_WRITE_NEW_PASSWORD :
+            case \Innomatic\Core\InnomaticContainer::SETROOTPASSWORD_UNABLE_TO_WRITE_NEW_PASSWORD :
                 $gPageStatus = $gLocale->getStr('unabletowritenewpassword_status');
                 break;
 
-            case InnomaticContainer::SETROOTPASSWORD_OLD_PASSWORD_IS_WRONG :
+            case \Innomatic\Core\InnomaticContainer::SETROOTPASSWORD_OLD_PASSWORD_IS_WRONG :
                 $gPageStatus = $gLocale->getStr('wrongoldpassword_status');
                 break;
         }
@@ -240,7 +235,7 @@ $gViewDispatcher = new WuiDispatcher('view');
 
 function default_tab_builder($tab)
 {
-    return WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('tab' => $tab))));
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('tab' => $tab))));
 }
 
 $gViewDispatcher->addEvent('default', 'main_default');
@@ -253,9 +248,9 @@ function main_default($eventData)
     $tabs[1]['label'] = $gLocale->getStr('loggedusers.tab');
     $tabs[2]['label'] = $gLocale->getStr('securitycheck.tab');
 
-    $innomaticSecurity = new SecurityManager();
-    $securityCheck = $innomaticSecurity->SecurityCheck();
-    
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
+    $securityCheck = $innomaticSecurity->securityCheck();
+
     if ($securityCheck['rootpasswordcheck'] == false
     or $securityCheck['rootdapasswordcheck'] == false
     or count($securityCheck['domainswithunsecuredbpassword'])
@@ -292,10 +287,10 @@ function main_default($eventData)
         <activetab>'. (isset($eventData['tab']) ? $eventData['tab'] : '').'</activetab>
       </args>
       <children>
-    
+
         <vertgroup><name></name>
           <children>
-    
+
             <table><name>accesslog</name>
               <args>
                 <headers type="array">'
@@ -303,7 +298,7 @@ function main_default($eventData)
                 .'</headers>
               </args>
               <children>
-    
+
                 <text row="0" col="0"><name>accesslog</name>
                   <args>
                     <readonly>true</readonly>
@@ -312,7 +307,7 @@ function main_default($eventData)
                     <rows>15</rows>
                   </args>
                 </text>
-                
+
                 <button row="1" col="0"><name>erase</name>
                   <args>
                     <themeimage>trash</themeimage>
@@ -321,7 +316,7 @@ function main_default($eventData)
                     <frame>false</frame>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -339,28 +334,28 @@ function main_default($eventData)
                     ).'</action>
                   </args>
                 </button>
-    
+
               </children>
             </table>
-    
+
           </children>
         </vertgroup>
-    
+
         <vertgroup>
           <children>
-    
+
             <label>
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('root_sessions.label')).'</label>
                 <bold>true</bold>
               </args>
             </label>
-    
+
             <form><name>rootsessions</name>
               <args>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -386,7 +381,7 @@ function main_default($eventData)
             </listbox>
               </children>
             </form>
-    
+
             <button>
               <args>
                 <horiz>true</horiz>
@@ -396,7 +391,7 @@ function main_default($eventData)
                 <formsubmit>rootsessions</formsubmit>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -419,12 +414,12 @@ function main_default($eventData)
                 <bold>true</bold>
               </args>
             </label>
-    
+
             <form><name>userssessions</name>
               <args>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -450,7 +445,7 @@ function main_default($eventData)
             </listbox>
               </children>
             </form>
-    
+
             <button>
               <args>
                 <horiz>true</horiz>
@@ -460,7 +455,7 @@ function main_default($eventData)
                 <formsubmit>userssessions</formsubmit>
                 <action type="encoded">'
                 .urlencode(
-                    WuiEventsCall::buildEventsCallString(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                         '',
                         array(
                             array(
@@ -479,20 +474,20 @@ function main_default($eventData)
 
     $gXmlDefinition.= '      </children>
         </vertgroup>
-    
+
         <vertgroup><name></name>
           <children>
-    
+
             <label><name>tabtitle</name>
               <args>
                 <label type="encoded">'.urlencode($gLocale->getStr('securitycheck.label')).'</label>
                 <bold>true</bold>
               </args>
             </label>
-    
+
                     <grid>
                       <children>
-    
+
                         <button row="0" col="0"><name>check</name>
                           <args>
                             <themeimage>'. (
@@ -501,13 +496,13 @@ function main_default($eventData)
                             <disabled>true</disabled>
                           </args>
                         </button>
-    
+
                         <label row="0" col="1"><name>check</name>
                           <args>
                             <label type="encoded">'.urlencode($gLocale->getStr('root_password_check.label')).'</label>
                           </args>
                         </label>
-    
+
                         <label row="0" col="2"><name>check</name>
                           <args>
                             <label type="encoded">'
@@ -519,7 +514,7 @@ function main_default($eventData)
                             ).'</label>
                           </args>
                         </label>
-    
+
                         <button row="1" col="0"><name>check</name>
                           <args>
                             <themeimage>'. (
@@ -528,13 +523,13 @@ function main_default($eventData)
                             <disabled>true</disabled>
                           </args>
                         </button>
-    
+
                         <label row="1" col="1"><name>check</name>
                           <args>
                             <label type="encoded">'.urlencode($gLocale->getStr('root_dbpassword_check.label')).'</label>
                           </args>
                         </label>
-    
+
                         <label row="1" col="2"><name>check</name>
                           <args>
                             <label type="encoded">'
@@ -546,7 +541,7 @@ function main_default($eventData)
                             ).'</label>
                           </args>
                         </label>
-    
+
                         <button row="2" col="0" halign="" valign="top"><name>check</name>
                           <args>
                             <themeimage>'
@@ -556,7 +551,7 @@ function main_default($eventData)
                             <disabled>true</disabled>
                           </args>
                         </button>
-    
+
                         <label row="2" col="1" halign="" valign="top"><name>check</name>
                           <args>
                             <label type="encoded">'
@@ -564,7 +559,7 @@ function main_default($eventData)
                             .'</label>
                           </args>
                         </label>
-    
+
                         <listbox row="2" col="2"><name>check</name>
                           <args>
                             <readonly>true</readonly>
@@ -574,7 +569,7 @@ function main_default($eventData)
                             <size>5</size>
                           </args>
                         </listbox>
-    
+
                         <button row="3" col="0" halign="" valign="top"><name>check</name>
                           <args>
                             <themeimage>'
@@ -585,13 +580,13 @@ function main_default($eventData)
                             <disabled>true</disabled>
                           </args>
                         </button>
-    
+
                         <label row="3" col="1" halign="" valign="top"><name>check</name>
                           <args>
                             <label type="encoded">'.urlencode($gLocale->getStr('local_accounts_check.label')).'</label>
                           </args>
                         </label>
-    
+
                         <listbox row="3" col="2"><name>check</name>
                           <args>
                             <readonly>true</readonly>
@@ -601,7 +596,7 @@ function main_default($eventData)
                             <size>5</size>
                           </args>
                         </listbox>
-    
+
                         <button row="4" col="0" halign="" valign="top"><name>check</name>
                           <args>
                             <themeimage>'
@@ -612,7 +607,7 @@ function main_default($eventData)
                             <disabled>true</disabled>
                           </args>
                         </button>
-    
+
                         <label row="4" col="1" halign="" valign="top"><name>check</name>
                           <args>
                             <label type="encoded">'
@@ -620,7 +615,7 @@ function main_default($eventData)
                             .'</label>
                           </args>
                         </label>
-    
+
                         <listbox row="4" col="2"><name>check</name>
                           <args>
                             <readonly>true</readonly>
@@ -630,7 +625,7 @@ function main_default($eventData)
                             <size>5</size>
                           </args>
                         </listbox>
-    
+
                         <button row="5" col="0" halign="" valign="top"><name>check</name>
                           <args>
                             <themeimage>'
@@ -641,7 +636,7 @@ function main_default($eventData)
                             <disabled>true</disabled>
                           </args>
                         </button>
-    
+
                         <label row="5" col="1" halign="" valign="top"><name>check</name>
                           <args>
                             <label type="encoded">'
@@ -649,7 +644,7 @@ function main_default($eventData)
                             .'</label>
                           </args>
                         </label>
-    
+
                         <listbox row="5" col="2"><name>check</name>
                           <args>
                             <readonly>true</readonly>
@@ -659,13 +654,13 @@ function main_default($eventData)
                             <size>5</size>
                           </args>
                         </listbox>
-    
+
                       </children>
                     </grid>
-    
+
           </children>
         </vertgroup>
-    
+
       </children>
     </tab>';
 
@@ -674,7 +669,7 @@ function main_default($eventData)
 
 function settings_tab_builder($tab)
 {
-    return WuiEventsCall::buildEventsCallString('', array(array('view', 'settings', array('tab' => $tab))));
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array('view', 'settings', array('tab' => $tab))));
 }
 
 $gViewDispatcher->addEvent('settings', 'main_settings');
@@ -682,7 +677,7 @@ function main_settings($eventData)
 {
     global $gXmlDefinition, $gLocale, $gPageTitle;
 
-    $innomaticSecurity = new SecurityManager();
+    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
     $sessionLifeTime = $innomaticSecurity->getSessionLifetime();
     $maxWrongLogins = $innomaticSecurity->getMaxWrongLogins();
     $wrongLoginDelay = $innomaticSecurity->getWrongLoginDelay();
@@ -717,10 +712,10 @@ function main_settings($eventData)
         <activetab>'. (isset($eventData['tab']) ? $eventData['tab'] : '').'</activetab>
       </args>
       <children>
-    
+
         <vertgroup><name></name>
           <children>
-    
+
             <table><name>presets</name>
               <args>
                 <headers type="array">'
@@ -734,7 +729,7 @@ function main_settings($eventData)
                 .'</headers>
               </args>
               <children>
-    
+
               <button row="0" col="0"><name>preset</name>
                 <args>
                     <themeimage>unlock</themeimage>
@@ -743,7 +738,7 @@ function main_settings($eventData)
                     <frame>false</frame>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -764,14 +759,14 @@ function main_settings($eventData)
                     .'</action>
                 </args>
               </button>
-    
+
               <label row="0" col="1"><name>details</name>
                 <args>
                   <label type="encoded">'.urlencode($gLocale->getStr('level_low.text')).'</label>
                   <nowrap>false</nowrap>
                 </args>
               </label>
-    
+
               <button row="1" col="0"><name>preset</name>
                 <args>
                     <themeimage>lock</themeimage>
@@ -780,7 +775,7 @@ function main_settings($eventData)
                     <frame>false</frame>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -801,14 +796,14 @@ function main_settings($eventData)
                     .'</action>
                 </args>
               </button>
-    
+
               <label row="1" col="1"><name>details</name>
                 <args>
                   <label type="encoded">'.urlencode($gLocale->getStr('level_normal.text')).'</label>
                   <nowrap>false</nowrap>
                 </args>
               </label>
-    
+
               <button row="2" col="0"><name>preset</name>
                 <args>
                     <themeimage>lock</themeimage>
@@ -817,7 +812,7 @@ function main_settings($eventData)
                     <frame>false</frame>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -838,14 +833,14 @@ function main_settings($eventData)
                     .'</action>
                 </args>
               </button>
-    
+
               <label row="2" col="1"><name>details</name>
                 <args>
                   <label type="encoded">'.urlencode($gLocale->getStr('level_high.text')).'</label>
                   <nowrap>false</nowrap>
                 </args>
               </label>
-    
+
               <button row="3" col="0"><name>preset</name>
                 <args>
                     <themeimage>lock</themeimage>
@@ -854,7 +849,7 @@ function main_settings($eventData)
                     <frame>false</frame>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -875,23 +870,23 @@ function main_settings($eventData)
                     .'</action>
                 </args>
               </button>
-    
+
               <label row="3" col="1"><name>details</name>
                 <args>
                   <label type="encoded">'.urlencode($gLocale->getStr('level_paranoid.text')).'</label>
                   <nowrap>false</nowrap>
                 </args>
               </label>
-    
+
               </children>
             </table>
-    
+
           </children>
         </vertgroup>
-    
+
         <vertgroup><name></name>
           <children>
-    
+
             <table><name>access</name>
               <args>
                 <headers type="array">'
@@ -899,13 +894,13 @@ function main_settings($eventData)
                 .'</headers>
               </args>
               <children>
-    
+
                 <form row="0" col="0"><name>access</name>
                   <args>
                     <method>post</method>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -926,13 +921,13 @@ function main_settings($eventData)
                   <children>
                     <grid>
                       <children>
-    
+
                         <label row="0" col="0"><name>sessionlifetime</name>
                           <args>
                             <label type="encoded">'.urlencode($gLocale->getStr('session_lifetime.label')).'</label>
                           </args>
                         </label>
-    
+
                         <string row="0" col="1"><name>sessionlifetime</name>
                           <args>
                             <value>'.$sessionLifeTime.'</value>
@@ -940,13 +935,13 @@ function main_settings($eventData)
                             <size>10</size>
                           </args>
                         </string>
-    
+
                         <label row="1" col="0"><name>maxwronglogins</name>
                           <args>
                             <label type="encoded">'.urlencode($gLocale->getStr('max_wrong_logins.label')).'</label>
                           </args>
                         </label>
-    
+
                         <string row="1" col="1"><name>maxwronglogins</name>
                           <args>
                             <value>'.$maxWrongLogins.'</value>
@@ -954,13 +949,13 @@ function main_settings($eventData)
                             <size>4</size>
                           </args>
                         </string>
-    
+
                         <label row="2" col="0"><name>wronglogindelay</name>
                           <args>
                             <label type="encoded">'.urlencode($gLocale->getStr('wrong_login_delay.label')).'</label>
                           </args>
                         </label>
-    
+
                         <string row="2" col="1"><name>wronglogindelay</name>
                           <args>
                             <value>'.$wrongLoginDelay.'</value>
@@ -968,7 +963,7 @@ function main_settings($eventData)
                             <size>3</size>
                           </args>
                         </string>
-    
+
                         <label row="3" col="0"><name>lockunsecurewebservices</name>
                           <args>
                             <label type="encoded">'
@@ -976,45 +971,45 @@ function main_settings($eventData)
                             .'</label>
                           </args>
                         </label>
-    
+
                         <checkbox row="3" col="1"><name>lockunsecurewebservices</name>
                           <args>
                             <checked>'. ($lockUnsecureWebservices ? 'true' : 'false').'</checked>
                             <disp>action</disp>
                           </args>
                         </checkbox>
-    
+
                         <label row="4" col="0"><name>onlyhttpsroot</name>
                           <args>
                             <label type="encoded">'.urlencode($gLocale->getStr('only_https_root.label')).'</label>
                           </args>
                         </label>
-    
+
                         <checkbox row="4" col="1"><name>onlyhttpsroot</name>
                           <args>
                             <checked>'. ($onlyHttpsRoot ? 'true' : 'false').'</checked>
                             <disp>action</disp>
                           </args>
                         </checkbox>
-    
+
                         <label row="5" col="0"><name>onlyhttpsdomain</name>
                           <args>
                             <label type="encoded">'.urlencode($gLocale->getStr('only_https_domain.label')).'</label>
                           </args>
                         </label>
-    
+
                         <checkbox row="5" col="1"><name>onlyhttpsdomain</name>
                           <args>
                             <checked>'. ($onlyHttpsDomain ? 'true' : 'false').'</checked>
                             <disp>action</disp>
                           </args>
                         </checkbox>
-    
+
                       </children>
                     </grid>
                   </children>
                 </form>
-    
+
                 <button row="1" col="0"><name>apply</name>
                   <args>
                     <horiz>true</horiz>
@@ -1024,7 +1019,7 @@ function main_settings($eventData)
                     <formsubmit>access</formsubmit>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1045,13 +1040,13 @@ function main_settings($eventData)
                 </button>
               </children>
             </table>
-    
+
           </children>
         </vertgroup>
-    
+
         <vertgroup><name></name>
           <children>
-    
+
             <table><name>alerts</name>
               <args>
                 <headers type="array">'
@@ -1059,13 +1054,13 @@ function main_settings($eventData)
                 .'</headers>
               </args>
               <children>
-    
+
                 <form row="0" col="0"><name>alerts</name>
                   <args>
                     <method>post</method>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1086,14 +1081,14 @@ function main_settings($eventData)
                   <children>
                     <grid>
                       <children>
-    
+
                         <label row="0" col="0"><name>alertonevents</name>
                           <args>
                             <bold>true</bold>
                             <label type="encoded">'.urlencode($gLocale->getStr('alert_on_events.label')).'</label>
                           </args>
                         </label>
-    
+
                         <label row="1" col="0"><name>wronglocalrootlogin</name>
                           <args>
                             <label type="encoded">'
@@ -1101,14 +1096,14 @@ function main_settings($eventData)
                             .'</label>
                           </args>
                         </label>
-    
+
                         <checkbox row="1" col="1"><name>wronglocalrootlogin</name>
                           <args>
                             <checked>'.$wrongLocalRootLogin.'</checked>
                             <disp>action</disp>
                           </args>
                         </checkbox>
-    
+
                         <label row="2" col="0"><name>wronglocaluserlogin</name>
                           <args>
                             <label type="encoded">'
@@ -1116,14 +1111,14 @@ function main_settings($eventData)
                             .'</label>
                           </args>
                         </label>
-    
+
                         <checkbox row="2" col="1"><name>wronglocaluserlogin</name>
                           <args>
                             <checked>'.$wrongLocalUserLogin.'</checked>
                             <disp>action</disp>
                           </args>
                         </checkbox>
-    
+
                         <label row="3" col="0"><name>wrongwebserviceslogin</name>
                           <args>
                             <label type="encoded">'
@@ -1131,27 +1126,27 @@ function main_settings($eventData)
                             .'</label>
                           </args>
                         </label>
-    
+
                         <checkbox row="3" col="1"><name>wrongwebserviceslogin</name>
                           <args>
                             <checked>'.$wrongWebservicesLogin.'</checked>
                             <disp>action</disp>
                           </args>
                         </checkbox>
-    
+
                         <label row="4" col="0"><name>applicationoperation</name>
                           <args>
                             <label type="encoded">'.urlencode($gLocale->getStr('application_operation.label')).'</label>
                           </args>
                         </label>
-    
+
                         <checkbox row="4" col="1"><name>applicationoperation</name>
                           <args>
                             <checked>'.$applicationOperation.'</checked>
                             <disp>action</disp>
                           </args>
                         </checkbox>
-    
+
                         <label row="5" col="0"><name>domainapplicationoperation</name>
                           <args>
                             <label type="encoded">'
@@ -1159,27 +1154,27 @@ function main_settings($eventData)
                             .'</label>
                           </args>
                         </label>
-    
+
                         <checkbox row="5" col="1"><name>domainapplicationoperation</name>
                           <args>
                             <checked>'.$domainApplicationOperation.'</checked>
                             <disp>action</disp>
                           </args>
                         </checkbox>
-    
+
                         <label row="6" col="0"><name>domainoperation</name>
                           <args>
                             <label type="encoded">'.urlencode($gLocale->getStr('domain_operation.label')).'</label>
                           </args>
                         </label>
-    
+
                         <checkbox row="6" col="1"><name>domainoperation</name>
                           <args>
                             <checked>'.$domainOperation.'</checked>
                             <disp>action</disp>
                           </args>
                         </checkbox>
-    
+
                         <label row="7" col="0"><name>alertdestinationemail</name>
                           <args>
                             <label type="encoded">'
@@ -1187,7 +1182,7 @@ function main_settings($eventData)
                             .'</label>
                           </args>
                         </label>
-    
+
                         <string row="7" col="1"><name>alertdestinationemail</name>
                           <args>
                             <value type="encoded">'.urlencode($alertDestinationEmail).'</value>
@@ -1195,12 +1190,12 @@ function main_settings($eventData)
                             <size>25</size>
                           </args>
                         </string>
-    
+
                       </children>
                     </grid>
                   </children>
                 </form>
-    
+
                 <button row="1" col="0"><name>apply</name>
                   <args>
                     <horiz>true</horiz>
@@ -1210,7 +1205,7 @@ function main_settings($eventData)
                     <formsubmit>alerts</formsubmit>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1230,13 +1225,13 @@ function main_settings($eventData)
                 </button>
               </children>
             </table>
-    
+
           </children>
         </vertgroup>
-    
+
         <vertgroup><name></name>
           <children>
-    
+
             <table><name>alerts</name>
               <args>
                 <headers type="array">'
@@ -1244,13 +1239,13 @@ function main_settings($eventData)
                 .'</headers>
               </args>
               <children>
-    
+
                 <form row="0" col="0"><name>alerts</name>
                   <args>
                     <method>post</method>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1271,26 +1266,26 @@ function main_settings($eventData)
                   <children>
                     <grid>
                       <children>
-    
+
                         <label row="0" col="0"><name>enablereports</name>
                           <args>
                             <label type="encoded">'.urlencode($gLocale->getStr('enable_reports.label')).'</label>
                           </args>
                         </label>
-    
+
                         <checkbox row="0" col="1"><name>enablereports</name>
                           <args>
                             <checked>'.$reportsEnabled.'</checked>
                             <disp>action</disp>
                           </args>
                         </checkbox>
-    
+
                         <label row="1" col="0"><name>reportsinterval</name>
                           <args>
                             <label type="encoded">'.urlencode($gLocale->getStr('reports_interval.label')).'</label>
                           </args>
                         </label>
-    
+
                         <string row="1" col="1"><name>reportsinterval</name>
                           <args>
                             <value>'.$reportsInterval.'</value>
@@ -1298,7 +1293,7 @@ function main_settings($eventData)
                             <size>3</size>
                           </args>
                         </string>
-    
+
                         <label row="2" col="0"><name>reportdestinationemail</name>
                           <args>
                             <label type="encoded">'
@@ -1306,7 +1301,7 @@ function main_settings($eventData)
                             .'</label>
                           </args>
                         </label>
-    
+
                         <string row="2" col="1"><name>reportdestinationemail</name>
                           <args>
                             <value type="encoded">'.urlencode($reportDestinationEmail).'</value>
@@ -1314,12 +1309,12 @@ function main_settings($eventData)
                             <size>25</size>
                           </args>
                         </string>
-    
+
                       </children>
                     </grid>
                   </children>
                 </form>
-    
+
                 <button row="1" col="0"><name>apply</name>
                   <args>
                     <horiz>true</horiz>
@@ -1329,7 +1324,7 @@ function main_settings($eventData)
                     <formsubmit>alerts</formsubmit>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1349,10 +1344,10 @@ function main_settings($eventData)
                 </button>
               </children>
             </table>
-    
+
           </children>
         </vertgroup>
-    
+
       </children>
     </tab>';
 
@@ -1378,7 +1373,7 @@ function main_change_password($eventData)
                     <method>post</method>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1456,7 +1451,7 @@ function main_change_password($eventData)
                     <formsubmit>password</formsubmit>
                     <action type="encoded">'
                     .urlencode(
-                        WuiEventsCall::buildEventsCallString(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                             '',
                             array(
                                 array(
@@ -1477,7 +1472,7 @@ function main_change_password($eventData)
                 </button>
     </children>
     </table>';
-    
+
     $gPageTitle .= ' - '.$gLocale->getStr('password_title');
 }
 
@@ -1490,9 +1485,6 @@ $gWui->addChild(
         'page',
         array(
             'pagetitle' => $gPageTitle,
-            'menu' => InnomaticContainer::getRootWuiMenuDefinition(
-                InnomaticContainer::instance('innomaticcontainer')->getLanguage()
-            ),
             'alerttext' => $alertText,
             'toolbars' => array(
                 new WuiInnomaticToolbar(

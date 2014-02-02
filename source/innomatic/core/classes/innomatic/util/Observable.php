@@ -1,19 +1,18 @@
-<?php 
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/util/Observer.php');
+namespace Innomatic\Util;
 
 /**
  * Questa classe rappresenta un oggetto osservabile.
@@ -22,7 +21,7 @@ require_once('innomatic/util/Observer.php');
  * che vengono notificati dall'oggetto osservabile non appena lo stesso
  * subisce una variazione, su comando dell'oggetto osservabile.
  * Attenzione: in un contesto multithread il meccanismo non e' utilizzabile
- * tra differenti processi. In tale ipotesi, utilizzare invece il meccanismo 
+ * tra differenti processi. In tale ipotesi, utilizzare invece il meccanismo
  * degli hook.
  *
  */
@@ -57,7 +56,7 @@ abstract class Observable
      * @param Observer $observer oggetto di tipo Observer da notificare.
      * @return void
      */
-    public function addObserver(Observer $observer)
+    public function addObserver(\Innomatic\Util\Observer $observer)
     {
         $this->_observingObjects[] = $observer;
     }
@@ -91,7 +90,8 @@ abstract class Observable
      * @return void
      */
     /**
-    public function deleteObserver(Observer $observer) {
+    public function deleteObserver(\Innomatic\Util\Observer $observer)
+    {
         $hash = $observer->hashCode();
 
         foreach ($this->observingObjects as $id => $object) {

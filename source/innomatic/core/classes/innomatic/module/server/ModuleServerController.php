@@ -1,25 +1,22 @@
-<?php     
-
-require_once('innomatic/net/socket/Socket.php');
-require_once('innomatic/module/server/ModuleServerContext.php');
-require_once('innomatic/module/server/ModuleServerSocket.php');
-require_once('innomatic/module/server/ModuleServerAuthenticator.php');
+<?php
+namespace Innomatic\Module\Server;
 
 /**
  * Controls Module server execution.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-class ModuleServerController {
+class ModuleServerController
+{
     /**
      * Server socket.
      *
      * @var Socket
      * @access protected
      * @since 5.1
-     */     
+     */
     protected $socket;
     /**
      * Hostname bound to the server.
@@ -44,16 +41,17 @@ class ModuleServerController {
      * @access public
      * @since 5.1
      */
-    public function __construct() {
-        $this->host = ModuleServerContext::instance('ModuleServerContext')->getConfig()->getKey('server_address');
+    public function __construct()
+    {
+        $this->host = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext')->getConfig()->getKey('server_address');
         if (!$this->host) {
             $this->host = 'localhost';
         }
-        $this->port = ModuleServerContext::instance('ModuleServerContext')->getConfig()->getKey('server_port');
+        $this->port = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext')->getConfig()->getKey('server_port');
         if (!$this->port) {
             $this->port = 9000;
         }
-        $this->socket = new Socket();
+        $this->socket = new \Innomatic\Net\Socket\Socket();
     }
 
     /**
@@ -63,7 +61,8 @@ class ModuleServerController {
      * @since 5.1
      * @return void
      */
-    public function start() {
+    public function start()
+    {
         $server = new ModuleServerSocket();
         $server->start();
     }
@@ -75,10 +74,11 @@ class ModuleServerController {
      * @since 5.1
      * @return void
      */
-    public function restart() {
+    public function restart()
+    {
         try {
             $this->shutdown();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             print('Module server was not running.'."\n");
         }
         $this->start();
@@ -90,9 +90,9 @@ class ModuleServerController {
      * @access public
      * @since 5.1
      * @return void
-     */ 
-    public function watchDogStart() {
-    	require_once('innomatic/module/server/ModuleServerWatchDog.php');
+     */
+    public function watchDogStart()
+    {
         $wdog = new ModuleServerWatchDog();
         $wdog->watch('php innomatic/core/scripts/moduleserver.php wstart');
     }
@@ -104,13 +104,13 @@ class ModuleServerController {
      * @since 5.1
      * @return void
      */
-    public function watchDogRestart() {
+    public function watchDogRestart()
+    {
         try {
             $this->shutdown();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             print('Module server was not running.'."\n");
         }
-        require_once('innomatic/module/server/ModuleServerWatchDog.php');
         $wdog = new ModuleServerWatchDog();
         $wdog->watch('php innomatic/core/scripts/moduleserver.php wstart');
     }
@@ -122,7 +122,8 @@ class ModuleServerController {
      * @since 5.1
      * @return void
      */
-    public function shutdown() {
+    public function shutdown()
+    {
         $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
         $this->socket->connect($this->host, $this->port);
         $request = 'SHUTDOWN Module/1.0'."\r\n";
@@ -139,8 +140,8 @@ class ModuleServerController {
      * @since 5.1
      * @return string Server status.
      */
-    public function status() {
-    	require_once('innomatic/net/socket/SocketException.php');
+    public function status()
+    {
         try {
             $result = '';
             $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -151,7 +152,7 @@ class ModuleServerController {
             $this->socket->write($request);
             $result = $this->socket->readAll();
             $this->socket->disconnect();
-        } catch (SocketException $e) {
+        } catch (\Innomatic\Net\Socket\SocketException $e) {
             $result = 'Module server is down.'."\n";
         }
         return $result;
@@ -164,8 +165,8 @@ class ModuleServerController {
      * @since 5.1
      * @return string Server result string.
      */
-    public function refresh() {
-        require_once('innomatic/net/socket/SocketException.php');
+    public function refresh()
+    {
         try {
             $result = '';
             $auth = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
@@ -176,11 +177,9 @@ class ModuleServerController {
             $this->socket->write($request);
             $result = $this->socket->readAll();
             $this->socket->disconnect();
-        } catch (SocketException $e) {
+        } catch (\Innomatic\Net\Socket\SocketException $e) {
             $result = 'Module server is down.'."\n";
         }
         return $result;
     }
 }
-
-?>

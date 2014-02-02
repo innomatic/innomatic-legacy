@@ -2,20 +2,17 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/wui/Wui.php');
-require_once('innomatic/wui/theme/WuiTheme.php');
-require_once('innomatic/wui/dispatch/WuiDispatcher.php');
+namespace Innomatic\Wui\Widgets;
 
 /*!
  @class WuiWidget
@@ -38,10 +35,10 @@ abstract class WuiWidget
     public $mThemeHandler;
     /*! @var mDispEvents array - Dispatcher events. */
     public $mDispEvents = array();
-    /*! @var mComments boolean - Set to TRUE if element should contain comment
+    /*! @var mComments boolean - Set to true if element should contain comment
     blocks. */
     public $mComments;
-    /*! @var mUseSession boolean - TRUE if the widget should use the stored 
+    /*! @var mUseSession boolean - true if the widget should use the stored
     session parameters. */
     public $mUseSession;
     /*! @var mSessionObjectName string - Name of this widget as object
@@ -73,25 +70,25 @@ abstract class WuiWidget
     {
         $this->mName = $elemName;
         $this->mArgs = &$elemArgs;
-        $this->mComments = Wui::showSourceComments();
+        $this->mComments = \Innomatic\Wui\Wui::showSourceComments();
 
         if (is_array($dispEvents)) {
             $this->mDispEvents = &$dispEvents;
         }
 
-        $currentWuiTheme = Wui::instance('wui')->getThemeName();
+        $currentWuiTheme = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getThemeName();
         if (strlen($elemTheme) and $elemTheme != $currentWuiTheme) {
             $this->mTheme = $elemTheme;
-            
-            $this->mThemeHandler = new WuiTheme(
-                InnomaticContainer::instance(
-                    'innomaticcontainer'
+
+            $this->mThemeHandler = new \Innomatic\Wui\WuiTheme(
+                \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
                 )->getDataAccess(),
                 $this->mTheme
             );
         } else {
             $this->mTheme = $currentWuiTheme;
-            $this->mThemeHandler = Wui::instance('wui')->getTheme();
+            $this->mThemeHandler = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getTheme();
         }
 
         if (
@@ -121,41 +118,53 @@ abstract class WuiWidget
                 $this->mArgs['sessionobjectusername'];
         }
 
+        $url_path = '';
+        
+        if ($this->mSessionObjectNoPage != 'true') {
+	        $url_path = $_SERVER['REQUEST_URI'];
+	        if (strpos($url_path, '?')) {
+	        	$url_path = substr($url_path, 0, strpos($url_path, '?'));
+	        }
+	        $url_path .= '_';
+        }
+        
         $this->mSessionObjectName = ($this->mSessionObjectNoUser == 'true' ? ''
-            : (is_object(InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()) ?
-            InnomaticContainer::instance('innomaticcontainer')->getCurrentUser()->getUserName() : 'root')
-             .'_') . ($this->mSessionObjectNoPage == 'true' ? '' : $_SERVER['PHP_SELF'].'_') .
+            : (is_object(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()) ?
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName() : 'root')
+             .'_') .$url_path.
              ($this->mSessionObjectNoType == 'true' ? '' : get_class($this).'_') .
              ($this->mSessionObjectNoName == 'true' ? '' : $this->mName) .
              (strlen($this->mSessionObjectUserName) ? '_'.$this->mSessionObjectUserName : '');
 
-		// AJAX support
-		
-        require_once('innomatic/ajax/Xajax.php');
-        $xajax = Xajax::instance('Xajax', '');
+        // AJAX
+        $ajax_request_uri = $_SERVER['REQUEST_URI'];
+        if (strpos($ajax_request_uri, '?')) {
+            $ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
+        }
 
-		require_once('innomatic/wui/Wui.php');
-        $wuiContainer = Wui::instance('wui');
+        $xajax = \Innomatic\Ajax\Xajax::instance('Xajax', $ajax_request_uri);
+
+        $wuiContainer = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 
         // Register action ajax calls
-        $theObject = new ReflectionObject($this);
+        $theObject = new \ReflectionObject($this);
         $methods = $theObject->getMethods();
         foreach ($methods as $method) {
-        	// Ignore private methods
-        	$theMethod = new ReflectionMethod($theObject->getName(), $method->getName());
-        	if (!$theMethod->isPublic()) {
-        		continue;
-        	}
+            // Ignore private methods
+            $theMethod = new \ReflectionMethod($theObject->getName(), $method->getName());
+            if (!$theMethod->isPublic()) {
+                continue;
+            }
 
-        	// Expose only methods beginning with "ajax" prefix
-        	if (!(substr($method->getName(), 0, 4) == 'ajax')) {
-        		continue;
-        	}
+            // Expose only methods beginning with "ajax" prefix
+            if (!(substr($method->getName(), 0, 4) == 'ajax')) {
+                continue;
+            }
 
-        	// Register the ajax call
-        	$call_name = substr($method->getName(), 4);
-        	$wuiContainer->registerAjaxCall($call_name);
-        	$xajax->registerExternalFunction(array($call_name, get_class($this), $method->getName()), 'shared/wui/'.get_class($this).'.php');
+            // Register the ajax call
+            $call_name = substr($method->getName(), 4);
+            $wuiContainer->registerAjaxCall($call_name);
+            $xajax->registerExternalFunction(array($call_name, get_class($this), $method->getName()), 'shared/wui/'.get_class($this).'.php');
         }
     }
 
@@ -166,7 +175,7 @@ abstract class WuiWidget
      @param rwuiDisp WuiDispatcher class - Wui internal dispatcher handler.
      @result True it the structure has been built by the member.
      */
-    public function build(WuiDispatcher $rwuiDisp)
+    public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $this->mrWuiDisp = $rwuiDisp;
         return $this->generateSource();
@@ -210,11 +219,8 @@ abstract class WuiWidget
     public function storeSession($args)
     {
         if ($this->mUseSession) {
-            require_once(
-                'innomatic/desktop/controller/DesktopFrontController.php'
-            );
-            DesktopFrontController::instance(
-                'desktopfrontcontroller'
+            \Innomatic\Desktop\Controller\DesktopFrontController::instance(
+                '\Innomatic\Desktop\Controller\DesktopFrontController'
             )->session->put(
                 $this->mSessionObjectName, serialize($args)
             );
@@ -228,16 +234,15 @@ abstract class WuiWidget
      */
     public function retrieveSession()
     {
-        require_once('innomatic/desktop/controller/DesktopFrontController.php');
         if (
             $this->mUseSession == 'true'
-            and DesktopFrontController::instance(
-                'desktopfrontcontroller'
+            and \Innomatic\Desktop\Controller\DesktopFrontController::instance(
+                '\Innomatic\Desktop\Controller\DesktopFrontController'
             )->session->isValid($this->mSessionObjectName)
         ) {
             return unserialize(
-                DesktopFrontController::instance(
-                    'desktopfrontcontroller'
+                \Innomatic\Desktop\Controller\DesktopFrontController::instance(
+                    '\Innomatic\Desktop\Controller\DesktopFrontController'
                 )->session->get($this->mSessionObjectName)
             );
         } else {
@@ -246,7 +251,7 @@ abstract class WuiWidget
     }
 
     // --- Javascript Events --------------------------------------------------
-    
+
     /**
       * Adds a Javascript event.
      * @param string $event Event name, without the "on" prefix, e.g. "onclick" must be given as "click".
@@ -266,10 +271,11 @@ abstract class WuiWidget
      * @param string $event Name of the event.
      * @return mixed Option value.
      */
-    public function getEvent($event) {
-    	return isset($this->events[$event]) ? $this->events[$event] : false;
+    public function getEvent($event)
+    {
+        return isset($this->events[$event]) ? $this->events[$event] : false;
     }
-    
+
     /**
      * Gets all javascript events.
      *
@@ -278,11 +284,12 @@ abstract class WuiWidget
      * @since 5.1
      * @return array Events.
      */
-    public function getEvents() {
-    	return $this->events;
+    public function getEvents()
+    {
+        return $this->events;
     }
-    
-    
+
+
     /**
      * Tells if a javascript event has been set.
      *
@@ -290,20 +297,22 @@ abstract class WuiWidget
      * @param string $event Name of the event.
      * @return boolean
      */
-    public function isEvent($event) {
-    	return isset($this->events[$event]);
+    public function isEvent($event)
+    {
+        return isset($this->events[$event]);
     }
-    
+
     /**
      * Tells the number of javascript events.
      *
      * @since 5.1
      * @return integer
      */
-    public function hasEvents() {
-    	return count($this->events);
+    public function hasEvents()
+    {
+        return count($this->events);
     }
-    
+
     /**
      * Unsets a javascript event.
      *
@@ -311,12 +320,13 @@ abstract class WuiWidget
      * @param string $event Name of the event.
      * @return boolean
      */
-    public function unsetEvent($event) {
-    	if (isset($this->events[$event])) {
-    		unset($this->events[$event]);
-    	}
+    public function unsetEvent($event)
+    {
+        if (isset($this->events[$event])) {
+            unset($this->events[$event]);
+        }
     }
-    
+
     /**
      * Builds the event content string, e.g. action_a();action_b().
      * @param string $event Event name.

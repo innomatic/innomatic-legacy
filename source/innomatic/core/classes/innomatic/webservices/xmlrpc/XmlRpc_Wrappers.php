@@ -1,4 +1,6 @@
 <?php
+namespace Innomatic\Webservices\Xmlrpc;
+
 /**
  * PHP-XMLRPC "wrapper" functions
  * Generate stubs to transparently access xmlrpc methods as php functions and viceversa
@@ -14,8 +16,6 @@
  * @todo when wrapping methods without obj rebuilding, use return_type = 'phpvals' (faster)
  * @todo implement self-parsing of php code for PHP <= 4
  */
-
-    // requires: xmlrpc.inc
 
     /**
     * Given a string defining a php type or phpxmlrpc type (loosely defined: strings
@@ -182,7 +182,7 @@
             }
 
             // start to introspect PHP code
-            $func = new ReflectionFunction($funcname);
+            $func = new \ReflectionFunction($funcname);
             if($func->isInternal())
             {
                 // Note: from PHP 5.1.0 onward, we will possibly be able to use invokeargs
@@ -357,7 +357,7 @@
             }
             $innercode .= "\$np = true;\n";
             $innercode .= "if (\$np) return new {$prefix}resp(0, {$GLOBALS['xmlrpcerr']['incorrect_params']}, '{$GLOBALS['xmlrpcstr']['incorrect_params']}'); else {\n";
-            //$innercode .= "if (\$_xmlrpcs_error_occurred) return new xmlrpcresp(0, $GLOBALS['xmlrpcerr']user, \$_xmlrpcs_error_occurred); else\n";
+            //$innercode .= "if (\$_xmlrpcs_error_occurred) return new XmlRpcResp(0, $GLOBALS['xmlrpcerr']user, \$_xmlrpcs_error_occurred); else\n";
             $innercode .= "if (is_a(\$retval, '{$prefix}resp')) return \$retval; else\n";
             if($returns == $GLOBALS['xmlrpcDateTime'] || $returns == $GLOBALS['xmlrpcBase64'])
             {

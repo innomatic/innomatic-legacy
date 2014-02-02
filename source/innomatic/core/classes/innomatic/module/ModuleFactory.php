@@ -1,16 +1,14 @@
-<?php   
-require_once('innomatic/module/server/ModuleServerContext.php');
-require_once('innomatic/module/server/ModuleServerAuthenticator.php');
-require_once('innomatic/module/ModuleConfig.php');
-require_once('innomatic/module/ModuleLocator.php');
-require_once('innomatic/module/util/ModuleXmlConfig.php');
+<?php
+namespace Innomatic\Module;
+
+use \Innomatic\Module\Server;
 
 /**
  * This is the Module objects factory.
  *
  * This is the central point for transparently obtaining a Module object, may it
  * be locally or remotely located.
- * 
+ *
  * Modules must be requested to the factory and not instanced directly, except
  * when dealing with low level details is needed, or for particular performance
  * rmoduleons. Modules that are manually instantiated needs an already prepared
@@ -20,10 +18,11 @@ require_once('innomatic/module/util/ModuleXmlConfig.php');
  * from a remote server by parsing the given Module locator.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-class ModuleFactory {
+class ModuleFactory
+{
     /**
      * Gets a Module object instance.
      *
@@ -35,8 +34,9 @@ class ModuleFactory {
      * @param ModuleLocator $locator Module locator object.
      * @return ModuleObject The Module object.
      */
-    public static function getModule(ModuleLocator $locator) {
-        return $locator->isRemote() ? self::getRemoteModule($locator) : self::getLocalModule($locator); 
+    public static function getModule(ModuleLocator $locator)
+    {
+        return $locator->isRemote() ? self::getRemoteModule($locator) : self::getLocalModule($locator);
     }
 
     /**
@@ -52,38 +52,35 @@ class ModuleFactory {
      * @param ModuleLocator $locator Module locator object.
      * @return ModuleObject The Module object.
      */
-    public static function getLocalModule(ModuleLocator $locator) {
+    public static function getLocalModule(ModuleLocator $locator)
+    {
         $location = $locator->getLocation();
 
         // Authenticates
         $authenticator = ModuleServerAuthenticator::instance('ModuleServerAuthenticator');
         if (!$authenticator->authenticate($locator->getUsername(), $locator->getPassword())) {
-            require_once('innomatic/module/ModuleException.php');
             throw new ModuleException('Not authorized');
         }
-        
-        $context = ModuleServerContext::instance('ModuleServerContext');
+
+        $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
 
         // Checks if Module exists
         $classes_dir = $context->getHome().'core/modules/'.$location.'/classes/';
         if (!is_dir($classes_dir)) {
-            require_once('innomatic/module/ModuleException.php');
             throw new ModuleException('Module does not exists');
         }
 
         // Checks if configuration file exists
         $moduleXml = $context->getHome().'core/modules/'.$location.'/setup/module.xml';
         if (!file_exists($moduleXml)) {
-            require_once('innomatic/module/ModuleException.php');
             throw new ModuleException('Missing module.xml configuration file');
         }
-        $cfg = ModuleXmlConfig::getInstance($moduleXml);
+        $cfg = \Innomatic\Module\Util\ModuleXmlConfig::getInstance($moduleXml);
         $fqcn = $cfg->getFQCN();
 
         // Builds Module Data Access Source Name
         $dasn_string = $authenticator->getDASN($locator->getUsername(), $locator->getLocation());
         if (strpos($dasn_string, 'context:')) {
-        	require_once('innomatic/module/ModuleContext');
             $module_context = new ModuleContext($location);
             $dasn_string = str_replace('context:', $module_context->getHome(), $dasn_string);
         }
@@ -93,10 +90,10 @@ class ModuleFactory {
         // TODO: Should add include path only if not already available
         set_include_path($classes_dir.PATH_SEPARATOR.get_include_path());
         require_once $fqcn.'.php';
-        
+
         // Retrieves class name from Fully Qualified Class Name
         $class = strpos($fqcn, '/') ? substr($fqcn, strrpos($fqcn, '/') + 1) : $fqcn;
-        
+
         // Instantiates the new class and returns it
         return new $class ($cfg);
     }
@@ -111,11 +108,11 @@ class ModuleFactory {
      * @param ModuleLocator $locator Module locator object.
      * @return ModuleGenericRemoteObject The Module object.
      */
-    public static function getRemoteModule(ModuleLocator $locator) {
-    	require_once('innomatic/module/util/ModuleGenericRemoteObject.php');
-        return new ModuleGenericRemoteObject($locator);
+    public static function getRemoteModule(ModuleLocator $locator)
+    {
+        return new \Innomatic\Module\Util\ModuleGenericRemoteObject($locator);
     }
-    
+
     /**
      * Gets an instance of a Module session object.
      *
@@ -129,12 +126,10 @@ class ModuleFactory {
      * @param ModuleLocator $locator Module locator object.
      * @return ModuleObject The Module object.
      */
-    public static function getSessionModule(ModuleLocator $locator, $sessionId) {
+    public static function getSessionModule(ModuleLocator $locator, $sessionId)
+    {
         $context = new ModuleContext($locator->getLocation());
-        require_once('innomatic/module/session/ModuleSession.php');
-        $session = new ModuleSession($context, $sessionId);
+        $session = new \Innomatic\Module\Session\ModuleSession($context, $sessionId);
         return $session->retrieve();
     }
 }
-
-?>

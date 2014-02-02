@@ -1,24 +1,26 @@
-<?php         
+<?php
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Webapp;
 
 /**
  * @since 5.0
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2012 Innoteam S.r.l.
+ * @copyright Copyright 2012 Innoteam Srl
  */
-class WebApp {
+class WebApp
+{
     // Base info
     protected $name;
     protected $home;
@@ -31,9 +33,10 @@ class WebApp {
     protected $mimeMappings;
     protected $handlerMappings;
     protected $welcomeFiles;
-    protected $handlers;    
-    
-    public function __construct($home) {
+    protected $handlers;
+
+    public function __construct($home)
+    {
         $this->home = $home;
         $this->name = basename($home);
 
@@ -44,19 +47,18 @@ class WebApp {
         }
 
         // Sets var directory
-        require_once('innomatic/webapp/WebAppContainer.php');
-        $container = WebAppContainer::instance('webappcontainer');
+        $container = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
         if ($container->useDefaults() or !$container->isKey('webapps.var_dir') or $container->getKey('webapps.var_dir') == 'shared') {
-            $this->varDir = RootContainer::instance('rootcontainer')->getHome().'innomatic/core/domains/'.$this->getName().'/var/';
+            $this->varDir = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().'innomatic/core/domains/'.$this->getName().'/var/';
         } else {
             $this->varDir = $this->getHome().'core/var/';
         }
-        
+
         // Make var directories
         if (!is_dir($this->varDir)) {
             @mkdir($this->varDir, 0777, true);
         }
-        
+
         // Init configuration
         // Must be called only after the cache directory has been set
         $this->parseConfig($home.'core/web.xml');
@@ -65,12 +67,12 @@ class WebApp {
     /**
      * Parses webapp configuration.
      */
-    protected function parseConfig($xmlconfig) {
-        require_once('innomatic/webapp/WebAppContainer.php');
-        $container = WebAppContainer::instance('webappcontainer');
+    protected function parseConfig($xmlconfig)
+    {
+        $container = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
         if ($container->useDefaults() or !$container->isKey('webapps.cache_config') or $container->getKey('webapps.cache_config')) {
             $cache_dir = $this->getVarDir().'cache/';
-            if (file_exists($cache_dir.'WebAppConfig.ser')) {
+            if (false and file_exists($cache_dir.'WebAppConfig.ser')) {
                 $cfg = unserialize(file_get_contents($cache_dir.'WebAppConfig.ser'));
             } else {
                 $cfg = simplexml_load_file($xmlconfig);
@@ -83,7 +85,7 @@ class WebApp {
         } else {
             $cfg = simplexml_load_file($xmlconfig);
         }
-        
+
         $this->displayName = sprintf('%s', $cfg->displayname);
         $this->description = sprintf('%s', $cfg->description);
         foreach ($cfg->contextparam as $param) $this->parameters[sprintf('%s', $param->paramname)] = sprintf('%s', $param->paramvalue);
@@ -98,11 +100,12 @@ class WebApp {
             }
         }
     }
-    
+
     /**
      * Checks if the given directory contains a valid webapp.
      */
-    public static function isValid($home = '') {
+    public static function isValid($home = '')
+    {
         // TODO: it should check if the web.xml is valid too
         return file_exists((strlen($home) ? $home : $this->home).'core/web.xml');
     }
@@ -110,24 +113,26 @@ class WebApp {
     /**
      * Removes webapp cache directory.
      */
-    public function refresh() {
+    public function refresh()
+    {
         if (is_dir($this->getVarDir().'cache/')) {
-            require_once('innomatic/io/filesystem/DirectoryUtils.php');
-            DirectoryUtils::unlinkTree($this->getVarDir());
+            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($this->getVarDir());
         }
     }
 
     /**
      * Returns webapp name.
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
     /**
      * Returns webapp home directory.
      */
-    public function getHome() {
+    public function getHome()
+    {
         return $this->home;
     }
 
@@ -136,70 +141,80 @@ class WebApp {
      * Depending on the configuration, it can be resident inside webapp core/var directory
      * or inside general var directory.
      */
-    public function getVarDir() {
+    public function getVarDir()
+    {
         return $this->varDir;
     }
 
     /**
      * Returns public webapp name.
      */
-    public function getDisplayName() {
+    public function getDisplayName()
+    {
         return $this->displayName;
     }
 
     /**
      * Returns webapp descriptio.
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
     /**
      * Returns the value of an init parameter.
      */
-    public function getInitParameter($param) {
+    public function getInitParameter($param)
+    {
         return isset($this->parameters[$param]) ? $this->parameters[$param] : false;
     }
 
     /**
      * Returns a list of the valid welcome files to be searched for when requesting a directory.
      */
-    public function getWelcomeFiles() {
+    public function getWelcomeFiles()
+    {
         return $this->welcomeFiles;
     }
 
     /**
      * Gets the handler corresponding to the given pattern.
      */
-    public function getHandlerMapping($pattern) {
+    public function getHandlerMapping($pattern)
+    {
         return isset($this->handlerMappings[$pattern]) ? $this->handlerMappings[$pattern] : null;
     }
 
     /**
      * Gets the complete list of handler mappings.
      */
-    public function getHandlerMappings() {
+    public function getHandlerMappings()
+    {
         return $this->handlerMappings;
     }
 
     /**
      * Removes an handler mapping.
      */
-    public function removeHandlerMapping($pattern) {
+    public function removeHandlerMapping($pattern)
+    {
         unset($this->handlerMappings[$pattern]);
     }
 
     /**
      * Returns the fully qualified class name for the given handler.
      */
-    public function getHandler($name) {
+    public function getHandler($name)
+    {
         return isset($this->handlers[$name]['class']) ? $this->handlers[$name]['class'] : null;
     }
 
     /**
-     * Returns the parameters array for the given handler. 
+     * Returns the parameters array for the given handler.
      */
-    public function getHandlerParameters($name) {
+    public function getHandlerParameters($name)
+    {
         $result = array();
         return isset($this->handlers[$name]['params']) ? $this->handlers[$name]['params'] : $result;
     }
@@ -207,7 +222,8 @@ class WebApp {
     /**
      * Returns the mime type defined for the given file.
      */
-    public function getMimeType($file) {
+    public function getMimeType($file)
+    {
         $info = pathinfo($file);
         if (!isset($info['extension']))
             return null;

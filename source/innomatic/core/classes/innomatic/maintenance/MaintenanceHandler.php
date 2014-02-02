@@ -2,27 +2,29 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Maintenance;
 
-class MaintenanceHandler {
+class MaintenanceHandler
+{
     public $mApplicationSettings;
     public $mMaintenanceInterval;
 
-    function MaintenanceHandler() {
-        require_once('innomatic/application/ApplicationSettings.php');
-        $this->mApplicationSettings = new ApplicationSettings(InnomaticContainer::instance('innomaticcontainer')->getDataAccess(), 'innomatic');
+    public function __construct()
+    {
+        $this->mApplicationSettings = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
 
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
-        $result = $cfg['MaintenanceInterval'];
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile(), false, INI_SCANNER_RAW);
+        $result = isset($cfg['MaintenanceInterval']) ? $cfg['MaintenanceInterval'] : '';
         if (!strlen($result))
             $result = 0;
         $this->mMaintenanceInterval = $result;
@@ -30,9 +32,9 @@ class MaintenanceHandler {
 
     // ----- Settings -----
 
-    function setMaintenanceInterval($interval) {
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    public function setMaintenanceInterval($interval)
+    {
+        $cfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
 
         $result = $cfg->setValue('MaintenanceInterval', (int) $interval);
 
@@ -41,34 +43,34 @@ class MaintenanceHandler {
         return $result;
     }
 
-    function getMaintenanceInterval() {
+    public function getMaintenanceInterval()
+    {
         return $this->mMaintenanceInterval;
     }
 
-    function getLastMaintenanceTime() {
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    public function getLastMaintenanceTime()
+    {
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile(), false, INI_SCANNER_RAW);
 
         return $cfg['MaintenanceLastExecutionTime'];
     }
 
-    function getTasksList() {
+    public function getTasksList()
+    {
         $result = array();
-
-        require_once('innomatic/locale/LocaleCatalog.php');
-
-        $tasks_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('SELECT * FROM maintenance_tasks');
+        $tasks_query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute('SELECT * FROM maintenance_tasks');
 
         while (!$tasks_query->eof) {
             if (strlen($tasks_query->getFields('catalog'))) {
-                $locale = new LocaleCatalog($tasks_query->getFields('catalog'), InnomaticContainer::instance('innomaticcontainer')->getLanguage());
+                $locale = new \Innomatic\Locale\LocaleCatalog($tasks_query->getFields('catalog'), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
 
                 $desc = $locale->getStr($tasks_query->getFields('name'));
                 unset($locale);
-            } else
+            } else {
                 $desc = $tasks_query->getFields('name');
+            }
 
-            $result[$tasks_query->getFields('name')] = array('name' => $tasks_query->getFields('name'), 'description' => $desc, 'enabled' => $tasks_query->getFields('enabled') == InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmttrue ? true : false);
-
+            $result[$tasks_query->getFields('name')] = array('name' => $tasks_query->getFields('name'), 'description' => $desc, 'enabled' => $tasks_query->getFields('enabled') == \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmttrue ? true : false);
             $tasks_query->moveNext();
         }
 
@@ -77,89 +79,89 @@ class MaintenanceHandler {
         return $result;
     }
 
-    function EnableTask($taskName) {
-        return InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('UPDATE maintenance_tasks SET enabled='.InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText(InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmttrue).' WHERE name='.InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText($taskName));
+    public function EnableTask($taskName)
+    {
+        return \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute('UPDATE maintenance_tasks SET enabled='.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmttrue).' WHERE name='.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText($taskName));
     }
 
-    function DisableTask($taskName) {
-        return InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('UPDATE maintenance_tasks SET enabled='.InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText(InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmtfalse).' WHERE name='.InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText($taskName));
+    public function DisableTask($taskName)
+    {
+        return \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute('UPDATE maintenance_tasks SET enabled='.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmtfalse).' WHERE name='.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText($taskName));
     }
 
     // ----- Facilities -----
 
-    function DoMaintenance() {
+    public function DoMaintenance()
+    {
         $result = array();
 
-        $tasks_query = InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->execute('SELECT * FROM maintenance_tasks WHERE enabled='.InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->formatText(InnomaticContainer::instance('innomaticcontainer')->getDataAccess()->fmttrue));
+        $tasks_query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute('SELECT * FROM maintenance_tasks WHERE enabled='.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmttrue));
         while (!$tasks_query->eof) {
-            if (include_once('shared/maintenance/'.$tasks_query->getFields('file'))) {
-                $class_name = substr($tasks_query->getFields('file'), 0, -4);
-                if (class_exists($class_name)) {
-                    $obj = new $class_name;
-                    $result[$tasks_query->getFields('name')] = $obj->execute();
-                }
+            $class_name = '\\Shared\\Maintenance\\'.substr($tasks_query->getFields('file'), 0, -4);
+            if (class_exists($class_name, true)) {
+                $obj = new $class_name;
+                $result[$tasks_query->getFields('name')] = $obj->execute();
             }
             $tasks_query->moveNext();
         }
 
         $tasks_query->free();
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $cfg->setValue('MaintenanceLastExecutionTime', time());
         return $result;
     }
 
-    function EnableReports() {
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    public function EnableReports()
+    {
+        $cfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         return $cfg->setValue('MaintenanceReportsEnabled', '1');
     }
 
-    function DisableReports() {
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    public function DisableReports()
+    {
+        $cfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         return $cfg->setValue('MaintenanceReportsEnabled', '0');
     }
 
-    function getReportsEnableStatus() {
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
-        if ($cfg['MaintenanceReportsEnabled'] == '1') {
+    public function getReportsEnableStatus()
+    {
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
+        if (isset($cfg['MaintenanceReportsEnabled']) and $cfg['MaintenanceReportsEnabled'] == '1') {
             return true;
         }
         return false;
     }
 
-    function setReportsEmail($email) {
-        require_once('innomatic/config/ConfigFile.php');
-        $cfg = new ConfigFile(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    public function setReportsEmail($email)
+    {
+        $cfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         return $cfg->setValue('MaintenanceReportsEmail', $email);
     }
 
-    function getReportsEmail() {
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+    public function getReportsEmail()
+    {
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
 
-        return $cfg['MaintenanceReportsEmail'];
+        return isset($cfg['MaintenanceReportsEmail']) ? $cfg['MaintenanceReportsEmail'] : '';
     }
 
-    function SendReport($maintenanceResult) {
+    public function SendReport($maintenanceResult)
+    {
         $result = false;
 
-        $cfg = @parse_ini_file(InnomaticContainer::instance('innomaticcontainer')->getConfigurationFile());
+        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
         $email = $cfg['MaintenanceReportsEmail'];
 
         if ($cfg['MaintenanceReportsEnabled'] == '1' and strlen($email) and is_array($maintenanceResult)) {
             $result_text = '';
-
-            require_once('innomatic/locale/LocaleCatalog.php');
-            $locale = new LocaleCatalog('innomatic::maintenance', InnomaticContainer::instance('innomaticcontainer')->getLanguage());
-
+            $locale = new \Innomatic\Locale\LocaleCatalog('innomatic::maintenance', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
             $tasks_list = $this->getTasksList();
 
             foreach ($maintenanceResult as $task => $result) {
                 $result_text.= "\n".'--> '.$tasks_list[$task]['description']."\n". ($result ? $locale->getStr('report_task_ok.label') : $locale->getStr('report_task_failed.label'))."\n";
             }
 
-            $result = mail($email, '[INNOMATIC MAINTENANCE REPORT] - Scheduled maintenance report about '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName().'.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup(), 'This is the scheduled maintenance report about '.InnomaticContainer::instance('innomaticcontainer')->getPlatformName().'.'.InnomaticContainer::instance('innomaticcontainer')->getPlatformGroup()."\n\n".'== MAINTENANCE RESULTS =='."\n".$result_text);
+            $result = mail($email, '[INNOMATIC MAINTENANCE REPORT] - Scheduled maintenance report about '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformName().'.'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformGroup(), 'This is the scheduled maintenance report about '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformName().'.'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformGroup()."\n\n".'== MAINTENANCE RESULTS =='."\n".$result_text);
         }
 
         return $result;

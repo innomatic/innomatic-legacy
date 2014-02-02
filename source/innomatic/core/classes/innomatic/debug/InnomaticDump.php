@@ -2,28 +2,27 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
-
-require_once('innomatic/util/Singleton.php');
+namespace Innomatic\Debug;
 
 /**
  * Stores a dump of the main Innomatic instance information.
  *
  * @since 5.0
  */
-class InnomaticDump extends Singleton
+class InnomaticDump extends \Innomatic\Util\Singleton
 {
     // Snapshot time filled information
-    
+
     /**
      * This array holds information about the environment (operating system,
      * PHP, etc.) and it is filled during a call to snapshot() method.
@@ -49,9 +48,9 @@ class InnomaticDump extends Singleton
      * @var LoadTime
      */
     public $dbLoadTimer;
-    
+
     // Run time filled information
-    
+
     /**
      * DataAccess debug information.
      *
@@ -94,7 +93,7 @@ class InnomaticDump extends Singleton
      * @var string
      */
     public $desktopApplication = array();
-    
+
     /**
      * Esecutes a snapshot of the system information.
      *
@@ -116,15 +115,15 @@ class InnomaticDump extends Singleton
         $this->environment['ini_all'] = ini_get_all();
         $this->environment['phpversion'] = phpversion();
         $this->environment['declared_classes'] = get_declared_classes();
-        
-        $innomaticContainer = InnomaticContainer::instance(
-            'innomaticcontainer'
+
+        $innomaticContainer = \Innomatic\Core\InnomaticContainer::instance(
+            '\Innomatic\Core\InnomaticContainer'
         );
         $this->innomatic['state'] = $innomaticContainer->getState();
         $this->innomatic['interface'] = $innomaticContainer->getInterface();
         $this->innomatic['mode'] = $innomaticContainer->getMode();
         $this->innomatic['edition'] = $innomaticContainer->getEdition();
-        
+
         $this->loadTimer = $innomaticContainer->getLoadTimer();
         $this->dbLoadTimer = $innomaticContainer->getDbLoadTimer();
     }

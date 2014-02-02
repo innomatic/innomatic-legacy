@@ -2,50 +2,49 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
 */
+namespace Innomatic\Desktop\Panel;
 
-require_once('innomatic/util/Observer.php');
+use \Innomatic\Core\InnomaticContainer;
 
 /**
  * Abstract class for implementing a controller in a Desktop Panel following
  * the MVC design pattern.
  *
- * @copyright  2000-2012 Innoteam S.r.l.
+ * @copyright  2000-2012 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
-abstract class PanelController implements Observer
+abstract class PanelController implements \Innomatic\Util\Observer
 {
     protected $_application;
     protected $_mode;
     protected $_applicationHome;
     protected $_action;
     protected $_view;
+    protected $ajax;
 
     public function __construct($mode, $application)
     {
-        require_once('innomatic/wui/dispatch/WuiDispatcher.php');
-        require_once('innomatic/core/InnomaticContainer.php');
-
         // Builds the application home path
-        $home = InnomaticContainer::instance('innomaticcontainer')->getHome();
+        $home = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome();
         switch ($mode) {
-            case InnomaticContainer::MODE_ROOT:
+            case \Innomatic\Core\InnomaticContainer::MODE_ROOT:
                 $home .= 'root/';
                 break;
 
-            case InnomaticContainer::MODE_DOMAIN:
+            case \Innomatic\Core\InnomaticContainer::MODE_DOMAIN:
                 $home .= 'domain/';
                 break;
         }
@@ -57,8 +56,7 @@ abstract class PanelController implements Observer
             $this->_applicationHome = $home;
             $this->_application = $application;
         } else {
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::INVALID_APPLICATION);
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::INVALID_APPLICATION);
         }
 
         // TODO Verificare, dopo questa impostazione, quanto ancora sia utile di WuiDispatcher
@@ -67,7 +65,7 @@ abstract class PanelController implements Observer
         $action = null;
 
         // View initialization
-        $viewDispatcher = new WuiDispatcher('view');
+        $viewDispatcher = new \Innomatic\Wui\Dispatch\WuiDispatcher('view');
         $viewEvent = $viewDispatcher->getEventName();
         if (!strlen($viewEvent)) {
             $viewEvent = 'default';
@@ -75,13 +73,12 @@ abstract class PanelController implements Observer
         $viewClassName = ucfirst($this->_application).'PanelViews';
 
         // Checks if view file and definition exist
+        // @todo update to new namespaces model
         if (!include_once($this->_applicationHome.$viewClassName.'.php')) {
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::MISSING_VIEWS_FILE);
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_VIEWS_FILE);
         }
-        if (!class_exists($viewClassName)) {
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::MISSING_VIEWS_CLASS);
+        if (!class_exists($viewClassName, true)) {
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_VIEWS_CLASS);
         }
 
         // Instantiate views class
@@ -90,58 +87,44 @@ abstract class PanelController implements Observer
 
         // Action initialization
         $actionClassName = ucfirst($this->_application).'PanelActions';
-        
+
         // Checks if class file and definition exist
         if (!include_once($this->_applicationHome.$actionClassName.'.php')) {
-        	require_once('innomatic/wui/WuiException.php');
-        	throw new WuiException(WuiException::MISSING_ACTIONS_FILE);
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_ACTIONS_FILE);
         }
-        if (!class_exists($actionClassName)) {
-        	require_once('innomatic/wui/WuiException.php');
-        	throw new WuiException(WuiException::MISSING_ACTIONS_CLASS);
+        if (!class_exists($actionClassName, true)) {
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_ACTIONS_CLASS);
         }
-        
+
         // AJAX
         $ajax_request_uri = $_SERVER['REQUEST_URI'];
         if (strpos($ajax_request_uri, '?')) {
-        	$ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
+            $ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
         }
-        
-        require_once('innomatic/ajax/Xajax.php');
-        $xajax = Xajax::instance('Xajax', $ajax_request_uri);
-        
-        // Set debug mode
-        if (InnomaticContainer::instance('innomaticcontainer')->getState() == InnomaticContainer::STATE_DEBUG) {
-        	$xajax->debugOn();
-        }
-        $xajax->setLogFile(InnomaticContainer::instance('innomaticcontainer')->getHome().'core/log/ajax.log');
-        
-        // Register action ajax calls
-        $theClass = new ReflectionClass($actionClassName);
-        $methods = $theClass->getMethods();
-        foreach ($methods as $method) {
-        	// Ignore private methods
-        	$theMethod = new ReflectionMethod($theClass->getName(), $method->getName());
-        	if (!$theMethod->isPublic()) {
-        		continue;
-        	}
 
-        	// Expose only methods beginning with "ajax" prefix
-        	if (!(substr($method->getName(), 0, 4) == 'ajax')) {
-        		continue;
-        	}
-        	
-        	// Register the ajax call
-        	$call_name = substr($method->getName(), 4);
-        	$this->_view->getWuiContainer()->registerAjaxCall($call_name);
-        	$xajax->registerExternalFunction(array($call_name, $actionClassName, $method->getName()), $this->_applicationHome.$actionClassName.'.php');
+        $this->ajax = \Innomatic\Ajax\Xajax::instance('Xajax', $ajax_request_uri);
+
+        // Set debug mode
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
+            $this->ajax->debugOn();
         }
-        
+        $this->ajax->setLogFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/ajax.log');
+
+        // Register action ajax calls
+        $this->registerClassAjaxCalls($actionClassName, $this->_applicationHome.$actionClassName.'.php');
+                
+        // Register WUI widgets ajax calls
+        $wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
+        $wui->loadAllWidgets();
+        foreach ($wui->mLoadedWidgets as $widget) {
+        	$this->registerClassAjaxCalls('\Shared\Wui\Wui'.ucfirst($widget), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/classes/shared/wui/Wui'.ucfirst($widget).'.php', 'Wui'.ucfirst($widget));
+        }
+
         // Process ajax requests, if any (if so, then it exits)
-        $xajax->processRequests();
-        
+        $this->ajax->processRequests();
+
         // Action execution, if set
-        $actionDispatcher = new WuiDispatcher('action');
+        $actionDispatcher = new \Innomatic\Wui\Dispatch\WuiDispatcher('action');
         $actionEvent = $actionDispatcher->getEventName();
         if (strlen($actionEvent)) {
 
@@ -166,11 +149,32 @@ abstract class PanelController implements Observer
             $this->_view->endHelper();
             $this->_view->display();
         } else {
-            require_once('innomatic/wui/WuiException.php');
-            throw new WuiException(WuiException::NO_VIEW_DEFINED);
+            throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::NO_VIEW_DEFINED);
         }
     }
 
+    public function registerClassAjaxCalls($className, $classFile, $prefix = '')
+    {
+    	$theClass = new \ReflectionClass($className);
+    	$methods = $theClass->getMethods();
+    	foreach ($methods as $method) {
+    		// Ignore private methods
+    		$theMethod = new \ReflectionMethod($theClass->getName(), $method->getName());
+    		if (!$theMethod->isPublic()) {
+    			continue;
+    		}
+    	
+    		// Expose only methods beginning with "ajax" prefix
+    		if (!(substr($method->getName(), 0, 4) == 'ajax')) {
+    			continue;
+    		}
+    		// Register the ajax call
+    		$call_name = $prefix.substr($method->getName(), 4);
+    		$this->_view->getWuiContainer()->registerAjaxCall($call_name);
+    		$this->ajax->registerExternalFunction(array($call_name, $className, $method->getName()), $classFile);
+    	}
+    }
+    
     public function getAction()
     {
         return $this->_action;
@@ -179,5 +183,10 @@ abstract class PanelController implements Observer
     public function getView()
     {
         return $this->_view;
+    }
+    
+    public function getAjax()
+    {
+    	return $this->ajax;
     }
 }

@@ -1,7 +1,5 @@
-<?php    
-require_once('innomatic/module/ModuleConfig.php');
-require_once('innomatic/module/ModuleValueObject.php');
-require_once('innomatic/dataaccess/DataAccessFactory.php');
+<?php
+namespace Innomatic\Module;
 
 /**
  * Base class for encapsulating business logic.
@@ -10,33 +8,34 @@ require_once('innomatic/dataaccess/DataAccessFactory.php');
  * logic in a well defined domain and application infrastructure. Modules aren't
  * useful nor working until they are deployed in a Module server; once deployed,
  * they can be locally and remotely accessed.
- *  
+ *
  * The ModuleObject class is the Module entry point, the front class for accessing
  * and running business logic. Business logic code can be organized in standard
  * classes, but it must be exposed through this object only.
  *
  * Applications must access logic only through this object, and in most
- * situations this is the only way, like when accessing remote Modules.  
+ * situations this is the only way, like when accessing remote Modules.
  *
  * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2013 Innoteam S.r.l.
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
-abstract class ModuleObject implements Serializable {
+abstract class ModuleObject implements \Serializable
+{
     /**
      * Config object.
      * @var ModuleConfig
      * @access protected
      * @since 5.1
      */
-	protected $config;
+    protected $config;
     /**
      * Value object.
      * @var ModuleValueObject
      * @access protected
      * @since 5.1
      */
-	protected $valueObject;
+    protected $valueObject;
 
     /**
      * Object constructor.
@@ -48,26 +47,26 @@ abstract class ModuleObject implements Serializable {
      * @since 5.1
      * @param ModuleConfig $config Configuration object.
      */
-	public function __construct(ModuleConfig $config) {
+    public function __construct(\Innomatic\Module\ModuleConfig $config)
+    {
         // Assigns the config and retrieves fully qualified name for value object.
-		$this->config = $config;
-		$vo_fqcn = $this->config->getValueObjectClass();
-		if (!strlen($vo_fqcn)) {
-			$vo_fqcn = 'it.innoteam.module.util.ModuleEmptyValueObject';
-		}
+        $this->config = $config;
+        $vo_fqcn = $this->config->getValueObjectClass();
+        if (!strlen($vo_fqcn)) {
+            $vo_fqcn = 'it.innoteam.module.util.ModuleEmptyValueObject';
+        }
 
         // Imports value object.
-        
-		require_once($vo_fqcn.'.php');
-		$vo_class = strpos($vo_fqcn, '/') ? substr($vo_fqcn, strrpos($vo_fqcn, '/') + 1) : $vo_fqcn;
-		if (!class_exists($vo_class)) {
-			require_once('innomatic/module/ModuleException.php');
-			throw new ModuleException('Value object class '.$vo_class.' does not exists');
-		}
-        
+
+        require_once($vo_fqcn.'.php');
+        $vo_class = strpos($vo_fqcn, '/') ? substr($vo_fqcn, strrpos($vo_fqcn, '/') + 1) : $vo_fqcn;
+        if (!class_exists($vo_class, true)) {
+            throw new ModuleException('Value object class '.$vo_class.' does not exists');
+        }
+
         // Instantiates the value object.
-		$this->valueObject = new $vo_class ();
-        
+        $this->valueObject = new $vo_class ();
+
         // If there are user defined fields, adds them to the value object.
         // This is useful for value objects whose structure is stored in
         // configuration files or determined at runtime.
@@ -77,7 +76,7 @@ abstract class ModuleObject implements Serializable {
                 $this->valueObject->addField($field);
             }
         }
-	}
+    }
 
     /**
      * Flushes the value object.
@@ -86,9 +85,10 @@ abstract class ModuleObject implements Serializable {
      * @since 5.1
      * @return void
      */
-	public function moduleFlush() {
-		$this->valueObject->flush();
-	}
+    public function moduleFlush()
+    {
+        $this->valueObject->flush();
+    }
 
     /**
      * Returns the value object instance.
@@ -97,9 +97,10 @@ abstract class ModuleObject implements Serializable {
      * @since 5.1
      * @return ValueObject
      */
-	public function moduleGetVO() {
-		return $this->valueObject;
-	}
+    public function moduleGetVO()
+    {
+        return $this->valueObject;
+    }
 
     /**
      * Sets the value object, overwriting the existing one.
@@ -111,7 +112,8 @@ abstract class ModuleObject implements Serializable {
      * @since 5.1
      * @return void
      */
-    public function moduleSetVO(ModuleValueObject $valueObject) {
+    public function moduleSetVO(ModuleValueObject $valueObject)
+    {
         $this->valueObject = $valueObject;
     }
 
@@ -128,19 +130,22 @@ abstract class ModuleObject implements Serializable {
      * @since 5.1
      * @return boolean
      */
-    public function moduleSetVA($valueArray) {
+    public function moduleSetVA($valueArray)
+    {
         $this->valueObject->setValueArray($valueArray);
         return true;
     }
-    
-    public function serialize() {
-    	return serialize($this);
+
+    public function serialize()
+    {
+        return serialize($this);
     }
-    
-    public function unserialize($data) {
-    	return unserialize($data);
+
+    public function unserialize($data)
+    {
+        return unserialize($data);
     }
-    
+
     /**
      * Abstract function that is called when the Module is deployed.
      *
@@ -177,5 +182,3 @@ abstract class ModuleObject implements Serializable {
      */
     abstract public function undeploy();
 }
-
-?>

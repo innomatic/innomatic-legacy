@@ -2,21 +2,22 @@
 /**
  * Innomatic
  *
- * LICENSE 
- * 
- * This source file is subject to the new BSD license that is bundled 
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2012 Innoteam S.r.l.
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
  * @since      Class available since Release 5.0
  */
-require_once ('innomatic/wui/widgets/WuiContainerWidget.php');
+namespace Shared\Wui;
+
 /**
  * @package WUI
  */
-class WuiTab extends WuiContainerWidget
+class WuiTab extends \Innomatic\Wui\Widgets\WuiContainerWidget
 {
     //public $mTabs;
     //public $mActiveTab;
@@ -30,7 +31,7 @@ class WuiTab extends WuiContainerWidget
         $dispEvents = ''
     )
     {
-        $this->WuiContainerWidget($elemName, $elemArgs, $elemTheme, $dispEvents);
+        parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
         $tmp_sess = $this->RetrieveSession();
         if (! isset($this->mArgs['tabrows'])) {
             $this->mArgs['tabrows'] = 1;
@@ -40,19 +41,19 @@ class WuiTab extends WuiContainerWidget
         }
         if (isset($this->mArgs['activetab']) and strlen($this->mArgs['activetab']))
             $this->mArgs['activetab'] = $this->mArgs['activetab'];
-        else 
+        else
             if (isset($tmp_sess['activetab']) and strlen($tmp_sess['activetab']))
                 $this->mArgs['activetab'] = $tmp_sess['activetab'];
             else
                 $this->mArgs['activetab'] = 0;
         $this->StoreSession(array('activetab' => $this->mArgs['activetab']));
     }
-    public function addChild (WuiWidget $childWidget)
+    public function addChild(\Innomatic\Wui\Widgets\WuiWidget $childWidget)
     {
         $this->mArgs['tabpages'][] = $childWidget;
         return true;
     }
-    public function build (WuiDispatcher $rwuiDisp)
+    public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $result = false;
         $this->mrWuiDisp = $rwuiDisp;
