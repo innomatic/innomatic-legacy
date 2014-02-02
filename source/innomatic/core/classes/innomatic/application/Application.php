@@ -2134,14 +2134,16 @@ only application. */
 
         $submodStart = true;
         $config['ApplicationOptions'] = '';
-        foreach ($xml->definition->options->option as $option) {
-            if (!$submodStart) {
-                $config['ApplicationOptions'] .= ',';
-            } else {
-                $submodStart = false;
+        if (isset($xml->definition->options)) {
+            foreach ($xml->definition->options->option as $option) {
+                if (!$submodStart) {
+                    $config['ApplicationOptions'] .= ',';
+                } else {
+                    $submodStart = false;
+                }
+    
+                $config['ApplicationOptions'] .= $option;
             }
-
-            $config['ApplicationOptions'] .= $option;
         }
 
         return $config;
