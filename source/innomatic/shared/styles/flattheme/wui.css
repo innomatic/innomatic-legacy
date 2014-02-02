@@ -11,6 +11,10 @@ body {
    background-color: white;
 }
 
+form {
+    margin: 0px;
+}
+
 input {
    font-family: Arial, Verdana, Helvetica, Geneva, sans-serif;
    font-size: 14px;

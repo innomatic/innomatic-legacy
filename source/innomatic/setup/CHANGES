@@ -8,6 +8,27 @@
                                 CHANGES
                                 =======
 
+6000 - 6.3.0 - 2014/02/02 - "WUI widgets ajax"
+-------------------------
+NEW FEATURES:
+- Added \Innomatic\Domain\Domain::getHome() method. (Alex Pagnoni)
+- Added support for WUI widgets ajax calls. (Alex Pagnoni)
+- Added current Panel Controller in InnomaticCore container. (Alex Pagnoni)
+- Added support for colspan in WUI Table widget. (Alex Pagnoni)
+- Added support for colspan in WUI Grid widget. (Alex Pagnoni)
+
+CHANGES:
+- Removed dashboard frame border. (Alex Pagnoni)
+
+FIXES:
+- Fixed empty loaded widgets list in WUI context. (Alex Pagnoni)
+- Fixed bug with XmlRpc classes when checking is_a(): XmlRpcMsg lost ability
+  to support parameters, etc. (Alex Pagnoni)
+- Fixed XmlRpc classes when using functions without namespaces. (Alex Pagnoni)
+- Fixed bug in Maintenance handler due to namespace support. (Alex Pagnoni)
+
+
+
 6000 - 6.2.1 - 2014/01/08
 -------------------------
 NEW FEATURES:
@@ -22,7 +43,7 @@ FIXES:
 
 
 6000 - 6.2 - 2014/01/07 - "Namespaces"
---------------------------------------
+-----------------------
 FIXES:
 - Fixed order of components uninstallation in domain mode. (Alex Pagnoni)
 - Fixed wrong handling of application components register when updating

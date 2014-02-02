@@ -104,7 +104,7 @@ class Permissions
     // for every group
     public function removeNodes($node, $type)
     {
-        //return &$this->db->execute( "DELETE FROM domain_users_permissions WHERE permnode = '".$type.$node."'" );
+        //return $this->db->execute( "DELETE FROM domain_users_permissions WHERE permnode = '".$type.$node."'" );
     }
 
     // Gets node id of a page by its filename

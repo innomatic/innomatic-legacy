@@ -43,7 +43,7 @@ class LanguageComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['name']) and strlen($params['short'])) {
-            $result = &$this->rootda->execute('INSERT INTO locale_languages ' . 'VALUES (' . $this->rootda->formatText($params['short']) . ',' . $this->rootda->formatText($params['name']) . ')');
+            $result = $this->rootda->execute('INSERT INTO locale_languages ' . 'VALUES (' . $this->rootda->formatText($params['short']) . ',' . $this->rootda->formatText($params['name']) . ')');
         } else
             $this->mLog->logEvent('innomatic.languagecomponent.languagecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty language name (' . $params['name'] . ') or short name (' . $params['short'] . ')', \Innomatic\Logging\Logger::ERROR);
         return $result;
@@ -52,7 +52,7 @@ class LanguageComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['name']) and strlen($params['short'])) {
-            $result = &$this->rootda->execute('DELETE FROM locale_languages ' . 'WHERE langname=' . $this->rootda->formatText($params['name']) . ' ' . 'AND langshort=' . $this->rootda->formatText($params['short']));
+            $result = $this->rootda->execute('DELETE FROM locale_languages ' . 'WHERE langname=' . $this->rootda->formatText($params['name']) . ' ' . 'AND langshort=' . $this->rootda->formatText($params['short']));
         } else
             $this->mLog->logEvent('innomatic.languagecomponent.languagecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty language name (' . $params['name'] . ') or short name (' . $params['short'] . ')', \Innomatic\Logging\Logger::ERROR);
         return $result;
@@ -61,7 +61,7 @@ class LanguageComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['name']) and strlen($params['short'])) {
-            $result = &$this->rootda->execute('UPDATE locale_languages ' . 'SET langshort=' . $this->rootda->formatText($params['short']) . ',' . 'langname = ' . $this->rootda->formatText($params['name']) . ' ' . 'WHERE langname=' . $this->rootda->formatText($params['name']));
+            $result = $this->rootda->execute('UPDATE locale_languages ' . 'SET langshort=' . $this->rootda->formatText($params['short']) . ',' . 'langname = ' . $this->rootda->formatText($params['name']) . ' ' . 'WHERE langname=' . $this->rootda->formatText($params['name']));
         } else
             $this->mLog->logEvent('innomatic.languagecomponent.languagecomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty language name (' . $params['name'] . ') or short name (' . $params['short'] . ')', \Innomatic\Logging\Logger::ERROR);
         return $result;

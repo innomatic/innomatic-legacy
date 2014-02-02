@@ -3,6 +3,8 @@ namespace Innomatic\Webservices\Xmlrpc;
 
 use Innomatic\Webservices\Xmlrpc\XmlRpc_Client;
 
+require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
+
 // by Edd Dumbill (C) 1999-2002
 // <edd@usefulinc.com>
 // $Id: xmlrpcs.inc,v 1.69 2007/09/20 20:14:25 ggiunta Exp $
@@ -947,11 +949,11 @@ use Innomatic\Webservices\Xmlrpc\XmlRpc_Client;
             }
 
             if ($this->functions_parameters_type != 'xmlrpcvals')
-                xml_set_element_handler($parser, 'xmlrpc_se', 'xmlrpc_ee_fast');
+                xml_set_element_handler($parser, '\Innomatic\Webservices\Xmlrpc\xmlrpc_se', '\Innomatic\Webservices\Xmlrpc\xmlrpc_ee_fast');
             else
-                xml_set_element_handler($parser, 'xmlrpc_se', 'xmlrpc_ee');
-            xml_set_character_data_handler($parser, 'xmlrpc_cd');
-            xml_set_default_handler($parser, 'xmlrpc_dh');
+                xml_set_element_handler($parser, '\Innomatic\Webservices\Xmlrpc\xmlrpc_se', '\Innomatic\Webservices\Xmlrpc\xmlrpc_ee');
+            xml_set_character_data_handler($parser, '\Innomatic\Webservices\Xmlrpc\xmlrpc_cd');
+            xml_set_default_handler($parser, '\Innomatic\Webservices\Xmlrpc\xmlrpc_dh');
             if(!xml_parse($parser, $data, 1))
             {
                 // return XML error as a faultCode
@@ -1085,10 +1087,10 @@ use Innomatic\Webservices\Xmlrpc\XmlRpc_Client;
                 {
                     $r = call_user_func($func, $m);
                 }
-                if (!is_a($r, 'xmlrpcresp'))
+                if (!is_a($r, '\Innomatic\Webservices\Xmlrpc\XmlRpcResp'))
                 {
                     error_log("XML-RPC: xmlrpc_server::execute: function $func registered as method handler does not return an xmlrpcresp object");
-                    if (is_a($r, 'xmlrpcval'))
+                    if (is_a($r, '\Innomatic\Webservices\Xmlrpc\XmlRpcVal'))
                     {
                         $r = new XmlRpcResp($r);
                     }
@@ -1135,7 +1137,7 @@ use Innomatic\Webservices\Xmlrpc\XmlRpc_Client;
                     }
                 }
                 // the return type can be either an xmlrpcresp object or a plain php value...
-                if (!is_a($r, 'xmlrpcresp'))
+                if (!is_a($r, '\Innomatic\Webservices\Xmlrpc\XmlRpcResp'))
                 {
                     // what should we assume here about automatic encoding of datetimes
                     // and php classes instances???

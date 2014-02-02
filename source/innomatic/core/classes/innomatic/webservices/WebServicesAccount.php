@@ -83,7 +83,7 @@ class WebServicesAccount
                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         if ( $this->mId ) {
-            $acc_query = &$this->mrRootDb->execute( 'SELECT * '.
+            $acc_query = $this->mrRootDb->execute( 'SELECT * '.
                                                   'FROM webservices_accounts '.
                                                   'WHERE id='.(int)$this->mId );
 
@@ -137,7 +137,7 @@ class WebServicesAccount
             if ( strlen( $name ) ) {
                 $acc_seq = $this->mrRootDb->getNextSequenceValue( 'webservices_accounts_id_seq' );
 
-                $result = &$this->mrRootDb->execute( 'INSERT INTO webservices_accounts '.
+                $result = $this->mrRootDb->execute( 'INSERT INTO webservices_accounts '.
                                                     'VALUES ('.
                                                     $acc_seq.','.
                                                     $this->mrRootDb->formatText( $name ).','.
@@ -208,7 +208,7 @@ class WebServicesAccount
         $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.remove' );
         if ( $hook->callHooks( 'calltime', $this, array( 'id' => $this->mId ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mId ) {
-                $result = &$this->mrRootDb->execute( 'DELETE FROM webservices_accounts WHERE id='.(int)$this->mId );
+                $result = $this->mrRootDb->execute( 'DELETE FROM webservices_accounts WHERE id='.(int)$this->mId );
 
                 if ( $result ) {
                     $this->mLog->logEvent( 'Innomatic',
@@ -245,7 +245,7 @@ class WebServicesAccount
         if ( $hook->callHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mId ) {
                 if ( strlen( $name ) ) {
-                    $result = &$this->mrRootDb->execute( 'UPDATE webservices_accounts '.
+                    $result = $this->mrRootDb->execute( 'UPDATE webservices_accounts '.
                                                         'SET '.
                                                         'name='.$this->mrRootDb->formatText( $name ).','.
                                                         'host='.$this->mrRootDb->formatText( $host ).','.

@@ -79,10 +79,12 @@ class Wui extends \Innomatic\Util\Singleton
     public function loadWidget($widgetName)
     {
         if (class_exists('\Shared\Wui\Wui'.ucfirst($widgetName), true)) {
-            return true;
+        	$this->mLoadedWidgets[$widgetName] = $widgetName;
+        	return true;
         }
         
         if (class_exists('Wui'.ucfirst($widgetName), false)) {
+        	$this->mLoadedWidgets[$widgetName] = $widgetName;
         	return true;
         }
 

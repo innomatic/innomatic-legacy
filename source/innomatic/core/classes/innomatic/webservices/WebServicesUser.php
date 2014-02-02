@@ -76,14 +76,14 @@ class WebServicesUser
                 // :TODO: Alex Pagnoni 010710
                 // It should check if the profile exists
 
-                $query = &$this->mRootDb->execute( 'SELECT username '.
+                $query = $this->mRootDb->execute( 'SELECT username '.
                                                   'FROM webservices_users '.
                                                   'WHERE username='.$this->mRootDb->formatText( $username ) );
 
                 if ( !$query->getNumberRows() ) {
                     $this->mUserId = $this->mRootDb->getNextSequenceValue( 'webservices_users_id_seq' );
 
-                    $result = &$this->mRootDb->execute( 'INSERT INTO webservices_users '.
+                    $result = $this->mRootDb->execute( 'INSERT INTO webservices_users '.
                                                        'VALUES ('.
                                                        $this->mUserId.','.
                                                        $this->mRootDb->formatText( $username ).','.
@@ -133,7 +133,7 @@ class WebServicesUser
                 // $username can be empty, since we can accept
                 // anonymous users
 
-                $query = &$this->mRootDb->execute( 'SELECT * '.
+                $query = $this->mRootDb->execute( 'SELECT * '.
                                                   'FROM webservices_users '.
                                                   'WHERE username='.$this->mRootDb->formatText( $username ).' '.
                                                   'AND password='.$this->mRootDb->formatText( md5( $password ) ) );
@@ -166,7 +166,7 @@ class WebServicesUser
 
         if ( $this->mRootDb ) {
             if ( $this->mUserId ) {
-                $query = &$this->mRootDb->execute( 'SELECT profileid '.
+                $query = $this->mRootDb->execute( 'SELECT profileid '.
                                                   'FROM webservices_users '.
                                                   'WHERE id='.(int)$this->mUserId );
                 if ( $query->getNumberRows() ) {
@@ -193,7 +193,7 @@ class WebServicesUser
 
         if ( $this->mRootDb ) {
             if ( $this->mUserId ) {
-                $result = &$this->mRootDb->execute( 'DELETE FROM webservices_users '.
+                $result = $this->mRootDb->execute( 'DELETE FROM webservices_users '.
                                                    'WHERE id='.(int)$this->mUserId );
 
                 if ( $result ) {
@@ -226,7 +226,7 @@ class WebServicesUser
 
         if ( $this->mRootDb ) {
             if ( $this->mUserId ) {
-                $result = &$this->mRootDb->execute( 'UPDATE webservices_users '.
+                $result = $this->mRootDb->execute( 'UPDATE webservices_users '.
                                                    'SET password='.$this->mRootDb->formatText( md5( $newPassword ) ).
                                                    'WHERE id='.(int)$this->mUserId );
 
@@ -260,7 +260,7 @@ class WebServicesUser
 
         if ( $this->mRootDb ) {
             if ( $this->mUserId ) {
-                $query = &$this->mRootDb->execute( 'SELECT FROM webservices_users '.
+                $query = $this->mRootDb->execute( 'SELECT FROM webservices_users '.
                                                   'WHERE id='.(int)$this->mUserID.
                                                   ' AND password='.$this->mRootDb->formatText( md5( $password ) ).')' );
 
@@ -289,7 +289,7 @@ class WebServicesUser
         if ( $this->mRootDb ) {
             if ( $this->mUserId ) {
                 if ( strlen( $profileId ) ) {
-                    if ( $query = &$this->mRootDb->execute( 'UPDATE webservices_users '.
+                    if ( $query = $this->mRootDb->execute( 'UPDATE webservices_users '.
                                                            'SET profileid='.(int)$profileId.' '.
                                                            'WHERE id='.(int)$this->mUserId ) ) $result = true;
 
@@ -323,7 +323,7 @@ class WebServicesUser
                 $domainId = (int)$domainId;
                 if ( !strlen( $domainId ) ) $domainId = 0;
 
-                if ( $query = &$this->mRootDb->execute(
+                if ( $query = $this->mRootDb->execute(
                     'UPDATE webservices_users '.
                     'SET domainid='.(int)$domainId.' '.
                     'WHERE id='.(int)$this->mUserId ) ) $result = true;

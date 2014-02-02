@@ -43,17 +43,17 @@ class DomaingroupComponent extends \Innomatic\Application\ApplicationComponent
     }
     public function doEnableDomainAction($domainid, $params)
     {
-        $result = &$this->domainda->execute('INSERT INTO domain_panels_groups VALUES (' . $this->domainda->getNextSequenceValue('domain_panels_groups_id_seq') . ',' . $this->domainda->formatText($params['name']) . ',' . $this->domainda->formatText($params['catalog']) . ')');
+        $result = $this->domainda->execute('INSERT INTO domain_panels_groups VALUES (' . $this->domainda->getNextSequenceValue('domain_panels_groups_id_seq') . ',' . $this->domainda->formatText($params['name']) . ',' . $this->domainda->formatText($params['catalog']) . ')');
         if (! $result)
             $this->mLog->logEvent('innomatic.domaingroupcomponent.domaingroupcomponent.doenabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to insert desktop group into domain_panels_groups table', \Innomatic\Logging\Logger::ERROR);
         return $result;
     }
     public function doDisableDomainAction($domainid, $params)
     {
-        $tmpquery = &$this->domainda->execute('SELECT id FROM domain_panels_groups WHERE name = ' . $this->domainda->formatText($params['name']));
+        $tmpquery = $this->domainda->execute('SELECT id FROM domain_panels_groups WHERE name = ' . $this->domainda->formatText($params['name']));
         $tmpperm = new \Innomatic\Domain\User\Permissions($this->domainda, 0);
-        $tmpperm->RemoveNodes($tmpquery->getFields('id'), 'group');
-        $result = &$this->domainda->execute('DELETE FROM domain_panels_groups WHERE name = ' . $this->domainda->formatText($params['name']));
+        $tmpperm->removeNodes($tmpquery->getFields('id'), 'group');
+        $result = $this->domainda->execute('DELETE FROM domain_panels_groups WHERE name = ' . $this->domainda->formatText($params['name']));
         if (! $result)
             $this->mLog->logEvent('innomatic.domaingroupcomponent.domaingroupcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove desktop group from domain_panels_groups table', \Innomatic\Logging\Logger::ERROR);
         return $result;

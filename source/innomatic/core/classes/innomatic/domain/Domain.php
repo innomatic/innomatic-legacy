@@ -375,6 +375,19 @@ class Domain
             }
     }
 
+    /**
+     * Returns the domain private home directory.
+     * 
+     * @return string|boolean
+     */
+    public function getHome()
+    {
+    	if (isset($this->domaindata['domainid']) and strlen($this->domaindata['domainid'])) {
+    		return \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/domains/'.$this->domaindata['domainid'].'/';
+    	} else {
+    		return false;
+    	}
+    }
     /*!
      @function getMaxUsers
 
