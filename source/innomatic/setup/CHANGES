@@ -15,6 +15,7 @@ NEW FEATURES:
 - Added support for WUI widgets ajax calls. (Alex Pagnoni)
 - Added current Panel Controller in InnomaticCore container. (Alex Pagnoni)
 - Added support for colspan in WUI Table widget. (Alex Pagnoni)
+- Added support for colspan in WUI Grid widget. (Alex Pagnoni)
 
 CHANGES:
 - Removed dashboard frame border. (Alex Pagnoni)
