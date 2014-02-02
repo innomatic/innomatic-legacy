@@ -114,7 +114,7 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
         }
     }
 
-    public function addChild(\Innomatic\Wui\Widgets\WuiWidget $childWidget, $row = '', $col = '', $halign = '', $valign = '', $nowrap = 'false', $width = '')
+    public function addChild(\Innomatic\Wui\Widgets\WuiWidget $childWidget, $row = '', $col = '', $halign = '', $valign = '', $nowrap = 'false', $width = '', $colspan = 0, $rowspan = 0)
     {
         if ($row >= $this->mRows) {
             $this->mRows = $row + 1;
@@ -136,6 +136,10 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
         
         $this->mArgs['cells'][$row][$col]['nowrap'] = $nowrap;
         $this->mArgs['cells'][$row][$col]['width'] = $width;
+        
+        // Rowspan and colspan
+        $this->mArgs['cells'][$row][$col]['colspan'] = (int)$colspan;
+        $this->mArgs['cells'][$row][$col]['rowspan'] = (int)$rowspan;
         
         return true;
     }
@@ -193,7 +197,14 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
             for ($row = $from; $row < $to; $row ++) {
                 $this->mLayout .= "<tr>\n";
                 for ($col = 0; $col < $this->mCols; $col ++) {
-                    $this->mLayout .= '<td bgcolor="white"' . (isset($this->mArgs['cells'][$row][$col]['halign']) ? ' align="' . $this->mArgs['cells'][$row][$col]['halign'] . "\"" : "") . (isset($this->mArgs['cells'][$row][$col]['valign']) ? ' valign="' . $this->mArgs['cells'][$row][$col]['valign'] . "\"" : "") . ((isset($this->mArgs['cells'][$row][$col]['nowrap']) and $this->mArgs['cells'][$row][$col]['nowrap'] == 'true') ? ' nowrap style="white-space: nowrap"' : '') . ((isset($this->mArgs['cells'][$row][$col]['width']) and strlen($this->mArgs['cells'][$row][$col]['width'])) ? ' width="' . $this->mArgs['cells'][$row][$col]['width'] . '"' : '') . ">\n";
+                    $this->mLayout .= '<td bgcolor="white"' . 
+                        (isset($this->mArgs['cells'][$row][$col]['halign']) ? ' align="' . $this->mArgs['cells'][$row][$col]['halign'] . "\"" : "") .
+                        (isset($this->mArgs['cells'][$row][$col]['valign']) ? ' valign="' . $this->mArgs['cells'][$row][$col]['valign'] . "\"" : "") .
+                        ($this->mArgs['cells'][$row][$col]['colspan'] > 0 ? ' colspan="' . $this->mArgs['cells'][$row][$col]['colspan'] . '"' : '') .
+                        ($this->mArgs['cells'][$row][$col]['rowspan'] > 0 ? ' rowspan="' . $this->mArgs['cells'][$row][$col]['rowspan'] . '"' : '') .
+                        ((isset($this->mArgs['cells'][$row][$col]['nowrap']) and $this->mArgs['cells'][$row][$col]['nowrap'] == 'true') ? ' nowrap style="white-space: nowrap"' : '') .
+                        ((isset($this->mArgs['cells'][$row][$col]['width']) and strlen($this->mArgs['cells'][$row][$col]['width'])) ? ' width="' . $this->mArgs['cells'][$row][$col]['width'] . '"' : '')
+                        . ">\n";
                     $elem = '';
                     if (isset($this->mArgs['cells'][$row][$col]['widget']) and is_object($this->mArgs['cells'][$row][$col]['widget'])) {
                         if ($this->mArgs['cells'][$row][$col]['widget']->Build($this->mrWuiDisp)) {
@@ -205,6 +216,10 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
                     }
                     $this->mLayout .= $elem;
                     $this->mLayout .= "</td>\n";
+                    
+                    if ($this->mArgs['cells'][$row][$col]['colspan'] > 0) {
+                        $col += $this->mArgs['cells'][$row][$col]['colspan'] - 1;
+                    }
                 }
                 $this->mLayout .= "</tr>\n";
             }
