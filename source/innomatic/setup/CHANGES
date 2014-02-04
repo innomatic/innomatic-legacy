@@ -8,6 +8,13 @@
                                 CHANGES
                                 =======
 
+6000 - 6.x.x
+-------------------------
+CHANGES:
+- Changed "user profile" concept to "application access". (Alex Pagnoni)
+
+
+
 6000 - 6.3.0 - 2014/02/02 - "WUI widgets ajax"
 -------------------------
 NEW FEATURES:
