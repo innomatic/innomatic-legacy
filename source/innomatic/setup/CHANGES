@@ -13,6 +13,9 @@
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
 
+FIXES:
+- Fixed locale country fract digits. (Alex Pagnoni)
+ 
 
 
 6000 - 6.3.0 - 2014/02/02 - "WUI widgets ajax"
