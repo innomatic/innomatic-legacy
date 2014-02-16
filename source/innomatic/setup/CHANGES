@@ -8,9 +8,10 @@
                                 CHANGES
                                 =======
 
-6000 - 6.x.x
+6000 - 6.4.0
 -------------------------
 NEW FEATURES:
+- Added the desktop tray bar. (Alex Pagnoni)
 - Added \Innomatic\Core\InnomaticContainer::switchDomain() method to stop the
   current domain and start a new one. (Alex Pagnoni)
 
