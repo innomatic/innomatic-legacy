@@ -436,35 +436,37 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
             if (! (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
                 $block .= '<td><span class="headerbar" style="white-space: nowrap;">' . $user_name . "</span></td>";
                 
-                // Tray bar items
-                
-                $domain_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
-                
-                $perm = new \Innomatic\Domain\User\Permissions($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
-                
-                // Extract the list of all the tray bar items
-                $traybar_items_query = $domain_da->execute('SELECT * FROM domain_traybar_items');
-                
-                while (!$traybar_items_query->eof) {
-                    $panel = $traybar_items_query->getFields('panel');
-                
-                    // Do not show traybar items tied to a panel when the panel is not accessible to the current user
-                    if (strlen($panel)) {
-                        $node_id = $perm->getNodeIdFromFileName($panel);
-                        if ($perm->check($node_id, \Innomatic\Domain\User\Permissions::NODETYPE_PAGE) == \Innomatic\Domain\User\Permissions::NODE_NOTENABLED) {
-                            $traybar_items_query->moveNext();
-                            continue;
+                if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->isDomainStarted() == true) {
+                    // Tray bar items
+                    
+                    $domain_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
+                    
+                    $perm = new \Innomatic\Domain\User\Permissions($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
+                    
+                    // Extract the list of all the tray bar items
+                    $traybar_items_query = $domain_da->execute('SELECT * FROM domain_traybar_items');
+                    
+                    while (!$traybar_items_query->eof) {
+                        $panel = $traybar_items_query->getFields('panel');
+                    
+                        // Do not show traybar items tied to a panel when the panel is not accessible to the current user
+                        if (strlen($panel)) {
+                            $node_id = $perm->getNodeIdFromFileName($panel);
+                            if ($perm->check($node_id, \Innomatic\Domain\User\Permissions::NODETYPE_PAGE) == \Innomatic\Domain\User\Permissions::NODE_NOTENABLED) {
+                                $traybar_items_query->moveNext();
+                                continue;
+                            }
                         }
+                    
+                        $class_name = $traybar_items_query->getFields('class');
+                        if (class_exists($class_name)) {
+                            $traybar_item = new $class_name();
+                            $traybar_item->prepare();
+                            $block .= '<td style="padding-left: 15px;">'.$traybar_item->getHtml().'</td>';
+                        }
+                    
+                        $traybar_items_query->moveNext();
                     }
-                
-                    $class_name = $traybar_items_query->getFields('class');
-                    if (class_exists($class_name)) {
-                        $traybar_item = new $class_name();
-                        $traybar_item->prepare();
-                        $block .= '<td>'.$traybar_item->getHtml().'</td>';
-                    }
-                
-                    $traybar_items_query->moveNext();
                 }
                 
                 $block .= '<td><a href="' . $logout_events_call->getEventsCallString() . '" alt="' . $innomatic_menu_locale->getStr('logout') . '"><img width="25" height="25" align="right" style="margin-left: 15px;" src="' . $this->mThemeHandler->mStyle['logout'] . '" alt="' . $innomatic_menu_locale->getStr('logout') . '" /></a></td>';
