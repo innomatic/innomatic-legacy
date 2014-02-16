@@ -99,6 +99,8 @@
 		<component name="module" file="ModuleComponent.php" />
 		<component name="dashboardwidget"
 			file="DashboardwidgetComponent.php" />
+        <component name="traybaritem"
+            file="TraybaritemComponent.php" />
 
 		<!-- Installation scripts -->
 
@@ -919,7 +921,12 @@
 			file="domain_dashboards_widgets.xml" />
 
 		<dashboardwidget name="welcome" panel="dashboard" file="WelcomeDashboardWidget.php" catalog="innomatic::dashboard_welcome" title="welcome_title" class="\\Shared\\Dashboard\\WelcomeDashboardWidget" />
-
+		
+		<!--  Tray bar -->
+		<class name="innomatic/desktop/traybar/TraybarItem.php" />
+        <domaintable name="domain_traybar_items"
+            file="domain_traybar_items.xml" />
+            
 		<!-- Modules -->
 
 		<configurationfile name="modules.ini" keep="1" />
