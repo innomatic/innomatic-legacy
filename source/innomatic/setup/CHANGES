@@ -10,6 +10,10 @@
 
 6000 - 6.x.x
 -------------------------
+NEW FEATURES:
+- Added \Innomatic\Core\InnomaticContainer::switchDomain() method to stop the
+  current domain and start a new one. (Alex Pagnoni)
+
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
 

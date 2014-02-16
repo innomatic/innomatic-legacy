@@ -478,6 +478,27 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             $this->setMode(\Innomatic\Core\InnomaticContainer::MODE_ROOT);
         }
     }
+    
+    /**
+     * Automatically closes the current domain (if started) and starts a new domain.
+     * 
+     * @param string $domainId id name of the new domain
+     * @param string $userId optional id of the user
+     * @return string null if not previous domain has been started already.
+     */
+    public function switchDomain($domainId, $userId = '')
+    {
+        $prev_domain = null;
+        
+        if ($this->domainStarted) {
+            $prev_domain = $this->getCurrentDomain()->getDomainId();
+            $this->stopDomain();
+        }
+        $this->startDomain($domainId, $userId);
+        
+        // Return the previos domain id name
+        return $prev_domain;
+    }
 
     // TODO to be implemented
     public function startWebServices()
