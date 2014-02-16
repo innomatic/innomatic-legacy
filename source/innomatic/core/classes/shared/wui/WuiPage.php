@@ -444,7 +444,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                     $perm = new \Innomatic\Domain\User\Permissions($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
                     
                     // Extract the list of all the tray bar items
-                    $traybar_items_query = $domain_da->execute('SELECT * FROM domain_traybar_items');
+                    $traybar_items_query = $domain_da->execute('SELECT * FROM domain_traybar_items ORDER BY name');
                     
                     while (!$traybar_items_query->eof) {
                         $panel = $traybar_items_query->getFields('panel');
