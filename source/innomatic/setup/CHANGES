@@ -20,7 +20,9 @@ CHANGES:
 
 FIXES:
 - Fixed locale country fract digits. (Alex Pagnoni)
- 
+- Fixed boolean values for application_component_types in innomatic_root.xml.
+  (Alex Pagnoni)
+
 
 
 6000 - 6.3.0 - 2014/02/02 - "WUI widgets ajax"
