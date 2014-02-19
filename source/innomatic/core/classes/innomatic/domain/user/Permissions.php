@@ -74,7 +74,7 @@ class Permissions
         $result = Permissions::NODE_NOTENABLED;
 
         // Check if the domain panel has the hidden flag, if so we consider it enabled by default
-        if (strcmp($ntype, Permissions::NODETYPE_PAGE) == 0) {
+        if (strcmp($ntype, Permissions::NODETYPE_PAGE) == 0 and strlen($node)) {
             $hidden_check = $this->db->execute('SELECT hidden FROM domain_panels WHERE id='.$node);
             if ($hidden_check->getNumberRows() > 0 and $hidden_check->getFields('hidden') == $this->db->fmttrue) {
                 return Permissions::NODE_FULLYENABLED;
