@@ -14,6 +14,8 @@ NEW FEATURES:
 - Added the desktop tray bar. (Alex Pagnoni)
 - Added \Innomatic\Core\InnomaticContainer::switchDomain() method to stop the
   current domain and start a new one. (Alex Pagnoni)
+- Added support for panels hidden from panels menu, by default available to
+  every user. (Alex Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)

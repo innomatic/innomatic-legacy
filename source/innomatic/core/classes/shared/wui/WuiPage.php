@@ -232,7 +232,14 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                             
                             $pagesquery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()
                                 ->getDataAccess()
-                                ->execute('select * from domain_panels where groupid = ' . $groupdata['id'] . ' order by name');
+                                ->execute('SELECT *
+                                    FROM domain_panels
+                                    WHERE groupid = ' . $groupdata['id'] . '
+                                    AND (hidden != '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()
+                                ->getDataAccess()->formatText(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()
+                                ->getDataAccess()->fmttrue).'
+                                    OR hidden IS NULL)
+                                    ORDER BY name');
                             $pagesnum = $pagesquery->getNumberRows();
                             
                             if ($pagesnum > 0) {

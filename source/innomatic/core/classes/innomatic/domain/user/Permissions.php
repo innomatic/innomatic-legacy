@@ -73,10 +73,19 @@ class Permissions
     {
         $result = Permissions::NODE_NOTENABLED;
 
+        // Check if the domain panel has the hidden flag, if so we consider it enabled by default
+        if (strcmp($ntype, Permissions::NODETYPE_PAGE) == 0) {
+            $hidden_check = $this->db->execute('SELECT hidden FROM domain_panels WHERE id='.$node);
+            if ($hidden_check->getNumberRows() > 0 and $hidden_check->getFields('hidden') == $this->db->fmttrue) {
+                return Permissions::NODE_FULLYENABLED;
+            }
+        }
+        
         $pquery = $this->db->execute('SELECT groupid FROM domain_users_permissions WHERE groupid = '.$this->gid.' AND permnode = '.$this->db->formatText($ntype.$node));
 
-        if ($pquery->getNumberRows() == 0)
+        if ($pquery->getNumberRows() == 0) {
             $result = Permissions::NODE_FULLYENABLED;
+        }
 
         if (strcmp($ntype, Permissions::NODETYPE_GROUP) == 0) {
             $apquery = $this->db->execute('SELECT id FROM domain_panels WHERE groupid = '.$node);
@@ -90,8 +99,9 @@ class Permissions
                 $apquery->moveNext();
             }
 
-            if (($apquery->getNumberRows() == $pages) and ($apquery->getNumberRows() != 0))
+            if (($apquery->getNumberRows() == $pages) and ($apquery->getNumberRows() != 0)) {
                 $result = Permissions::NODE_FULLYENABLED;
+            }
 
             $apquery->free();
         }

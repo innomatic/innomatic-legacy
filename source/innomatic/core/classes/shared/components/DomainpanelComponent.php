@@ -99,38 +99,43 @@ class DomainpanelComponent extends \Innomatic\Application\ApplicationComponent
         }
         return $result;
     }
+    
     public function doUpdateAction($params)
     {
         return $this->doInstallAction($params);
     }
+    
     public function doEnableDomainAction($domainid, $params)
     {
         $result = false;
-        if (! isset($params['icon']))
+        if (! isset($params['icon'])) {
             $params['icon'] = '';
-        if (! isset($params['themeicon']))
+        }
+        if (! isset($params['themeicon'])) {
             $params['themeicon'] = '';
-        if (! isset($params['themeicontype']))
+        }
+        if (! isset($params['themeicontype'])) {
             $params['themeicontype'] = '';
-        if (! isset($params['show']) or $params['show'] != 'no') {
-            // If the page has no group, puts it in the generic tools group
-            //
-            if (empty($params['category']))
-                $params['category'] = 'tools';
-            $grquery = $this->domainda->execute('SELECT * FROM domain_panels_groups WHERE name = ' . $this->domainda->formatText($params['category']));
-            if ($grquery->getNumberRows() > 0)
-                $grdata = $grquery->getFields();
-            if (strlen($params['catalog']) > 0) {
-                $ins = 'INSERT INTO domain_panels VALUES (' . $this->domainda->getNextSequenceValue('domain_panels_id_seq') . ',';
-                $ins .= $this->domainda->formatText($grdata['id']) . ',';
-                $ins .= $this->domainda->formatText($params['name']) . ',';
-                $ins .= $this->domainda->formatText($params['icon']) . ',';
-                $ins .= $this->domainda->formatText($params['catalog']) . ',';
-                $ins .= $this->domainda->formatText($params['themeicon']) . ',';
-                $ins .= $this->domainda->formatText($params['themeicontype']) . ')';
-                $result = $this->domainda->execute($ins);
-            } else
-                $result = true;
+        }
+        // If the page has no group, puts it in the generic tools group
+        //
+        if (empty($params['category']))
+            $params['category'] = 'tools';
+        $grquery = $this->domainda->execute('SELECT * FROM domain_panels_groups WHERE name = ' . $this->domainda->formatText($params['category']));
+        if ($grquery->getNumberRows() > 0)
+            $grdata = $grquery->getFields();
+        if (strlen($params['catalog']) > 0) {
+            $ins = 'INSERT INTO domain_panels VALUES (' . $this->domainda->getNextSequenceValue('domain_panels_id_seq') . ',';
+            $ins .= $this->domainda->formatText($grdata['id']) . ',';
+            $ins .= $this->domainda->formatText($params['name']) . ',';
+            $ins .= $this->domainda->formatText($params['icon']) . ',';
+            $ins .= $this->domainda->formatText($params['catalog']) . ',';
+            $ins .= $this->domainda->formatText($params['themeicon']) . ',';
+            $ins .= $this->domainda->formatText($params['themeicontype']) . ',';
+            $ins .= $this->domainda->formatText((isset($params['hidden']) and $params['hidden'] == 'true') ? $this->domainda->fmttrue : $this->domainda->fmtfalse) . ')';
+            $result = $this->domainda->execute($ins);
+        } else {
+            $result = true;
         }
         return $result;
     }
@@ -143,18 +148,25 @@ class DomainpanelComponent extends \Innomatic\Application\ApplicationComponent
             $params['themeicon'] = '';
         if (! isset($params['themeicontype']))
             $params['themeicontype'] = '';
-        if (! empty($params['name']) and $params['show'] != 'no') {
+        if (! empty($params['name'])) {
             if (! empty($params['catalog'])) {
                 $tmpquery = $this->domainda->execute('SELECT id FROM domain_panels where name = ' . $this->domainda->formatText($params['name']));
-                $tmpperm = new \Innomatic\Domain\User\Permissions($this->domainda, 0);
-                $tmpperm->RemoveNodes($tmpquery->getFields('id'), 'page');
-                $result = $this->domainda->execute('delete from domain_panels where name = ' . $this->domainda->formatText($params['name']));
-                if (! $result)
-                    $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove desktop application from domain_panels table', \Innomatic\Logging\Logger::ERROR);
-            } else
+                if ($tmpquery->getNumberRows() > 0) {
+                    $tmpperm = new \Innomatic\Domain\User\Permissions($this->domainda, 0);
+                    $tmpperm->RemoveNodes($tmpquery->getFields('id'), 'page');
+                    $result = $this->domainda->execute('delete from domain_panels where name = ' . $this->domainda->formatText($params['name']));
+                    if (! $result) {
+                        $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove desktop panel from domain_panels table', \Innomatic\Logging\Logger::ERROR);
+                    }
+                } else {
+                    $result = true;
+                }
+            } else {
                 $result = true;
-        } else
-            $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Both file and icon attributes of desktop application component are empty', \Innomatic\Logging\Logger::ERROR);
+            }
+        } else {
+            $this->mLog->logEvent('innomatic.domainpanelcomponent.domainpanelcomponent.dodisabledomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Name attribute of desktop panel component is empty', \Innomatic\Logging\Logger::ERROR);
+        }
         return $result;
     }
     public function doUpdateDomainAction($domainid, $params)
@@ -169,9 +181,19 @@ class DomainpanelComponent extends \Innomatic\Application\ApplicationComponent
         if ($grquery = $this->domainda->execute('SELECT * FROM domain_panels_groups WHERE name = ' . $this->domainda->formatText($params['category']))) {
             if ($grquery->getNumberRows() > 0) {
                 $grdata = $grquery->getFields();
-                $check_query = $this->domainda->execute('SELECT id ' . 'FROM domain_panels ' . 'WHERE name=' . $this->domainda->formatText($params['name']));
+                $check_query = $this->domainda->execute(
+                    'SELECT id
+                    FROM domain_panels
+                    WHERE name=' . $this->domainda->formatText($params['name']));
                 if ($check_query->getNumberRows()) {
-                    if ($this->domainda->execute('UPDATE domain_panels SET groupid=' . $grdata['id'] . ', catalog=' . $this->domainda->formatText($params['catalog']) . ', themeicon=' . $this->domainda->formatText($params['themeicon']) . ', themeicontype=' . $this->domainda->formatText($params['themeicontype']) . ' WHERE name=' . $this->domainda->formatText($params['name']))) {
+                    if ($this->domainda->execute(
+                        'UPDATE domain_panels
+                        SET groupid=' . $grdata['id'] . ',
+                        hidden='.$this->domainda->formatText((isset($params['hidden']) and $params['hidden'] == 'true') ? $this->domainda->fmttrue : $this->domainda->fmtfalse).',
+                        catalog=' . $this->domainda->formatText($params['catalog']) . ',
+                        themeicon=' . $this->domainda->formatText($params['themeicon']) . ',
+                        themeicontype=' . $this->domainda->formatText($params['themeicontype']) . '
+                        WHERE name=' . $this->domainda->formatText($params['name']))) {
                         $result = true;
                     }
                 } else {
