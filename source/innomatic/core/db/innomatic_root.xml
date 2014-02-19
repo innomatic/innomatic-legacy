@@ -877,7 +877,7 @@
 		<key field="id" type="unique" />
 	</table>
 
-	<sequence name="rootprofile_id_seq" />
+	<sequence name="rootprofiles_id_seq" />
 
 	<table name="applications_enabled">
 		<field name="applicationid" type="integer" notnull="1" />
