@@ -125,6 +125,8 @@
 		<!--  Root container -->
 
 		<class name="innomatic/core/RootContainer.php" />
+        <roottable name="root_settings" file="root_settings.xml" />
+        <class name="innomatic/core/RootSettings.php" />
 
 		<!-- Innomatic core -->
 
