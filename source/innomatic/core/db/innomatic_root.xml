@@ -879,6 +879,11 @@
 
 	<sequence name="rootprofiles_id_seq" />
 
+    <table name="root_settings">
+        <field name="keyname" type="text" notnull="1" />
+        <field name="val" type="text" />
+    </table>
+    
 	<table name="applications_enabled">
 		<field name="applicationid" type="integer" notnull="1" />
 		<field name="domainid" type="integer" notnull="1" />
