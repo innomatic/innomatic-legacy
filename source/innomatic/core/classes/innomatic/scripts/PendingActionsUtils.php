@@ -88,6 +88,11 @@ class PendingActionsUtils
         return $actions;
     }
     
+    /**
+     * Removes a pending action with a given id.
+     * 
+     * @param integer $id Pending action id.
+     */
     public static function removeById($id)
     {
         $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
@@ -96,6 +101,12 @@ class PendingActionsUtils
         }
     }
     
+    /**
+     * Removes all pending actions related to a given application and action name.
+     * 
+     * @param string $application Application identifier string.
+     * @param string $action Action name.
+     */
     public static function removeByAction($application, $action)
     {
         $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
@@ -103,6 +114,11 @@ class PendingActionsUtils
         $root_da->execute('DELETE FROM pending_actions WHERE application='.$root_da->formatText($application).' AND action='.$root_da->formatText($action));
     }
     
+    /**
+     * Removes all pending actions related to a given application.
+     * 
+     * @param string $application Application identifier string.
+     */
     public static function removeByApplication($application)
     {
         $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
