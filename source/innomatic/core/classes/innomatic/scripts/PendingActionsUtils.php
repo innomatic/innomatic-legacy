@@ -41,9 +41,9 @@ class PendingActionsUtils
      */
     public static function add($application, $domain_id, $user_id, $action, $parameters = array())
     {
-        $root_da = \Innomatic\Core\Container::instance('\Innomatic\Core\Container')->getDataAccess();
+        $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
         
-        $id = $root_da->getNextSequence('pending_actions_id_seq');
+        $id = $root_da->getNextSequenceValue('pending_actions_id_seq');
         
         return $root_da->execute(
             'INSERT INTO pending_actions VALUES('.
@@ -67,7 +67,7 @@ class PendingActionsUtils
      */
     public static function get($application, $action)
     {
-        $root_da = \Innomatic\Core\Container::instance('\Innomatic\Core\Container')->getDataAccess();
+        $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
         
         $query = $root_da->execute('SELECT * FROM pending_actions WHERE application='.$root_da->formatText($application).' AND action='.$root_da->formatText($action).' ORDER BY created');
         
@@ -90,7 +90,7 @@ class PendingActionsUtils
     
     public static function removeById($id)
     {
-        $root_da = \Innomatic\Core\Container::instance('\Innomatic\Core\Container')->getDataAccess();
+        $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
         if ($id > 0) {
             $root_da->execute('DELETE FROM pending_actions WHERE id='.$id);
         }
@@ -98,14 +98,14 @@ class PendingActionsUtils
     
     public static function removeByAction($application, $action)
     {
-        $root_da = \Innomatic\Core\Container::instance('\Innomatic\Core\Container')->getDataAccess();
+        $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
 
         $root_da->execute('DELETE FROM pending_actions WHERE application='.$root_da->formatText($application).' AND action='.$root_da->formatText($action));
     }
     
-    public static funtion removeByApplication($application)
+    public static function removeByApplication($application)
     {
-        $root_da = \Innomatic\Core\Container::instance('\Innomatic\Core\Container')->getDataAccess();
+        $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
         
         $root_da->execute('DELETE FROM pending_actions WHERE application='.$root_da->formatText($application));
     }
