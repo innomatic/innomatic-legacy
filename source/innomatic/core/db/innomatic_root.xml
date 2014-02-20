@@ -484,13 +484,13 @@
 		<key field="id" type="unique" />
 	</table>
 
-	<sequence name="applications_components_types_id_seq" start="40" />
+	<sequence name="applications_components_types_id_seq" start="41" />
 
 	<insert table="applications_components_types">
 		<data field="id" value="1" />
 		<data field="typename" value="component" />
 		<data field="priority" value="100" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="ComponentComponent.php" />
 	</insert>
 
@@ -498,7 +498,7 @@
 		<data field="id" value="2" />
 		<data field="typename" value="roottable" />
 		<data field="priority" value="150" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="RoottableComponent.php" />
 	</insert>
 
@@ -506,7 +506,7 @@
 		<data field="id" value="3" />
 		<data field="typename" value="domaingroup" />
 		<data field="priority" value="10" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="DomaingroupComponent.php" />
 	</insert>
 
@@ -514,7 +514,7 @@
 		<data field="id" value="4" />
 		<data field="typename" value="domainpanel" />
 		<data field="priority" value="0" />
-		<data field="domain" value="1" />
+		<data field="domain" value="t" />
 		<data field="file" value="DomainpanelComponent.php" />
 	</insert>
 
@@ -522,7 +522,7 @@
 		<data field="id" value="5" />
 		<data field="typename" value="domaintable" />
 		<data field="priority" value="130" />
-		<data field="domain" value="1" />
+		<data field="domain" value="t" />
 		<data field="file" value="DomaintableComponent.php" />
 	</insert>
 
@@ -530,7 +530,7 @@
 		<data field="id" value="6" />
 		<data field="typename" value="binary" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="BinaryComponent.php" />
 	</insert>
 
@@ -538,7 +538,7 @@
 		<data field="id" value="7" />
 		<data field="typename" value="catalog" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="CatalogComponent.php" />
 	</insert>
 
@@ -546,7 +546,7 @@
 		<data field="id" value="8" />
 		<data field="typename" value="shared" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="SharedComponent.php" />
 	</insert>
 
@@ -554,7 +554,7 @@
 		<data field="id" value="9" />
 		<data field="typename" value="configurationfile" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="ConfigurationfileComponent.php" />
 	</insert>
 
@@ -562,7 +562,7 @@
 		<data field="id" value="10" />
 		<data field="typename" value="library" />
 		<data field="priority" value="110" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="LibraryComponent.php" />
 	</insert>
 
@@ -570,7 +570,7 @@
 		<data field="id" value="11" />
 		<data field="typename" value="rootpanel" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="RootpanelComponent.php" />
 	</insert>
 
@@ -578,7 +578,7 @@
 		<data field="id" value="12" />
 		<data field="typename" value="webserviceshandler" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="WebserviceshandlerComponent.php" />
 	</insert>
 
@@ -586,7 +586,7 @@
 		<data field="id" value="13" />
 		<data field="typename" value="webservicesmethod" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="WebservicesmethodComponent.php" />
 	</insert>
 
@@ -594,7 +594,7 @@
 		<data field="id" value="14" />
 		<data field="typename" value="country" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="CountryComponent.php" />
 	</insert>
 
@@ -602,7 +602,7 @@
 		<data field="id" value="15" />
 		<data field="typename" value="language" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="LanguageComponent.php" />
 	</insert>
 
@@ -610,7 +610,7 @@
 		<data field="id" value="16" />
 		<data field="typename" value="hook" />
 		<data field="priority" value="10" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="HookComponent.php" />
 	</insert>
 
@@ -618,7 +618,7 @@
 		<data field="id" value="17" />
 		<data field="typename" value="hookevent" />
 		<data field="priority" value="10" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="HookeventComponent.php" />
 	</insert>
 
@@ -626,7 +626,7 @@
 		<data field="id" value="18" />
 		<data field="typename" value="hookhandler" />
 		<data field="priority" value="10" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="HookhandlerComponent.php" />
 	</insert>
 
@@ -634,7 +634,7 @@
 		<data field="id" value="19" />
 		<data field="typename" value="wuiwidget" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="WuiwidgetComponent.php" />
 	</insert>
 
@@ -642,7 +642,7 @@
 		<data field="id" value="24" />
 		<data field="typename" value="wuistyle" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="WuistyleComponent.php" />
 	</insert>
 
@@ -650,7 +650,7 @@
 		<data field="id" value="25" />
 		<data field="typename" value="wuiiconsset" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="WuiiconssetComponent.php" />
 	</insert>
 
@@ -658,7 +658,7 @@
 		<data field="id" value="26" />
 		<data field="typename" value="wuicolorsset" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="WuicolorssetComponent.php" />
 	</insert>
 
@@ -666,7 +666,7 @@
 		<data field="id" value="27" />
 		<data field="typename" value="wuitheme" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="WuithemeComponent.php" />
 	</insert>
 
@@ -674,7 +674,7 @@
 		<data field="id" value="20" />
 		<data field="typename" value="dataaccessdriver" />
 		<data field="priority" value="110" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="DataaccessdriverComponent.php" />
 	</insert>
 
@@ -682,7 +682,7 @@
 		<data field="id" value="21" />
 		<data field="typename" value="extras" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="ExtrasComponent.php" />
 	</insert>
 
@@ -690,7 +690,7 @@
 		<data field="id" value="22" />
 		<data field="typename" value="helpnode" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="HelpnodeComponent.php" />
 	</insert>
 
@@ -698,7 +698,7 @@
 		<data field="id" value="23" />
 		<data field="typename" value="rootgroup" />
 		<data field="priority" value="10" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="RootgroupComponent.php" />
 	</insert>
 
@@ -706,7 +706,7 @@
 		<data field="id" value="28" />
 		<data field="typename" value="tempdir" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="TempdirComponent.php" />
 	</insert>
 
@@ -714,7 +714,7 @@
 		<data field="id" value="29" />
 		<data field="typename" value="wuivalidator" />
 		<data field="priority" value="40" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="WuivalidatorComponent.php" />
 	</insert>
 
@@ -722,7 +722,7 @@
 		<data field="id" value="30" />
 		<data field="typename" value="applicationsettings" />
 		<data field="priority" value="10" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="ApplicationsettingsComponent.php" />
 	</insert>
 
@@ -730,7 +730,7 @@
 		<data field="id" value="31" />
 		<data field="typename" value="domainsettings" />
 		<data field="priority" value="10" />
-		<data field="domain" value="1" />
+		<data field="domain" value="t" />
 		<data field="file" value="DomainsettingsComponent.php" />
 	</insert>
 
@@ -738,7 +738,7 @@
 		<data field="id" value="32" />
 		<data field="typename" value="maintenancetask" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="MaintenancetaskComponent.php" />
 	</insert>
 
@@ -746,7 +746,7 @@
 		<data field="id" value="33" />
 		<data field="typename" value="class" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="ClassComponent.php" />
 	</insert>
 
@@ -754,7 +754,7 @@
 		<data field="id" value="34" />
 		<data field="typename" value="webappskeleton" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="WebappskeletonComponent.php" />
 	</insert>
 
@@ -762,7 +762,7 @@
 		<data field="id" value="35" />
 		<data field="typename" value="script" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="ScriptComponent.php" />
 	</insert>
 
@@ -770,7 +770,7 @@
 		<data field="id" value="36" />
 		<data field="typename" value="webapphandler" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="WebapphandlerComponent.php" />
 	</insert>
 
@@ -778,7 +778,7 @@
 		<data field="id" value="37" />
 		<data field="typename" value="ajaxcall" />
 		<data field="priority" value="0" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="AjaxcallComponent.php" />
 	</insert>
 
@@ -786,7 +786,7 @@
 		<data field="id" value="38" />
 		<data field="typename" value="module" />
 		<data field="priority" value="100" />
-		<data field="domain" value="0" />
+		<data field="domain" value="f" />
 		<data field="file" value="ModuleComponent.php" />
 	</insert>
 
@@ -794,7 +794,7 @@
 		<data field="id" value="39" />
 		<data field="typename" value="dashboardwidget" />
 		<data field="priority" value="0" />
-		<data field="domain" value="1" />
+		<data field="domain" value="t" />
 		<data field="file" value="DashboardwidgetComponent.php" />
 	</insert>
 	
@@ -802,7 +802,7 @@
         <data field="id" value="40" />
         <data field="typename" value="traybaritem" />
         <data field="priority" value="0" />
-        <data field="domain" value="1" />
+        <data field="domain" value="t" />
         <data field="file" value="TraybaritemComponent.php" />
     </insert>
 
@@ -877,8 +877,13 @@
 		<key field="id" type="unique" />
 	</table>
 
-	<sequence name="rootprofile_id_seq" />
+	<sequence name="rootprofiles_id_seq" />
 
+    <table name="root_settings">
+        <field name="keyname" type="text" notnull="1" />
+        <field name="val" type="text" />
+    </table>
+    
 	<table name="applications_enabled">
 		<field name="applicationid" type="integer" notnull="1" />
 		<field name="domainid" type="integer" notnull="1" />

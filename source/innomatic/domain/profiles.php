@@ -612,7 +612,14 @@ function main_editprofile($eventData)
             $pagesQuery = \Innomatic\Core\InnomaticContainer::instance(
                 '\Innomatic\Core\InnomaticContainer'
             )->getCurrentDomain()->getDataAccess()->execute(
-                'SELECT * FROM domain_panels WHERE groupid='.$groupData['id'].' ORDER BY name'
+                'SELECT *
+                FROM domain_panels
+                WHERE groupid='.$groupData['id'].'
+                AND (hidden != '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()
+                                ->getDataAccess()->formatText(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()
+                                ->getDataAccess()->fmttrue).'
+                OR hidden IS NULL)
+                ORDER BY name'
             );
 
             while (!$pagesQuery->eof) {
