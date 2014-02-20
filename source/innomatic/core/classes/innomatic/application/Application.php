@@ -717,6 +717,9 @@ only application. */
                             //
                             $cacheGC = new \Innomatic\Datatransfer\Cache\CacheGarbageCollector();
                             $cacheGC->removeApplicationItems($appdata['appid']);
+                            
+                            // Remove pending actions
+                            \Innomatic\Scripts\PendingActionsUtils::removeByApplication($appdata['appid']);
 
                             // Remove dependencies
                             //

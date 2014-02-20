@@ -843,6 +843,18 @@
 		<field name="override" type="text" length="10" default="false" />
 	</table>
 
+    <table name="pending_actions">
+        <field name="id" type="integer" notnull="1" />
+        <field name="application" type="text" notnull="1" />
+        <field name="domainid" type="integer" />
+        <field name="userid" type="integer" />
+        <field name="created" type="unixtimestamp" />
+        <field name="action" type="text" notnull="1" />
+        <field name="parameters" type="text" />
+    </table>
+
+    <sequence name="pending_actions_id_seq" />
+    
 	<table name="root_panels_groups">
 		<field name="id" type="integer" notnull="1" />
 		<field name="name" type="text" length="50" />

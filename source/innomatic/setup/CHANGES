@@ -17,6 +17,7 @@ NEW FEATURES:
 - Added support for panels hidden from panels menu, by default available to
   every user. (Alex Pagnoni)
 - Added support for root key/value settings. (Alex Pagnoni)
+- Added pending actions to be processed by cronjob scripts. (Alex Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
