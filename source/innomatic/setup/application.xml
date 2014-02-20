@@ -237,7 +237,11 @@
 
 		<class name="innomatic/scripts/ScriptContainer.php" />
 		<script name="scripts_container.php" />
-
+		
+		<class name="innomatic/scripts/PendingActionsUtils.php" />
+        <roottable name="pending_actions"
+            file="pending_actions.xml" />
+            
 		<!-- Socket Server -->
 
 		<class name="innomatic/net/socket/SequentialServerSocket.php" />
