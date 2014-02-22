@@ -1221,7 +1221,7 @@ function main_innomatic($eventData)
     //
     $row ++;
 
-    if (function_exists('mysql_connect') or function_exists('pg_connect')) {
+    if (function_exists('mysqli_connect') or function_exists('pg_connect')) {
         $ball = $wuiWidget->mThemeHandler->mStyle['greenball'];
         $checkResult = $gLocale->getStr('db_available_label');
     } else {
