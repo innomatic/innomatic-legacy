@@ -176,6 +176,9 @@ class User
         $userdata['groupid'] = 0;
         $domainsquery->free();
         $this->create($userdata);
+        
+        // Assign root role to the admin user
+        $this->assignRole('root');
     }
 
     /*!
@@ -387,4 +390,115 @@ class User
         return 'admin'.(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
     }
 
+    /**
+     * Checks to see whether a user has a role or not
+     *
+     * @param integer|string $role
+     *        	id, title or path
+     * @param integer $User
+     *        	UserID, not optional
+     *
+     * @throws UserNotProvidedException
+     * @return boolean success
+     */
+    public function hasRole($role)
+    {    
+        if (is_int ( $role )) {
+            $roleid = $role;
+        } else {
+            if (substr ( $role, 0, 1 ) == "/")
+                $roleid = jf::$RBAC->Roles->PathID ( $role );
+            else
+                $roleid = jf::$RBAC->Roles->TitleID ( $role );
+        }
+    
+        $R = jf::SQL ( "SELECT * FROM domain_users_roles AS TUR
+			JOIN domain_roles AS TRdirect ON (TRdirect.ID=TUR.roleid)
+			JOIN domain_roles AS TR ON (TR.left BETWEEN TRdirect.left AND TRdirect.right)
+    
+			WHERE
+			TUR.UserID=? AND TR.ID=?", $this->userid, $roleid );
+        return $R !== null;
+    }
+    
+    /**
+     * Assigns a role to a user
+     *
+     * @param integer|string $role
+     *        	id or path or title
+     * @param integer $UserID
+     *        	UserID (use 0 for guest)
+     *
+     * @throws UserNotProvidedException
+     * @return inserted or existing
+     */
+    public function assignRole($role)
+    {    
+        if (is_int ( $role ))
+        {
+            $roleid = $role;
+        }
+        else
+        {
+            if (substr ( $role, 0, 1 ) == "/")
+                $roleid = jf::$RBAC->Roles->PathID ( $role );
+            else
+                $roleid = jf::$RBAC->Roles->TitleID ( $role );
+        }
+        $res = jf::SQL ( "INSERT INTO domain_users_roles
+				(UserID,roleid,assignmentdate)
+				VALUES (?,?,?)
+				", $this->userid, $roleid, jf::time () );
+        return $res >= 1;
+    }
+    
+    /**
+     * Unassigns a role from a user
+     *
+     * @param integer $role
+     *        	ID
+     * @param integer $UserID
+     *        	UserID (use 0 for guest)
+     *
+     * @throws UserNotProvidedException
+     * @return boolean success
+     */
+    public function unassignRole($role)
+    {    
+        return jf::SQL ( "DELETE FROM domain_users_roles
+		WHERE UserID=? AND roleid=?", $this->userid, $role ) >= 1;
+    }
+    
+    /**
+     * Returns all roles of a user
+     *
+     * @param integer $UserID
+     *        	Not optional
+     *
+     * @throws UserNotProvidedException
+     * @return array null
+     *
+     */
+    public function getAllRoles()
+    {
+        return jf::SQL ( "SELECT TR.*
+			FROM
+			domain_users_roles AS `TRel`
+			JOIN domain_roles AS `TR` ON
+			(`TRel`.roleid=`TR`.ID)
+			WHERE TRel.UserID=?", $this->userid );
+    }
+    /**
+     * Return count of roles for a user
+     *
+     * @param integer $UserID
+     *
+     * @throws UserNotProvidedException
+     * @return integer
+     */
+    public function getRoleCount()
+    {
+        $Res = jf::SQL ( "SELECT COUNT(*) AS Result FROM domain_users_roles WHERE UserID=?", $this->userid );
+        return (int)$Res [0] ['Result'];
+    }
 }
