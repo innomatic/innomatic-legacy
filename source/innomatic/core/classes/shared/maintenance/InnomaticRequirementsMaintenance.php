@@ -34,7 +34,7 @@ class InnomaticRequirementsMaintenance extends \Innomatic\Maintenance\Maintenanc
         if (!function_exists('gzinflate')) $result = false;
 
         // Database support
-        if (!(function_exists('mysql_connect') or function_exists('pg_connect'))) $result = false;
+        if (!(function_exists('mysqli_connect') or function_exists('pg_connect'))) $result = false;
 
         // Applications extensions
         $app_deps = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(

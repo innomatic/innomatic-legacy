@@ -354,7 +354,7 @@ if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\I
         //
         $row++;
 
-        if (function_exists('mysql_connect') or function_exists('pg_connect')) {
+        if (function_exists('mysqli_connect') or function_exists('pg_connect')) {
             $ball = $wuiPage->mThemeHandler->mStyle['greenball'];
             $check_result = $innomaticLocale->getStr('db_available_label');
         } else {

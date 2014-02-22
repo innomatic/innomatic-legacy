@@ -16,7 +16,9 @@ namespace Innomatic\Dataaccess\Drivers\Mysql;
 
 class MysqlDataAccessResult extends \Innomatic\Dataaccess\DataAccessResult
 {
+
     public $suppseek = true;
+
     private $_start = false;
 
     public function __construct(&$resultid)
@@ -27,25 +29,25 @@ class MysqlDataAccessResult extends \Innomatic\Dataaccess\DataAccessResult
 
     protected function init()
     {
-        $this->resultrows = @mysql_num_rows($this->resultid);
-        $this->resultfields = @mysql_num_fields($this->resultid);
+        $this->resultrows = $this->resultid->num_rows;
+        $this->resultfields = $this->resultid->field_count;
     }
 
     protected function seek($row)
     {
-        @mysql_data_seek($this->resultid, $row);
+        $this->resultid->data_seek($row);
         $this->currentrow = $row;
         return true;
     }
 
     protected function fetch()
     {
-        $this->currfields = @mysql_fetch_array($this->resultid);
+        $this->currfields = $this->resultid->fetch_array();
         return ($this->currfields == true);
     }
 
     protected function doFree()
     {
-        return @mysql_free_result($this->resultid);
+        return $this->resultid->free_result();
     }
 }

@@ -21,6 +21,7 @@ NEW FEATURES:
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
+- Upgraded MySQL support from mysql to mysqli. (Alex Pagnoni)
 
 FIXES:
 - Fixed locale country fract digits. (Alex Pagnoni)
