@@ -11,26 +11,24 @@ namespace Innomatic\Domain\Role;
 class UserManager
 {
 
-
     /**
      * Remove all role-user relations
      * mostly used for testing
      *
      * @param boolean $Ensure
-     *        	must set or throws error
+     *            must set or throws error
      * @return number of deleted relations
      */
     function ResetAssignments($Ensure = false)
     {
-        if ($Ensure !== true)
-        {
-            throw new \Exception ("You must pass true to this function, otherwise it won't work.");
+        if ($Ensure !== true) {
+            throw new \Exception("You must pass true to this function, otherwise it won't work.");
             return;
         }
-        $res = jf::SQL ( "DELETE FROM domain_users_roles" );
-
-        jf::SQL ( "ALTER TABLE domain_users_roles AUTO_INCREMENT =1 " );
-        $this->Assign ( "root", 1 /* root user */ );
+        $res = jf::SQL("DELETE FROM domain_users_roles");
+        
+        jf::SQL("ALTER TABLE domain_users_roles AUTO_INCREMENT =1 ");
+        $this->Assign("root", 1 /* root user */ );
         return $res;
     }
 }

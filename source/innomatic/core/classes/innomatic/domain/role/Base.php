@@ -11,6 +11,12 @@ namespace Innomatic\Domain\Role;
  */
 abstract class Base
 {
+    public $domainda;
+    
+    public function __construct()
+    {
+        $this->domainda = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
+    }
 
     function rootId()
     {
@@ -23,24 +29,29 @@ abstract class Base
      * @return string
      */
     abstract protected function type();
+
     /**
      * Adds a new role or permission
      * Returns new entry's ID
      *
      * @param string $Title
-     *        	Title of the new entry
+     *            Title of the new entry
      * @param integer $Description
-     *        	Description of the new entry
+     *            Description of the new entry
      * @param integer $ParentID
-     *        	optional ID of the parent node in the hierarchy
+     *            optional ID of the parent node in the hierarchy
      * @return integer ID of the new entry
-    */
+     */
     function Add($Title, $Description, $ParentID = null)
     {
         if ($ParentID === null)
-            $ParentID = $this->rootId ();
-        return (int)$this->{$this->type ()}->insertChildData ( array ("Title" => $Title, "Description" => $Description ), "ID=?", $ParentID );
+            $ParentID = $this->rootId();
+        return (int) $this->{$this->type()}->insertChildData(array(
+            "Title" => $Title,
+            "Description" => $Description
+        ), "ID=" . $ParentID);
     }
+
     /**
      * Return count of the entity
      *
@@ -48,8 +59,8 @@ abstract class Base
      */
     function Count()
     {
-        $Res = jf::SQL ( "SELECT COUNT(*) FROM {$this->type()}" );
-        return (int)$Res [0] ['COUNT(*)'];
+        $Res = jf::SQL("SELECT COUNT(*) FROM {$this->type()}");
+        return (int) $Res[0]['COUNT(*)'];
     }
 
     /**
@@ -57,333 +68,331 @@ abstract class Base
      *
      * @todo this has a limit of 1000 characters on $Path
      * @param string $Path
-     *        	such as /role1/role2/role3 ( a single slash is root)
+     *            such as /role1/role2/role3 ( a single slash is root)
      * @return integer NULL
      */
     function PathID($Path)
     {
         $Path = "root" . $Path;
-        if ($Path [strlen ( $Path ) - 1] == "/")
-            $Path = substr ( $Path, 0, strlen ( $Path ) - 1 );
-        $Parts = explode ( "/", $Path );
-
+        if ($Path[strlen($Path) - 1] == "/")
+            $Path = substr($Path, 0, strlen($Path) - 1);
+        $Parts = explode("/", $Path);
+        
         $Adapter = get_class(jf::$Db);
-        if ($Adapter == "mysqli" or ($Adapter == "PDO" and jf::$Db->getAttribute(PDO::ATTR_DRIVER_NAME)=="mysql")) {
-            $GroupConcat="GROUP_CONCAT(parent.Title ORDER BY parent.left SEPARATOR '/')";
-
-            $query = jf::SQL ( "SELECT sum(char_length(Title)) FROM " . $this->type());
-            $query_char_count = $query[0]['sum(char_length(Title))'];
-        } elseif ($Adapter == "PDO" and jf::$Db->getAttribute(PDO::ATTR_DRIVER_NAME)=="sqlite") {
-            $GroupConcat="GROUP_CONCAT(parent.Title,'/')";
-
-            $query = jf::SQL ( "SELECT sum(length(Title)) FROM " . $this->type());
-            $query_char_count = $query[0]['sum(length(Title))'];
-        } else {
-            throw new \Exception ("Unknown Group_Concat on this type of database: {$Adapter}");
-        }
-
-        $row_count = jf::SQL ( "SELECT count(*) FROM " . $this->type());
-        $separator_count = --$row_count[0]['count(*)'];
+        $GroupConcat = "GROUP_CONCAT(parent.Title ORDER BY parent.left SEPARATOR '/')";
+        
+        $query = jf::SQL("SELECT sum(char_length(Title)) FROM " . $this->type());
+        $query_char_count = $query[0]['sum(char_length(Title))'];
+        
+        $row_count = jf::SQL("SELECT count(*) FROM " . $this->type());
+        $separator_count = -- $row_count[0]['count(*)'];
         $total_char_count = $query_char_count + $separator_count;
-
+        
         if ((int) $total_char_count >= 1024)
-            throw new Exception ( "Path exceeds character count limit." );
-
-        $res = jf::SQL ( "SELECT node.ID,{$GroupConcat} AS Path
+            throw new Exception("Path exceeds character count limit.");
+        
+        $res = jf::SQL("SELECT node.ID,{$GroupConcat} AS Path
         FROM {$this->type()} AS node,
         {$this->type()} AS parent
         WHERE node.left BETWEEN parent.left AND parent.right
-        AND  node.Title=?
+        AND  node.Title='{$Parts [count ( $Parts ) - 1]}'
         GROUP BY node.ID
-        HAVING Path = ?
-        ", $Parts [count ( $Parts ) - 1], $Path );
+        HAVING Path = '{$Path}'
+        ");
         if ($res)
-            return $res [0] ['ID'];
+            return $res[0]['ID'];
         else
             return null;
-        // TODO: make the below SQL work, so that 1024 limit is over
-
+            // TODO: make the below SQL work, so that 1024 limit is over
+        
         $QueryBase = ("SELECT n0.ID  \nFROM {$this->type()} AS n0");
         $QueryCondition = "\nWHERE 	n0.Title=?";
-
-        for($i = 1; $i < count ( $Parts ); ++ $i)
-        {
-        $j = $i - 1;
-        $QueryBase .= "\nJOIN 		{$this->type()} AS n{$i} ON (n{$j}.left BETWEEN n{$i}.left+1 AND n{$i}.right)";
-        $QueryCondition .= "\nAND 	n{$i}.Title=?";
-        // Forcing middle elements
-        $QueryBase .= "\nLEFT JOIN 	{$this->type()} AS nn{$i} ON (nn{$i}.left BETWEEN n{$i}.left+1 AND n{$j}.left-1)";
-        $QueryCondition .= "\nAND 	nn{$i}.left IS NULL";
-    }
-    $Query = $QueryBase . $QueryCondition;
-    $PartsRev = array_reverse ( $Parts );
-    array_unshift ( $PartsRev, $Query );
-
-    print_ ( $PartsRev );
-    $res = call_user_func_array ( "jf::SQL", $PartsRev );
-    if ($res)
-        return $res [0] ['ID'];
-    else
-    return null;
-}
-
-/**
-* Returns ID belonging to a title, and the first one on that
-*
-* @param unknown_type $Title
-*/
-function TitleID($Title)
-{
-return $this->{$this->type ()}->GetID ( "Title=?", $Title );
-}
-/**
-* Return the whole record of a single entry (including right and left fields)
-*
-* @param integer $ID
-*/
-protected function GetRecord($ID)
-	{
-$args = func_get_args ();
-return call_user_func_array ( array ($this->{$this->type ()}, "GetRecord" ), $args );
-}
-/**
-* Returns title of entity
-*
-* @param integer $ID
-* @return string NULL
-*/
-	function GetTitle($ID)
-	{
-$r = $this->GetRecord ( "ID=?", $ID );
-if ($r)
-    return $r ['Title'];
-else
-    return null;
-}
-/**
-* Return description of entity
-*
-* @param integer $ID
-* @return string NULL
-*/
-function GetDescription($ID)
-{
-$r = $this->GetRecord ( "ID=?", $ID );
-if ($r)
-    return $r ['Description'];
-else
-    return null;
-}
-/**
-* Adds a path and all its components.
-* Will not replace or create siblings if a component exists.
-*
-* @param string $Path
-*        	such as /some/role/some/where - Must begin with a / (slash)
-* @param array $Descriptions
-*        	array of descriptions (will add with empty description if not available)
-*
-* @return integer NULL components ID
-*/
-function AddPath($Path, array $Descriptions = null)
-{
-if ($Path[0] !== "/")
-	        throw new \Exception ("The path supplied is not valid.");
-
-	        $Path = substr ( $Path, 1 );
-	        $Parts = explode ( "/", $Path );
-	        $Parent = 1;
-	        $index = 0;
-	        $CurrentPath = "";
-	        foreach ( $Parts as $p )
-	        {
-	            if (isset ( $Descriptions [$index] ))
-	                $Description = $Descriptions [$index];
-	                else
-	                    $Description = "";
-	                    $CurrentPath .= "/{$p}";
-	                    $t = $this->PathID ( $CurrentPath );
-	                    if (! $t)
-	                    {
-	                    $IID = $this->Add ( $p, $Description, $Parent );
-	                    $Parent = $IID;
-}
-else
-{
-$Parent = $t;
-}
-
-$index += 1;
-}
-return (int)$Parent;
-}
-
-/**
-* Edits an entity, changing title and/or description
-*
-* @param integer $ID
-* @param string $NewTitle
-* @param string $NewDescription
-*
-*/
-function Edit($ID, $NewTitle = null, $NewDescription = null)
-{
-$Data = array ();
-
-if ($NewTitle !== null)
-$Data ['Title'] = $NewTitle;
-
-if ($NewDescription !== null)
-    $Data ['Description'] = $NewDescription;
-
-    return $this->{$this->type ()}->EditData ( $Data, "ID=?", $ID ) == 1;
+        
+        for ($i = 1; $i < count($Parts); ++ $i) {
+            $j = $i - 1;
+            $QueryBase .= "\nJOIN 		{$this->type()} AS n{$i} ON (n{$j}.left BETWEEN n{$i}.left+1 AND n{$i}.right)";
+            $QueryCondition .= "\nAND 	n{$i}.Title=?";
+            // Forcing middle elements
+            $QueryBase .= "\nLEFT JOIN 	{$this->type()} AS nn{$i} ON (nn{$i}.left BETWEEN n{$i}.left+1 AND n{$j}.left-1)";
+            $QueryCondition .= "\nAND 	nn{$i}.left IS NULL";
+        }
+        $Query = $QueryBase . $QueryCondition;
+        $PartsRev = array_reverse($Parts);
+        array_unshift($PartsRev, $Query);
+        
+        print_($PartsRev);
+        $res = call_user_func_array("jf::SQL", $PartsRev);
+        if ($res)
+            return $res[0]['ID'];
+        else
+            return null;
     }
 
     /**
-    * Returns children of an entity
-    *
-    * @return array
-    *
-    */
+     * Returns ID belonging to a title, and the first one on that
+     *
+     * @param unknown_type $Title            
+     *
+     */
+    function TitleID($Title)
+    {
+        return $this->{$this->type()}->GetID("Title='" . $Title . "'");
+    }
+
+    /**
+     * Return the whole record of a single entry (including right and left fields)
+     *
+     * @param integer $ID            
+     *
+     */
+    protected function GetRecord($ID)
+    {
+        $args = func_get_args();
+        return call_user_func_array(array(
+            $this->{$this->type()},
+            "GetRecord"
+        ), $args);
+    }
+
+    /**
+     * Returns title of entity
+     *
+     * @param integer $ID            
+     * @return string NULL
+     *        
+     */
+    function GetTitle($ID)
+    {
+        $r = $this->GetRecord("ID=" . $ID);
+        if ($r)
+            return $r['Title'];
+        else
+            return null;
+    }
+
+    /**
+     * Return description of entity
+     *
+     * @param integer $ID            
+     * @return string NULL
+     *        
+     */
+    function GetDescription($ID)
+    {
+        $r = $this->GetRecord("ID=" . $ID);
+        if ($r)
+            return $r['Description'];
+        else
+            return null;
+    }
+
+    /**
+     * Adds a path and all its components.
+     * Will not replace or create siblings if a component exists.
+     *
+     * @param string $Path
+     *            such as /some/role/some/where - Must begin with a / (slash)
+     * @param array $Descriptions
+     *            array of descriptions (will add with empty description if not available)
+     *            
+     * @return integer NULL components ID
+     *        
+     */
+    function AddPath($Path, array $Descriptions = null)
+    {
+        if ($Path[0] !== "/")
+            throw new \Exception("The path supplied is not valid.");
+        
+        $Path = substr($Path, 1);
+        $Parts = explode("/", $Path);
+        $Parent = 1;
+        $index = 0;
+        $CurrentPath = "";
+        foreach ($Parts as $p) {
+            if (isset($Descriptions[$index]))
+                $Description = $Descriptions[$index];
+            else
+                $Description = "";
+            $CurrentPath .= "/{$p}";
+            $t = $this->PathID($CurrentPath);
+            if (! $t) {
+                $IID = $this->Add($p, $Description, $Parent);
+                $Parent = $IID;
+            } else {
+                $Parent = $t;
+            }
+            
+            $index += 1;
+        }
+        return (int) $Parent;
+    }
+
+    /**
+     * Edits an entity, changing title and/or description
+     *
+     * @param integer $ID            
+     * @param string $NewTitle            
+     * @param string $NewDescription            
+     *
+     *
+     */
+    function Edit($ID, $NewTitle = null, $NewDescription = null)
+    {
+        $Data = array();
+        
+        if ($NewTitle !== null)
+            $Data['Title'] = $NewTitle;
+        
+        if ($NewDescription !== null)
+            $Data['Description'] = $NewDescription;
+        
+        return $this->{$this->type()}->EditData($Data, "ID=" . $ID) == 1;
+    }
+
+    /**
+     * Returns children of an entity
+     *
+     * @return array
+     *
+     */
     function Children($ID)
     {
-    return $this->{$this->type ()}->ChildrenConditional ( "ID=?", $ID );
+        return $this->{$this->type()}->ChildrenConditional("ID=" . $ID);
     }
 
     /**
-    * Returns descendants of a node, with their depths in integer
-    *
-        * @param integer $ID
-        * @return array with keys as titles and Title,ID, Depth and Description
-        *
-        */
-        function Descendants($ID)
-        {
-        $res = $this->{$this->type ()}->DescendantsConditional(/* absolute depths*/false, "ID=?", $ID );
-		$out = array ();
-        if (is_array ( $res ))
-        foreach ( $res as $v )
-            $out [$v ['Title']] = $v;
-            return $out;
-            }
-
-            /**
-            * Return depth of a node
-            *
-            * @param integer $ID
-            */
-	function Depth($ID)
-	{
-	    return $this->{$this->type ()}->DepthConditional ( "ID=?", $ID );
-            }
-
-            /**
-            * Returns path of a node
-            *
-             * @param integer $ID
-            * @return string path
-            */
-            function Path($ID)
+     * Returns descendants of a node, with their depths in integer
+     *
+     * @param integer $ID            
+     * @return array with keys as titles and Title,ID, Depth and Description
+     *        
+     */
+    function Descendants($ID)
     {
-    $res = $this->{$this->type ()}->PathConditional ( "ID=?", $ID );
-    $out = null;
-    if (is_array ( $res ))
-    foreach ( $res as $r )
-    if ($r ['ID'] == 1)
-        $out = '/';
-    else
-        $out .= "/" . $r ['Title'];
-    if (strlen ( $out ) > 1)
-        return substr ( $out, 1 );
-    else
+        $res = $this->{$this->type()}->DescendantsConditional(/* absolute depths*/false, "ID=" . $ID);
+        $out = array();
+        if (is_array($res))
+            foreach ($res as $v)
+                $out[$v['Title']] = $v;
         return $out;
     }
 
     /**
-    * Returns parent of a node
-    *
-    * @param integer $ID
-        * @return array including Title, Description and ID
-	 *
-	 */
-	function ParentNode($ID)
-	{
-		return $this->{$this->type ()}->ParentNodeConditional ( "ID=?", $ID );
+     * Return depth of a node
+     *
+     * @param integer $ID            
+     */
+    function Depth($ID)
+    {
+        return $this->{$this->type()}->DepthConditional("ID=" . $ID);
     }
 
     /**
-    * Reset the table back to its initial state
-    * Keep in mind that this will not touch relations
-    *
-    * @param boolean $Ensure
-    *        	must be true to work, otherwise error
-    * @throws \Exception
-    * @return integer number of deleted entries
-    *
-    */
+     * Returns path of a node
+     *
+     * @param integer $ID            
+     * @return string path
+     */
+    function Path($ID)
+    {
+        $res = $this->{$this->type()}->PathConditional("ID=" . $ID);
+        $out = null;
+        if (is_array($res))
+            foreach ($res as $r)
+                if ($r['ID'] == 1)
+                    $out = '/';
+                else
+                    $out .= "/" . $r['Title'];
+        if (strlen($out) > 1)
+            return substr($out, 1);
+        else
+            return $out;
+    }
+
+    /**
+     * Returns parent of a node
+     *
+     * @param integer $ID            
+     * @return array including Title, Description and ID
+     *        
+     */
+    function ParentNode($ID)
+    {
+        return $this->{$this->type()}->ParentNodeConditional("ID=" . $ID);
+    }
+
+    /**
+     * Reset the table back to its initial state
+     * Keep in mind that this will not touch relations
+     *
+     * @param boolean $Ensure
+     *            must be true to work, otherwise error
+     * @throws \Exception
+     * @return integer number of deleted entries
+     *        
+     */
     function Reset($Ensure = false)
     {
-    if ($Ensure !== true)
-    {
-    throw new \Exception ("You must pass true to this function, otherwise it won't work.");
-    return;
+        if ($Ensure !== true) {
+            throw new \Exception("You must pass true to this function, otherwise it won't work.");
+            return;
+        }
+        $res = jf::SQL("DELETE FROM {$this->type()}");
+        
+        jf::SQL("ALTER TABLE {$this->type()} AUTO_INCREMENT=1 ");
+        $iid = jf::SQL("INSERT INTO {$this->type()} (Title,Description,left,right) VALUES ('root','root',0,1)");
+        return (int) $res;
     }
-    $res = jf::SQL ( "DELETE FROM {$this->type()}" );
-
-    jf::SQL ( "ALTER TABLE {$this->type()} AUTO_INCREMENT=1 " );
-		$iid = jf::SQL ( "INSERT INTO {$this->type()} (Title,Description,left,right) VALUES (?,?,?,?)", "root", "root",0,1 );
-    return (int)$res;
-    }
-
 
     /**
-    * Assigns a role to a permission (or vice-versa)
-    *
-    * @param integer $Role
-    * @param integer $Permission
-	 * @return boolean inserted or existing
-	 *
-	 * @todo: Check for valid permissions/roles
-	 * @todo: Implement custom error handler
-    */
+     * Assigns a role to a permission (or vice-versa)
+     *
+     * @param integer $Role            
+     * @param integer $Permission            
+     * @return boolean inserted or existing
+     *        
+     * @todo : Check for valid permissions/roles
+     * @todo : Implement custom error handler
+     */
     function Assign($Role, $Permission)
     {
-    return jf::SQL ( "INSERT INTO domain_roles_permissions
+        // TODO finish
+        return $this->domainda->execute("INSERT INTO domain_roles_permissions
     (roleid,permissionid,assignmentdate)
-    VALUES (?,?,?)", $Role, $Permission, jf::time () ) >= 1;
-    }
-    /**
-    * Unassigns a role-permission relation
-	 *
-	 * @param integer $Role
-	 * @param integer $Permission
-	 * @return boolean
-	 */
-	 function Unassign($Role, $Permission)
-	 {
-		return jf::SQL ( "DELETE FROM domain_roles_permissions WHERE
-	roleid=? AND permissionid=?", $Role, $Permission ) == 1;
+    VALUES ({$Role}, {$Permission}," . time() . "})") >= 1;
     }
 
     /**
-	 * Remove all role-permission relations
-	 * mostly used for testing
-	 *
-	 * @param boolean $Ensure
-	 *        	must set or throws error
-	 * @return number of deleted relations
-	 */
-	function ResetAssignments($Ensure = false)
-	{
-		if ($Ensure !== true)
-		{
-			throw new \Exception ("You must pass true to this function, otherwise it won't work.");
-			return;
-		}
-		$res = jf::SQL ( "DELETE FROM domain_roles_permissions" );
+     * Unassigns a role-permission relation
+     *
+     * @param integer $Role            
+     * @param integer $Permission            
+     * @return boolean
+     */
+    function Unassign($Role, $Permission)
+    {
+        return $this->domainda->execute("DELETE FROM domain_roles_permissions WHERE
+	roleid={$Role} AND permissionid={$Permission}") == 1;
+    }
 
-			jf::SQL ( "ALTER TABLE domain_roles_permissions AUTO_INCREMENT =1 " );
-		$this->Assign ( $this->rootId(), $this->rootId());
-		return $res;
-	}
+    /**
+     * Remove all role-permission relations
+     * mostly used for testing
+     *
+     * @param boolean $Ensure
+     *            must set or throws error
+     * @return number of deleted relations
+     */
+    function ResetAssignments($Ensure = false)
+    {
+        if ($Ensure !== true) {
+            throw new \Exception("You must pass true to this function, otherwise it won't work.");
+            return;
+        }
+        $res = jf::SQL("DELETE FROM domain_roles_permissions");
+        
+        jf::SQL("ALTER TABLE domain_roles_permissions AUTO_INCREMENT =1 ");
+        $this->Assign($this->rootId(), $this->rootId());
+        return $res;
+    }
 }

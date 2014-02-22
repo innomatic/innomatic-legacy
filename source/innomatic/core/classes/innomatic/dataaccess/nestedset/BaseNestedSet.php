@@ -15,8 +15,11 @@ namespace Innomatic\Dataaccess\Nestedset;
 //FIXME: many of these operations should be done in a transaction
 class BaseNestedSet implements NestedSetInterface
 {
-    function __construct($Table,$IDField="ID",$LeftField="Left",$RightField="Right")
+    public $dataaccess;
+    
+    public function __construct($dataaccess, $Table,$IDField="ID",$LeftField="Left",$RightField="Right")
     {
+        $this->dataaccess = $dataaccess;
         $this->Assign($Table,$IDField,$LeftField,$RightField);
     }
     private $Table;
@@ -63,7 +66,7 @@ class BaseNestedSet implements NestedSetInterface
     function DescendantCount($ID)
     {
         $Res=jf::SQL("SELECT ({$this->Right()}-{$this->Left()}-1)/2 AS `Count` FROM
-        {$this->Table()} WHERE {$this->ID()}=?",$ID);
+        {$this->Table()} WHERE {$this->ID()}={$ID}");
         return sprintf("%d",$Res[0]["Count"])*1;
     }
     
@@ -120,19 +123,18 @@ class BaseNestedSet implements NestedSetInterface
     {
         $Info=jf::SQL("SELECT {$this->Left()} AS `Left`,{$this->Right()} AS `Right` 
 			FROM {$this->Table()}
-			WHERE {$this->ID()} = ?;
-        ",$ID);
+			WHERE {$this->ID()} = {$ID}");
         $Info=$Info[0];
 
-        $count=jf::SQL("DELETE FROM {$this->Table()} WHERE {$this->Left()} = ?",$Info["Left"]);
+        $count=jf::SQL("DELETE FROM {$this->Table()} WHERE {$this->Left()} = ".$Info["Left"]);
 
 
         jf::SQL("UPDATE {$this->Table()} SET {$this->Right()} = {$this->Right()} - 1, `".
-            $this->Left."` = {$this->Left()} - 1 WHERE {$this->Left()} BETWEEN ? AND ?",$Info["Left"],$Info["Right"]);
+            $this->Left."` = {$this->Left()} - 1 WHERE {$this->Left()} BETWEEN {$Info["Left"]} AND {$Info["Right"]}");
         jf::SQL("UPDATE {$this->Table()} SET {$this->Right()} = {$this->Right()} - 2 WHERE `".
-            $this->Right."` > ?",$Info["Right"]);
+            $this->Right."` > ".$Info["Right"]);
         jf::SQL("UPDATE {$this->Table()} SET {$this->Left()} = {$this->Left()} - 2 WHERE `".
-            $this->Left."` > ?",$Info["Right"]);
+            $this->Left."` > ".$Info["Right"]);
         return $count;
     }
     /**
@@ -144,20 +146,16 @@ class BaseNestedSet implements NestedSetInterface
     {
         $Info=jf::SQL("SELECT {$this->Left()} AS `Left`,{$this->Right()} AS `Right` ,{$this->Right()}-{$this->Left()}+ 1 AS Width
 			FROM {$this->Table()}
-			WHERE {$this->ID()} = ?;
-        ",$ID);
+			WHERE {$this->ID()} = ".$ID);
         $Info=$Info[0];
         
         $count=jf::SQL("
-            DELETE FROM {$this->Table()} WHERE {$this->Left()} BETWEEN ? AND ?
-        ",$Info["Left"],$Info["Right"]);
+            DELETE FROM {$this->Table()} WHERE {$this->Left()} BETWEEN {$Info["Left"]} AND {$Info["Right"]}");
         
         jf::SQL("
-            UPDATE {$this->Table()} SET {$this->Right()} = {$this->Right()} - ? WHERE {$this->Right()} > ?
-        ",$Info["Width"],$Info["Right"]);
+            UPDATE {$this->Table()} SET {$this->Right()} = {$this->Right()} - {$Info["Width"]} WHERE {$this->Right()} > {$Info["Right"]}");
         jf::SQL("
-            UPDATE {$this->Table()} SET {$this->Left()} = {$this->Left()} - ? WHERE {$this->Left()} > ?
-        ",$Info["Width"],$Info["Right"]);
+            UPDATE {$this->Table()} SET {$this->Left()} = {$this->Left()} - {$Info["Width"]} WHERE {$this->Left()} > {$Info["Right"]}");
         return $count;
 
     }
@@ -183,7 +181,7 @@ class BaseNestedSet implements NestedSetInterface
             		FROM {$this->Table()} AS node,
             		{$this->Table()} AS parent
             		WHERE node.{$this->Left()} BETWEEN parent.{$this->Left()} AND parent.{$this->Right()}
-            		AND node.{$this->ID()} = ?
+            		AND node.{$this->ID()} = {$ID}
             		GROUP BY node.{$this->ID()}
             		ORDER BY node.{$this->Left()}
             	) AS sub_tree
@@ -192,7 +190,7 @@ class BaseNestedSet implements NestedSetInterface
             	AND sub_parent.{$this->ID()} = sub_tree.{$this->ID()}
             GROUP BY node.{$this->ID()}
             HAVING Depth > 0
-            ORDER BY node.{$this->Left()}",$ID);
+            ORDER BY node.{$this->Left()}");
         return $Res;
     }
     /**
@@ -214,7 +212,7 @@ class BaseNestedSet implements NestedSetInterface
             		FROM {$this->Table()} AS node,
             		{$this->Table()} AS parent
             		WHERE node.{$this->Left()} BETWEEN parent.{$this->Left()} AND parent.{$this->Right()}
-            		AND node.{$this->ID()} = ?
+            		AND node.{$this->ID()} = {$ID}
             		GROUP BY node.{$this->ID()}
             		ORDER BY node.{$this->Left()}
             ) AS sub_tree
@@ -224,7 +222,7 @@ class BaseNestedSet implements NestedSetInterface
             GROUP BY node.{$this->ID()}
             HAVING Depth = 1
             ORDER BY node.{$this->Left()};
-        ",$ID);
+        ");
        if ($Res)
        foreach ($Res as &$v)
            unset($v["Depth"]);
@@ -261,9 +259,9 @@ class BaseNestedSet implements NestedSetInterface
             FROM {$this->Table()}
             WHERE {$this->Right()} = {$this->Left()} + 1 
         	AND {$this->Left()} BETWEEN 
-            (SELECT {$this->Left()} FROM {$this->Table()} WHERE {$this->ID()}=?)
+            (SELECT {$this->Left()} FROM {$this->Table()} WHERE {$this->ID()}={$PID})
             	AND 
-            (SELECT {$this->Right()} FROM {$this->Table()} WHERE {$this->ID()}=?)",$PID,$PID);
+            (SELECT {$this->Right()} FROM {$this->Table()} WHERE {$this->ID()}={$PID})");
         else
         $Res=jf::SQL("SELECT *
             FROM {$this->Table()}
@@ -281,16 +279,16 @@ class BaseNestedSet implements NestedSetInterface
 //        $this->DB->AutoQuery("LOCK TABLE {$this->Table()} WRITE;");
         //Find the Sibling
         $Sibl=jf::SQL("SELECT {$this->Right()} AS `Right`".
-        	" FROM {$this->Table()} WHERE {$this->ID()} = ?",$ID);
+        	" FROM {$this->Table()} WHERE {$this->ID()} = ".$ID);
         $Sibl=$Sibl[0];
         if ($Sibl==null)
         {
             $Sibl["Right"]=0;
         }
-        jf::SQL("UPDATE {$this->Table()} SET {$this->Right()} = {$this->Right()} + 2 WHERE {$this->Right()} > ?",$Sibl["Right"]);
-        jf::SQL("UPDATE {$this->Table()} SET {$this->Left()} = {$this->Left()} + 2 WHERE {$this->Left()} > ?",$Sibl["Right"]);
+        jf::SQL("UPDATE {$this->Table()} SET {$this->Right()} = {$this->Right()} + 2 WHERE {$this->Right()} > ".$Sibl["Right"]);
+        jf::SQL("UPDATE {$this->Table()} SET {$this->Left()} = {$this->Left()} + 2 WHERE {$this->Left()} > ".$Sibl["Right"]);
         $Res= jf::SQL("INSERT INTO {$this->Table()} ({$this->Left()},{$this->Right()}) ".
-        	"VALUES(?,?)",$Sibl["Right"]+1,$Sibl["Right"]+2);
+        	"VALUES('".($Sibl["Right"]+1)."','".($Sibl["Right"]+2)."')");
 //        $this->DB->AutoQuery("UNLOCK TABLES");
         return $Res;
     }
@@ -304,16 +302,16 @@ class BaseNestedSet implements NestedSetInterface
     {
         //Find the Sibling
         $Sibl=jf::SQL("SELECT {$this->Left()} AS `Left`".
-        	" FROM {$this->Table()} WHERE {$this->ID()} = ?",$PID);
+        	" FROM {$this->Table()} WHERE {$this->ID()} = ".$PID);
         $Sibl=$Sibl[0];
         if ($Sibl==null)
         {
             $Sibl["Left"]=0;
         }
-        jf::SQL("UPDATE {$this->Table()} SET {$this->Right()} = {$this->Right()} + 2 WHERE {$this->Right()} > ?",$Sibl["Left"]);
-        jf::SQL("UPDATE {$this->Table()} SET {$this->Left()} = {$this->Left()} + 2 WHERE {$this->Left()} > ?",$Sibl["Left"]);
+        jf::SQL("UPDATE {$this->Table()} SET {$this->Right()} = {$this->Right()} + 2 WHERE {$this->Right()} > ".$Sibl["Left"]);
+        jf::SQL("UPDATE {$this->Table()} SET {$this->Left()} = {$this->Left()} + 2 WHERE {$this->Left()} > ".$Sibl["Left"]);
         $Res=jf::SQL("INSERT INTO {$this->Table()} ({$this->Left()},{$this->Right()}) ".
-        	"VALUES(?,?)",$Sibl["Left"]+1,$Sibl["Left"]+2);
+        	"VALUES('".($Sibl["Left"]+1)."','".($Sibl["Left"]+2)."')");
         return $Res;
     }
     /**

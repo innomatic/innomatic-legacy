@@ -406,10 +406,12 @@ class User
         if (is_int ( $role )) {
             $roleid = $role;
         } else {
+            $role_manager = new \Innomatic\Domain\Role\RoleManager();
+            
             if (substr ( $role, 0, 1 ) == "/")
-                $roleid = jf::$RBAC->Roles->PathID ( $role );
+                $roleid = $role_manager->PathID ( $role );
             else
-                $roleid = jf::$RBAC->Roles->TitleID ( $role );
+                $roleid = $role_manager->TitleID ( $role );
         }
     
         $R = jf::SQL ( "SELECT * FROM domain_users_roles AS TUR
@@ -417,7 +419,7 @@ class User
 			JOIN domain_roles AS TR ON (TR.left BETWEEN TRdirect.left AND TRdirect.right)
     
 			WHERE
-			TUR.UserID=? AND TR.ID=?", $this->userid, $roleid );
+			TUR.UserID={$this->userid} AND TR.ID={$roleid}" );
         return $R !== null;
     }
     
@@ -445,11 +447,10 @@ class User
             else
                 $roleid = jf::$RBAC->Roles->TitleID ( $role );
         }
-        $res = jf::SQL ( "INSERT INTO domain_users_roles
+        return $this->domainDA->execute( "INSERT INTO domain_users_roles
 				(UserID,roleid,assignmentdate)
-				VALUES (?,?,?)
-				", $this->userid, $roleid, jf::time () );
-        return $res >= 1;
+				VALUES ({$this->userid},{$roleid},'.time().')
+				");
     }
     
     /**
@@ -465,8 +466,8 @@ class User
      */
     public function unassignRole($role)
     {    
-        return jf::SQL ( "DELETE FROM domain_users_roles
-		WHERE UserID=? AND roleid=?", $this->userid, $role ) >= 1;
+        return $this->domainDA->execute( "DELETE FROM domain_users_roles
+		WHERE UserID={$this->userid} AND roleid={$role}") >= 1;
     }
     
     /**
@@ -481,12 +482,12 @@ class User
      */
     public function getAllRoles()
     {
-        return jf::SQL ( "SELECT TR.*
+        return $this->domainDA->execute( "SELECT TR.*
 			FROM
 			domain_users_roles AS `TRel`
 			JOIN domain_roles AS `TR` ON
 			(`TRel`.roleid=`TR`.ID)
-			WHERE TRel.UserID=?", $this->userid );
+			WHERE TRel.UserID={$this->userid}"  );
     }
     /**
      * Return count of roles for a user
@@ -498,7 +499,7 @@ class User
      */
     public function getRoleCount()
     {
-        $Res = jf::SQL ( "SELECT COUNT(*) AS Result FROM domain_users_roles WHERE UserID=?", $this->userid );
+        $Res = jf::SQL ( "SELECT COUNT(*) AS Result FROM domain_users_roles WHERE UserID={$this->userid}" );
         return (int)$Res [0] ['Result'];
     }
 }
