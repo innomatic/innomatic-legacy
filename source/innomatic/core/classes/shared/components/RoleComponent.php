@@ -67,7 +67,8 @@ class RoleComponent extends \Innomatic\Application\ApplicationComponent
             $params['name'],
             $params['title'],
             $params['description'],
-            $params['catalog']
+            $params['catalog'],
+            $this->appname
         );
         
         
@@ -85,11 +86,15 @@ class RoleComponent extends \Innomatic\Application\ApplicationComponent
 
     public function doDisableDomainAction($domainid, $params)
     {
+        /*
         $role = new \Innomatic\Domain\User\Role(
             \Innomatic\Domain\User\Role::getIdFromName($params['name'])
         );
         
         return $role->remove();
+        */
+        
+        return true;
     }
 
     public function doUpdateDomainAction($domainid, $params)
@@ -98,11 +103,11 @@ class RoleComponent extends \Innomatic\Application\ApplicationComponent
             \Innomatic\Domain\User\Role::getIdFromName($params['name'])
         );
         
-        $role
+        return $role
             ->setTitle($params['title'])
             ->setDescription($params['description'])
-            ->setCatalog($params['catalog']);
-        
-        return $role->store();
+            ->setCatalog($params['catalog'])
+            ->setApplication($this->appname)
+            ->store();
     }
 }

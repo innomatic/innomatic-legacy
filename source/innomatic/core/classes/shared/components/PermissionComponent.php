@@ -98,12 +98,11 @@ class PermissionComponent extends \Innomatic\Application\ApplicationComponent
             \Innomatic\Domain\User\Permission::getIdFromName($params['name'])
         );
         
-        $permission
+        return $permission
             ->setTitle($params['title'])
             ->setDescription($params['description'])
             ->setCatalog($params['catalog'])
-            ->setApplication($this->appname);
-        
-        return $permission->store();
+            ->setApplication($this->appname)
+            ->store();
     }
 }

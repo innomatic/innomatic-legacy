@@ -10,6 +10,7 @@ class Role
     public $name;
     public $title;
     public $description;
+    public $application;
     protected $catalog;
     
     public function __construct($id = null)
@@ -29,6 +30,7 @@ class Role
                 $this->name = $roleData->getFields('name');
                 $this->title = $roleData->getFields('title');
                 $this->description = $roleData->getFields('description');
+                $this->application = $permissionData->getFields('application');
                 
                 // If the role has been created by an Innomatic component it should have
                 // a catalog definition. In that case, replace the title and the description
@@ -48,18 +50,19 @@ class Role
         }
     }
     
-    public function add($name, $title, $description, $catalog = '')
+    public function add($name, $title, $description, $catalog = '', $application = '')
     {
         $id = $this->dataAccess->getNextSequenceValue('domain_roles_id_seq');
         
         $result = $this->dataAccess->execute(
             "INSERT INTO domain_roles
-            (id, name, title, description, catalog)
+            (id, name, title, description, catalog, application)
             VALUES ({$id},".
             $this->dataAccess->formatText($name).','.
             $this->dataAccess->formatText($title).','.
             $this->dataAccess->formatText($description).','.
-            $this->dataAccess->formatText($catalog).
+            $this->dataAccess->formatText($catalog).','.
+            $this->dataAccess->formatText($application).
             ")"
         );
         
@@ -71,6 +74,7 @@ class Role
         $this->name = $name;
         $this->title = $title;
         $this->description = $description;
+        $this->application = $application;
         $this->catalog = $catalog;
         
         // If the role has been created by an Innomatic component it should have
@@ -115,6 +119,12 @@ class Role
         return $this;
     }
     
+    public function setApplication($application)
+    {
+        $this->application = $application;
+        return $this;
+    }
+    
     public function store()
     {
         if (!is_int($this->id)) {
@@ -123,10 +133,11 @@ class Role
     
         return $this->dataAccess(
             "UPDATE domain_roles
-            SET name=".$this->dataAccess->formatText($name).",
-            title=".$this->dataAccess->formatText($title).",
-            description=".$this->dataAccess->formatText($description).",
-            catalog=".$this->dataAccess->formatText($catalog)."
+            SET name=".$this->dataAccess->formatText($this->name).",
+            title=".$this->dataAccess->formatText($this->title).",
+            description=".$this->dataAccess->formatText($this->description).",
+            catalog=".$this->dataAccess->formatText($this->catalog).",
+            application=".$this->dataAccess->formatText($this->application)."
             WHERE id={$this->id}"
         );
     }
