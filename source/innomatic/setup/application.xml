@@ -101,7 +101,11 @@
 			file="DashboardwidgetComponent.php" />
         <component name="traybaritem"
             file="TraybaritemComponent.php" />
-
+        <component name="permission"
+            file="PermissionComponent.php" />
+        <component name="role"
+            file="RoleComponent.php" />
+            
 		<!-- Installation scripts -->
 
 		<generalpreupdate file="generalpreupdate.php" />

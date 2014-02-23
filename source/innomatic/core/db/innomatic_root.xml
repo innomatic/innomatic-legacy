@@ -484,7 +484,7 @@
 		<key field="id" type="unique" />
 	</table>
 
-	<sequence name="applications_components_types_id_seq" start="41" />
+	<sequence name="applications_components_types_id_seq" start="43" />
 
 	<insert table="applications_components_types">
 		<data field="id" value="1" />
@@ -804,6 +804,22 @@
         <data field="priority" value="0" />
         <data field="domain" value="t" />
         <data field="file" value="TraybaritemComponent.php" />
+    </insert>
+    
+    <insert table="applications_components_types">
+        <data field="id" value="41" />
+        <data field="typename" value="permission" />
+        <data field="priority" value="0" />
+        <data field="domain" value="t" />
+        <data field="file" value="PermissionComponent.php" />
+    </insert>
+    
+    <insert table="applications_components_types">
+        <data field="id" value="42" />
+        <data field="typename" value="role" />
+        <data field="priority" value="0" />
+        <data field="domain" value="t" />
+        <data field="file" value="RoleComponent.php" />
     </insert>
 
 	<table name="maintenance_tasks">
