@@ -198,12 +198,14 @@ class Role
         if (!is_int($this->id)) {
             return false;
         }
-
+        
         $permissionQuery = $this->dataAccess->execute(
             "SELECT id,name FROM domain_permissions AS perms
             JOIN domain_roles_permissions AS rp ON perms.id=rp.permissionid
-            WHERE rp.id={$this->id}"
+            WHERE rp.roleid={$this->id}"
         );
+        
+        print_r($permissionQuery);
         
         // Build the permissions list
         $permissions = array();

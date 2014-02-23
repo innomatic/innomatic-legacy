@@ -198,7 +198,7 @@ class Permission
         
         $query = $this->dataAccess->execute("SELECT roleid
             FROM domain_roles_permissions
-            WHERE permissionsid={$this->id}");
+            WHERE permissionid={$this->id}");
     }
     
     public function assignRole($role)
