@@ -94,6 +94,53 @@ class Permission
         return true;
     }
     
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+    
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+    
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+    
+    public function setCatalog($catalog)
+    {
+        $this->catalog = $catalog;
+        return $this;
+    }
+    
+    public function setApplication($application)
+    {
+        $this->application = $application;
+        return $this;
+    }
+    
+    public function store()
+    {
+        if (!is_int($this->id)) {
+            return false;
+        }
+        
+        return $this->dataAccess(
+            "UPDATE domain_permissions
+            SET name=".$this->dataAccess->formatText($name).",
+            title=".$this->dataAccess->formatText($title).",
+            description=".$this->dataAccess->formatText($description).",
+            catalog=".$this->dataAccess->formatText($catalog).",
+            application=".$this->dataAccess->formatText($applicatin)."
+            WHERE id={$this->id}"
+        );
+    }
+    
     public function remove()
     {
         if (!is_int($this->id)) {
