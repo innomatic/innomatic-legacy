@@ -48,7 +48,7 @@ class DashboardPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
         $domain_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
 
-        $perm = new Permissions($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
+        $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
 
         // Check if the widget exists in the widgets list
         $widget_query = $domain_da->execute('SELECT * FROM domain_dashboards_widgets WHERE name='.$domain_da->formatText($name));

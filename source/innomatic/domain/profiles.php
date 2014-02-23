@@ -337,7 +337,7 @@ function pass_enablenode($eventData)
 {
     global $innomaticLocale, $wuiMainStatus;
 
-    $tempPerm = new Permissions(
+    $tempPerm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator(
         \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
         $eventData['gid']
     );
@@ -349,7 +349,7 @@ function pass_disablenode($eventData)
 {
     global $innomaticLocale, $wuiMainStatus;
 
-    $tempPerm = new Permissions(
+    $tempPerm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator(
         \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
         $eventData['gid']
     );
@@ -485,7 +485,7 @@ function main_editprofile($eventData)
     )->getCurrentDomain()->getDataAccess()->execute('SELECT * FROM domain_panels_groups ORDER BY name');
 
     if ($groupsQuery->getNumberRows()) {
-        $perm = new Permissions(
+        $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator(
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
             $eventData['profileid']
         );

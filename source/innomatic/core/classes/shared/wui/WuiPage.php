@@ -185,7 +185,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                 }
             } else {
                 // Domain mode
-                $tmpperm = new \Innomatic\Domain\User\Permissions(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
+                $tmpperm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
                 
                 $tabs = array();
                 $tab_pages = array();
@@ -448,7 +448,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                     
                     $domain_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
                     
-                    $perm = new \Innomatic\Domain\User\Permissions($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
+                    $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
                     
                     // Extract the list of all the tray bar items
                     $traybar_items_query = $domain_da->execute('SELECT * FROM domain_traybar_items ORDER BY name');
