@@ -3,17 +3,13 @@
 
 	<table name="domain_permissions">
 		<field name="id" type="integer" notnull="1" />
-		<field name="left" type="integer" notnull="1" />
-		<field name="right" type="integer" notnull="1" />
-		<field name="title" type="text" length="128" notnull="1" />
+		<field name="name" type="text" length="128" notnull="1" />
+        <field name="title" type="text" notnull="1" />
 		<field name="description" type="text" notnull="1" />
-		<!--
+        <field name="catalog" type="text" />
 		<field name="application" type="text" />
-		-->
 		<key field="id" type="primary" />
-		<key field="title" type="index" />
-        <key field="left" type="index" />
-        <key field="right" type="index" />
+		<key field="name" type="index" />
 	</table>
 
 	<sequence name="domain_permissions_id_seq" />

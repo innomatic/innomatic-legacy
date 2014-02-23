@@ -30,6 +30,10 @@ FIXES:
 - Fixed wrong sequence name for root_profiles table in innomatic_root.xml.
   (Alex Pagnoni)
 
+DEPRECATED:
+- \Innomatic\Domain\User\Permissions class is deprecated in favor of new
+  \Innomatic\Desktop\Auth\DesktopPanelAuthorizator. (Alex Pagnoni)
+
 
 
 6000 - 6.3.0 - 2014/02/02 - "WUI widgets ajax"

@@ -4,7 +4,6 @@
     <table name="domain_users_roles">
         <field name="userid" type="integer" notnull="1" />
         <field name="roleid" type="integer" notnull="1" />
-        <field name="assignmentdate" type="integer" notnull="1" />
         <key field="userid, roleid" type="primary" />
     </table>
 

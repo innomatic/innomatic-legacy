@@ -176,9 +176,6 @@ class User
         $userdata['groupid'] = 0;
         $domainsquery->free();
         $this->create($userdata);
-        
-        // Assign root role to the admin user
-        $this->assignRole('root');
     }
 
     /*!
@@ -391,66 +388,65 @@ class User
     }
 
     /**
-     * Checks to see whether a user has a role or not
+     * Checks to see whether a user has a role or not.
      *
-     * @param integer|string $role
-     *        	id, title or path
-     * @param integer $User
-     *        	UserID, not optional
+     * @param string $role
+     *        	role name
      *
-     * @throws UserNotProvidedException
      * @return boolean success
      */
     public function hasRole($role)
-    {    
-        if (is_int ( $role )) {
-            $roleid = $role;
-        } else {
-            $role_manager = new \Innomatic\Domain\Role\RoleManager();
-            
-            if (substr ( $role, 0, 1 ) == "/")
-                $roleid = $role_manager->PathID ( $role );
-            else
-                $roleid = $role_manager->TitleID ( $role );
+    {
+        if (self::isAdminUser($this->username, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())) {
+            // Administrator user has all roles and permissions by default
+            return true;
         }
-    
-        $R = jf::SQL ( "SELECT * FROM domain_users_roles AS TUR
-			JOIN domain_roles AS TRdirect ON (TRdirect.ID=TUR.roleid)
-			JOIN domain_roles AS TR ON (TR.left BETWEEN TRdirect.left AND TRdirect.right)
-    
-			WHERE
-			TUR.UserID={$this->userid} AND TR.ID={$roleid}" );
-        return $R !== null;
+        
+        $query = $this->domainDA->execute('SELECT * FROM domain_users_roles AS ur
+            JOIN domain_roles AS dr ON ur.roleid=dr.id
+            WHERE dr.name='.$this->domainDA->formatText($role));
+        
+        return $query->getNumberRows() > 0;
     }
     
     /**
      * Assigns a role to a user
      *
-     * @param integer|string $role
-     *        	id or path or title
-     * @param integer $UserID
-     *        	UserID (use 0 for guest)
-     *
-     * @throws UserNotProvidedException
+     * @param string $role
+     *        Role name
      * @return inserted or existing
      */
     public function assignRole($role)
-    {    
-        if (is_int ( $role ))
-        {
-            $roleid = $role;
+    {
+        if (self::isAdminUser($this->username, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())) {
+            // Administrator user has all roles and permissions by default
+            return true;
         }
-        else
-        {
-            if (substr ( $role, 0, 1 ) == "/")
-                $roleid = jf::$RBAC->Roles->PathID ( $role );
-            else
-                $roleid = jf::$RBAC->Roles->TitleID ( $role );
+        
+        // If the role has been given by name, get its id
+        if (!is_int($role)) {
+            $role = Role::getIdFromName($role);
+            if ($role === false) {
+                return false;
+            }
         }
-        return $this->domainDA->execute( "INSERT INTO domain_users_roles
-				(UserID,roleid,assignmentdate)
-				VALUES ({$this->userid},{$roleid},'.time().')
-				");
+        
+        $check_query = $this->domainDA->execute(
+            "SELECT count(*) AS count
+            FROM domain_users_roles
+            WHERE userid={$this->userid} AND roleid={$role}"
+        );
+        
+        if ($check_query->getFields('count') > 0) {
+            // This role has already been assigned
+            return true;
+        }
+        
+        return $this->domainDA->execute(
+            "INSERT INTO domain_users_roles
+            (userid,roleid)
+            VALUES ({$this->userid}, {$roleid})"
+        );
     }
     
     /**
@@ -458,48 +454,98 @@ class User
      *
      * @param integer $role
      *        	ID
-     * @param integer $UserID
-     *        	UserID (use 0 for guest)
-     *
-     * @throws UserNotProvidedException
      * @return boolean success
      */
     public function unassignRole($role)
-    {    
-        return $this->domainDA->execute( "DELETE FROM domain_users_roles
-		WHERE UserID={$this->userid} AND roleid={$role}") >= 1;
+    {
+        // If the role has been given by name, get its id
+        if (!is_int($role)) {
+            $role = Role::getIdFromName($role);
+            if ($role === false) {
+                return false;
+            }
+        }
+        
+        return $this->domainDA->execute(
+            "DELETE FROM domain_users_roles
+            WHERE userid={$this->userid} AND roleid={$role}"
+        );
     }
     
     /**
-     * Returns all roles of a user
-     *
-     * @param integer $UserID
-     *        	Not optional
-     *
-     * @throws UserNotProvidedException
+     * Returns all roles of the current user.
+     * 
      * @return array null
-     *
      */
     public function getAllRoles()
     {
-        return $this->domainDA->execute( "SELECT TR.*
+        return $this->domainDA->execute("SELECT dr.*
 			FROM
-			domain_users_roles AS `TRel`
-			JOIN domain_roles AS `TR` ON
-			(`TRel`.roleid=`TR`.ID)
-			WHERE TRel.UserID={$this->userid}"  );
+			domain_users_roles AS dur
+			JOIN domain_roles AS dr ON
+			dur.roleid=dr.id
+			WHERE dur.userid={$this->userid}");
     }
+    
     /**
-     * Return count of roles for a user
-     *
-     * @param integer $UserID
-     *
-     * @throws UserNotProvidedException
+     * Return count of roles for the current user.
+     * 
      * @return integer
      */
     public function getRoleCount()
     {
-        $Res = jf::SQL ( "SELECT COUNT(*) AS Result FROM domain_users_roles WHERE UserID={$this->userid}" );
-        return (int)$Res [0] ['Result'];
+        $query = $this->domainDA->execute("SELECT COUNT(*) AS result FROM domain_users_roles WHERE userid={$this->userid}" );
+        return (int)$query->getFields('result');
+    }
+    
+    public function hasPermission($permission)
+    {
+        if (self::isAdminUser($this->username, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())) {
+            // Administrator user has all roles and permissions by default
+            return true;
+        }
+        
+        $permissionQuery = $this->domainDA->execute(
+            "SELECT count(*) AS count
+            FROM domain_roles_permissions AS rp
+            JOIN domain_users_roles AS usersroles ON usersroles.roleid=rp.roleid
+            WHERE usersroles.userid={$this->userid} AND rp.permissionid={$permission}"
+        );
+        
+        if ($permissionQuery->getFields('count') > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function getAllPermissions()
+    {
+        if (self::isAdminUser($this->username, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())) {
+            // Administrator user has all roles and permissions by default
+            $permissionQuery = $this->domainDA->execute(
+                "SELECT id,name FROM domain_permissions"
+            );
+        } else {
+            $permissionQuery = $this->domainDA->execute(
+                "SELECT id,name FROM domain_permissions AS perms
+                JOIN domain_roles_permissions AS rp ON perms.id=rp.permissionid
+                JOIN domain_users_roles AS usersroles ON usersroles.roleid=rp.roleid
+                WHERE usersroles.userid={$this->userid}
+                GROUP BY id"
+            );
+        }
+
+        // Build the permissions list
+        $permissions = array();
+        
+        if ($permissionQuery !== false) {
+            while (!$permissionQuery->eof) {
+                $permissions[$permissionQuery->getFields('id')] = $permissionQuery->getFields('name');
+                $permissionQuery->moveNext();
+            }
+        }
+        
+        return $permissions;
     }
 }
