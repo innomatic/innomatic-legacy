@@ -205,11 +205,7 @@ function pass_newgroup($eventData)
 {
     global $innomaticLocale, $wuiMainStatus;
 
-    $tempGroup = new Group(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id']
-    );
+    $tempGroup = new Group();
     $groupData['groupname'] = $eventData['groupname'];
     $tempGroup->createGroup($groupData);
 }
@@ -219,12 +215,7 @@ function pass_rengroup($eventData)
 {
     global $innomaticLocale, $wuiMainStatus;
 
-    $tempGroup = new Group(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
-        $eventData['gid']
-    );
+    $tempGroup = new Group($eventData['gid']);
     $groupData['groupname'] = $eventData['groupname'];
     $tempGroup->editGroup($groupData);
 }
@@ -239,12 +230,7 @@ function pass_removegroup($eventData)
     else
         $deleteUsersToo = false;
 
-    $tempGroup = new Group(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
-        $eventData['gid']
-    );
+    $tempGroup = new Group($eventData['gid']);
     $tempGroup->removeGroup($deleteUsersToo);
 }
 
