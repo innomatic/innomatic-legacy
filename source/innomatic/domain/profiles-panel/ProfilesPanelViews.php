@@ -114,6 +114,36 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         );
         $wuiUsersToolBar->addChild($wuiNewUserButton);
         
+        // Roles bar
+        //
+        $wuiRolesToolBar = new WuiToolBar('rolestoolbar');
+        
+        $rolesAction = new WuiEventsCall();
+                $rolesAction->addEvent(new WuiEvent('view', 'roles', ''));
+                $wuiRolesButton = new WuiButton(
+                    'usersbutton',
+                    array(
+                    'label' => $this->localeCatalog->getStr('roles_button'),
+                    'themeimage' => 'user',
+                    'horiz' => 'true',
+                    'action' => $rolesAction->getEventsCallString()
+                )
+                );
+                $wuiRolesToolBar->addChild($wuiRolesButton);
+        
+        $newRoleAction = new WuiEventsCall();
+        $newRoleAction->addEvent(new WuiEvent('view', 'newrole', ''));
+        $wuiNewRoleButton = new WuiButton(
+            'newuserbutton',
+            array(
+            'label' => $this->localeCatalog->getStr('newrole_button'),
+                'themeimage' => 'useradd',
+                'horiz' => 'true',
+                'action' => $newRoleAction->getEventsCallString()
+            )
+            );
+                $wuiRolesToolBar->addChild($wuiNewRoleButton);
+                
         // Help tool bar
         //
         $wuiHelpToolBar = new WuiToolBar('helpbar');
@@ -143,6 +173,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         
         $wuiToolBarFrame->addChild($wuiProfilesToolBar);
         $wuiToolBarFrame->addChild($wuiUsersToolBar);
+        $wuiToolBarFrame->addChild($wuiRolesToolBar);
         
         if (
         User::isAdminUser(
@@ -1692,4 +1723,12 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         );
     }
     
+    public function viewRoles($eventData)
+    {
+        $rolesList = \Innomatic\Domain\User\Role::getAllRoles();
+        print_r($rolesList);
+        
+        $permissionsList = \Innomatic\Domain\User\Permission::getAllPermissions();
+        print_r($permissionsList);
+    }
 }
