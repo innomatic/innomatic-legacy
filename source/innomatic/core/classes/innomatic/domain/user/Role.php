@@ -205,8 +205,6 @@ class Role
             WHERE rp.roleid={$this->id}"
         );
         
-        print_r($permissionQuery);
-        
         // Build the permissions list
         $permissions = array();
         
