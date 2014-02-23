@@ -15,6 +15,7 @@ class Permission
     
     public function __construct($id = null)
     {
+        // Gets dataaccess from Innomatic DIC
         $this->dataAccess = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
             ->getCurrentDomain()
             ->getDataAccess();
@@ -132,11 +133,11 @@ class Permission
         
         return $this->dataAccess(
             "UPDATE domain_permissions
-            SET name=".$this->dataAccess->formatText($name).",
-            title=".$this->dataAccess->formatText($title).",
-            description=".$this->dataAccess->formatText($description).",
-            catalog=".$this->dataAccess->formatText($catalog).",
-            application=".$this->dataAccess->formatText($applicatin)."
+            SET name=".$this->dataAccess->formatText($this->name).",
+            title=".$this->dataAccess->formatText($this->title).",
+            description=".$this->dataAccess->formatText($this->description).",
+            catalog=".$this->dataAccess->formatText($this->catalog).",
+            application=".$this->dataAccess->formatText($this->application)."
             WHERE id={$this->id}"
         );
     }
