@@ -23,6 +23,7 @@ CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
 - Upgraded MySQL support from mysql to mysqli. (Alex Pagnoni)
 - Changed \Innomatic\Domain\User\Group constructor arguments. (Alex Pagnoni)
+- Upgraded domain profiles panel to new style panel. (Alex Pagnoni)
 
 FIXES:
 - Fixed locale country fract digits. (Alex Pagnoni)
