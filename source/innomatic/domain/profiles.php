@@ -504,20 +504,20 @@ function main_editprofile($eventData)
                 $groupData['catalog'],
                 \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
             );
-            $nodeState = $perm->Check($groupData['id'], Permissions::NODETYPE_GROUP);
+            $nodeState = $perm->Check($groupData['id'], \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_GROUP);
 
             switch ($nodeState) {
-                case Permissions::NODE_FULLYENABLED :
+                case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_FULLYENABLED :
                     $icon = $wuiMainFrame->mThemeHandler->mStyle['greenball'];
                     $enabled = true;
                     break;
 
-                case Permissions::NODE_PARTIALLYENABLED :
+                case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_PARTIALLYENABLED :
                     $icon = $wuiMainFrame->mThemeHandler->mStyle['goldball'];
                     $enabled = true;
                     break;
 
-                case Permissions::NODE_NOTENABLED :
+                case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED :
                     $icon = $wuiMainFrame->mThemeHandler->mStyle['redball'];
                     $enabled = false;
                     break;
@@ -552,7 +552,7 @@ function main_editprofile($eventData)
                         'action',
                         'disablenode',
                         array(
-                            'ntype' => Permissions::NODETYPE_GROUP,
+                            'ntype' => \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_GROUP,
                             'node' => $groupData['id'],
                             'gid' => $eventData['profileid']
                         )
@@ -571,7 +571,7 @@ function main_editprofile($eventData)
                 $wuiGroupToolbar[$row]->addChild($wuiDisableButton[$row]);
             }
 
-            if (!$enabled or $nodeState == Permissions::NODE_PARTIALLYENABLED) {
+            if (!$enabled or $nodeState == \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_PARTIALLYENABLED) {
                 $enableAction[$row] = new WuiEventsCall();
                 $enableAction[$row]->addEvent(
                     new WuiEvent(
@@ -586,7 +586,7 @@ function main_editprofile($eventData)
                         'action',
                         'enablenode',
                         array(
-                            'ntype' => Permissions::NODETYPE_GROUP,
+                            'ntype' => \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_GROUP,
                             'node' => $groupData['id'],
                             'gid' => $eventData['profileid']
                         )
@@ -631,12 +631,12 @@ function main_editprofile($eventData)
                 $nodeState = $perm->Check($pageData['id'], 'page');
 
                 switch ($nodeState) {
-                    case Permissions::NODE_FULLYENABLED :
+                    case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_FULLYENABLED :
                         $icon = $wuiMainFrame->mThemeHandler->mStyle['greenball'];
                         $enabled = true;
                         break;
 
-                    case Permissions::NODE_NOTENABLED :
+                    case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED :
                         $icon = $wuiMainFrame->mThemeHandler->mStyle['redball'];
                         $enabled = false;
                         break;
@@ -679,7 +679,7 @@ function main_editprofile($eventData)
                             'action',
                             'disablenode',
                             array(
-                                'ntype' => Permissions::NODETYPE_PAGE,
+                                'ntype' => \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_PAGE,
                                 'node' => $pageData['id'],
                                 'gid' => $eventData['profileid']
                             )
@@ -712,7 +712,7 @@ function main_editprofile($eventData)
                             'action',
                             'enablenode',
                             array(
-                                'ntype' => Permissions::NODETYPE_PAGE,
+                                'ntype' => \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_PAGE,
                                 'node' => $pageData['id'],
                                 'gid' => $eventData['profileid']
                             )

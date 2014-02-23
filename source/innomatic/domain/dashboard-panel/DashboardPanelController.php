@@ -34,7 +34,7 @@ class DashboardPanelController extends \Innomatic\Desktop\Panel\PanelController
             // Do not show widgets tied to a panel when the panel is not accessible to the current user
             if (strlen($panel)) {
                 $node_id = $perm->getNodeIdFromFileName($panel);
-                if ( $perm->check( $node_id, \Innomatic\Domain\User\Permissions::NODETYPE_PAGE ) == \Innomatic\Domain\User\Permissions::NODE_NOTENABLED ) {
+                if ( $perm->check( $node_id, \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_PAGE ) == \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED ) {
                 	$widget_query->moveNext();
                     continue;
                 }

@@ -207,7 +207,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                         $group_apps = false;
                         $groupdata = $groupsquery->getFields();
                         
-                        if ($tmpperm->check($groupdata['id'], 'group') != \Innomatic\Domain\User\Permissions::NODE_NOTENABLED) {
+                        if ($tmpperm->check($groupdata['id'], 'group') != \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED) {
                             switch ($groupdata['name']) {
                                 case 'tools':
                                     $tools_id = $groupdata['id'];
@@ -249,7 +249,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                 while (! $pagesquery->eof) {
                                     $pagedata = $pagesquery->getFields();
                                     
-                                    if ($tmpperm->check($pagedata['id'], 'page') != \Innomatic\Domain\User\Permissions::NODE_NOTENABLED) {
+                                    if ($tmpperm->check($pagedata['id'], 'page') != \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED) {
                                         if (strlen($pagedata['catalog']) > 0) {
                                             $tmploc = new LocaleCatalog($pagedata['catalog'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage());
                                             $descstr = $tmploc->getStr($pagedata['name']);
@@ -459,7 +459,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                         // Do not show traybar items tied to a panel when the panel is not accessible to the current user
                         if (strlen($panel)) {
                             $node_id = $perm->getNodeIdFromFileName($panel);
-                            if ($perm->check($node_id, \Innomatic\Domain\User\Permissions::NODETYPE_PAGE) == \Innomatic\Domain\User\Permissions::NODE_NOTENABLED) {
+                            if ($perm->check($node_id, \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_PAGE) == \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED) {
                                 $traybar_items_query->moveNext();
                                 continue;
                             }
