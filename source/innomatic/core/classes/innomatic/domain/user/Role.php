@@ -43,7 +43,7 @@ class Role
                 $this->name = $roleData->getFields('name');
                 $this->title = $roleData->getFields('title');
                 $this->description = $roleData->getFields('description');
-                $this->application = $permissionData->getFields('application');
+                $this->application = $roleData->getFields('application');
                 
                 // If the role has been created by an Innomatic component it should have
                 // a catalog definition. In that case, replace the title and the description
@@ -199,7 +199,7 @@ class Role
             return false;
         }
 
-        $permissionQuery = $this->domainDA->execute(
+        $permissionQuery = $this->dataAccess->execute(
             "SELECT id,name FROM domain_permissions AS perms
             JOIN domain_roles_permissions AS rp ON perms.id=rp.permissionid
             WHERE rp.id={$this->id}"
