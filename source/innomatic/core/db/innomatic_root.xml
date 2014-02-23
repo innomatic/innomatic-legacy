@@ -817,7 +817,7 @@
     <insert table="applications_components_types">
         <data field="id" value="42" />
         <data field="typename" value="role" />
-        <data field="priority" value="0" />
+        <data field="priority" value="20" />
         <data field="domain" value="t" />
         <data field="file" value="RoleComponent.php" />
     </insert>

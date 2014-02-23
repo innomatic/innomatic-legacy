@@ -31,7 +31,7 @@ class RoleComponent extends \Innomatic\Application\ApplicationComponent
 
     public static function getPriority()
     {
-        return 0;
+        return 20;
     }
 
     public static function getIsDomain()
