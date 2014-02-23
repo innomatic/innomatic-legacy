@@ -18,6 +18,8 @@ NEW FEATURES:
   every user. (Alex Pagnoni)
 - Added support for root key/value settings. (Alex Pagnoni)
 - Added pending actions to be processed by cronjob scripts. (Alex Pagnoni)
+- Added roles and permissions support for domain users. (Alex Pagnoni)
+- Added role and permission application component types. (Alex Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
