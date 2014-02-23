@@ -19,8 +19,13 @@ class ProfilesPanelController extends \Innomatic\Desktop\Panel\PanelController
     {
     }
     
-    public function getRolesPermissionsXml()
+    public static function getRolesPermissionsXml()
     {
+        $localeCatalog = new \Innomatic\Locale\LocaleCatalog(
+            'innomatic::domain_profiles',
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
+        );
+        
         $rolesList = \Innomatic\Domain\User\Role::getAllRoles();
         $rolesCount = count($rolesList);
         
@@ -65,7 +70,7 @@ class ProfilesPanelController extends \Innomatic\Desktop\Panel\PanelController
                     $checked = 'false';
                 }
                 
-                $xml .= '<checkbox row="'.$row.'" col="'.$col++.'" halign="center" valign="middle"><name></name><args><id></id><checked>'.$checked.'</checked></args></checkbox>';
+                $xml .= '<checkbox row="'.$row.'" col="'.$col++.'" halign="center" valign="middle"><name>rolepermissioncb</name><args><id>cbrole_'.$roleId.'-'.$permId.'</id><checked>'.$checked.'</checked></args></checkbox>';
             }
             
             $prevApplication = $permData['application'];
@@ -74,6 +79,20 @@ class ProfilesPanelController extends \Innomatic\Desktop\Panel\PanelController
         
         $xml .= '</children>
               </table>
+              <horizbar/>
+              <button><name>save</name>
+	<args><themeimage>buttonok</themeimage><label>'.WuiXml::cdata($localeCatalog->getStr('save_roles_permissions_button')).'</label><action>javascript:void(0)</action><horiz>true</horiz><frame>false</frame></args>
+  	<events>
+    	<click>'.WuiXml::cdata("
+var checkboxes = document.getElementsByName('wui[][evd][rolepermissioncb]');
+var vals = '';
+for (var i=0, n=checkboxes.length;i<n;i++) {
+  if (checkboxes[i].checked) vals += ','+checkboxes[i].id;
+}
+if (vals) vals = vals.substring(1);
+    			
+xajax_SaveRolesPermissions(vals);").'</click>
+  	</events></button>
             </children></vertgroup>';
         
         return $xml;

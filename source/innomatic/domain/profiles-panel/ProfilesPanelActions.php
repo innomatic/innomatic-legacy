@@ -180,4 +180,39 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             $this->notifyObservers('status');
         }
     }
+
+    public static function ajaxSaveRolesPermissions($permissions) {
+        // Build list of checked roles/permissions
+        $permissions = explode(',', $permissions);
+        $checkedPermissions = array();
+        foreach ($permissions as $id => $permission) {
+            $permission = str_replace('cbrole_', '', $permission);
+            list($roleId, $permissionId) = explode('-', $permission);
+            $checkedPermissions[$roleId][$permissionId] = true;
+        }
+        
+        // Get list of all roles and permissions
+        $rolesList = \Innomatic\Domain\User\Role::getAllRoles();
+        $permissionsList = \Innomatic\Domain\User\Permission::getAllPermissions();
+        
+        // Check which permissions have been checked
+        foreach ($rolesList as $roleId => $roleData) {
+            $role = new \Innomatic\Domain\User\Role($roleId);
+            
+            foreach ($permissionsList as $permissionId => $permissionData) {
+                if (isset($checkedPermissions[$roleId][$permissionId])) {
+                    $role->assignPermission($permissionId);
+                } else {
+                    $role->unassignPermission($permissionId);
+                }
+            }
+        }
+        
+        $html = WuiXml::getContentFromXml('', \ProfilesPanelController::getRolesPermissionsXml());
+         
+        $objResponse = new XajaxResponse();
+        $objResponse->addAssign("roleslist", "innerHTML", $html);
+         
+        return $objResponse;
+    }
 }

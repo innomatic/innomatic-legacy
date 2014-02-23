@@ -202,8 +202,8 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         
         $this->wuiMainvertgroup->addChild($wuiToolBarFrame);
         
-        $this->wuiMainframe = new WuiHorizframe('mainframe');
-        $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
+        $this->wuiMainframe = new WuiHorizgroup('mainframe');
+        $this->wuiMainstatus = new WuiStatusbar('mainstatusbar');
     }
 
     public function endHelper()
@@ -1725,10 +1725,6 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     
     public function viewRoles($eventData)
     {
-        $rolesList = \Innomatic\Domain\User\Role::getAllRoles();
-        print_r($rolesList);
-        
-        $permissionsList = \Innomatic\Domain\User\Permission::getAllPermissions();
-        print_r($permissionsList);
+        $this->wuiMainframe->addChild(new WuiXml('rolespermissions', array('definition' => '<divframe><args><id>roleslist</id></args><children>'.$this->_controller->getRolesPermissionsXml().'</children></divframe>')));
     }
 }
