@@ -254,6 +254,54 @@ class Permission
         );
     }
     
+    public static function getAllPermissions()
+    {
+        $dataAccess = InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
+            ->getCurrentDomain()
+            ->getDataAccess();
+    
+        $permissionsQuery = $dataAccess->execute("SELECT * FROM domain_permissions ORDER BY application,title");
+    
+        // Build the permissions list
+        $permissions = array();
+    
+        if ($permissionsQuery !== false) {
+            $catalog = '';
+    
+            while (!$permissionsQuery->eof) {
+                $title = $permissionsQuery->getFields('title');
+                $description = $permissionsQuery->getFields('description');
+    
+                if (strlen($permissionsQuery->getFields('catalog')) > 0) {
+                    if ($permissionsQuery->getFields('catalog') != $catalog) {
+                        $localeCatalog = new \Innomatic\Locale\LocaleCatalog(
+                            $permissionsQuery->getFields('catalog'),
+                            InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
+                                ->getCurrentUser()
+                                ->getLanguage()
+                        );
+                    }
+    
+                    $title = $localeCatalog->getStr($title);
+                    $description = $localeCatalog->getStr($description);
+                }
+    
+                $catalog = $permissionsQuery->getFields('catalog');
+    
+                $permissions[$permissionsQuery->getFields('id')] = array(
+                    'name' => $permissionsQuery->getFields('name'),
+                    'title' => $title,
+                    'description' => $description,
+                    'application' => $permissionsQuery->getFields('application')
+                );
+                
+                $permissionsQuery->moveNext();
+            }
+        }
+    
+        return $permissions;
+    }
+    
     public static function getIdFromName($name)
     {
         $dataAccess = InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')

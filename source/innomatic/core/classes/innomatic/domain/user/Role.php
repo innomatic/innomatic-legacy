@@ -352,6 +352,54 @@ class Role
         return $roles;
     }
     
+    public static function getAllRoles()
+    {
+        $dataAccess = InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
+            ->getCurrentDomain()
+            ->getDataAccess();
+        
+        $rolesQuery = $dataAccess->execute("SELECT * FROM domain_roles ORDER BY application,title");
+    
+        // Build the roles list
+        $roles = array();
+    
+        if ($rolesQuery !== false) {
+            $catalog = '';
+            
+            while (!$rolesQuery->eof) {
+                $title = $rolesQuery->getFields('title');
+                $description = $rolesQuery->getFields('description');
+                
+                if (strlen($rolesQuery->getFields('catalog')) > 0) {
+                    if ($rolesQuery->getFields('catalog') != $catalog) {
+                        $localeCatalog = new \Innomatic\Locale\LocaleCatalog(
+                            $rolesQuery->getFields('catalog'),
+                            InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
+                            ->getCurrentUser()
+                            ->getLanguage()
+                        );
+                    }
+                    
+                    $title = $localeCatalog->getStr($title);
+                    $description = $localeCatalog->getStr($description);
+                }
+                
+                $catalog = $rolesQuery->getFields('catalog');
+                
+                $roles[$rolesQuery->getFields('id')] = array(
+                	'name' => $rolesQuery->getFields('name'),
+                    'title' => $title,
+                    'description' => $description,
+                    'application' => $rolesQuery->getFields('application')
+                );
+                
+                $rolesQuery->moveNext();
+            }
+        }
+    
+        return $roles;
+    }
+    
     public static function getIdFromName($name)
     {
         $dataAccess = InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
