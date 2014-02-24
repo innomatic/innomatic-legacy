@@ -402,9 +402,17 @@ class User
             return true;
         }
         
+        // If the role has been given by name, get its id
+        if (!is_int($role)) {
+            $role = Role::getIdFromName($role);
+            if ($role === false) {
+                return false;
+            }
+        }
+        
         $query = $this->domainDA->execute('SELECT * FROM domain_users_roles AS ur
             JOIN domain_roles AS dr ON ur.roleid=dr.id
-            WHERE dr.name='.$this->domainDA->formatText($role));
+            WHERE dr.id='.$role);
         
         return $query->getNumberRows() > 0;
     }
@@ -503,6 +511,14 @@ class User
         if (self::isAdminUser($this->username, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())) {
             // Administrator user has all roles and permissions by default
             return true;
+        }
+        
+        // If the permissions has been given by name, get its id
+        if (!is_int($permission)) {
+            $permission = Permission::getIdFromName($permission);
+            if ($permission === false) {
+                return false;
+            }
         }
         
         $permissionQuery = $this->domainDA->execute(
