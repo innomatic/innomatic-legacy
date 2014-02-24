@@ -445,7 +445,7 @@ class User
         return $this->domainDA->execute(
             "INSERT INTO domain_users_roles
             (userid,roleid)
-            VALUES ({$this->userid}, {$roleid})"
+            VALUES ({$this->userid}, {$role})"
         );
     }
     
