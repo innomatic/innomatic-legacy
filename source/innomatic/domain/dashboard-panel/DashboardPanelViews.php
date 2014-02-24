@@ -82,14 +82,6 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $wui_xml = '<horizgroup><children>';
         
         foreach ($widgets as $widget) {
-            // If this is the start of a column, add the vertical group opener
-            if ($start_column) {
-                $wui_xml .= '<vertgroup><children>';
-                $start_column = false;
-            }
-            // Add ajax setup call
-            \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\'' . $widget['name'] . '\')');
-            
             $width = 0;
             $height = 0;
             
@@ -99,9 +91,25 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             if (class_exists($class, true)) {
                 // Fetch the widget xml definition
                 $widget_obj = new $class();
+                
+                // Check if the widget is visible
+                if (!$widget_obj->isVisible()) {
+                    continue;
+                }
+                
                 $width = $widget_obj->getWidth() * $def_width;
                 $height = $widget_obj->getHeight();
+            } else {
+                continue;
             }
+            
+            // If this is the start of a column, add the vertical group opener
+            if ($start_column) {
+                $wui_xml .= '<vertgroup><children>';
+                $start_column = false;
+            }
+            // Add ajax setup call
+            \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\'' . $widget['name'] . '\')');
             
             // Check width and height parameters
             if ($width == 0) {

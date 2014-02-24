@@ -22,6 +22,8 @@ NEW FEATURES:
 - Added role and permission application component types. (Alex Pagnoni)
 - Added domain_system_administrator role. (Alex Pagnoni)
 - Added edit_password_all and edit_motd permissions. (Alex Pagnoni)
+- Added dashboard widget method to decide when a widget is visible. (Alex
+  Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
