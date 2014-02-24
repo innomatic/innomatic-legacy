@@ -96,7 +96,7 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
             $eventData['uid']
         );
-        $userData['groupid'] = $eventData['groupid'];
+        $userData['groupid'] = $eventData['profileid'];
         $userData['username'] = $eventData['username'];
         $userData['fname'] = $eventData['fname'];
         $userData['lname'] = $eventData['lname'];
@@ -110,6 +110,16 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
         }
     
         $tempUser->update($userData);
+        
+        // Roles
+        $roles = \Innomatic\Domain\User\Role::getAllRoles();
+        foreach ($roles as $roleId => $roleData) {
+            if (isset($eventData['role_'.$roleId])) {
+                $tempUser->assignRole($roleId);
+            } else {
+                $tempUser->unassignRole($roleId);
+            }
+        }
     }
     
     public function executeChpasswd($eventData)
@@ -119,16 +129,6 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             $eventData['uid']
         );
         $tempUser->changePassword($eventData['password']);
-    }
-    
-    public function executeChprofile($eventData)
-    {
-        $tempUser = new User(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
-            $eventData['uid']
-        );
-        $userData['groupid'] = $eventData['profileid'];
-        $tempUser->changeGroup($userData);
     }
     
     public function executeRemoveuser($eventData)
