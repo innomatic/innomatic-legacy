@@ -118,6 +118,19 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         //
         $wuiRolesToolBar = new WuiToolBar('rolestoolbar');
         
+        $permissionsAction = new WuiEventsCall();
+        $permissionsAction->addEvent(new WuiEvent('view', 'permissions', ''));
+        $wuiPermissionsButton = new WuiButton(
+            'usersbutton',
+            array(
+                'label' => $this->localeCatalog->getStr('permissions_button'),
+                'themeimage' => 'user',
+                'horiz' => 'true',
+                'action' => $permissionsAction->getEventsCallString()
+            )
+        );
+        $wuiRolesToolBar->addChild($wuiPermissionsButton);
+        
         $rolesAction = new WuiEventsCall();
                 $rolesAction->addEvent(new WuiEvent('view', 'roles', ''));
                 $wuiRolesButton = new WuiButton(
@@ -1586,8 +1599,70 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         );
     }
     
-    public function viewRoles($eventData)
+    public function viewPermissions($eventData)
     {
         $this->wuiMainframe->addChild(new WuiXml('rolespermissions', array('definition' => '<divframe><args><id>roleslist</id></args><children>'.$this->_controller->getRolesPermissionsXml().'</children></divframe>')));
+    }
+    
+    public function viewRoles($eventData)
+    {
+        $roles = \Innomatic\Domain\User\Role::getAllRoles();
+        $row = 0;
+        
+        $xml = '<table><children>';
+        
+        foreach ($roles as $roleId => $roleData) {
+            $xml .= '<label row="'.$row.'" col="0"><args><label>'.WuiXml::cdata($roleDat['name']).'</label></args></label>';
+            $row++;
+        }
+            
+        $xml .= '</children></table>';
+        $this->wuiMainFrame->addChild(new WuiXml('newrole', array('definition' => $xml)));
+    }
+    
+    public function viewNewrole($eventData)
+    {
+        $xml = '<vertgroup><children>
+            <form><name>newrole</name>
+              <args><action>'.WuiXml::cdata(
+    	      		\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+    	      				'',
+    	      				array(
+    	      					array('view', 'roles', array()),
+    	      				    array('action', 'addrole', array())
+    	      				)
+    	      		)
+    	      ).'</action></args>
+              <children>
+                <grid><children>
+                  <label row="0" col="0"><args><label>'.WuiXml::cdata($this->localeCatalog->getStr('rolename_label')).'</label></args></label>
+                  <string row="0" col="1"><name>name</name><args><disp>action</disp></size>25</size></args></string>
+                  <label row="1" col="0"><args><label>'.WuiXml::cdata($this->localeCatalog->getStr('roledescription_label')).'</label></args></label>
+                  <text row="1" col="1"><name>description</name><args><disp>action</disp></cols>40</cols><rows>5</rows></args></text>
+                  </children></grid>
+            </children></form>
+            <horizbar/>
+            <horizgroup><children>
+              <button><name>save</name>
+                <args>
+                  <themeimage>buttonok</themeimage>
+                  <label>'.WuiXml::cdata($this->localeCatalog->getStr('newrole_button')).'</label>
+                  <action>'.WuiXml::cdata(
+    	      		\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+    	      				'',
+    	      				array(
+    	      					array('view', 'roles', array()),
+    	      				    array('action', 'addrole', array())
+    	      				)
+    	      		)
+    	      ).'</action>
+                  <formsubmit>userdata</formsubmit>
+                  <horiz>true</horiz>
+                  <frame>false</frame>
+                </args>
+              </button>
+            </children></horizgroup>
+            </children></vertgroup>';
+        $this->wuiMainFrame->addChild(new WuiXml('newrole', array('definition' => $xml)));
     }
 }

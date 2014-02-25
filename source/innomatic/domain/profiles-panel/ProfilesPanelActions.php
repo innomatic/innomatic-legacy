@@ -181,6 +181,12 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
         }
     }
 
+    public function executeAddrole($eventData)
+    {
+        $role = new \Innomatic\Domain\User\Role();
+        $role->add($eventData['name'], $eventData['name'], $eventData['description']);
+    }
+    
     public static function ajaxSaveRolesPermissions($permissions) {
         // Build list of checked roles/permissions
         $permissions = explode(',', $permissions);
