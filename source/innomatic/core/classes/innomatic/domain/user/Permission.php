@@ -10,22 +10,46 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 6.4.0
  */
 namespace Innomatic\Domain\User;
 
 use \Innomatic\Core;
 
+/**
+ * User permission.
+ *
+ * @since Class available since Release 6.4.0
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ */
 class Permission
 {
+    /** @type \Innomatic\Dataaccess\DataAccess $dataAccess */
     protected $dataAccess;
+
+    /** @type int $id */
     public $id;
+
+    /** @type string $name is the permission internal identifier. */
     public $name;
+
+    /** @type string $title is the permission human readable name. */
     public $title;
+
+    /** @type string $description is the permission extended description. */
     public $description;
+
+    /** @type string $application is the application identifier name. */
     public $application;
+
+    /** @type string $catalog is the catalog name used for localization of permission
+     * parameters. */
     protected $catalog;
     
+    /**
+     * Constructs the object.
+     *
+     * @param int $id Optional permission id number.
+     */
     public function __construct($id = null)
     {
         // Gets dataaccess from Innomatic DIC
