@@ -31,6 +31,8 @@ CHANGES:
 - Upgraded MySQL support from mysql to mysqli. (Alex Pagnoni)
 - Changed \Innomatic\Domain\User\Group constructor arguments. (Alex Pagnoni)
 - Upgraded domain profiles panel to new style panel. (Alex Pagnoni)
+- Removed root dataaccess parameter to ApplicationStructureDefinition,
+  ApplicationSettings and ApplicationDependencies classes. (Alex Pagnoni)
 
 FIXES:
 - Fixed locale country fract digits. (Alex Pagnoni)

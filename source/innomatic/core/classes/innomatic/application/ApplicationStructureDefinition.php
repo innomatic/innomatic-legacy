@@ -34,8 +34,6 @@ class ApplicationStructureDefinition extends \Innomatic\Xml\XMLParser
     public $modstructure = array();
     /*! @public eltypes applicationcomponentfactory class - Application component types handler. */
     public $eltypes;
-    /*! @public rootda DataAccess class - Innomatic database handler. */
-    public $rootda;
     /*! @public basedir string - Application base directory. */
     public $basedir;
 
@@ -44,13 +42,12 @@ class ApplicationStructureDefinition extends \Innomatic\Xml\XMLParser
 
      @abstract Class constructor.
 
-     @param rootda DataAccess class - Innomatic database handler.
      @param basedir string - Application base directory.
      */
-    public function __construct($rootda, $basedir = '')
+    public function __construct($basedir = '')
     {
         $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
-        $this->eltypes = new ApplicationComponentFactory($rootda);
+        $this->eltypes = new ApplicationComponentFactory(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
         $this->eltypes->fillTypes();
         parent::__construct();
         $this->basedir = $basedir;

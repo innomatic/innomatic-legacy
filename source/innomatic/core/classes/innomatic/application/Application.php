@@ -1533,7 +1533,7 @@ only application. */
                 break;
 
             default:
-                $deffile = new ApplicationStructureDefinition($this->rootda, $tmpdir);
+                $deffile = new ApplicationStructureDefinition($tmpdir);
                 $deffile->load_DefFile($deffilepath);
                 $structure = $deffile->getStructure();
         }
@@ -1764,13 +1764,12 @@ only application. */
             // Load structure files
             //
             $deffilea = new ApplicationStructureDefinition(
-                $this->rootda,
                 $tmpdir
             );
             $deffilea->load_DefFile($filea);
             $structurea = $deffilea->getStructure();
 
-            $deffileb = new ApplicationStructureDefinition($this->rootda);
+            $deffileb = new ApplicationStructureDefinition();
             $deffileb->load_DefFile($fileb);
             $structureb = $deffileb->getStructure();
 
