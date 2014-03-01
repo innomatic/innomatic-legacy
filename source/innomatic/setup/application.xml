@@ -130,6 +130,7 @@
 		<!--  Root container -->
 
 		<class name="innomatic/core/RootContainer.php" />
+		<unittest name="innomatic/core/tests/RootContainerTest.php" />
         <roottable name="root_settings" file="root_settings.xml" />
         <class name="innomatic/core/RootSettings.php" />
 
@@ -137,6 +138,7 @@
 
 		<class name="innomatic/core/InnomaticContainer.php" />
 		<class name="innomatic/core/InnomaticSettings.php" />
+		<unittest name="innomatic/core/tests/InnomaticSettingsTest.php" />
 		<class name="innomatic/debug/InnomaticDump.php" />
         <class name="innomatic/debug/LoadTime.php" />
 

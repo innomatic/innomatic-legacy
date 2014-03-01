@@ -1,10 +1,13 @@
 <?php
-require_once 'source/innomatic/core/classes/innomatic/core/InnomaticSettings.php';
-require_once 'PHPUnit/Framework/TestCase.php';
+
+namespace Innomatic\Core\Tests;
+
+use \Innomatic\Core;
+
 /**
  * InnomaticSettings test case.
  */
-class InnomaticSettingsTest extends PHPUnit_Framework_TestCase
+class InnomaticSettingsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var InnomaticSettings
