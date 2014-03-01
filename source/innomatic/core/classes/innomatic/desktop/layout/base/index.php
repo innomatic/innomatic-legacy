@@ -16,10 +16,10 @@
 function main_page()
 {
     $innomatic_locale = new \Innomatic\Locale\LocaleCatalog('innomatic::root_menu', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
-    $app_cfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
+    $app_cfg = new \Innomatic\Application\ApplicationSettings('innomatic');
 
     if (is_object( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess() ) and !(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
-        $app_cfg = new \Innomatic\Application\ApplicationSettings( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic' );
+        $app_cfg = new \Innomatic\Application\ApplicationSettings('innomatic');
         $innomatic_logo_disabled = $app_cfg->getKey( 'innomatic-biglogo-disabled' );
     } else {
         $innomatic_logo_disabled = 0;

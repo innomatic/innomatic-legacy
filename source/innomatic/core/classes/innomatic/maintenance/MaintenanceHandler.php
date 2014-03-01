@@ -21,7 +21,7 @@ class MaintenanceHandler
 
     public function __construct()
     {
-        $this->mApplicationSettings = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
+        $this->mApplicationSettings = new \Innomatic\Application\ApplicationSettings('innomatic');
 
         $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile(), false, INI_SCANNER_RAW);
         $result = isset($cfg['MaintenanceInterval']) ? $cfg['MaintenanceInterval'] : '';

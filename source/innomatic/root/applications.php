@@ -989,7 +989,7 @@ function main_dependencies($eventData)
 
     $applicationData = $query->getFields();
 
-    $tempDeps = new \Innomatic\Application\ApplicationDependencies(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
+    $tempDeps = new \Innomatic\Application\ApplicationDependencies();
 
     $applicationDeps = array();
     $applicationSuggs = array();
@@ -1649,7 +1649,7 @@ function main_repositoryapplications($eventData)
         if (
             strlen($data['dependencies'])
         ) {
-            $appDeps = new \Innomatic\Application\ApplicationDependencies(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
+            $appDeps = new \Innomatic\Application\ApplicationDependencies();
             $depCheck = $appDeps->checkApplicationDependencies(
                 0,
                 '',
@@ -1916,9 +1916,7 @@ function main_applicationversions($eventData)
         if (
             strlen($data['dependencies'])
         ) {
-            $appDeps = new \Innomatic\Application\ApplicationDependencies(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()
-            );
+            $appDeps = new \Innomatic\Application\ApplicationDependencies();
             $depCheck = $appDeps->checkApplicationDependencies(
                 0,
                 '',

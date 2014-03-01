@@ -43,7 +43,7 @@ class ApplicationsettingsComponent extends \Innomatic\Application\ApplicationCom
     {
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {
-            $app_cfg = new ApplicationSettings($this->rootda, $params['application']);
+            $app_cfg = new ApplicationSettings($params['application']);
             $app_cfg->setKey($params['key'], isset($params['value']) ? $params['value'] : '');
         } else
             $this->mLog->logEvent('innomatic.applicationsettingscomponent.applicationsettingscomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty file argument', \Innomatic\Logging\Logger::ERROR);
@@ -54,7 +54,7 @@ class ApplicationsettingsComponent extends \Innomatic\Application\ApplicationCom
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {
             if (! (isset($params['keep']) and $params['keep'] = 'true')) {
-                $app_cfg = new ApplicationSettings($this->rootda, $params['application']);
+                $app_cfg = new ApplicationSettings($params['application']);
                 $app_cfg->DelKey($params['key']);
             }
         } else
@@ -65,7 +65,7 @@ class ApplicationsettingsComponent extends \Innomatic\Application\ApplicationCom
     {
         $result = false;
         if (strlen($params['file']) and isset($params['application']) and isset($params['key'])) {
-            $app_cfg = new ApplicationSettings($this->rootda, $params['application']);
+            $app_cfg = new ApplicationSettings($params['application']);
             if (! (isset($params['keep']) and $params['keep'] = 'true' and $app_cfg->CheckKey($params['key']))) {
                 $app_cfg->setKey($params['key'], isset($params['value']) ? $params['value'] : '');
             }

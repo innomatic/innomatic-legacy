@@ -172,7 +172,7 @@ class WuiTheme
     public static function setRootTheme()
     {
         if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
-            $app_cfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
+            $app_cfg = new \Innomatic\Application\ApplicationSettings('innomatic');
 
             if (strlen($app_cfg->getKey('wui-root-theme'))) {
                 \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->setTheme($app_cfg->getKey('wui-root-theme'));
@@ -194,7 +194,7 @@ class WuiTheme
         $user_theme = $user_settings->getKey('wui-theme', true);
 
         if (!strlen($user_theme)) {
-            $app_cfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
+            $app_cfg = new \Innomatic\Application\ApplicationSettings('innomatic');
             if (strlen($app_cfg->getKey('wui-root-theme'))) {
                 $user_theme = $app_cfg->getKey('wui-root-theme');
                 if (!strlen($user_theme)) {

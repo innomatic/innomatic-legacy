@@ -26,7 +26,6 @@ class InnomaticCacheMaintenance extends \Innomatic\Maintenance\MaintenanceTask
     public function __construct()
     {
         $this->mApplicationSettings = new \Innomatic\Application\ApplicationSettings(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             'innomatic'
            );
 

@@ -167,7 +167,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
     public function viewdefault($eventData)
     {
         //$app_cfg = new ApplicationSettings(
-        //    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic' );
+        //    'innomatic' );
 
         $themesQuery = \Innomatic\Core\InnomaticContainer::instance(
                 '\Innomatic\Core\InnomaticContainer'

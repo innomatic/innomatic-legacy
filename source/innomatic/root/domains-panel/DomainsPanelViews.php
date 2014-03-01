@@ -1951,9 +1951,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
                         $wuiEnGroup[$row] = new WuiVertgroup('enable');
                         $wuiDomainApplicationsToolbar[$row] = new WuiHorizgroup('domainapplicationstoolbar'.$row);
-                        $appDep = new \Innomatic\Application\ApplicationDependencies(
-                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()
-                        );
+                        $appDep = new \Innomatic\Application\ApplicationDependencies();
 
                         if ($actQuery->getNumberRows()) {
                             // Application is enabled
@@ -2325,7 +2323,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
         $row = 0;
 
-        $appDeps = new \Innomatic\Application\ApplicationDependencies(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
+        $appDeps = new \Innomatic\Application\ApplicationDependencies();
 
         while (!$domainsQuery->eof) {
             $xmlDef.= '<label row="'.$row.'" col="0">

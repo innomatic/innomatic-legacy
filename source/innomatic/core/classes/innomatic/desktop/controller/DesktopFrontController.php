@@ -115,7 +115,6 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
         // TODO verificare se e' ancora necessario dopo aver creato \Innomatic\Wui\Wui::setTheme()
         if (!(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
             $appCfg = new \Innomatic\Application\ApplicationSettings(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
                 'innomatic'
             );
             if (strlen($appCfg->getKey('wui-root-theme'))) {

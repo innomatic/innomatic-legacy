@@ -18,7 +18,7 @@ use \Innomatic\Core\InnomaticContainer;
 
 $wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 
-$app_cfg = new \Innomatic\Application|ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
+$app_cfg = new \Innomatic\Application|ApplicationSettings('innomatic');
 
 $wuiPage = new WuiPage('page', array('title' => 'Innomatic'));
 $wui_vertgroup = new WuiVertgroup('vertgroup', array('align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '100%'));

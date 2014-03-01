@@ -26,12 +26,11 @@ class ApplicationSettings
     protected $appname;
     
     /**
-     * @param rootda DataAccess class - Innomatic database handler.
      * @param appname string - Application name.
      */
-    public function __construct($rootda, $appname)
+    public function __construct($appname)
     {
-        $this->rootda = $rootda;
+        $this->rootda = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
         if ($appname) {
             $this->appname = $appname;
         } else {
