@@ -8,7 +8,7 @@
                                 CHANGES
                                 =======
 
-6000 - 6.4.0
+6000 - 6.4.0 - "Tray bar, Pending actions, Roles/Permissions"
 -------------------------
 NEW FEATURES:
 - Added the desktop tray bar. (Alex Pagnoni)
@@ -18,10 +18,18 @@ NEW FEATURES:
   every user. (Alex Pagnoni)
 - Added support for root key/value settings. (Alex Pagnoni)
 - Added pending actions to be processed by cronjob scripts. (Alex Pagnoni)
+- Added roles and permissions support for domain users. (Alex Pagnoni)
+- Added role and permission application component types. (Alex Pagnoni)
+- Added domain_system_administrator role. (Alex Pagnoni)
+- Added edit_password_all and edit_motd permissions. (Alex Pagnoni)
+- Added dashboard widget method to decide when a widget is visible. (Alex
+  Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
 - Upgraded MySQL support from mysql to mysqli. (Alex Pagnoni)
+- Changed \Innomatic\Domain\User\Group constructor arguments. (Alex Pagnoni)
+- Upgraded domain profiles panel to new style panel. (Alex Pagnoni)
 
 FIXES:
 - Fixed locale country fract digits. (Alex Pagnoni)
@@ -29,6 +37,10 @@ FIXES:
   (Alex Pagnoni)
 - Fixed wrong sequence name for root_profiles table in innomatic_root.xml.
   (Alex Pagnoni)
+
+DEPRECATED:
+- \Innomatic\Domain\User\Permissions class is deprecated in favor of new
+  \Innomatic\Desktop\Auth\DesktopPanelAuthorizator. (Alex Pagnoni)
 
 
 

@@ -28,18 +28,11 @@ class Group
 
      @abstract Class constructor
      */
-    public function __construct(\Innomatic\Dataaccess\DataAccess $rrootDb, \Innomatic\Dataaccess\DataAccess $rdomainDA, $domainserial, $groupid = 0)
+    public function __construct($groupid = 0)
     {
-        $this->mrRootDb = $rrootDb;
-        $this->mrDomainDA = $rdomainDA;
-
-        if ($domainserial)
-            $this->domainserial = $domainserial;
-        else {
-            
-            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
-            $this->mLog->LogDie('innomatic.users.group.group', 'Invalid domain serial');
-        }
+        $this->mrRootDb = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
+        $this->mrDomainDA = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
+        $this->domainserial = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'];
         $this->groupid = $groupid;
     }
 

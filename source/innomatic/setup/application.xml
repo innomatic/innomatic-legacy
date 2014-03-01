@@ -101,7 +101,11 @@
 			file="DashboardwidgetComponent.php" />
         <component name="traybaritem"
             file="TraybaritemComponent.php" />
-
+        <component name="permission"
+            file="PermissionComponent.php" />
+        <component name="role"
+            file="RoleComponent.php" />
+            
 		<!-- Installation scripts -->
 
 		<generalpreupdate file="generalpreupdate.php" />
@@ -827,6 +831,7 @@
 			name="innomatic/desktop/auth/DesktopRootAuthenticatorHelper.php" />
 		<class
 			name="innomatic/desktop/auth/DesktopDomainAuthenticatorHelper.php" />
+        <class name="innomatic/desktop/auth/DesktopPanelAuthorizator.php" />
 
 		<!-- Front Controller -->
 
@@ -912,7 +917,20 @@
 		<class name="innomatic/domain/user/User.php" />
 		<class name="innomatic/domain/user/UserSettings.php" />
 		<class name="innomatic/domain/user/Group.php" />
+        <!-- Permissions class is deprecated -->
 		<class name="innomatic/domain/user/Permissions.php" />
+		
+		<domaintable name="domain_permissions" file="domain_permissions.xml" />
+		<domaintable name="domain_roles_permissions" file="domain_roles_permissions.xml" />
+		<domaintable name="domain_roles" file="domain_roles.xml" />
+		<domaintable name="domain_users_roles" file="domain_users_roles.xml" />
+
+		<class name="innomatic/domain/user/Role.php" />
+		<class name="innomatic/domain/user/Permission.php" />
+		
+        <role name="domain_system_administrator" title="domain_system_administrator" description="" catalog="innomatic::roles" />
+        <permission name="edit_password_all" title="edit_password_all" description="" catalog="innomatic::roles" defaultroles="domain_system_administrator" />
+        <permission name="edit_motd" title="edit_motd" description="" catalog="innomatic::roles" defaultroles="domain_system_administrator" />
 
 		<!-- Panels -->
 

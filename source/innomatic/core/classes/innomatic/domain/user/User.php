@@ -387,4 +387,181 @@ class User
         return 'admin'.(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
     }
 
+    /**
+     * Checks to see whether a user has a role or not.
+     *
+     * @param string $role
+     *        	role name
+     *
+     * @return boolean success
+     */
+    public function hasRole($role)
+    {
+        if (self::isAdminUser($this->username, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())) {
+            // Administrator user has all roles and permissions by default
+            return true;
+        }
+        
+        // If the role has been given by name, get its id
+        if (!is_int($role)) {
+            $role = Role::getIdFromName($role);
+            if ($role === false) {
+                return false;
+            }
+        }
+        
+        $query = $this->domainDA->execute('SELECT * FROM domain_users_roles AS ur
+            JOIN domain_roles AS dr ON ur.roleid=dr.id
+            WHERE dr.id='.$role);
+        
+        return $query->getNumberRows() > 0;
+    }
+    
+    /**
+     * Assigns a role to a user
+     *
+     * @param string $role
+     *        Role name
+     * @return inserted or existing
+     */
+    public function assignRole($role)
+    {
+        if (self::isAdminUser($this->username, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())) {
+            // Administrator user has all roles and permissions by default
+            return true;
+        }
+        
+        // If the role has been given by name, get its id
+        if (!is_int($role)) {
+            $role = Role::getIdFromName($role);
+            if ($role === false) {
+                return false;
+            }
+        }
+        
+        $check_query = $this->domainDA->execute(
+            "SELECT count(*) AS count
+            FROM domain_users_roles
+            WHERE userid={$this->userid} AND roleid={$role}"
+        );
+        
+        if ($check_query->getFields('count') > 0) {
+            // This role has already been assigned
+            return true;
+        }
+        
+        return $this->domainDA->execute(
+            "INSERT INTO domain_users_roles
+            (userid,roleid)
+            VALUES ({$this->userid}, {$role})"
+        );
+    }
+    
+    /**
+     * Unassigns a role from a user
+     *
+     * @param integer $role
+     *        	ID
+     * @return boolean success
+     */
+    public function unassignRole($role)
+    {
+        // If the role has been given by name, get its id
+        if (!is_int($role)) {
+            $role = Role::getIdFromName($role);
+            if ($role === false) {
+                return false;
+            }
+        }
+        
+        return $this->domainDA->execute(
+            "DELETE FROM domain_users_roles
+            WHERE userid={$this->userid} AND roleid={$role}"
+        );
+    }
+    
+    /**
+     * Returns all roles of the current user.
+     * 
+     * @return array null
+     */
+    public function getAllRoles()
+    {
+        return $this->domainDA->execute("SELECT dr.*
+			FROM
+			domain_users_roles AS dur
+			JOIN domain_roles AS dr ON
+			dur.roleid=dr.id
+			WHERE dur.userid={$this->userid}");
+    }
+    
+    /**
+     * Return count of roles for the current user.
+     * 
+     * @return integer
+     */
+    public function getRoleCount()
+    {
+        $query = $this->domainDA->execute("SELECT COUNT(*) AS result FROM domain_users_roles WHERE userid={$this->userid}" );
+        return (int)$query->getFields('result');
+    }
+    
+    public function hasPermission($permission)
+    {
+        if (self::isAdminUser($this->username, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())) {
+            // Administrator user has all roles and permissions by default
+            return true;
+        }
+        
+        // If the permissions has been given by name, get its id
+        if (!is_int($permission)) {
+            $permission = Permission::getIdFromName($permission);
+            if ($permission === false) {
+                return false;
+            }
+        }
+        
+        $permissionQuery = $this->domainDA->execute(
+            "SELECT count(*) AS count
+            FROM domain_roles_permissions AS rp
+            JOIN domain_users_roles AS usersroles ON usersroles.roleid=rp.roleid
+            WHERE usersroles.userid={$this->userid} AND rp.permissionid={$permission}"
+        );
+        
+        if ($permissionQuery->getFields('count') > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function getAllPermissions()
+    {
+        if (self::isAdminUser($this->username, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())) {
+            // Administrator user has all roles and permissions by default
+            $permissionQuery = $this->domainDA->execute(
+                "SELECT id,name FROM domain_permissions"
+            );
+        } else {
+            $permissionQuery = $this->domainDA->execute(
+                "SELECT id,name FROM domain_permissions AS perms
+                JOIN domain_roles_permissions AS rp ON perms.id=rp.permissionid
+                JOIN domain_users_roles AS usersroles ON usersroles.roleid=rp.roleid
+                WHERE usersroles.userid={$this->userid}
+                GROUP BY id"
+            );
+        }
+
+        // Build the permissions list
+        $permissions = array();
+        
+        if ($permissionQuery !== false) {
+            while (!$permissionQuery->eof) {
+                $permissions[$permissionQuery->getFields('id')] = $permissionQuery->getFields('name');
+                $permissionQuery->moveNext();
+            }
+        }
+        
+        return $permissions;
+    }
 }

@@ -21,35 +21,39 @@ use \Shared\Wui;
 
 class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 {
+
     public $wuiPage;
+
     public $wuiMainvertgroup;
+
     public $wuiMainframe;
+
     public $wuiMainstatus;
+
     public $wuiTitlebar;
+
     protected $localeCatalog;
 
     public function update($observable, $arg = '')
-    {
-    }
+    {}
 
     public function beginHelper()
     {
-        $this->localeCatalog = new LocaleCatalog(
-            'innomatic::domain_dashboard',
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
-        );
-
+        $this->localeCatalog = new LocaleCatalog('innomatic::domain_dashboard', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage());
+        
         $this->_wuiContainer->loadAllWidgets();
-
-$this->wuiPage = new WuiPage('page', array('title' => $this->localeCatalog->getStr('dashboard_pagetitle')));
-$this->wuiMainvertgroup = new WuiVertgroup('mainvertgroup');
-$this->wuiTitlebar = new WuiTitleBar(
-                               'titlebar',
-                               array('title' => $this->localeCatalog->getStr('dashboard_title'), 'icon' => 'elements')
-                              );
-$this->wuiMainvertgroup->addChild($this->wuiTitlebar);
-
-$this->wuiMainframe = new WuiVertgroup('mainframe');
+        
+        $this->wuiPage = new WuiPage('page', array(
+            'title' => $this->localeCatalog->getStr('dashboard_pagetitle')
+        ));
+        $this->wuiMainvertgroup = new WuiVertgroup('mainvertgroup');
+        $this->wuiTitlebar = new WuiTitleBar('titlebar', array(
+            'title' => $this->localeCatalog->getStr('dashboard_title'),
+            'icon' => 'elements'
+        ));
+        $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
+        
+        $this->wuiMainframe = new WuiVertgroup('mainframe');
     }
 
     public function endHelper()
@@ -65,67 +69,76 @@ $this->wuiMainframe = new WuiVertgroup('mainframe');
     {
         $def_width = 400;
         $def_height = 250;
-
+        
         $widgets = $this->getController()->getWidgetsList();
-
+        
         $widget_counter = 0;
         $columns = 3;
-
+        
         $start_column = true;
         $end_column = false;
         $rows_per_column = floor(count($widgets) / $columns) + (count($widgets) % $columns > 0 ? 1 : 0);
-
+        
         $wui_xml = '<horizgroup><children>';
-
+        
         foreach ($widgets as $widget) {
+            $width = 0;
+            $height = 0;
+            
+            $class = $widget['class'];
+            
+            // Check if the class exists
+            if (class_exists($class, true)) {
+                // Fetch the widget xml definition
+                $widget_obj = new $class();
+                
+                // Check if the widget is visible
+                if (!$widget_obj->isVisible()) {
+                    continue;
+                }
+                
+                $width = $widget_obj->getWidth() * $def_width;
+                $height = $widget_obj->getHeight();
+            } else {
+                continue;
+            }
+            
             // If this is the start of a column, add the vertical group opener
             if ($start_column) {
                 $wui_xml .= '<vertgroup><children>';
                 $start_column = false;
             }
             // Add ajax setup call
-            \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\''.$widget['name'].'\')');
-
-            $width = 0;
-            $height = 0;
-
-            $class = $widget['class'];
-
-            // Check if the class exists            
-            if (class_exists($class, true)) {
-                // Fetch the widget xml definition
-                $widget_obj = new $class;
-                $width = $widget_obj->getWidth() * $def_width;
-                $height = $widget_obj->getHeight();
-            }
-
+            \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\'' . $widget['name'] . '\')');
+            
             // Check width and height parameters
-            if ($width == 0) $width = $def_width;
-            if ($height == 0) $height = $def_height;
-
+            if ($width == 0) {
+                $width = $def_width;
+            }
+            if ($height == 0) {
+                $height = $def_height;
+            }
+            
             // Widget title
-            $widget_locale = new LocaleCatalog(
-                    $widget['catalog'],
-                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
-            );
+            $widget_locale = new LocaleCatalog($widget['catalog'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage());
             $headers = array();
             $headers[0]['label'] = $widget_locale->getStr($widget['title']);
-
+            
             // Draw the widget
-            $wui_xml .= '<table halign="left" valign="top"><args><headers type="array">'.WuiXml::encode($headers).'</headers></args><children><vertgroup row="0" col="0" halign="left" valign="top"><args><width>'.$width.'</width><height>'.$height.'</height><groupvalign>top</groupvalign></args><children><divframe><args><id>widget_'.$widget['name'].'</id><width>300</width></args><children><void/></children></divframe></children></vertgroup></children></table>';
-
-            $widget_counter++;
-
+            $wui_xml .= '<table halign="left" valign="top"><args><headers type="array">' . WuiXml::encode($headers) . '</headers></args><children><vertgroup row="0" col="0" halign="left" valign="top"><args><width>' . $width . '</width><height>' . $height . '</height><groupvalign>top</groupvalign></args><children><divframe><args><id>widget_' . $widget['name'] . '</id><width>300</width></args><children><void/></children></divframe></children></vertgroup></children></table>';
+            
+            $widget_counter ++;
+            
             // Check if this last widget for each column
             if ($widget_counter % $rows_per_column == 0) {
                 $end_column = true;
             }
-
+            
             // If this is the last widget, end the column anyway
             if ($widget_counter == count($widgets)) {
                 $end_column = true;
             }
-
+            
             // If this the end of a column, close the vertical group
             if ($end_column) {
                 $wui_xml .= '</children></vertgroup>';
@@ -133,9 +146,11 @@ $this->wuiMainframe = new WuiVertgroup('mainframe');
                 $end_column = false;
             }
         }
-
+        
         $wui_xml .= '</children></horizgroup>';
-
-        $this->wuiMainframe->addChild(new WuiXml('', array('definition' => $wui_xml)));
+        
+        $this->wuiMainframe->addChild(new WuiXml('', array(
+            'definition' => $wui_xml
+        )));
     }
 }
