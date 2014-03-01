@@ -31,12 +31,12 @@ abstract class Observable
      * Array degli oggetti che osservano.
      * @var array
      */
-    protected $_observingObjects = array();
+    protected $observingObjects = array();
     /**
      * Indica se l'oggetto e' stato cambiato.
      * @protected bool
      */
-    protected $_observableChanged = false;
+    protected $observableChanged = false;
 
     /**
      * Costruisce un oggetto Observable con nessun osservatore.
@@ -44,8 +44,8 @@ abstract class Observable
      */
     public function __construct()
     {
-        $this->_observingObjects = array();
-        $this->_observableChanged = false;
+        $this->observingObjects = array();
+        $this->observableChanged = false;
     }
 
     /**
@@ -56,7 +56,7 @@ abstract class Observable
      */
     public function addObserver(\Innomatic\Util\Observer $observer)
     {
-        $this->_observingObjects[] = $observer;
+        $this->observingObjects[] = $observer;
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class Observable
      */
     protected function clearChanged()
     {
-        $this->_observableChanged = false;
+        $this->observableChanged = false;
     }
 
     /**
@@ -74,7 +74,7 @@ abstract class Observable
      */
     public function countObservers()
     {
-        return count($this->_observingObjects);
+        return count($this->observingObjects);
     }
 
     /**
@@ -108,7 +108,7 @@ abstract class Observable
      */
     public function deleteObservers()
     {
-        $this->_observingObjects = array ();
+        $this->observingObjects = array ();
     }
 
     /**
@@ -119,7 +119,7 @@ abstract class Observable
      */
     public function hasChanged()
     {
-        return $this->_observableChanged;
+        return $this->observableChanged;
     }
 
     /**
@@ -131,8 +131,8 @@ abstract class Observable
     public function notifyObservers($arg = '')
     {
         if ($this->hasChanged()) {
-            foreach ($this->_observingObjects as $id => $objects) {
-                $this->_observingObjects[$id]->update($this, $arg);
+            foreach ($this->observingObjects as $id => $objects) {
+                $this->observingObjects[$id]->update($this, $arg);
             }
 
             $this->clearChanged();
@@ -145,6 +145,6 @@ abstract class Observable
      */
     protected function setChanged()
     {
-        $this->_observableChanged = true;
+        $this->observableChanged = true;
     }
 }

@@ -27,13 +27,13 @@ class ValidatorAggregate
      * @type array
      * @since 1.0
      */
-    protected $_validators = array();
+    protected $validators = array();
     /**
      * Array of the collected errors.
      * @type array
      * @since 1.0
      */
-    protected $_errors = array();
+    protected $errors = array();
     /**
      * Adds a validator to the suite.
      * @param Validator $validator
@@ -41,7 +41,7 @@ class ValidatorAggregate
      */
     public function addValidator(Validator $validator)
     {
-        $this->_validators[] = $validator;
+        $this->validators[] = $validator;
     }
     /**
      * Runs the validators.
@@ -49,10 +49,10 @@ class ValidatorAggregate
      */
     public function validate()
     {
-        foreach ($this->_validators as $validator) {
+        foreach ($this->validators as $validator) {
             $validator->validate();
             if (! $validator->isValid()) {
-                while ($this->_errors[] = $validator->getError()) {
+                while ($this->errors[] = $validator->getError()) {
                 }
             }
         }
@@ -63,7 +63,7 @@ class ValidatorAggregate
      */
     public function getError()
     {
-        return array_pop($this->_errors);
+        return array_pop($this->errors);
     }
     /**
      * Tells if the suite of validators is valid and there are no errors.
@@ -71,6 +71,6 @@ class ValidatorAggregate
      */
     public function isValid()
     {
-        return count($this->_errors) ? false : true;
+        return count($this->errors) ? false : true;
     }
 }

@@ -27,19 +27,19 @@ abstract class Validator
      * @type array
      * @since 5.0
      */
-    protected $_errors = array();
+    protected $errors = array();
     /**
      * Generic item to be validated.
      * @type mixed
      * @since 5.0
      */
-    protected $_item;
+    protected $item;
     /**
      * Array of validation parameters.
      * @type array
      * @since 5.0
      */
-    protected $_params = array();
+    protected $params = array();
     /**
      * Constructor.
      * @param mixed $item
@@ -47,7 +47,7 @@ abstract class Validator
      */
     final public function __construct ($item, $params = array())
     {
-        $this->_item = $item;
+        $this->item = $item;
         if (is_array($params) and count($params)) {
             foreach ($params as $param => $value) {
                 $this->setParameter($param, $value);
@@ -66,7 +66,7 @@ abstract class Validator
      */
     protected function setError($error)
     {
-        $this->_errors[] = $error;
+        $this->errors[] = $error;
     }
     /**
      * Returns the current error from the errors list and advances
@@ -76,7 +76,7 @@ abstract class Validator
      */
     public function getError()
     {
-        return array_pop($this->_errors);
+        return array_pop($this->errors);
     }
     /**
      * Tells if there are no errors after calling Validator::validate().
@@ -85,7 +85,7 @@ abstract class Validator
      */
     public function isValid()
     {
-        return count($this->_errors) ? false : true;
+        return count($this->errors) ? false : true;
     }
     /**
      * Returns one of the internal parameters.
@@ -95,7 +95,7 @@ abstract class Validator
      */
     public function getParameter($key)
     {
-        return isset($this->_params[$key]) ? $this->_params[$key] : null;
+        return isset($this->params[$key]) ? $this->params[$key] : null;
     }
     /**
      * Sets a parameter.
@@ -107,6 +107,6 @@ abstract class Validator
      */
     public function setParameter($key, $value)
     {
-        $this->_params[$key] = $value;
+        $this->params[$key] = $value;
     }
 }
