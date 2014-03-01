@@ -55,41 +55,12 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         );
         $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
         
-        // Profiles bar
-        //
-        $wuiProfilesToolBar = new WuiToolBar('profilestoolbar');
-        
-        $homeAction = new WuiEventsCall();
-        $homeAction->addEvent(new WuiEvent('view', 'default', ''));
-        $wuiHomeButton = new WuiButton(
-            'homebutton',
-            array('label' => $this->localeCatalog->getStr('profiles_button'),
-                'themeimage' => 'user',
-                'horiz' => 'true',
-                'action' => $homeAction->getEventsCallString()
-            )
-        );
-        $wuiProfilesToolBar->addChild($wuiHomeButton);
-        
-        $newProfileAction = new WuiEventsCall();
-        $newProfileAction->addEvent(new WuiEvent('view', 'newprofile', ''));
-        $wuiNewProfileButton = new WuiButton(
-            'newprofilebutton',
-            array(
-                'label' => $this->localeCatalog->getStr('newprofile_button'),
-                'themeimage' => 'useradd',
-                'horiz' => 'true',
-                'action' => $newProfileAction->getEventsCallString()
-            )
-        );
-        $wuiProfilesToolBar->addChild($wuiNewProfileButton);
-        
         // Users bar
         //
         $wuiUsersToolBar = new WuiToolBar('userstoolbar');
         
         $usersAction = new WuiEventsCall();
-        $usersAction->addEvent(new WuiEvent('view', 'users', ''));
+        $usersAction->addEvent(new WuiEvent('view', 'default', ''));
         $wuiUsersButton = new WuiButton(
             'usersbutton',
             array(
@@ -157,6 +128,35 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             );
                 $wuiRolesToolBar->addChild($wuiNewRoleButton);
                 
+                // Profiles bar
+                //
+                $wuiProfilesToolBar = new WuiToolBar('profilestoolbar');
+                
+        $homeAction = new WuiEventsCall();
+                $homeAction->addEvent(new WuiEvent('view', 'profiles', ''));
+                    $wuiHomeButton = new WuiButton(
+                        'homebutton',
+                        array('label' => $this->localeCatalog->getStr('profiles_button'),
+                            'themeimage' => 'user',
+                            'horiz' => 'true',
+                            'action' => $homeAction->getEventsCallString()
+                        )
+                        );
+                    $wuiProfilesToolBar->addChild($wuiHomeButton);
+        
+                        $newProfileAction = new WuiEventsCall();
+                        $newProfileAction->addEvent(new WuiEvent('view', 'newprofile', ''));
+                        $wuiNewProfileButton = new WuiButton(
+                            'newprofilebutton',
+                            array(
+                                'label' => $this->localeCatalog->getStr('newprofile_button'),
+                                'themeimage' => 'useradd',
+                                'horiz' => 'true',
+                                'action' => $newProfileAction->getEventsCallString()
+                            )
+                        );
+                        $wuiProfilesToolBar->addChild($wuiNewProfileButton);
+                                
         // Help tool bar
         //
         $wuiHelpToolBar = new WuiToolBar('helpbar');
@@ -184,9 +184,9 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         //
         $wuiToolBarFrame = new WuiHorizgroup('toolbarframe');
         
-        $wuiToolBarFrame->addChild($wuiProfilesToolBar);
         $wuiToolBarFrame->addChild($wuiUsersToolBar);
         $wuiToolBarFrame->addChild($wuiRolesToolBar);
+        $wuiToolBarFrame->addChild($wuiProfilesToolBar);
         
         if (
         User::isAdminUser(
@@ -229,7 +229,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $this->_wuiContainer->addChild($this->wuiPage);
     }
     
-    public function viewDefault($eventData)
+    public function viewProfiles($eventData)
     {
         $profQuery = \Innomatic\Core\InnomaticContainer::instance(
             '\Innomatic\Core\InnomaticContainer'
@@ -636,7 +636,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 ''
             )
         );
-        $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
+        $formEventsCall->addEvent(new WuiEvent('view', 'profiles', ''));
     
         $wuiForm = new WuiForm('newgroupform', array('action' => $formEventsCall->getEventsCallString()));
         $wuiForm->addChild($wuiVGroup);
@@ -683,7 +683,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $removeAction->addEvent(
             new WuiEvent(
                 'view',
-                'default',
+                'profiles',
                 ''
             )
         );
@@ -707,13 +707,11 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         );
         $wuiHGroup2->addChild($removeButton);
     
-        $wuiHGroup2->addChild($removeFrame);
-    
         $remove2Action = new WuiEventSCall();
         $remove2Action->addEvent(
             new WuiEvent(
                 'view',
-                'default',
+                'profiles',
                 ''
             )
         );
@@ -738,13 +736,11 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         );
         $wuiHGroup2->addChild($remove2Button);
     
-        $wuiHGroup2->addChild($remove2Frame);
-    
         $dontRemoveAction = new WuiEventsCall();
         $dontRemoveAction->addEvent(
             new WuiEvent(
                 'view',
-                'default',
+                'profiles',
                 ''
             )
         );
@@ -760,7 +756,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $wuiHGroup2->addChild($dontRemoveButton);
     
         $okAction = new WuiEventsCall();
-        $okAction->addEvent(new WuiEvent('view', 'default', ''));
+        $okAction->addEvent(new WuiEvent('view', 'profiles', ''));
     
         $wuiOkForm = new WuiForm('okform', array('action'));
     
@@ -835,7 +831,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 )
             )
         );
-        $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
+        $formEventsCall->addEvent(new WuiEvent('view', 'profiles', ''));
     
         $wuiForm = new WuiForm('renameprofileform', array('action' => $formEventsCall->getEventsCallString()));
         $wuiForm->addChild($wuiVGroup);
@@ -845,7 +841,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $this->wuiTitlebar->mTitle.= ' - '.$profData['groupname'].' - '.$this->localeCatalog->getStr('renameprofile_title');
     }
     
-    public function viewUsers($eventData)
+    public function viewDefault($eventData)
     {
         $usersQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
             'SELECT id,username,fname,lname,email,groupid FROM domain_users ORDER BY username'
@@ -1195,7 +1191,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $formEventsCall->addEvent(
             new WuiEvent(
                 'view',
-                'users',
+                'default',
                 ''
             )
         );
@@ -1259,7 +1255,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         );
     
         $removeAction = new WuiEventSCall();
-        $removeAction->addEvent(new WuiEvent('view', 'users', ''));
+        $removeAction->addEvent(new WuiEvent('view', 'default', ''));
         $removeAction->addEvent(new WuiEvent('action', 'removeuser', array('uid' => $eventData['userid'])));
         $removeButton = new WuiButton(
             'removebutton',
@@ -1273,7 +1269,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $wuiHGroup2->addChild($removeButton);
     
         $dontRemoveAction = new WuiEventsCall();
-        $dontRemoveAction->addEvent(new WuiEvent('view', 'users', ''));
+        $dontRemoveAction->addEvent(new WuiEvent('view', 'default', ''));
         $dontRemoveButton = new WuiButton(
             'dontremovebutton',
             array(
@@ -1286,7 +1282,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $wuiHGroup2->addChild($dontRemoveButton);
     
         $okAction = new WuiEventsCall();
-        $okAction->addEvent(new WuiEvent('view', 'default', ''));
+        $okAction->addEvent(new WuiEvent('view', 'profiles', ''));
     
         $wuiOkForm = new WuiForm('okform', array('action'));
     
@@ -1340,7 +1336,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 )
             )
         );
-        $formEventsCall->addEvent(new WuiEvent('view', 'users', ''));
+        $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
     
         $xml = '<vertgroup><children>
             <form><name>userdata</name>
@@ -1476,7 +1472,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 )
             )
         );
-        $formEventsCall->addEvent(new WuiEvent('view', 'users', ''));
+        $formEventsCall->addEvent(new WuiEvent('view', 'default', ''));
     
         $wuiForm = new WuiForm(
             'chpasswdform',
@@ -1612,12 +1608,13 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $xml = '<table><children>';
         
         foreach ($roles as $roleId => $roleData) {
-            $xml .= '<label row="'.$row.'" col="0"><args><label>'.WuiXml::cdata($roleDat['name']).'</label></args></label>';
+            $xml .= '<label row="'.$row.'" col="0"><args><label>'.WuiXml::cdata($roleData['title']).'</label></args></label>
+                <label row="'.$row.'" col="1"><args><label>'.WuiXml::cdata($roleData['description']).'</label><nowrap>false</nowrap></args></label>';
             $row++;
         }
             
         $xml .= '</children></table>';
-        $this->wuiMainFrame->addChild(new WuiXml('newrole', array('definition' => $xml)));
+        $this->wuiMainframe->addChild(new WuiXml('newrole', array('definition' => $xml)));
     }
     
     public function viewNewrole($eventData)
@@ -1636,9 +1633,9 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
               <children>
                 <grid><children>
                   <label row="0" col="0"><args><label>'.WuiXml::cdata($this->localeCatalog->getStr('rolename_label')).'</label></args></label>
-                  <string row="0" col="1"><name>name</name><args><disp>action</disp></size>25</size></args></string>
+                  <string row="0" col="1"><name>name</name><args><disp>action</disp><size>25</size></args></string>
                   <label row="1" col="0"><args><label>'.WuiXml::cdata($this->localeCatalog->getStr('roledescription_label')).'</label></args></label>
-                  <text row="1" col="1"><name>description</name><args><disp>action</disp></cols>40</cols><rows>5</rows></args></text>
+                  <text row="1" col="1"><name>description</name><args><disp>action</disp><cols>40</cols><rows>5</rows></args></text>
                   </children></grid>
             </children></form>
             <horizbar/>
@@ -1656,13 +1653,13 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     	      				)
     	      		)
     	      ).'</action>
-                  <formsubmit>userdata</formsubmit>
+                  <formsubmit>newrole</formsubmit>
                   <horiz>true</horiz>
                   <frame>false</frame>
                 </args>
               </button>
             </children></horizgroup>
             </children></vertgroup>';
-        $this->wuiMainFrame->addChild(new WuiXml('newrole', array('definition' => $xml)));
+        $this->wuiMainframe->addChild(new WuiXml('newrole', array('definition' => $xml)));
     }
 }
