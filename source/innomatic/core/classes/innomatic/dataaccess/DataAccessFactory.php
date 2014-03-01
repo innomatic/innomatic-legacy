@@ -15,6 +15,7 @@ namespace Innomatic\Dataaccess;
 
 use \Innomatic\Core;
 
+/** @deprecated */
 global $dbtypes;
 $dbtypes = array();
 
