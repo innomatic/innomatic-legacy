@@ -18,7 +18,7 @@ use \Innomatic\Webapp;
 
 /**
  * @since 5.0
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2012-2014 Innoteam Srl
  */
 class PHPWebAppHandler extends WebAppHandler

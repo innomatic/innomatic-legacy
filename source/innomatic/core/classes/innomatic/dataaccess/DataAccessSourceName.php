@@ -114,7 +114,7 @@ class DataAccessSourceName
      *
      * @param string $dasn Data Access Source Name to be parsed
      * @author Tomas V.V.Cox <cox@idecnet.com>
-     * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+     * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
      * @copyright Copyright (c) 1997-2004 The PHP Group
      * @copyright Copyright 2004-2012 Innoteam Srl
      */

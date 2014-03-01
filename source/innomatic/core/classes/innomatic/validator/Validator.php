@@ -16,7 +16,7 @@ namespace Innomatic\Validator;
 
 /**
  * This is the abstract class for validation of generic data.
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2012 Innoteam Srl
  * @since 5.0
  */

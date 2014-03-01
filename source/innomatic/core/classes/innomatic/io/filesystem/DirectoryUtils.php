@@ -16,7 +16,7 @@ namespace Innomatic\Io\Filesystem;
 
 /**
  * @since 1.0
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2000-2012 Innoteam Srl
  */
 class DirectoryUtils

@@ -15,7 +15,7 @@
 namespace Innomatic\Net\Socket;
 
 /**
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2003-2014 Innoteam Srl
  * @since 1.0
  */

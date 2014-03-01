@@ -6,7 +6,7 @@ namespace Innomatic\Module;
  *
  * Configuration values have to be manually set.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */

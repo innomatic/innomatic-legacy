@@ -17,7 +17,7 @@ namespace Innomatic\Net\Socket;
 // +----------------------------------------------------------------------+
 // | Authors: Stig Bakken <ssb@fast.no>                                   |
 // |          Chuck Hagenbuch <chuck@horde.org>                           |
-// |          Alex Pagnoni <alex.pagnoni@innoteam.it> Innomatic porting       |
+// |          Alex Pagnoni <alex.pagnoni@innomatic.io> Innomatic porting       |
 // +----------------------------------------------------------------------+
 //
 // $Id: Socket.php,v 1.7 2004/09/14 13:53:02 alex Exp $

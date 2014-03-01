@@ -25,19 +25,19 @@
 		<legal>
 			<author>
 				<name>Innoteam Srl</name>
-				<email>info@innoteam.it</email>
-				<web>http://www.innoteam.it/</web>
+				<email>info@innomatic.io</email>
+				<web>http://www.innomatic.io/</web>
 			</author>
 			<copyright>Copyright (C) 1999-2014 Innoteam Srl</copyright>
 			<license>New BSD</license>
 			<licensefile>LICENSE</licensefile>
 		</legal>
 		<support>
-			<supportemail>helpdesk@innoteam.it</supportemail>
-			<bugsemail>helpdesk@innoteam.it</bugsemail>
+			<supportemail>helpdesk@innomatic.io</supportemail>
+			<bugsemail>bugs@innomatic.io</bugsemail>
 			<maintainer>
 				<name>Alex Pagnoni</name>
-				<email>alex.pagnoni@innoteam.it</email>
+				<email>alex.pagnoni@innomatic.io</email>
 			</maintainer>
 		</support>
 	</definition>

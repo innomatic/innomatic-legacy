@@ -17,7 +17,7 @@ namespace Innomatic\Dataaccess;
 /**
  * This class implements the Data Access Object (DAO) pattern.
  * @since 1.0
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 abstract class DataAccessObject
 {

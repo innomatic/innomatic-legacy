@@ -16,7 +16,7 @@ namespace Innomatic\Module;
  * Field names can only contains letters. Numbers, signs and other characters
  * are not allowed.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */

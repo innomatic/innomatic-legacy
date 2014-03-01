@@ -16,7 +16,7 @@ namespace Innomatic\Webapp;
 
 /**
  * @since 1.0
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2012 Innoteam Srl
  */
 abstract class WebAppHandler

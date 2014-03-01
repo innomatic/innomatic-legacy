@@ -9,7 +9,7 @@ namespace Innomatic\Module\Util;
  *
  * This class must be instanced using the ModuleLXmlConfig::getInstance() method.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */

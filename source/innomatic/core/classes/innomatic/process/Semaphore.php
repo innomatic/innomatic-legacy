@@ -17,7 +17,7 @@ namespace Innomatic\Process;
 /**
  * Questa classe fornisce un meccanismo di controllo delle risorse
  * basato sul concetto di semaforo.
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @since 3.5
  */
 class Semaphore

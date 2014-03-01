@@ -17,7 +17,7 @@ namespace Innomatic\Debug;
 /**
  * Code load tracking.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2012 Innoteam Srl
  * @since 1.0
  */

@@ -17,7 +17,7 @@ namespace Innomatic\Php;
 /**
  * This class checks PHP files for syntax errors.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2012 Innoteam Srl
  * @since 1.0
  */

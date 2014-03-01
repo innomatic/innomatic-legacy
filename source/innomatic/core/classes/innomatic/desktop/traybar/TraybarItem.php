@@ -22,7 +22,7 @@ abstract class TraybarItem
      * libraries, etc.
      *
      * @since 6.4.0
-     * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+     * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
      */
     public function prepare()
     {
@@ -32,7 +32,7 @@ abstract class TraybarItem
      * Returns the item HTML.
      *
      * @since 6.4.0
-     * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+     * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
      */
     abstract public function getHtml();
 

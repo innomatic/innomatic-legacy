@@ -98,7 +98,7 @@ function main_page()
 
         if ( $app_cfg->getKey( 'serviceprovider-biglogo-disabled' ) != '1' ) {
             if ( strlen( $serviceprovider_biglogo_filename ) and file_exists( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/'.$serviceprovider_biglogo_filename ) ) {
-                $serviceprovider_button = new WuiButton( 'serviceproviderbutton', array( 'action' => strlen( $serviceprovider_url ) ? $serviceprovider_url : ' http://www.innoteam.it', 'target' => '_top', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/'.$serviceprovider_biglogo_filename, 'highlight' => 'false' ) );
+                $serviceprovider_button = new WuiButton( 'serviceproviderbutton', array( 'action' => strlen( $serviceprovider_url ) ? $serviceprovider_url : ' http://www.innomatic.io', 'target' => '_top', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/'.$serviceprovider_biglogo_filename, 'highlight' => 'false' ) );
                 $wui_logos_group->addChild( $serviceprovider_button );
             }
         }

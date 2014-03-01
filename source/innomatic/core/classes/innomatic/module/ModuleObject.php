@@ -16,7 +16,7 @@ namespace Innomatic\Module;
  * Applications must access logic only through this object, and in most
  * situations this is the only way, like when accessing remote Modules.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */

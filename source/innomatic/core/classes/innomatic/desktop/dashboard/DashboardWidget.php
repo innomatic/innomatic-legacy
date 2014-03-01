@@ -20,7 +20,7 @@ abstract class DashboardWidget
      * Returns the widget WUI xml definition.
      *
      * @since 6.1
-     * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+     * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
      */
     abstract public function getWidgetXml();
 
@@ -29,7 +29,7 @@ abstract class DashboardWidget
      * Each unit is multiplied per the default unit width by the dashboard.
      *
      * @since 6.1
-     * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+     * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
      */
     abstract public function getWidth();
 
@@ -37,7 +37,7 @@ abstract class DashboardWidget
      * Returns widget height in pixels.
      *
      * @since 6.1
-     * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+     * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
      */
     abstract public function getHeight();
 
@@ -61,7 +61,7 @@ abstract class DashboardWidget
      * widgets handling the above mentioned cases.
      *  
      * @since 6.4.0
-     * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+     * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
      * @return boolean
      */
     public function isVisible()

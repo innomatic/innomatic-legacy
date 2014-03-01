@@ -21,7 +21,7 @@ namespace Innomatic\Tpl;
  * Innomatic provides a generic template interface so that a contract for
  * templates system is available by default.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2012 Innoteam Srl
  * @since 1.1
  */

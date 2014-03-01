@@ -17,7 +17,7 @@ use \Innomatic\Module\Server;
  * The factory automatically retrieves the object from the local context or
  * from a remote server by parsing the given Module locator.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */

@@ -123,20 +123,17 @@ See the file named INSTALL.
 Additional Information
 ----------------------
 
-Innomatic official web site:
+Innomatic Platform official web site:
      http://www.innomatic.org/
 
-Innoteam official web site:
-     http://www.innoteam.it
+Innomatic official web site:
+     http://www.innomatic.io/
 
 To submit a bug report:
-    https://bitbucket.org/innoteam/innomatic/issues
-
-To submit a support request:
-    https://bitbucket.org/innoteam/innomatic/issues
+    https://github.com/innomatic/innomatic/issues
 
 Would you like to participate in developing Innomatic? Send an e-mail at
-info@innoteam.it
+info@innomatic.io
 
 
 

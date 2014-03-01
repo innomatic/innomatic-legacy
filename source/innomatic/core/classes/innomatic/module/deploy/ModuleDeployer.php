@@ -7,7 +7,7 @@ namespace Innomatic\Module\Deploy;
  * This class deploys Module in the Module server modules directory and manages
  * redeployment and undeployment.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */

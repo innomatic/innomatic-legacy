@@ -24,7 +24,7 @@ namespace Innomatic\Scripts;
  * When processing pending actions, the application must remove the related
  * entries as soon as the action are positively completed.
  * 
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2014 Innoteam Srl
  * @since 6.4.0
  */

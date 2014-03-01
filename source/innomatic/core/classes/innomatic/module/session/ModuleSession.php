@@ -9,7 +9,7 @@ use \Innomatic\Module;
  * Sessions are required for maintaining object value contents between
  * requests for a same Module remote instance.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */

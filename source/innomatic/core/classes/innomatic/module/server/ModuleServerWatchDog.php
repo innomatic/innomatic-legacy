@@ -5,7 +5,7 @@ namespace Innomatic\Module\Server;
  * Watch dog that monitors Module server execution and restarts it in case
  * of failure.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */

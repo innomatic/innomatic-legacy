@@ -172,7 +172,7 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
         //$wui_maingroup->addChild( new WuiButton( 'innomaticlogo', array( 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/styles/cleantheme/innomatic_big_asp.png', 'action' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl().'/' ) ) );
         $wuiMainBFrame->addChild($wuiMainFrame);
         $wuiMainBFrame->addChild(new WuiHorizBar('hb'));
-        $wuiMainBFrame->addChild(new WuiLink('copyright', array('label' => $innomaticLocale->getStr('auth_copyright.label'), 'link' => 'http://www.innoteam.it/', 'target' => '_blank')));
+        $wuiMainBFrame->addChild(new WuiLink('copyright', array('label' => $innomaticLocale->getStr('auth_copyright.label'), 'link' => 'http://www.innomatic.io/', 'target' => '_blank')));
         $wuiMainGroup->addChild($wuiMainBFrame);
         $wuiMainGroup->addChild($wuiMainStatus);
         $wuiTopGroup->addChild($wuiMainGroup);

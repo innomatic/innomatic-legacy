@@ -17,7 +17,7 @@ namespace Innomatic\Datatransfer;
 /**
  * Classe che implementa un meccanismo per trasferire dati
  * tramite operazioni di copia/taglia/incolla.
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @since 1.0
  */
 class Clipboard
