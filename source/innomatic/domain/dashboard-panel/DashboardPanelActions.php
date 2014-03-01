@@ -22,7 +22,7 @@ use \Shared\Wui;
 
 class DashboardPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 {
-    private $_localeCatalog;
+    public $localeCatalog;
 
     public function __construct(\Innomatic\Desktop\Panel\PanelController $controller)
     {
@@ -31,7 +31,7 @@ class DashboardPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function beginHelper()
     {
-        $this->_localeCatalog = new LocaleCatalog(
+        $this->localeCatalog = new LocaleCatalog(
             'innomatic::domain_dashboard',
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
         );

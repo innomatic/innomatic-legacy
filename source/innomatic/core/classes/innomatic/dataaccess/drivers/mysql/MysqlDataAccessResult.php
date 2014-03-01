@@ -22,7 +22,7 @@ class MysqlDataAccessResult extends \Innomatic\Dataaccess\DataAccessResult
 
     public $suppseek = true;
 
-    private $_start = false;
+    protected $start = false;
 
     public function __construct(&$resultid)
     {

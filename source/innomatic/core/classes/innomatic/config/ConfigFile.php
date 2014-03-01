@@ -20,7 +20,7 @@ namespace Innomatic\Config;
 class ConfigFile
 {
     /*! @var mConfigFile string - Full path of the configuration file. */
-    private $_configFile;
+    protected $configFile;
     /*! @var mConfigValues array - Array of all the key value pairs. */
     public $mConfigValues;
     /*! @var mOpened boolean - True if the given file exists and has been opened. */
@@ -38,7 +38,7 @@ class ConfigFile
 
             $fp = @fopen($fileName, $mode);
             if ($fp) {
-                $this->_configFile = $fileName;
+                $this->configFile = $fileName;
                 $this->mOpened = true;
 
                 while ($fl = @fgets($fp)) {
@@ -92,7 +92,7 @@ class ConfigFile
         $result = false;
 
         $fm = new FileMan();
-        $fm->setFile($this->_configFile);
+        $fm->setFile($this->configFile);
 
         if ($fm->basefile) {
             $keys = $fm->searchInLine('^'.$keyName.' ');

@@ -23,7 +23,7 @@ use \Shared\Wui;
 
 class InterfacePanelActions extends \Innomatic\Desktop\Panel\PanelActions
 {
-    private $_localeCatalog;
+    public $localeCatalog;
     public $status;
     public $javascript;
 
@@ -34,7 +34,7 @@ class InterfacePanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function beginHelper()
     {
-        $this->_localeCatalog = new LocaleCatalog(
+        $this->localeCatalog = new LocaleCatalog(
             'innomatic::domain_interface',
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
         );
@@ -83,7 +83,7 @@ class InterfacePanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function executesettheme2($eventData)
     {
-        $this->status = $this->_localeCatalog->getStr('themeset_status');
+        $this->status = $this->localeCatalog->getStr('themeset_status');
 
         $this->setChanged();
         $this->notifyObservers('status');
@@ -111,7 +111,7 @@ class InterfacePanelActions extends \Innomatic\Desktop\Panel\PanelActions
             $domainSets->EditKey('desktop-language', $eventData['language']);
         }
 
-        $this->status = $this->_localeCatalog->getStr('languageset_status');
+        $this->status = $this->localeCatalog->getStr('languageset_status');
 
         $this->setChanged();
         $this->notifyObservers('status');
@@ -140,7 +140,7 @@ class InterfacePanelActions extends \Innomatic\Desktop\Panel\PanelActions
             $domainSettings->EditKey('desktop-country', $eventData['country']);
         }
 
-        $this->status = $this->_localeCatalog->getStr('countryset_status');
+        $this->status = $this->localeCatalog->getStr('countryset_status');
 
         $this->setChanged();
         $this->notifyObservers('status');
