@@ -8,18 +8,60 @@
                                 CHANGES
                                 =======
 
-6000 - 6.x.x
+6000 - 6.4.0 - "Tray bar, Pending actions, Roles/Permissions"
+-------------------------
+NEW FEATURES:
+- Added the desktop tray bar. (Alex Pagnoni)
+- Added \Innomatic\Core\InnomaticContainer::switchDomain() method to stop the
+  current domain and start a new one. (Alex Pagnoni)
+- Added support for panels hidden from panels menu, by default available to
+  every user. (Alex Pagnoni)
+- Added support for root key/value settings. (Alex Pagnoni)
+- Added pending actions to be processed by cronjob scripts. (Alex Pagnoni)
+- Added roles and permissions support for domain users. (Alex Pagnoni)
+- Added role and permission application component types. (Alex Pagnoni)
+- Added domain_system_administrator role. (Alex Pagnoni)
+- Added edit_password_all and edit_motd permissions. (Alex Pagnoni)
+- Added dashboard widget method to decide when a widget is visible. (Alex
+  Pagnoni)
+
+CHANGES:
+- Changed "user profile" concept to "application access". (Alex Pagnoni)
+- Upgraded MySQL support from mysql to mysqli. (Alex Pagnoni)
+- Changed \Innomatic\Domain\User\Group constructor arguments. (Alex Pagnoni)
+- Upgraded domain profiles panel to new style panel. (Alex Pagnoni)
+
+FIXES:
+- Fixed locale country fract digits. (Alex Pagnoni)
+- Fixed boolean values for application_component_types in innomatic_root.xml.
+  (Alex Pagnoni)
+- Fixed wrong sequence name for root_profiles table in innomatic_root.xml.
+  (Alex Pagnoni)
+
+DEPRECATED:
+- \Innomatic\Domain\User\Permissions class is deprecated in favor of new
+  \Innomatic\Desktop\Auth\DesktopPanelAuthorizator. (Alex Pagnoni)
+
+
+
+6000 - 6.3.0 - 2014/02/02 - "WUI widgets ajax"
 -------------------------
 NEW FEATURES:
 - Added \Innomatic\Domain\Domain::getHome() method. (Alex Pagnoni)
 - Added support for WUI widgets ajax calls. (Alex Pagnoni)
 - Added current Panel Controller in InnomaticCore container. (Alex Pagnoni)
+- Added support for colspan in WUI Table widget. (Alex Pagnoni)
+- Added support for colspan in WUI Grid widget. (Alex Pagnoni)
 
 CHANGES:
 - Removed dashboard frame border. (Alex Pagnoni)
 
 FIXES:
-- Fixed empty loaded wigets list in WUI context. (Alex Pagnoni)
+- Fixed empty loaded widgets list in WUI context. (Alex Pagnoni)
+- Fixed bug with XmlRpc classes when checking is_a(): XmlRpcMsg lost ability
+  to support parameters, etc. (Alex Pagnoni)
+- Fixed XmlRpc classes when using functions without namespaces. (Alex Pagnoni)
+- Fixed bug in Maintenance handler due to namespace support. (Alex Pagnoni)
 
 
 
@@ -37,7 +79,7 @@ FIXES:
 
 
 6000 - 6.2 - 2014/01/07 - "Namespaces"
---------------------------------------
+-----------------------
 FIXES:
 - Fixed order of components uninstallation in domain mode. (Alex Pagnoni)
 - Fixed wrong handling of application components register when updating

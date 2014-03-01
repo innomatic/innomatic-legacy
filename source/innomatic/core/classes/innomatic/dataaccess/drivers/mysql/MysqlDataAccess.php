@@ -58,14 +58,15 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
         $result = false;
 
         if (!empty($params['dbname'])) {
-            $tmplink = @mysql_connect($params['dbhost'], $params['dbuser'], $params['dbpass']);
+            $tmplink = new mysqli($params['dbhost'], $params['dbuser'], $params['dbpass']);
             if ($tmplink) {
-                if (mysql_query('CREATE DATABASE '.$params['dbname'].'  DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $tmplink))
+                if ($tmplink->query('CREATE DATABASE '.$params['dbname'].'  DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci')) {
                     $result = true;
-                else
-                    $this->lastError = @mysql_error($tmplink);
+                } else {
+                    $this->lastError = $tmplink->error;
+                }
+                $tmplink->close();
             }
-            //@mysql_close( $tmplink );
         }
 
         return $result;
@@ -74,7 +75,7 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     public function dropDB($params)
     {
         if (!empty($params['dbname'])) {
-            return @mysql_query('DROP DATABASE '.$params['dbname'], $this->dbhandler);
+            return $this->dbhandler->query('DROP DATABASE '.$params['dbname']);
         }
 
         return false;
@@ -82,14 +83,11 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 
     protected function openConnection()
     {
-        $result = @mysql_connect($this->dasn->getHostSpec(), $this->dasn->getUsername(), $this->dasn->getPassword());
+        $result = new \mysqli($this->dasn->getHostSpec(), $this->dasn->getUsername(), $this->dasn->getPassword(), $this->dasn->getDatabase());
 
-        if ($result != false) {
+        if (!$result->connect_error) {
             $this->dbhandler = $result;
-            if (!@mysql_select_db($this->dasn->getDatabase(), $this->dbhandler)) {
-                $result = false;
-            }
-            mysql_query('SET CHARACTER SET utf8', $this->dbhandler);
+            $this->dbhandler->set_charset('utf8');
         }
 
         return $result;
@@ -97,13 +95,11 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 
     protected function openPersistentConnection()
     {
-        $result = @mysql_pconnect($this->dasn->getHostSpec(), $this->dasn->getUsername(), $this->dasn->getPassword());
+        $result = new \mysqli('p:'.$this->dasn->getHostSpec(), $this->dasn->getUsername(), $this->dasn->getPassword(), $this->dasn->getDatabase());
 
-        if ($result != false) {
+        if (!$result->connect_error) {
             $this->dbhandler = $result;
-            if (!@mysql_select_db($this->dasn->getDatabase(), $this->dbhandler)) {
-                $result = false;
-            }
+            $this->dbhandler->set_charset('utf8');
         }
 
         return $result;
@@ -116,8 +112,7 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 
     protected function closeConnection()
     {
-        return true;
-        //return @mysql_close( $this->dbhandler );
+        return $this->dbhandler->close();
     }
 
     public function createTable($params)
@@ -137,13 +132,11 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 
     protected function doExecute($query)
     {
-        @mysql_select_db($this->dasn->getDatabase(), $this->dbhandler);
-        $this->lastquery = @mysql_query($query, $this->dbhandler);
-        //if ( defined( 'DEBUG' ) and !$this->lastquery ) echo mysql_error();
-        if (@mysql_error($this->dbhandler)) {
-            
-        $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
-            $this->log->logEvent('innomatic.mysqldataaccess.mysqldataaccess._query', 'Error: '.@mysql_error($this->dbhandler), \Innomatic\Logging\Logger::ERROR);
+        $this->dbhandler->select_db($this->dasn->getDatabase());
+        $this->lastquery = $this->dbhandler->query($query);
+        if (strlen($this->dbhandler->error)) {
+            $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
+            $this->log->logEvent('innomatic.mysqldataaccess.mysqldataaccess._query', 'Error: '.$this->dbhandler->error, \Innomatic\Logging\Logger::ERROR);
         }
         return $this->lastquery;
     }
@@ -151,7 +144,7 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     protected function doGetAffectedRowsCount()
     {
         if ($this->lastquery != false) {
-            return @mysql_affected_rows($this->dbhandler);
+            return $this->dbhandler->affected_rows;
         }
         return false;
     }
@@ -230,7 +223,9 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     {
         if (!empty($name)) {
             $result = $this->doExecute('SELECT MAX(sequence) FROM _sequence_'.$name);
-            return @mysql_result($result, 0, 0);
+            $result->data_seek(0);
+            $result->field_seek(0);
+            return $result->fetch_field();
         } else
             return false;
     }
@@ -250,7 +245,7 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     {
         if (!empty($name)) {
             if ($this->doExecute('INSERT INTO _sequence_'.$name.' (sequence) VALUES (NULL)')) {
-                $value = intval(mysql_insert_id($this->dbhandler));
+                $value = intval($this->dbhandler->insert_id);
                 $this->doExecute('DELETE FROM _sequence_'.$name.' WHERE sequence<'.$value);
             }
             return $value;

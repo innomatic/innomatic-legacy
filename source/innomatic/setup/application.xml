@@ -4,8 +4,8 @@
 	<definition>
 		<idname>innomatic</idname>
 		<release>
-			<version>6.3.0</version>
-			<date>2014/01/08</date>
+			<version>6.4.0</version>
+			<date>2014/02/16</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description><![CDATA[<strong>Innomatic 6000</strong> Cloud Applications Platform.]]></description>
@@ -99,7 +99,13 @@
 		<component name="module" file="ModuleComponent.php" />
 		<component name="dashboardwidget"
 			file="DashboardwidgetComponent.php" />
-
+        <component name="traybaritem"
+            file="TraybaritemComponent.php" />
+        <component name="permission"
+            file="PermissionComponent.php" />
+        <component name="role"
+            file="RoleComponent.php" />
+            
 		<!-- Installation scripts -->
 
 		<generalpreupdate file="generalpreupdate.php" />
@@ -123,6 +129,8 @@
 		<!--  Root container -->
 
 		<class name="innomatic/core/RootContainer.php" />
+        <roottable name="root_settings" file="root_settings.xml" />
+        <class name="innomatic/core/RootSettings.php" />
 
 		<!-- Innomatic core -->
 
@@ -233,7 +241,11 @@
 
 		<class name="innomatic/scripts/ScriptContainer.php" />
 		<script name="scripts_container.php" />
-
+		
+		<class name="innomatic/scripts/PendingActionsUtils.php" />
+        <roottable name="pending_actions"
+            file="pending_actions.xml" />
+            
 		<!-- Socket Server -->
 
 		<class name="innomatic/net/socket/SequentialServerSocket.php" />
@@ -819,6 +831,7 @@
 			name="innomatic/desktop/auth/DesktopRootAuthenticatorHelper.php" />
 		<class
 			name="innomatic/desktop/auth/DesktopDomainAuthenticatorHelper.php" />
+        <class name="innomatic/desktop/auth/DesktopPanelAuthorizator.php" />
 
 		<!-- Front Controller -->
 
@@ -904,7 +917,20 @@
 		<class name="innomatic/domain/user/User.php" />
 		<class name="innomatic/domain/user/UserSettings.php" />
 		<class name="innomatic/domain/user/Group.php" />
+        <!-- Permissions class is deprecated -->
 		<class name="innomatic/domain/user/Permissions.php" />
+		
+		<domaintable name="domain_permissions" file="domain_permissions.xml" />
+		<domaintable name="domain_roles_permissions" file="domain_roles_permissions.xml" />
+		<domaintable name="domain_roles" file="domain_roles.xml" />
+		<domaintable name="domain_users_roles" file="domain_users_roles.xml" />
+
+		<class name="innomatic/domain/user/Role.php" />
+		<class name="innomatic/domain/user/Permission.php" />
+		
+        <role name="domain_system_administrator" title="domain_system_administrator" description="" catalog="innomatic::roles" />
+        <permission name="edit_password_all" title="edit_password_all" description="" catalog="innomatic::roles" defaultroles="domain_system_administrator" />
+        <permission name="edit_motd" title="edit_motd" description="" catalog="innomatic::roles" defaultroles="domain_system_administrator" />
 
 		<!-- Panels -->
 
@@ -919,7 +945,12 @@
 			file="domain_dashboards_widgets.xml" />
 
 		<dashboardwidget name="welcome" panel="dashboard" file="WelcomeDashboardWidget.php" catalog="innomatic::dashboard_welcome" title="welcome_title" class="\\Shared\\Dashboard\\WelcomeDashboardWidget" />
-
+		
+		<!--  Tray bar -->
+		<class name="innomatic/desktop/traybar/TraybarItem.php" />
+        <domaintable name="domain_traybar_items"
+            file="domain_traybar_items.xml" />
+            
 		<!-- Modules -->
 
 		<configurationfile name="modules.ini" keep="1" />

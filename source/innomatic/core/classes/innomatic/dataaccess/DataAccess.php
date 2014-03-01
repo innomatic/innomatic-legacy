@@ -369,15 +369,17 @@ abstract class DataAccess
                         $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
                         $this->log->logEvent('innomatic.dataaccess.execute', 'Executed query '.$pieces[$i], \Innomatic\Logging\Logger::DEBUG);
                     }
-                } else $resid = $this->doExecute($pieces[$i]);
+                } else {
+                    $resid = $this->doExecute($pieces[$i]);
+                }
 
-                if ($resid == false) {
+                if ($resid === false) {
                     $this->lastError = 'Unable to execute query '.$pieces[$i];
                     
                     $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
                     $this->log->logEvent('innomatic.dataaccess.execute', $this->lastError, \Innomatic\Logging\Logger::ERROR);
                     $result = false;
-                } elseif (($i == count($pieces) - 1) and ($resid != 1)) {
+                } elseif (($i == count($pieces) - 1) and ($resid !== true)) {
                 	$rsname = '\\Innomatic\\Dataaccess\\Drivers\\'.ucfirst(strtolower($this->driver)).'\\'.ucfirst(strtolower($this->driver)).'DataAccessResult';
                     $result = new $rsname($resid);
                     $this->lastError = '';

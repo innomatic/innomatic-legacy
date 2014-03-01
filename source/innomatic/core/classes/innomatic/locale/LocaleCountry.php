@@ -41,7 +41,7 @@ class LocaleCountry
     protected $moneyDecimalSeparator;
     /*! @var mMoneyThousandsSeparator string - Money thousands separator symbol. */
     protected $moneyThousandsSeparator;
-    /*! @var mFractDigits int - Value decimals. */
+    /*! @var fractDigits int - Value decimals. */
     protected $fractDigits;
     /*! @var mPositivePrefixCurrency bool. */
     protected $positivePrefixCurrency;
@@ -108,7 +108,7 @@ class LocaleCountry
             $this->currencySymbol = $country_file['CURRENCYSYMBOL'];
             $this->moneyDecimalSeparator = $country_file['MONEYDECIMALSEPARATOR'];
             $this->moneyThousandsSeparator = $country_file['MONEYTHOUSANDSSEPARATOR'];
-            $this->mFractDigits = $country_file['FRACTDIGITS'];
+            $this->fractDigits = $country_file['FRACTDIGITS'];
             $this->positivePrefixCurrency = $country_file['POSITIVEPREFIXCURRENCY'];
             $this->positiveSignPosition = $country_file['POSITIVESIGNPOSITION'];
             $this->negativePrefixCurrency = $country_file['NEGATIVEPREFIXCURRENCY'];
@@ -127,7 +127,7 @@ class LocaleCountry
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic/locale/LocaleCountry', 'Unable to open country file '.$innomatic->getHome().'core/locale/countries/'.$this->country.'.ini', \Innomatic\Logging\Logger::ERROR);
         }
-
+        
         return $result;
     }
 
@@ -139,7 +139,7 @@ class LocaleCountry
     {
         // Formats with decimal and thousands separators and currency fract digits
         //
-        $formatted_amount = number_format(abs($amount), $this->mFractDigits, $this->moneyDecimalSeparator, $this->moneyThousandsSeparator);
+        $formatted_amount = number_format(abs($amount), $this->fractDigits, $this->moneyDecimalSeparator, $this->moneyThousandsSeparator);
         $formatted_currsymbol = $this->currencySymbol;
 
         if ($amount >= 0) {

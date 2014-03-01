@@ -39,7 +39,7 @@ class XmlRpcResp
 			if ($valtyp == '')
 			{
 				// user did not declare type of response value: try to guess it
-				if (is_object($this->val) && is_a($this->val, 'xmlrpcval'))
+				if (is_object($this->val) && is_a($this->val, '\Innomatic\Webservices\Xmlrpc\XmlRpcVal'))
 				{
 					$this->valtyp = 'xmlrpcvals';
 				}
@@ -132,7 +132,7 @@ class XmlRpcResp
 		}
 		else
 		{
-			if(!is_object($this->val) || !is_a($this->val, 'xmlrpcval'))
+			if(!is_object($this->val) || !is_a($this->val, '\Innomatic\Webservices\Xmlrpc\XmlRpcVal'))
 			{
 				if (is_string($this->val) && $this->valtyp == 'xml')
 				{

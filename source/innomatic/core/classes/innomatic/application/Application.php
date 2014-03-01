@@ -717,6 +717,9 @@ only application. */
                             //
                             $cacheGC = new \Innomatic\Datatransfer\Cache\CacheGarbageCollector();
                             $cacheGC->removeApplicationItems($appdata['appid']);
+                            
+                            // Remove pending actions
+                            \Innomatic\Scripts\PendingActionsUtils::removeByApplication($appdata['appid']);
 
                             // Remove dependencies
                             //
@@ -2134,14 +2137,16 @@ only application. */
 
         $submodStart = true;
         $config['ApplicationOptions'] = '';
-        foreach ($xml->definition->options->option as $option) {
-            if (!$submodStart) {
-                $config['ApplicationOptions'] .= ',';
-            } else {
-                $submodStart = false;
+        if (isset($xml->definition->options)) {
+            foreach ($xml->definition->options->option as $option) {
+                if (!$submodStart) {
+                    $config['ApplicationOptions'] .= ',';
+                } else {
+                    $submodStart = false;
+                }
+    
+                $config['ApplicationOptions'] .= $option;
             }
-
-            $config['ApplicationOptions'] .= $option;
         }
 
         return $config;

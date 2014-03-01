@@ -1,0 +1,10 @@
+<?xml version='1.0'?>
+<database>
+
+    <table name="domain_roles_permissions">
+        <field name="roleid" type="integer" notnull="1" />
+        <field name="permissionid" type="integer" notnull="1" />
+        <key field="roleid, permissionid" type="primary" />
+    </table>
+
+</database>

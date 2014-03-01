@@ -113,7 +113,7 @@ class XmlRpcMsg
 					function addParam($par)
 					{
 					// add check: do not add to self params which are not xmlrpcvals
-					if(is_object($par) && is_a($par, 'xmlrpcval'))
+					if(is_object($par) && is_a($par, '\Innomatic\Webservices\Xmlrpc\XmlRpcVal'))
 					{
 					$this->params[]=$par;
 					return true;

@@ -73,13 +73,13 @@ class WebServicesProfile
             if ( $this->mRootDb ) {
                 if ( !$this->mProfileId ) {
                     if ( strlen( $profileName ) ) {
-                        $query = &$this->mRootDb->execute( 'SELECT profilename '.
+                        $query = $this->mRootDb->execute( 'SELECT profilename '.
                                                           'FROM webservices_profiles '.
                                                           'WHERE profilename='.$this->mRootDb->formatText( $profileName ) );
                         if ( !$query->getNumberRows() ) {
                             $this->mProfileId = $this->mRootDb->getNextSequenceValue( 'webservices_profiles_id_seq' );
 
-                            $result = &$this->mRootDb->execute( 'INSERT INTO webservices_profiles '.
+                            $result = $this->mRootDb->execute( 'INSERT INTO webservices_profiles '.
                                                                'VALUES ('.
                                                                $this->mProfileId.','.
                                                                $this->mRootDb->formatText( $profileName ).')' );
@@ -239,12 +239,12 @@ class WebServicesProfile
                     // in that case disables all them and enables the application node
                     //
                     if ( $nodeType == WebServicesProfile::NODETYPE_METHOD ) {
-                        $tmpquery = &$this->mRootDb->execute( 'SELECT count(*) AS count '.
+                        $tmpquery = $this->mRootDb->execute( 'SELECT count(*) AS count '.
                                                              'FROM webservices_permissions '.
                                                              'WHERE application='.$this->mRootDb->formatText( $applicationName ).' '.
                                                              'AND profileid='.(int)$this->mProfileId );
 
-                        $tmpqueryb = &$this->mRootDb->execute( 'SELECT count(*) AS count '.
+                        $tmpqueryb = $this->mRootDb->execute( 'SELECT count(*) AS count '.
                                                               'FROM webservices_methods '.
                                                               'WHERE application='.$this->mRootDb->formatText( $applicationName ) );
 
@@ -256,7 +256,7 @@ class WebServicesProfile
                         }
                     }
 
-                    $result = &$this->mRootDb->execute( 'INSERT INTO webservices_permissions '.
+                    $result = $this->mRootDb->execute( 'INSERT INTO webservices_permissions '.
                                                        'VALUES ('.
                                                        $this->mProfileId.','.
                                                        $this->mRootDb->formatText( $applicationName ).','.
@@ -320,7 +320,7 @@ class WebServicesProfile
                     if ( $nodeType == WebServicesProfile::NODETYPE_METHOD ) {
                         // Checks if the application node is enabled
                         //
-                        $tmpquery = &$this->mRootDb->execute( 'SELECT application, method '.
+                        $tmpquery = $this->mRootDb->execute( 'SELECT application, method '.
                                                              'FROM webservices_permissions '.
                                                              'WHERE profileid='.(int)$this->mProfileId.' '.
                                                              'AND application='.$this->mRootDb->formatText( $applicationName ).' '.
@@ -335,7 +335,7 @@ class WebServicesProfile
 
                             // Enable all application methods nodes expect the method node to disable
                             //
-                            $tmpqueryb = &$this->mRootDb->execute( 'SELECT name '.
+                            $tmpqueryb = $this->mRootDb->execute( 'SELECT name '.
                                                                   'FROM webservices_methods '.
                                                                   'WHERE application='.$this->mRootDb->formatText( $applicationName ) );
 
@@ -360,7 +360,7 @@ class WebServicesProfile
                         }
                     }
 
-                    $result = &$this->mRootDb->execute( 'DELETE FROM webservices_permissions '.
+                    $result = $this->mRootDb->execute( 'DELETE FROM webservices_permissions '.
                                                        'WHERE profileid='.(int)$this->mProfileId.' '.
                                                        'AND application='.$this->mRootDb->formatText( $applicationName ).' '.
                                                        ( $nodeType == WebServicesProfile::NODETYPE_METHOD ? 'AND method='.$this->mRootDb->formatText( $methodName ) : '' ) );
@@ -389,7 +389,7 @@ class WebServicesProfile
             if ( $this->mProfileId ) {
                 $unsecure_lock = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->Value( 'SecurityLockUnsecureWebservices' );
 
-                $query = &$this->mRootDb->execute(
+                $query = $this->mRootDb->execute(
                                                  'SELECT webservices_methods.name AS name, '.
                                                  'webservices_methods.handler AS handler, '.
                                                  'webservices_methods.application AS application, '.
@@ -452,7 +452,7 @@ class WebServicesProfile
                     )
                    )
                 {
-                    $query = &$this->mRootDb->execute( 'SELECT application,method '.
+                    $query = $this->mRootDb->execute( 'SELECT application,method '.
                                                       'FROM webservices_permissions '.
                                                       'WHERE application='.$this->mRootDb->formatText( $applicationName ).' '.
                                                       'AND profileid='.(int)$this->mProfileId.' '.

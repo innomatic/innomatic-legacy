@@ -23,7 +23,7 @@ class DashboardPanelController extends \Innomatic\Desktop\Panel\PanelController
     {
         $domain_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
 
-        $perm = new \Innomatic\Domain\User\Permissions($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
+        $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
 
         // Extract the list of all the widgets
         $widget_query = $domain_da->execute('SELECT * FROM domain_dashboards_widgets');
@@ -34,7 +34,7 @@ class DashboardPanelController extends \Innomatic\Desktop\Panel\PanelController
             // Do not show widgets tied to a panel when the panel is not accessible to the current user
             if (strlen($panel)) {
                 $node_id = $perm->getNodeIdFromFileName($panel);
-                if ( $perm->check( $node_id, \Innomatic\Domain\User\Permissions::NODETYPE_PAGE ) == \Innomatic\Domain\User\Permissions::NODE_NOTENABLED ) {
+                if ( $perm->check( $node_id, \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_PAGE ) == \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED ) {
                 	$widget_query->moveNext();
                     continue;
                 }

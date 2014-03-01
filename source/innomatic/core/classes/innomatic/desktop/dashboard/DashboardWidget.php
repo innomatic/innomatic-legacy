@@ -50,5 +50,23 @@ abstract class DashboardWidget
     {
         return 250;
     }
+    
+    /**
+     * Tells if the widget should be visible.
+     * 
+     * This is useful when there is some sort of check in order to prevent
+     * the widget to be shown, eg. when checking assigned roles.
+     * 
+     * By default this method returns true and should be extended by
+     * widgets handling the above mentioned cases.
+     *  
+     * @since 6.4.0
+     * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+     * @return boolean
+     */
+    public function isVisible()
+    {
+        return true;
+    }
 
 }
