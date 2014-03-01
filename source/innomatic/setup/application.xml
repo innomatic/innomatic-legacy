@@ -105,6 +105,7 @@
             file="PermissionComponent.php" />
         <component name="role"
             file="RoleComponent.php" />
+        <component name="unittest" file="UnittestComponent.php" />
             
 		<!-- Installation scripts -->
 

@@ -8,7 +8,7 @@
                                 CHANGES
                                 =======
 
-6000 - 6.4.0 - "Tray bar, Pending actions, Roles/Permissions"
+6000 - 6.4.0 - "Tray bar, Pending actions, Roles/Permissions, Unittest component"
 -------------------------
 NEW FEATURES:
 - Added the desktop tray bar. (Alex Pagnoni)
@@ -24,6 +24,7 @@ NEW FEATURES:
 - Added edit_password_all and edit_motd permissions. (Alex Pagnoni)
 - Added dashboard widget method to decide when a widget is visible. (Alex
   Pagnoni)
+- Added unittest component type for PHPUnit tests. (Alex Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
