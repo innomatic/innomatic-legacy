@@ -1605,11 +1605,40 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $roles = \Innomatic\Domain\User\Role::getAllRoles();
         $row = 0;
         
-        $xml = '<table><children>';
+        $headers[0]['label'] = $this->localeCatalog->getStr('rolename_header');
+        $headers[1]['label'] = $this->localeCatalog->getStr('roledescription_header');
+        
+        $xml = '<table><args><headers type="array">'.WuiXml::encode($headers).'</headers></args><children>';
         
         foreach ($roles as $roleId => $roleData) {
             $xml .= '<label row="'.$row.'" col="0"><args><label>'.WuiXml::cdata($roleData['title']).'</label></args></label>
-                <label row="'.$row.'" col="1"><args><label>'.WuiXml::cdata($roleData['description']).'</label><nowrap>false</nowrap></args></label>';
+                <label row="'.$row.'" col="1"><args><label>'.WuiXml::cdata($roleData['description']).'</label><nowrap>false</nowrap></args></label>
+                    <innomatictoolbar row="'.$row.'" col="2"><name>tools</name>
+  <args>
+    <frame>false</frame>
+    <toolbars type="array">'.WuiXml::encode(array(
+                'view' => array(
+                        'edit' => array(
+                                'label' => $this->localeCatalog->getStr('editrole_button'),
+                                'themeimage' => 'pencil',
+                                'horiz' => 'true',
+                                'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array(
+                                        'view',
+                                        'editrole',
+                                        array('id' => $roleId))))
+                        ),
+                        'trash' => array(
+                                'label' => $this->localeCatalog->getStr('removerole_button'),
+                                'themeimage' => 'trash',
+                                'horiz' => 'true',
+                                'needconfirm' => 'true',
+                                'confirmmessage' => $this->localeCatalog->getStr('removerole_confirm'),
+                                'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(
+                                        array('view', 'roles'),
+                                        array('action', 'removerole', array('id' => $roleId))))
+                        )))).'</toolbars>
+  </args>
+</innomatictoolbar>';
             $row++;
         }
             
