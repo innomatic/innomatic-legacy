@@ -1696,4 +1696,55 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             </children></vertgroup>';
         $this->wuiMainframe->addChild(new WuiXml('newrole', array('definition' => $xml)));
     }
+    
+    public function viewEditrole($eventData)
+    {
+        $role = new \Innomatic\Domain\User\Role((int)$eventData['id']);
+
+        $formEventsCall = new WuiEventsCall();
+        $formEventsCall->addEvent(new WuiEvent('action', 'editrole', array('id' => $eventData['id'])));
+        $formEventsCall->addEvent(new WuiEvent('view', 'roles', ''));
+    
+        $xml = '<vertgroup><children>
+            <form><name>roledata</name>
+              <args>
+                <action>'.WuiXml::cdata($formEventsCall->getEventsCallString()).'</action>
+              </args>
+              <children>
+              <vertgroup><children>
+                <vertgroup><children>
+                <grid>
+                  <children>
+                    <label row="0" col="0"><args><label>'.WuiXml::cdata($this->localeCatalog->getStr('rolename_label')).'</label></args></label>
+                    <string row="0" col="1"><name>name</name><args><disp>action</disp><value>'.WuiXml::cdata($role->getName()).'</value><size>25</size></args></string>
+                    <label row="1" col="0"><args><label>'.WuiXml::cdata($this->localeCatalog->getStr('roledescription_label')).'</label></args></label>
+                    <text row="1" col="1"><name>description</name><args><disp>action</disp><value>'.WuiXml::cdata($role->getDescription()).'</value><rows>5</rows><cols>40</cols></args></text>
+    
+                  </children>
+                </grid>
+                </children></vertgroup>
+    
+                </children></vertgroup>
+                <horizbar />
+    
+                <horizgroup><children>
+                  <button><name>save</name>
+	                <args>
+                      <themeimage>buttonok</themeimage>
+                      <label>'.WuiXml::cdata($this->localeCatalog->getStr('saverole_button')).'</label>
+                      <action>'.WuiXml::cdata($formEventsCall->getEventsCallString()).'</action>
+                      <formsubmit>roledata</formsubmit>
+                      <horiz>true</horiz>
+                      <frame>false</frame>
+                    </args>
+                  </button>
+                </children></horizgroup>
+              </children>
+            </form>
+            </children></vertgroup>';
+    
+        $this->wuiMainframe->addChild(new WuiXml('user', array('definition' => $xml)));
+    
+        $this->wuiTitlebar->mTitle.= ' - '.$userData['username'].' - '.$this->localeCatalog->getStr('edituser_title');
+    }
 }

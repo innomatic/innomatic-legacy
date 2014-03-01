@@ -193,6 +193,16 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
         $role->remove();
     }
     
+    public function executeEditrole($eventData)
+    {
+        $role = new \Innomatic\Domain\User\Role((int)$eventData['id']);
+        $role
+            ->setName($eventData['name'])
+            ->setTitle($eventData['name'])
+            ->setDescription($eventData['description'])
+            ->store();
+    }
+    
     public static function ajaxSaveRolesPermissions($permissions) {
         // Build list of checked roles/permissions
         $permissions = explode(',', $permissions);
