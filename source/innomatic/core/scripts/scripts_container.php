@@ -10,8 +10,7 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ */
 
 // PHP 5 check, in order to not show fatal errors
 if (substr(phpversion(), 0, 1) < 5) {
@@ -19,13 +18,8 @@ if (substr(phpversion(), 0, 1) < 5) {
 }
 
 // Starts the Root Container
-require_once(
-    dirname(__FILE__) . '/../classes/innomatic/core/RootContainer.php'
-);
+require_once (dirname(__FILE__) . '/../classes/innomatic/core/RootContainer.php');
 $rootContainer = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer');
 
 // Starts the Script Container
-require_once(
-    dirname(__FILE__)
-    . '/../classes/innomatic/scripts/ScriptContainer.php'
-);
+require_once (dirname(__FILE__) . '/../classes/innomatic/scripts/ScriptContainer.php');

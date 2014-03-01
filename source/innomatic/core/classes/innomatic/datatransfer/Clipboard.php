@@ -14,10 +14,10 @@
 namespace Innomatic\Datatransfer;
 
 /**
- * Clipboard that supports copy/cut/paste operations.
- * 
+ * Classe che implementa un meccanismo per trasferire dati
+ * tramite operazioni di copia/taglia/incolla.
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
- * @since 1.0.0
+ * @since 1.0
  */
 class Clipboard
 {
@@ -72,6 +72,7 @@ class Clipboard
     /**
      * Controlla se la clipboard contiene dati validi.
      * @return bool
+     * @access public
      */
     public function isValid()
     {
@@ -83,7 +84,8 @@ class Clipboard
      * Immagazzina un dato nella clipboard.
      * @param mixed $item dato da salvare.
      * @return bool
-     * @see Clipboard::retrieve()
+     * @access public
+     * @see Clipboard::Retrieve()
      */
     public function store(&$item)
     {
@@ -130,7 +132,8 @@ class Clipboard
     /**
      * Estrae il contenuto della clipboard.
      * @return mixed
-     * @see Clipboard::store()
+     * @access public
+     * @see Clipboard::Store()
      */
     public function retrieve()
     {
@@ -138,44 +141,38 @@ class Clipboard
         $sem = new \Innomatic\Process\Semaphore('clipboard', $this->fileName);
         $sem->waitGreen();
 
-        if (!$this->isValid()) {
-            return false;
-        }
-        
-        $sem->setRed();
-        
-        if (!file_exists($this->fileName)) {
-            return null;
-        }
-            
-        switch ($this->type) {
-            case Clipboard::TYPE_TEXT :
-                // this break was intentionally left blank
-            case Clipboard::TYPE_RAW :
-                $result = file_get_contents($this->fileName);
-                break;
+        if ($this->IsValid()) {
+            $sem->setRed();
+            if (file_exists($this->fileName)) {
+                switch ($this->type) {
+                    case Clipboard::TYPE_TEXT :
+                        // this break was intentionally left blank
+                    case Clipboard::TYPE_RAW :
+                        $result = file_get_contents($this->fileName);
+                        break;
 
-            case Clipboard::TYPE_FILE :
-                // this break was intentionally left blank
-            case Clipboard::TYPE_OBJECT :
-                // this break was intentionally left blank
-            case Clipboard::TYPE_ARRAY :
-                // this break was intentionally left blank
-            case Clipboard::TYPE_CUSTOM :
-                $result = unserialize(
-                    file_get_contents($this->fileName)
-                );
-                break;
+                    case Clipboard::TYPE_FILE :
+                        // this break was intentionally left blank
+                    case Clipboard::TYPE_OBJECT :
+                        // this break was intentionally left blank
+                    case Clipboard::TYPE_ARRAY :
+                        // this break was intentionally left blank
+                    case Clipboard::TYPE_CUSTOM :
+                        $result = unserialize(
+                            file_get_contents($this->fileName)
+                        );
+                        break;
+                }
+                $sem->setGreen();
+            }
         }
-        
-        $sem->setGreen();
-            
         return $result;
     }
 
     /**
      * Svuota il contenuto della clipboard.
      * @return bool
+     * @access public
      */
     public function erase()
     {
@@ -186,9 +183,8 @@ class Clipboard
             $sem->setRed();
             $result = unlink($this->fileName);
             $sem->setGreen();
-        } else {
+        } else
             $result = true;
-        }
         return $result;
     }
 

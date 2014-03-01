@@ -10,8 +10,7 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ */
 
 /*
 if (file_exists(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()

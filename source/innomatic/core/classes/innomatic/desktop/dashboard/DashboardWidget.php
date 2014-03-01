@@ -10,17 +10,19 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 6.1
  */
 namespace Innomatic\Desktop\Dashboard;
 
+/**
+ * @since 6.1.0
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ */
 abstract class DashboardWidget
 {
     /**
      * Returns the widget WUI xml definition.
      *
-     * @since 6.1
-     * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+     * @since 6.1.0
      */
     abstract public function getWidgetXml();
 
@@ -28,24 +30,34 @@ abstract class DashboardWidget
      * Returns widget widget in units (not pixels).
      * Each unit is multiplied per the default unit width by the dashboard.
      *
-     * @since 6.1
-     * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+     * @since 6.1.0
      */
     abstract public function getWidth();
 
     /**
      * Returns widget height in pixels.
      *
-     * @since 6.1
-     * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+     * @since 6.1.0
      */
     abstract public function getHeight();
 
+    /**
+     * Returns the default width in pixels.
+     * 
+     * @since 6.1.0
+     * @return int
+     */
     public function getDefaultWidth()
     {
         return 400;
     }
 
+    /**
+     * Returns the default height in pixel.
+     * 
+     * @since 6.1.0
+     * @return int
+     */
     public function getDefaultHeight()
     {
         return 250;
@@ -60,8 +72,7 @@ abstract class DashboardWidget
      * By default this method returns true and should be extended by
      * widgets handling the above mentioned cases.
      *  
-     * @since 6.4.0
-     * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+     * @since 6.4.0 introduced
      * @return boolean
      */
     public function isVisible()

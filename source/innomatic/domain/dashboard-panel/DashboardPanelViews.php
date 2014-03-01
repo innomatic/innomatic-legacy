@@ -41,7 +41,7 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     {
         $this->localeCatalog = new LocaleCatalog('innomatic::domain_dashboard', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage());
         
-        $this->_wuiContainer->loadAllWidgets();
+        $this->wuiContainer->loadAllWidgets();
         
         $this->wuiPage = new WuiPage('page', array(
             'title' => $this->localeCatalog->getStr('dashboard_pagetitle')
@@ -62,7 +62,7 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         //
         $this->wuiMainvertgroup->addChild($this->wuiMainframe);
         $this->wuiPage->addChild($this->wuiMainvertgroup);
-        $this->_wuiContainer->addChild($this->wuiPage);
+        $this->wuiContainer->addChild($this->wuiPage);
     }
 
     public function viewDefault($eventData)

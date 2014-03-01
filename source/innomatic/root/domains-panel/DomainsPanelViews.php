@@ -20,7 +20,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     public $wuiMainframe;
     public $wuiMainstatus;
     public $wuiTitlebar;
-    protected $_localeCatalog;
+    protected $localeCatalog;
 
     public function update($observable, $arg = '')
     {
@@ -39,41 +39,41 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
         );
 
-        $this->_wuiContainer->loadWidget('innomatictoolbar');
-        $this->_wuiContainer->loadWidget('button');
-        $this->_wuiContainer->loadWidget('checkbox');
-        $this->_wuiContainer->loadWidget('combobox');
-        $this->_wuiContainer->loadWidget('date');
-        $this->_wuiContainer->loadWidget('empty');
-        $this->_wuiContainer->loadWidget('file');
-        $this->_wuiContainer->loadWidget('formarg');
-        $this->_wuiContainer->loadWidget('form');
-        $this->_wuiContainer->loadWidget('grid');
-        $this->_wuiContainer->loadWidget('helpnode');
-        $this->_wuiContainer->loadWidget('horizbar');
-        $this->_wuiContainer->loadWidget('horizframe');
-        $this->_wuiContainer->loadWidget('horizgroup');
-        $this->_wuiContainer->loadWidget('image');
-        $this->_wuiContainer->loadWidget('label');
-        $this->_wuiContainer->loadWidget('link');
-        $this->_wuiContainer->loadWidget('listbox');
-        $this->_wuiContainer->loadWidget('menu');
-        $this->_wuiContainer->loadWidget('page');
-        $this->_wuiContainer->loadWidget('progressbar');
-        $this->_wuiContainer->loadWidget('radio');
-        $this->_wuiContainer->loadWidget('sessionkey');
-        $this->_wuiContainer->loadWidget('statusbar');
-        $this->_wuiContainer->loadWidget('string');
-        $this->_wuiContainer->loadWidget('submit');
-        $this->_wuiContainer->loadWidget('tab');
-        $this->_wuiContainer->loadWidget('table');
-        $this->_wuiContainer->loadWidget('text');
-        $this->_wuiContainer->loadWidget('titlebar');
-        $this->_wuiContainer->loadWidget('toolbar');
-        $this->_wuiContainer->loadWidget('treemenu');
-        $this->_wuiContainer->loadWidget('vertframe');
-        $this->_wuiContainer->loadWidget('vertgroup');
-        $this->_wuiContainer->loadWidget('xml');
+        $this->wuiContainer->loadWidget('innomatictoolbar');
+        $this->wuiContainer->loadWidget('button');
+        $this->wuiContainer->loadWidget('checkbox');
+        $this->wuiContainer->loadWidget('combobox');
+        $this->wuiContainer->loadWidget('date');
+        $this->wuiContainer->loadWidget('empty');
+        $this->wuiContainer->loadWidget('file');
+        $this->wuiContainer->loadWidget('formarg');
+        $this->wuiContainer->loadWidget('form');
+        $this->wuiContainer->loadWidget('grid');
+        $this->wuiContainer->loadWidget('helpnode');
+        $this->wuiContainer->loadWidget('horizbar');
+        $this->wuiContainer->loadWidget('horizframe');
+        $this->wuiContainer->loadWidget('horizgroup');
+        $this->wuiContainer->loadWidget('image');
+        $this->wuiContainer->loadWidget('label');
+        $this->wuiContainer->loadWidget('link');
+        $this->wuiContainer->loadWidget('listbox');
+        $this->wuiContainer->loadWidget('menu');
+        $this->wuiContainer->loadWidget('page');
+        $this->wuiContainer->loadWidget('progressbar');
+        $this->wuiContainer->loadWidget('radio');
+        $this->wuiContainer->loadWidget('sessionkey');
+        $this->wuiContainer->loadWidget('statusbar');
+        $this->wuiContainer->loadWidget('string');
+        $this->wuiContainer->loadWidget('submit');
+        $this->wuiContainer->loadWidget('tab');
+        $this->wuiContainer->loadWidget('table');
+        $this->wuiContainer->loadWidget('text');
+        $this->wuiContainer->loadWidget('titlebar');
+        $this->wuiContainer->loadWidget('toolbar');
+        $this->wuiContainer->loadWidget('treemenu');
+        $this->wuiContainer->loadWidget('vertframe');
+        $this->wuiContainer->loadWidget('vertgroup');
+        $this->wuiContainer->loadWidget('xml');
 
         $this->wuiPage = new WuiPage('page', array('title' => $this->_localeCatalog->getStr('domains_title')));
         $this->wuiMainvertgroup = new WuiVertgroup('mainvertgroup');
@@ -181,7 +181,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $this->wuiMainvertgroup->addChild($this->wuiMainframe);
         $this->wuiMainvertgroup->addChild($this->wuiMainstatus);
         $this->wuiPage->addChild($this->wuiMainvertgroup);
-        $this->_wuiContainer->addChild($this->wuiPage);
+        $this->wuiContainer->addChild($this->wuiPage);
     }
 
     public function viewDefault($eventData)

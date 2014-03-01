@@ -10,10 +10,8 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
-
-require_once('scripts_container.php');
+ */
+require_once ('scripts_container.php');
 
 $script = \Innomatic\Scripts\ScriptContainer::instance('\Innomatic\Scripts\ScriptContainer');
 

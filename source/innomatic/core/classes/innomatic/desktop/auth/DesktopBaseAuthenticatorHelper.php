@@ -14,18 +14,18 @@
 */
 namespace Innomatic\Desktop\Auth;
 
-
 /**
+ *
  * @package Desktop
  */
 class DesktopBaseAuthenticatorHelper implements \Innomatic\Desktop\Auth\DesktopAuthenticatorHelper
 {
+
     public function authenticate()
     {
         return true;
     }
 
     public function authorize()
-    {
-    }
+    {}
 }

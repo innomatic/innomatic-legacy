@@ -18,24 +18,54 @@ namespace Innomatic\Desktop\Panel;
  * Abstract class for implementing a set of views in a Desktop Panel following
  * the MVC design pattern.
  *
- * @copyright  2000-2012 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
- * @package    Desktop
+ * @copyright 2000-2012 Innoteam Srl
+ * @license http://www.innomatic.org/license/ BSD License
+ * @link http://www.innomatic.org
+ * @since Class available since Release 5.0
+ * @package Desktop
  */
 abstract class PanelViews implements \Innomatic\Util\Observer
 {
+
+    /**
+     *
+     * @deprecated
+     *
+     */
     protected $_controller;
+
+    protected $controller;
+
+    /**
+     *
+     * @deprecated
+     *
+     */
     protected $_helper;
+
+    protected $helper;
+
+    /**
+     *
+     * @deprecated
+     *
+     */
     protected $_wuiContainer;
+
+    protected $wuiContainer;
 
     public function __construct(\Innomatic\Desktop\Panel\PanelController $controller)
     {
-        $this->_controller = $controller;
+        $this->controller = $controller;
 
+        // Deprecated
+        $this->_controller = $controller;
+        
         // Sets Wui container instance
-        $this->_wuiContainer = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
+        $this->wuiContainer = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
+        
+        // Deprecated
+        $this->_wuiContainer = $this->wuiContainer;
     }
 
     abstract public function beginHelper();
@@ -45,8 +75,8 @@ abstract class PanelViews implements \Innomatic\Util\Observer
     public function execute($view = 'default', $eventData = array())
     {
         // Cheks view method and executes it if exists
-        $methodName = 'view'.$view;
-        if (!method_exists($this, $methodName)) {
+        $methodName = 'view' . $view;
+        if (! method_exists($this, $methodName)) {
             $methodName = 'viewDefault';
         }
         $this->$methodName($eventData);
@@ -61,16 +91,15 @@ abstract class PanelViews implements \Innomatic\Util\Observer
     abstract public function viewDefault($eventData);
 
     public function update($observable, $arg = '')
-    {
-    }
+    {}
 
     public function getController()
     {
-        return $this->_controller;
+        return $this->controller;
     }
 
-      public function getWuiContainer()
-      {
-          return $this->_wuiContainer;
-      }
+    public function getWuiContainer()
+    {
+        return $this->wuiContainer;
+    }
 }

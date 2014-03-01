@@ -226,7 +226,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $this->wuiMainvertgroup->addChild($this->wuiMainframe);
         $this->wuiMainvertgroup->addChild($this->wuiMainstatus);
         $this->wuiPage->addChild($this->wuiMainvertgroup);
-        $this->_wuiContainer->addChild($this->wuiPage);
+        $this->wuiContainer->addChild($this->wuiPage);
     }
     
     public function viewProfiles($eventData)

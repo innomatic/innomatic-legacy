@@ -37,15 +37,15 @@ class DesktopSession implements \Innomatic\Webapp\WebAppSession
      *
      * @var string
      */
-    protected $_id;
+    protected $id;
 
     public function start($id = '')
     {
         if (strlen($id)) {
-            session_id($id);
-            $this->_id = $id;
+            sessionid($id);
+            $this->id = $id;
         } else {
-            $this->_id = session_id();
+            $this->id = session_id();
         }
 
         // This must be set before session_start
@@ -105,7 +105,7 @@ class DesktopSession implements \Innomatic\Webapp\WebAppSession
 
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     public function destroy()

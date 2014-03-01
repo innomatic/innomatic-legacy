@@ -24,9 +24,9 @@ namespace Innomatic\Debug;
 class LoadTime
 {
     public $history = array ();
-    protected $_startTime;
-    protected $_mode;
-    protected $_item = 0;
+    protected $startTime;
+    protected $mode;
+    protected $item = 0;
     const LOADTIME_MODE_CONTINUOUS = 1;
     const LOADTIME_MODE_STARTSTOP = 2;
 
@@ -35,7 +35,7 @@ class LoadTime
         switch ($mode) {
             case self::LOADTIME_MODE_CONTINUOUS :
             case self::LOADTIME_MODE_STARTSTOP :
-                $this->_mode = $mode;
+                $this->mode = $mode;
                 break;
         }
     }
@@ -45,26 +45,26 @@ class LoadTime
     public function mark($section)
     {
         if (
-            $this->_mode == self::LOADTIME_MODE_CONTINUOUS
+            $this->mode == self::LOADTIME_MODE_CONTINUOUS
             and empty ($this->history[$section])
         ) {
             $exacttime = $this->getExactTime();
-            if (empty ($this->_startTime))
-                $this->_startTime = $exacttime;
-            $this->history[$section] = $exacttime - $this->_startTime;
+            if (empty ($this->startTime))
+                $this->startTime = $exacttime;
+            $this->history[$section] = $exacttime - $this->startTime;
         }
     }
 
     public function start($section)
     {
-        if ($this->_mode == self::LOADTIME_MODE_STARTSTOP)
+        if ($this->mode == self::LOADTIME_MODE_STARTSTOP)
             $this->history[$section] = $this->getExactTime();
     }
 
     public function stop($section)
     {
         if (
-            $this->_mode == self::LOADTIME_MODE_STARTSTOP
+            $this->mode == self::LOADTIME_MODE_STARTSTOP
             and isset ($this->history[$section])
         ) {
             $this->history[$section] = $this->getExactTime()
@@ -74,7 +74,7 @@ class LoadTime
 
     public function advanceCounter()
     {
-        return ++$this->_item;
+        return ++$this->item;
     }
 
     // Returns historical log of the marks
@@ -95,7 +95,7 @@ class LoadTime
     //
     public function getTotalTime()
     {
-        if ($this->_mode == self::LOADTIME_MODE_CONTINUOUS) {
+        if ($this->mode == self::LOADTIME_MODE_CONTINUOUS) {
             end($this->history);
             return current($this->history);
         } else {
@@ -114,7 +114,7 @@ class LoadTime
     //
     public function getCurrentTime()
     {
-        return $this->getExactTime() - $this->_startTime;
+        return $this->getExactTime() - $this->startTime;
     }
 
     public function getExactTime()
