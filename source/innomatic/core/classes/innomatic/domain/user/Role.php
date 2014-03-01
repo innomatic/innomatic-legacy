@@ -144,7 +144,7 @@ class Role
             return false;
         }
     
-        return $this->dataAccess(
+        return $this->dataAccess->execute(
             "UPDATE domain_roles
             SET name=".$this->dataAccess->formatText($this->name).",
             title=".$this->dataAccess->formatText($this->title).",
