@@ -177,7 +177,7 @@ only application. */
                     $this->unmetdeps = array();
                     $this->unmetsuggs = array();
 
-                    $appdeps = new ApplicationDependencies($this->rootda);
+                    $appdeps = new ApplicationDependencies();
                     $deps = $appdeps->explodeDependencies($genconfig['ApplicationDependencies']);
                     $suggs = $appdeps->explodeDependencies($genconfig['ApplicationSuggestions']);
 
@@ -370,7 +370,7 @@ only application. */
                         $this->unmetdeps = array();
                         $this->unmetsuggs = array();
 
-                        $appdeps = new ApplicationDependencies($this->rootda);
+                        $appdeps = new ApplicationDependencies();
                         $deps = $appdeps->explodeDependencies($genconfig['ApplicationDependencies']);
                         $suggs = $appdeps->explodeDependencies($genconfig['ApplicationSuggestions']);
 
@@ -674,7 +674,7 @@ only application. */
 
                         // Checks if there are depengind applications
                         //
-                        $appdeps = new ApplicationDependencies($this->rootda);
+                        $appdeps = new ApplicationDependencies();
                         $pendingdeps = $appdeps->CheckDependingApplications($appdata['appid']);
 
                         // If dependencies are ok, go on
@@ -1012,7 +1012,7 @@ only application. */
                             $this->unmetdeps = array();
                             $this->unmetsuggs = array();
 
-                            $appdeps = new ApplicationDependencies($this->rootda);
+                            $appdeps = new ApplicationDependencies();
                             $modenabled = $appdeps->IsEnabled($this->appname, $domaindata['domainid']);
 
                             $unmetdeps = $appdeps->checkDomainApplicationDependencies(
@@ -1229,7 +1229,7 @@ only application. */
                             $this->unmetdeps = array();
                             $this->unmetsuggs = array();
 
-                            $appdeps = new ApplicationDependencies($this->rootda);
+                            $appdeps = new ApplicationDependencies();
                             $pendingdeps = $appdeps->checkDomainDependingApplications(
                                 $this->appname,
                                 $domaindata['domainid'],
