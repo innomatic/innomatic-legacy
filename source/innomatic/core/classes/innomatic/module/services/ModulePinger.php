@@ -19,7 +19,6 @@ class ModulePinger
      * Authenticator object.
      *
      * @var ModuleServerAuthenticator
-     * @access protected
      * @since 5.1
      */
     protected $authenticator;
@@ -28,7 +27,6 @@ class ModulePinger
      * reference to the handler of the registry
      *
      * @var ModuleRegistryHandler
-     * @access protected
      * @since 5.1
      */
     protected $registryHandler;
@@ -37,7 +35,6 @@ class ModulePinger
      * registry structure.
      *
      * @var array
-     * @access protected
      * @since 5.1
      */
     protected $registry;
@@ -46,7 +43,6 @@ class ModulePinger
      * the socket used to ping other peers
      *
      * @var Socket
-     * @access protected
      * @see carthag.net.socket.Socket
      * @since 5.1
      */
@@ -56,7 +52,6 @@ class ModulePinger
      * after "ping_timeout" seconds, the pinged peer is supposed to be down
      *
      * @var int
-     * @access protected
      * @since 5.1
      */
     protected $ping_timeout;
@@ -65,7 +60,6 @@ class ModulePinger
      * n� of seconds between 2 consecutives ping cicles
      *
      * @var int
-     * @access protected
      * @since 5.1
      */
     protected $ping_interval;
@@ -74,7 +68,6 @@ class ModulePinger
      * tells if, after a ping cicle, the ModuleServiceSocketHandler has to refresh the registry
      *
      * @var boolean
-     * @access protected
      * @since 5.1
      */
     protected $refresh_needed;
@@ -83,7 +76,6 @@ class ModulePinger
      * tells if is running the shuting down procedure
      *
      * @var boolean
-     * @access protected
      * @since 5.1
      */
     protected $shutdown;
@@ -119,7 +111,6 @@ class ModulePinger
    /**
      * pings all peers in the registry
      *
-     * @access protected
      * @since 5.1
      */
      protected function pingCicle()
@@ -150,7 +141,6 @@ class ModulePinger
    /**
      * invoked after a ping timeout, deletes a peer from the registry
      *
-     * @access protected
      * @param string $host the address of the peer to delete
      * @param string $port the port of the peer to delete
      * @since 5.1
@@ -186,7 +176,6 @@ class ModulePinger
    /**
      * force the ModuleServiceSocketHandler to refresh the registry
      *
-     * @access protected
      * @since 5.1
      */
     protected function force_refresh()

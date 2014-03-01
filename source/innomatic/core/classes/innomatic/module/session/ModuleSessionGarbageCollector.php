@@ -15,7 +15,6 @@ class ModuleSessionGarbageCollector
     /**
      * Executes garbage collection.
      *
-     * @access public
      * @since 5.1
      * @return void
      */

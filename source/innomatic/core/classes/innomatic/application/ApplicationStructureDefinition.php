@@ -10,16 +10,17 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ */
 namespace Innomatic\Application;
 
-/*!
- @class ApplicationStructureDefinition
-
- @abstract Provides XML definition file handling.
-
- @discussion This class reads a xml definition file and gives the application components structure.
+/**
+ * Provides XML definition file handling.
+ * 
+ * This class reads a XML definition file and builds the application component
+ * structure.
+ * 
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 class ApplicationStructureDefinition extends \Innomatic\Xml\XMLParser
 {

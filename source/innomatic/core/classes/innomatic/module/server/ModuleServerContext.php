@@ -16,7 +16,6 @@ class ModuleServerContext extends \Innomatic\Util\Singleton
     /**
      * Class constructor.
      *
-     * @access public
      * @since 5.1
      */
     public function ___construct()
@@ -35,7 +34,6 @@ class ModuleServerContext extends \Innomatic\Util\Singleton
      * Gets server home directory.
      *
      * @since 5.1
-     * @access public
      * @return string Server home directory.
      */
     public function getHome()
@@ -46,7 +44,6 @@ class ModuleServerContext extends \Innomatic\Util\Singleton
     /**
      * Returns server configuration object.
      *
-     * @access public
      * @since 5.1
      * @return ModuleServerObject Configuration.
      */
@@ -58,7 +55,6 @@ class ModuleServerContext extends \Innomatic\Util\Singleton
     /**
      * Returns the list of the available Modules.
      *
-     * @access public
      * @since 5.1
      * @return array
      */

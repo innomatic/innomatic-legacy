@@ -15,7 +15,6 @@ class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
      * Users structure.
      *
      * @var array
-     * @access private
      * @since 5.1
      */
     private $structure;
@@ -23,7 +22,6 @@ class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
     /**
      * Class constructor.
      *
-     * @access public
      * @since 5.1
      */
     public function ___construct()
@@ -34,7 +32,6 @@ class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
     /**
      * Parses users configuration and stores it in a structured array.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -70,7 +67,6 @@ class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
     /**
      * Authenticates a login/password couple.
      *
-     * @access public
      * @since 5.1
      * @param string $user Username.
      * @param string $password Password.
@@ -88,7 +84,6 @@ class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
     /**
      * Authorize an action for an authenticated user.
      *
-     * @access public
      * @since 5.1
      * @param string $user Username.
      * @param string $action Action to be authorized.
@@ -106,7 +101,6 @@ class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
     /**
      * Authorizes the execution of a Module for an user.
      *
-     * @access public
      * @since 5.1
      * @param string $user Username.
      * @param string $location Name of the Module.
@@ -124,7 +118,6 @@ class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
     /**
      * Retrieves password for an user.
      *
-     * @access public
      * @since 5.1
      * @param $user Username.
      * @return boolean
@@ -137,7 +130,6 @@ class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
     /**
      * Retrieves Data Access Source Name for an user.
      *
-     * @access public
      * @since 5.1
      * @param $user Username.
      * @param $location Module name.
@@ -151,7 +143,6 @@ class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
     /**
      * Returns an array of the authorized Modules for an user.
      *
-     * @access public
      * @since 5.1
      * @param $user Username.
      * @return array
@@ -164,7 +155,6 @@ class ModuleServerAuthenticator extends \Innomatic\Util\Singleton
     /**
      * Returns an array of the authorized actions for an user.
      *
-     * @access public
      * @since 5.1
      * @param string $user Username.
      * @return array

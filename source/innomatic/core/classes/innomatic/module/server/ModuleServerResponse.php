@@ -14,7 +14,6 @@ class ModuleServerResponse
      * Response buffer.
      *
      * @var string
-     * @access protected
      * @since 5.1
      */
     protected $buffer;
@@ -22,7 +21,6 @@ class ModuleServerResponse
      * Array of response headers.
      *
      * @var array
-     * @access protected
      * @since 5.1
      */
     protected $headers;
@@ -94,7 +92,6 @@ class ModuleServerResponse
     /**
      * Sets buffer content.
      *
-     * @access public
      * @since 5.1
      * @param string $buffer Buffer content.
      * @return void
@@ -107,7 +104,6 @@ class ModuleServerResponse
     /**
      * Retrieves buffer content.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -118,7 +114,6 @@ class ModuleServerResponse
     /**
      * Adds an header to the headers array.
      *
-     * @access public
      * @since 5.1
      * @param string $header Header to be added.
      * @return void
@@ -132,7 +127,6 @@ class ModuleServerResponse
      * Retrieves the full list of headers in text format, ready to be added
      * to the response and sent.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -150,7 +144,6 @@ class ModuleServerResponse
     /**
      * Retrieves the full response text with headers.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -162,7 +155,6 @@ class ModuleServerResponse
     /**
      * Format the response as a warning in XML-RPC protocol.
      *
-     * @access public
      * @since 5.1
      * @param string $status Status code, as in ModuleServerResponse::SC_* constants.
      * @param string $errstr Error string.

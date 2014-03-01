@@ -689,7 +689,6 @@ namespace Innomatic\Webservices\Xmlrpc;
     * Take care that no full checking of input parameters is done to ensure that
     * valid php code is emitted.
     * Note: real spaghetti code follows...
-    * @access private
     */
     function build_remote_method_wrapper_code($client, $methodname, $xmlrpcfuncname,
         $msig, $mdesc='', $timeout=0, $protocol='', $client_copy_mode=0, $prefix='xmlrpc',
@@ -791,7 +790,6 @@ namespace Innomatic\Webservices\Xmlrpc;
     * Given necessary info, generate php code that will rebuild a client object
     * Take care that no full checking of input parameters is done to ensure that
     * valid php code is emitted.
-    * @access private
     */
     function build_client_wrapper_code($client, $verbatim_client_copy, $prefix='xmlrpc')
     {

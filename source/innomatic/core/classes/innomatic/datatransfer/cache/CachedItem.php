@@ -10,18 +10,14 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ */
 namespace Innomatic\Datatransfer\Cache;
 
 use Innomatic\Core\InnomaticContainer;
 
-/*!
- @class CachedItem
-
- @abstract Handles Innomatic items cache.
-
- @discussion Handles Innomatic items cache.
+/**
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 class CachedItem
 {

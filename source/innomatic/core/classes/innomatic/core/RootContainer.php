@@ -10,8 +10,7 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ */
 namespace Innomatic\Core;
 
 // This require uses the absolute path because at this time the PHP include path
@@ -28,10 +27,7 @@ require_once(dirname(__FILE__).'/../util/Singleton.php');
  * call the RootContainer::stop() method.
  *
  * @copyright  2008-2012 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @version    Release: @package_version@
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
+ * @since      5.0.0 introduced
  * @package    Core
  */
 class RootContainer extends \Innomatic\Util\Singleton

@@ -14,7 +14,6 @@ class ModuleServerRequest
      * Command to be executed.
      *
      * @var string
-     * @access protected
      * @since 5.1
      */
     protected $command;
@@ -22,7 +21,6 @@ class ModuleServerRequest
      * XML-RPC payload.
      *
      * @var string
-     * @access protected
      * @since 5.1
      */
     protected $payload;
@@ -30,7 +28,6 @@ class ModuleServerRequest
      * Array of request headers.
      *
      * @var array
-     * @access protected
      * @since 5.1
      */
     protected $headers;
@@ -38,7 +35,6 @@ class ModuleServerRequest
     /**
      * Sets request payload.
      *
-     * @access public
      * @since 5.1
      * @param string $payload Payload.
      * @return void
@@ -51,7 +47,6 @@ class ModuleServerRequest
     /**
      * Gets request payload.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -63,7 +58,6 @@ class ModuleServerRequest
     /**
      * Sets request command.
      *
-     * @access public
      * @since 5.1
      * @param string $command Command.
      * @return void
@@ -76,7 +70,6 @@ class ModuleServerRequest
     /**
      * Gets request command.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -88,7 +81,6 @@ class ModuleServerRequest
     /**
      * Sets an array of headers.
      *
-     * @access public
      * @since 5.1
      * @param array $headersArray Headers.
      * @return void
@@ -101,7 +93,6 @@ class ModuleServerRequest
     /**
      * Gets a specific header.
      *
-     * @access public
      * @since 5.1
      * @param $header Header name.
      * @return array

@@ -14,7 +14,6 @@ class ModuleRegistryHandler
      * registry structure.
      *
      * @var array
-     * @access private
      * @since 5.1
      */
     private $registry;
@@ -23,7 +22,6 @@ class ModuleRegistryHandler
      * address of the remote node with the up-to-date registry
      *
      * @var string
-     * @access private
      * @since 5.1
      */
     private $r_address;
@@ -32,7 +30,6 @@ class ModuleRegistryHandler
      * port of the remote node with the up-to-date registry
      *
      * @var string
-     * @access private
      * @since 5.1
      */
     private $r_port;
@@ -40,7 +37,6 @@ class ModuleRegistryHandler
      /**
      * returns Module registry in array format
      *
-     * @access public
      * @since 5.1
      * @return array
      */
@@ -52,7 +48,6 @@ class ModuleRegistryHandler
      /**
      * Parses Module registry from local file or from remote peer
      *
-     * @access public
      * @param string $host the host from which the registry has to be loaded (if null regitry is loaded locally)
      * @param string $port the port on the remote host (if null regitry is loaded locally)
      * @since 5.1
@@ -87,7 +82,6 @@ class ModuleRegistryHandler
      * Parses Module registry configuration from a local XML file
      * and stores it in a structured array.
      *
-     * @access private
      * @param string $filename file that stores the registry
      * @since 5.1
      * @return void
@@ -116,7 +110,6 @@ class ModuleRegistryHandler
      * Parses Module registry configuration from an XML file downloaded from a remote server;
      * then stores it in a structured array.
      *
-     * @access private
      * @param string $host the host from which the registry has to be loaded
      * @param string $port the port on the remote host
      * @since 5.1

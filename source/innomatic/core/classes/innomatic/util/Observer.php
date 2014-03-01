@@ -23,7 +23,6 @@ interface Observer
     /**
      * This method is called whenever an observable object changes.
      *
-     * @access public
      * @return void
      */
     public function update($observable, $arg = '');

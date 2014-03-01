@@ -38,7 +38,6 @@ class PHPTemplate implements \Innomatic\Tpl\Template
     /**
      * Constructor.
      *
-     * @access public
      * @since 1.1
      * @param string $file full path of the template.
      */
@@ -60,7 +59,6 @@ class PHPTemplate implements \Innomatic\Tpl\Template
      *
      * The proper method for setting arrays is setArray().
      *
-     * @access public
      * @since 1.1
      * @param string $name Name of the variable.
      * @param string|number|PhpTemplate $value variable content.
@@ -75,7 +73,6 @@ class PHPTemplate implements \Innomatic\Tpl\Template
     /**
      * Returns the current value of a variable.
      *
-     * @access public
      * @since 1.1
      * @param string $name Name of the variable.
      * @return string Variable value.
@@ -96,7 +93,6 @@ class PHPTemplate implements \Innomatic\Tpl\Template
      * takes arrays by reference and that it doesn't support passing a
      * PhpTemplate as value.
      *
-     * @access public
      * @since 1.1
      * @param string $name Array name.
      * @param array $value Array.
@@ -110,7 +106,6 @@ class PHPTemplate implements \Innomatic\Tpl\Template
     /**
      * Returns the current value of a variable stored as array.
      *
-     * @access public
      * @since 1.1
      * @param string $name Name of the array.
      * @return string Array.
@@ -129,7 +124,6 @@ class PHPTemplate implements \Innomatic\Tpl\Template
      *
      * This method parses the template and returns it parsed.
      *
-     * @access public
      * @since 1.1
      * @return string
      */
@@ -153,7 +147,6 @@ class PHPTemplate implements \Innomatic\Tpl\Template
     /**
      * Returns a list of the set tag names.
      *
-     * @access public
      * @since 6.1
      * @return array
      */

@@ -10,18 +10,14 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ */
 namespace Innomatic\Config;
 
 use Innomatic\Core\Container;
 
-/*!
- @class ConfigMan
-
- @abstract Configuration files management.
-
- @discussion Configuration files are seen by this class as segments.
+/**
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 class ConfigMan extends ConfigBase
 {

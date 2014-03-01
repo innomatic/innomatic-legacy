@@ -14,20 +14,17 @@ class XLayersMenu extends LayersMenu
 {
 /**
 * The default value of the expansion string for the PHP Tree Menu
-* @access private
 * @var string
 */
 public $phpTreeMenuDefaultExpansion;
 /**
 * An array where we store the PHP Tree Menu code for each menu
-* @access private
 * @var array
 */
 public $_phpTreeMenu;
 
 /**
 * The character used for the Plain Menu in the menu structure format to separate fields of each item
-* @access private
 * @var string
 */
 public $plainMenuSeparator;
@@ -37,14 +34,12 @@ public $plainMenuSeparator;
 public $plainMenuTpl;
 /**
 * An array where we store the Plain Menu code for each menu
-* @access private
 * @var array
 */
 public $_plainMenu;
 
 /**
 * The character used for the Horizontal Plain Menu in the menu structure format to separate fields of each item
-* @access private
 * @var string
 */
 public $horizontalPlainMenuSeparator;
@@ -54,7 +49,6 @@ public $horizontalPlainMenuSeparator;
 public $horizontalPlainMenuTpl;
 /**
 * An array where we store the Horizontal Plain Menu code for each menu
-* @access private
 * @var array
 */
 public $_horizontalPlainMenu;
@@ -80,7 +74,6 @@ function __construct()
 
 /**
 * The method to set the default value of the expansion string for the PHP Tree Menu
-* @access public
 * @return void
 */
 function setPHPTreeMenuDefaultExpansion($phpTreeMenuDefaultExpansion)
@@ -95,7 +88,6 @@ function setPHPTreeMenuDefaultExpansion($phpTreeMenuDefaultExpansion)
 * through GET (i.e. nodes to be expanded) to prepare and return
 * the corresponding Tree Menu code.
 *
-* @access public
 * @param string $menu_name the name of the menu whose items have to be processed
 * @return string
 */
@@ -344,7 +336,6 @@ function newPHPTreeMenu(
 
 /**
 * Method that returns the code of the requested PHP Tree Menu
-* @access public
 * @param string $menu_name the name of the menu whose PHP Tree Menu code
 *   has to be returned
 * @return string
@@ -356,7 +347,6 @@ function getPHPTreeMenu($menu_name)
 
 /**
 * Method that prints the code of the requested PHP Tree Menu
-* @access public
 * @param string $menu_name the name of the menu whose PHP Tree Menu code
 *   has to be printed
 * @return void
@@ -368,7 +358,6 @@ function printPHPTreeMenu($menu_name)
 
 /**
 * The method to set the value of separator for the Plain Menu
-* @access public
 * @return void
 */
 function setPlainMenuSeparator($plainMenuSeparator)
@@ -378,7 +367,6 @@ function setPlainMenuSeparator($plainMenuSeparator)
 
 /**
 * The method to set plainMenuTpl
-* @access public
 * @return boolean
 */
 function setPlainMenuTpl($plainMenuTpl)
@@ -400,7 +388,6 @@ function setPlainMenuTpl($plainMenuTpl)
 * This method processes items of a menu to prepare and return
 * the corresponding Plain Menu code.
 *
-* @access public
 * @param string $menu_name the name of the menu whose items have to be processed
 * @return string
 */
@@ -435,7 +422,6 @@ function newPlainMenu(
 
 /**
 * Method that returns the code of the requested Plain Menu
-* @access public
 * @param string $menu_name the name of the menu whose Plain Menu code
 *   has to be returned
 * @return string
@@ -447,7 +433,6 @@ function getPlainMenu($menu_name)
 
 /**
 * Method that prints the code of the requested Plain Menu
-* @access public
 * @param string $menu_name the name of the menu whose Plain Menu code
 *   has to be printed
 * @return void
@@ -459,7 +444,6 @@ function printPlainMenu($menu_name)
 
 /**
 * The method to set the value of separator for the Horizontal Plain Menu
-* @access public
 * @return void
 */
 function setHorizontalPlainMenuSeparator($horizontalPlainMenuSeparator)
@@ -469,7 +453,6 @@ function setHorizontalPlainMenuSeparator($horizontalPlainMenuSeparator)
 
 /**
 * The method to set horizontalPlainMenuTpl
-* @access public
 * @return boolean
 */
 function setHorizontalPlainMenuTpl($horizontalPlainMenuTpl)
@@ -491,7 +474,6 @@ function setHorizontalPlainMenuTpl($horizontalPlainMenuTpl)
 * This method processes items of a menu to prepare and return
 * the corresponding Horizontal Plain Menu code.
 *
-* @access public
 * @param string $menu_name the name of the menu whose items have to be processed
 * @return string
 */
@@ -532,7 +514,6 @@ function newHorizontalPlainMenu(
 
 /**
 * Method that returns the code of the requested Horizontal Plain Menu
-* @access public
 * @param string $menu_name the name of the menu whose Horizontal Plain Menu code
 *   has to be returned
 * @return string
@@ -544,7 +525,6 @@ function getHorizontalPlainMenu($menu_name)
 
 /**
 * Method that prints the code of the requested Horizontal Plain Menu
-* @access public
 * @param string $menu_name the name of the menu whose Horizontal Plain Menu code
 *   has to be printed
 * @return void

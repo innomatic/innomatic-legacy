@@ -16,7 +16,6 @@ class ModuleServerXmlRpcProcessor
      * Module object.
      *
      * @var ModuleObject
-     * @access protected
      * @since 5.1
      */
     protected $module;
@@ -24,7 +23,6 @@ class ModuleServerXmlRpcProcessor
     /**
      * Processes an incoming request, executes it and builds a response.
      *
-     * @access public
      * @since 5.1
      * @param ModuleServerRequest $request Incoming request.
      * @param ModuleServerResponse $response Outcoming response.
@@ -95,7 +93,6 @@ class ModuleServerXmlRpcProcessor
     /**
      * Calls a Module method passing the given parameters.
      *
-     * @access private
      * @since 5.1
      * @param string $method_name Method to be called.
      * @param array $params Parameters
@@ -113,7 +110,6 @@ class ModuleServerXmlRpcProcessor
      * A class can be documented as describer here:
      * http://xmlrpc-epi.sourceforge.net/specs/rfc.system.describeMethods.php
      *
-     * @access private
      * @since 5.1
      * @param array $userData
      * @return mixed

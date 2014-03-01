@@ -24,21 +24,18 @@ abstract class Validator
 {
     /**
      * Array of errors.
-     * @access protected
      * @type array
      * @since 5.0
      */
     protected $_errors = array();
     /**
      * Generic item to be validated.
-     * @access protected
      * @type mixed
      * @since 5.0
      */
     protected $_item;
     /**
      * Array of validation parameters.
-     * @access protected
      * @type array
      * @since 5.0
      */
@@ -46,7 +43,6 @@ abstract class Validator
     /**
      * Constructor.
      * @param mixed $item
-     * @access public
      * @since 5.0
      */
     final public function __construct ($item, $params = array())
@@ -60,14 +56,12 @@ abstract class Validator
     }
     /**
      * Starts the validation procedure.
-     * @access public
      * @since 5.0
      */
     abstract public function validate ();
     /**
      * Adds an error to the errors list.
      * @param string $error
-     * @access protected
      * @since 5.0
      */
     protected function setError($error)
@@ -78,7 +72,6 @@ abstract class Validator
      * Returns the current error from the errors list and advances
      * the internal counter.
      * @return string
-     * @access public
      * @since 5.0
      */
     public function getError()
@@ -88,7 +81,6 @@ abstract class Validator
     /**
      * Tells if there are no errors after calling Validator::validate().
      * @return boolean
-     * @access public
      * @since 5.0
      */
     public function isValid()
@@ -99,7 +91,6 @@ abstract class Validator
      * Returns one of the internal parameters.
      * @param string $key
      * @return string
-     * @access public
      * @since 5.0
      */
     public function getParameter($key)
@@ -112,7 +103,6 @@ abstract class Validator
      * conditions.
      * @param string $key
      * @param string $value
-     * @access public
      * @since 5.0
      */
     public function setParameter($key, $value)

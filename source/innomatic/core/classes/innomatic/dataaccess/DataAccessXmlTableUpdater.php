@@ -10,16 +10,12 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
 */
 namespace Innomatic\Dataaccess;
 
-/*!
- @class DataAccessXmlTableUpdater
-
- @abstract A class to obtain differences between two xsql table definition files.
-
- @discussion For now it only report new and old columns.
+/**
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 class DataAccessXmlTableUpdater
 {

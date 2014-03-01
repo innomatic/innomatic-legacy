@@ -10,8 +10,7 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ */
 namespace Innomatic\Application;
 
 /**
@@ -19,7 +18,9 @@ namespace Innomatic\Application;
  * should define doInstallAction(), doUninstallAction(), doUpdateAction(),
  * doEnableDomainAction() and doDisableDomainAction(), or some of them,
  * for their intended use.
- *
+ * 
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 abstract class ApplicationComponent implements ApplicationComponentBase
 {

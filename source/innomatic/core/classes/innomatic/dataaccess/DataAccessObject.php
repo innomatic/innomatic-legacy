@@ -10,13 +10,13 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ */
 namespace Innomatic\Dataaccess;
 
 /**
  * This class implements the Data Access Object (DAO) pattern.
- * @since 1.0
+ * 
+ * @since 5.0.0
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 abstract class DataAccessObject
@@ -27,7 +27,6 @@ abstract class DataAccessObject
      * Constructor.
      * The constructor needs a DataAccess object.
      * @since 1.0
-     * @access public
      * @param DataAccess $dataAccess
      * @return void
      */

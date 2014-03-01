@@ -428,7 +428,6 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
     * Note that for best compatbility, the debug string should be encoded using
     * the $GLOBALS['xmlrpc_internalencoding'] character set.
     * @param string $m
-    * @access public
     */
     function xmlrpc_debugmsg($m)
     {
@@ -524,7 +523,6 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         * particular, triggering an USER_ERROR level error will not halt script
         * execution anymore, but just end up logged in the xmlrpc response)
         * Note that info added at elevel 2 and 3 will be base64 encoded
-        * @access public
         */
         function setDebug($in)
         {
@@ -563,7 +561,6 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         * Execute the xmlrpc request, printing the response
         * @param string $data the request body. If null, the http POST request will be examined
         * @return xmlrpcresp the response object (usually not used by caller...)
-        * @access public
         */
         function service($data=null, $return_payload=false)
         {
@@ -679,7 +676,6 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         * @param string $function the php function that will get invoked
         * @param array $sig the array of valid method signatures
         * @param string $doc method documentation
-        * @access public
         */
         function add_to_map($methodname,$function,$sig=null,$doc='')
         {
@@ -697,7 +693,6 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         * Verify type and number of parameters received against a list of known signatures
         * @param array $in array of either xmlrpcval objects or xmlrpc type definitions
         * @param array $sig array of known signatures to match against
-        * @access private
         */
         function verifySignature($in, $sig)
         {
@@ -763,7 +758,6 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         /**
         * Parse http headers received along with xmlrpc request. If needed, inflate request
         * @return null on success or an xmlrpcresp
-        * @access private
         */
         function parseRequestHeaders(&$data, &$req_encoding, &$resp_encoding, &$resp_compression)
         {
@@ -886,7 +880,6 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         * @param string $data the xml request
         * @param string $req_encoding (optional) the charset encoding of the xml request
         * @return xmlrpcresp
-        * @access private
         */
         function parseRequest($data, $req_encoding='')
         {
@@ -1008,7 +1001,6 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         * @param array $params array with method parameters as php types (if m is method name only)
         * @param array $paramtypes array with xmlrpc types of method parameters (if m is method name only)
         * @return xmlrpcresp
-        * @access private
         */
         function execute($m, $params=null, $paramtypes=null)
         {
@@ -1163,7 +1155,6 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         /**
         * add a string to the 'internal debug message' (separate from 'user debug message')
         * @param string $strings
-        * @access private
         */
         function debugmsg($string)
         {
@@ -1171,7 +1162,6 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         }
 
         /**
-        * @access private
         */
         function xml_header($charset_encoding='')
         {

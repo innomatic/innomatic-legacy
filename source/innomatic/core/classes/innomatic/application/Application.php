@@ -10,16 +10,15 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ */
 namespace Innomatic\Application;
 
 use \Innomatic\Core\Container;
 
-/*!
- @class Application
- @abstract Application handling.
- @discussion Handles applications.
+/**
+ * Class for handling basic application operations.
+ * 
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 class Application
 {

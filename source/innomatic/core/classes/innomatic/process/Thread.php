@@ -81,7 +81,6 @@ class Thread
      * The pseudo-thread name: must be unique between PHP processes
      *
      * @var string
-     * @access private
      */
     private $_name;
 
@@ -89,7 +88,6 @@ class Thread
      * PID of the child process.
      *
      * @var integer
-     * @access private
      */
     private $_pid;
 
@@ -98,7 +96,6 @@ class Thread
      * start() the pseudo-thread as root.
      *
      * @var integer
-     * @access private
      */
     private $_puid;
 
@@ -107,7 +104,6 @@ class Thread
      * start() the pseudo-thread as root.
      *
      * @var integer
-     * @access private
      */
     private $_guid;
 
@@ -115,7 +111,6 @@ class Thread
      * Are we into the child process?
      *
      * @var boolean
-     * @access private
      */
     private $_isChild;
 
@@ -126,7 +121,6 @@ class Thread
      * _call_method, _call_input, _call_output, _call_type, _pingTime;
      *
      * @var array
-     * @access private
      */
     private $_internal_ipc_array;
 
@@ -134,7 +128,6 @@ class Thread
      * KEY to access to Shared Memory Area.
      *
      * @var integer
-     * @access private
      */
     private $_internal_ipc_key;
 
@@ -146,7 +139,6 @@ class Thread
      * support to PHP interpreter.
      *
      * @var integer
-     * @access private
      */
     private $_internal_sem_key;
 
@@ -155,7 +147,6 @@ class Thread
      * otherwise we'll have a running child without any communication channel.
      *
      * @var boolean
-     * @access private
      */
     private $_ipc_is_ok;
 
@@ -163,7 +154,6 @@ class Thread
      * Whether the process is yet forked or not
      *
      * @var boolean
-     * @access private
      */
     private $_running;
 
@@ -171,7 +161,6 @@ class Thread
      * Pointer to file for ftok()
      *
      * @var string
-     * @access private
      */
     private $_ipc_file_1;
 
@@ -179,7 +168,6 @@ class Thread
      * Pointer to file for ftok()
      *
      * @var string
-     * @access private
      */
     private $_ipc_file_2;
 
@@ -208,7 +196,6 @@ class Thread
      * @param integer $puid Owner of the forked process; if none, the user will be the same that created the pseudo-thread
      * @param integer $guid Group of the forked process; if none, the group will be the same of the user that created the pseudo-thread
      * @param integer $umask the umask of the new process; if none, the umask will be the same of the user  that created the pseudo-thread
-     * @access public
      * @return bool true if the Shared Memory Segments are OK, false otherwise.<br>Notice that only if shared mem is ok the process will be forked.
      */
     public function __construct($name, $puid = 0, $guid = 0, $umask = -1)
@@ -517,7 +504,6 @@ class Thread
      *
      * Internal method: destroy thread context and free relative resources.
      *
-     * @access private
      */
 
     private function _cleanThreadContext()
@@ -548,7 +534,6 @@ class Thread
      * DO NOT override this method, otherwise the thread system will stop working...
      *
      * @param  $signo
-     * @access private
      */
     private function _sig_handler($signo)
     {
@@ -606,7 +591,6 @@ class Thread
      *
      * Sends signal to the child process
      *
-     * @access private
      */
     private function _sendSigUsr1()
     {
@@ -617,7 +601,6 @@ class Thread
     /**
      * PHP_Fork::_waitIPCSemaphore()
      *
-     * @access private
      */
     private function _waitIPCSemaphore()
     {
@@ -634,7 +617,6 @@ class Thread
     /**
      * PHP_Fork::_readFromIPCsegment()
      *
-     * @access private
      */
     private function _readFromIPCsegment()
     {
@@ -650,7 +632,6 @@ class Thread
     /**
      * PHP_Fork::_writeToIPCsegment()
      *
-     * @access private
      */
     private function _writeToIPCsegment()
     {
@@ -672,7 +653,6 @@ class Thread
      * PHP_Fork::_createIPCsegment()
      *
      * @return boolean true if the operation succeeded, false otherwise.
-     * @access private
      */
     private function _createIPCsegment()
     {
@@ -693,7 +673,6 @@ class Thread
      * PHP_Fork::_createIPCsemaphore()
      *
      * @return boolean true if the operation succeeded, false otherwise.
-     * @access private
      */
     private function _createIPCsemaphore()
     {

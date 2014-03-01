@@ -925,7 +925,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         /**
         * Enables/disables the echoing to screen of the xmlrpc responses received
         * @param integer $debug values 0, 1 and 2 are supported (2 = echo sent msg too, before received response)
-        * @access public
         */
         function setDebug($in)
         {
@@ -937,7 +936,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         * @param string $u username
         * @param string $p password
         * @param integer $t auth type. See curl_setopt man page for supported auth types. Defaults to CURLAUTH_BASIC (basic auth)
-        * @access public
         */
         function setCredentials($u, $p, $t=1)
         {
@@ -950,7 +948,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         * Add a client-side https certificate
         * @param string $cert
         * @param string $certpass
-        * @access public
         */
         function setCertificate($cert, $certpass)
         {
@@ -963,7 +960,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         * CURLOPT_CAINFO for more details
         * @param string $cacert certificate file name (or dir holding certificates)
         * @param bool $is_dir set to true to indicate cacert is a dir. defaults to false
-        * @access public
         */
         function setCaCertificate($cacert, $is_dir=false)
         {
@@ -983,7 +979,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         * Thanks to Daniel Convissor
         * @param string $key The name of a file containing a private SSL key
         * @param string $keypass The secret password needed to use the private SSL key
-        * @access public
         */
         function setKey($key, $keypass)
         {
@@ -994,7 +989,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         /**
         * Set attributes for SSL communication: verify server certificate
         * @param bool $i enable/disable verification of peer certificate
-        * @access public
         */
         function setSSLVerifyPeer($i)
         {
@@ -1004,7 +998,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         /**
         * Set attributes for SSL communication: verify match of server cert w. hostname
         * @param int $i
-        * @access public
         */
         function setSSLVerifyHost($i)
         {
@@ -1018,7 +1011,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         * @param string $proxyusername Leave blank if proxy has public access
         * @param string $proxypassword Leave blank if proxy has public access
         * @param int $proxyauthtype set to constant CURLAUTH_NTLM to use NTLM auth with proxy
-        * @access public
         */
         function setProxy($proxyhost, $proxyport, $proxyusername = '', $proxypassword = '', $proxyauthtype = 1)
         {
@@ -1035,7 +1027,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         * http headers to xmlrpc requests. It is up to the xmlrpc server to return
         * compressed responses when receiving such requests.
         * @param string $compmethod either 'gzip', 'deflate', 'any' or ''
-        * @access public
         */
         function setAcceptedCompression($compmethod)
         {
@@ -1050,7 +1041,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         * Take care when sending compressed requests: servers might not support them
         * (and automatic fallback to uncompressed requests is not yet implemented)
         * @param string $compmethod either 'gzip', 'deflate' or ''
-        * @access public
         */
         function setRequestCompression($compmethod)
         {
@@ -1066,7 +1056,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         * @param string $path
         * @param string $domain
         * @param int $port
-        * @access public
         *
         * @todo check correctness of urlencoding cookie value (copied from php way of doing it...)
         */
@@ -1092,7 +1081,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         * @param integer $timeout Connection timeout, in seconds, If unspecified, a platform specific timeout will apply
         * @param string $method if left unspecified, the http protocol chosen during creation of the object will be used
         * @return xmlrpcresp
-        * @access public
         */
         function& send($msg, $timeout=0, $method='')
         {
@@ -1188,7 +1176,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         }
 
         /**
-        * @access private
         */
         function &sendPayloadHTTP10($msg, $server, $port, $timeout=0,
             $username='', $password='', $authtype=1, $proxyhost='',
@@ -1372,7 +1359,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         }
 
         /**
-        * @access private
         */
         function &sendPayloadHTTPS($msg, $server, $port, $timeout=0, $username='',
             $password='', $authtype=1, $cert='',$certpass='', $cacert='', $cacertdir='',
@@ -1389,7 +1375,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         * Contributed by Justin Miller <justin@voxel.net>
         * Requires curl to be built into PHP
         * NB: CURL versions before 7.11.10 cannot use proxy to talk to https servers!
-        * @access private
         */
         function &sendPayloadCURL($msg, $server, $port, $timeout=0, $username='',
             $password='', $authtype=1, $cert='', $certpass='', $cacert='', $cacertdir='',
@@ -1667,7 +1652,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         * @param string $method the http protocol variant to be used
         * @param boolean fallback When true, upon receiveing an error during multicall, multiple single calls will be attempted
         * @return array
-        * @access public
         */
         function multicall($msgs, $timeout=0, $method='', $fallback=true)
         {
@@ -1739,7 +1723,6 @@ namespace Innomatic\Webservices\Xmlrpc;
         * Attempt to boxcar $msgs via system.multicall.
         * Returns either an array of xmlrpcreponses, an xmlrpc error response
         * or false (when received response does not respect valid multicall syntax)
-        * @access private
         */
         function _try_multicall($msgs, $timeout, $method)
         {

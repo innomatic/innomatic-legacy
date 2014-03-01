@@ -29,10 +29,10 @@ class SequentialServerSocket extends \Innomatic\Net\Socket\ServerSocket
     {
         parent::__construct($host, $port);
     }
+    
     /**
-     * start the server
+     * Starts the server.
      *
-     * @access public
      */
     public function start()
     {
@@ -112,9 +112,8 @@ class SequentialServerSocket extends \Innomatic\Net\Socket\ServerSocket
     }
 
     /**
-     * accept a new connection
+     * Accepts a new connection.
      *
-     * @access public
      * @param resource $ &$socket    socket that received the new connection
      * @return int $clientID   internal ID of the client
      */
@@ -137,9 +136,8 @@ class SequentialServerSocket extends \Innomatic\Net\Socket\ServerSocket
     }
 
     /**
-     * check, whether a client is still connected
+     * Checks whether a client is still connected.
      *
-     * @access public
      * @param integer $id client id
      * @return boolean $connected  true if client is connected, false otherwise
      */
@@ -154,7 +152,6 @@ class SequentialServerSocket extends \Innomatic\Net\Socket\ServerSocket
     /**
      * get current amount of clients
      *
-     * @access public
      * @return int $clients    amount of clients
      */
     public function getClients()
@@ -165,7 +162,6 @@ class SequentialServerSocket extends \Innomatic\Net\Socket\ServerSocket
     /**
      * send data to all clients
      *
-     * @access public
      * @param string $data data to send
      * @param array $exclude client ids to exclude
      */
@@ -186,7 +182,6 @@ class SequentialServerSocket extends \Innomatic\Net\Socket\ServerSocket
     /**
      * close connection to a client
      *
-     * @access public
      * @param int $clientID internal ID of the client
      */
     public function closeConnection($id = 0)
@@ -206,7 +201,6 @@ class SequentialServerSocket extends \Innomatic\Net\Socket\ServerSocket
     /**
      * shutdown server
      *
-     * @access public
      */
     public function shutDown()
     {

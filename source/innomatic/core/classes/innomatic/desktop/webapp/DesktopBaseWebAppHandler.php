@@ -110,7 +110,6 @@ class DesktopBaseWebAppHandler extends \Innomatic\Webapp\WebAppHandler
      * @param $request WebAppRequest
      * @param $redirectPath string
      * @return string
-     * @access protected
      */
     protected function getURL(\Innomatic\Webapp\WebAppRequest $request, $redirectPath)
     {

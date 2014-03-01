@@ -82,7 +82,6 @@ class DirectoryUtils
     * present), return <code>null</code> instead.
     *
     * @param string $path
-    * @access public
     * @return string
     */
     public static function normalize($path)

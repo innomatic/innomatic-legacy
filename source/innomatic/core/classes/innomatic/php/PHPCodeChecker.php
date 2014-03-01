@@ -29,7 +29,6 @@ class PHPCodeChecker
      * If any error is found, the process stops itself and the method returns
      * false.
      *
-     * @access public
      * @since 1.0
      * @return boolean
      */
@@ -69,7 +68,6 @@ class PHPCodeChecker
      *
      * If any error is found, the method returns false.
      *
-     * @access public
      * @since 1.0
      * @return boolean
      */

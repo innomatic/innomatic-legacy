@@ -71,7 +71,6 @@ class LayersTemplate
     /**
      * Constructor
      *
-     * @access public
      * @param  string template root directory
      * @param  string how to handle unknown variables
      */
@@ -84,7 +83,6 @@ class LayersTemplate
     /**
      * Sets the template directory
      *
-     * @access public
      * @param  string new template directory
      * @return bool
      */
@@ -110,7 +108,6 @@ class LayersTemplate
      * - "comment" will replace undefined variables with comments
      * - "keep" will keep undefined variables as-is
      *
-     * @access public
      * @param  string unknowns
      */
     public function setUnknowns($unknowns = "keep")
@@ -128,7 +125,6 @@ class LayersTemplate
      * handle and $filename as the filename if you want to define only
      * one template.
      *
-     * @access public
      * @param  mixed handle for a filename or array with handle/name value pairs
      * @param  string name of template file
      * @return bool
@@ -169,7 +165,6 @@ class LayersTemplate
      * It extracts the template $handle from $parent and places
      * variable {$name} instead.
      *
-     * @access public
      * @param  string parent handle
      * @param  string block name handle
      * @param  string variable substitution name
@@ -197,7 +192,6 @@ class LayersTemplate
     /**
      * Set corresponding substitutions for placeholders
      *
-     * @access public
      * @param  string name of a variable that is to be defined or an array of variables with value substitution as key/value pairs
      * @param  string value of that variable
      */
@@ -227,7 +221,6 @@ class LayersTemplate
     /**
      * Substitute variables in handle $handle
      *
-     * @access public
      * @param  string name of handle
      * @return mixed string substituted content of handle
      */
@@ -247,8 +240,6 @@ class LayersTemplate
     /**
      * Same as subst but printing the result
      *
-     * @access  public
-     * @brother subst
      * @param   string handle of template
      * @return  bool always false
      */
@@ -265,7 +256,6 @@ class LayersTemplate
      * appending handle at $target if $append is defined
      * as true.
      *
-     * @access public
      * @param  string target handle to parse into
      * @param  string which handle should be parsed
      * @param  boolean append it to $target or not?
@@ -296,8 +286,6 @@ class LayersTemplate
     /**
      * Same as parse, but printing it.
      *
-     * @access  public
-     * @brother parse
      * @param   string target to parse into
      * @param   string handle which should be parsed
      * @param   should $handle be appended to $target?
@@ -312,7 +300,6 @@ class LayersTemplate
     /**
      * Return all defined variables and their values
      *
-     * @access public
      * @return array with all defined variables and their values
      */
     public function getVars()
@@ -329,7 +316,6 @@ class LayersTemplate
     /**
      * Return one or more specific variable(s) with their values.
      *
-     * @access public
      * @param  mixed array with variable names or one variable name as a string
      * @return mixed array of variable names with their values or value of one specific variable
      */
@@ -355,7 +341,6 @@ class LayersTemplate
     /**
      * Get undefined values of a handle
      *
-     * @access public
      * @param  string handle name
      * @return mixed  false if an error occured or the undefined values
      */
@@ -389,7 +374,6 @@ class LayersTemplate
     /**
      * Finish string
      *
-     * @access public
      * @param  string string to finish
      * @return finished, i.e. substituted string
      */
@@ -414,7 +398,6 @@ class LayersTemplate
     /**
      * Print variable to the browser
      *
-     * @access public
      * @param  string name of variable to print
      */
     public function p($varname)
@@ -425,7 +408,6 @@ class LayersTemplate
     /**
      * Get finished variable
      *
-     * @access public public
      * @param  string variable to get
      * @return string string with finished variable
      */
@@ -439,7 +421,6 @@ class LayersTemplate
      *
      * Complete filename, i.e. testing it for slashes
      *
-     * @access private
      * @param  string filename to be completed
      * @return string completed filename
      */
@@ -461,7 +442,6 @@ class LayersTemplate
     /**
      * Protect a replacement variable
      *
-     * @access private
      * @param  string name of replacement variable
      * @return string replaced variable
      */
@@ -473,7 +453,6 @@ class LayersTemplate
     /**
      * load file defined by handle if it is not loaded yet
      *
-     * @access private
      * @param  string handle
      * @return bool   false if error, true if all is ok
      */
@@ -504,7 +483,6 @@ class LayersTemplate
     /**
      * Error function. Halt template system with message to show
      *
-     * @access public
      * @param  string message to show
      * @return bool
      */
@@ -527,7 +505,6 @@ class LayersTemplate
     /**
      * printf error message to show
      *
-     * @access public
      * @param  string message to show
      * @return object PEAR error object
      */

@@ -30,7 +30,6 @@ interface Template
     /**
      * Initializes the template engine.
      *
-     * @access public
      * @since 1.2
      * @param string $file Template file.
      */
@@ -39,7 +38,6 @@ interface Template
     /**
      * Sets the value for a certain tag.
      *
-     * @access public
      * @since 1.2
      * @param string $name Tag name.
      * @param string $value Tag value.
@@ -49,7 +47,6 @@ interface Template
     /**
      * Parses the given template and returns the parsed result.
      *
-     * @access public
      * @since 1.1
      * @return mixed
      */
@@ -58,7 +55,6 @@ interface Template
     /**
      * Returns a list of the set tag names.
      *
-     * @access public
      * @since 6.1
      * @return array
      */

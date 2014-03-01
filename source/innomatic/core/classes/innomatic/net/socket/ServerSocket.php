@@ -33,7 +33,6 @@ abstract class ServerSocket
     /**
      * empty array, used for socket_select
      *
-     * @access private
      * @var array $null
      */
     protected $null = array();
@@ -41,7 +40,6 @@ abstract class ServerSocket
     /**
      * needed to store client information
      *
-     * @access private
      * @var array $clientInfo
      */
     protected $clientInfo = array();
@@ -75,7 +73,6 @@ abstract class ServerSocket
     /**
      * read from a socket
      *
-     * @access private
      * @param integer $clientId internal id of the client to read from
      * @return string $data        data that was read
      */

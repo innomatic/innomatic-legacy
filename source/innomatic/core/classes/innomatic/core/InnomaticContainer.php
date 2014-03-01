@@ -10,8 +10,7 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ */
 namespace Innomatic\Core;
 
 /**
@@ -26,10 +25,7 @@ namespace Innomatic\Core;
  * applications.
  *
  * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @version    Release: @package_version@
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
+ * @since      5.0.0 introduced
  * @package    Core
  */
 class InnomaticContainer extends \Innomatic\Util\Singleton

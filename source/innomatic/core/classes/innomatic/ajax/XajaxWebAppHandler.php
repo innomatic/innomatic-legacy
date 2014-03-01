@@ -10,17 +10,22 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ */
 namespace Innomatic\Ajax;
 
 use \Innomatic\Webapp;
 use \Innomatic\Core\InnomaticContainer;
 
+/**
+ * This is the webapp handler for Xajax calls.
+ * 
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ */
 class XajaxWebAppHandler extends WebAppHandler
 {
     /**
-     * Inits the webapp handler.
+     * Initializes the webapp handler.
      */
     public function init()
     {
@@ -74,11 +79,4 @@ class XajaxWebAppHandler extends WebAppHandler
     public function destroy()
     {
     }
-
-    /*
-    public function explodeWebAppURI()
-    {
-        return \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome().'core/xajax'.substr( $this->sRequestURI,strpos($this->sRequestURI, 'index.php/')+9).'.php';
-    }
-    */
 }

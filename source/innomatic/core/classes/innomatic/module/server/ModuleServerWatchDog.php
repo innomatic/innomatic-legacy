@@ -14,7 +14,6 @@ class ModuleServerWatchDog
     /**
      * Launches a server process and watches it.
      *
-     * @access public
      * @since 5.1
      * @param string $command Command for launching server to be watched.
      * @return void
@@ -41,7 +40,6 @@ class ModuleServerWatchDog
     /**
      * Runs a command and gets its output.
      *
-     * @access protected
      * @since 5.1
      * @param string $command Command to be executed.
      * @return string Command output.

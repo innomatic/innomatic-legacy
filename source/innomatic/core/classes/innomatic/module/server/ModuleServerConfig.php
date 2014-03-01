@@ -16,7 +16,6 @@ class ModuleServerConfig
     /**
      * Class constructor.
      *
-     * @access public
      * @since 5.1
      * @param string $configFile Full path of configuration file.
      */
@@ -33,7 +32,6 @@ class ModuleServerConfig
     /**
      * Retrieves the value for a configuration key.
      *
-     * @access public
      * @since 5.1
      * @param string $key Configuration key name.
      * @return string Key value.
@@ -47,7 +45,6 @@ class ModuleServerConfig
      * Tells if defaults values should be used in place of configuration
      * file stored ones.
      *
-     * @access public
      * @since 5.1
      * @return boolean
      */

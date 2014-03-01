@@ -10,12 +10,16 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 6.4.0
  */
 namespace Innomatic\Domain\User;
 
 use \Innomatic\Core;
 
+/**
+ *
+ * @since Class available since Release 6.4.0
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ */
 class Role
 {
     protected $dataAccess;

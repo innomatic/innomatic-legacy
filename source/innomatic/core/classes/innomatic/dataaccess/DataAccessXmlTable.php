@@ -10,15 +10,13 @@
  * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.org/license/   BSD License
  * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
 */
 namespace Innomatic\Dataaccess;
 
-/*!
-@class DataAccessXmlTable
-
-@abstract Xml DataAccess class provides parsing of XSQL xml files.
-*/
+/**
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ */
 class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
 {
     /*! @var mLog log handler */

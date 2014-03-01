@@ -24,14 +24,12 @@ class ValidatorAggregate
 {
     /**
      * Array of validators.
-     * @access protected
      * @type array
      * @since 1.0
      */
     protected $_validators = array();
     /**
      * Array of the collected errors.
-     * @access protected
      * @type array
      * @since 1.0
      */
@@ -39,7 +37,6 @@ class ValidatorAggregate
     /**
      * Adds a validator to the suite.
      * @param Validator $validator
-     * @access public
      * @since 1.0
      */
     public function addValidator(Validator $validator)
@@ -48,7 +45,6 @@ class ValidatorAggregate
     }
     /**
      * Runs the validators.
-     * @access public
      * @since 1.0
      */
     public function validate()
@@ -63,7 +59,6 @@ class ValidatorAggregate
     }
     /**
      * Gets the current error.
-     * @access public
      * @since 1.0
      */
     public function getError()
@@ -72,7 +67,6 @@ class ValidatorAggregate
     }
     /**
      * Tells if the suite of validators is valid and there are no errors.
-     * @access public
      * @since 1.0
      */
     public function isValid()

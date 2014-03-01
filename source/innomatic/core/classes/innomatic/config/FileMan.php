@@ -6,6 +6,9 @@
  */
 namespace Innomatic\Config;
 
+/**
+ * @since 5.0.0 introduced
+ */
 class FileMan
 {
     public $basefile = '';

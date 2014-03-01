@@ -14,7 +14,6 @@ class ModuleAccessObject extends \Innomatic\Dataaccess\DataAccessObject
      * Value object.
      *
      * @var ModuleValueObject
-     * @access protected
      * @since 5.1
      */
     protected $valueObject;
@@ -22,7 +21,6 @@ class ModuleAccessObject extends \Innomatic\Dataaccess\DataAccessObject
      * Module configuration.
      *
      * @var ModuleConfig
-     * @access protected
      * @since 5.1
      */
     protected $config;
@@ -30,7 +28,6 @@ class ModuleAccessObject extends \Innomatic\Dataaccess\DataAccessObject
     /**
      * Sets Module configuration object.
      *
-     * @access public
      * @param ModuleConfig $config Module configuration.
      * @return void
      * @since 5.1
@@ -43,7 +40,6 @@ class ModuleAccessObject extends \Innomatic\Dataaccess\DataAccessObject
     /**
      * Sets Module value object.
      *
-     * @access public
      * @param ModuleValueObject $valueObject Module value object.
      * @return void
      * @since 5.1
@@ -57,7 +53,6 @@ class ModuleAccessObject extends \Innomatic\Dataaccess\DataAccessObject
      * Retrieves a stored value object from the data access and sets it
      * in the valueObject member.
      *
-     * @access public
      * @param integer $id Value object unique identifier.
      * @return void
      * @since 5.1
@@ -83,7 +78,6 @@ class ModuleAccessObject extends \Innomatic\Dataaccess\DataAccessObject
     /**
      * Inserts an object value in the storage.
      *
-     * @access public
      * @return void
      * @since 5.1
      */
@@ -111,7 +105,6 @@ class ModuleAccessObject extends \Innomatic\Dataaccess\DataAccessObject
     /**
      * Updates the stored value object.
      *
-     * @access public
      * @return void
      * @since 5.1
      */
@@ -140,7 +133,6 @@ class ModuleAccessObject extends \Innomatic\Dataaccess\DataAccessObject
     /**
      * Removes the value object from the storage.
      *
-     * @access public
      * @return void
      * @since 5.1
      */

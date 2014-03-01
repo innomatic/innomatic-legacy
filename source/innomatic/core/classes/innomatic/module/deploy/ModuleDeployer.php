@@ -16,7 +16,6 @@ class ModuleDeployer
     /**
      * Deploys a Module in the Module server.
      *
-     * @access public
      * @param string $module Full path of the Module archive.
      * @return boolean
      * @since 5.1
@@ -94,7 +93,6 @@ class ModuleDeployer
     /**
      * Redeploys a Module in the Module server.
      *
-     * @access public
      * @param string $module Full path of the Module archive.
      * @return boolean
      * @since 5.1
@@ -177,7 +175,6 @@ class ModuleDeployer
     /**
      * Undeploys a Module in the Module server.
      *
-     * @access public
      * @param string $location Module name.
      * @return boolean
      * @since 5.1

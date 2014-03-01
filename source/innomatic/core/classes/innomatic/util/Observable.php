@@ -30,13 +30,11 @@ abstract class Observable
     /**
      * Array degli oggetti che osservano.
      * @var array
-     * @access private
      */
     protected $_observingObjects = array();
     /**
      * Indica se l'oggetto e' stato cambiato.
      * @protected bool
-     * @access private
      */
     protected $_observableChanged = false;
 
@@ -63,7 +61,6 @@ abstract class Observable
 
     /**
      * Reimposta l'oggetto come non cambiato.
-     * @access private
      * @return void
      */
     protected function clearChanged()
@@ -73,7 +70,6 @@ abstract class Observable
 
     /**
      * Indica quanti oggetti stanno osservando questo oggetto.
-     * @access public
      * @return void
      */
     public function countObservers()
@@ -108,7 +104,6 @@ abstract class Observable
     /**
      * Azzera l'elenco degli oggetti in osservazione.
      * @see Observable::deleteObserver()
-     * @access public
      * @return void
      */
     public function deleteObservers()
@@ -120,7 +115,6 @@ abstract class Observable
      * Indica se l'oggetto ha subito cambiamenti.
      * @see Observable::setChanged()
      * @see Observable::clearChanged()
-     * @access public
      * @return bool
      */
     public function hasChanged()
@@ -132,7 +126,6 @@ abstract class Observable
      * Notifica agli oggetti in osservazione che questo oggetto e' stato aggiornato.
      * @see Observable::setChanged()
      * @param mixed $arg argomento opzionale da passare agli oggetti osservatori.
-     * @access public
      * @return void
      */
     public function notifyObservers($arg = '')
@@ -148,7 +141,6 @@ abstract class Observable
 
     /**
      * Imposta questo oggetto come cambiato.
-     * @access private
      * @return void
      */
     protected function setChanged()

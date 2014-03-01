@@ -15,7 +15,6 @@ class ModuleServiceController extends ModuleServerController
    /**
      * Class constructor.
      *
-     * @access public
      * @since 5.1
      */
     public function __construct()
@@ -35,7 +34,6 @@ class ModuleServiceController extends ModuleServerController
      * Starts the server with generic-service support.
      * (also pinger inizialization)
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -52,7 +50,6 @@ class ModuleServiceController extends ModuleServerController
     /**
      * Restarts the server.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -70,7 +67,6 @@ class ModuleServiceController extends ModuleServerController
      * Starts the server watch dog and the server using the watch dog itself.
      * No need to use another watchdog, the ModuleServerWatchDog can watch also this server
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -83,7 +79,6 @@ class ModuleServiceController extends ModuleServerController
     /**
      * Restarts the server watch dog and the server using the watch dog itself.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -101,7 +96,6 @@ class ModuleServiceController extends ModuleServerController
     /**
      * Safely shutdowns the server.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -120,7 +114,6 @@ class ModuleServiceController extends ModuleServerController
     /**
      * Retrieves server status.
      *
-     * @access public
      * @since 5.1
      * @return string Server status.
      */
@@ -145,7 +138,6 @@ class ModuleServiceController extends ModuleServerController
     /**
      * Forces the server to refresh its configuration.
      *
-     * @access public
      * @since 5.1
      * @return string Server result string.
      */
@@ -171,7 +163,6 @@ class ModuleServiceController extends ModuleServerController
      * pinger inizialization
      * (runs a new console that executes the piger)
      *
-     * @access private
      * @see ModulePinger.php
      * @since 5.1
      * @return string Server result string.
@@ -195,7 +186,6 @@ class ModuleServiceController extends ModuleServerController
      * stops the pinger
      * (starts the pinger shuting down sequence)
      *
-     * @access private
      * @see ModulePinger.php
      * @since 5.1
      * @return string Server result string.

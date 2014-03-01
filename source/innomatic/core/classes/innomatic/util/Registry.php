@@ -37,7 +37,6 @@ final class Registry
      * tramite una chiave di identificazione.
      * @param string $key chiave di identificazione dell'oggetto.
      * @param object $item oggetto da mantenere nel registro.
-     * @access public
      * @return void
      */
     public function setGlobalObject($key, $item)
@@ -48,7 +47,6 @@ final class Registry
     /**
      * Restituisce un oggetto contenuto nel registro.
      * @param string $key chiave di identificazione dell'oggetto.
-     * @access public
      * @return object
      */
     public function getGlobalObject($key)
@@ -63,7 +61,6 @@ final class Registry
     /**
      * Verifica che la chiave indicata sia presente nel registro.
      * @param string $key chiave da verificare.
-     * @access public
      * @return bool
      */
     public function isGlobalObject($key)

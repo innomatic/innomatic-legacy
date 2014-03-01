@@ -35,75 +35,71 @@ class LayersMenu
 {
 /**
 * The name of the package
-* @access private
 * @var string
 */
 public $_packageName;
 /**
 * The version of the package
-* @access private
 * @var string
 */
 public $version;
 /**
 * The copyright of the package
-* @access private
 * @var string
 */
 public $copyright;
 /**
 * The author of the package
-* @access private
 * @var string
 */
 public $author;
 
 /**
 * URL to be prepended to the menu links
-* @access private
+
 * @var string
 */
 public $prependedUrl = "";
 /**
 * Do you want that code execution halts on error?
-* @access private
+
 * @var string
 */
 public $haltOnError = "yes";
 
 /**
 * The base directory where the package is installed
-* @access private
+
 * @var string
 */
 public $dirroot;
 /**
 * The "lib" directory of the package
-* @access private
+
 * @var string
 */
 public $libdir;
 /**
 * The http path corresponding to libdir
-* @access private
+
 * @var string
 */
 public $libwww;
 /**
 * The directory where templates can be found
-* @access private
+
 * @var string
 */
 public $tpldir;
 /**
 * The directory where images related to the menu can be found
-* @access private
+
 * @var string
 */
 public $imgdir;
 /**
 * The http path corresponding to imgdir
-* @access private
+
 * @var string
 */
 public $imgwww;
@@ -113,7 +109,7 @@ public $imgwww;
 * The value of this variable is significant only when preparing
 * a horizontal menu.
 *
-* @access private
+
 * @var string
 */
 public $horizontalMenuTpl;
@@ -123,122 +119,122 @@ public $horizontalMenuTpl;
 * The value of this variable is significant only when preparing
 * a vertical menu.
 *
-* @access private
+
 * @var string
 */
 public $verticalMenuTpl;
 /**
 * The template to be used for submenu layers
-* @access private
+
 * @var string
 */
 public $subMenuTpl;
 /**
 * The string containing the menu structure
-* @access private
+
 * @var string
 */
 public $menuStructure;
 /**
 * The character used in the menu structure format to separate fields of each item
-* @access private
+
 * @var string
 */
 public $separator;
 /**
 * The character used for the Tree Menu in the menu structure format to separate fields of each item
-* @access private
+
 * @var string
 */
 public $treeMenuSeparator;
 /**
 * Type of images used for the Tree Menu
-* @access private
+
 * @var string
 */
 public $treeMenuImagesType;
 /**
 * An array where we store the Tree Menu code for each menu
-* @access private
+
 * @var array
 */
 public $_treeMenu;
 
 /**
 * It counts nodes for all menus
-* @access private
+
 * @var integer
 */
 public $_nodesCount;
 /**
 * A multi-dimensional array where we store informations for each menu entry
-* @access private
+
 * @var array
 */
 public $tree;
 /**
 * The maximum hierarchical level of menu items
-* @access private
+
 * @var integer
 */
 public $_maxLevel;
 /**
 * An array that counts the number of first level items for each menu
-* @access private
+
 * @var array
 */
 public $_firstLevelCnt;
 /**
 * An array containing the number identifying the first item of each menu
-* @access private
+
 * @var array
 */
 public $_firstItem;
 /**
 * An array containing the number identifying the last item of each menu
-* @access private
+
 * @var array
 */
 public $_lastItem;
 /**
 * A string containing the header needed to use the menu(s) in the page
-* @access private
+
 * @var string
 */
 public $header;
 /**
 * Number of layers
-* @access private
+
 * @var integer
 */
 public $numl;
 /**
 * The JS function to list layers
-* @access private
+
 * @var string
 */
 public $listl;
 /**
 * The JS vector to know the father of each layer
-* @access private
+
 * @var string
 */
 public $father;
 /**
 * The JS function to set initial positions of all layers
-* @access private
+
 * @var string
 */
 public $moveLayers;
 /**
 * An array containing the code related to the first level menu of each menu
-* @access private
+
 * @var array
 */
 public $_firstLevelMenu;
 /**
 * A string containing the footer needed to use the menu(s) in the page
-* @access private
+
 * @var string
 */
 public $footer;
@@ -250,56 +246,56 @@ public $footer;
 * e.g. " --&gt;" or the complete HTML tag corresponding to an image used
 * as forward arrow
 *
-* @access private
+
 * @var string
 */
 public $forwardArrow;
 /**
 * Completely analogous to forwardArrow
-* @access private
+
 * @var string
 */
 public $downArrow;
 /**
 * Step for the left boundaries of layers
-* @access private
+
 * @var integer
 */
 public $abscissaStep;
 /**
 * Estimated value of the vertical distance between adjacent links on a generic layer
-* @access private
+
 * @var integer
 */
 public $ordinateStep;
 /**
 * Threshold for vertical repositioning of a layer
-* @access private
+
 * @var integer
 */
 public $thresholdY;
 
 /**
 * Data Source Name: the connection string for PEAR DB
-* @access private
+
 * @var string
 */
 public $dsn = "pgsql://dbuser:dbpass@dbhost/dbname";
 /**
 * DB connections are either persistent or not persistent
-* @access private
+
 * @var boolean
 */
 public $persistent = false;
 /**
 * Name of the table storing data describing the menu
-* @access private
+
 * @var string
 */
 public $tableName = "phplayersmenu";
 /**
 * Name of the i18n table corresponding to $tableName
-* @access private
+
 * @var string
 */
 public $tableName_i18n = "phplayersmenu_i18n";
@@ -309,7 +305,7 @@ public $tableName_i18n = "phplayersmenu_i18n";
 * default field names correspond to the same field names foreseen
 * by the menu structure format
 *
-* @access private
+
 * @var array
 */
 public $tableFields = array(
@@ -325,7 +321,7 @@ public $tableFields = array(
 );
 /**
 * Names of fields of the i18n table corresponding to $tableName
-* @access private
+
 * @var array
 */
 public $tableFields_i18n = array(
@@ -336,7 +332,7 @@ public $tableFields_i18n = array(
 );
 /**
 * A temporary array to store data retrieved from the DB and to perform the depth-first search
-* @access private
+
 * @var array
 */
 public $_tmpArray = array();
@@ -397,7 +393,7 @@ function __construct(
 
 /**
 * The method to set the value of abscissaStep
-* @access public
+
 * @return void
 */
 function setAbscissaStep($abscissaStep)
@@ -407,7 +403,7 @@ function setAbscissaStep($abscissaStep)
 
 /**
 * The method to set the value of ordinateStep
-* @access public
+
 * @return void
 */
 function setOrdinateStep($ordinateStep)
@@ -417,7 +413,7 @@ function setOrdinateStep($ordinateStep)
 
 /**
 * The method to set the value of thresholdY
-* @access public
+
 * @return void
 */
 function setThresholdY($thresholdY)
@@ -427,7 +423,7 @@ function setThresholdY($thresholdY)
 
 /**
 * The method to set the prepended URL
-* @access public
+
 * @return boolean
 */
 function setPrependedUrl($prependedUrl)
@@ -439,7 +435,7 @@ function setPrependedUrl($prependedUrl)
 
 /**
 * The method to set the dirroot directory
-* @access public
+
 * @return boolean
 */
 function setDirroot($dirroot)
@@ -457,7 +453,7 @@ function setDirroot($dirroot)
 
 /**
 * The method to set the libdir directory
-* @access public
+
 * @return boolean
 */
 function setLibdir($libdir)
@@ -478,7 +474,7 @@ function setLibdir($libdir)
 
 /**
 * The method to set libwww
-* @access public
+
 * @return void
 */
 function setLibwww($libwww)
@@ -491,7 +487,7 @@ function setLibwww($libwww)
 
 /**
 * The method to set the tpldir directory
-* @access public
+
 * @return boolean
 */
 function setTpldir($tpldir)
@@ -512,7 +508,7 @@ function setTpldir($tpldir)
 
 /**
 * The method to set the imgdir directory
-* @access public
+
 * @return boolean
 */
 function setImgdir($imgdir)
@@ -533,7 +529,7 @@ function setImgdir($imgdir)
 
 /**
 * The method to set imgwww
-* @access public
+
 * @return void
 */
 function setImgwww($imgwww)
@@ -546,7 +542,7 @@ function setImgwww($imgwww)
 
 /**
 * The method to set horizontalMenuTpl
-* @access public
+
 * @return boolean
 */
 function setHorizontalMenuTpl($horizontalMenuTpl)
@@ -564,7 +560,7 @@ function setHorizontalMenuTpl($horizontalMenuTpl)
 
 /**
 * The method to set verticalMenuTpl
-* @access public
+
 * @return boolean
 */
 function setVerticalMenuTpl($verticalMenuTpl)
@@ -582,7 +578,7 @@ function setVerticalMenuTpl($verticalMenuTpl)
 
 /**
 * The method to set subMenuTpl
-* @access public
+
 * @return boolean
 */
 function setSubMenuTpl($subMenuTpl)
@@ -600,7 +596,7 @@ function setSubMenuTpl($subMenuTpl)
 
 /**
 * A method to set forwardArrow
-* @access public
+
 * @param string $forwardArrow the forward arrow HTML code
 * @return void
 */
@@ -611,7 +607,7 @@ function setForwardArrow($forwardArrow)
 
 /**
 * The method to set an image to be used for the forward arrow
-* @access public
+
 * @param string $forwardArrowImg the forward arrow image filename
 * @return boolean
 */
@@ -628,7 +624,7 @@ function setForwardArrowImg($forwardArrowImg)
 
 /**
 * A method to set downArrow
-* @access public
+
 * @param string $downArrow the down arrow HTML code
 * @return void
 */
@@ -639,7 +635,7 @@ function setDownArrow($downArrow)
 
 /**
 * The method to set an image to be used for the down arrow
-* @access public
+
 * @param string $downArrowImg the down arrow image filename
 * @return boolean
 */
@@ -656,7 +652,7 @@ function setDownArrowImg($downArrowImg)
 
 /**
 * The method to read the menu structure from a file
-* @access public
+
 * @param string $tree_file the menu structure file
 * @return boolean
 */
@@ -681,7 +677,7 @@ function setMenuStructureFile($tree_file)
 
 /**
 * The method to set the menu structure passing it through a string
-* @access public
+
 * @param string $tree_string the menu structure string
 * @return boolean
 */
@@ -697,7 +693,7 @@ function setMenuStructureString($tree_string)
 
 /**
 * The method to set the value of separator
-* @access public
+
 * @return void
 */
 function setSeparator($separator)
@@ -707,7 +703,7 @@ function setSeparator($separator)
 
 /**
 * The method to set parameters for the DB connection
-* @access public
+
 * @param string $dns Data Source Name: the connection string for PEAR DB
 * @param bool $persistent DB connections are either persistent or not persistent
 * @return boolean
@@ -729,7 +725,7 @@ function setDBConnParms($dsn, $persistent=false)
 
 /**
 * The method to set the name of the table storing data describing the menu
-* @access public
+
 * @param string
 * @return boolean
 */
@@ -745,7 +741,7 @@ function setTableName($tableName)
 
 /**
 * The method to set the name of the i18n table corresponding to $tableName
-* @access public
+
 * @param string
 * @return boolean
 */
@@ -761,7 +757,7 @@ function setTableName_i18n($tableName_i18n)
 
 /**
 * The method to set names of fields of the table storing data describing the menu
-* @access public
+
 * @param array
 * @return boolean
 */
@@ -784,7 +780,7 @@ function setTableFields($tableFields)
 
 /**
 * The method to set names of fields of the i18n table corresponding to $tableName
-* @access public
+
 * @param array
 * @return boolean
 */
@@ -807,7 +803,7 @@ function setTableFields_i18n($tableFields_i18n)
 
 /**
 * The method to parse the current menu structure and correspondingly update related variables
-* @access public
+
 * @param string $menu_name the name to be attributed to the menu
 *   whose structure has to be parsed
 * @return void
@@ -858,7 +854,7 @@ function parseStructureForMenu(
 
 /**
 * The method to parse the current menu table and correspondingly update related variables
-* @access public
+
 * @param string $menu_name the name to be attributed to the menu
 *   whose structure has to be parsed
 * @param string $language i18n language; either omit it or pass
@@ -941,7 +937,7 @@ function _getmicrotime()
 
 /**
 * Recursive method to perform the depth-first search of the tree data taken from the current menu table
-* @access private
+
 * @param array $tmpArray the temporary array that stores data to perform
 *   the depth-first search
 * @param string $menu_name the name to be attributed to the menu
@@ -976,7 +972,7 @@ function _depthFirstSearch($tmpArray, $menu_name, $parent_id=1, $level)
 
 /**
 * A method providing parsing needed after both file/string parsing and DB table parsing
-* @access private
+
 * @param string $menu_name the name of the menu for which the parsing
 *   has to be performed
 * @return void
@@ -1009,7 +1005,7 @@ function _postParse(
 
 /**
 * A method providing parsing needed both for horizontal and vertical menus
-* @access private
+
 * @param string $menu_name the name of the menu for which the parsing
 *   has to be performed
 * @return void
@@ -1049,7 +1045,7 @@ function _parseCommon(
 
 /**
 * A method needed to update the footer both for horizontal and vertical menus
-* @access private
+
 * @param string $menu_name the name of the menu for which the updating
 *   has to be performed
 * @return void
@@ -1084,7 +1080,7 @@ function _updateFooter(
 * horizontal menu code updating many variables; it returns the code
 * of the corresponding _firstLevelMenu
 *
-* @access public
+
 * @param string $menu_name the name of the menu whose items have to be processed
 * @param integer $ordinateMargin margin (in pixels) to set the position
 *   of a layer a bit above the ordinate of the "father" link
@@ -1203,7 +1199,7 @@ function newHorizontalMenu(
 * vertical menu code updating many variables; it returns the code
 * of the corresponding _firstLevelMenu
 *
-* @access public
+
 * @param string $menu_name the name of the menu whose items have to be processed
 * @param integer $ordinateMargin margin (in pixels) to set the position
 *   of a layer a bit above the ordinate of the "father" link
@@ -1314,7 +1310,7 @@ function newVerticalMenu(
 * This method obtains the header using collected informations
 * and the suited JavaScript template; it returns the code of the header
 *
-* @access public
+
 * @return string
 */
 function makeHeader()
@@ -1341,7 +1337,7 @@ function makeHeader()
 
 /**
 * Method that returns the code of the header
-* @access public
+
 * @return string
 */
 function getHeader()
@@ -1351,7 +1347,7 @@ function getHeader()
 
 /**
 * Method that prints the code of the header
-* @access public
+
 * @return void
 */
 function printHeader()
@@ -1362,7 +1358,7 @@ function printHeader()
 
 /**
 * Method that returns the code of the requested _firstLevelMenu
-* @access public
+
 * @param string $menu_name the name of the menu whose _firstLevelMenu
 *   has to be returned
 * @return string
@@ -1374,7 +1370,7 @@ function getMenu($menu_name)
 
 /**
 * Method that prints the code of the requested _firstLevelMenu
-* @access public
+
 * @param string $menu_name the name of the menu whose _firstLevelMenu
 *   has to be printed
 * @return void
@@ -1390,7 +1386,7 @@ function printMenu($menu_name)
 * This method obtains the footer using collected informations
 * and the suited JavaScript template; it returns the code of the footer
 *
-* @access public
+
 * @return string
 */
 function makeFooter()
@@ -1411,7 +1407,7 @@ function makeFooter()
 
 /**
 * Method that returns the code of the footer
-* @access public
+
 * @return string
 */
 function getFooter()
@@ -1421,7 +1417,7 @@ function getFooter()
 
 /**
 * Method that prints the code of the footer
-* @access public
+
 * @return void
 */
 function printFooter()
@@ -1432,7 +1428,7 @@ function printFooter()
 
 /**
 * The method to set the value of separator for the Tree Menu
-* @access public
+
 * @return void
 */
 function setTreeMenuSeparator($treeMenuSeparator)
@@ -1442,7 +1438,7 @@ function setTreeMenuSeparator($treeMenuSeparator)
 
 /**
 * The method to set the type of images used for the Tree Menu
-* @access public
+
 * @return void
 */
 function setTreeMenuImagesType($treeMenuImagesType)
@@ -1456,7 +1452,7 @@ function setTreeMenuImagesType($treeMenuImagesType)
 * This method processes items of a menu to prepare and return
 * the corresponding Tree Menu code.
 *
-* @access public
+
 * @param string $menu_name the name of the menu whose items have to be processed
 * @return string
 */
@@ -1634,7 +1630,7 @@ function newTreeMenu(
 
 /**
 * Method that returns the code of the requested Tree Menu
-* @access public
+
 * @param string $menu_name the name of the menu whose Tree Menu code
 *   has to be returned
 * @return string
@@ -1646,7 +1642,6 @@ function getTreeMenu($menu_name)
 
 /**
 * Method that prints the code of the requested Tree Menu
-* @access public
 * @param string $menu_name the name of the menu whose Tree Menu code
 *   has to be printed
 * @return void
@@ -1658,7 +1653,6 @@ function printTreeMenu($menu_name)
 
 /**
 * Method to handle errors
-* @access private
 * @param string $errormsg the error message
 * @return void
 */

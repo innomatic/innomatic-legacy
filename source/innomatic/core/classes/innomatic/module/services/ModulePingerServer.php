@@ -15,7 +15,6 @@ class ModulePingerServer extends \Innomatic\Net\Socket\SocketHandler
      * Authenticator object.
      *
      * @var ModuleServerAuthenticator
-     * @access protected
      * @since 5.1
      */
     protected $authenticator;
@@ -24,7 +23,6 @@ class ModulePingerServer extends \Innomatic\Net\Socket\SocketHandler
      * local address
      *
      * @var string
-     * @access protected
      * @since 5.1
      */
     protected $bindAddress;
@@ -33,7 +31,6 @@ class ModulePingerServer extends \Innomatic\Net\Socket\SocketHandler
      * the port where the pinger server is running
      *
      * @var string
-     * @access protected
      * @since 5.1
      */
     protected $port;
