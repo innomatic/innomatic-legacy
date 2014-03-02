@@ -308,12 +308,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             $lastSecurityReport = $this->config->value(
                 'SecurityLastReportTime'
             );
-            if (
-                !$lastSecurityReport
-                or $lastSecurityReport < (time() - (
-                    $securityReportsInterval * 3600 * 24
-                ))
-            ) {
+            if (!$lastSecurityReport or $lastSecurityReport < (time() - ($securityReportsInterval * 3600 * 24))) {
                 $innomaticSecurity = new \Innomatic\Security\SecurityManager();
                 $innomaticSecurity->sendReport();
                 unset($innomaticSecurity);
@@ -323,10 +318,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
         // Maintenance
         $maintenanceInterval = $this->config->value('MaintenanceInterval');
-        if (
-            $this->state != \Innomatic\Core\InnomaticContainer::STATE_MAINTENANCE
-            and $maintenanceInterval > 0
-        ) {
+        if ($this->state != \Innomatic\Core\InnomaticContainer::STATE_MAINTENANCE and $maintenanceInterval > 0) {
             $lastMaintenance = $this->config->value(
                 'MaintenanceLastExecutionTime'
             );
