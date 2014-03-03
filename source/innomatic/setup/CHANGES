@@ -40,6 +40,8 @@ FIXES:
   (Alex Pagnoni)
 - Fixed wrong sequence name for root_profiles table in innomatic_root.xml.
   (Alex Pagnoni)
+- Fixed empty username in SecurityManager logAccess() when an user logs out.
+  (Alex Pagnoni)
 
 DEPRECATED:
 - \Innomatic\Domain\User\Permissions class is deprecated in favor of new

@@ -273,8 +273,6 @@ function login_login($eventData)
 
 function login_logout($eventData)
 {
-    \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session->put('INNOMATIC_AUTH_USER', $eventData['username']);
-    
     $innomaticSecurity = new \Innomatic\Security\SecurityManager();
     $innomaticSecurity->logAccess(\Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session->get('INNOMATIC_AUTH_USER'), true, false, $_SERVER['REMOTE_ADDR']);
     
