@@ -710,6 +710,7 @@ class Domain
                 $modquery = $this->rootda->execute('SELECT appid FROM applications WHERE id='. (int) $appid);
 
                 $tmpmod = new \Innomatic\Application\Application($this->rootda, $appid);
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->setCurrentDomain($this);
 
                 if ($tmpmod->Enable($this->domainserial)) {
                     if ($hook->callHooks('applicationenabled', $this, array('domainserial' => $this->domainserial, 'appid' => $appid)) == \Innomatic\Process\Hook::RESULT_OK)
@@ -759,6 +760,7 @@ class Domain
                 $modquery = $this->rootda->execute('SELECT appid FROM applications WHERE id='. (int) $appid);
 
                 $tmpmod = new \Innomatic\Application\Application($this->rootda, $appid);
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->setCurrentDomain($this);
 
                 if ($tmpmod->Disable($this->domainserial)) {
                     if ($hook->CallHooks('applicationdisabled', $this, array('domainserial' => $this->domainserial, 'appid' => $appid)) == \Innomatic\Process\Hook::RESULT_OK)
