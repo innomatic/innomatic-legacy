@@ -56,7 +56,7 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
         $result = false;
 
         if (!empty($params['dbname'])) {
-            $tmplink = new mysqli($params['dbhost'], $params['dbuser'], $params['dbpass']);
+            $tmplink = new \mysqli($params['dbhost'], $params['dbuser'], $params['dbpass']);
             if ($tmplink) {
                 if ($tmplink->query('CREATE DATABASE '.$params['dbname'].'  DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci')) {
                     $result = true;
