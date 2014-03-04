@@ -121,7 +121,7 @@ class Permission
             $localeCatalog = new \Innomatic\Locale\LocaleCatalog(
                 $this->catalog,
                 InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
-                    ->getCurrentUser()
+                    ->getCurrentDomain()
                     ->getLanguage()
             );
         
