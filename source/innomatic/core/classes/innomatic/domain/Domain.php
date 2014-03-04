@@ -235,13 +235,17 @@ class Domain
 
                             //$xmldb = new DataAccessXmlTable( $tmpdb, DataAccessXmlTable::SQL_CREATE );
 
+                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->setCurrentDomain($this);
+                            
+                            // Prepares the domain admin user to be created later
+                            $tmpuser = new \Innomatic\Domain\User\User($nextseq);
+                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->setCurrentUser($tmpuser);
+
                             $tmpquery = $this->rootda->execute('SELECT id FROM applications WHERE appid='.$this->rootda->formatText('innomatic'));
 
                             if ($this->enableApplication($tmpquery->getFields('id'))) {
-                                $tmpuser = new \Innomatic\Domain\User\User($nextseq);
+                                // Create the administrator user
                                 $tmpuser->createAdminUser($domaindata['domainid'], $domaindata['domainpassword']);
-
-                                
                                 $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
                                 $log->logEvent($domaindata['domainid'], 'Created new domain '.$domaindata['domainid'], \Innomatic\Logging\Logger::NOTICE);
@@ -609,6 +613,10 @@ class Domain
         if ($hook->callHooks('calltime', $this, '') == \Innomatic\Process\Hook::RESULT_OK) {
             $query = $this->rootda->execute('SELECT * FROM domains WHERE id='. (int) $this->domainserial);
             $data = $query->getFields();
+            
+            // Set the current domain object so that any component relying on
+            // the InnomaticContainer current domain does not fail
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->setCurrentDomain($this);
 
             // Removes domain users.
             // They must be removed before disabling applications

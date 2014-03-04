@@ -432,7 +432,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             // : '');
             $this->currentUser = new \Innomatic\Domain\User\User(
                 $this->currentDomain->domainserial,
-                User::getUserIdByUsername(
+                \Innomatic\Domain\User\User::getUserIdByUsername(
                     strlen($userId) ? $userId : 'admin@' . $domainId
                 )
             );
@@ -1489,9 +1489,19 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         return $this->currentDomain;
     }
 
+    public function setCurrentDomain(\Innomatic\Domain\Domain $domain)
+    {
+        $this->currentDomain = $domain;
+    }
+
     public function getCurrentUser()
     {
         return $this->currentUser;
+    }
+
+    public function setCurrentUser(\Innomatic\Domain\User\User $user)
+    {
+        $this->currentUser = $user;
     }
 
     public function isBootstrapped()

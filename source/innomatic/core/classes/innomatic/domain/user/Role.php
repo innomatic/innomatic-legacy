@@ -122,7 +122,7 @@ class Role
         // a catalog definition. In that case, replace the title and the description
         // with the localized versions.
         if (strlen($this->catalog)) {
-            $localeCatalog = new \Innomatic\Locale\LocaleCatalog($this->catalog, InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage());
+            $localeCatalog = new \Innomatic\Locale\LocaleCatalog($this->catalog, InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getLanguage());
             
             $this->title = $localeCatalog->getStr($this->title);
             $this->description = $localeCatalog->getStr($this->description);

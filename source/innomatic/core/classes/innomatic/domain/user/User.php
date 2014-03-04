@@ -44,7 +44,7 @@ class User
         }
         $this->domainDA = $domain->getDataAccess();
 
-        if (strlen($this->userid)) {
+        if ($this->userid != 0) {
             // @todo to be cached in a more elegant way eg. registry
             if (isset($GLOBALS['gEnv']['runtime']['innomatic']['users']['username_check'][(int)$this->userid])) {
                 $this->username = $GLOBALS['gEnv']['runtime']['innomatic']['users']['username_check'][(int)$this->userid];

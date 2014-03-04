@@ -110,6 +110,7 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 
     protected function closeConnection()
     {
+        return true;
         return $this->dbhandler->close();
     }
 
