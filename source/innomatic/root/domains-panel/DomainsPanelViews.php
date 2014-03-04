@@ -222,25 +222,11 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
             while (!$query->eof) {
                 $data = $query->getFields();
-                if (
-                    $data['domainactive'] == \Innomatic\Core\InnomaticContainer::instance(
-                        '\Innomatic\Core\InnomaticContainer'
-                    )->getDataAccess()->fmttrue
-                )
-                $wuiDomainsTable->addChild(
-                    new WuiImage(
-                        'status'.$row, array('imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['greenball'])),
-                    $row, 0
-                );
-                else
-                $wuiDomainsTable->addChild(
-                    new WuiImage(
-                        'status'.$row,
-                        array(
-                            'imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['redball'])
-                        ),
-                    $row, 0
-                );
+                if ( $data['domainactive'] == \Innomatic\Core\InnomaticContainer::instance( '\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmttrue) {
+                    $wuiDomainsTable->addChild( new WuiImage( 'status'.$row, array('imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['greenball'])), $row, 0, 'center');
+                } else {
+                    $wuiDomainsTable->addChild( new WuiImage( 'status'.$row, array( 'imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['redball'])), $row, 0, 'center');
+                }
 
                 $wuiDomainsTable->addChild(
                     new WuiLabel(
