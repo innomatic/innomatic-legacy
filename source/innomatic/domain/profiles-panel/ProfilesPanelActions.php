@@ -187,10 +187,13 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     public function executeSetmotd($eventData)
     {
         if (
-        User::isAdminUser(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName(),
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
-        )
+            User::isAdminUser(
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName(),
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
+            ) or 
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
+            ->getCurrentUser()
+            ->hasPermission('edit_motd')
         ) {    
             $domain = new \Innomatic\Domain\Domain(
                 \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
