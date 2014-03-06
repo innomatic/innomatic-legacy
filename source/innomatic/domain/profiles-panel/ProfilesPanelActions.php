@@ -102,10 +102,22 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
         $userData['lname'] = $eventData['lname'];
         $userData['email'] = $eventData['email'];
         $userData['otherdata'] = $eventData['other'];
-    
+
         if (!empty($eventData['oldpassword']) and !empty($eventData['passworda']) and !empty($eventData['passwordb'])) {
-            if ($eventData['passworda'] == $eventData['passwordb']) {
-                $userData['password'] = $eventData['passworda'];
+            if (
+                ($eventData['uid'] != \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId())
+                and
+            (User::isAdminUser(
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName(),
+                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
+            ) or \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
+                ->getCurrentUser()
+                ->hasPermission('edit_password_all'))
+            ) {
+
+                if ($eventData['passworda'] == $eventData['passwordb']) {
+                    $userData['password'] = $eventData['passworda'];
+                }
             }
         }
     
@@ -124,6 +136,19 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     
     public function executeChpasswd($eventData)
     {
+        if (
+            ($eventData['uid'] != \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId())
+            and
+        !(User::isAdminUser(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName(),
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
+        ) or \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
+            ->getCurrentUser()
+            ->hasPermission('edit_password_all'))
+        ) {
+            return;
+        }
+
         $tempUser = new User(
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
             $eventData['uid']

@@ -188,12 +188,10 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $wuiToolBarFrame->addChild($wuiRolesToolBar);
         $wuiToolBarFrame->addChild($wuiProfilesToolBar);
         
-        if (
-        User::isAdminUser(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName(),
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
-        )
-        ) {
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
+            ->getCurrentUser()
+            ->hasPermission('edit_motd'))
+        {
             $motdTb = new WuiToolBar('motdtb');
             $motdAction = new WuiEventsCall();
             $motdAction->addEvent(New WuiEvent('view', 'motd', ''));
@@ -907,12 +905,10 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                     $row, 3
                 );
     
-                if (
-                !User::isAdminUser(
-                    $userData['username'],
-                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
-                )
-                ) {
+                if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
+                    ->getCurrentUser()
+                    ->hasPermission('edit_password_all'))
+                {
                     $wuiUserToolbar[$row] = new WuiHorizgroup('usertoolbar'.$row);
     
                     $chPasswdAction[$row] = new WuiEventsCall();
@@ -1490,11 +1486,12 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         public function viewMotd($eventData)
         {
             if (
-            User::isAdminUser(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName(),
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
-            )
-            ) {
+                !\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
+                    ->getCurrentUser()
+                    ->hasPermission('edit_motd'))
+            {
+                return $this->viewDefault();
+            }
             
             $domain = new \Innomatic\Domain\Domain(
                 \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
@@ -1577,7 +1574,6 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             $this->wuiMainframe->addChild(new WuiXml('page', array('definition' => $xmlDef)));
     
             $this->wuiTitlebar->mTitle.= ' - '.$this->localeCatalog->getStr('motd.title');
-        }
     }
     
     public function viewHelp($eventData)
