@@ -19,8 +19,8 @@ namespace Innomatic\Application;
  */
 class ApplicationDependencies
 {
-    /*! @public rootDA DataAccess class - Innomatic database handler. */
-    public $rootDA;
+    /*! @public mrRootDb DataAccess class - Innomatic database handler. */
+    public $mrRootDb;
     const VERSIONCOMPARE_LESS = -1;
     const VERSIONCOMPARE_EQUAL = 0;
     const VERSIONCOMPARE_MORE = 1;
@@ -28,9 +28,12 @@ class ApplicationDependencies
     const TYPE_DEPENDENCY = 1; // Dependency
     const TYPE_SUGGESTION = 2; // Suggestion
 
-    public function __construct()
+    /*!
+     @param rrootDb DataAccess class - Innomatic database handler.
+     */
+    public function __construct(\Innomatic\Dataaccess\DataAccess $rrootDb)
     {
-        $this->rootDA = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
+        $this->mrRootDb = $rrootDb;
     }
 
     public function explodeSingleDependency($appId)
@@ -79,9 +82,9 @@ class ApplicationDependencies
     public function addDependenciesArray($appid, $modsarray, $deptype)
     {
         if (!empty($appid) and !empty($modsarray) and !empty($deptype)) {
-            $modquery = $this->rootDA->execute(
+            $modquery = $this->mrRootDb->execute(
                 'SELECT id FROM applications WHERE appid='
-                . $this->rootDA->formatText($appid)
+                . $this->mrRootDb->formatText($appid)
             );
             if ($modquery->getNumberRows() != 0) {
                 $appdata = $modquery->getFields();
@@ -96,7 +99,7 @@ class ApplicationDependencies
             }
         } else {
             if (empty($appid)) {
-                
+
                 $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.appdeps.adddepsarray',
@@ -125,13 +128,13 @@ class ApplicationDependencies
             $explodedApplicationString = $this->explodeSingleDependency($appId);
             $appID = $explodedApplicationString['appid'];
             $appVersion = $explodedApplicationString['appversion'];
-            return $this->rootDA->execute(
-                'INSERT INTO applications_dependencies VALUES ('.$this->rootDA->formatText($modSerial).','
-                .$this->rootDA->formatText($appID).','.$this->rootDA->formatText($depType).','
-                .$this->rootDA->formatText($appVersion).')'
+            return $this->mrRootDb->execute(
+                'INSERT INTO applications_dependencies VALUES ('.$this->mrRootDb->formatText($modSerial).','
+                .$this->mrRootDb->formatText($appID).','.$this->mrRootDb->formatText($depType).','
+                .$this->mrRootDb->formatText($appVersion).')'
             );
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.adddep',
@@ -157,13 +160,13 @@ class ApplicationDependencies
     public function removeDependency($modserial, $appid, $deptype)
     {
         if (!empty($modserial) and !empty($appid) and !empty($deptype)) {
-            return $this->rootDA->execute(
-                'DELETE FROM applications_dependencies WHERE appid='.$this->rootDA->formatText($modserial)
-                .' AND moddep='.$this->rootDA->formatText($appid)
-                .' AND deptype='.$this->rootDA->formatText($deptype)
+            return $this->mrRootDb->execute(
+                'DELETE FROM applications_dependencies WHERE appid='.$this->mrRootDb->formatText($modserial)
+                .' AND moddep='.$this->mrRootDb->formatText($appid)
+                .' AND deptype='.$this->mrRootDb->formatText($deptype)
             );
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.remdep',
@@ -182,11 +185,11 @@ class ApplicationDependencies
     public function removeAllDependencies($modserial)
     {
         if (!empty($modserial)) {
-            return $this->rootDA->execute(
-                'DELETE FROM applications_dependencies WHERE appid='.$this->rootDA->formatText($modserial)
+            return $this->mrRootDb->execute(
+                'DELETE FROM applications_dependencies WHERE appid='.$this->mrRootDb->formatText($modserial)
             );
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic.applications.appdeps.remalldep', 'Empty application serial', \Innomatic\Logging\Logger::ERROR);
             return false;
@@ -204,16 +207,16 @@ class ApplicationDependencies
             $explodedApplicationString = $this->explodeSingleDependency($appId);
             $appID = $explodedApplicationString['appid'];
             $appVersion = $explodedApplicationString['appversion'];
-            $applicationCheck = $this->rootDA->execute(
+            $applicationCheck = $this->mrRootDb->execute(
                 'SELECT id,appversion,onlyextension FROM applications WHERE appid='
-                .$this->rootDA->formatText($appID)
+                .$this->mrRootDb->formatText($appID)
             );
 
             if ($appID == 'php') {
                 $applicationCheck->resultrows = 1;
                 $applicationCheck->currfields['id'] = '0';
                 $applicationCheck->currfields['appversion'] = PHP_VERSION;
-                $applicationCheck->currfields['onlyextension'] = $this->rootDA->fmtfalse;
+                $applicationCheck->currfields['onlyextension'] = $this->mrRootDb->fmtfalse;
             } elseif (
                 strpos($appID, '.extension')
             ) {
@@ -222,7 +225,7 @@ class ApplicationDependencies
                     $applicationCheck->resultrows = 1;
                     $applicationCheck->currfields['id'] = '0';
                     $applicationCheck->currfields['appversion'] = PHP_VERSION;
-                    $applicationCheck->currfields['onlyextension'] = $this->rootDA->fmtfalse;
+                    $applicationCheck->currfields['onlyextension'] = $this->mrRootDb->fmtfalse;
                 }
             }
 
@@ -237,7 +240,7 @@ class ApplicationDependencies
                 }
             }
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic.applications.appdeps.isinstalled', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
         }
@@ -258,8 +261,8 @@ class ApplicationDependencies
             if ($mquery != false) {
                 $mdata = $mquery->getFields();
 
-                $mdquery = $this->rootDA->execute(
-                    'SELECT * FROM applications_dependencies WHERE appid='.$this->rootDA->formatText($mdata['id'])
+                $mdquery = $this->mrRootDb->execute(
+                    'SELECT * FROM applications_dependencies WHERE appid='.$this->mrRootDb->formatText($mdata['id'])
                 );
                 $nummd = $mdquery->getNumberRows();
 
@@ -279,7 +282,7 @@ class ApplicationDependencies
                     $result = $depmods;
                 }
             } else {
-                
+
                 $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.appdeps.dependson',
@@ -288,7 +291,7 @@ class ApplicationDependencies
                 );
             }
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic.applications.appdeps.dependson', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
         }
@@ -364,7 +367,7 @@ class ApplicationDependencies
                 }
             }
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkapplicationdeps',
@@ -390,9 +393,9 @@ class ApplicationDependencies
         if (!empty($appid)) {
             $modquery = $this->IsInstalled($appid);
             if ($modquery != false) {
-                $dquery = $this->rootDA->execute(
-                    'SELECT * FROM applications_dependencies WHERE moddep='.$this->rootDA->formatText($appid)
-                    .' AND deptype='.$this->rootDA->formatText($deptype)
+                $dquery = $this->mrRootDb->execute(
+                    'SELECT * FROM applications_dependencies WHERE moddep='.$this->mrRootDb->formatText($appid)
+                    .' AND deptype='.$this->mrRootDb->formatText($deptype)
                 );
 
                 if ($dquery->getNumberRows() == 0) {
@@ -404,9 +407,9 @@ class ApplicationDependencies
                     $d = 0;
 
                     while (!$dquery->eof) {
-                        $modquery = $this->rootDA->execute(
+                        $modquery = $this->mrRootDb->execute(
                             'SELECT appid FROM applications WHERE id='
-                            .$this->rootDA->formatText($dquery->getFields('appid'))
+                            .$this->mrRootDb->formatText($dquery->getFields('appid'))
                         );
                         $pendingdeps[$d ++] = $modquery->getFields('appid');
                         $dquery->moveNext();
@@ -415,7 +418,7 @@ class ApplicationDependencies
                 }
             }
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdependingapplications',
@@ -441,7 +444,22 @@ class ApplicationDependencies
     {
         $result = false;
 
-        if (!empty($appid) and !empty($domainid)) {
+        if (empty($appid) or empty($domainid)) {
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent(
+                'innomatic.applications.appdeps.isenabled',
+                'Empty application id ('.$appid.') or domain id ('.$domainid.')',
+                \Innomatic\Logging\Logger::ERROR
+            );
+            return false;
+        }
+
+            // Check if the given dependency is a PHP extension
+            if (strpos($appid, '.extension')) {
+                $appid = substr($appid, 0, strpos($appid, '.extension'));
+                return extension_loaded($appid);
+            }
+
             // Looks if the given application has been installed
             //
             $modquery = $this->IsInstalled($appid);
@@ -451,53 +469,41 @@ class ApplicationDependencies
                 // If the application is a global extension, we can be sure
                 // it is automatically enabled for all domains
                 //
-                if (strcmp($appdata['onlyextension'], $this->rootDA->fmttrue) == 0) {
-                    $result = $considerExtensions;
+                if (strcmp($appdata['onlyextension'], $this->mrRootDb->fmttrue) == 0) {
+                   return $considerExtensions;
                 } else {
                     // Checks if the given domain id exists
                     //
-                    $stquery = $this->rootDA->execute(
-                        'SELECT id FROM domains WHERE domainid='.$this->rootDA->formatText($domainid)
+                    $stquery = $this->mrRootDb->execute(
+                        'SELECT id FROM domains WHERE domainid='.$this->mrRootDb->formatText($domainid)
                     );
 
-                    if ($stquery->getNumberRows() != 0) {
-                        // Checks if the application has been enabled
-                        //
-                        $amquery = $this->rootDA->execute(
-                            'SELECT applicationid FROM applications_enabled WHERE applicationid='
-                            .$this->rootDA->formatText($appdata['id'])
-                            .' AND domainid='.$this->rootDA->formatText($stquery->getFields('id'))
-                        );
+                if ($stquery->getNumberRows() != 0) {
+                    // Checks if the application has been enabled
+                    //
+                    $amquery = $this->mrRootDb->execute(
+                        'SELECT applicationid FROM applications_enabled WHERE applicationid='
+                        .$this->mrRootDb->formatText($appdata['id'])
+                        .' AND domainid='.$this->mrRootDb->formatText($stquery->getFields('id'))
+                    );
 
-                        if ($amquery->getNumberRows() != 0)
-                            $result = true;
-                    }
+                    return $amquery->getNumberRows() != 0;
                 }
             }
-        } else {
-            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
-            $log->logEvent(
-                'innomatic.applications.appdeps.isenabled',
-                'Empty application id ('.$appid.') or domain id ('.$domainid.')',
-                \Innomatic\Logging\Logger::ERROR
-            );
         }
         return $result;
     }
 
     public function isOptionEnabled($applicationId, $option, $domainId)
     {
-        $subCheck = $this->rootDA->execute(
+        $subCheck = $this->mrRootDb->execute(
             'SELECT optionname FROM applications_options_disabled,applications WHERE applications.appid='
-            .$this->rootDA->formatText($applicationId)
+            .$this->mrRootDb->formatText($applicationId)
             .' AND applications.id=applications_options_disabled.applicationid AND domainid='
-            .$domainId.' AND optionname='.$this->rootDA->formatText($option)
+            .$domainId.' AND optionname='.$this->mrRootDb->formatText($option)
         );
-        
-        if ($subCheck->getNumberRows()) {
+        if ($subCheck->getNumberRows())
             return false;
-        }
-        
         return true;
     }
 
@@ -516,9 +522,8 @@ class ApplicationDependencies
         if (!empty($appid) and !empty($domainid) and !empty($deptype)) {
             $appdeps = $this->DependsOn($appid);
 
-            if ($appdeps == false) {
+            if ($appdeps == false)
                 $result = false;
-            }
 
             if ($result != false) {
                 $inst = true;
@@ -536,13 +541,13 @@ class ApplicationDependencies
 
                 // All applications are installed
                 //
-                if ($inst != false) {
+                if ($inst != false)
                     $result = false;
-                } else {
+                else
                     $result = $unmetdeps;
-                }
             }
         } else {
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdomainapplicationdeps',
@@ -561,16 +566,16 @@ class ApplicationDependencies
      */
     public function checkDomainDependingApplications($appid, $domainid, $considerExtensions = true)
     {
-        // :KLUDGE: evil 20020507: strange appid type
+            // :KLUDGE: evil 20020507: strange appid type
         // It should be an int, but it's used as string
         $result = true;
 
         if (!empty($appid)) {
             $modquery = $this->IsEnabled($appid, $domainid);
             if ($modquery != false) {
-                $dquery = $this->rootDA->execute(
-                    'SELECT * FROM applications_dependencies WHERE moddep='.$this->rootDA->formatText($appid)
-                    .' AND deptype='.$this->rootDA->formatText(ApplicationDependencies::TYPE_DEPENDENCY)
+                $dquery = $this->mrRootDb->execute(
+                    'SELECT * FROM applications_dependencies WHERE moddep='.$this->mrRootDb->formatText($appid)
+                    .' AND deptype='.$this->mrRootDb->formatText(ApplicationDependencies::TYPE_DEPENDENCY)
                 );
 
                 if ($dquery->getNumberRows() == 0) {
@@ -582,9 +587,9 @@ class ApplicationDependencies
                     $d = 0;
 
                     while (!$dquery->eof) {
-                        $modquery = $this->rootDA->execute(
+                        $modquery = $this->mrRootDb->execute(
                             'SELECT appid FROM applications WHERE id='
-                            .$this->rootDA->formatText($dquery->getFields('appid'))
+                            .$this->mrRootDb->formatText($dquery->getFields('appid'))
                         );
                         $appdata = $modquery->getFields();
 
@@ -603,6 +608,7 @@ class ApplicationDependencies
             } else
                 $result = false;
         } else {
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdomaindependingapplications',
@@ -624,7 +630,7 @@ class ApplicationDependencies
 
         if (!empty($modserial)) {
             $endomains = array();
-            $query = $this->rootDA->execute(
+            $query = $this->mrRootDb->execute(
                 'SELECT domains.domainid FROM domains,applications_enabled '
                 .'WHERE applications_enabled.domainid=domains.id AND applications_enabled.applicationid='.$modserial
             );
@@ -637,7 +643,7 @@ class ApplicationDependencies
                 $result = $endomains;
             }
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkenableddomains',

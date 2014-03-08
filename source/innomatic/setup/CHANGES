@@ -44,6 +44,8 @@ FIXES:
   (Alex Pagnoni)
 - Fixed empty username in SecurityManager logAccess() when an user logs out.
   (Alex Pagnoni)
+- Fixed wrong dependency error in domains for applications with PHP extensions
+  in dependencies list. (Alex Pagnoni)
 
 DEPRECATED:
 - \Innomatic\Domain\User\Permissions class is deprecated in favor of new
