@@ -33,6 +33,8 @@ CHANGES:
 - Upgraded domain profiles panel to new style panel. (Alex Pagnoni)
 - Removed root dataaccess parameter to ApplicationStructureDefinition,
   ApplicationSettings and ApplicationDependencies classes. (Alex Pagnoni)
+- Improved class loader compatibility layer handling of classes with the same
+  name in different namespaces. (Alex Pagnoni)
 
 FIXES:
 - Fixed locale country fract digits. (Alex Pagnoni)
