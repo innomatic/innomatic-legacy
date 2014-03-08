@@ -31,9 +31,9 @@ class ApplicationDependencies
     /*!
      @param rrootDb DataAccess class - Innomatic database handler.
      */
-    public function __construct(\Innomatic\Dataaccess\DataAccess $rrootDb)
+    public function __construct()
     {
-        $this->mrRootDb = $rrootDb;
+        $this->mrRootDb = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
     }
 
     public function explodeSingleDependency($appId)

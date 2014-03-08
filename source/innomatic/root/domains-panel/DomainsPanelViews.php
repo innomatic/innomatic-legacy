@@ -1937,9 +1937,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
                         $wuiEnGroup[$row] = new WuiVertgroup('enable');
                         $wuiDomainApplicationsToolbar[$row] = new WuiHorizgroup('domainapplicationstoolbar'.$row);
-                        $appDep = new \Innomatic\Application\ApplicationDependencies(\Innomatic\Core\InnomaticContainer::instance(
-                            '\Innomatic\Core\InnomaticContainer'
-                        )->getDataAccess());
+                        $appDep = new \Innomatic\Application\ApplicationDependencies();
 
                         if ($actQuery->getNumberRows()) {
                             // Application is enabled
