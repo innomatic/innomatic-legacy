@@ -16,9 +16,9 @@ namespace Innomatic\Webapp;
 
 class WebAppProcessor
 {
-    private $webapp;
-    private $request;
-    private $response;
+    protected $webapp;
+    protected $request;
+    protected $response;
 
     public function __construct()
     {
