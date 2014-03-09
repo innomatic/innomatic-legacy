@@ -248,7 +248,9 @@ class RootContainer extends \Innomatic\Util\Singleton
 		if (!isset($fqcns['\\'.$fqcn]) && isset($reg[strtolower($className)])) {
 			$fileName = $reg[strtolower($className)]['path'];
 		} else {
-			$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+			$fileName .= $className . '.php';
+            // Temporary compatibility setting
+			//$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 		}
 		return $fileName;
 	}
