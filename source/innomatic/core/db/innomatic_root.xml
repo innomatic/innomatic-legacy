@@ -484,7 +484,7 @@
 		<key field="id" type="unique" />
 	</table>
 
-	<sequence name="applications_components_types_id_seq" start="44" />
+	<sequence name="applications_components_types_id_seq" start="46" />
 
 	<insert table="applications_components_types">
 		<data field="id" value="1" />
@@ -797,7 +797,7 @@
 		<data field="domain" value="t" />
 		<data field="file" value="DashboardwidgetComponent.php" />
 	</insert>
-	
+
     <insert table="applications_components_types">
         <data field="id" value="40" />
         <data field="typename" value="traybaritem" />
@@ -805,7 +805,7 @@
         <data field="domain" value="t" />
         <data field="file" value="TraybaritemComponent.php" />
     </insert>
-    
+
     <insert table="applications_components_types">
         <data field="id" value="41" />
         <data field="typename" value="permission" />
@@ -813,7 +813,7 @@
         <data field="domain" value="t" />
         <data field="file" value="PermissionComponent.php" />
     </insert>
-    
+
     <insert table="applications_components_types">
         <data field="id" value="42" />
         <data field="typename" value="role" />
@@ -829,7 +829,23 @@
         <data field="domain" value="f" />
         <data field="file" value="UnittestComponent.php" />
     </insert>
-    
+
+    <insert table="applications_components_types">
+        <data field="id" value="44" />
+        <data field="typename" value="webappclass" />
+        <data field="priority" value="100" />
+        <data field="domain" value="t" />
+        <data field="file" value="WebappclassComponent.php" />
+    </insert>
+
+    <insert table="applications_components_types">
+        <data field="id" value="45" />
+        <data field="typename" value="webappconfiguration" />
+        <data field="priority" value="10" />
+        <data field="domain" value="t" />
+        <data field="file" value="WebappconfigurationComponent.php" />
+    </insert>
+
 	<table name="maintenance_tasks">
 		<field name="name" type="text" length="50" notnull="1" />
 		<field name="file" type="text" length="50" notnull="1" />
@@ -878,7 +894,7 @@
     </table>
 
     <sequence name="pending_actions_id_seq" />
-    
+
 	<table name="root_panels_groups">
 		<field name="id" type="integer" notnull="1" />
 		<field name="name" type="text" length="50" />
@@ -919,7 +935,7 @@
         <field name="keyname" type="text" notnull="1" />
         <field name="val" type="text" />
     </table>
-    
+
 	<table name="applications_enabled">
 		<field name="applicationid" type="integer" notnull="1" />
 		<field name="domainid" type="integer" notnull="1" />
