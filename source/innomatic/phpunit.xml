@@ -19,7 +19,9 @@
 
     <testsuites>
         <testsuite>
+            <directory>./core/classes/*/tests/</directory>
             <directory>./core/classes/*/*/tests/</directory>
+            <directory>./core/classes/*/*/*/tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

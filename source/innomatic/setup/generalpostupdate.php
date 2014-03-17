@@ -12,6 +12,9 @@
  * @link       http://www.innomatic.org
  */
 
+// Copy the phpunit distribution file
+@copy($tmpdir.'/phpunit.xml', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'phpunit.xml');
+
 // Updates the front receiver file.
 @copy(
     $tmpdir.'/../index.php',
