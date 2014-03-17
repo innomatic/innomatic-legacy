@@ -44,7 +44,7 @@ class RootContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHome()
     {
-        $this->assertEquals(realpath(dirname(__FILE__) . '/../../../') . '/source/', $this->RootContainer->getHome());
+        $this->assertEquals(realpath(dirname(__FILE__) . '/../../../../../../').'/', $this->RootContainer->getHome());
     }
 
     /**

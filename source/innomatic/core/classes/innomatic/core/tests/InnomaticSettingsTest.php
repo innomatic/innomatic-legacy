@@ -2,8 +2,6 @@
 
 namespace Innomatic\Core\Tests;
 
-use \Innomatic\Core;
-
 /**
  * InnomaticSettings test case.
  */
@@ -19,7 +17,7 @@ class InnomaticSettingsTest extends \PHPUnit_Framework_TestCase
     protected function setUp ()
     {
         parent::setUp();
-        $this->InnomaticSettings = new InnomaticSettings(dirname(__FILE__).'/innomatic.ini');
+        $this->InnomaticSettings = new \Innomatic\Core\InnomaticSettings(\Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().'/innomatic/core/conf/tests/innomatic.ini');
     }
     /**
      * Cleans up the environment after running a test.
@@ -53,18 +51,11 @@ class InnomaticSettingsTest extends \PHPUnit_Framework_TestCase
     }
     /**
      * Tests InnomaticSettings->__construct() exception throwing
+     * @expectedException Exception
      */
     public function testConstructorException ()
     {
-        try {
-            $innomaticSettings = new InnomaticSettings(
-                dirname(__FILE__).'/innomatic_wrong.ini'
-            );
-        } catch (Exception $expected) {
-            return;
-        }
-        
-        $this->fail('An expected Exception has not been raised.');
+        $innomaticSettings = new \Innomatic\Core\InnomaticSettings(dirname(__FILE__).'/innomatic_wrong.ini');
     }
     /**
      * Tests InnomaticSettings->setVolatileKey()
