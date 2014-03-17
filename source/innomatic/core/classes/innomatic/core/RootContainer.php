@@ -64,7 +64,7 @@ class RootContainer extends \Innomatic\Util\Singleton
             . 'innomatic/core/classes/'
         );
 
-        spl_autoload_register('\Innomatic\Core\RootContainer::autoload', true, true);
+        spl_autoload_register('\Innomatic\Core\RootContainer::autoload', false, false);
     }
 
     /**
@@ -121,7 +121,9 @@ class RootContainer extends \Innomatic\Util\Singleton
 
 	    // remember the defined classes, include the $file and detect newly declared classes
 	    $pre = array_merge(get_declared_classes(), get_declared_interfaces());
-	    require_once($file);
+        if (!@include_once($file)) {
+            return false;
+        }
 	    $post = array_unique(array_diff(array_merge(get_declared_classes(), get_declared_interfaces()), $pre));
 
 	    // loop through the new class definitions and create weak aliases if they are given with qualified names
@@ -248,9 +250,7 @@ class RootContainer extends \Innomatic\Util\Singleton
 		if (!isset($fqcns['\\'.$fqcn]) && isset($reg[strtolower($className)])) {
 			$fileName = $reg[strtolower($className)]['path'];
 		} else {
-			$fileName .= $className . '.php';
-            // Temporary compatibility setting
-			//$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+			$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 		}
 		return $fileName;
 	}
