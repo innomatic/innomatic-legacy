@@ -26,6 +26,7 @@ NEW FEATURES:
   Pagnoni)
 - Added unittest component type for PHPUnit tests. (Alex Pagnoni)
 - Added new webapp class and configuration components. (Alex Pagnoni)
+- Added PHPUnit phpunit.xml configuration file. (Alex Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
@@ -36,6 +37,8 @@ CHANGES:
   ApplicationSettings and ApplicationDependencies classes. (Alex Pagnoni)
 - Improved class loader compatibility layer handling of classes with the same
   name in different namespaces. (Alex Pagnoni)
+- The Innomatic autoloader is no more loaded in prepend mode, nor it throws
+  exceptions any more with not found classes. (Alex Pagnoni)
 
 FIXES:
 - Fixed locale country fract digits. (Alex Pagnoni)
