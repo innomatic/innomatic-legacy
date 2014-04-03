@@ -39,6 +39,8 @@ CHANGES:
   name in different namespaces. (Alex Pagnoni)
 - The Innomatic autoloader is no more loaded in prepend mode, nor it throws
   exceptions any more with not found classes. (Alex Pagnoni)
+- Domain database name is now prefixed with Innomatic platform name if set.
+  (Alex Pagnoni)
 
 FIXES:
 - Fixed locale country fract digits. (Alex Pagnoni)

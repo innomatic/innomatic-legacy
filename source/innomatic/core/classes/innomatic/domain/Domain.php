@@ -133,11 +133,24 @@ class Domain
                 //
                 $nextseq = $this->rootda->getNextSequenceValue('domains_id_seq');
 
+                // Set database name prefix
+                $platformName = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+                if (!strlen($platformName)) {
+                    // Default prefix
+                    $platformName = 'innomatic';
+                } else {
+                    $platformName = strtolower($platformName);
+                    // Remove empty spaces
+                    $platformName = str_replace(' ', '', $platformName);
+                    // Remove accented characters
+                    $platformName = iconv("utf-8", "ascii//TRANSLIT", $platformName);
+                }
+
                 // TODO check that the domainid doesn't contain unsupported characters.
                 $domaindata['domainid']           = $this->defopt($domaindata['domainid'], $nextseq);
                 $domaindata['domainname']         = $this->defopt(trim($domaindata['domainname']), $domaindata['domainid'].' domain');
                 $domaindata['domainpassword']     = $this->defopt(trim($domaindata['domainpassword']), $domaindata['domainid']);
-                $domaindata['domaindaname']       = $this->defopt(strtolower(str_replace(' ', '', trim($domaindata['domaindaname']))), 'innomatic_'.$domaindata['domainid'].'_domain');
+                $domaindata['domaindaname']       = $this->defopt(strtolower(str_replace(' ', '', trim($domaindata['domaindaname']))), $platformName.'_'.$domaindata['domainid'].'_domain');
                 $domaindata['dataaccesshost']     = $this->defopt(trim($domaindata['dataaccesshost']), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseHost'));
                 $domaindata['dataaccessport']     = $this->defopt(trim($domaindata['dataaccessport']), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabasePort'));
                 $domaindata['dataaccessuser']     = $this->defopt(str_replace(' ', '', trim($domaindata['dataaccessuser'])), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseUser'));
