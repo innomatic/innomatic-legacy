@@ -226,9 +226,9 @@ class Domain
                         $tmpdb = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(new \Innomatic\Dataaccess\DataAccessSourceName($dasn_string));
 
                         if ($createDb) {
-                            if ($tmpdb->Connect()) {
-                                $tmpdb->DropDB($args);
-                                $tmpdb->Close();
+                            if ($tmpdb->connect()) {
+                                $tmpdb->dropDB($args);
+                                $tmpdb->close();
                             }
                         }
                     } else {
