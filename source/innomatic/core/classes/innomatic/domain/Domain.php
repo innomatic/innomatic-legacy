@@ -134,7 +134,7 @@ class Domain
                 $nextseq = $this->rootda->getNextSequenceValue('domains_id_seq');
 
                 // Set database name prefix
-                $platformName = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+                $platformName = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getPlatformName();
                 if (!strlen($platformName)) {
                     // Default prefix
                     $platformName = 'innomatic';
