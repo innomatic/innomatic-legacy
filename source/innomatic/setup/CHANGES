@@ -41,6 +41,8 @@ CHANGES:
   exceptions any more with not found classes. (Alex Pagnoni)
 - Domain database name is now prefixed with Innomatic platform name if set.
   (Alex Pagnoni)
+- Javascript code included in <script> tags in Xajax response is now
+  executed at client side after loading the ajax response. (Alex Pagnoni)
 
 FIXES:
 - Fixed locale country fract digits. (Alex Pagnoni)
