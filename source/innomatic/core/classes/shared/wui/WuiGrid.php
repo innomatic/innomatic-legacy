@@ -48,19 +48,26 @@ class WuiGrid extends \Innomatic\Wui\Widgets\WuiContainerWidget
         // Rowspan and colspan
         $this->mArgs['cells'][$row][$col]['colspan'] = (int)$colspan;
         $this->mArgs['cells'][$row][$col]['rowspan'] = (int)$rowspan;
-        
+
         return true;
     }
     public function build(\Innomatic\Wui\Dispatch\WuiDispatcher $rwuiDisp)
     {
         $result = false;
+        $spannedCells = array();
+
         $this->mrWuiDisp = $rwuiDisp;
         if (isset($this->mArgs['rows']) and $this->mArgs['rows'] and isset($this->mArgs['cols']) and $this->mArgs['cols']) {
             $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . " grid -->\n" : '') . '<table'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').' border="0"' . ($this->mArgs['compact'] == 'true' ? ' cellpadding="0" cellspacing="0"' : '') . '>';
             for ($row = 0; $row < $this->mArgs['rows']; $row ++) {
                 $this->mLayout .= "<tr>\n";
                 for ($col = 0; $col < $this->mArgs['cols']; $col ++) {
-                    $this->mLayout .= '<td' . 
+                    // It this cell is inside a previous cell rowspan, skip it
+                    if (isset($spannedCells[$row][$col]) and $spannedCells[$row][$col] === true) {
+                        continue;
+                    }
+
+                    $this->mLayout .= '<td' .
                         (isset($this->mArgs['cells'][$row][$col]['halign']) ? ' align="' . $this->mArgs['cells'][$row][$col]['halign'] . '"' : '') .
                         (isset($this->mArgs['cells'][$row][$col]['valign']) ? ' valign="' . $this->mArgs['cells'][$row][$col]['valign'] . '"' : '') .
                         ($this->mArgs['cells'][$row][$col]['colspan'] > 0 ? ' colspan="' . $this->mArgs['cells'][$row][$col]['colspan'] . '"' : '') .
@@ -75,7 +82,13 @@ class WuiGrid extends \Innomatic\Wui\Widgets\WuiContainerWidget
                     }
                     $this->mLayout .= $elem;
                     $this->mLayout .= "</td>\n";
-                    
+
+                    // Keep track of rowspanned cells
+                    if ($this->mArgs['cells'][$row][$col]['rowspan'] > 1) {
+                        for ($i = 0; $i < $this->mArgs['cells'][$row][$col]['rowspan']; $i++) {
+                            $spannedCells[$row+$i][$col] = true;
+                        }
+                    }
                     if ($this->mArgs['cells'][$row][$col]['colspan'] > 0) {
                         $col += $this->mArgs['cells'][$row][$col]['colspan'] - 1;
                     }
