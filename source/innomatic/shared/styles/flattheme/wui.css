@@ -48,6 +48,41 @@ select {
   padding: 3px;
 }
 
+/* Tooltip styles */
+
+a.tooltip {
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+
+a.tooltip:hover span {
+    opacity: 1;
+    visibility: visible;
+}
+
+a.tooltip span {
+    font-size: 12px;
+    padding: 10px;
+    top: -12px;
+    left: 25px;
+    min-width: 100px;
+    max-width: 300px;
+    background-color: #dadada;
+    color: #000000;
+    height: auto;
+    border-radius: 5px;
+    opacity: 0;
+    position:absolute;
+    visibility: hidden;
+    word-wrap: break-word;
+    -webkit-transition: all 0.5s;
+       -moz-transition: all 0.5s;
+        -ms-transition: all 0.5s;
+         -o-transition: all 0.5s;
+            transition: all 0.5s;
+}
+
 a { color: #007aff; font-style: normal; text-decoration: none }  /* for unvisited links */
 a:link { color: #2b6991; font-style: normal; text-decoration: none }  /* for unvisited links */
 a:visited { color: #2b6991; font-style: normal; text-decoration: none } /* for visited links */

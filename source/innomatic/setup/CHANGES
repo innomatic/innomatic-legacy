@@ -28,6 +28,7 @@ NEW FEATURES:
 - Added new webapp class and configuration components. (Alex Pagnoni)
 - Added PHPUnit phpunit.xml configuration file. (Alex Pagnoni)
 - Added support for rowspan in WUI Grid widget. (Alex Pagnoni)
+- Added tooltip WUI widget. (Alex Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)

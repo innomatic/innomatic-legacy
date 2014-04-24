@@ -70,7 +70,7 @@
 		<key field="name" type="index" />
 	</table>
 
-	<sequence name="wui_widgets_id_seq" start="44" />
+	<sequence name="wui_widgets_id_seq" start="45" />
 
 	<insert table="wui_widgets">
 		<data field="id" value="1" />
@@ -328,6 +328,12 @@
 		<data field="id" value="43" />
 		<data field="name" value="divframe" />
 		<data field="file" value="WuiDivframe.php" />
+	</insert>
+
+	<insert table="wui_widgets">
+		<data field="id" value="44" />
+		<data field="name" value="tooltip" />
+		<data field="file" value="WuiTooltip.php" />
 	</insert>
 
 	<table name="wui_validators">

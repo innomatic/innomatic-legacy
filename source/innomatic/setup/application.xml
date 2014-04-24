@@ -749,6 +749,7 @@
 		<wuiwidget name="text" file="WuiText.php" />
 		<wuiwidget name="titlebar" file="WuiTitlebar.php" />
 		<wuiwidget name="toolbar" file="WuiToolbar.php" />
+        <wuiwidget name="tooltip" file="WuiTooltip.php" />
 		<wuiwidget name="treemenu" file="WuiTreemenu.php" />
 		<wuiwidget name="treevmenu" file="WuiTreevmenu.php" />
 		<wuiwidget name="vertbar" file="WuiVertbar.php" />
