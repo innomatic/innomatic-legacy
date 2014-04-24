@@ -121,7 +121,7 @@ abstract class DataAccess
             }
         } else {
             $this->lastError = 'Unable to connect to database '.$this->dbname;
-            
+
             $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
             $this->log->logEvent('innomatic.dataaccess.connect', $this->lastError, \Innomatic\Logging\Logger::ERROR);
             throw new DataAccessException(DataAccessException::ERROR_CONNECT_FAILED);
@@ -157,13 +157,13 @@ abstract class DataAccess
                 $this->lastError = '';
             } else {
                 $this->lastError = 'Unable to close database';
-                
+
                 $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
                 $this->log->logEvent('innomatic.dataaccess.close', $this->lastError, \Innomatic\Logging\Logger::ERROR);
             }
         } else {
             $this->lastError = 'Tried to close an already closed database';
-            
+
             $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
             $this->log->logEvent('innomatic.dataaccess.close', $this->lastError, \Innomatic\Logging\Logger::ERROR);
             $result = true;
@@ -364,7 +364,7 @@ abstract class DataAccess
                     $this->innomatic->getDbLoadTimer()->Stop($debugCounter.': '.$pieces[$i]);
 
                     if ($this->debug == true) {
-                        
+
                         $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
                         $this->log->logEvent('innomatic.dataaccess.execute', 'Executed query '.$pieces[$i], \Innomatic\Logging\Logger::DEBUG);
                     }
@@ -374,7 +374,7 @@ abstract class DataAccess
 
                 if ($resid === false) {
                     $this->lastError = 'Unable to execute query '.$pieces[$i];
-                    
+
                     $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
                     $this->log->logEvent('innomatic.dataaccess.execute', $this->lastError, \Innomatic\Logging\Logger::ERROR);
                     $result = false;
@@ -389,7 +389,7 @@ abstract class DataAccess
             }
         } else {
             $this->lastError = 'Database not connected';
-            
+
             $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
             $this->log->logEvent('innomatic.dataaccess.execute', $this->lastError, \Innomatic\Logging\Logger::ERROR);
         }
@@ -466,8 +466,10 @@ abstract class DataAccess
     public function formatText($string)
     {
         //return "'".str_replace( "'", $this->fmtquote, $string )."'";
-        if (get_magic_quotes_gpc() == 1)
-        $string = stripslashes($string);
+        if (get_magic_quotes_gpc() == 1) {
+            $string = preg_replace(array('/\x5C(?!\x5C)/u', '/\x5C\x5C/u'), array('','\\'), $s);
+        }
+        $string = str_replace('\\', '\\\\', $string);
         return "'".str_replace("'", "''", $string)."'";
     }
 
