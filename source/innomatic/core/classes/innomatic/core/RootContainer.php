@@ -210,8 +210,9 @@ class RootContainer extends \Innomatic\Util\Singleton
 		// Backwards compatibility system
 		if (!$registry->isGlobalObject('system_classes')) {
 			$system_classes = $system_fqcns = array();
+            $system_fqcns = array();
             if (file_exists('innomatic/setup/application.xml')) {
-                $application_classes = self::getApplicationClasses('innomatic/setup/application.xml')['classes'];
+                $application_classes = self::getApplicationClasses('innomatic/setup/application.xml');
                 $system_classes = $application_classes['classes'];
                 $system_fqcns = $application_classes['fqcns'];
             }
@@ -224,8 +225,8 @@ class RootContainer extends \Innomatic\Util\Singleton
 						&& file_exists('innomatic/core/applications/'.$entry.'/application.xml')
 					) {
                         $application_classes = self::getApplicationClasses('innomatic/core/applications/'.$entry.'/application.xml');
-                        $system_classes = array_merge($application_classes['classes'], $system_classes);
-                        $system_fqcns = array_merge($application_classes['fqcns'], $system_fqcns);
+                        $system_classes = array_merge($application_classes['classes'], is_array($system_classes) ? $system_classes : array());
+                        $system_fqcns = array_merge($application_classes['fqcns'], is_array($system_fqcns) ? $system_fqcns : array());
 					}
 				}
 
