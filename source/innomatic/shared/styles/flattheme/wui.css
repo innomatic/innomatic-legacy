@@ -190,7 +190,11 @@ tr.headerbar {
 
 table.page {margin-top:135px;}
 thead.page {position:fixed; top:0px; width: 100%}
-tbody.page {overflow: scroll;}
+tbody.page {
+  overflow: scroll;
+  position: relative;
+  z-index: -1;
+}
 
 /* Help node styles */
 
@@ -273,10 +277,12 @@ h2 {
     height: 18px;
 }
 
-.table-container table, .table-container tr, .table-container td {
-  display: block;
-  float: left;
-
+.table-container table{
+    width: 100%
+}
+.table-container table, .table-container tbody, .table-container tr, .table-container td{
+    display: block !important;
+    float: left;
 }
 
 /* Styles related to the PHP Layers Menu System end here */
