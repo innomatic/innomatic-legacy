@@ -398,7 +398,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
         // HTML
         $charset = 'UTF-8';
         // $block = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n";
-        // $block = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">' . "\n";
+        // $block = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' . "\n";
         $block = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . "\n";
         $block .= "<html>\n";
         $block .= "<head>\n";
@@ -440,7 +440,8 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                 $menu_footer = $mid->MakeFooter();
             }
             
-            $block .= "<table class=\"page\" border=\"0\" style=\"border-bottom: 0px solid " . $this->mThemeHandler->mColorsSet['pages']['border'] . ";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n" . '<thead id="page-thead" class="page"><tr class="' . $env_class . '">' . "\n" . "<td style=\"width: 100%; height: 45px; align: center; padding-left: 16px;\" align=\"left\"><img src=\"" . $this->mThemeHandler->mStyle['titlelogo'] . "\" align=\"left\" width=\"25\" height=\"25\" style=\"margin-right: 15px;\" alt=\"Innomatic\"><span nowrap class=\"headerbar\" style=\"white-space: nowrap;\">" . $domain_name . '</span></td>' . '<td align="right" valign="middle" nowrap style="white-space: nowrap; padding-right: 10px;"><table border="0" style="margin: 0px; padding: 0px;" cellpadding="0" cellspacing="0"><tr>';
+            $block .= "<table class=\"page\" border=\"0\" style=\"border-bottom: 0px solid " . $this->mThemeHandler->mColorsSet['pages']['border'] . ";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n" 
+                . '<thead id="page-thead" class="page"><tr class="' . $env_class . '">' . "\n" . "<td style=\"width: 100%; height: 45px; align: center; padding-left: 16px;\" align=\"left\"><img src=\"" . $this->mThemeHandler->mStyle['titlelogo'] . "\" align=\"left\" width=\"25\" height=\"25\" style=\"margin-right: 15px;\" alt=\"Innomatic\"><span nowrap class=\"headerbar\" style=\"white-space: nowrap;\">" . $domain_name . '</span></td>' . '<td align="right" valign="middle" nowrap style="white-space: nowrap; padding-right: 10px;"><table border="0" style="margin: 0px; padding: 0px;" cellpadding="0" cellspacing="0"><tr>';
             if (! (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
                 $block .= '<td><span class="headerbar" style="white-space: nowrap;">' . $user_name . "</span></td>";
                 
@@ -479,11 +480,14 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                 
                 $block .= '<td><a href="' . $logout_events_call->getEventsCallString() . '" alt="' . $innomatic_menu_locale->getStr('logout') . '"><img width="25" height="25" align="right" style="margin-left: 15px;" src="' . $this->mThemeHandler->mStyle['logout'] . '" alt="' . $innomatic_menu_locale->getStr('logout') . '" /></a></td>';
             }
-            $block .= '</tr></table>' . "</td></tr>" . "<tr><td id=\"sub-top-menu\" class=\"table-container\" colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: " . $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\">" . $menu_header . '</td></tr>' . "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; height: 45px; background-color: white;\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 4px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}" . '</tr></table></td></tr><tr>' . '</thead><tbody id="page-tbody" class="page">' . "<td valign=\"top\" colspan=\"2\" style=\"\">\n";
+            $block .= "</tr></table></td></tr>" 
+                . "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: " . $this->mThemeHandler->mColorsSet['titlebars']['bgcolor'] . ";\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\">" . $menu_header . '</td></tr>' 
+                . "<tr><td id=\"sub-top-menu\" class=\"table-container\" colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; height: 45px; background-color: white;\" align=\"left\" valign=\"middle\" nowrap style=\"white-space: nowrap\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: 0px; padding: 4px;\"><tr><td>{[wui-titlebar-title]}{[wui-toolbars]}" . '</tr></table></td></tr><tr>' 
+                . '</thead><tbody id="page-tbody" class="page">' . "<td valign=\"top\" colspan=\"2\" style=\"\">\n";
             
             $GLOBALS['gEnv']['runtime']['wui_menu']['header'] = true;
             $GLOBALS['gEnv']['runtime']['wui_menu']['footer'] = $menu_footer;
-        }
+        }   
         return $block;
     }
 

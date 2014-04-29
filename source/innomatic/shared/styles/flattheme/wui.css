@@ -278,11 +278,12 @@ h2 {
 }
 
 .table-container table{
-    width: 100%
+  width: 100%;
 }
 .table-container table, .table-container tbody, .table-container tr, .table-container td{
-    display: block !important;
-    float: left;
+  display: block;
+  float: left;
+
 }
 
 /* Styles related to the PHP Layers Menu System end here */
