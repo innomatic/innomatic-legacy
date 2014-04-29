@@ -296,6 +296,20 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
         return ($name." TIME". (IsSet($field["default"]) ? " DEFAULT '".$field["default"]."'" : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
     }
 
+    /**
+     * The DATETIME type is used for values that contain both date and time parts. 
+     * MySQL retrieves and displays DATETIME values in 'YYYY-MM-DD HH:MM:SS' format. 
+     * The supported range is '1000-01-01 00:00:00' to '9999-12-31 23:59:59'.
+     */
+    public function getDatetimeFieldTypeDeclaration($name, &$field)
+    {
+        return ($name." DATETIME". (IsSet($field["default"]) ? " DEFAULT '".$field["default"]."'" : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
+    }
+
+    /**
+     * The TIMESTAMP data type is used for values that contain both date and time parts. 
+     * TIMESTAMP has a range of '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.
+     */
     public function getTimestampFieldTypeDeclaration($name, &$field)
     {
         return ($name." TIMESTAMP". (IsSet($field["default"]) ? " DEFAULT '".$field["default"]."'" : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
