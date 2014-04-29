@@ -296,6 +296,11 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
         return ($name." TIME". (IsSet($field["default"]) ? " DEFAULT '".$field["default"]."'" : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
     }
 
+    public function getTimestampFieldTypeDeclaration($name, &$field)
+    {
+        return ($name." TIMESTAMP". (IsSet($field["default"]) ? " DEFAULT '".$field["default"]."'" : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
+    }
+
     public function getFloatFieldTypeDeclaration($name, &$field)
     {
         return ("$name FLOAT8 ". (IsSet($field["default"]) ? " DEFAULT ".$this->getFloatFieldValue($field["default"]) : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
