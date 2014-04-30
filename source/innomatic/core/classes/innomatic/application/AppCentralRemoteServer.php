@@ -12,6 +12,7 @@
  * @link       http://www.innomatic.org
  */
 namespace Innomatic\Application;
+require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
 
 /**
  * @since 5.0.0 introduced
