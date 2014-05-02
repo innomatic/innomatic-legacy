@@ -602,6 +602,11 @@ abstract class DataAccess
         return ("$name CHAR (".strlen('YYYY-MM-DD').')'. (IsSet($field['default']) ? ' DEFAULT '.$this->getDateFieldValue($field['default']) : ''). (IsSet($field['notnull']) ? ' NOT NULL' : ''));
     }
 
+    public function getDatetimeFieldTypeDeclaration($name, &$field)
+    {
+        return ("$name CHAR (".strlen('YYYY-MM-DD HH:MM:SS').')'. (IsSet($field['default']) ? ' DEFAULT '.$this->getDatetimeFieldValue($field['default']) : ''). (IsSet($field['notnull']) ? ' NOT NULL' : ''));
+    }
+
     public function getTimestampFieldTypeDeclaration($name, &$field)
     {
         return ("$name CHAR (".strlen('YYYY-MM-DD HH:MM:SS').')'. (IsSet($field['default']) ? ' DEFAULT '.$this->getTimestampFieldValue($field['default']) : ''). (IsSet($field['notnull']) ? ' NOT NULL' : ''));
@@ -647,6 +652,11 @@ abstract class DataAccess
         return (!strcmp($value, 'NULL') ? 'NULL' : "'$value'");
     }
 
+    public function getDatetimeFieldValue($value)
+    {
+        return (!strcmp($value, 'NULL') ? 'NULL' : "'$value'");
+    }
+
     public function getTimestampFieldValue($value)
     {
         return (!strcmp($value, 'NULL') ? 'NULL' : "'$value'");
@@ -680,6 +690,8 @@ abstract class DataAccess
                 return ($this->getBooleanFieldTypeDeclaration($name, $field));
             case 'date' :
                 return ($this->getDateFieldTypeDeclaration($name, $field));
+            case 'datetime' :
+                return ($this->getDatetimeFieldTypeDeclaration($name, $field));
             case 'unixtimestamp' :
                 return ($this->getUnixTimestampFieldTypeDeclaration($name, $field));
             case 'timestamp' :
@@ -709,6 +721,8 @@ abstract class DataAccess
                 return ($this->getUnixTimestampFieldValue($value));
             case 'date' :
                 return ($this->getDateFieldValue($value));
+            case 'datetime' :
+                return ($this->getDatetimeFieldValue($value));
             case 'timestamp' :
                 return ($this->getTimestampFieldValue($value));
             case 'time' :
