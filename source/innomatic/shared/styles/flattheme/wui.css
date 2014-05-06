@@ -188,6 +188,8 @@ tr.headerbar {
   background-color: #2b6991;
 }
 
+#page-thead { z-index:  1; }
+
 table.page {margin-top:135px;}
 thead.page {position:fixed; top:0px; width: 100%}
 tbody.page {
