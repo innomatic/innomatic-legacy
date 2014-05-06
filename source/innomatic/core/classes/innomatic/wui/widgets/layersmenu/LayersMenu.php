@@ -1062,7 +1062,7 @@ function _updateFooter(
 
     for ($cnt=$this->_firstItem[$menu_name]; $cnt<=$this->_lastItem[$menu_name]; $cnt++) {
         if ($this->tree[$cnt]["not_a_leaf"]) {
-            $this->footer .= "\n<div id=\"" . $this->tree[$cnt]["layer_label"] . "\" style=\"position: fixed; left: 0; top: 0; visibility: hidden;\">\n";
+            $this->footer .= "\n<div id=\"" . $this->tree[$cnt]["layer_label"] . "\" style=\"position: fixed; left: 0; top: 0; visibility: hidden; z-index: 2;\">\n";
             $t->setVar(array(
                 "layer_title"        => $this->tree[$cnt]["text"],
                 "sub_menu_cell_blck"    => $this->tree[$cnt]["layer_content"]
