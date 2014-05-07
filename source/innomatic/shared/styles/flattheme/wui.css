@@ -195,7 +195,7 @@ thead.page {position:fixed; top:0px; width: 100%}
 tbody.page {
   overflow: scroll;
   position: relative;
-  z-index: -1;
+  z-index: 0;
 }
 
 /* Help node styles */
