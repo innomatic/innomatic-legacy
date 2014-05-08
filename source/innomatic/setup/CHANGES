@@ -11,6 +11,10 @@
 6000 - 6.4.0 - "Tray bar, Pending actions, Roles/Permissions, Unittest component"
 -------------------------
 NEW FEATURES:
+- Added field width in WuiStatusbar. (Amanda Accalai)
+- Added subtopmenu responsive. (Amanda Accalai)
+- Added management type Datatime in MysqlDataAccess. (Amanda Accalai)
+- Added management type Timestamp in MysqlDataAccess. (Amanda Accalai)
 - Added the desktop tray bar. (Alex Pagnoni)
 - Added \Innomatic\Core\InnomaticContainer::switchDomain() method to stop the
   current domain and start a new one. (Alex Pagnoni)
@@ -47,6 +51,9 @@ CHANGES:
   executed at client side after loading the ajax response. (Alex Pagnoni)
 
 FIXES:
+- Fixed multiple login for Innomatic Edition Sas. (Amanda Accalai).
+- Fixed height of headerbar. (Amanda Accalai)
+- Fixed bug namespace to XmlRpc_Client. (Amanda Accalai)
 - Fixed locale country fract digits. (Alex Pagnoni)
 - Fixed boolean values for application_component_types in innomatic_root.xml.
   (Alex Pagnoni)
