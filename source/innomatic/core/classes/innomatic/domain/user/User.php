@@ -87,7 +87,11 @@ class User
     public function setUserIdByUsername($username)
     {
         if (!empty($username)) {
-            $uquery = $this->domainDA->execute('SELECT id FROM domain_users WHERE username='.$this->domainDA->formatText($username));
+            $formatUsername = $this->domainDA->formatText('%@'.$username);
+            $sql = "SELECT id 
+                    FROM domain_users 
+                    WHERE username LIKE $formatUsername";
+            $uquery = $this->domainDA->execute($sql);
             $this->userid = $uquery->getFields('id');
             return $this->userid;
         }
