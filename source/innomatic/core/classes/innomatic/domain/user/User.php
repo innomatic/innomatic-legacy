@@ -87,7 +87,20 @@ class User
     public function setUserIdByUsername($username)
     {
         if (!empty($username)) {
-            $uquery = $this->domainDA->execute('SELECT id FROM domain_users WHERE username='.$this->domainDA->formatText($username));
+            $edition = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition();
+            if ($edition == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+                $formatUsername = $this->domainDA->formatText('%@'.$username);
+                $sql = "SELECT id 
+                    FROM domain_users 
+                    WHERE username LIKE $formatUsername";
+            } else {
+                $username = $this->domainDA->formatText($username);
+                $sql = "SELECT id 
+                    FROM domain_users 
+                    WHERE username = $username";
+            }   
+
+            $uquery = $this->domainDA->execute($sql);
             $this->userid = $uquery->getFields('id');
             return $this->userid;
         }

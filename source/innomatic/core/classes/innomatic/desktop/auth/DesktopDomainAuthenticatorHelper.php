@@ -101,8 +101,8 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
             'align' => 'center',
             'groupalign' => 'center',
             'groupvalign' => 'middle',
-            'height' => '100%',
-            'width' => '0%'
+            'height' => '189px',
+            'width' => '350px'
         ));
         $wuiMainGroup = new WuiVertgroup('maingroup', array(
             'align' => 'center'
@@ -114,7 +114,9 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
             'align' => 'center'
         ));
         $wuiMainFrame = new WuiHorizgroup('horizframe');
-        $wuiMainStatus = new WuiStatusBar('mainstatusbar');
+        $wuiMainStatus = new WuiStatusBar('mainstatusbar', array(
+            'width' => '350px'
+        ));
         
         // Main frame
         //
@@ -222,9 +224,10 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
             'target' => '_blank'
         )));
         $wuiMainGroup->addChild($wuiMainBFrame);
-        $wuiMainGroup->addChild($wuiMainStatus);
+        // $wuiMainGroup->addChild($wuiMainStatus);
         $wuiTopGroup->addChild($wuiMainGroup);
         $wuiPage->addChild($wuiTopGroup);
+        $wuiPage->addChild($wuiMainStatus);
         $wui->addChild($wuiPage);
         $wui->render();
         
