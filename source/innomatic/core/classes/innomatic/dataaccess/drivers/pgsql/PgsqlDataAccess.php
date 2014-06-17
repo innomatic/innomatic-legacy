@@ -177,6 +177,16 @@ class PgsqlDataAccess extends \Innomatic\Dataaccess\DataAccess
         return $result;
     }
 
+    public function truncateTable($params)
+    {
+        $result = false;
+
+        if (!empty($params['tablename']) and $this->opened)
+            $result = $this->doExecute('TRUNCATE '.$params['tablename']);
+
+        return $result;
+    }
+
     protected function doExecute($query)
     {
         $this->lastquery = @pg_exec($this->dbhandler, $query);
@@ -252,6 +262,30 @@ class PgsqlDataAccess extends \Innomatic\Dataaccess\DataAccess
             return 'CREATE SEQUENCE '.$params['name'].' INCREMENT 1'. ($params['start'] < 1 ? ' MINVALUE '.$params['start'] : '').' START '.$params['start'].';';
         } else
             return false;
+    }
+
+    public function resetSequence($params)
+    {
+        if (!empty($params['name'])) {
+            $ris_update = $this->doExecute('UPDATE _sequence_'.$params['name'].' SET sequence = 0');
+            $ris_alter = $this->doExecute('ALTER TABLE _sequence_'.$params['name'].' AUTO_INCREMENT 1');
+            return ($ris_update and $ris_alter);
+        } else {
+            return false;
+
+        }
+    }
+
+    public function getResetSequenceQuery($params)
+    {
+        if (!empty($params['name'])) {
+            $result = 'UPDATE _sequence_'.$params['name'].' SET sequence = 0; ';
+            $result .= 'ALTER TABLE _sequence_'.$params['name'].' AUTO_INCREMENT 1;';
+            return $result;
+        } else {
+            return false;
+
+        }
     }
 
     public function dropSequence($params)
