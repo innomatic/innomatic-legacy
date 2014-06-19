@@ -186,6 +186,10 @@ abstract class DataAccess
     //
     abstract public function dropTable($params);
 
+    // Truncate a table
+    //
+    abstract public function truncateTable($params);
+
     /*!
      @function AddColumn
      @abstract Adds a column to a table.
@@ -213,6 +217,12 @@ abstract class DataAccess
     abstract public function createSequence($params);
 
     abstract public function getCreateSequenceQuery($params);
+
+    // Reset a sequence
+    //
+    abstract public function resetSequence($params);
+    
+    abstract public function getResetSequenceQuery($params);
 
     // Drops a sequence
     //
