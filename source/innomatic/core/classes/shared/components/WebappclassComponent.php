@@ -14,7 +14,6 @@
  */
 namespace Shared\Components;
 
-use \Innomatic\Io\Filesystem;
 use \Innomatic\Core;
 
 /**
@@ -54,7 +53,7 @@ class WebappclassComponent extends \Innomatic\Application\ApplicationComponent
             $file = $this->basedir . '/core/classes/' . $params['file'];
 
             if (! file_exists(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/classes/' . dirname($params['file']))) {
-                DirectoryUtils::mktree(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/classes/' . dirname($params['file']) . '/', 0755);
+                \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/classes/' . dirname($params['file']) . '/', 0755);
             }
 
             if (copy(
@@ -78,7 +77,7 @@ class WebappclassComponent extends \Innomatic\Application\ApplicationComponent
         $result = false;
         if (strlen($params['file'])) {
             if (is_dir(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/classes/' . $params['file'])) {
-                DirectoryUtils::unlinkTree(
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(
                     InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
                     'core/applications/'.$this->appname.'/classes/'.$params['file']
                 );
@@ -102,7 +101,7 @@ class WebappclassComponent extends \Innomatic\Application\ApplicationComponent
 
         if (strlen($params['file'])) {
             if (! file_exists(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/classes/' . dirname($params['file']))) {
-                DirectoryUtils::mktree(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/classes/' . dirname($params['file']) . '/', 0755);
+                \Innomatic\Io\Filesystem\DirectoryUtils::mktree(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/classes/' . dirname($params['file']) . '/', 0755);
             }
 
            if (file_exists(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/classes/' . $params['file'])) {
@@ -143,7 +142,7 @@ class WebappclassComponent extends \Innomatic\Application\ApplicationComponent
         $fileDestName = RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().$domain.'/core/classes/'.$params['file'];
 
         if (!file_exists(RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().$domain.'/core/classes/'.dirname($params['file']))) {
-            DirectoryUtils::mkTree(RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().$domain.'/core/classes/'.dirname($params['file']).'/', 0755);
+            \Innomatic\Io\Filesystem\DirectoryUtils::mkTree(RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().$domain.'/core/classes/'.dirname($params['file']).'/', 0755);
         }
 
         if (!copy(
@@ -167,7 +166,7 @@ class WebappclassComponent extends \Innomatic\Application\ApplicationComponent
         $fileDestName = RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().$domain.'/core/classes/'.$params['file'];
 
         if (!file_exists(RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().$domain.'/core/classes/'.dirname($params['file']))) {
-            DirectoryUtils::mkTree(RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().$domain.'/core/classes/'.dirname($params['file']).'/', 0755);
+            \Innomatic\Io\Filesystem\DirectoryUtils::mkTree(RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().$domain.'/core/classes/'.dirname($params['file']).'/', 0755);
         }
 
         if (!copy(
