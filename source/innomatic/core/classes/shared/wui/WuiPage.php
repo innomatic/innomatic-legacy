@@ -553,7 +553,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
         });
 
         function resizeSubTopMenu(){
-            heigthThead = $('#sub-top-menu').height()-15;
+            heigthThead = $('#sub-top-menu').height()-35;
             $('#page-tbody tr td:first').css({ 'padding-top': heigthThead+'px'});
         }";
         $block .= "</script>\n";
