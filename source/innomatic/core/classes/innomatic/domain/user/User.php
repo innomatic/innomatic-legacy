@@ -90,15 +90,15 @@ class User
             $edition = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition();
             if ($edition == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
                 $formatUsername = $this->domainDA->formatText('%@'.$username);
-                $sql = "SELECT id 
-                    FROM domain_users 
+                $sql = "SELECT id
+                    FROM domain_users
                     WHERE username LIKE $formatUsername";
             } else {
                 $username = $this->domainDA->formatText($username);
-                $sql = "SELECT id 
-                    FROM domain_users 
+                $sql = "SELECT id
+                    FROM domain_users
                     WHERE username = $username";
-            }   
+            }
 
             $uquery = $this->domainDA->execute($sql);
             $this->userid = $uquery->getFields('id');
@@ -154,7 +154,8 @@ class User
                         $user.= $this->domainDA->formatText($userdata['fname']).',';
                         $user.= $this->domainDA->formatText($userdata['lname']).',';
                         $user.= $this->domainDA->formatText($userdata['otherdata']).',';
-                        $user.= $this->domainDA->formatText($userdata['email']).')';
+                        $user.= $this->domainDA->formatText($userdata['email']).',';
+                        $user.= $this->domainDA->formatText($this->domainDA->fmtfalse).')';
 
                         $this->domainDA->execute($user);
                         $this->userid = $seqval;
@@ -225,12 +226,12 @@ class User
                     if ($hook->callHooks('useredited', $this, array('domainserial' => $this->domainserial, 'userdata' => $userdata)) != \Innomatic\Process\Hook::RESULT_OK)
                         $result = false;
                 } else {
-                    
+
                     $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                     $log->logEvent('innomatic.users.users.edituser', 'Empty username or group id', \Innomatic\Logging\Logger::WARNING);
                 }
             } else {
-                
+
                 $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent('innomatic.users.users.edituser', 'Invalid user id '.$this->userid, \Innomatic\Logging\Logger::WARNING);
             }
@@ -400,6 +401,63 @@ class User
         return 'admin'.(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
     }
 
+    /* public enable() {{{ */
+    /**
+     * Enables the user so that he can login again.
+     *
+     * @access public
+     * @return void
+     */
+    public function enable()
+    {
+        if ($this->userid == 0) {
+            return false;
+        }
+
+        $this->domainDA->execute('UPDATE domain_users SET disabled='.$this->domainDA->formatText($this->domainDA->fmtfalse).' WHERE id='.$this->userid);
+
+        $domain = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain();
+        $domain->domainlog->logEvent($domain->domainid, 'Enabled user '.$this->username, \Innomatic\Logging\Logger::NOTICE);
+    }
+    /* }}} */
+
+    /* public disable() {{{ */
+    /**
+     * Disables the user so that he can't login.
+     *
+     * @access public
+     * @return void
+     */
+    public function disable()
+    {
+        if ($this->userid == 0) {
+            return false;
+        }
+
+        $this->domainDA->execute('UPDATE domain_users SET disabled='.$this->domainDA->formatText($this->domainDA->fmttrue).' WHERE id='.$this->userid);
+
+        $domain = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain();
+        $domain->domainlog->logEvent($domain->domainid, 'Disabled user '.$this->username, \Innomatic\Logging\Logger::NOTICE);
+    }
+    /* }}} */
+
+    /* public isEnabled() {{{ */
+    /**
+     * Tells if the user is enabled.
+     *
+     * @access public
+     * @return boolean
+     */
+    public function isEnabled()
+    {
+        if ($this->userid == 0) {
+            return false;
+        }
+
+        $query = $this->domainDA->execute('SELECT disabled FROM domain_users WHERE id='.$this->userid);
+        return $query->getFields('disabled') == $this->domainDA->fmttrue ? false : true;
+    }
+    /* }}} */
     /**
      * Checks to see whether a user has a role or not.
      *
@@ -414,7 +472,7 @@ class User
             // Administrator user has all roles and permissions by default
             return true;
         }
-        
+
         // If the role has been given by name, get its id
         if (!is_int($role)) {
             $role = Role::getIdFromName($role);
@@ -422,14 +480,14 @@ class User
                 return false;
             }
         }
-        
+
         $query = $this->domainDA->execute('SELECT * FROM domain_users_roles AS ur
             JOIN domain_roles AS dr ON ur.roleid=dr.id
             WHERE dr.id='.$role);
-        
+
         return $query->getNumberRows() > 0;
     }
-    
+
     /**
      * Assigns a role to a user
      *
@@ -443,7 +501,7 @@ class User
             // Administrator user has all roles and permissions by default
             return true;
         }
-        
+
         // If the role has been given by name, get its id
         if (!is_int($role)) {
             $role = Role::getIdFromName($role);
@@ -451,25 +509,25 @@ class User
                 return false;
             }
         }
-        
+
         $check_query = $this->domainDA->execute(
             "SELECT count(*) AS count
             FROM domain_users_roles
             WHERE userid={$this->userid} AND roleid={$role}"
         );
-        
+
         if ($check_query->getFields('count') > 0) {
             // This role has already been assigned
             return true;
         }
-        
+
         return $this->domainDA->execute(
             "INSERT INTO domain_users_roles
             (userid,roleid)
             VALUES ({$this->userid}, {$role})"
         );
     }
-    
+
     /**
      * Unassigns a role from a user
      *
@@ -486,16 +544,16 @@ class User
                 return false;
             }
         }
-        
+
         return $this->domainDA->execute(
             "DELETE FROM domain_users_roles
             WHERE userid={$this->userid} AND roleid={$role}"
         );
     }
-    
+
     /**
      * Returns all roles of the current user.
-     * 
+     *
      * @return array null
      */
     public function getAllRoles()
@@ -507,10 +565,10 @@ class User
 			dur.roleid=dr.id
 			WHERE dur.userid={$this->userid}");
     }
-    
+
     /**
      * Return count of roles for the current user.
-     * 
+     *
      * @return integer
      */
     public function getRoleCount()
@@ -518,14 +576,14 @@ class User
         $query = $this->domainDA->execute("SELECT COUNT(*) AS result FROM domain_users_roles WHERE userid={$this->userid}" );
         return (int)$query->getFields('result');
     }
-    
+
     public function hasPermission($permission)
     {
         if (self::isAdminUser($this->username, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())) {
             // Administrator user has all roles and permissions by default
             return true;
         }
-        
+
         // If the permissions has been given by name, get its id
         if (!is_int($permission)) {
             $permission = Permission::getIdFromName($permission);
@@ -533,21 +591,21 @@ class User
                 return false;
             }
         }
-        
+
         $permissionQuery = $this->domainDA->execute(
             "SELECT count(*) AS count
             FROM domain_roles_permissions AS rp
             JOIN domain_users_roles AS usersroles ON usersroles.roleid=rp.roleid
             WHERE usersroles.userid={$this->userid} AND rp.permissionid={$permission}"
         );
-        
+
         if ($permissionQuery->getFields('count') > 0) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     public function getAllPermissions()
     {
         if (self::isAdminUser($this->username, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())) {
@@ -567,14 +625,14 @@ class User
 
         // Build the permissions list
         $permissions = array();
-        
+
         if ($permissionQuery !== false) {
             while (!$permissionQuery->eof) {
                 $permissions[$permissionQuery->getFields('id')] = $permissionQuery->getFields('name');
                 $permissionQuery->moveNext();
             }
         }
-        
+
         return $permissions;
     }
 }
