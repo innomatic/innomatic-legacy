@@ -35,6 +35,7 @@ NEW FEATURES:
 - Added PHPUnit phpunit.xml configuration file. (Alex Pagnoni)
 - Added support for rowspan in WUI Grid widget. (Alex Pagnoni)
 - Added tooltip WUI widget. (Alex Pagnoni)
+- Added support for disabling and enabling domain users. (Alex Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
@@ -65,6 +66,8 @@ FIXES:
   (Alex Pagnoni)
 - Fixed wrong dependency error in domains for applications with PHP extensions
   in dependencies list. (Alex Pagnoni)
+- Fixed problem when accessing Innomatic with a valid session by a deleted
+  user (now the user auth session key is removed). (Alex Pagnoni)
 
 DEPRECATED:
 - \Innomatic\Domain\User\Permissions class is deprecated in favor of new
