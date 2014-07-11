@@ -26,6 +26,7 @@ class User
     protected $domainserial;
     protected $userid;
     protected $username;
+    protected $userExists = false;
 
     /*!
      @param domainSerial integer - Domain serial number.
@@ -48,17 +49,32 @@ class User
             // @todo to be cached in a more elegant way eg. registry
             if (isset($GLOBALS['gEnv']['runtime']['innomatic']['users']['username_check'][(int)$this->userid])) {
                 $this->username = $GLOBALS['gEnv']['runtime']['innomatic']['users']['username_check'][(int)$this->userid];
+                $this->userExists = true;
             } else {
                 $uquery = $this->domainDA->execute('SELECT username FROM domain_users WHERE id='.(int)$this->userid);
 
-                if ($uquery) {
+                if ($uquery->getNumberRows() > 0) {
                     $this->username = $uquery->getFields('username');
                     $GLOBALS['gEnv']['runtime']['innomatic']['users']['username_check'][(int)$this->userid] = $this->username;
                     $uquery->free();
+                    $this->userExists = true;
                 }
             }
         }
     }
+
+    /* public exists() {{{ */
+    /**
+     * Tells if the user exists in users table
+     *
+     * @access public
+     * @return boolean
+     */
+    public function exists()
+    {
+        return $this->userExists;
+    }
+    /* }}} */
 
     /*!
      @abstract Sets the user id.
@@ -159,6 +175,8 @@ class User
 
                         $this->domainDA->execute($user);
                         $this->userid = $seqval;
+
+                        $this->userExists = true;
 
                         $result = $seqval;
 
@@ -334,6 +352,7 @@ class User
                 if ($hook->callHooks('userremoved', $this, array('domainserial' => $this->domainserial, 'userid' => $this->userid)) != \Innomatic\Process\Hook::RESULT_OK)
                     $result = false;
                 $this->userid = 0;
+                $this->userExists = false;
             }
         }
 
