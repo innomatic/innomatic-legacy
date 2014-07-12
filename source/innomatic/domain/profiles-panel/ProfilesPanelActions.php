@@ -50,25 +50,25 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
         $groupData['groupname'] = $eventData['groupname'];
         $tempGroup->createGroup($groupData);
     }
-    
+
     public function executeRengroup($eventData)
     {
         $tempGroup = new Group($eventData['gid']);
         $groupData['groupname'] = $eventData['groupname'];
         $tempGroup->editGroup($groupData);
     }
-    
+
     public function executeRemovegroup($eventData)
     {
         if ($eventData['userstoo'] == 1)
             $deleteUsersToo = true;
         else
             $deleteUsersToo = false;
-    
+
         $tempGroup = new Group($eventData['gid']);
         $tempGroup->removeGroup($deleteUsersToo);
     }
-    
+
     public function executeAdduser($eventData)
     {
         if ($eventData['passworda'] == $eventData['passwordb']) {
@@ -85,11 +85,11 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             $userData['lname'] = $eventData['lname'];
             $userData['email'] = $eventData['email'];
             $userData['otherdata'] = $eventData['other'];
-    
+
             $tempUser->create($userData);
         }
     }
-    
+
     public function executeEdituser($eventData)
     {
         $tempUser = new User(
@@ -120,9 +120,9 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
                 }
             }
         }
-    
+
         $tempUser->update($userData);
-        
+
         // Roles
         $roles = \Innomatic\Domain\User\Role::getAllRoles();
         foreach ($roles as $roleId => $roleData) {
@@ -133,7 +133,7 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             }
         }
     }
-    
+
     public function executeChpasswd($eventData)
     {
         if (
@@ -155,7 +155,7 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
         );
         $tempUser->changePassword($eventData['password']);
     }
-    
+
     public function executeRemoveuser($eventData)
     {
         $tempUser = new User(
@@ -164,7 +164,25 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
         );
         $tempUser->remove();
     }
-    
+
+    public function executeEnableuser($eventData)
+    {
+        $tempUser = new User(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
+            $eventData['userid']
+        );
+        $tempUser->enable();
+    }
+
+    public function executeDisableuser($eventData)
+    {
+        $tempUser = new User(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
+            $eventData['userid']
+        );
+        $tempUser->disable();
+    }
+
     public function executeEnablenode($eventData)
     {
         $tempPerm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator(
@@ -173,37 +191,37 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
         );
         $tempPerm->enable($eventData['node'], $eventData['ntype']);
     }
-    
+
     public function executeDisablenode($eventData)
     {
-    
+
         $tempPerm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator(
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
             $eventData['gid']
         );
         $tempPerm->disable($eventData['node'], $eventData['ntype']);
     }
-    
+
     public function executeSetmotd($eventData)
     {
         if (
             User::isAdminUser(
                 \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName(),
                 \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
-            ) or 
+            ) or
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
             ->getCurrentUser()
             ->hasPermission('edit_motd')
-        ) {    
+        ) {
             $domain = new \Innomatic\Domain\Domain(
                 \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
                 \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId(),
                 \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
             );
-    
+
             $domain->setMotd($eventData['motd']);
             $this->status = $this->localeCatalog->getStr('motd_set.status');
-            
+
             $this->setChanged();
             $this->notifyObservers('status');
         }
@@ -214,13 +232,13 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
         $role = new \Innomatic\Domain\User\Role();
         $role->add($eventData['name'], $eventData['name'], $eventData['description']);
     }
-    
+
     public function executeRemoverole($eventData)
     {
         $role = new \Innomatic\Domain\User\Role((int)$eventData['id']);
         $role->remove();
     }
-    
+
     public function executeEditrole($eventData)
     {
         $role = new \Innomatic\Domain\User\Role((int)$eventData['id']);
@@ -230,7 +248,7 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             ->setDescription($eventData['description'])
             ->store();
     }
-    
+
     public static function ajaxSaveRolesPermissions($permissions) {
         // Build list of checked roles/permissions
         $permissions = explode(',', $permissions);
@@ -240,15 +258,15 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             list($roleId, $permissionId) = explode('-', $permission);
             $checkedPermissions[$roleId][$permissionId] = true;
         }
-        
+
         // Get list of all roles and permissions
         $rolesList = \Innomatic\Domain\User\Role::getAllRoles();
         $permissionsList = \Innomatic\Domain\User\Permission::getAllPermissions();
-        
+
         // Check which permissions have been checked
         foreach ($rolesList as $roleId => $roleData) {
             $role = new \Innomatic\Domain\User\Role($roleId);
-            
+
             foreach ($permissionsList as $permissionId => $permissionData) {
                 if (isset($checkedPermissions[$roleId][$permissionId])) {
                     $role->assignPermission($permissionId);
@@ -257,12 +275,12 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
                 }
             }
         }
-        
+
         $html = WuiXml::getContentFromXml('', \ProfilesPanelController::getRolesPermissionsXml());
-         
+
         $objResponse = new XajaxResponse();
         $objResponse->addAssign("roleslist", "innerHTML", $html);
-         
+
         return $objResponse;
     }
 }
