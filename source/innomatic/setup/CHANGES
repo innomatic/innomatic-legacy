@@ -72,6 +72,10 @@ FIXES:
 DEPRECATED:
 - \Innomatic\Domain\User\Permissions class is deprecated in favor of new
   \Innomatic\Desktop\Auth\DesktopPanelAuthorizator. (Alex Pagnoni)
+- \Innomatic\Core\InnomaticContainer::EDITION_SAAS is deprecated in favor of
+  \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT. (Alex Pagnoni)
+- \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE is deprecated in favor
+  of \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT. (Alex Pagnoni)
 
 
 

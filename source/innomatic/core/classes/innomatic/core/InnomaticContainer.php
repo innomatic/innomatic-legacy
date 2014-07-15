@@ -83,7 +83,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     private $currentWebServicesMethods = array();
 
     private $currentPanelController;
-    
+
     private $currentDomain;
     private $currentUser;
 
@@ -119,12 +119,14 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
     // Edition types
 
-    const EDITION_SAAS = 1;
-    const EDITION_ENTERPRISE = 2;
+    const EDITION_MULTITENANT = 1;
+    const EDITION_SINGLETENANT = 2;
 
     // Deprecated
 
     const EDITION_ASP = 1;
+    const EDITION_SAAS = 1;
+    const EDITION_ENTERPRISE = 2;
 
     // Password result codes
     const SETROOTPASSWORD_NEW_PASSWORD_IS_EMPTY = -1;
@@ -466,10 +468,10 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             $this->setMode(\Innomatic\Core\InnomaticContainer::MODE_ROOT);
         }
     }
-    
+
     /**
      * Automatically closes the current domain (if started) and starts a new domain.
-     * 
+     *
      * @param string $domainId id name of the new domain
      * @param string $userId optional id of the user
      * @return string null if not previous domain has been started already.
@@ -477,13 +479,13 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     public function switchDomain($domainId, $userId = '')
     {
         $prev_domain = null;
-        
+
         if ($this->domainStarted) {
             $prev_domain = $this->getCurrentDomain()->getDomainId();
             $this->stopDomain();
         }
         $this->startDomain($domainId, $userId);
-        
+
         // Return the previos domain id name
         return $prev_domain;
     }
@@ -789,7 +791,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         switch ($errorType) {
             case E_ERROR:
                 if ($logError[E_ERROR]['log']) {
-                    
+
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -842,7 +844,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_PARSE :
                 if ($logError[E_PARSE]['log']) {
-                    
+
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -868,7 +870,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_NOTICE :
                 if ($logError[E_NOTICE]['log']) {
-                    
+
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -894,7 +896,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_CORE_ERROR :
                 if ($logError[E_CORE_ERROR]['log']) {
-                    
+
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -920,7 +922,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_CORE_WARNING :
                 if ($logError[E_CORE_WARNING]['log']) {
-                    
+
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -946,7 +948,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_COMPILE_ERROR :
                 if ($logError[E_COMPILE_ERROR]['log']) {
-                    
+
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -972,7 +974,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_COMPILE_WARNING :
                 if ($logError[E_COMPILE_WARNING]['log']) {
-                    
+
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -998,7 +1000,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_USER_ERROR :
                 if ($logError[E_USER_ERROR]['log']) {
-                    
+
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -1024,7 +1026,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_USER_WARNING :
                 if ($logError[E_USER_WARNING]['log']) {
-                    
+
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -1050,7 +1052,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             case E_USER_NOTICE :
                 if ($logError[E_USER_NOTICE]['log']) {
-                    
+
                     $log = new \Innomatic\Logging\Logger($phpLog);
                     $log->logEvent(
                         'Innomatic error handler',
@@ -1115,7 +1117,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     {
         // Initialized the logger if not started
         if (!is_object($this->logger)) {
-            
+
             $this->logger = new \Innomatic\Logging\Logger(
                 $this->home . 'core/log/innomatic.log'
             );
@@ -1287,7 +1289,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
                     . 'core/temp/upgrading_system_lock'
                 )
             ) {
-                
+
                 $tmpLog = \Innomatic\Core\InnomaticContainer::instance(
                     '\Innomatic\Core\InnomaticContainer'
                 )->getLogger();
@@ -1411,7 +1413,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
                     'w'
                 );
                 if ($fh) {
-                    
+
                     $log = \Innomatic\Core\InnomaticContainer::instance(
                         '\Innomatic\Core\InnomaticContainer'
                     )->getLogger();
@@ -1471,17 +1473,17 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     }
 
     // Panel controller
-    
+
     public function setPanelController($controller)
     {
     	$this->currentPanelController = $controller;
     }
-    
+
     public function getPanelController()
     {
     	return $this->currentPanelController;
     }
-    
+
     // Domain / User methods
 
     public function getCurrentDomain()
