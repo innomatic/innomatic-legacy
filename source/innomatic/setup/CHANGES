@@ -36,6 +36,8 @@ NEW FEATURES:
 - Added support for rowspan in WUI Grid widget. (Alex Pagnoni)
 - Added tooltip WUI widget. (Alex Pagnoni)
 - Added support for disabling and enabling domain users. (Alex Pagnoni)
+- Added mainaction attribute in WUI Button widget to be used when the button
+  is the panel view main action. (Alex Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
@@ -53,6 +55,7 @@ CHANGES:
 - Javascript code included in <script> tags in Xajax response is now
   executed at client side after loading the ajax response. (Alex Pagnoni)
 - Improved WUI flat theme with brighter colors. (Alex Pagnoni)
+- Changed default desktop font to Helvetica Neue. (Alex Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Edition Sas. (Amanda Accalai).
