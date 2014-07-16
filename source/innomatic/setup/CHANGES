@@ -52,6 +52,7 @@ CHANGES:
   (Alex Pagnoni)
 - Javascript code included in <script> tags in Xajax response is now
   executed at client side after loading the ajax response. (Alex Pagnoni)
+- Improved WUI flat theme with brighter colors. (Alex Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Edition Sas. (Amanda Accalai).

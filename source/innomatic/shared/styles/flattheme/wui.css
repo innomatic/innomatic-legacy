@@ -84,10 +84,10 @@ a.tooltip span {
 }
 
 a { color: #007aff; font-style: normal; text-decoration: none }  /* for unvisited links */
-a:link { color: #2b6991; font-style: normal; text-decoration: none }  /* for unvisited links */
-a:visited { color: #2b6991; font-style: normal; text-decoration: none } /* for visited links */
-a:active { color: #457c9f; font-style: normal; text-decoration: none } /* when link is clicked */
-a:hover { color: #457c9f; font-style: normal; text-decoration: none } /* when mouse is over link */
+a:link { color: #0072c6; font-style: normal; text-decoration: none }  /* for unvisited links */
+a:visited { color: #0072c6; font-style: normal; text-decoration: none } /* for visited links */
+a:active { color: #175499; font-style: normal; text-decoration: none } /* when link is clicked */
+a:hover { color: #175499; font-style: normal; text-decoration: none } /* when mouse is over link */
 
 a.titlebar { color: #007aff; font-style: normal; text-decoration: none }  /* for unvisited links */
 a.titlebar:link { color: white; font-style: normal; text-decoration: none }  /* for unvisited links */
@@ -95,8 +95,8 @@ a.titlebar:visited { color: white; font-style: normal; text-decoration: none } /
 a.titlebar:active { color: #f9fafc; font-style: normal; text-decoration: none } /* when link is clicked */
 a.titlebar:hover { color: #f9fafc; font-style: normal; text-decoration: none } /* when mouse is over link */
 
-.buttontext { color: #2b6991 }
-.paneltitle { color: #2b6991; font-weight: 600 }
+.buttontext { color: #0072c6 }
+.paneltitle { color: #0072c6; font-weight: 600 }
 
 /*
 td.titlebar {
@@ -185,7 +185,7 @@ tr.headerbar_staging {
 
 tr.headerbar {
   border-bottom: 1px solid #457c9f;
-  background-color: #2b6991;
+  background-color: #0072c6;
 }
 
 #page-thead { z-index:  1; }
