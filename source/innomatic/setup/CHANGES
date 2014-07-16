@@ -58,9 +58,9 @@ CHANGES:
 - Changed default desktop font to Helvetica Neue. (Alex Pagnoni)
 
 FIXES:
-- Fixed multiple login for Innomatic Edition Sas. (Amanda Accalai).
+- Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).
 - Fixed height of headerbar. (Amanda Accalai)
-- Fixed bug namespace to XmlRpc_Client. (Amanda Accalai)
+- Fixed namespace bug in XmlRpc_Client. (Amanda Accalai)
 - Fixed locale country fract digits. (Alex Pagnoni)
 - Fixed boolean values for application_component_types in innomatic_root.xml.
   (Alex Pagnoni)
