@@ -38,6 +38,8 @@ NEW FEATURES:
 - Added support for disabling and enabling domain users. (Alex Pagnoni)
 - Added mainaction attribute in WUI Button widget to be used when the button
   is the panel view main action. (Alex Pagnoni)
+- Added dangeraction attribute in WUI Button widget to be used when the button
+  launches a dangerous action (eg. delete). (Alex Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
@@ -56,6 +58,8 @@ CHANGES:
   executed at client side after loading the ajax response. (Alex Pagnoni)
 - Improved WUI flat theme with brighter colors. (Alex Pagnoni)
 - Changed default desktop font to Helvetica Neue. (Alex Pagnoni)
+- New WUI Button widget rendering for particular actions (main and delete).
+  (Alex Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).

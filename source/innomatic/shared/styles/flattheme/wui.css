@@ -96,6 +96,8 @@ a.titlebar:active { color: #f9fafc; font-style: normal; text-decoration: none } 
 a.titlebar:hover { color: #f9fafc; font-style: normal; text-decoration: none } /* when mouse is over link */
 
 .buttontext { color: #0072c6 }
+.buttontextmainaction { color: white; }
+.buttontextdangeraction { color: white; }
 .paneltitle { color: #0072c6; font-weight: 600 }
 
 /*
