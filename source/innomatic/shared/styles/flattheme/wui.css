@@ -166,7 +166,7 @@ td {
  .titlebar    { color: #4b4b4d;                     font-weight: 300; font-size: 21px; font-family: Helvetica Neue, Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
  .status      { color: #4b4b4d;                     font-weight: 600; font-size: 14px; font-family: Helvetica Neue, Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
 
- .headerbar   { color: #b8cfdf;                     font-weight: 300; font-size: 21px; font-family: Helvetica Neue, Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
+ .headerbar   { color: white;                     font-weight: 300; font-size: 21px; font-family: Helvetica Neue, Arial, Verdana, Helvetica, Geneva, sans-serif; text-decoration: none }
 
 tr.headerbar_dev {
   border-bottom: 1px solid #457c9f;
