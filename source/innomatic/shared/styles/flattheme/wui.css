@@ -170,17 +170,17 @@ td {
 
 tr.headerbar_dev {
   border-bottom: 1px solid #457c9f;
-  background-color: #3e8d36;
+  background-color: #24c128;
 }
 
 tr.headerbar_integration {
   border-bottom: 1px solid #457c9f;
-  background-color: #8d3684;
+  background-color: #bf2eb2;
 }
 
 tr.headerbar_staging {
   border-bottom: 1px solid #457c9f;
-  background-color: #8d0000;
+  background-color: #bd3035;
 }
 
 tr.headerbar {
