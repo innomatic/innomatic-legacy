@@ -44,17 +44,17 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
         if (isset($this->mArgs['rows'])) {
             $this->mRows = $this->mArgs['rows'];
         }
-        
+
         if (isset($this->mArgs['cols'])) {
             $this->mCols = $this->mArgs['cols'];
         }
-        
+
         if (isset($this->mArgs['topheader'])) {
             $this->mArgs['topheader'] = $this->mArgs['topheader'];
         }
-        
+
         // if ( isset($this->mArgs['width'] ) ) $this->mArgs['width'] = $elemArgs['width'];
-        
+
         if (isset($this->mArgs['pagenumber']) and strlen($this->mArgs['pagenumber'])) {
             $this->mPageNumber = $this->mArgs['pagenumber'];
         } elseif (isset($tmp_sess['pagenumber']) and strlen($tmp_sess['pagenumber'])) {
@@ -62,9 +62,9 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
         } else {
             $this->mPageNumber = 1;
         }
-        
+
         // if ( isset($this->mArgs['pages'] ) ) $this->mPages = $elemArgs['pages'];
-        
+
         if (isset($this->mArgs['pagesactionfunction'])) {
             $this->mArgs['pagesactionfunction'] = $this->mArgs['pagesactionfunction'];
             if (isset($this->mArgs['rowsperpage'])) {
@@ -73,11 +73,11 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
                 $this->mRowsPerPage = $tmp_sess['rowsperpage'];
             }
         }
-        
+
         if (! isset($this->mArgs['pagesnavigatorposition'])) {
             $this->mArgs['pagesnavigatorposition'] = '';
         }
-        
+
         switch ($this->mArgs['pagesnavigatorposition']) {
             case 'top':
             case 'bottom':
@@ -86,7 +86,7 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
             default:
                 $this->mArgs['pagesnavigatorposition'] = 'bottom';
         }
-        
+
         if (isset($this->mArgs['sortby']) and strlen($this->mArgs['sortby'])) {
             $this->mArgs['sortby'] = $this->mArgs['sortby'];
         } elseif (isset($tmp_sess['sortby']) and strlen($tmp_sess['sortby'])) {
@@ -94,7 +94,7 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
         } else {
             $this->mArgs['sortby'] = '';
         }
-        
+
         if (isset($this->mArgs['sortdirection']) and strlen($this->mArgs['sortdirection'])) {
             $this->mArgs['sortdirection'] = $this->mArgs['sortdirection'];
         } elseif (isset($tmp_sess['sortdirection']) and strlen($tmp_sess['sortdirection'])) {
@@ -102,13 +102,13 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
         } else {
             $this->mArgs['sortdirection'] = 'down';
         }
-        
+
         $this->StoreSession(array(
             'pagenumber' => $this->mPageNumber,
             'sortby' => $this->mArgs['sortby'],
             'sortdirection' => $this->mArgs['sortdirection']
         ));
-        
+
         if (! isset($this->mArgs['width'])) {
             $this->mArgs['width'] = "100%";
         }
@@ -119,28 +119,28 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
         if ($row >= $this->mRows) {
             $this->mRows = $row + 1;
         }
-        
+
         if ($col >= $this->mCols) {
             $this->mCols = $col + 1;
         }
-        
+
         $this->mArgs['cells'][$row][$col]['widget'] = $childWidget;
-        
+
         if ($halign == 'left' or $halign == 'center' or $halign == 'right') {
             $this->mArgs['cells'][$row][$col]['halign'] = $halign;
         }
-        
+
         if ($valign == 'top' or $valign == 'middle' or $valign == 'bottom') {
             $this->mArgs['cells'][$row][$col]['valign'] = $valign;
         }
-        
+
         $this->mArgs['cells'][$row][$col]['nowrap'] = $nowrap;
         $this->mArgs['cells'][$row][$col]['width'] = $width;
-        
+
         // Rowspan and colspan
         $this->mArgs['cells'][$row][$col]['colspan'] = (int)$colspan;
         $this->mArgs['cells'][$row][$col]['rowspan'] = (int)$rowspan;
-        
+
         return true;
     }
 
@@ -153,7 +153,7 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
             $this->mLayout .= '<table' . (isset($this->mArgs['id']) ? ' id="' . $this->mArgs['id'] . '"' : '') . ' border="0" cellspacing="2" cellpadding="1" ' . ((isset($this->mArgs['width']) and strlen($this->mArgs['width'])) ? 'width="' . $this->mArgs['width'] . '" ' : '') . "><tr><td bgcolor=\"" . $this->mThemeHandler->mColorsSet['tables']['gridcolor'] . "\">\n";
             $this->mLayout .= '<table border="0" width="100%" cellspacing="1" cellpadding="3" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['bgcolor'] . "\">\n";
             if (isset($this->mArgs['topheader']) and strlen($this->mArgs['topheader'])) {
-                $this->mLayout .= '<tr><td colspan="' . $this->mCols . '" valign="top" align="center" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['headerbgcolor'] . '" class="bold">' . $this->mArgs['topheader'] . '</td></tr>' . "\n";
+                $this->mLayout .= '<tr><td colspan="' . $this->mCols . '" valign="top" align="center" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['headerbgcolor'] . '">' . $this->mArgs['topheader'] . '</td></tr>' . "\n";
             }
             if (isset($this->mArgs['headers']) and count($this->mArgs['headers'])) {
                 $this->mLayout .= "<tr>\n";
@@ -164,7 +164,7 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
                     } else {
                         $this->mLayout .= '<td></td>';
                     }
-                    $this->mLayout .= '<td width="100%" valign="top" align="center" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['headerbgcolor'] . '" class="bold">' . ((isset($this->mArgs['headers'][$col]['link']) and strlen($this->mArgs['headers'][$col]['link'])) ? '<a href="' . $this->mArgs['headers'][$col]['link'] . '">' : '') . ((isset($this->mArgs['headers'][$col]['label']) and strlen($this->mArgs['headers'][$col]['label'])) ? $this->mArgs['headers'][$col]['label'] : '&nbsp;') . ((isset($this->mArgs['headers'][$col]['link']) and strlen($this->mArgs['headers'][$col]['link'])) ? '</a>' : '') . "</td>\n";
+                    $this->mLayout .= '<td width="100%" valign="top" align="center" bgcolor="' . $this->mThemeHandler->mColorsSet['tables']['headerbgcolor'] . '">' . ((isset($this->mArgs['headers'][$col]['link']) and strlen($this->mArgs['headers'][$col]['link'])) ? '<a href="' . $this->mArgs['headers'][$col]['link'] . '">' : '') . ((isset($this->mArgs['headers'][$col]['label']) and strlen($this->mArgs['headers'][$col]['label'])) ? $this->mArgs['headers'][$col]['label'] : '&nbsp;') . ((isset($this->mArgs['headers'][$col]['link']) and strlen($this->mArgs['headers'][$col]['link'])) ? '</a>' : '') . "</td>\n";
                     $this->mLayout .= '</tr></table></td>';
                 }
                 $this->mLayout .= "</tr>\n";
@@ -197,7 +197,7 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
             for ($row = $from; $row < $to; $row ++) {
                 $this->mLayout .= "<tr>\n";
                 for ($col = 0; $col < $this->mCols; $col ++) {
-                    $this->mLayout .= '<td bgcolor="white"' . 
+                    $this->mLayout .= '<td bgcolor="white"' .
                         (isset($this->mArgs['cells'][$row][$col]['halign']) ? ' align="' . $this->mArgs['cells'][$row][$col]['halign'] . "\"" : "") .
                         (isset($this->mArgs['cells'][$row][$col]['valign']) ? ' valign="' . $this->mArgs['cells'][$row][$col]['valign'] . "\"" : "") .
                         ($this->mArgs['cells'][$row][$col]['colspan'] > 0 ? ' colspan="' . $this->mArgs['cells'][$row][$col]['colspan'] . '"' : '') .
@@ -216,18 +216,18 @@ class WuiTable extends \Innomatic\Wui\Widgets\WuiContainerWidget
                     }
                     $this->mLayout .= $elem;
                     $this->mLayout .= "</td>\n";
-                    
+
                     if ($this->mArgs['cells'][$row][$col]['colspan'] > 0) {
                         $col += $this->mArgs['cells'][$row][$col]['colspan'] - 1;
                     }
                 }
                 $this->mLayout .= "</tr>\n";
             }
-            
+
             if ($this->mArgs['pagesnavigatorposition'] == 'bottom') {
                 $this->mLayout .= $page_navigator;
             }
-            
+
             $this->mLayout .= '</table></td></tr>' . "\n" . '</table>' . "\n";
             $this->mLayout .= ($this->mComments ? '<!-- end ' . $this->mName . ' table -->' . "\n" : '');
             $this->mBuilt = true;
