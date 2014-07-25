@@ -72,7 +72,7 @@
         <urlpattern>/webservices/*</urlpattern>
     </handlermapping>
     <handlermapping>
-        <handlername>default</handlername>
+        <handlername>domain</handlername>
         <urlpattern>/*</urlpattern>
     </handlermapping>
 

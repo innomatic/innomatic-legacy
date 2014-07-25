@@ -849,16 +849,6 @@
 
 		<class name="innomatic/desktop/session/DesktopSession.php" />
 
-		<!-- Base Desktop -->
-
-		<class
-			name="innomatic/desktop/webapp/DesktopBaseWebAppHandler.php" />
-		<class name="innomatic/desktop/layout/base/index.php" />
-
-		<webapphandler name="default"
-			class="innomatic/desktop/webapp/DesktopBaseWebAppHandler.php"
-			urlpattern="/*" listings="false" />
-
 		<!-- Root Desktop -->
 
 		<class
@@ -894,7 +884,7 @@
 
 		<webapphandler name="domain"
 			class="innomatic/desktop/webapp/DesktopDomainWebAppHandler.php"
-			urlpattern="/domain/*" listings="false" />
+			urlpattern="/*" listings="false" />
 
 		<domaingroup name="dashboard" catalog="innomatic::domain_menu" />
 		<domaingroup name="tools" catalog="innomatic::domain_menu" />
