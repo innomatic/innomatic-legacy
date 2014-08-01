@@ -271,7 +271,7 @@ function login_login($eventData)
         }
     }
 
-    // If no domain is found when in SAAS edition, it must be reauth without
+    // If no domain is found when in Multi Tenant edition, it must be reauth without
     // checking database, since no Domain can be accessed.
     if (! strlen($domainId)) {
         DesktopDomainAuthenticatorHelper::doAuth(true);
