@@ -8,7 +8,7 @@
                                 CHANGES
                                 =======
 
-6000 - 6.4.0 - "Tray bar, Pending actions, Roles/Permissions, Unittest component"
+6000 - 6.4.0 - "Tray bar, Pending actions, Roles/Permissions, Unittest component, UI improvements"
 -------------------------
 NEW FEATURES:
 - Added method truncateTable() and resetSequence() for classes that manage 
@@ -60,6 +60,7 @@ CHANGES:
 - Changed default desktop font to Helvetica Neue. (Alex Pagnoni)
 - New WUI Button widget rendering for particular actions (main and delete).
   (Alex Pagnoni)
+- Removed base desktop. (Alex Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).
