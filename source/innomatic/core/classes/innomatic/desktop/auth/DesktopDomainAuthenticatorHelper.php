@@ -224,10 +224,11 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
                 $session->put('domain_login_attempts', 1);
             }
 
-            if ($reason)
+            if ($reason) {
                 $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr($reason);
-            else
+            } else {
                 $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('wrongpwd');
+            }
         } else {
             $session->put('domain_login_attempts', 0);
         }
