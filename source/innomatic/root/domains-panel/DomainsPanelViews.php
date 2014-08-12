@@ -1892,7 +1892,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         
         \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader(
             'Location',
-            $innomaticCore->getBaseUrl().'/domain/'
+            $innomaticCore->getBaseUrl().'/'
         );
     }
 
