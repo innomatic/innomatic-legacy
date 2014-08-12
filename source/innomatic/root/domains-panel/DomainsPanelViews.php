@@ -1881,16 +1881,18 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewAccessDomain($eventData)
     {
-        $domainquery = \Innomatic\Core\InnomaticContainer::instance(
-            '\Innomatic\Core\InnomaticContainer'
-        )->getDataAccess()->execute('SELECT domainid FROM domains WHERE id='.$eventData['domainid']);
-        DesktopFrontController::instance(
-            '\Innomatic\Desktop\Controller\DesktopFrontController'
-        )->session->put('INNOMATIC_AUTH_USER', \Innomatic\Domain\User\User::getAdminUsername($domainquery->getFields('domainid')));
-        \Innomatic\Webapp\WebAppContainer::instance(
-            '\Innomatic\Webapp\WebAppContainer'
-        )->getProcessor()->getResponse()->addHeader(
-            'Location', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl().'/domain/'
+        $innomaticCore = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        $domainquery = $innomaticCore->getDataAccess()->execute('SELECT domainid FROM domains WHERE id='.$eventData['domainid']);
+        
+        DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session->put(
+            'INNOMATIC_AUTH_USER',
+            \Innomatic\Domain\User\User::getAdminUsername($domainquery->getFields('domainid'))
+            );
+        
+        \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader(
+            'Location',
+            $innomaticCore->getBaseUrl().'/domain/'
         );
     }
 
