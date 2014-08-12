@@ -17,7 +17,7 @@ use \Innomatic\Core\Container;
 
 /**
  * Class for handling basic application operations.
- * 
+ *
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 class Application
@@ -117,7 +117,7 @@ only application. */
             }
 
             $appArchive = new \Innomatic\Io\Archive\Archive($fname, $archiveFormat);
-            $appArchive->Extract($tmpdir);
+            $appArchive->extract($tmpdir);
 
             // Checks if the files are into a directory instead of the root
             //
@@ -716,7 +716,7 @@ only application. */
                             //
                             $cacheGC = new \Innomatic\Datatransfer\Cache\CacheGarbageCollector();
                             $cacheGC->removeApplicationItems($appdata['appid']);
-                            
+
                             // Remove pending actions
                             \Innomatic\Scripts\PendingActionsUtils::removeByApplication($appdata['appid']);
 
@@ -2142,7 +2142,7 @@ only application. */
                 } else {
                     $submodStart = false;
                 }
-    
+
                 $config['ApplicationOptions'] .= $option;
             }
         }

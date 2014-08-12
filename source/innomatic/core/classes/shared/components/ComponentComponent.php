@@ -20,11 +20,25 @@ namespace Shared\Components;
 class ComponentComponent extends \Innomatic\Application\ApplicationComponent
 {
     public $eltype;
+
+    /* public __construct($rootda, $domainda, $appname, $name, $basedir) {{{ */
+    /**
+     * Component constructor.
+     *
+     * @param \Innomatic\Dataaccess\DataAccess $rootda Root data access
+     * @param \Innomatic\Dataaccess\DataAccess $domainda Domain data access
+     * @param string $appname Application identifier
+     * @param string $name Component name
+     * @param string $basedir Base directory
+     * @access public
+     * @return void
+     */
     public function __construct($rootda, $domainda, $appname, $name, $basedir)
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         $this->eltype = new \Innomatic\Application\ApplicationComponentFactory($rootda);
     }
+    /* }}} */
     public static function getType()
     {
         return 'component';

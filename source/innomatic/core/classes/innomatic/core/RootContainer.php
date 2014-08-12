@@ -79,10 +79,13 @@ class RootContainer extends \Innomatic\Util\Singleton
 
     /**
      * Stops the root container, setting the clean flag to true.
+     *
      * This is useful in conjunction with a PHP shutdown function registered
      * with register_shutdown_function, e.g. to catch fatal errors.
      *
      * This happens by default in the InnomaticContainer class.
+     *
+     * @return void
      */
     public function stop()
     {
@@ -161,6 +164,21 @@ class RootContainer extends \Innomatic\Util\Singleton
 	    }
 	}
 
+    /* public getApplicationClasses($file) {{{ */
+    /**
+     * Gets all the declared classes for the given application.
+     *
+     * For class loading compatibility mode only.
+     *
+     * This method reads the application definition file, parses
+     * all the classed and widgets entry and adds them to the
+     * known classes array.
+     *
+     * @param mixed $file
+     * @static
+     * @access public
+     * @return void
+     */
     public static function getApplicationClasses($file)
     {
         $xml = file_get_contents($file);
@@ -203,7 +221,19 @@ class RootContainer extends \Innomatic\Util\Singleton
 
         return array('classes' => $application_classes, 'fqcns' => $application_fqcns);
     }
+    /* }}} */
 
+    /* public getClassFile($className) {{{ */
+    /**
+     * Returns the file for the given class.
+     *
+     * For class loading compatibility mode only.
+     *
+     * @param string $className
+     * @static
+     * @access public
+     * @return string Class file path.
+     */
 	public static function getClassFile($className)
 	{
 		$registry = \Innomatic\Util\Registry::instance();
@@ -255,7 +285,19 @@ class RootContainer extends \Innomatic\Util\Singleton
 		}
 		return $fileName;
 	}
+	/* }}} */
 
+    /* public createClassAlias($original, $alias, $strong=false) {{{ */
+    /**
+     * Creates a class alias for the given class.
+     *
+     * @param string $original Original class name
+     * @param string $alias New class name
+     * @param bool $strong If true creates a real alias known to PHP
+     * @static
+     * @access public
+     * @return void
+     */
 	public static function createClassAlias($original, $alias, $strong=false)
 	{
 		// if strong create a real alias known to PHP
@@ -282,4 +324,5 @@ class RootContainer extends \Innomatic\Util\Singleton
 			$GLOBALS['system_class_alias'][$alias] = $original;
 		}
 	}
+	/* }}} */
 }
