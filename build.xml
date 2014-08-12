@@ -14,7 +14,7 @@
 	<property name="version" value="6.4.0" />
 
     <!--
-    Helper target that initializes the CruiseControl project and creates the base
+    Helper target that initializes the project and creates the base
     directory structure.
     -->
     <target name="init" depends="initdir">
@@ -42,9 +42,11 @@
 			<fileset dir="${basedir}/build/logs" includes="**.*" />
 		</delete>
 		<!-- Remove old api documentation -->
+        <!--
 		<delete>
 			<fileset dir="${basedir}/build/api" includes="**.*" />
 		</delete>
+        -->
 		<!-- Remove old coverage report -->
 		<delete>
 			<fileset dir="${basedir}/build/coverage" includes="**.*" />
@@ -66,14 +68,10 @@
 
 	<!--
    Generates the project documentation into the <project>/build/api directory.
-   phpUnderControl uses the command line output of PhpDocumentor that is logged
-   by CruiseControl.
    -->
     <target name="php-documentor">
-		<exec executable="phpdoc" dir="${basedir}/source">
-			<arg line="-ct type -ue on -t ${basedir}/build/api
-	                 -tb /opt/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
-	                 -d innomatic" />
+		<exec executable="phpdoc" dir="${basedir}">
+			<arg line="-d source -t ${basedir}/build/api" />
 		</exec>
 		<tar destfile="${basedir}/build/packages/${name}-${version}-api.tgz" compression="gzip">
 			<tarfileset dir="${basedir}/build/api" prefix="${name}-api">
@@ -82,9 +80,8 @@
 	</target>
 
 	<!--
-   Execute code sniffer. CodeSniffer
-   uses the Checkstyle report generator that is supported by CruiseControl. The
-   'output' attribute for the exec element pipes the command line output into the
+   Execute code sniffer.
+   The 'output' attribute for the exec element pipes the command line output into the
    <project>/build/logs/checkstyle.xml file.
   
    You should always declare the optional @error attribute for the codesniffer
