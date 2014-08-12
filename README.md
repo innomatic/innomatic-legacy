@@ -103,11 +103,11 @@ Requirements
 ------------
 
 Serverside:
-    A web server with PHP >= 5.1 support and a SQL server supported by Innomatic.
+    A web server with PHP >= 5.4 support and a SQL server supported by Innomatic.
     Read INSTALL file for more information.
 
 Clientside:
-    A modern web browser with HTML 4.0 and CSS support.
+    A modern web browser.
 
 See the file named INSTALL for more details.
 
@@ -128,6 +128,9 @@ Innomatic Platform official web site:
 
 Innomatic official web site:
      http://www.innomatic.io/
+
+Innomatic technical wiki:
+     http://wiki.innomatic.org/
 
 To submit a bug report:
     https://github.com/innomatic/innomatic/issues

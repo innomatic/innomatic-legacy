@@ -14,7 +14,7 @@ REQUIREMENTS
 - PHP >= 5.4
 - PHP files upload support enabled
 - MySQL or PostgreSQL
-- PHP support for MySQL (MYSQLi) or PostgreSQL
+- PHP support for MySQLi or PostgreSQL
 - PHP extensions: zlib
 - Optional PHP extensions: Curl, PCNTL, POSIX
 
