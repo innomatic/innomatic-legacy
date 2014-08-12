@@ -60,7 +60,8 @@ CHANGES:
 - Changed default desktop font to Helvetica Neue. (Alex Pagnoni)
 - New WUI Button widget rendering for particular actions (main and delete).
   (Alex Pagnoni)
-- Removed base desktop. (Alex Pagnoni)
+- Removed base desktop (domains are no more accessed through the /domain/
+  path). (Alex Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).
