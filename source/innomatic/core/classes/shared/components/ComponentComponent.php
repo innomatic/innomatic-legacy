@@ -39,22 +39,66 @@ class ComponentComponent extends \Innomatic\Application\ApplicationComponent
         $this->eltype = new \Innomatic\Application\ApplicationComponentFactory($rootda);
     }
     /* }}} */
+
+    /* public getType() {{{ */
+    /**
+     * Returns the component type identifier.
+     *
+     * @static
+     * @access public
+     * @return string The component type
+     */
     public static function getType()
     {
         return 'component';
     }
+    /* }}} */
+
+    /* public getPriority() {{{ */
+    /**
+     * Returns the component type priority over other types.
+     *
+     * @static
+     * @access public
+     * @return integer The component priority
+     */
     public static function getPriority()
     {
         return 100;
     }
+    /* }}} */
+
+    /* public getIsDomain() {{{ */
+    /**
+     * Checks if the component type is domain based.
+     *
+     * Is true when the component type executes some actions when enabled or
+     * disabled to a domain.
+     *
+     * @static
+     * @access public
+     * @return boolean Whether the component is domain based or not
+     */
     public static function getIsDomain()
     {
         return false;
     }
+    /* }}} */
+
+    /* public getIsOverridable() {{{ */
+    /**
+     * Checks if the component type is overridable by other components.
+     *
+     * @static
+     * @access public
+     * @return boolean Whether the component is overridable or not
+     */
     public static function getIsOverridable()
     {
         return false;
     }
+    /* }}} */
+
     public function doInstallAction($params)
     {
         $result = false;
@@ -74,12 +118,15 @@ class ComponentComponent extends \Innomatic\Application\ApplicationComponent
                 if ($this->eltype->Install($params)) {
                     $result = true;
                 }
-            } else
+            } else {
                 $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy component file (' . $params['file'] . ') to its destination (' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/components/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
-        } else
+            }
+        } else {
             $this->mLog->logEvent('innomatic.componentcomponent.componentcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
+        }
         return $result;
     }
+
     public function doUninstallAction($params)
     {
         $result = false;
@@ -91,6 +138,7 @@ class ComponentComponent extends \Innomatic\Application\ApplicationComponent
         }
         return $result;
     }
+
     public function doUpdateAction($params)
     {
         $result = false;
