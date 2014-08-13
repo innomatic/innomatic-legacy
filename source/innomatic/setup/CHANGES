@@ -11,12 +11,12 @@
 6000 - 6.4.0 - "Tray bar, Pending actions, Roles/Permissions, Unittest component, UI improvements"
 -------------------------
 NEW FEATURES:
-- Added method truncateTable() and resetSequence() for classes that manage 
-  DataAccess. (Amanda Accalai)
-- Added field width in WuiStatusbar. (Amanda Accalai)
-- Added subtopmenu responsive. (Amanda Accalai)
-- Added management type Datatime in MysqlDataAccess. (Amanda Accalai)
-- Added management type Timestamp in MysqlDataAccess. (Amanda Accalai)
+- Added truncateTable() and resetSequence() methods for
+  \Innomatic\Dataaccess\DataAccess classes. (Amanda Accalai)
+- Added width field in WuiStatusbar. (Amanda Accalai)
+- Added responsive subtopmenu. (Amanda Accalai)
+- Added datetime field type handling in MysqlDataAccess. (Amanda Accalai)
+- Added timestamp field type handling in MysqlDataAccess. (Amanda Accalai)
 - Added the desktop tray bar. (Alex Pagnoni)
 - Added \Innomatic\Core\InnomaticContainer::switchDomain() method to stop the
   current domain and start a new one. (Alex Pagnoni)
