@@ -52,21 +52,21 @@
 
 // Innomatic dependencies fix
 //
-$appQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
-    'SELECT id
-    FROM
-        applications
-    WHERE
-        appid='
-    . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText('innomatic')
-);
+//$appQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
+    //'SELECT id
+    //FROM
+        //applications
+    //WHERE
+        //appid='
+    //. \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText('innomatic')
+//);
 
-\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
-    'DELETE FROM
-        applications_dependencies
-    WHERE
-        appid='.$appQuery->getFields('id')
-);
+//\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
+    //'DELETE FROM
+        //applications_dependencies
+    //WHERE
+        //appid='.$appQuery->getFields('id')
+//);
 
 // Innomatic auto reupdate
 //

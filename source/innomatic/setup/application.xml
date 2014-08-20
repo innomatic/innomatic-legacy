@@ -4,15 +4,15 @@
 	<definition>
 		<idname>innomatic</idname>
 		<release>
-			<version>6.2.1</version>
-			<date>2014/01/08</date>
+			<version>6.2.2</version>
+			<date>2014/08/20</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description><![CDATA[<strong>Innomatic 6000</strong> Cloud Applications Platform.]]></description>
 		<category>innomatic</category>
 		<iconfile>innomatic.png</iconfile>
 		<dependencies>
-			<dependency>innomatic[6.1]</dependency>
+			<dependency>innomatic[6.1.1]</dependency>
 			<dependency>php[5.4.0]</dependency>
 			<dependency>zlib.extension</dependency>
 			<suggestion>curl.extension</suggestion>
