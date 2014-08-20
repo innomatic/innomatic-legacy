@@ -40,6 +40,8 @@ NEW FEATURES:
   is the panel view main action. (Alex Pagnoni)
 - Added dangeraction attribute in WUI Button widget to be used when the button
   launches a dangerous action (eg. delete). (Alex Pagnoni)
+- Added link to domain home in Innomatic icon when in domain desktop. (Alex
+  Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
