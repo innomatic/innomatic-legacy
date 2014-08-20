@@ -35,14 +35,22 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
     public function __construct($elemName, $elemArgs = '', $elemTheme = '', $dispEvents = '')
     {
         parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
-        if (isset($this->mArgs['border']) and ($elemArgs['border'] == 'true' or $elemArgs['border'] == 'false'))
+
+        // Border
+        if (isset($this->mArgs['border']) and ($elemArgs['border'] == 'true' or $elemArgs['border'] == 'false')) {
             $this->mArgs['border'] = $elemArgs['border'];
-        else
+        } else {
             $this->mArgs['border'] = 'true';
-        if (isset($this->mArgs['refresh']))
+        }
+
+        // Page refresh
+        if (isset($this->mArgs['refresh'])) {
             $this->mArgs['refresh'] = (int) $this->mArgs['refresh'];
-        else
+        } else {
             $this->mArgs['refresh'] = 0;
+        }
+
+        // align
         if (isset($this->mArgs['align'])) {
             switch ($this->mArgs['align']) {
                 case 'left':
@@ -55,6 +63,9 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
         } else {
             $this->mArgs['align'] = 'left';
         }
+
+
+        // valign
         if (isset($this->mArgs['valign'])) {
             switch ($this->mArgs['valign']) {
                 case 'top':
@@ -67,10 +78,13 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
         } else {
             $this->mArgs['valign'] = 'top';
         }
-        if (isset($this->mArgs['ajaxloader']) and ($elemArgs['ajaxloader'] == 'true' or $elemArgs['ajaxloader'] == 'false'))
+
+        // Ajax loader
+        if (isset($this->mArgs['ajaxloader']) and ($elemArgs['ajaxloader'] == 'true' or $elemArgs['ajaxloader'] == 'false')) {
             $this->mArgs['ajaxloader'] = $elemArgs['ajaxloader'];
-        else
+        } else {
             $this->mArgs['ajaxloader'] = 'true';
+        }
     }
 
     protected function generateSourceBegin()
