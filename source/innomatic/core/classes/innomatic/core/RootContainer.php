@@ -66,7 +66,7 @@ class RootContainer extends Singleton
             get_include_path() . PATH_SEPARATOR . $this->home
             . 'innomatic/core/classes/'
         );
-        
+
         spl_autoload_register('RootContainer::autoload', true, true);
     }
 
@@ -102,10 +102,10 @@ class RootContainer extends Singleton
     {
         return $this->clean;
     }
-    
+
     /**
      * SPL autoload method.
-     * 
+     *
      * @since 6.1
      * @param string $class_name
      */
@@ -117,13 +117,13 @@ class RootContainer extends Singleton
 	    }
 	    // use some function to find the file that declares the class requested
 	    $file = self::getClassFile($class_name);
-	    
+
 	    // remember the defined classes, include the $file and detect newly declared classes
 	    $pre = get_declared_classes();
 	    //require_once($file);
 	    include_once($file);
 	    $post = array_unique(array_diff(get_declared_classes(), $pre));
-	    
+
 	    // loop through the new class definitions and create weak aliases if they are given with qualified names
 	    foreach ($post as $cd) {
 	        $d = explode('\\',$cd);
@@ -132,7 +132,7 @@ class RootContainer extends Singleton
 	            self::createClassAlias($cd,array_pop($d));
 	        }
 	    }
-	    
+
 	    // get the class definition. note: we assume that there's only one class/interface in each file!
 	    $def = array_pop($post);
 	    if (!isset($orig) && !$def)
@@ -163,10 +163,11 @@ class RootContainer extends Singleton
 	{
 		// Backwards compatibility system
 		if (!isset($GLOBALS['system_classes'])) {
-			$xml = file_get_contents('innomatic/core/applications/innomatic/application.xml');
+            $home = InnomaticContainer::instance('innomaticcontainer')->getHome();
+			$xml = file_get_contents($home.'/core/applications/innomatic/application.xml');
 			$file = new \SimpleXMLElement($xml);
 			$classes = array();
-			
+
 			foreach($file->components->class as $class) {
 				$path = "{$class['name']}";
 				$elements = explode('/', $path);
@@ -177,11 +178,11 @@ class RootContainer extends Singleton
 						$match = ucfirst($match);
 					}
 				);
-				
+
 				$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
 				$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
 			}
-			
+
 			foreach($file->components->wuiwidget as $class) {
 				$path = "shared/wui/{$class['file']}";
 				$elements = explode('/', $path);
@@ -192,12 +193,12 @@ class RootContainer extends Singleton
 					$match = ucfirst($match);
 				}
 				);
-			
+
 				$fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
 				$GLOBALS['system_classes'][strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
 			}
 		}
-		
+
 		$className = ltrim($className, '\\');
 		$fileName  = '';
 		$namespace = '';
@@ -206,19 +207,19 @@ class RootContainer extends Singleton
 			$className = substr($className, $lastNsPos + 1);
 			$fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
 		}
-		
+
 		if (isset($GLOBALS['system_classes'][strtolower($className)]))
 		{
 			$fileName = $GLOBALS['system_classes'][strtolower($className)]['path'];
 		}
-		else 
+		else
 		{
 			$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 		}
-		
+
 		return $fileName;
 	}
-	
+
 	public static function createClassAlias($original,$alias,$strong=false)
 	{
 		// if strong create a real alias known to PHP
@@ -226,14 +227,14 @@ class RootContainer extends Singleton
 		{
 			class_alias($original,$alias);
 		}
-	
+
 		// In any case store the alias in a global variable
 		$alias = strtolower($alias);
 		if( isset($GLOBALS['system_class_alias'][$alias]) )
 		{
 			if( $GLOBALS['system_class_alias'][$alias] == $original )
 				return;
-	
+
 			if( !is_array($GLOBALS['system_class_alias'][$alias]) )
 				$GLOBALS['system_class_alias'][$alias] = array($GLOBALS['system_class_alias'][$alias]);
 			$GLOBALS['system_class_alias'][$alias][] = $original;

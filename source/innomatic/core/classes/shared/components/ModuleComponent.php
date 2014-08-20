@@ -78,7 +78,7 @@ class ModuleComponent extends ApplicationComponent
     public function doUpdateAction($params)
     {
         require_once('innomatic/module/deploy/ModuleDeployer.php');
-
+return true;
         $deployer = new ModuleDeployer();
         return $deployer->redeploy($this->basedir . '/core/modules/' . $params['name']);
     }
