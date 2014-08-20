@@ -614,6 +614,13 @@ only application. */
             \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($basetmpdir);
             if (file_exists($tmpfilepath))
             @unlink($tmpfilepath);
+
+            // Removes the class loader backwards compatibility classes cache
+            // file
+            // @todo remove when the BC layer is removed
+            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/cache/classes.ser')) {
+                unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/cache/classes.ser');
+            }
         } else {
             if (!file_exists($tmpfilepath)) {
                 $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
@@ -672,7 +679,7 @@ only application. */
                     ) {
                         $this->appname = $appdata['appid'];
 
-                        // Checks if there are depengind applications
+                        // Checks if there are depending applications
                         //
                         $appdeps = new ApplicationDependencies();
                         $pendingdeps = $appdeps->CheckDependingApplications($appdata['appid']);
