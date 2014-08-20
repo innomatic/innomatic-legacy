@@ -404,11 +404,11 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
         $block = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . "\n";
         $block .= "<html>\n";
         $block .= "<head>\n";
-        
+
         // WUI javascript
         $block .= '<script language="JavaScript" type="text/javascript" src="' . $container->getBaseUrl(false) . '/shared/wui.js"></script>' . "\n";
         $block .= "<script language=\"JavaScript\" type=\"text/javascript\" src=\"" . $container->getBaseUrl(false) . '/shared/' . "layersmenu.js\"></script>\n";
-        
+
         // WUI style
         $block .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $this->mThemeHandler->mStyle['css'] . "\">\n";
 
@@ -421,21 +421,21 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
         // Favicon
         $block .= '<link rel="shortcut icon" href="' . $container->getBaseUrl(false) . '/favicon.png" type="image/png"/>' . "\n";
-        
+
         // PNG Behavior
-        // @todo Consider removing support for PNH behavior
+        // @todo Consider removing support for PNG behavior
         $block .= "<style type=\"text/css\">\nimg {\nbehavior:    url(\"" . $container->getBaseUrl(false) . '/shared/' . "pngbehavior.htc\");\n}\n</style>\n";
-        
+
         // Page title
         $block .= "<title>" . \Innomatic\Wui\Wui::utf8_entities($this->mArgs['title']) . "</title>\n";
-        
+
         // Optional inline javascript code
         $block .= ((isset($this->mArgs['javascript']) and strlen($this->mArgs['javascript'])) ? "<script language=\"JavaScript\">\n<!--\n" . $this->mArgs['javascript'] . "\n//-->\n</script>\n" : '');
-        
+
         // Content type
         $block .= '<meta http-equiv="Content-Type" content="text/html; charset=' . $charset . '">' . "\n";
         $block .= '<meta name="MSSmartTagsPreventParsing" content="true">' . "\n";
-        
+
         // Optional auto refresh
         if ($this->mArgs['refresh']) {
             $block .= '<meta http-equiv="refresh" content="' . $this->mArgs['refresh'] . '">' . "\n";
@@ -453,7 +453,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
         $block .= '<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
             <td valign="' . $this->mArgs['valign'] . '" align="' . $this->mArgs['align'] . '" style="height: 100%;">' . "\n";
-        
+
         if ($this->mArgs['border'] == 'true') {
             if (!($container->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
                 $menu_header = ((isset($GLOBALS['gEnv']['runtime']['wui_menu']['header'])) ? '' : $mid->MakeHeader()) . $mid->getMenu($this->mName);
@@ -509,7 +509,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                 // Logout button
                 $block .= '<td><a href="' . $logout_events_call->getEventsCallString() . '" alt="' . $innomatic_menu_locale->getStr('logout') . '"><img width="25" height="25" align="right" style="margin-left: 15px;" src="' . $this->mThemeHandler->mStyle['logout'] . '" alt="' . $innomatic_menu_locale->getStr('logout') . '" /></a></td>';
             }
-            
+
             // Menu and toolbar
             $block .= "</tr></table></td></tr>"
                 . "<tr><td colspan=\"2\" style=\"border-bottom: 1px solid #cccccc; margin: 0px; padding: 0px; width: 100%; height: 45px; background-color: "
@@ -529,7 +529,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
     protected function generateSourceEnd()
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         // Add titlebar
         $this->mLayout = str_replace('{[wui-titlebar-title]}', isset($GLOBALS['wui']['titlebar-title']) ? $GLOBALS['wui']['titlebar-title'] : '', $this->mLayout);
 
@@ -553,7 +553,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
             $block .= $GLOBALS['gEnv']['runtime']['wui_menu']['footer'];
         }
         $block .= "</td></tr></table>\n";
-        
+
         // Ajax support.
         if (\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->countRegisteredAjaxCalls() > 0) {
             $xajax = \Innomatic\Ajax\Xajax::instance('Xajax');
