@@ -64,6 +64,8 @@ CHANGES:
   (Alex Pagnoni)
 - Removed base desktop (domains are no more accessed through the /domain/
   path). (Alex Pagnoni)
+- Updated Innomatic minimum version to upgrade to 6.2.2, in order to follow
+  the mandatory upgrade path for 6.1 release. (Alex Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).

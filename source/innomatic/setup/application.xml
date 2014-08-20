@@ -12,7 +12,7 @@
 		<category>innomatic</category>
 		<iconfile>innomatic.png</iconfile>
 		<dependencies>
-			<dependency>innomatic[6.1]</dependency>
+			<dependency>innomatic[6.2.2]</dependency>
 			<dependency>php[5.4.0]</dependency>
 			<dependency>zlib.extension</dependency>
 			<suggestion>curl.extension</suggestion>
