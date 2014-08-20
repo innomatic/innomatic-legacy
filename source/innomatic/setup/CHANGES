@@ -114,6 +114,16 @@ FIXES:
 
 
 
+6000 - 6.2.2 - 2014/08/20
+-------------------------
+This is a support release for upgrading from 6.1.1.
+
+CHANGES:
+- Commented offending lines in generalpostupdate script when upgrading from
+  6.1.1. (Alex Pagnoni)
+
+
+
 6000 - 6.2.1 - 2014/01/08
 -------------------------
 NEW FEATURES:
@@ -146,6 +156,17 @@ NEW FEATURES:
   support. (Alex Pagnoni)
 - During Innomatic setup, get the default country based on HTTP_ACCEPT_LANGUAGE
   header. (Luca Ferri)
+
+
+
+6000 6.1.1 - 2014/08/20
+-----------------------
+This is a support release for upgrading to Innomatic 6.2.2.
+
+CHANGES:
+- Added full path when loading application.xml in RootContainer class loader
+  compatibility mode. (Alex Pagnoni)
+- Disabled update action in module component. (Alex Pagnoni)
 
 
 
