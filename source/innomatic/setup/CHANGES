@@ -10,7 +10,7 @@
 
 6000 6.1.1 - 2014/08/20
 -----------------------
-Applied changes needed to upgrade to Innomatic 6.2.2.
+This is a support release for upgrading to Innomatic 6.2.2.
 
 CHANGES:
 - Added full path when loading application.xml in RootContainer class loader
