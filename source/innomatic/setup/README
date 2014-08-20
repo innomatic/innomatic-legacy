@@ -14,7 +14,7 @@ General information
 -------------------
 
 Innomatic is an open source platform for building multi-tenant cloud
-applications developed by Innoteam in PHP language.
+applications in PHP language.
 
 It is suitable as an Internet/Intranet development and deployment
 system. It has a very strong modular architecture and allows very fast
@@ -92,19 +92,12 @@ installed in every operating system where PHP has been ported.
 License
 -------
 
-Innomatic is released under the MPL license. See the file named LICENSE.
+Innomatic is released under the new BSD license. See the file named LICENSE.
 
 
 
 Requirements
 ------------
-
-Serverside:
-    A web server with PHP >= 5.4 support and a SQL server supported by Innomatic.
-    Read INSTALL file for more information.
-
-Clientside:
-    A modern web browser.
 
 See the file named INSTALL for more details.
 
