@@ -8,6 +8,17 @@
                                 CHANGES
                                 =======
 
+6000 6.1.1 - 2014/08/20
+-----------------------
+Applied changes needed to upgrade to Innomatic 6.2.2.
+
+CHANGES:
+- Added full path when loading application.xml in RootContainer class loader
+  compatibility mode. (Alex Pagnoni)
+- Disabled update action in module component. (Alex Pagnoni)
+
+
+
 6000 6.1 - 2013/12/01 - "Retina icons, Environment, Dashboard, PSR standards"
 ---------------------
 FIXES:
