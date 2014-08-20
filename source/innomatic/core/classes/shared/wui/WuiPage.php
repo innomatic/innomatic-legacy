@@ -528,6 +528,8 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
     protected function generateSourceEnd()
     {
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
         // Add titlebar
         $this->mLayout = str_replace('{[wui-titlebar-title]}', isset($GLOBALS['wui']['titlebar-title']) ? $GLOBALS['wui']['titlebar-title'] : '', $this->mLayout);
 
