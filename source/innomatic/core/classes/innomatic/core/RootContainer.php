@@ -161,8 +161,25 @@ class RootContainer extends \Innomatic\Util\Singleton
 	    }
 	}
 
+    /* public getApplicationClasses($file) {{{ */
+    /**
+     * This method gets all the declared classes in the application.xml
+     * definition file of the given application.
+     *
+     * Returned classes are of "class" and "wuiwidget" component types.
+     *
+     * @todo This method should be removed when dropping the class loader
+     * compatibility layer
+     *
+     * @param string $file Full path of the application.xml file.
+     * @static
+     * @access public
+     * @return array
+     */
     public static function getApplicationClasses($file)
     {
+        // Manually open files instead of using file_get_contents due to
+        // performance optimization
         $fh = fopen($file, 'r');
         $xml = fread($fh, filesize($file));
         fclose($fh);
@@ -205,6 +222,7 @@ class RootContainer extends \Innomatic\Util\Singleton
 
         return array('classes' => $application_classes, 'fqcns' => $application_fqcns);
     }
+    /* }}} */
 
     public static function getClassFile($className)
     {
