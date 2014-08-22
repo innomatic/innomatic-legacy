@@ -31,8 +31,8 @@ class WuiValidatorHelper
                 if ($validators_query) {
                     // TODO old
                     while (!$validators_query->eof) {
-                        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/classes/shared/wui/validators/'.$validators_query->getFields('file'))) {
-                            include_once(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/classes/shared/wui/validators/'.$validators_query->getFields('file'));
+                        if (file_exists($innomatic->getHome().'core/classes/shared/wui/validators/'.$validators_query->getFields('file'))) {
+                            include_once($innomatic->getHome().'core/classes/shared/wui/validators/'.$validators_query->getFields('file'));
                         }
                         $validators_query->moveNext();
                     }

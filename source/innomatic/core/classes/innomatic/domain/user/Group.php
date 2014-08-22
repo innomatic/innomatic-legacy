@@ -18,6 +18,7 @@ use \Innomatic\Process\Hook;
 
 class Group
 {
+    protected $container;
     public $mrRootDb;
     public $mrDomainDA;
     public $domainserial;
@@ -30,9 +31,10 @@ class Group
      */
     public function __construct($groupid = 0)
     {
-        $this->mrRootDb = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
-        $this->mrDomainDA = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
-        $this->domainserial = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'];
+        $this->container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $this->mrRootDb = $this->container->getDataAccess();
+        $this->mrDomainDA = $this->container->getCurrentDomain()->getDataAccess();
+        $this->domainserial = $this->container->getCurrentDomain()->domaindata['id'];
         $this->groupid = $groupid;
     }
 
@@ -57,12 +59,12 @@ class Group
                         $result = false;
                 } else {
                     
-                    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                    $log = $this->container->getLogger();
                     $log->logEvent('innomatic.users.group.creategroup', 'Attempted to create an already existing group', \Innomatic\Logging\Logger::ERROR);
                 }
             } else {
                 
-                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                $log = $this->container->getLogger();
                 $log->logEvent('innomatic.users.group.creategroup', 'Invalid groupname or access to a member for a not initialized group object', \Innomatic\Logging\Logger::ERROR);
             }
         }
@@ -82,12 +84,12 @@ class Group
                 $this->mrDomainDA->execute($upd);
             } else {
                 
-                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                $log = $this->container->getLogger();
                 $log->logEvent('innomatic.users.group.editgroup', 'No groups with specified name ('.$groupdata['groupname'].') exists', \Innomatic\Logging\Logger::ERROR);
             }
         } else {
             
-            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log = $this->container->getLogger();
             $log->logEvent('innomatic.users.group.editgroup', 'Invalid group id ('.$this->groupid.') or groupname ('.$groupdata['groupname'].')', \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
@@ -129,7 +131,7 @@ class Group
                 }
             } else {
                 
-                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                $log = $this->container->getLogger();
                 $log->logEvent('innomatic.users.group.removegroup', "Attempted to call a member of an object that doesn't refer to any group", \Innomatic\Logging\Logger::ERROR);
             }
         }
