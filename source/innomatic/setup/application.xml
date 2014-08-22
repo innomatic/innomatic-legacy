@@ -122,6 +122,9 @@
 		<class name="innomatic/php/PHPWebAppHandler.php" />
 		<webappskeleton name="php" catalog="innomatic::webapps" />
 
+        <!-- PHPUnit -->
+        <script name="phpunit_bootstrap.php" />
+
 		<!-- Setup -->
 
 		<class name="innomatic/setup/InnomaticSetup.php" />
