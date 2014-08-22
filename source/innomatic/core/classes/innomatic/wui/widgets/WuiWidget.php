@@ -72,23 +72,24 @@ abstract class WuiWidget
         $this->mArgs = &$elemArgs;
         $this->mComments = \Innomatic\Wui\Wui::showSourceComments();
 
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $wuiContainer = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
+
         if (is_array($dispEvents)) {
             $this->mDispEvents = &$dispEvents;
         }
 
-        $currentWuiTheme = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getThemeName();
+        $currentWuiTheme = $wuiContainer->getThemeName();
         if (strlen($elemTheme) and $elemTheme != $currentWuiTheme) {
             $this->mTheme = $elemTheme;
 
             $this->mThemeHandler = new \Innomatic\Wui\WuiTheme(
-                \Innomatic\Core\InnomaticContainer::instance(
-                    '\Innomatic\Core\InnomaticContainer'
-                )->getDataAccess(),
+                $container->getDataAccess(),
                 $this->mTheme
             );
         } else {
             $this->mTheme = $currentWuiTheme;
-            $this->mThemeHandler = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getTheme();
+            $this->mThemeHandler = $wuiContainer->getTheme();
         }
 
         if (
@@ -119,7 +120,7 @@ abstract class WuiWidget
         }
 
         $url_path = '';
-        
+
         if ($this->mSessionObjectNoPage != 'true') {
 	        $url_path = $_SERVER['REQUEST_URI'];
 	        if (strpos($url_path, '?')) {
@@ -127,10 +128,10 @@ abstract class WuiWidget
 	        }
 	        $url_path .= '_';
         }
-        
+
         $this->mSessionObjectName = ($this->mSessionObjectNoUser == 'true' ? ''
-            : (is_object(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()) ?
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName() : 'root')
+            : (is_object($container->getCurrentUser()) ?
+            $container->getCurrentUser()->getUserName() : 'root')
              .'_') .$url_path.
              ($this->mSessionObjectNoType == 'true' ? '' : get_class($this).'_') .
              ($this->mSessionObjectNoName == 'true' ? '' : $this->mName) .
@@ -143,8 +144,6 @@ abstract class WuiWidget
         }
 
         $xajax = \Innomatic\Ajax\Xajax::instance('Xajax', $ajax_request_uri);
-
-        $wuiContainer = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 
         // Register action ajax calls
         $theObject = new \ReflectionObject($this);
