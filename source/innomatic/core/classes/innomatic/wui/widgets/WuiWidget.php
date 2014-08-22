@@ -137,25 +137,32 @@ abstract class WuiWidget
              ($this->mSessionObjectNoName == 'true' ? '' : $this->mName) .
              (strlen($this->mSessionObjectUserName) ? '_'.$this->mSessionObjectUserName : '');
 
-        // Register action ajax calls
-        $theObject = new \ReflectionObject($this);
-        $methods = $theObject->getMethods();
-        foreach ($methods as $method) {
-            // Ignore private methods
-            $theMethod = new \ReflectionMethod($theObject->getName(), $method->getName());
-            if (!$theMethod->isPublic()) {
-                continue;
+        // Check if the widget should be prepared once for all instances
+        $widgetName = substr(get_class($this), 3);
+        if (!isset($wuiContainer->preparedWidgets[$widgetName])) {
+            // Register action ajax calls
+            $theObject = new \ReflectionObject($this);
+            $methods = $theObject->getMethods();
+            foreach ($methods as $method) {
+                // Ignore private methods
+                $theMethod = new \ReflectionMethod($theObject->getName(), $method->getName());
+                if (!$theMethod->isPublic()) {
+                    continue;
+                }
+    
+                // Expose only methods beginning with "ajax" prefix
+                if (!(substr($method->getName(), 0, 4) == 'ajax')) {
+                    continue;
+                }
+    
+                // Register the ajax call
+                $call_name = substr($method->getName(), 4);
+                $wuiContainer->registerAjaxCall($call_name);
+                $wuiContainer->getXajax()->registerExternalFunction(array($call_name, get_class($this), $method->getName()), 'shared/wui/'.get_class($this).'.php');
             }
-
-            // Expose only methods beginning with "ajax" prefix
-            if (!(substr($method->getName(), 0, 4) == 'ajax')) {
-                continue;
-            }
-
-            // Register the ajax call
-            $call_name = substr($method->getName(), 4);
-            $wuiContainer->registerAjaxCall($call_name);
-            $wuiContainer->getXajax()->registerExternalFunction(array($call_name, get_class($this), $method->getName()), 'shared/wui/'.get_class($this).'.php');
+            
+            // Set the widget as prepared
+            $wuiContainer->preparedWidgets[$widgetName] = $widgetName;
         }
     }
 
