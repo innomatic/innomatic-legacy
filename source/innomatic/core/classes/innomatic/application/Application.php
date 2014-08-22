@@ -22,8 +22,14 @@ use \Innomatic\Core\Container;
  */
 class Application
 {
+    /**
+     * Innomatic container
+     *
+     * @var \Innomatic\Core\Container
+     * @access protected
+     */
     protected $container;
-    
+
     /*! @public rootda DataAccess class - Innomatic database handler. */
     public $rootda;
     /*! @public domainda DataAccess class - Domain dataaccess handler. */
@@ -63,7 +69,7 @@ only application. */
      */
     public function __construct(\Innomatic\Dataaccess\DataAccess $rootda, $modserial = 0)
     {
-        $this->container = $this->container;
+        $this->container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         $this->rootda = $rootda;
         $this->serial = $modserial;
         $this->eltypes = new ApplicationComponentFactory($rootda);
