@@ -44,6 +44,7 @@ class Wui extends \Innomatic\Util\Singleton
     protected $mThemeHandler;
     protected $registeredAjaxCalls = array();
     protected $registeredAjaxSetupCalls = array();
+    protected $xajax;
 
     const DEFAULT_THEME = 'flattheme';
 
@@ -68,6 +69,14 @@ class Wui extends \Innomatic\Util\Singleton
                 $this->mrRootDb = $rootDA;
             }
         }
+        
+        // AJAX
+        $ajax_request_uri = $_SERVER['REQUEST_URI'];
+        if (strpos($ajax_request_uri, '?')) {
+            $ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
+        }
+        
+        $this->xajax = \Innomatic\Ajax\Xajax::instance('Xajax', $ajax_request_uri);
     }
 
     /**
@@ -311,6 +320,11 @@ class Wui extends \Innomatic\Util\Singleton
     public static function utf8_entities($string)
     {
         return htmlentities($string, ENT_QUOTES, 'UTF-8');
+    }
+
+    public function getXajax()
+    {
+        return $this->xajax;
     }
 
     public function registerAjaxCall($callName)

@@ -71,7 +71,7 @@ abstract class WuiWidget
         $this->mName = $elemName;
         $this->mArgs = &$elemArgs;
         $this->mComments = \Innomatic\Wui\Wui::showSourceComments();
-
+        
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         $wuiContainer = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 
@@ -120,7 +120,7 @@ abstract class WuiWidget
         }
 
         $url_path = '';
-
+        
         if ($this->mSessionObjectNoPage != 'true') {
 	        $url_path = $_SERVER['REQUEST_URI'];
 	        if (strpos($url_path, '?')) {
@@ -128,7 +128,7 @@ abstract class WuiWidget
 	        }
 	        $url_path .= '_';
         }
-
+        
         $this->mSessionObjectName = ($this->mSessionObjectNoUser == 'true' ? ''
             : (is_object($container->getCurrentUser()) ?
             $container->getCurrentUser()->getUserName() : 'root')
@@ -136,14 +136,6 @@ abstract class WuiWidget
              ($this->mSessionObjectNoType == 'true' ? '' : get_class($this).'_') .
              ($this->mSessionObjectNoName == 'true' ? '' : $this->mName) .
              (strlen($this->mSessionObjectUserName) ? '_'.$this->mSessionObjectUserName : '');
-
-        // AJAX
-        $ajax_request_uri = $_SERVER['REQUEST_URI'];
-        if (strpos($ajax_request_uri, '?')) {
-            $ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
-        }
-
-        $xajax = \Innomatic\Ajax\Xajax::instance('Xajax', $ajax_request_uri);
 
         // Register action ajax calls
         $theObject = new \ReflectionObject($this);
@@ -163,7 +155,7 @@ abstract class WuiWidget
             // Register the ajax call
             $call_name = substr($method->getName(), 4);
             $wuiContainer->registerAjaxCall($call_name);
-            $xajax->registerExternalFunction(array($call_name, get_class($this), $method->getName()), 'shared/wui/'.get_class($this).'.php');
+            $wuiContainer->getXajax()->registerExternalFunction(array($call_name, get_class($this), $method->getName()), 'shared/wui/'.get_class($this).'.php');
         }
     }
 
