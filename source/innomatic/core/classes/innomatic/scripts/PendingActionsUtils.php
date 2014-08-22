@@ -25,7 +25,7 @@ namespace Innomatic\Scripts;
  *
  * When processing pending actions, the application must remove the related
  * entries as soon as the action are positively completed using the
- * PendingActionsUtils::removeBy*() tasks.
+ * PendingActionsUtils::removeBy*() methods.
  *
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2014 Innoteam Srl
