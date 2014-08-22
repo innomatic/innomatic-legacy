@@ -15,15 +15,18 @@ namespace Innomatic\Scripts;
 
 /**
  * This class provides methods to add, get and remove pending actions to be
- * execute by a cronjob script.
- * 
+ * executed by a cronjob script.
+ *
  * Innomatic does not provide a standard cronjob script to process pending
  * actions. Each application should manage its own pending actions with a
- * dedicated cronjob script.
- * 
+ * dedicated cronjob script or a maintenance task (see
+ * \Innomatic\Maintenance\MaintenanceTask and
+ * \Shared\Components\MaintenancetaskComponent).
+ *
  * When processing pending actions, the application must remove the related
- * entries as soon as the action are positively completed.
- * 
+ * entries as soon as the action are positively completed using the
+ * PendingActionsUtils::removeBy*() tasks.
+ *
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @copyright Copyright 2014 Innoteam Srl
  * @since 6.4.0
@@ -32,7 +35,7 @@ class PendingActionsUtils
 {
     /**
      * Adds a new pending action.
-     * 
+     *
      * @param string $application The application identifier.
      * @param integer $domain_id The optional domain id by which the action should be executed.
      * @param integer $user_id The optional user id by which the action should be executed.
@@ -42,9 +45,10 @@ class PendingActionsUtils
     public static function add($application, $domain_id, $user_id, $action, $parameters = array())
     {
         $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
-        
+
         $id = $root_da->getNextSequenceValue('pending_actions_id_seq');
-        
+
+        // Insert the pending action in the database
         return $root_da->execute(
             'INSERT INTO pending_actions VALUES('.
             $id.','.
@@ -57,40 +61,47 @@ class PendingActionsUtils
             ')'
         );
     }
-    
+
     /**
      * Fetches a list of pending actions for a given application and action
      * type, ordered by creation time.
-     * 
+     *
      * @param string $application Required application name.
      * @param string $action Required action name.
      */
     public static function get($application, $action)
     {
         $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
-        
-        $query = $root_da->execute('SELECT * FROM pending_actions WHERE application='.$root_da->formatText($application).' AND action='.$root_da->formatText($action).' ORDER BY created');
-        
+
+        // Extract the pending actions
+        $query = $root_da->execute(
+            'SELECT * FROM pending_actions'
+            .' WHERE application='.$root_da->formatText($application)
+            .' AND action='.$root_da->formatText($action)
+            .' ORDER BY created'
+        );
+
+        // Build the list of pending actions
         $actions = array();
         while (!$query->eof) {
             $actions[] = array(
-                'id' => $query->getFields('id'),
-            	'application' => $query->getFields('application'),
-                'domainid' => $query->getFields('domainid'),
-                'userid' => $query->getFields('userid'),
-                'created' => $query->getFields('created'),
-                'action' => $query->getFields('action'),
-                'parameters' => unserialize($query->getFields('parameters'))
+                'id'          => $query->getFields('id'),
+                'application' => $query->getFields('application'),
+                'domainid'    => $query->getFields('domainid'),
+                'userid'      => $query->getFields('userid'),
+                'created'     => $query->getFields('created'),
+                'action'      => $query->getFields('action'),
+                'parameters'  => unserialize($query->getFields('parameters'))
             );
             $query->moveNext();
         }
-        
+
         return $actions;
     }
-    
+
     /**
      * Removes a pending action with a given id.
-     * 
+     *
      * @param integer $id Pending action id.
      */
     public static function removeById($id)
@@ -100,10 +111,10 @@ class PendingActionsUtils
             $root_da->execute('DELETE FROM pending_actions WHERE id='.$id);
         }
     }
-    
+
     /**
      * Removes all pending actions related to a given application and action name.
-     * 
+     *
      * @param string $application Application identifier string.
      * @param string $action Action name.
      */
@@ -111,18 +122,25 @@ class PendingActionsUtils
     {
         $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
 
-        $root_da->execute('DELETE FROM pending_actions WHERE application='.$root_da->formatText($application).' AND action='.$root_da->formatText($action));
+        $root_da->execute(
+            'DELETE FROM pending_actions'
+            .' WHERE application='.$root_da->formatText($application)
+            .' AND action='.$root_da->formatText($action)
+        );
     }
-    
+
     /**
      * Removes all pending actions related to a given application.
-     * 
+     *
      * @param string $application Application identifier string.
      */
     public static function removeByApplication($application)
     {
         $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
-        
-        $root_da->execute('DELETE FROM pending_actions WHERE application='.$root_da->formatText($application));
+
+        $root_da->execute(
+            'DELETE FROM pending_actions'
+            .' WHERE application='.$root_da->formatText($application)
+        );
     }
 }
