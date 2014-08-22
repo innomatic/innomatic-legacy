@@ -17,7 +17,7 @@ class InnomaticSettingsTest extends \PHPUnit_Framework_TestCase
     protected function setUp ()
     {
         parent::setUp();
-        $this->InnomaticSettings = new \Innomatic\Core\InnomaticSettings(\Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().'/innomatic/core/conf/tests/innomatic.ini');
+        $this->InnomaticSettings = new \Innomatic\Core\InnomaticSettings(\Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().'/innomatic/core/classes/innomatic/core/tests/innomatic.ini');
     }
     /**
      * Cleans up the environment after running a test.
