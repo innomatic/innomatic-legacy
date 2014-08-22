@@ -68,6 +68,7 @@ CHANGES:
   the mandatory upgrade path for 6.1 release. (Alex Pagnoni)
 - Various performance improvements in RootContainer class loading. (Alex
   Pagnoni)
+- Huge performance improvement in WUI widgets code. (Alex Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).
