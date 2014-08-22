@@ -21,7 +21,7 @@ namespace Innomatic\Core;
  *
  * It holds the container current state, mode and interface.
  *
- * This class provides a custom PHP error handler for the container
+ * This class provided a custom PHP error handler for the container
  * applications.
  *
  * @copyright  1999-2014 Innoteam Srl
@@ -277,7 +277,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             . $this->config->value('RootDatabasePort') . '/'
             . $this->config->value('RootDatabaseName') . '?'
             . 'logfile='
-            . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            . $this->getHome()
             . 'core/log/innomatic_root_db.log';
             $this->rootDb = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(
                 new \Innomatic\Dataaccess\DataAccessSourceName($dasnString)
@@ -411,7 +411,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
                     'innomatic::authentication',
                     $this->language
                 );
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->abort(
+                $this->abort(
                     $adloc->getStr('nodb')
                 );
             }
@@ -448,7 +448,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     public function stopDomain()
     {
         if ($this->domainStarted) {
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+            if ($this->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
                 $this->currentDomain->getDataAccess()->close();
             }
             // TODO implement
@@ -504,7 +504,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         $null = null;
         switch ($hook->callHooks('maintenance', $null, '')) {
             case \Innomatic\Process\Hook::RESULT_ABORT:
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->abort(
+                $this->abort(
                     'Maintenance aborted'
                 );
                 break;
@@ -751,7 +751,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         $logError[E_USER_NOTICE]['log'] = false;
         $logError[E_USER_NOTICE]['die'] = false;
 
-        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
+        if ($this->getState() != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
             $phpLog = \Innomatic\Core\InnomaticContainer::instance(
                 '\Innomatic\Core\InnomaticContainer'
             )->getHome() . 'core/log/php.log';
@@ -1257,7 +1257,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     {
         // Erases all semaphores.
         $handle = opendir(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            $this->getHome()
             . 'core/temp/semaphores'
         );
         if ($handle) {
@@ -1277,7 +1277,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         // Erases system upgrading lock if it exists.
         if (
             file_exists(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                $this->getHome()
                 . 'core/temp/upgrading_system_lock'
             )
         ) {

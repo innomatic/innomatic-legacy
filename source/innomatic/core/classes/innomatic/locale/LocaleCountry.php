@@ -124,7 +124,7 @@ class LocaleCountry
             $result = true;
         } else {
             
-            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log = $innomatic->getLogger();
             $log->logEvent('innomatic/locale/LocaleCountry', 'Unable to open country file '.$innomatic->getHome().'core/locale/countries/'.$this->country.'.ini', \Innomatic\Logging\Logger::ERROR);
         }
         

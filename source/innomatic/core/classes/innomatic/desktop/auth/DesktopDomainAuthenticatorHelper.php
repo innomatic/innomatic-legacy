@@ -24,6 +24,7 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
 
     public function authenticate()
     {
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         $session = \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session;
 
         if (isset(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui']['login'])) {
@@ -33,7 +34,7 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
             $loginDispatcher->Dispatch();
         }
 
-        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('SecurityOnlyHttpsDomainAccessAllowed') == '1') {
+        if ($container->getConfig()->value('SecurityOnlyHttpsDomainAccessAllowed') == '1') {
             if (! isset($_SERVER['HTTPS']) or ($_SERVER['HTTPS'] != 'on')) {
                 self::doAuth(true, 'only_https_allowed');
             }
@@ -44,31 +45,31 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
             self::doAuth();
         }
 
-        $domainsquery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute('SELECT id FROM domains WHERE domainid=' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()
+        $domainsquery = $container->getDataAccess()->execute('SELECT id FROM domains WHERE domainid=' . $container->getDataAccess()
             ->formatText(\Innomatic\Domain\User\User::extractDomainID($session->get('INNOMATIC_AUTH_USER'))));
         if ($domainsquery->getNumberRows() == 0) {
             self::doAuth();
         } else {
             $domainsquery->free();
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->startDomain(\Innomatic\Domain\User\User::extractDomainID($session->get('INNOMATIC_AUTH_USER')), $session->get('INNOMATIC_AUTH_USER'));
+            $container->startDomain(\Innomatic\Domain\User\User::extractDomainID($session->get('INNOMATIC_AUTH_USER')), $session->get('INNOMATIC_AUTH_USER'));
         }
 
         // Check if the user still exists
         $user = new \Domain\User\User(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['id'],
+            $container->getCurrentDomain()->domaindata['id'],
             \Domain\User\User::getUserIdByUsername($session->get('INNOMATIC_AUTH_USER'))
         );
 
         if (!$user->exists()) {
             // User no more exists; remove the session key and redo auth
             \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session->remove('INNOMATIC_AUTH_USER');
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->stopDomain();
+            $container->stopDomain();
             self::doAuth();
         }
 
         // Check if the user is enabled
         if (!$user->isEnabled()) {
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->stopDomain();
+            $container->stopDomain();
             self::doAuth(true, 'userdisabled');
         }
 
@@ -78,7 +79,7 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
 
         // Check if the domain is enabled
         //
-        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['domainactive'] != \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmttrue) {
+        if ($container->getCurrentDomain()->domaindata['domainactive'] != $container->getDataAccess()->fmttrue) {
             self::doAuth(true, 'domaindisabled');
         }
 
@@ -87,9 +88,8 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
 
     public static function doAuth($wrong = false, $reason = '')
     {
-        $innomaticLocale = new \Innomatic\Locale\LocaleCatalog('innomatic::authentication', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
-
         $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $innomaticLocale = new \Innomatic\Locale\LocaleCatalog('innomatic::authentication', $innomatic->getLanguage());
 
         $wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
         $wui->loadWidget('button');
@@ -183,7 +183,7 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
         $wuiHGroup->addChild(new WuiButton('password', array(
             'themeimage' => 'keyhole',
             'themeimagetype' => 'big',
-            'action' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl() . '/',
+            'action' => $innomatic->getBaseUrl() . '/',
             'highlight' => false
         )));
         $wuiHGroup->addChild($wuiVGroup);
@@ -196,7 +196,7 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
         $session = \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session;
 
         if ($wrong) {
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('SecurityAlertOnWrongLocalUserLogin') == '1') {
+            if ($innomatic->getConfig()->value('SecurityAlertOnWrongLocalUserLogin') == '1') {
                 $loginDispatcher = new \Innomatic\Wui\Dispatch\WuiDispatcher('login');
                 $eventData = $loginDispatcher->getEventData();
 
@@ -207,10 +207,10 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
                 unset($innomaticSecurity);
             }
 
-            $sleepTime = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('WrongLoginDelay');
+            $sleepTime = $innomatic->getConfig()->value('WrongLoginDelay');
             if (! strlen($sleepTime))
                 $sleepTime = 1;
-            $maxAttempts = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('MaxWrongLogins');
+            $maxAttempts = $innomatic->getConfig()->value('MaxWrongLogins');
             if (! strlen($maxAttempts))
                 $maxAttempts = 3;
 
@@ -219,7 +219,7 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
             if ($session->isValid('domain_login_attempts')) {
                 $session->put('domain_login_attempts', $session->get('domain_login_attempts') + 1);
                 if ($session->get('domain_login_attempts') >= $maxAttempts)
-                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->abort($innomaticLocale->getStr('wrongpwd'));
+                    $innomatic->abort($innomaticLocale->getStr('wrongpwd'));
             } else {
                 $session->put('domain_login_attempts', 1);
             }
@@ -236,7 +236,7 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
         // Page render
         //
         $wuiMainGroup->addChild($wuiTitleBar);
-        // $wui_maingroup->addChild( new WuiButton( 'innomaticlogo', array( 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/styles/cleantheme/innomatic_big_asp.png', 'action' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl().'/' ) ) );
+        // $wui_maingroup->addChild( new WuiButton( 'innomaticlogo', array( 'image' => $innomatic->getBaseUrl(false).'/shared/styles/cleantheme/innomatic_big_asp.png', 'action' => $innomatic->getBaseUrl().'/' ) ) );
         $wuiMainBFrame->addChild($wuiMainFrame);
         $wuiMainBFrame->addChild(new WuiHorizBar('hb'));
         $wuiMainBFrame->addChild(new WuiLink('copyright', array(
@@ -252,7 +252,7 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
         $wui->addChild($wuiPage);
         $wui->render();
 
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
+        $innomatic->halt();
     }
 
     public function authorize()

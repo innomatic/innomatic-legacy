@@ -49,8 +49,10 @@ abstract class PanelController implements \Innomatic\Util\Observer
 
     public function __construct($mode, $application)
     {
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+
         // Builds the application home path
-        $home = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome();
+        $home = $container->getHome();
         switch ($mode) {
             case \Innomatic\Core\InnomaticContainer::MODE_ROOT:
                 $home .= 'root/';
@@ -118,10 +120,10 @@ abstract class PanelController implements \Innomatic\Util\Observer
         $this->ajax = \Innomatic\Ajax\Xajax::instance('Xajax', $ajax_request_uri);
         
         // Set debug mode
-        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
+        if ($container->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
             $this->ajax->debugOn();
         }
-        $this->ajax->setLogFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/log/ajax.log');
+        $this->ajax->setLogFile($container->getHome() . 'core/log/ajax.log');
         
         // Register action ajax calls
         $this->registerClassAjaxCalls($actionClassName, $this->applicationHome . $actionClassName . '.php');
@@ -130,7 +132,7 @@ abstract class PanelController implements \Innomatic\Util\Observer
         $wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
         $wui->loadAllWidgets();
         foreach ($wui->mLoadedWidgets as $widget) {
-            $this->registerClassAjaxCalls('\Shared\Wui\Wui' . ucfirst($widget), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget) . '.php', 'Wui' . ucfirst($widget));
+            $this->registerClassAjaxCalls('\Shared\Wui\Wui' . ucfirst($widget), $container->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget) . '.php', 'Wui' . ucfirst($widget));
         }
         
         // Process ajax requests, if any (if so, then it exits)

@@ -22,6 +22,8 @@ use \Innomatic\Core\Container;
  */
 class Application
 {
+    protected $container;
+    
     /*! @public rootda DataAccess class - Innomatic database handler. */
     public $rootda;
     /*! @public domainda DataAccess class - Domain dataaccess handler. */
@@ -61,6 +63,7 @@ only application. */
      */
     public function __construct(\Innomatic\Dataaccess\DataAccess $rootda, $modserial = 0)
     {
+        $this->container = $this->container;
         $this->rootda = $rootda;
         $this->serial = $modserial;
         $this->eltypes = new ApplicationComponentFactory($rootda);
@@ -91,7 +94,7 @@ only application. */
 
         $result = false;
 
-        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $innomatic = $this->container;
 
         if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
             $innomatic->getLoadTimer()->Mark('applicationinstallstart');
@@ -100,10 +103,10 @@ only application. */
         if (file_exists($tmpfilepath)) {
             // Moves temp file to applications repository and extracts it
             //
-            $fname = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            $fname = $this->container->getHome()
                 . 'core/applications/' . basename($tmpfilepath);
             @copy($tmpfilepath, $fname);
-            $basetmpdir = $tmpdir = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            $basetmpdir = $tmpdir = $this->container->getHome()
                 . 'core/temp/appinst/' . md5(microtime());
             @mkdir($tmpdir, 0755);
             $olddir = getcwd();
@@ -231,7 +234,7 @@ only application. */
                         // Application dir creation
                         //
                         @mkdir(
-                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                            $this->container->getHome()
                             . 'core/applications/'
                             . $genconfig['ApplicationIdName'],
                             0755
@@ -244,7 +247,7 @@ only application. */
                                 if ($file != '.' && $file != '..' && is_file($tmpdir.'/setup/'.$file)) {
                                     @copy(
                                         $tmpdir . '/setup/' . $file,
-                                        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                                        $this->container->getHome()
                                         . 'core/applications/'
                                         . $genconfig['ApplicationIdName']
                                         . '/' . $file
@@ -281,7 +284,7 @@ only application. */
                         ) {
                             @copy(
                                 $tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'],
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                                $this->container->getHome()
                                 .'core/applications/'.$genconfig['ApplicationIdName'].'/'
                                 .$genconfig['ApplicationLicenseFile']
                             );
@@ -292,7 +295,7 @@ only application. */
                         ) {
                             @copy(
                                 $tmpdir.'/setup/'.$genconfig['ApplicationChangesFile'],
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                                $this->container->getHome()
                                 .'core/applications/'.$genconfig['ApplicationIdName'].'/'
                                 .$genconfig['ApplicationChangesFile']
                             );
@@ -303,7 +306,7 @@ only application. */
                         ) {
                             @copy(
                                 $tmpdir.'/setup/'.$genconfig['ApplicationIconFile'],
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                                $this->container->getHome()
                                 .'core/applications/'.$genconfig['ApplicationIdName'].'/'
                                 .$genconfig['ApplicationIconFile']
                             );
@@ -332,7 +335,7 @@ only application. */
                         $result = true;
 
                         if (
-                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->Value(
+                            $this->container->getConfig()->Value(
                                 'SecurityAlertOnApplicationOperation'
                             ) == '1'
                         ) {
@@ -343,7 +346,7 @@ only application. */
 
                         if ($result == true) {
                             if (
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition()
+                                $this->container->getEdition()
                                 == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE and $this->appname != 'innomatic'
                                 and $ext != $this->rootda->fmttrue
                             ) {
@@ -354,7 +357,7 @@ only application. */
                                     $this->Enable($domainsQuery->getFields('id'));
                                 }
                             }
-                            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                            $log = $this->container->getLogger();
                             $log->logEvent('Innomatic', 'Installed application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
                         }
                     }
@@ -394,7 +397,7 @@ only application. */
                             // Creates lock file
                             //
                             touch(
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                                $this->container->getHome()
                                 .'core/temp/upgrading_system_lock'
                             );
 
@@ -406,13 +409,13 @@ only application. */
                             if (
                                 (basename($fname) != $appdata['appfile'])
                                 and (file_exists(
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                                    $this->container->getHome()
                                     .'core/applications/'.$appdata['appfile']
                                 )
                                 )
                             )
                             @unlink(
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                                $this->container->getHome()
                                 .'core/applications/'.$appdata['appfile']
                             );
 
@@ -454,7 +457,7 @@ only application. */
                                     ) {
                                         @copy(
                                             $tmpdir.'/setup/'.$file,
-                                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                            $this->container->getHome().
                                             'core/applications/'.$genconfig['ApplicationIdName'].'/'.$file
                                         );
                                     }
@@ -474,7 +477,7 @@ only application. */
                             ) {
                                 @copy(
                                     $tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'],
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                    $this->container->getHome().
                                     'core/applications/'.$genconfig['ApplicationIdName'].'/'.
                                     $genconfig['ApplicationLicenseFile']
                                 );
@@ -485,7 +488,7 @@ only application. */
                             ) {
                                 @copy(
                                     $tmpdir.'/setup/'.$genconfig['ApplicationChangesFile'],
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                    $this->container->getHome().
                                     'core/applications/'.$genconfig['ApplicationIdName'].'/'.
                                     $genconfig['ApplicationChangesFile']
                                 );
@@ -496,7 +499,7 @@ only application. */
                             ) {
                                 @copy(
                                     $tmpdir.'/setup/'.$genconfig['ApplicationIconFile'],
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                    $this->container->getHome().
                                     'core/applications/'.$genconfig['ApplicationIdName'].'/'.
                                     $genconfig['ApplicationIconFile']
                                 );
@@ -506,7 +509,7 @@ only application. */
                             //
                             @copy(
                                 $tmpdir.'/setup/application.xml',
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                $this->container->getHome().
                                 'core/applications/'.$genconfig['ApplicationIdName'].'/application.xml'
                             );
                             // Checks if it is an extension application
@@ -562,7 +565,7 @@ only application. */
                                 // Removes lock file
                                 //
                                 unlink(
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                    $this->container->getHome().
                                     'core/temp/upgrading_system_lock'
                                 );
 
@@ -577,7 +580,7 @@ only application. */
                                 }
 
                                 if ($result == true) {
-                                    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                                    $log = $this->container->getLogger();
                                     $log->logEvent('Innomatic', 'Updated application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
                                 }
                             }
@@ -588,7 +591,7 @@ only application. */
                          ' does not exists', \Innomatic\Logging\Logger::ERROR );
                          */
                     } else {
-                        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                        $log = $this->container->getLogger();
 
                         $log->logEvent(
                             'innomatic.applications.applications.install',
@@ -598,7 +601,7 @@ only application. */
                     }
                 }
             } else {
-                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                $log = $this->container->getLogger();
 
                 if (!file_exists($tmpdir.'/setup/application.xml'))
                 $log->logEvent(
@@ -614,16 +617,9 @@ only application. */
             \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($basetmpdir);
             if (file_exists($tmpfilepath))
             @unlink($tmpfilepath);
-
-            // Removes the class loader backwards compatibility classes cache
-            // file
-            // @todo remove when the BC layer is removed
-            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/cache/classes.ser')) {
-                unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/cache/classes.ser');
-            }
         } else {
             if (!file_exists($tmpfilepath)) {
-                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                $log = $this->container->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.install',
                     'Temporary application file ('.$tmpfilepath.') does not exists',
@@ -634,7 +630,7 @@ only application. */
 
         if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
             $innomatic->getLoadTimer()->Mark('applicationinstallend');
-            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log = $this->container->getLogger();
 
             $log->logEvent(
                 'innomatic.applications.application.install',
@@ -673,13 +669,13 @@ only application. */
                     //
                     if (
                         file_exists(
-                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                            $this->container->getHome().
                             'core/applications/'.$appdata['appid'].'/application.xml'
                         )
                     ) {
                         $this->appname = $appdata['appid'];
 
-                        // Checks if there are depending applications
+                        // Checks if there are depengind applications
                         //
                         $appdeps = new ApplicationDependencies();
                         $pendingdeps = $appdeps->CheckDependingApplications($appdata['appid']);
@@ -691,27 +687,27 @@ only application. */
                             $this->disableFromAllDomains($appdata['appid']);
 
                             $this->HandleStructure(
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                $this->container->getHome().
                                 'core/applications/'.$appdata['appid'].'/application.xml',
                                 Application::INSTALL_MODE_UNINSTALL,
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/appinst/'
+                                $this->container->getHome().'core/temp/appinst/'
                             );
 
                             // Removes application archive and directory
                             //
                             if (
                                 file_exists(
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                    $this->container->getHome().
                                     'core/applications/'.$appdata['appfile']
                                 )
                             ) {
                                 @unlink(
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                    $this->container->getHome().
                                     'core/applications/'.$appdata['appfile']
                                 );
                             }
                             \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                $this->container->getHome().
                                 'core/applications/'.$appdata['appid']
                             );
 
@@ -734,7 +730,7 @@ only application. */
                             $result = true;
 
                             if (
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()
+                                $this->container->getConfig()
                                 ->Value('SecurityAlertOnApplicationOperation') == '1'
                             ) {
                                 $innomaticSecurity = new \Innomatic\Security\SecurityManager();
@@ -746,21 +742,21 @@ only application. */
                         }
 
                         if ($result == true) {
-                            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                            $log = $this->container->getLogger();
                             $log->logEvent('Innomatic', 'Uninstalled application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
                         }
                     } else {
-                        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                        $log = $this->container->getLogger();
                         $log->logEvent(
                             'innomatic.applications.applications.uninstall',
-                            'Structure file '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                            'Structure file '.$this->container->getHome().
                             'core/applications/'.$appdata['appid'].'/application.xml'.' for application '.
                             $appdata['appid'].' was not found',
                             \Innomatic\Logging\Logger::ERROR
                         );
                     }
                 } else {
-                    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                    $log = $this->container->getLogger();
                     $log->logEvent(
                         'innomatic.applications.applications.uninstall',
                         'Cannot uninstall Innomatic',
@@ -768,7 +764,7 @@ only application. */
                     );
                 }
             } else {
-                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                $log = $this->container->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.uninstall',
                     'A application with serial '.$this->serial.' was not found in applications table',
@@ -778,7 +774,7 @@ only application. */
 
             $modquery->free();
         } else {
-            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log = $this->container->getLogger();
             $log->logEvent(
                 'innomatic.applications.applications.uninstall',
                 'Empty application serial',
@@ -865,12 +861,12 @@ only application. */
                 //
                 if (
                     !file_exists(
-                        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                        $this->container->getHome().
                         'core/applications/'.$genconfig['ApplicationIdName']
                     )
                 )
                 @mkdir(
-                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                    $this->container->getHome().
                     'core/applications/'.$genconfig['ApplicationIdName'], 0755
                 );
 
@@ -882,7 +878,7 @@ only application. */
                         if ($file != '.' && $file != '..' && is_file($tmpdir.'/setup/'.$file)) {
                             @copy(
                                 $tmpdir.'/setup/'.$file,
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                $this->container->getHome().
                                 'core/applications/'.$genconfig['ApplicationIdName'].'/'.$file
                             );
                         }
@@ -900,16 +896,16 @@ only application. */
                 ) {
                     @copy(
                         $tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'],
-                        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                        $this->container->getHome().
                         'core/applications/'.$genconfig['ApplicationIdName'].
                         '/'.$genconfig['ApplicationLicenseFile']
                     );
                 } else {
-                    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                    $log = $this->container->getLogger();
                     $log->logEvent('Innomatic', 'Unable to install Innomatic', \Innomatic\Logging\Logger::ERROR);
                 }
                 } else {
-                    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                    $log = $this->container->getLogger();
                     $log->logEvent(
                         'innomatic.applications.applications.setup',
                         'Unable to insert Innomatic application row in applications table',
@@ -917,7 +913,7 @@ only application. */
                     );
                 }
             } else {
-                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                $log = $this->container->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.setup',
                     'Attempted to resetup Innomatic',
@@ -925,7 +921,7 @@ only application. */
                 );
             }
         } else {
-            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log = $this->container->getLogger();
 
             if (!file_exists($tmpdir.'setup/application.xml'))
             $log->logEvent(
@@ -973,7 +969,7 @@ only application. */
                         //
                         if (
                             file_exists(
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                $this->container->getHome().
                                 'core/applications/'.$appdata['appid'].'/application.xml'
                             )
                         ) {
@@ -986,7 +982,7 @@ only application. */
 
                             // Connects to the domain database if Innomatic has been installed in ASP edition.
                             if (
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition()
+                                $this->container->getEdition()
                                 == \Innomatic\Core\InnomaticContainer::EDITION_SAAS
                             ) {
                                 $args['dbtype'] = $domaindata['dataaccesstype'];
@@ -995,7 +991,7 @@ only application. */
                                 $args['dbport'] = $domaindata['dataaccessport'];
                                 $args['dbuser'] = $domaindata['dataaccessuser'];
                                 $args['dbpass'] = $domaindata['dataaccesspassword'];
-                                $args['dblog'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                $args['dblog'] = $this->container->getHome().
                                 'core/domains/'.$domaindata['domainid'].'/log/dataaccess.log';
 
                                 $dasnString = $args['dbtype'].'://'.
@@ -1042,10 +1038,10 @@ only application. */
                             //
                             if ($unmetdeps == false and !$modenabled) {
                                 $result = $this->HandleStructure(
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                    $this->container->getHome().
                                     'core/applications/'.$appdata['appid'].'/application.xml',
                                     Application::INSTALL_MODE_ENABLE,
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                    $this->container->getHome().
                                     'core/applications/'.$appdata['appid'].'/',
                                     $domainid
                                 );
@@ -1092,17 +1088,17 @@ only application. */
 
                             $domainquery->free();
                         } else {
-                            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                            $log = $this->container->getLogger();
                             $log->logEvent(
                                 'innomatic.applications.applications.enable',
-                                'Structure file '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                'Structure file '.$this->container->getHome().
                                 'core/applications/'.$appdata['appid'].'/application.xml'.' for application '.
                                 $appdata['appid'].' was not found',
                                 \Innomatic\Logging\Logger::ERROR
                             );
                         }
                     } else {
-                        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                        $log = $this->container->getLogger();
                         $log->logEvent(
                             'innomatic.applications.applications.enable',
                             'Tried to enable application '.$appdata['appid'].
@@ -1111,7 +1107,7 @@ only application. */
                         );
                     }
                 } else {
-                    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                    $log = $this->container->getLogger();
                     $log->logEvent(
                         'innomatic.applications.applications.enable',
                         'A application with serial '.$this->serial.
@@ -1121,7 +1117,7 @@ only application. */
                 }
                 $modquery->free();
             } else {
-                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                $log = $this->container->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.enable',
                     'Empty application serial',
@@ -1191,7 +1187,7 @@ only application. */
                         //
                         if (
                             file_exists(
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                $this->container->getHome().
                                 'core/applications/'.$appdata['appid'].'/application.xml'
                             )
                         ) {
@@ -1203,7 +1199,7 @@ only application. */
                             $domaindata = $domainquery->getFields();
 
                             if (
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition()
+                                $this->container->getEdition()
                                 == \Innomatic\Core\InnomaticContainer::EDITION_SAAS
                             ) {
                                 $args['dbtype'] = $domaindata['dataaccesstype'];
@@ -1212,7 +1208,7 @@ only application. */
                                 $args['dbport'] = $domaindata['dataaccessport'];
                                 $args['dbuser'] = $domaindata['dataaccessuser'];
                                 $args['dbpass'] = $domaindata['dataaccesspassword'];
-                                $args['dblog'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                $args['dblog'] = $this->container->getHome().
                                 'core/domains/'.$domaindata['domainid'].'/log/dataaccess.log';
 
                                 $dasnString = $args['dbtype'].'://'.
@@ -1248,10 +1244,10 @@ only application. */
                             //
                             if (($pendingdeps == false) and ($modenabled == true)) {
                                 $result = $this->HandleStructure(
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                    $this->container->getHome().
                                     'core/applications/'.$appdata['appid'].'/application.xml',
                                     Application::INSTALL_MODE_DISABLE,
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                    $this->container->getHome().
                                     'core/applications/'.$appdata['appid'].'/',
                                     $domainid
                                 );
@@ -1269,7 +1265,7 @@ only application. */
                                 );
 
                                 if (
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->Value(
+                                    $this->container->getConfig()->Value(
                                         'SecurityAlertOnApplicationDomainOperation'
                                     ) == '1'
                                 ) {
@@ -1300,17 +1296,17 @@ only application. */
 
                             $domainquery->free();
                         } else {
-                            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                            $log = $this->container->getLogger();
                             $log->logEvent(
                                 'innomatic.applications.applications.disable',
-                                'Structure file '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                'Structure file '.$this->container->getHome().
                                 'core/applications/'.$appdata['appid'].'/application.xml'.' for application '.
                                 $appdata['appid'].' was not found',
                                 \Innomatic\Logging\Logger::ERROR
                             );
                         }
                     } else {
-                        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                        $log = $this->container->getLogger();
                         $log->logEvent(
                             'innomatic.applications.applications.disable',
                             'Tried to disable application '.$appdata['appid'].
@@ -1319,7 +1315,7 @@ only application. */
                         );
                     }
                 } else {
-                    $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                    $log = $this->container->getLogger();
                     $log->logEvent(
                         'innomatic.applications.applications.disable',
                         'A application with serial '.$this->serial.' was not found in applications table',
@@ -1328,7 +1324,7 @@ only application. */
                 }
                 $modquery->free();
             } else {
-                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                $log = $this->container->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.disable',
                     'Empty application serial',
@@ -1533,7 +1529,7 @@ only application. */
             case Application::INSTALL_MODE_UPDATE :
                 $structure = $this->MergeStructureFiles(
                     $deffilepath,
-                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                    $this->container->getHome().
                     'core/applications/'.$this->appname.'/application.xml',
                     $tmpdir
                 );
@@ -1588,7 +1584,7 @@ only application. */
                     //
                     if (
                         file_exists(
-                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                            $this->container->getHome().
                             'core/classes/shared/components/'.ucfirst(strtolower($eltype)).'Component.php'
                         )
                     ) {
@@ -1596,7 +1592,7 @@ only application. */
                             // If the component type file was not already included, include it
                             //
                             require_once(
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                $this->container->getHome().
                                 'core/classes/shared/components/'.ucfirst(strtolower($eltype)).'Component.php'
                             );
 
@@ -1615,7 +1611,7 @@ only application. */
                                  unset( $component );
                                  if (
                                  file_exists(
-                                     \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().
+                                     $this->container->getHome().
                                      'core/classes/shared/components/'.$data['file']
                                   ) )
                                  {
@@ -1672,7 +1668,7 @@ only application. */
                                         $tmpcomponent->Disable($domainid, $val);
                                         break;
                                     default :
-                                        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                                        $log = $this->container->getLogger();
                                         $log->logEvent(
                                             'innomatic.applications.applications.handlestructure',
                                             'Invalid installation method for component of '
@@ -1691,7 +1687,7 @@ only application. */
 
                                 unset($tmpcomponent);
                             } else {
-                                $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                                $log = $this->container->getLogger();
                                 $log->logEvent(
                                     'innomatic.applications.applications.handlestructure',
                                     'Component class (' . $tmpclassname
@@ -1703,7 +1699,7 @@ only application. */
                             }
                         }
                     } else {
-                        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+                        $log = $this->container->getLogger();
                         $log->logEvent(
                             'innomatic.applications.applications.handlestructure',
                             'Component handler for component ' . $eltype

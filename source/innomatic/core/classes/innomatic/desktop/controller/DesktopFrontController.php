@@ -26,6 +26,12 @@ use \Innomatic\Core\InnomaticContainer;
 class DesktopFrontController extends \Innomatic\Util\Singleton
 {
     /**
+     * Innomatic container.
+     * 
+     * @var \Innomatic\Core\InnomaticContainer
+     */
+    protected $container;
+    /**
      * Innomatic mode.
      *
      * @var integer
@@ -45,6 +51,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
     {
         $this->session = new \Innomatic\Desktop\Session\DesktopSession();
         $this->session->start();
+        $this->container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
     }
 
     public function execute($mode, $resource)
@@ -113,7 +120,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
     {
         $path = 'base';
         // TODO verificare se e' ancora necessario dopo aver creato \Innomatic\Wui\Wui::setTheme()
-        if (!(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
+        if (!($this->container->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
             $appCfg = new \Innomatic\Application\ApplicationSettings(
                 'innomatic'
             );
@@ -160,7 +167,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
         if (substr($resource, -1, 1) != '/') {
             $desktopPanel = basename($resource);
             if (
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState()
+                $this->container->getState()
                 == \Innomatic\Core\InnomaticContainer::STATE_DEBUG
             ) {
                 $dump = \Innomatic\Debug\InnomaticDump::instance('\Innomatic\Debug\InnomaticDump');
@@ -199,7 +206,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
 
                     case 'unlock':
                         // Handles system unlock.
-                        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+                        $innomatic = $this->container;
                         $innomatic->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_WEB);
                         $innomatic->unlock();
                         break;
@@ -233,7 +240,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
     {
         // Check if this is the default page and if the user is allowed to access the dashboard
         if (substr($resource, -1, 1) == '/') {
-            $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
+            $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($this->container->getCurrentDomain()->getDataAccess(), $this->container->getCurrentUser()->getGroup());
             $node_id = $perm->getNodeIdFromFileName('dashboard');
             if ( $perm->check( $node_id, \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_PAGE ) != \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED ) {
                 $resource = $resource.'dashboard';
@@ -244,11 +251,11 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
             // Must exit if the user called a page for which he isn't enabled
             //
             if (!isset($perm)) {
-                $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
+                $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($this->container->getCurrentDomain()->getDataAccess(), $this->container->getCurrentUser()->getGroup());
             }
 
             $desktopPanel = basename($resource);
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
+            if ($this->container->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
                 $dump = \Innomatic\Debug\InnomaticDump::instance('\Innomatic\Debug\InnomaticDump');
                 $dump->desktopApplication = $desktopPanel;
             }
@@ -262,12 +269,12 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
 
                     if ($node_id) {
                         if ($perm->check($node_id, \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_PAGE) == \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED) {
-                            $adloc = new \Innomatic\Locale\LocaleCatalog('innomatic::authentication', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage());
-                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->abort($adloc->getStr('nopageauth'));
+                            $adloc = new \Innomatic\Locale\LocaleCatalog('innomatic::authentication', $this->container->getCurrentUser()->getLanguage());
+                            $this->container->abort($adloc->getStr('nopageauth'));
                         }
                     } else {
-                        $adloc = new \Innomatic\Locale\LocaleCatalog('innomatic::authentication', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage());
-                        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->abort($adloc->getStr('nopageauth'));
+                        $adloc = new \Innomatic\Locale\LocaleCatalog('innomatic::authentication', $this->container->getCurrentUser()->getLanguage());
+                        $this->container->abort($adloc->getStr('nopageauth'));
                     }
             }
             if (is_dir($resource . '-panel')) {
@@ -283,7 +290,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
                     throw new \Innomatic\Wui\WuiException(\Innomatic\Wui\WuiException::MISSING_CONTROLLER_CLASS);
                 }
                 $controller = new $controllerClassName(\Innomatic\Core\InnomaticContainer::MODE_DOMAIN, $panelName);
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->setPanelController($controller);
+                $this->container->setPanelController($controller);
             } else {
                 switch ($desktopPanel) {
                     case 'menu':
