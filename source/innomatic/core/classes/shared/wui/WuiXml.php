@@ -167,8 +167,9 @@ class WuiXml extends \Innomatic\Wui\Widgets\WuiWidget
         //
         if (! class_exists($elementType, true)) {
             $widget_name = strtolower($element['tag']);
-            if (! defined(strtoupper($widget_name . '_WUI')) and file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php')) {
-                include_once (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php');
+            $home = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome();
+            if (! defined(strtoupper($widget_name . '_WUI')) and file_exists($home . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php')) {
+                include_once ($home . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php');
             }
         }
         // Create the element and add children if any
