@@ -342,7 +342,7 @@
 		<roottable name="applications_keyring_keys"
 			file="applications_keyring_keys.xml" />
 
-		<!-- Domains -->
+		<!-- Tenants -->
 
 		<domaintable name="domain_settings" file="domain_settings.xml" />
 
