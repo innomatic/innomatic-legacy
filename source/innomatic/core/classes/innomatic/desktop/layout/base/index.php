@@ -8,8 +8,8 @@
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @license    http://www.innomaticplatform.com/license/   BSD License
+ * @link       http://www.innomaticplatform.com
  * @since      Class available since Release 5.0
 */
 
@@ -62,7 +62,7 @@ function main_page()
         $wui_buttons_group->addChild(new WuiButton('innomaticlogo', array('label' => $innomatic_locale->getStr('innomatichome'),
             'image' => $wui_page->mThemeHandler->mStyle['innomaticminilogo'],
             'horiz' => 'true',
-            'action' => 'http://www.innomatic.org/',
+            'action' => 'http://www.innomaticplatform.com/',
             'width' => 32,
             'height' => 32)));
     }
@@ -86,7 +86,7 @@ function main_page()
         if ( isset($wui_page->mThemeHandler->mStyle['biglogo'.$edition] ) ) $biglogo_image = $wui_page->mThemeHandler->mStyle['biglogo'.$edition];
         else $biglogo_image = $wui_page->mThemeHandler->mStyle['biglogo'];
 
-        $wui_button = new WuiButton( 'button', array( 'action' => ' http://www.innomatic.org', 'target' => '_top', 'image' => $biglogo_image, 'highlight' => 'false' ) );
+        $wui_button = new WuiButton( 'button', array( 'action' => ' http://www.innomaticplatform.com', 'target' => '_top', 'image' => $biglogo_image, 'highlight' => 'false' ) );
         $wui_logos_group->addChild( $wui_button );
     }
 

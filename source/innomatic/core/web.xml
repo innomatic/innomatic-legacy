@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE web-app PUBLIC "-//Innomatic//DTD Web Application 1.0//EN" "http://www.innomatic.org/dtd/web-app_1_0.dtd">
+<!DOCTYPE web-app PUBLIC "-//Innomatic//DTD Web Application 1.0//EN" "http://www.innomaticplatform.com/dtd/web-app_1_0.dtd">
 <webapp>
     <displayname>Innomatic</displayname>
     <description>Innomatic</description>

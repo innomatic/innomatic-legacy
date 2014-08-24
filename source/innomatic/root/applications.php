@@ -8,8 +8,8 @@
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @license    http://www.innomaticplatform.com/license/   BSD License
+ * @link       http://www.innomaticplatform.com
  * @since      Class available since Release 5.0
 */
 
@@ -2322,8 +2322,8 @@ function main_about($eventData)
 
             <link>
               <args>
-                <label type="encoded">'.urlencode('www.innomatic.org').'</label>
-                <link type="encoded">'.urlencode('http://www.innomatic.org').'</link>
+                <label type="encoded">'.urlencode('www.innomaticplatform.com').'</label>
+                <link type="encoded">'.urlencode('http://www.innomaticplatform.com').'</link>
                 <target>_blank</target>
               </args>
             </link>

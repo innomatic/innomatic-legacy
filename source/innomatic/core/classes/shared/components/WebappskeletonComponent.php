@@ -8,8 +8,8 @@
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @license    http://www.innomaticplatform.com/license/   BSD License
+ * @link       http://www.innomaticplatform.com
  * @since      Class available since Release 5.0
  */
 namespace Shared\Components;
@@ -21,8 +21,8 @@ namespace Shared\Components;
  * a minimal working webapp tree with a web.xml file.
  *
  * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @license    http://www.innomaticplatform.com/license/   BSD License
+ * @link       http://www.innomaticplatform.com
  * @since      Class available since Release 5.0
  */
 class WebappskeletonComponent extends \Innomatic\Application\ApplicationComponent

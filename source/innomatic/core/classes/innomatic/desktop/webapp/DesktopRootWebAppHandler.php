@@ -8,8 +8,8 @@
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @license    http://www.innomaticplatform.com/license/   BSD License
+ * @link       http://www.innomaticplatform.com
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Desktop\Webapp;
@@ -24,8 +24,8 @@ namespace Innomatic\Desktop\Webapp;
  * configuration file.
  *
  * @copyright  2000-2012 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @license    http://www.innomaticplatform.com/license/   BSD License
+ * @link       http://www.innomaticplatform.com
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
