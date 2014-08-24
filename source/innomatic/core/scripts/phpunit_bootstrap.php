@@ -13,5 +13,5 @@
  * @since      6.4.0
  */
 
-require_once('scripts_container.php');
+require_once 'scripts_container.php';
 

@@ -11,7 +11,7 @@
  * @license    http://www.innomaticplatform.com/license/   BSD License
  * @link       http://www.innomaticplatform.com
  */
-require_once ('scripts_container.php');
+require_once 'scripts_container.php';
 
 $script = \Innomatic\Scripts\ScriptContainer::instance('\Innomatic\Scripts\ScriptContainer');
 
@@ -20,7 +20,7 @@ ob_end_flush();
 echo "
                  Innomatic Cloud Applications Platform
 
-                       http://www.innomaticplatform.com
+                    http://www.innomaticplatform.com
 
 
 
@@ -31,8 +31,9 @@ if (InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState
     $script->cleanExit(1);
 }
 
-if (! isset($argv[1]))
+if (!isset($argv[1])) {
     $argv[1] = '';
+}
 
 echo "Starting setup...\n";
 if (\Innomatic\Setup\InnomaticSetup::setup_by_config_file($argv[1], true)) {

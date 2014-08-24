@@ -17,9 +17,9 @@ if (substr(phpversion(), 0, 1) < 5) {
     die('ERROR: this application needs PHP 5 or newer.');
 }
 
-// Starts the Root Container
-require_once (dirname(__FILE__) . '/../classes/innomatic/core/RootContainer.php');
+// Start the Root Container
+require_once dirname(__FILE__).'/../classes/innomatic/core/RootContainer.php';
 $rootContainer = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer');
 
-// Starts the Script Container
-require_once (dirname(__FILE__) . '/../classes/innomatic/scripts/ScriptContainer.php');
+// Start the Script Container
+require_once dirname(__FILE__).'/../classes/innomatic/scripts/ScriptContainer.php';

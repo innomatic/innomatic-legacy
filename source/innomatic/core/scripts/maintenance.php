@@ -11,7 +11,7 @@
  * @license    http://www.innomaticplatform.com/license/   BSD License
  * @link       http://www.innomaticplatform.com
  */
-require_once ('scripts_container.php');
+require_once 'scripts_container.php';
 
 $script = \Innomatic\Scripts\ScriptContainer::instance('\Innomatic\Scripts\ScriptContainer');
 
