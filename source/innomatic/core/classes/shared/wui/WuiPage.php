@@ -479,7 +479,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                 . ";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
                 . '<thead id="page-thead" class="page"><tr class="' . $env_class . '">' . "\n"
                 . "<td style=\"width: 100%; align: center; padding-left: 16px;\" align=\"left\">"
-                . "<a href=\"".$container->getBaseUrl()."\"><img src=\"" . $this->mThemeHandler->mStyle['titlelogo']
+                . "<a href=\"".$container->getBaseUrl(false)."\"><img src=\"" . $this->mThemeHandler->mStyle['titlelogo']
                 . "\" align=\"left\" width=\"25\" height=\"25\" style=\"margin-right: 15px;\" border=\"0\" alt=\"Innomatic\"></a>"
                 . "<span nowrap class=\"headerbar\" style=\"white-space: nowrap;\">" . $domain_name . '</span></td>'
                 . '<td align="right" valign="middle" nowrap style="white-space: nowrap; padding-right: 10px;">'
