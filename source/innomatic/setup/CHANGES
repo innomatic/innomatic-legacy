@@ -73,6 +73,8 @@ CHANGES:
   Pagnoni)
 - Huge performance improvement in WUI widgets code. (Alex Pagnoni)
 - Renamed domains in tenants in localized strings. (Alex Pagnoni)
+- New tenant's database name is postfixed with _tenant name when automatically
+  generated. (Alex Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).

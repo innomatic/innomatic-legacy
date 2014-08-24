@@ -153,7 +153,7 @@ class Domain
                 $domaindata['domainid']           = $this->defopt($domaindata['domainid'], $nextseq);
                 $domaindata['domainname']         = $this->defopt(trim($domaindata['domainname']), $domaindata['domainid'].' domain');
                 $domaindata['domainpassword']     = $this->defopt(trim($domaindata['domainpassword']), $domaindata['domainid']);
-                $domaindata['domaindaname']       = $this->defopt(strtolower(str_replace(' ', '', trim($domaindata['domaindaname']))), $platformName.'_'.$domaindata['domainid'].'_domain');
+                $domaindata['domaindaname']       = $this->defopt(strtolower(str_replace(' ', '', trim($domaindata['domaindaname']))), $platformName.'_'.$domaindata['domainid'].'_tenant');
                 $domaindata['dataaccesshost']     = $this->defopt(trim($domaindata['dataaccesshost']), $this->container->getConfig()->value('RootDatabaseHost'));
                 $domaindata['dataaccessport']     = $this->defopt(trim($domaindata['dataaccessport']), $this->container->getConfig()->value('RootDatabasePort'));
                 $domaindata['dataaccessuser']     = $this->defopt(str_replace(' ', '', trim($domaindata['dataaccessuser'])), $this->container->getConfig()->value('RootDatabaseUser'));
