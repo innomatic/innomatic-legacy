@@ -421,7 +421,7 @@
 			handler="innomatic" catalog="innomatic::webservices"
 			forceinstall="true" />
 
-		<script name="domain.php" />
+		<script name="tenant.php" />
 
 		<!--
 			********************************************************
@@ -879,7 +879,7 @@
 		<roottable name="root_permissions" file="root_permissions.xml" />
 		<roottable name="root_profiles" file="root_profiles.xml" />
 
-		<!-- Domain Desktop -->
+		<!-- Tenant Desktop -->
 
 		<class
 			name="innomatic/desktop/webapp/DesktopDomainWebAppHandler.php" />
