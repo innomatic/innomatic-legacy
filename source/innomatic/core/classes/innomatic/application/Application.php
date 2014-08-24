@@ -989,7 +989,7 @@ only application. */
                             // Connects to the domain database if Innomatic has been installed in ASP edition.
                             if (
                                 $this->container->getEdition()
-                                == \Innomatic\Core\InnomaticContainer::EDITION_SAAS
+                                == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT
                             ) {
                                 $args['dbtype'] = $domaindata['dataaccesstype'];
                                 $args['dbname'] = $domaindata['domaindaname'];
@@ -1206,7 +1206,7 @@ only application. */
 
                             if (
                                 $this->container->getEdition()
-                                == \Innomatic\Core\InnomaticContainer::EDITION_SAAS
+                                == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT
                             ) {
                                 $args['dbtype'] = $domaindata['dataaccesstype'];
                                 $args['dbname'] = $domaindata['domaindaname'];

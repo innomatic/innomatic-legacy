@@ -44,7 +44,7 @@ class Domain
             if ($tmpquery->getNumberRows() == 1) {
                 $this->domaindata = $tmpquery->getFields();
 
-                if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+                if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
                     $args['dbtype'] = $this->domaindata['dataaccesstype'];
                     $args['dbname'] = $this->domaindata['domaindaname'];
                     $args['dbhost'] = $this->domaindata['dataaccesshost'];
@@ -79,7 +79,7 @@ class Domain
                 $log->logDie('innomatic.domains.domain.domain', 'No domain exists with specified domain id ('.$domainid.')');
             }
         } else {
-            if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+            if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
                 $this->dataAccess = $domainda;
             } else {
                 $this->dataAccess = $this->rootda;
@@ -208,7 +208,7 @@ class Domain
                     \Innomatic\Webapp\WebAppContainer::createWebApp($domaindata['domainid'], $domaindata['webappskeleton']);
 
                     // Creates the database, if asked.
-                    if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+                    if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
                         $args['dbtype'] = strlen($domaindata['dataaccesstype']) ? $domaindata['dataaccesstype'] : $this->container->getConfig()->value('RootDatabaseType');
                         $args['dbname'] = $domaindata['domaindaname'];
                         $args['dbhost'] = $domaindata['dataaccesshost'];
@@ -243,7 +243,7 @@ class Domain
                             $this->domainlog->logEvent($domaindata['domainid'], 'Database '.$args['dbname'].' created', \Innomatic\Logging\Logger::NOTICE);
                         }
                         if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE or $tmpdb->connect()) {
-                            if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+                            if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
                                 $this->dataAccess = $tmpdb;
                             } else {
                                 $this->dataAccess = $this->rootda;
@@ -642,7 +642,7 @@ class Domain
             // Disables all applications.
             $this->disableAllApplications($this->domainserial);
 
-            if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+            if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
                 $args['dbname'] = $data['domaindaname'];
                 $args['dbhost'] = $data['dataaccesshost'];
                 $args['dbport'] = $data['dataaccessport'];

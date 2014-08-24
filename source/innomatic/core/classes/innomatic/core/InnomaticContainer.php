@@ -48,7 +48,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     private $environment;
     private $mode = \Innomatic\Core\InnomaticContainer::MODE_BASE;
     private $interface = \Innomatic\Core\InnomaticContainer::INTERFACE_UNKNOWN;
-    private $edition = \Innomatic\Core\InnomaticContainer::EDITION_SAAS;
+    private $edition = \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT;
     private $rootDb;
     /**
      * Root language
@@ -430,7 +430,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             // $admin_username = 'admin'
             // .(\Innomatic\Core\InnomaticContainer::instance(
             //      '\Innomatic\Core\InnomaticContainer'
-            // )->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'.$domain
+            // )->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT ? '@'.$domain
             // : '');
             $this->currentUser = new \Innomatic\Domain\User\User(
                 $this->currentDomain->domainserial,
@@ -448,7 +448,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     public function stopDomain()
     {
         if ($this->domainStarted) {
-            if ($this->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+            if ($this->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
                 $this->currentDomain->getDataAccess()->close();
             }
             // TODO implement

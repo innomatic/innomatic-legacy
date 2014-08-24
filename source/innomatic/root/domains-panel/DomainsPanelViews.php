@@ -109,7 +109,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         }
 
         if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
-            ->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS or !$domainQuery->getFields('domains') > 0) {
+            ->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT or !$domainQuery->getFields('domains') > 0) {
             $newAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $newAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'newdomain', ''));
             $wuiNewButton = new WuiButton(
@@ -728,7 +728,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             7, 1
         );
 
-        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
             // Database fields
             //
             $wuiDomainGrid->addChild(
@@ -1132,7 +1132,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 7, 1
             );
 
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
                 // Database fields
                 //
                 $wuiDomainGrid->addChild(
@@ -1565,7 +1565,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 6, 1
             );
 
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
                 // Database fields
                 //
                 $wuiDomainGrid->addChild(

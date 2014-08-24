@@ -107,7 +107,7 @@ class User
     {
         if (!empty($username)) {
             $edition = $this->container->getEdition();
-            if ($edition == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+            if ($edition == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
                 $formatUsername = $this->domainDA->formatText('%@'.$username);
                 $sql = "SELECT id
                     FROM domain_users
@@ -206,7 +206,7 @@ class User
         $domainsquery = $this->rootDA->execute('SELECT id FROM domains WHERE domainid='.$this->rootDA->formatText($domainid));
 
         $userdata['domainid'] = $domainsquery->getFields('id');
-        $userdata['username'] = 'admin'.($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'.$domainid : '');
+        $userdata['username'] = 'admin'.($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT ? '@'.$domainid : '');
         $userdata['lname'] = 'Administrator';
         $userdata['password'] = $domainpassword;
         $userdata['groupid'] = 0;
@@ -419,14 +419,14 @@ class User
     public static function isAdminUser($username, $domain)
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        $admin_username = 'admin'.($container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
+        $admin_username = 'admin'.($container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT ? '@'.$domain : '');
         return $username == $admin_username ? true : false;
     }
 
     public static function getAdminUsername($domain)
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        return 'admin'.($container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'.$domain : '');
+        return 'admin'.($container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT ? '@'.$domain : '');
     }
 
     /* public enable() {{{ */

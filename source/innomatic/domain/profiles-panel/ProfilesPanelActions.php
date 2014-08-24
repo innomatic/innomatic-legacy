@@ -78,7 +78,7 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             )->getCurrentDomain()->domaindata['id'];
             $userData['groupid'] = $eventData['groupid'];
             $userData['username'] = $eventData['username']
-            . (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ? '@'
+            . (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT ? '@'
                 .\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId() : '');
             $userData['password'] = $eventData['passworda'];
             $userData['fname'] = $eventData['fname'];
