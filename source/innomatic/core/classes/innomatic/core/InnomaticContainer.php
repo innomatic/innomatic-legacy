@@ -426,7 +426,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             // User
             //
-            // TODO check in Enterprise edition if the admin@domainid part is ok
+            // TODO check in single tenant edition if the admin@domainid part is ok
             // $admin_username = 'admin'
             // .(\Innomatic\Core\InnomaticContainer::instance(
             //      '\Innomatic\Core\InnomaticContainer'
@@ -470,24 +470,43 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     }
 
     /**
-     * Automatically closes the current domain (if started) and starts a new domain.
+     * Automatically closes the current tenant (if started) and starts a new tenant.
      *
-     * @param string $domainId id name of the new domain
-     * @param string $userId optional id of the user
-     * @return string null if not previous domain has been started already.
+     * Before switching, this method checks:
+     * - if there is an already running tenant;
+     * - if the given tenant and user names combination is the same of the
+     *  current running one.
+     *
+     * @param string $tenantName internal name of the new tenant
+     * @param string $userName optional username of the tenant user (if empty,
+     * the tenant will be started with the tenant administrator user)
+     * @return null or string with tenant name if previous tenant has been started already.
      */
-    public function switchDomain($domainId, $userId = '')
+    public function switchDomain($tenantName, $userName = '')
     {
-        $prev_domain = null;
+        $prevDomain = null;
 
+        // Check if there an already started domain
         if ($this->domainStarted) {
-            $prev_domain = $this->getCurrentDomain()->getDomainId();
+            $prevDomainName = $this->getCurrentDomain()->getDomainId();
+            $prevUserName   = $this->getCurrentUser()->getUserName();
+
+            if (
+                $tenantName == $prevDomainName
+                && (($userName == '' && substr($prevUserName, 0, 6) == 'admin@')
+                    or ($userName == $prevUserName))
+            ) {
+                // The given tenant and user combination is the same of current
+                // one, there's no need to switch
+                return $prevDomainName;
+            }
             $this->stopDomain();
         }
-        $this->startDomain($domainId, $userId);
 
-        // Return the previos domain id name
-        return $prev_domain;
+        $this->startDomain($tenantName, $userName);
+
+        // Return the previous domain id name
+        return $prevDomainName;
     }
 
     // TODO to be implemented
