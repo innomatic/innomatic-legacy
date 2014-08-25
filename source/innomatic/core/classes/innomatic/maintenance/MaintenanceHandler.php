@@ -150,9 +150,9 @@ class MaintenanceHandler
         $result = false;
 
         $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
-        $email = $cfg['MaintenanceReportsEmail'];
+        $email = isset($cfg['MaintenanceReportsEmail']) ? $cfg['MaintenanceReportsEmail'] : '';
 
-        if ($cfg['MaintenanceReportsEnabled'] == '1' and strlen($email) and is_array($maintenanceResult)) {
+        if (isset($cfg['MaintenanceReportsEnabled']) and $cfg['MaintenanceReportsEnabled'] == '1' and strlen($email) and is_array($maintenanceResult)) {
             $result_text = '';
             $locale = new \Innomatic\Locale\LocaleCatalog('innomatic::maintenance', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
             $tasks_list = $this->getTasksList();
