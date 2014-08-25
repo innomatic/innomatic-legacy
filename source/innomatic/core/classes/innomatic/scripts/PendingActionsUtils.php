@@ -100,9 +100,13 @@ class PendingActionsUtils
     }
 
     /**
-     * Fetches id of pending actions by parameters
-     * 
-     * @param array $params parameters of pending action
+     * Fetches id of pending actions by parameters.
+     *
+     * This method fetches a list of pending actions identifiers, filtering by
+     * an array of parameters in the key/value format (with an AND condition).
+     *
+     * @param array $params Parameters of pending action.
+     * @return array|null An array of the found identifiers.
      */
     public static function getIdByParams($params)
     {
@@ -112,24 +116,29 @@ class PendingActionsUtils
         $where = '';
         foreach ($params as $key => $value) {
             $len = strlen($value);
-            if ($count > 0) 
+            if ($count > 0) {
                 $where .= " AND ";
+            }
             $where .= "parameters LIKE '%\"$key\";s:$len:\"$value\"%'";
         }
-        
-        if ($where) {
 
+        if (strlen($where)) {
             $query = $root_da->execute(
-                "SELECT * 
-                 FROM   pending_actions 
-                 WHERE  $where"
+                "SELECT id"
+                 ." FROM pending_actions"
+                 ." WHERE $where"
             );
 
-            return $query->getFields('id');
+            $result = array();
+
+            while (!$query->eof) {
+                $result[] = $query->getFields('id');
+                $query->moveNext();
+            }
+            return $result;
         }
 
         return false;
-
     }
 
     /**
