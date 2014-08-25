@@ -162,20 +162,23 @@
     -->
 	<target name="build" depends="init,clean,checkphp,php-documentor,php-codesniffer,phpunit,sources,package" />
 
-	<target name="dev">
-		<!-- Remove old files -->
-	    <mkdir dir="dev" />
-		<delete>
-			<fileset dir="${basedir}/dev" includes="**.*" />
-		</delete>
-	    <mkdir dir="dev" />
-        <copy todir="${basedir}/dev">
-            <fileset dir="${basedir}/source">
-                <include name="**" />
-                <exclude name="**/.svn" />
-                <exclude name="**/.git" />
-            </fileset>
-        </copy>
+    <!--
+    This target deploys the package to an installed Innomatic in a local Vagrant.
+    -->
+	<target name="dev" depends="package">
+        <exec executable="scp">
+            <arg value="${basedir}/build/packages/${name}-${version}.tgz" />
+            <arg value="innomatic-dev:/tmp/" />
+        </exec>
+
+        <exec executable="ssh">
+            <arg value="innomatic-dev" />
+            <arg value="-C" />
+            <arg value="php" />
+            <arg value="/vagrant/dev/innomatic/core/scripts/application.php" />
+            <arg value="deploy" />
+            <arg value="/tmp/${name}-${version}.tgz" />
+        </exec>
 	</target>
 
 </project>

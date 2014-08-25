@@ -77,6 +77,8 @@ CHANGES:
 - Renamed domains in tenants in localized strings. (Alex Pagnoni)
 - New tenant's database name is postfixed with _tenant name when automatically
   generated. (Alex Pagnoni)
+- build.xml dev target now deploys Innomatic to a local Vagrant box. (Alex
+  Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).
