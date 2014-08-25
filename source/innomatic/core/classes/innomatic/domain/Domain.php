@@ -1049,7 +1049,7 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
 
     /* public getTenantNameById($id) {{{ */
     /**
-     * Gets a tenant name by its internal id.
+     * Gets tenant name by its internal id.
      *
      * @param integer $id Tenant identifier number.
      * @static
