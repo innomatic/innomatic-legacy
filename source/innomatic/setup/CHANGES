@@ -45,6 +45,8 @@ NEW FEATURES:
   launches a dangerous action (eg. delete). (Alex Pagnoni)
 - Added link to domain home in Innomatic icon when in domain desktop. (Alex
   Pagnoni)
+- Added \Innomatic\Domain\Domain::getTenantNameById() and getTenantIdByName()
+  methods. (Alex Pagnoni)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)

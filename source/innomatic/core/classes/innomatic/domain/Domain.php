@@ -1007,7 +1007,7 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
     public static function getDomainByHostname($hostname = '')
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         if ($container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE) {
             return false;
         }
@@ -1046,4 +1046,58 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
 
         return false;
     }
+
+    /* public getTenantNameById($id) {{{ */
+    /**
+     * Gets a tenant name by its internal id.
+     *
+     * @param integer $id Tenant identifier number.
+     * @static
+     * @access public
+     * @return string Tenant name.
+     */
+    public static function getTenantNameById($id)
+    {
+        $rootDA = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
+
+        $query = $rootDA->execute(
+            'SELECT domainid'
+            .' FROM domains'
+            ." WHERE id=$id"
+        );
+
+        if ($query->getNumberRows() > 0) {
+            return $query->getFields('domainid');
+        } else {
+            return false;
+        }
+    }
+    /* }}} */
+
+    /* public getTenantIdByName($name) {{{ */
+    /**
+     * Gets tenant identifier number by its name.
+     *
+     * @param string $name Tenant internal name.
+     * @static
+     * @access public
+     * @return string
+     */
+    public static function getTenantIdByName($name)
+    {
+        $rootDA = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
+
+        $query = $rootDA->execute(
+            'SELECT id'
+            .' FROM domains'
+            ." WHERE domainid=".$rootDA->formatText($name)
+        );
+
+        if ($query->getNumberRows() > 0) {
+            return $query->getFields('domainid');
+        } else {
+            return false;
+        }
+    }
+    /* }}} */
 }
