@@ -157,10 +157,10 @@ class PendingActionsUtils
                 "SELECT id"
                 ." FROM pending_actions"
                 ." WHERE $where"
-                .(!is_null($application) ? ' AND '.$root_da->formatText($application) : "")
-                .(!is_null($domain_id) ? ' AND '.$root_da->formatText((int)$domain_id) : "")
-                .(!is_null($user_id) ? ' AND '.$root_da->formatText((int)$user_id) : "")
-                .(!is_null($action) ? ' AND '.$root_da->formatText($action) : "")
+                .(!is_null($application) ? ' AND application='.$root_da->formatText($application) : "")
+                .(!is_null($domain_id) ? ' AND domainid='.$root_da->formatText((int)$domain_id) : "")
+                .(!is_null($user_id) ? ' AND userid='.$root_da->formatText((int)$user_id) : "")
+                .(!is_null($action) ? ' AND action='.$root_da->formatText($action) : "")
             );
 
             $result = array();
