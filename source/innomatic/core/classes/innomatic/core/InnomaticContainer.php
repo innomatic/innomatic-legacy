@@ -484,7 +484,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
      */
     public function switchDomain($tenantName, $userName = '')
     {
-        $prevDomain = null;
+        $prevDomainName = null;
 
         // Check if there an already started domain
         if ($this->domainStarted) {
