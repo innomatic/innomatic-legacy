@@ -8,7 +8,7 @@
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomaticplatform.com/license/   BSD License
+ * @license    http://www.innomaticplatform.com/license/ New BSD License
  * @link       http://www.innomaticplatform.com
  */
 namespace Innomatic\Desktop\Auth;
@@ -17,7 +17,7 @@ namespace Innomatic\Desktop\Auth;
  * Helper interface for desktop authentication and authorization.
  *
  * @copyright  2000-2012 Innoteam Srl
- * @license    http://www.innomaticplatform.com/license/   BSD License
+ * @license    http://www.innomaticplatform.com/license/ New BSD License
  * @link       http://www.innomaticplatform.com
  * @since      5.0.0
  * @package    Desktop
