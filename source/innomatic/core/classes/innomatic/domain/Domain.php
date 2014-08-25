@@ -1094,7 +1094,7 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
         );
 
         if ($query->getNumberRows() > 0) {
-            return $query->getFields('domainid');
+            return $query->getFields('id');
         } else {
             return false;
         }
