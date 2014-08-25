@@ -100,6 +100,36 @@ class PendingActionsUtils
     }
 
     /**
+     * Fetches pending actions by id.
+     * 
+     * @param string $id Id of pending action.
+     */
+    public static function getById($id)
+    {
+        $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
+
+        // Extract the pending actions
+        $query = $root_da->execute(
+            'SELECT * FROM pending_actions'
+            .' WHERE application='.$root_da->formatText($application)
+            .' AND id='.$root_da->formatText($id)
+            .' AND action='.$root_da->formatText($action)
+        );
+
+        // Build the list of pending actions
+        $actions = array(
+            'id'          => $query->getFields('id'),
+            'application' => $query->getFields('application'),
+            'domainid'    => $query->getFields('domainid'),
+            'userid'      => $query->getFields('userid'),
+            'created'     => $query->getFields('created'),
+            'action'      => $query->getFields('action'),
+            'parameters'  => unserialize($query->getFields('parameters'))
+        );
+        return $actions;
+    }
+
+    /**
      * Fetches id of pending actions by parameters.
      *
      * This method fetches a list of pending actions identifiers, filtering by
@@ -108,7 +138,7 @@ class PendingActionsUtils
      * @param array $params Parameters of pending action.
      * @return array|null An array of the found identifiers.
      */
-    public static function getIdByParams($params)
+    public static function getIdByParams($params, $application=null, $domain_id=null, $user_id=null, $action=null)
     {
         $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
 
@@ -125,8 +155,12 @@ class PendingActionsUtils
         if (strlen($where)) {
             $query = $root_da->execute(
                 "SELECT id"
-                 ." FROM pending_actions"
-                 ." WHERE $where"
+                ." FROM pending_actions"
+                ." WHERE $where"
+                .(!is_null($application) ? ' AND '.$root_da->formatText($application) : "")
+                .(!is_null($domain_id) ? ' AND '.$root_da->formatText((int)$domain_id) : "")
+                .(!is_null($user_id) ? ' AND '.$root_da->formatText((int)$user_id) : "")
+                .(!is_null($action) ? ' AND '.$root_da->formatText($action) : "")
             );
 
             $result = array();
