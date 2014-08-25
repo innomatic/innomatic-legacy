@@ -100,6 +100,39 @@ class PendingActionsUtils
     }
 
     /**
+     * Fetches id of pending actions by parameters
+     * 
+     * @param array $params parameters of pending action
+     */
+    public static function getIdByParams($params)
+    {
+        $root_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
+
+        $count = 0;
+        $where = '';
+        foreach ($params as $key => $value) {
+            $len = strlen($value);
+            if ($count > 0) 
+                $where .= " AND ";
+            $where .= "parameters LIKE '%\"$key\";s:$len:\"$value\"%'";
+        }
+        
+        if ($where) {
+
+            $query = $root_da->execute(
+                "SELECT * 
+                 FROM   pending_actions 
+                 WHERE  $where"
+            );
+
+            return $query->getFields('id');
+        }
+
+        return false;
+
+    }
+
+    /**
      * Removes a pending action with a given id.
      *
      * @param integer $id Pending action id.
