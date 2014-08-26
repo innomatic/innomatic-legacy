@@ -44,14 +44,15 @@ class DashboardPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     {
     }
 
-    public function ajaxGetDashboardWidget($name)
+    public static function ajaxGetDashboardWidget($name)
     {
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         $objResponse = new XajaxResponse();
         $xml = '<void/>';
         
-        $domain_da = $this->container->getCurrentDomain()->getDataAccess();
+        $domain_da = $container->getCurrentDomain()->getDataAccess();
 
-        $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($domain_da, $this->container->getCurrentUser()->getGroup());
+        $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($domain_da, $container->getCurrentUser()->getGroup());
 
         // Check if the widget exists in the widgets list
         $widget_query = $domain_da->execute('SELECT * FROM domain_dashboards_widgets WHERE name='.$domain_da->formatText($name));
