@@ -214,7 +214,7 @@ class Wui extends \Innomatic\Util\Singleton
         $result = false;
 
         if (!$this->mBuilt) {
-            $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+            $innomatic = $this->container;
             if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
                 $innomatic->getLoadTimer()->Mark('start - \Innomatic\Wui\Wui::Build()');
             }
@@ -276,8 +276,9 @@ class Wui extends \Innomatic\Util\Singleton
         static $show_comments;
 
         if (!isset($show_comments)) {
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->Value('ShowWuiSourceComments') == '1'
-            or \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
+            $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+            if ($container->getConfig()->Value('ShowWuiSourceComments') == '1'
+            or $container->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
                 $show_comments = true;
             } else {
                 $show_comments = false;

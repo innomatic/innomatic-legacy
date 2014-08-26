@@ -137,8 +137,8 @@ class Semaphore
                             fputs($fh, serialize(array('pid' => $innomatic->getPid(), 'time' => time(), 'resource' => $this->resource)));
                             fclose($fh);
                         } else {
-                            if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/semaphores/')) {
-                                mkdir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/semaphores/');
+                            if (!file_exists($innomatic->getHome().'core/temp/semaphores/')) {
+                                mkdir($innomatic->getHome().'core/temp/semaphores/');
                             }
                             return false;
                         }

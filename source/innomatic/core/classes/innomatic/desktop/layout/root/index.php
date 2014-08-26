@@ -15,6 +15,8 @@
 
 use \Shared\Wui;
 
+$container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+
 $wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $wui->loadWidget('button');
 $wui->loadWidget('grid');
@@ -34,7 +36,7 @@ $wui_vertgroup = new WuiVertgroup('vertgroup', array('align' => 'center', 'group
 $wui_buttons_group = new WuiVertgroup('buttons_group', array('align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%'));
 
 if ($app_cfg->getKey('innomatic-biglogo-disabled') != '1') {
-    if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT)
+    if ($container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT)
         $edition = '_asp';
     else
         $edition = '_enterprise';
@@ -54,8 +56,8 @@ $serviceprovider_biglogo_filename = $app_cfg->getKey('serviceprovider-biglogo-fi
 $serviceprovider_url = $app_cfg->getKey('serviceprovider-url');
 
 if ($app_cfg->getKey('serviceprovider-biglogo-disabled') != '1') {
-    if (strlen($serviceprovider_biglogo_filename) and file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/'.$serviceprovider_biglogo_filename)) {
-        $serviceprovider_button = new WuiButton('serviceproviderbutton', array('action' => strlen($serviceprovider_url) ? $serviceprovider_url : ' http://www.innomatic.io', 'target' => '_top', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/'.$serviceprovider_biglogo_filename, 'highlight' => 'false'));
+    if (strlen($serviceprovider_biglogo_filename) and file_exists($container->getHome().'shared/'.$serviceprovider_biglogo_filename)) {
+        $serviceprovider_button = new WuiButton('serviceproviderbutton', array('action' => strlen($serviceprovider_url) ? $serviceprovider_url : ' http://www.innomatic.io', 'target' => '_top', 'image' => $container->getBaseUrl(false).'/shared/'.$serviceprovider_biglogo_filename, 'highlight' => 'false'));
         $wui_buttons_group->addChild($serviceprovider_button);
     }
 }

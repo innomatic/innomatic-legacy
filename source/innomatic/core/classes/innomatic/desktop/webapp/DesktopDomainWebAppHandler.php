@@ -77,7 +77,7 @@ class DesktopDomainWebAppHandler extends \Innomatic\Webapp\WebAppHandler
 
         if (!headers_sent()) {
             // Starts output compression.
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('CompressedOutputBuffering') == '1') {
+            if ($innomatic->getConfig()->value('CompressedOutputBuffering') == '1') {
                 ini_set('zlib.output_compression', 'on');
                 ini_set('zlib.output_compression_level', 6);
             }

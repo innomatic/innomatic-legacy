@@ -46,8 +46,9 @@ class ApplicationStructureDefinition extends \Innomatic\Xml\XMLParser
      */
     public function __construct($basedir = '')
     {
-        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
-        $this->eltypes = new ApplicationComponentFactory(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $this->mLog = $container->getLogger();
+        $this->eltypes = new ApplicationComponentFactory($container->getDataAccess());
         $this->eltypes->fillTypes();
         parent::__construct();
         $this->basedir = $basedir;

@@ -69,13 +69,15 @@ class DesktopSession implements \Innomatic\Webapp\WebAppSession
         ini_set('session.gc_maxlifetime', $lifetime);
         ini_set('session.cookie_lifetime', $lifetime);
 
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
         if (
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState()
+            $container->getState()
             != \Innomatic\Core\InnomaticContainer::STATE_SETUP
         ) {
             ini_set(
                 'session.save_path',
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                $container->getHome()
                 . 'core/temp/phpsessions/'
             );
         }

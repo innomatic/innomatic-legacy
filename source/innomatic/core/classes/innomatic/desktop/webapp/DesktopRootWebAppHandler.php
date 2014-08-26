@@ -80,13 +80,13 @@ class DesktopRootWebAppHandler extends \Innomatic\Webapp\WebAppHandler
         $home = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome();
         $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
 
-        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
+        if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
             $innomatic->abort('Setup phase');
         }
 
         if (!headers_sent()) {
             // Starts output compression.
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('CompressedOutputBuffering') == '1') {
+            if ($innomatic->getConfig()->value('CompressedOutputBuffering') == '1') {
                 ini_set('zlib.output_compression', 'on');
                 ini_set('zlib.output_compression_level', 6);
             }

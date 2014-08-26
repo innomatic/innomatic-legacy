@@ -261,6 +261,7 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
 
 function login_login($eventData)
 {
+    $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
     $username = $eventData['username'];
     $domainId = \Innomatic\Domain\User\User::extractDomainID($username);
 
@@ -277,14 +278,14 @@ function login_login($eventData)
     if (! strlen($domainId)) {
         DesktopDomainAuthenticatorHelper::doAuth(true);
     }
-    $tmpDomain = new \Innomatic\Domain\Domain(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $domainId, null);
+    $tmpDomain = new \Innomatic\Domain\Domain($container->getDataAccess(), $domainId, null);
     $domainDA = $tmpDomain->getDataAccess();
     $userQuery = $domainDA->execute('SELECT * FROM domain_users WHERE username=' . $domainDA->formatText($username) . ' AND password=' . $domainDA->formatText(md5($eventData['password'])));
 
     // Check if the user/password couple exists
     if ($userQuery->getNumberRows()) {
         // Check if the user is not disabled
-        if ($userQuery->getFields('disabled') == \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmttrue) {
+        if ($userQuery->getFields('disabled') == $container->getDataAccess()->fmttrue) {
             DesktopDomainAuthenticatorHelper::doAuth(true, 'userdisabled');
         } else {
             // Login ok, set the session key

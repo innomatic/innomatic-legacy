@@ -40,13 +40,15 @@ class WuiTreevmenu extends \Innomatic\Wui\Widgets\WuiWidget
         } else {
             $mid = $registry->getGlobalObject('singleton xlayersmenu');
         }
-        $mid->libdir = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/lib/';
-        $mid->libwww = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false) . '/shared/';
-        //$mid->tpldir = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/';
+        
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $mid->libdir = $container->getHome() . 'core/lib/';
+        $mid->libwww = $container->getBaseUrl(false) . '/shared/';
+        //$mid->tpldir = $container->getHome().'core/conf/';
         $mid->imgdir = $this->mThemeHandler->mStyleDir;
         $mid->imgwww = $this->mThemeHandler->mStyleBase . $this->mThemeHandler->mStyleName . '/';
-        //$mid->imgdir = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/';
-        //$mid->imgwww = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/';
+        //$mid->imgdir = $container->getHome().'shared/';
+        //$mid->imgwww = $container->getBaseUrl(false).'/shared/';
         $mid->setMenuStructureString($this->mMenu);
         $mid->setDownArrowImg(basename($this->mThemeHandler->mStyle['arrowdownshadow']));
         $mid->setForwardArrowImg(basename($this->mThemeHandler->mStyle['arrowrightshadow']));

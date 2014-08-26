@@ -40,18 +40,18 @@ class XajaxWebAppHandler extends WebAppHandler
         $root = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer');
         $innomatic_home = $root->getHome().'innomatic/';
         $innomatic->bootstrap($innomatic_home, $innomatic_home.'core/conf/innomatic.ini');
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->startDomain(\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getName());
+        $innomatic->startDomain(\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getName());
 
         $request_uri = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getRequest()->getUrlPath(true).'/_xajax/call.xajax';
         $xajax = Xajax::instance('Xajax', $request_uri);
 
         // Set debug mode
-        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
+        if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
             $xajax->debugOn();
         }
 
         $xajax->setLogFile(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            $innomatic->getHome()
             . 'core/log/ajax.log'
         );
 
