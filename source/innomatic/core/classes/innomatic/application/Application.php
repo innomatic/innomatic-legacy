@@ -117,16 +117,19 @@ only application. */
             @mkdir($tmpdir, 0755);
             $olddir = getcwd();
             @chdir($tmpdir);
-            //@system( escapeshellcmd( 'tar zxf '.$fname ) );
-
-            $archiveFormat = \Innomatic\Io\Archive\Archive::FORMAT_TGZ;
 
             if (substr($fname, -4) == '.zip') {
-                $archiveFormat = \Innomatic\Io\Archive\Archive::FORMAT_ZIP;
+            } else {
+                $appArchive = new \PharData($fname);
+                $tarFileName = substr($fname, 0, strpos($fname, '.')).'.tar';
+                if (file_exists($tarFileName)) {
+                    unlink($tarFileName);
+                }
+                $appArchive->decompress();
+                
+                $appArchive = new \PharData($tarFileName);
+                $appArchive->extractTo($tmpdir);
             }
-
-            $appArchive = new \Innomatic\Io\Archive\Archive($fname, $archiveFormat);
-            $appArchive->extract($tmpdir);
 
             // Checks if the files are into a directory instead of the root
             //
