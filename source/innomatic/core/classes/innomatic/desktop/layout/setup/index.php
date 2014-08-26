@@ -282,8 +282,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
         //
         $row = 0;
 
-        //if (ereg("[4-9]\.[0-9]\.[5-9].*", phpversion()) or ereg("[4-9]\.[1-9]\.[0-9].*", phpversion()))
-        if (ereg("[5-9]\.[0-9]\.[0-9].*", phpversion())) {
+        if (ereg("[5-9]\.[4-9]\.[0-9].*", phpversion())) {
             $ball = $wuiPage->mThemeHandler->mStyle['greenball'];
             $check_result = sprintf($innomaticLocale->getStr('php_available_label'), phpversion());
         } else {
