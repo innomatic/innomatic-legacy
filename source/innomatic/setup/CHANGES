@@ -79,7 +79,7 @@ CHANGES:
   generated. (Alex Pagnoni)
 - build.xml dev target now deploys Innomatic to a local Vagrant box. (Alex
   Pagnoni)
-- Application deployment now uses PHP Phar in place of
+- Application deployment now uses PHP PharData in place of
   \Innomatic\Io\Archive\Archive class. (Alex Pagnoni)
 
 FIXES:
@@ -109,7 +109,7 @@ DEPRECATED:
   of \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT. (Alex Pagnoni)
 - Domain label is deprecated; domains should be called tenants from now on.
   (Alex Pagnoni)
-- \Innomatic\Io\Archive\* classes are deprecated, PHP Phar should be used
+- \Innomatic\Io\Archive\* classes are deprecated, PHP PharData should be used
   instead. (Alex Pagnoni)
 
 
