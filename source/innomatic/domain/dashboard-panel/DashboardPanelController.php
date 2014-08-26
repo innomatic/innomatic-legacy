@@ -21,9 +21,10 @@ class DashboardPanelController extends \Innomatic\Desktop\Panel\PanelController
 
     public function getWidgetsList()
     {
-        $domain_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $domain_da = $container->getCurrentDomain()->getDataAccess();
 
-        $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
+        $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($domain_da, $container->getCurrentUser()->getGroup());
 
         // Extract the list of all the widgets
         $widget_query = $domain_da->execute('SELECT * FROM domain_dashboards_widgets');

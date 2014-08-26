@@ -23,6 +23,7 @@ use \Shared\Wui;
 class DashboardPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 {
     public $localeCatalog;
+    protected $container;
 
     public function __construct(\Innomatic\Desktop\Panel\PanelController $controller)
     {
@@ -31,9 +32,11 @@ class DashboardPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function beginHelper()
     {
+        $this->container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
         $this->localeCatalog = new LocaleCatalog(
             'innomatic::domain_dashboard',
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
+            $this->container->getCurrentUser()->getLanguage()
         );
     }
 
@@ -45,10 +48,10 @@ class DashboardPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     {
         $objResponse = new XajaxResponse();
         $xml = '<void/>';
+        
+        $domain_da = $this->container->getCurrentDomain()->getDataAccess();
 
-        $domain_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
-
-        $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
+        $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($domain_da, $this->container->getCurrentUser()->getGroup());
 
         // Check if the widget exists in the widgets list
         $widget_query = $domain_da->execute('SELECT * FROM domain_dashboards_widgets WHERE name='.$domain_da->formatText($name));

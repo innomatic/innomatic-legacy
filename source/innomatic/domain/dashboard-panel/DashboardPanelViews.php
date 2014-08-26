@@ -33,13 +33,16 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     public $wuiTitlebar;
 
     protected $localeCatalog;
+    
+    protected $container;
 
     public function update($observable, $arg = '')
     {}
 
     public function beginHelper()
     {
-        $this->localeCatalog = new LocaleCatalog('innomatic::domain_dashboard', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage());
+        $this->container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $this->localeCatalog = new LocaleCatalog('innomatic::domain_dashboard', $this->container->getCurrentUser()->getLanguage());
 
         $this->wuiContainer->loadAllWidgets();
 
@@ -120,7 +123,7 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             }
 
             // Widget title
-            $widget_locale = new LocaleCatalog($widget['catalog'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage());
+            $widget_locale = new LocaleCatalog($widget['catalog'], $this->container->getCurrentUser()->getLanguage());
             $headers = array();
             $headers[0]['label'] = $widget_locale->getStr($widget['title']);
 
