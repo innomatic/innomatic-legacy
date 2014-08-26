@@ -411,7 +411,7 @@ abstract class ApplicationComponent implements ApplicationComponentBase
                                 );
                                 if ($actquery->getNumberRows()) {
                                     $this->container->startDomain($domaindata['domainid']);
-                                    $this->container->getCurrentDomain()->getDataAccess();
+                                    $this->domainda = $this->container->getCurrentDomain()->getDataAccess();
 
                                     if (
                                         strlen($domainprescript)
