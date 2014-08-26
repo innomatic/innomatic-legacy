@@ -120,15 +120,22 @@ only application. */
 
             if (substr($fname, -4) == '.zip') {
             } else {
-                $appArchive = new \PharData($fname);
-                $tarFileName = substr($fname, 0, strpos($fname, '.')).'.tar';
-                if (file_exists($tarFileName)) {
-                    unlink($tarFileName);
+                try {
+                    $appArchive = new \PharData($fname);
+                    $tarFileName = substr($fname, 0, strpos($fname, '.')).'.tar';
+                    if (file_exists($tarFileName)) {
+                        unlink($tarFileName);
+                    }
+                    $appArchive->decompress();
+                } catch (\BadMethodCallException $e) {
+                    
                 }
-                $appArchive->decompress();
-                
-                $appArchive = new \PharData($tarFileName);
-                $appArchive->extractTo($tmpdir);
+
+                try {
+                    $appArchive->extractTo($tmpdir);
+                } catch (Exception $e) {
+                    
+                } 
             }
 
             // Checks if the files are into a directory instead of the root
