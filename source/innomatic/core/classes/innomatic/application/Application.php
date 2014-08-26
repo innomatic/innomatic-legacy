@@ -356,7 +356,7 @@ only application. */
                         if ($result == true) {
                             if (
                                 $this->container->getEdition()
-                                == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE and $this->appname != 'innomatic'
+                                == \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT and $this->appname != 'innomatic'
                                 and $ext != $this->rootda->fmttrue
                             ) {
                                 $domainsQuery = \Innomatic\Core\InnomaticContainer::instance(

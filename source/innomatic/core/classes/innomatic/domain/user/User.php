@@ -381,7 +381,7 @@ class User
     public static function extractDomainID($username)
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        if ($container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE) {
+        if ($container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT) {
             $domain_query = $container->getDataAccess()->execute('SELECT domainid FROM domains LIMIT 1');
             if ($domain_query->getNumberRows() == 1) {
                 return $domain_query->getFields('domainid');

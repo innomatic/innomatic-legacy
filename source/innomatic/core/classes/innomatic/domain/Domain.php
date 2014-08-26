@@ -124,7 +124,7 @@ class Domain
             // When in enterprise edition, checks if there are no domains.
             $goon = true;
 
-            if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE) {
+            if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT) {
                 $check_query = $this->container->getDataAccess()->execute('SELECT count(*) AS domains FROM domains');
 
                 if ($check_query->getFields('domains') > 0)
@@ -168,7 +168,7 @@ class Domain
                 }
                 $domaindata['webappskeleton'] = $this->defopt(trim($domaindata['webappskeleton']), 'default');
 
-                if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE) {
+                if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT) {
                     $domaindata['domaindaname']       = $this->container->getConfig()->value('RootDatabaseName');
                     $domaindata['dataaccesshost']     = $this->container->getConfig()->value('RootDatabaseHost');
                     $domaindata['dataaccessport']     = $this->container->getConfig()->value('RootDatabasePort');
@@ -238,11 +238,11 @@ class Domain
                         $tmpdb = $this->rootda;
                     }
 
-                    if (!$createDb or $this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE or $created = $tmpdb->createDB($args)) {
+                    if (!$createDb or $this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT or $created = $tmpdb->createDB($args)) {
                         if (isset($created) and $created == true) {
                             $this->domainlog->logEvent($domaindata['domainid'], 'Database '.$args['dbname'].' created', \Innomatic\Logging\Logger::NOTICE);
                         }
-                        if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE or $tmpdb->connect()) {
+                        if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT or $tmpdb->connect()) {
                             if ($this->container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
                                 $this->dataAccess = $tmpdb;
                             } else {
@@ -1008,7 +1008,7 @@ WHERE domains.domainid = '.$this->rootda->formatText($this->domainid);
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
-        if ($container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE) {
+        if ($container->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT) {
             return false;
         }
 

@@ -101,7 +101,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $wuiMainToolBar->addChild($wuiHomeButton);
 
         if (
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT
         ) {
             $domainQuery = \Innomatic\Core\InnomaticContainer::instance(
                 '\Innomatic\Core\InnomaticContainer'

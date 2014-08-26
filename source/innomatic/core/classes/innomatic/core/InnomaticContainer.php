@@ -231,7 +231,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         //$this->mode = \Innomatic\Core\InnomaticContainer::MODE_ROOT;
         // Edition
         if ($this->config->value('PlatformEdition') == 'enterprise') {
-            $this->edition = \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE;
+            $this->edition = \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT;
         }
 
         // *********************************************************************
