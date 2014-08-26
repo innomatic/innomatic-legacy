@@ -72,7 +72,9 @@ class DesktopDomainWebAppHandler extends \Innomatic\Webapp\WebAppHandler
         $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
 
         if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
-            $innomatic->abort('Setup phase');
+            $mode = \Innomatic\Core\InnomaticContainer::MODE_BASE;
+        } else {
+            $mode = \Innomatic\Core\InnomaticContainer::MODE_DOMAIN;
         }
 
         if (!headers_sent()) {
@@ -83,7 +85,7 @@ class DesktopDomainWebAppHandler extends \Innomatic\Webapp\WebAppHandler
             }
         }
 
-        \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->execute(\Innomatic\Core\InnomaticContainer::MODE_DOMAIN, $resource);
+        \Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->execute($mode, $resource);
     }
 
     public function doPost(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)
