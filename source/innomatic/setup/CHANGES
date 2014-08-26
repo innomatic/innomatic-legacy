@@ -79,6 +79,8 @@ CHANGES:
   generated. (Alex Pagnoni)
 - build.xml dev target now deploys Innomatic to a local Vagrant box. (Alex
   Pagnoni)
+- Application deployment now uses PHP Phar in place of
+  \Innomatic\Io\Archive\Archive class. (Alex Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).
@@ -95,6 +97,8 @@ FIXES:
   in dependencies list. (Alex Pagnoni)
 - Fixed problem when accessing Innomatic with a valid session by a deleted
   user (now the user auth session key is removed). (Alex Pagnoni)
+- Fixed random "Missing dependencies" problem when installing/updating
+  applications. (Alex Pagnoni)
 
 DEPRECATED:
 - \Innomatic\Domain\User\Permissions class is deprecated in favor of new
@@ -105,6 +109,8 @@ DEPRECATED:
   of \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT. (Alex Pagnoni)
 - Domain label is deprecated; domains should be called tenants from now on.
   (Alex Pagnoni)
+- \Innomatic\Io\Archive\* classes are deprecated, PHP Phar should be used
+  instead. (Alex Pagnoni)
 
 
 
