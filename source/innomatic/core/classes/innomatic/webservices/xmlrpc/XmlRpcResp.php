@@ -21,7 +21,7 @@ class XmlRpcResp
 	 *
 	 * @todo add check that $val / $fcode / $fstr is of correct type???
 	 * NB: as of now we do not do it, since it might be either an xmlrpcval or a plain
-	 * php val, or a complete xml chunk, depending on usage of xmlrpc_client::send() inside which creator is called...
+	 * php val, or a complete xml chunk, depending on usage of xmlrpcclient::send() inside which creator is called...
 	 */
 	function __construct($val, $fcode = 0, $fstr = '', $valtyp='')
 	{
@@ -81,7 +81,7 @@ class XmlRpcResp
 
 	/**
 	 * Returns the value received by the server.
-	 * @return mixed the xmlrpcval object returned by the server. Might be an xml string or php value if the response has been created by specially configured xmlrpc_client objects
+	 * @return mixed the xmlrpcval object returned by the server. Might be an xml string or php value if the response has been created by specially configured xmlrpcclient objects
 	 */
 	function value()
 	{
@@ -95,7 +95,7 @@ class XmlRpcResp
 	 * NB: cookies sent as 'expired' by the server (i.e. with an expiry date in the past)
 	 * are still present in the array. It is up to the user-defined code to decide
 	 * how to use the received cookies, and wheter they have to be sent back with the next
-	 * request to the server (using xmlrpc_client::setCookie) or not
+	 * request to the server (using xmlrpcclient::setCookie) or not
 	 * @return array array of cookies received from the server
 	 */
 	function cookies()

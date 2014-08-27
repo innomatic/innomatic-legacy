@@ -1,9 +1,9 @@
 <?php
 namespace Innomatic\Webservices\Xmlrpc;
 
-use Innomatic\Webservices\Xmlrpc\XmlRpc_Client;
+use Innomatic\Webservices\Xmlrpc\XmlRpcClient;
 
-require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
+require_once('innomatic/webservices/xmlrpc/XmlRpcClient.php');
 
 // by Edd Dumbill (C) 1999-2002
 // <edd@usefulinc.com>
@@ -434,7 +434,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
         $GLOBALS['_xmlrpc_debuginfo'] .= $m . "\n";
     }
 
-    class xmlrpc_server
+    class XmlRpcServer
     {
         /// array defining php functions exposed as xmlrpc methods by this server
         var $dmap=array();
@@ -661,7 +661,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
             }
             else
             {
-                error_log('XML-RPC: xmlrpc_server::service: http headers already sent before response is fully generated. Check for php warning or error messages');
+                error_log('XML-RPC: xmlrpcserver::service: http headers already sent before response is fully generated. Check for php warning or error messages');
             }
 
             print $payload;
@@ -912,7 +912,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
                 // makes the lib about 200% slower...
                 //if (!is_valid_charset($req_encoding, array('UTF-8', 'ISO-8859-1', 'US-ASCII')))
                 {
-                    error_log('XML-RPC: xmlrpc_server::parseRequest: invalid charset encoding of received request: '.$req_encoding);
+                    error_log('XML-RPC: xmlrpcserver::parseRequest: invalid charset encoding of received request: '.$req_encoding);
                     $req_encoding = $GLOBALS['xmlrpc_defencoding'];
                 }
                 /// @BUG this will fail on PHP 5 if charset is not specified in the xml prologue,
@@ -1055,7 +1055,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
             // verify that function to be invoked is in fact callable
             if(!is_callable($func))
             {
-                error_log("XML-RPC: xmlrpc_server::execute: function $func registered as method handler is not callable");
+                error_log("XML-RPC: xmlrpcserver::execute: function $func registered as method handler is not callable");
                 return new XmlRpcResp(
                     0,
                     $GLOBALS['xmlrpcerr']['server_error'],
@@ -1081,7 +1081,7 @@ require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
                 }
                 if (!is_a($r, '\Innomatic\Webservices\Xmlrpc\XmlRpcResp'))
                 {
-                    error_log("XML-RPC: xmlrpc_server::execute: function $func registered as method handler does not return an xmlrpcresp object");
+                    error_log("XML-RPC: xmlrpcserver::execute: function $func registered as method handler does not return an xmlrpcresp object");
                     if (is_a($r, '\Innomatic\Webservices\Xmlrpc\XmlRpcVal'))
                     {
                         $r = new XmlRpcResp($r);

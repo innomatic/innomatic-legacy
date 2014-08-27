@@ -94,7 +94,7 @@ namespace Innomatic\Webservices\Xmlrpc;
 
     /**
     * Given a user-defined PHP function, create a PHP 'wrapper' function that can
-    * be exposed as xmlrpc method from an xmlrpc_server object and called from remote
+    * be exposed as xmlrpc method from an xmlrpcserver object and called from remote
     * clients (as well as its corresponding signature info).
     *
     * Since php is a typeless language, to infer types of input and output parameters,
@@ -420,7 +420,7 @@ namespace Innomatic\Webservices\Xmlrpc;
     * An extra 'debug' param is appended to param list of xmlrpc method, useful
     * for debugging purposes.
     *
-    * @param xmlrpc_client $client     an xmlrpc client set up correctly to communicate with target server
+    * @param xmlrpcclient  $client     an xmlrpc client set up correctly to communicate with target server
     * @param string        $methodname the xmlrpc method to be mapped to a php function
     * @param array         $extra_options array of options that specify conversion details. valid ptions include
     *        integer       signum      the index of the method signature to use in mapping (if method exposes many sigs)
@@ -569,7 +569,7 @@ namespace Innomatic\Webservices\Xmlrpc;
     * Similar to wrap_xmlrpc_method, but will generate a php class that wraps
     * all xmlrpc methods exposed by the remote server as own methods.
     * For more details see wrap_xmlrpc_method.
-    * @param xmlrpc_client $client the client obj all set to query the desired server
+    * @param xmlrpcclient $client the client obj all set to query the desired server
     * @param array $extra_options list of options for wrapped code
     * @return mixed false on error, the name of the created class if all ok or an array with code, class name and comments (if the appropriatevoption is set in extra_options)
     */

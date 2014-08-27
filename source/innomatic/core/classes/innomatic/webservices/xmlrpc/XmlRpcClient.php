@@ -786,7 +786,7 @@ namespace Innomatic\Webservices\Xmlrpc;
         return true;
     }
 
-    class xmlrpc_client
+    class XmlRpcClient
     {
         var $path;
         var $server;
@@ -1227,7 +1227,7 @@ namespace Innomatic\Webservices\Xmlrpc;
                 $credentials='Authorization: Basic ' . base64_encode($username . ':' . $password) . "\r\n";
                 if ($authtype != 1)
                 {
-                    error_log('XML-RPC: xmlrpc_client::send: warning. Only Basic auth is supported with HTTP 1.0');
+                    error_log('XML-RPC: xmlrpcclient::send: warning. Only Basic auth is supported with HTTP 1.0');
                 }
             }
 
@@ -1251,7 +1251,7 @@ namespace Innomatic\Webservices\Xmlrpc;
                 {
                     if ($proxyauthtype != 1)
                     {
-                        error_log('XML-RPC: xmlrpc_client::send: warning. Only Basic auth to proxy is supported with HTTP 1.0');
+                        error_log('XML-RPC: xmlrpcclient::send: warning. Only Basic auth to proxy is supported with HTTP 1.0');
                     }
                     $proxy_credentials = 'Proxy-Authorization: Basic ' . base64_encode($proxyusername.':'.$proxypassword) . "\r\n";
                 }
@@ -1524,7 +1524,7 @@ namespace Innomatic\Webservices\Xmlrpc;
                 }
                 else if ($authtype != 1)
                 {
-                    error_log('XML-RPC: xmlrpc_client::send: warning. Only Basic auth is supported by the current PHP/curl install');
+                    error_log('XML-RPC: xmlrpcclient::send: warning. Only Basic auth is supported by the current PHP/curl install');
                 }
             }
 
@@ -1583,7 +1583,7 @@ namespace Innomatic\Webservices\Xmlrpc;
                     }
                     else if ($proxyauthtype != 1)
                     {
-                        error_log('XML-RPC: xmlrpc_client::send: warning. Only Basic auth to proxy is supported by the current PHP/curl install');
+                        error_log('XML-RPC: xmlrpcclient::send: warning. Only Basic auth to proxy is supported by the current PHP/curl install');
                     }
                 }
             }
@@ -1857,7 +1857,7 @@ namespace Innomatic\Webservices\Xmlrpc;
                 return $response;
             }
         }
-    } // end class xmlrpc_client
+    } // end class XmlRpcClient
 
 
 

@@ -497,8 +497,8 @@
 		<class name="innomatic/webservices/WebServicesUser.php" />
 		<class name="innomatic/webservices/WebServicesProfile.php" />
 		<class name="innomatic/webservices/WebServicesHandler.php" />
-		<class name="innomatic/webservices/xmlrpc/XmlRpc_Client.php" />
-		<class name="innomatic/webservices/xmlrpc/XmlRpc_Server.php" />
+		<class name="innomatic/webservices/xmlrpc/XmlRpcClient.php" />
+		<class name="innomatic/webservices/xmlrpc/XmlRpcServer.php" />
 		<class name="innomatic/webservices/xmlrpc/XmlRpc_Wrappers.php" />
         <class name="innomatic/webservices/xmlrpc/XmlRpcMsg.php" />
         <class name="innomatic/webservices/xmlrpc/XmlRpcResp.php" />

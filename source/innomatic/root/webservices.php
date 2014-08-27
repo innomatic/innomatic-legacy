@@ -2155,7 +2155,7 @@ function main_showmethods($eventData)
         \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['accountid']
     );
-    $xmlrpcClient = new \Innomatic\Webservices\Xmlrpc\XmlRpc_Client($xmlrpcAccount->mPath, $xmlrpcAccount->mHost, $xmlrpcAccount->mPort);
+    $xmlrpcClient = new \Innomatic\Webservices\Xmlrpc\XmlRpcClient($xmlrpcAccount->mPath, $xmlrpcAccount->mHost, $xmlrpcAccount->mPort);
     $xmlrpcClient->setProxy($xmlrpcAccount->mProxy, $xmlrpcAccount->mProxyPort);
     $xmlrpcClient->setCredentials($xmlrpcAccount->mUsername, $xmlrpcAccount->mPassword);
 
