@@ -49,12 +49,12 @@ class TraybaritemComponent extends \Innomatic\Application\ApplicationComponent
         $args['file'] = $this->basedir . '/core/classes/shared/traybar/' . basename($args['file']);
 
         // Check if the shared traybar items directory exists
-        if (!is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/traybar/')) {
-            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/traybar/', 0755);
+        if (!is_dir($this->container->getHome() . 'core/classes/shared/traybar/')) {
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/classes/shared/traybar/', 0755);
         }
 
-        @copy($args['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/traybar/' . basename($args['file']));
-        @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/traybar/' . basename($args['file']), 0644);
+        @copy($args['file'], $this->container->getHome() . 'core/classes/shared/traybar/' . basename($args['file']));
+        @chmod($this->container->getHome() . 'core/classes/shared/traybar/' . basename($args['file']), 0644);
         return true;
     }
 
@@ -62,7 +62,7 @@ class TraybaritemComponent extends \Innomatic\Application\ApplicationComponent
     {
         if (strlen($args['file'])) {
             $args['file'] = $this->basedir . '/core/classes/shared/traybar/' . basename($args['file']);
-            @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/traybar/' . $args['file']);
+            @unlink($this->container->getHome() . 'core/classes/shared/traybar/' . $args['file']);
         }
         return true;
     }
@@ -72,8 +72,8 @@ class TraybaritemComponent extends \Innomatic\Application\ApplicationComponent
         if (strlen($args['file'])) {
             $args['file'] = $this->basedir . '/core/classes/shared/traybar/' . basename($args['file']);
             if (file_exists($args['file'])) {
-                @copy($args['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/traybar/' . basename($args['file']));
-                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/traybar/' . basename($args['file']), 0644);
+                @copy($args['file'], $this->container->getHome() . 'core/classes/shared/traybar/' . basename($args['file']));
+                @chmod($this->container->getHome() . 'core/classes/shared/traybar/' . basename($args['file']), 0644);
             }
         }
         return true;

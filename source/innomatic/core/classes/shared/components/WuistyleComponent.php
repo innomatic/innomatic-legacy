@@ -45,28 +45,28 @@ class WuistyleComponent extends \Innomatic\Application\ApplicationComponent
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
-            if (! is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/')) {
-                \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/', 0755);
+            if (! is_dir($this->container->getHome() . 'core/conf/themes/')) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/conf/themes/', 0755);
             }
-            if (@copy($params['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
-                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
+            if (@copy($params['file'], $this->container->getHome() . 'core/conf/themes/' . basename($params['file']))) {
+                @chmod($this->container->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
                 $wui_component = new \Innomatic\Wui\Theme\WuiStyle($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Install($params)) {
                     $style_components = $wui_component->getStyle();
-                    if (! file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles'))
-                        @mkdir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles', 0755);
-                    if (! file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles/' . $params['name']))
-                        @mkdir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles/' . $params['name'], 0755);
+                    if (! file_exists($this->container->getHome() . 'shared/styles'))
+                        @mkdir($this->container->getHome() . 'shared/styles', 0755);
+                    if (! file_exists($this->container->getHome() . 'shared/styles/' . $params['name']))
+                        @mkdir($this->container->getHome() . 'shared/styles/' . $params['name'], 0755);
                     while (list (, $file) = each($style_components)) {
                         if (strlen($file['value']))
-                            @copy($this->basedir . '/shared/styles/' . $params['name'] . '/' . $file['value'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles/' . $params['name'] . '/' . $file['value']);
+                            @copy($this->basedir . '/shared/styles/' . $params['name'] . '/' . $file['value'], $this->container->getHome() . 'shared/styles/' . $params['name'] . '/' . $file['value']);
                     }
                     $result = true;
                 } else
                     $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', \Innomatic\Logging\Logger::ERROR);
             } else
-                $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . $this->container->getHome() . 'core/conf/themes/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
@@ -80,11 +80,11 @@ class WuistyleComponent extends \Innomatic\Application\ApplicationComponent
                 $style_components = $wui_component->getStyle();
                 while (list (, $file) = each($style_components)) {
                     if (strlen($file['value']))
-                        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles/' . $params['name'] . '/' . $file['value']);
+                        @unlink($this->container->getHome() . 'shared/styles/' . $params['name'] . '/' . $file['value']);
                 }
-                if (! file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles/' . $params['name']))
-                    @rmdir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles/' . $params['name']);
-                if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
+                if (! file_exists($this->container->getHome() . 'shared/styles/' . $params['name']))
+                    @rmdir($this->container->getHome() . 'shared/styles/' . $params['name']);
+                if (@unlink($this->container->getHome() . 'core/conf/themes/' . basename($params['file']))) {
                     $result = true;
                 }
             } else
@@ -99,28 +99,28 @@ class WuistyleComponent extends \Innomatic\Application\ApplicationComponent
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/conf/themes/' . basename($params['file']);
             // Creates themes configuration folder if it doesn't exists
-            if (!is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/')) {
-                \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/', 0755);
+            if (!is_dir($this->container->getHome() . 'core/conf/themes/')) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/conf/themes/', 0755);
             }
-            if (@copy($params['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']))) {
-                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
+            if (@copy($params['file'], $this->container->getHome() . 'core/conf/themes/' . basename($params['file']))) {
+                @chmod($this->container->getHome() . 'core/conf/themes/' . basename($params['file']), 0644);
                 $wui_component = new \Innomatic\Wui\Theme\WuiStyle($this->rootda, $params['name']);
                 $params['file'] = basename($params['file']);
                 if ($wui_component->Update($params)) {
                     $style_components = $wui_component->getStyle();
-                    if (! file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles'))
-                        @mkdir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles', 0755);
-                    if (! file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles/' . $params['name']))
-                        @mkdir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles/' . $params['name'], 0755);
+                    if (! file_exists($this->container->getHome() . 'shared/styles'))
+                        @mkdir($this->container->getHome() . 'shared/styles', 0755);
+                    if (! file_exists($this->container->getHome() . 'shared/styles/' . $params['name']))
+                        @mkdir($this->container->getHome() . 'shared/styles/' . $params['name'], 0755);
                     while (list (, $file) = each($style_components)) {
                         if (strlen($file['value']))
-                            @copy($this->basedir . '/shared/styles/' . $params['name'] . '/' . $file['value'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/styles/' . $params['name'] . '/' . $file['value']);
+                            @copy($this->basedir . '/shared/styles/' . $params['name'] . '/' . $file['value'], $this->container->getHome() . 'shared/styles/' . $params['name'] . '/' . $file['value']);
                     }
                     $result = true;
                 } else
                     $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to update component', \Innomatic\Logging\Logger::ERROR);
             } else
-                $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/themes/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . $this->container->getHome() . 'core/conf/themes/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.wuistylecomponent.wuistyle.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;

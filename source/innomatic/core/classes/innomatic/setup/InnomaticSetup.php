@@ -24,18 +24,20 @@ class InnomaticSetup
 {
     public static function setup_by_config_file($configFile = '', $echo = false)
     {
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+
         $successString = "[  \033[1;32mOK\033[0;39m  ]\n";
         $failureString = "[\033[1;31mFAILED\033[0;39m]\n";
 
         if (strlen($configFile) and file_exists($configFile)) {
             $configFileName = $configFile;
-        } else $configFileName = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/kickstart.ini';
+        } else $configFileName = $container->getHome().'core/conf/kickstart.ini';
 
         if (!file_exists($configFileName)) {
             if ($echo) echo $failureString;
             return false;
         }
-        $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+        $log = $container->getLogger();
 
         $cfg = @parse_ini_file($configFileName);
         if ($echo) echo str_pad('System check: ', 60);
@@ -84,7 +86,7 @@ class InnomaticSetup
         if ($echo) echo $successString.str_pad('Components initialization (may take some time): ', 60);
 
         $reg = \Innomatic\Util\Registry::instance();
-        $dbArgs['dblog'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic_root_db.log';
+        $dbArgs['dblog'] = $container->getHome().'core/log/innomatic_root_db.log';
 
         if (!InnomaticSetup::initializecomponents($dbArgs, $log)) {
             if ($echo) echo $failureString;
@@ -172,27 +174,33 @@ class InnomaticSetup
 
     public static function checksystem($eventData = '', $log = '')
     {
-        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_systemchecked', time());
-        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_checkingsystem')) @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_checkingsystem');
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        @touch($container->getHome().'core/temp/setup_systemchecked', time());
+        if (file_exists($container->getHome().'core/temp/setup_checkingsystem')) @unlink($container->getHome().'core/temp/setup_checkingsystem');
 
         return true;
     }
 
     public static function installFiles($eventData = '', $log = '')
     {
-        InnomaticSetup::recursive_copy(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome(), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/innomatic');
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        InnomaticSetup::recursive_copy($container->getHome(), $container->getHome().'core/temp/innomatic');
 
-        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_filesinstalled', time());
-        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_installingfiles')) @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_installingfiles');
+        @touch($container->getHome().'core/temp/setup_filesinstalled', time());
+        if (file_exists($container->getHome().'core/temp/setup_installingfiles')) @unlink($container->getHome().'core/temp/setup_installingfiles');
 
         return true;
     }
 
     public static function setEdition($eventData, $log = '')
     {
-        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_editionset', time());
-        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingedition')) @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingedition');
-        $innomaticcfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        @touch($container->getHome().'core/temp/setup_editionset', time());
+        if (file_exists($container->getHome().'core/temp/setup_settingedition')) @unlink($container->getHome().'core/temp/setup_settingedition');
+        $innomaticcfg = new \Innomatic\Config\ConfigFile($container->getConfigurationFile());
         $innomaticcfg->setValue('PlatformEdition', $eventData['edition']);
 
         return true;
@@ -200,12 +208,16 @@ class InnomaticSetup
 
     public static function dataaccessdrivers($eventData = '', $log = '')
     {
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
         $daf = new \Innomatic\Dataaccess\DataAccessFactory();
         $daf->addDriver('mysql', 'MySQL 3.22+');
         $daf->addDriver('pgsql', 'PostgreSQL 7.0+');
 
-        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_dataaccessdriverscreated', time());
-        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_creatingdataaccessdrivers')) @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_creatingdataaccessdrivers');
+        @touch($container->getHome().'core/temp/setup_dataaccessdriverscreated', time());
+        if (file_exists($container->getHome().'core/temp/setup_creatingdataaccessdrivers')) {
+            @unlink($container->getHome().'core/temp/setup_creatingdataaccessdrivers');
+        }
 
         return true;
     }
@@ -235,11 +247,11 @@ class InnomaticSetup
                 // Tables creation
                 //
                 $xmldb = new \Innomatic\Dataaccess\DataAccessXmlTable($tmpdb, \Innomatic\Dataaccess\DataAccessXmlTable::SQL_CREATE);
-                if ($xmldb->load_DefFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/db/innomatic_root.xml')) {
+                if ($xmldb->load_DefFile($innomatic->getHome().'core/db/innomatic_root.xml')) {
                     if ($tmpdb->execute($xmldb->getSQL())) {
                         // Database configuration file creation
                         //
-                        $fh = @fopen(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/innomatic.ini', 'a');
+                        $fh = @fopen($innomatic->getHome().'core/conf/innomatic.ini', 'a');
                         if ($fh) {
                             fputs($fh, 'RootDatabaseType = '.$eventData['dbtype']."\n");
                             fputs($fh, 'RootDatabaseName = '.$eventData['dbname']."\n");
@@ -252,8 +264,8 @@ class InnomaticSetup
 
                             $result = true;
 
-                            @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_dbcreated', time());
-                            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_creatingdb')) @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_creatingdb');
+                            @touch($innomatic->getHome().'core/temp/setup_dbcreated', time());
+                            if (file_exists($innomatic->getHome().'core/temp/setup_creatingdb')) @unlink($innomatic->getHome().'core/temp/setup_creatingdb');
                         } else $log->logevent('innomatic.root.main_php',
                                              'Unable to create root database configuration file during initialization', \Innomatic\Logging\Logger::ERROR);
                     } else $log->logevent('innomatic.root.main_php',
@@ -271,17 +283,19 @@ class InnomaticSetup
     public static function initializeComponents($eventData = '', $log = '')
     {
         $result = false;
+        
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
         if (isset($eventData['dbname']) and strlen($eventData['dbname'])) {
             $args = $eventData;
         } else {
-            $args['dbname'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseName');
-            $args['dbhost'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseHost');
-            $args['dbport'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabasePort');
-            $args['dbuser'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseUser');
-            $args['dbpass'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabasePassword');
-            $args['dbtype'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseType');
-            $args['dblog']  = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic_root_db.log';
+            $args['dbname'] = $container->getConfig()->value('RootDatabaseName');
+            $args['dbhost'] = $container->getConfig()->value('RootDatabaseHost');
+            $args['dbport'] = $container->getConfig()->value('RootDatabasePort');
+            $args['dbuser'] = $container->getConfig()->value('RootDatabaseUser');
+            $args['dbpass'] = $container->getConfig()->value('RootDatabasePassword');
+            $args['dbtype'] = $container->getConfig()->value('RootDatabaseType');
+            $args['dblog']  = $container->getHome().'core/log/innomatic_root_db.log';
         }
                     $dasn_string = $args['dbtype'].'://'.
                         $args['dbuser'].':'.
@@ -295,15 +309,17 @@ class InnomaticSetup
             // Components initialization
             //
             $innomaticmod = new \Innomatic\Application\Application($tmpdb);
-            if ($innomaticmod->setup(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/innomatic/')) {
+            if ($innomaticmod->setup($container->getHome().'core/temp/innomatic/')) {
                 $modreg = new \Innomatic\Application\ApplicationComponentRegister($tmpdb);
                 $modreg->registerComponent('innomatic', 'configurationfile', 'innomatic.ini', '', \Innomatic\Application\ApplicationComponent::OVERRIDE_NONE);
                 $modreg->registerComponent('innomatic', 'configurationfile', 'dataaccessdrivers.ini', '', \Innomatic\Application\ApplicationComponent::OVERRIDE_NONE);
 
                 $result = true;
 
-                @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_componentsinitialized', time());
-                if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_initializingcomponents')) @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_initializingcomponents');
+                @touch($container->getHome().'core/temp/setup_componentsinitialized', time());
+                if (file_exists($container->getHome().'core/temp/setup_initializingcomponents')) {
+                    @unlink($container->getHome().'core/temp/setup_initializingcomponents');
+                }
             } else $log->logevent('innomatic.root.main_php',
                                 'Unable to setup Innomatic during initialization', \Innomatic\Logging\Logger::ERROR);
         } else $log->logevent('innomatic.root.main_php',
@@ -315,27 +331,28 @@ class InnomaticSetup
     public static function setPassword($eventData, $log = '')
     {
         $result = false;
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
         // Password setting
         //
         if (strlen($eventData['passworda']) and ($eventData['passworda'] == $eventData['passwordb'])) {
             // Creates Innomatic root password file
             //
-            $fh = @fopen(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/rootpasswd.ini', 'w');
+            $fh = @fopen($container->getHome().'core/conf/rootpasswd.ini', 'w');
             if ($fh) {
                 fputs($fh, md5($eventData['passworda']));
                 fclose($fh);
-                if (@touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_passwordset', time())) {
+                if (@touch($container->getHome().'core/temp/setup_passwordset', time())) {
                     if (isset($eventData['dbname']) and strlen($eventData['dbname'])) {
                         $args = $eventData;
                     } else {
-                        $args['dbname'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseName');
-                        $args['dbhost'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseHost');
-                        $args['dbport'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabasePort');
-                        $args['dbuser'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseUser');
-                        $args['dbpass'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabasePassword');
-                        $args['dbtype'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseType');
-                        $args['dblog']  = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic_root_db.log';
+                        $args['dbname'] = $container->getConfig()->value('RootDatabaseName');
+                        $args['dbhost'] = $container->getConfig()->value('RootDatabaseHost');
+                        $args['dbport'] = $container->getConfig()->value('RootDatabasePort');
+                        $args['dbuser'] = $container->getConfig()->value('RootDatabaseUser');
+                        $args['dbpass'] = $container->getConfig()->value('RootDatabasePassword');
+                        $args['dbtype'] = $container->getConfig()->value('RootDatabaseType');
+                        $args['dblog']  = $container->getHome().'core/log/innomatic_root_db.log';
                     }
 
                     $dasn_string = $args['dbtype'].'://'.
@@ -353,7 +370,9 @@ class InnomaticSetup
 
                         $result = true;
 
-                        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingpassword')) @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingpassword');
+                        if (file_exists($container->getHome().'core/temp/setup_settingpassword')) {
+                            @unlink($container->getHome().'core/temp/setup_settingpassword');
+                        }
                     } else $log->logevent('innomatic.root.main_php',
                                         'Unable to connect to Innomatic database during initialization', \Innomatic\Logging\Logger::ERROR);
                 } else $log->logevent('innomatic.root.main_php',
@@ -367,10 +386,14 @@ class InnomaticSetup
 
     public static function setInnomaticHost($eventData, $log = '')
     {
-        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_innomatichostset', time());
-        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settinginnomatichost')) @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settinginnomatichost');
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        @touch($container->getHome().'core/temp/setup_innomatichostset', time());
+        if (file_exists($container->getHome().'core/temp/setup_settinginnomatichost')) {
+            @unlink($container->getHome().'core/temp/setup_settinginnomatichost');
+        }
 
-        $innomaticcfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
+        $innomaticcfg = new \Innomatic\Config\ConfigFile($container->getConfigurationFile());
         $innomaticcfg->setValue('PlatformName', $eventData['innomatichost']);
         $innomaticcfg->setValue('PlatformGroup', $eventData['innomaticgroup']);
 
@@ -379,9 +402,13 @@ class InnomaticSetup
 
     public static function setCountry($eventData, $log = '')
     {
-        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_countryset', time());
-        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingcountry')) @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingcountry');
-        $innomaticcfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        @touch($container->getHome().'core/temp/setup_countryset', time());
+        if (file_exists($container->getHome().'core/temp/setup_settingcountry')) {
+            @unlink($container->getHome().'core/temp/setup_settingcountry');
+        }
+        $innomaticcfg = new \Innomatic\Config\ConfigFile($container->getConfigurationFile());
         $innomaticcfg->setValue('RootCountry', $eventData['country']);
 
         return true;
@@ -389,9 +416,13 @@ class InnomaticSetup
 
     public static function setLanguage($eventData, $log = '')
     {
-        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_languageset', time());
-        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settinglanguage')) @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settinglanguage');
-        $innomaticcfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        @touch($container->getHome().'core/temp/setup_languageset', time());
+        if (file_exists($container->getHome().'core/temp/setup_settinglanguage')) {
+            @unlink($container->getHome().'core/temp/setup_settinglanguage');
+        }
+        $innomaticcfg = new \Innomatic\Config\ConfigFile($container->getConfigurationFile());
         $innomaticcfg->setValue('RootLanguage', $eventData['language']);
 
         return true;
@@ -399,6 +430,8 @@ class InnomaticSetup
 /*
     public static function appcentral($eventData, $log = '')
     {
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+    
         if (isset($eventData['appcentral']) and $eventData['appcentral'] == 'on') {
             $xmlrpc_client = new \Innomatic\Webservices\Xmlrpc\XmlRpc_Client(
                 '/webservices/',
@@ -416,7 +449,7 @@ class InnomaticSetup
                 if (!$xmlrpc_resp->FaultCode()) {
                     $xv = $xmlrpc_resp->Value();
 
-                    $tmp_filename = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/appinst/appcentral-client.tgz';
+                    $tmp_filename = $container->getHome().'core/temp/appinst/appcentral-client.tgz';
 
                     $fh = fopen($tmp_filename, 'wb');
                     if ($fh) {
@@ -426,13 +459,13 @@ class InnomaticSetup
                         unset($xv);
                         unset($xmlrpc_resp);
 
-                        $args['dbname'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseName');
-                        $args['dbhost'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseHost');
-                        $args['dbport'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabasePort');
-                        $args['dbuser'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseUser');
-                        $args['dbpass'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabasePassword');
-                        $args['dbtype'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootDatabaseType');
-                        $args['dblog']  = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic_root_db.log';
+                        $args['dbname'] = $container->getConfig()->value('RootDatabaseName');
+                        $args['dbhost'] = $container->getConfig()->value('RootDatabaseHost');
+                        $args['dbport'] = $container->getConfig()->value('RootDatabasePort');
+                        $args['dbuser'] = $container->getConfig()->value('RootDatabaseUser');
+                        $args['dbpass'] = $container->getConfig()->value('RootDatabasePassword');
+                        $args['dbtype'] = $container->getConfig()->value('RootDatabaseType');
+                        $args['dblog']  = $container->getHome().'core/log/innomatic_root_db.log';
 
                     $dasn_string = $args['dbtype'].'://'.
                         $args['dbuser'].':'.
@@ -446,27 +479,29 @@ class InnomaticSetup
                             $tmp_application = new \Innomatic\Application\Application($root_db, '');
                             $tmp_application->Install($tmp_filename);
 
-                            @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_appcentralset', time());
-                            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingappcentral')) @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingappcentral');
+                            @touch($container->getHome().'core/temp/setup_appcentralset', time());
+                            if (file_exists($container->getHome().'core/temp/setup_settingappcentral')) @unlink($container->getHome().'core/temp/setup_settingappcentral');
                         }
                     }
                 }
             }
         } else {
-            @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_appcentralset', time());
-            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingappcentral')) @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_settingappcentral');
+            @touch($container->getHome().'core/temp/setup_appcentralset', time());
+            if (file_exists($container->getHome().'core/temp/setup_settingappcentral')) @unlink($container->getHome().'core/temp/setup_settingappcentral');
         }
     }
     */
 
     public static function setBaseUrl($url = '')
     {
-        $fh = @fopen(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/innomatic.ini', 'a');
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        $fh = @fopen($container->getHome().'core/conf/innomatic.ini', 'a');
         if ($fh) {
             if (strlen($url)) {
                 $req_url = $url;
             } else {
-                $req_url = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getExternalBaseUrl();
+                $req_url = $container->getExternalBaseUrl();
             }
             fputs($fh, 'InnomaticBaseUrl = '.$req_url."\n");
             fclose($fh);
@@ -479,24 +514,28 @@ class InnomaticSetup
 
     public static function cleanup($eventData = '', $log = '')
     {
-        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/innomatic/');
-        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'setup');
-        //@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/conf/kickstart.ini');
-        //@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/bin/kickstart.php');
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($container->getHome().'core/temp/innomatic/');
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($container->getHome().'setup');
+        //@unlink($container->getHome().'core/conf/kickstart.ini');
+        //@unlink($container->getHome().'core/bin/kickstart.php');
 
-        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_cleanedup', time());
-        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_cleaningup')) {
-            @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_cleaningup');
+        @touch($container->getHome().'core/temp/setup_cleanedup', time());
+        if (file_exists($container->getHome().'core/temp/setup_cleaningup')) {
+            @unlink($container->getHome().'core/temp/setup_cleaningup');
         }
-        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_setupfinished', time());
+        @touch($container->getHome().'core/temp/setup_setupfinished', time());
 
         return true;
     }
 
     public static function finish($eventData = '', $log = '')
     {
-        //@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/classes/innomatic/setup/InnomaticSetup.php');
-        @touch(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_done', time());
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        //@unlink($container->getHome().'core/classes/innomatic/setup/InnomaticSetup.php');
+        @touch($container->getHome().'core/temp/setup_done', time());
         $log->logEvent(
             'Innomatic',
             'Innomatic setup has been completed - Operating',
@@ -508,20 +547,22 @@ class InnomaticSetup
 
     public static function check_lock_files()
     {
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
         if (
-            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_systemchecked') and
-            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_filesinstalled') and
-            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_dataaccessdriverscreated') and
-            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_dbcreated') and
-            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_componentsinitialized') and
-            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_passwordset') and
-            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_innomatichostset') and
-            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_countryset') and
-            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_languageset') and
-//            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_appcentralset') and
-            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_editionset') and
-            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_cleanedup') and
-            file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_done')
+            file_exists($container->getHome().'core/temp/setup_systemchecked') and
+            file_exists($container->getHome().'core/temp/setup_filesinstalled') and
+            file_exists($container->getHome().'core/temp/setup_dataaccessdriverscreated') and
+            file_exists($container->getHome().'core/temp/setup_dbcreated') and
+            file_exists($container->getHome().'core/temp/setup_componentsinitialized') and
+            file_exists($container->getHome().'core/temp/setup_passwordset') and
+            file_exists($container->getHome().'core/temp/setup_innomatichostset') and
+            file_exists($container->getHome().'core/temp/setup_countryset') and
+            file_exists($container->getHome().'core/temp/setup_languageset') and
+//            file_exists($container->getHome().'core/temp/setup_appcentralset') and
+            file_exists($container->getHome().'core/temp/setup_editionset') and
+            file_exists($container->getHome().'core/temp/setup_cleanedup') and
+            file_exists($container->getHome().'core/temp/setup_done')
           )
       {
           return true;
@@ -532,28 +573,32 @@ class InnomaticSetup
 
     public static function remove_lock_files()
     {
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_systemchecked');
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_filesinstalled');
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_dataaccessdriverscreated');
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_dbcreated');
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_componentsinitialized');
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_passwordset');
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_innomatichostset');
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_countryset');
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_languageset');
-//        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_appcentralset');
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_editionset');
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_cleanedup');
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_setupfinished');
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_done');
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        @unlink($container->getHome().'core/temp/setup_systemchecked');
+        @unlink($container->getHome().'core/temp/setup_filesinstalled');
+        @unlink($container->getHome().'core/temp/setup_dataaccessdriverscreated');
+        @unlink($container->getHome().'core/temp/setup_dbcreated');
+        @unlink($container->getHome().'core/temp/setup_componentsinitialized');
+        @unlink($container->getHome().'core/temp/setup_passwordset');
+        @unlink($container->getHome().'core/temp/setup_innomatichostset');
+        @unlink($container->getHome().'core/temp/setup_countryset');
+        @unlink($container->getHome().'core/temp/setup_languageset');
+//        @unlink($container->getHome().'core/temp/setup_appcentralset');
+        @unlink($container->getHome().'core/temp/setup_editionset');
+        @unlink($container->getHome().'core/temp/setup_cleanedup');
+        @unlink($container->getHome().'core/temp/setup_setupfinished');
+        @unlink($container->getHome().'core/temp/setup_done');
 
         return true;
     }
 
     public static function remove_setup_lock_file()
     {
-        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_lock')) {
-            return @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/setup_lock');
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        if (file_exists($container->getHome().'core/temp/setup_lock')) {
+            return @unlink($container->getHome().'core/temp/setup_lock');
         }
 
         return false;
@@ -561,15 +606,17 @@ class InnomaticSetup
 
     public static function check_log(&$container)
     {
-        if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log')) {
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        if (!file_exists($container->getHome().'core/log/innomatic.log')) {
             return;
         }
-        $log_content = file_get_contents(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log');
+        $log_content = file_get_contents($container->getHome().'core/log/innomatic.log');
 
         $container->addChild(new WuiHorizBar('loghr'));
         $container->addChild(new WuiText("rootlog", array('disp' => 'action', "readonly" => "true", "value" => \Innomatic\Wui\Wui::utf8_entities($log_content), "rows" => "20", "cols" => "80")), 0, 1);
 
-        @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/innomatic.log');
+        @unlink($container->getHome().'core/log/innomatic.log');
     }
 
     public static function recursive_copy($source, $target)

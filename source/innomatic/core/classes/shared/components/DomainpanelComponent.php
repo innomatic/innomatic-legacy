@@ -45,28 +45,28 @@ class DomainpanelComponent extends \Innomatic\Application\ApplicationComponent
         if (strlen($params['name'])) {
             $params['name'] = $this->basedir . '/domain/' . $params['name'];
             if (is_dir($params['name'] . '-panel')) {
-                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($params['name'] . '-panel/', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['name']) . '-panel/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($params['name'] . '-panel/', $this->container->getHome() . 'domain/' . basename($params['name']) . '-panel/')) {
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['name'] . '-panel into destination ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['name']) . '-panel', \Innomatic\Logging\Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['name'] . '-panel into destination ' . $this->container->getHome() . 'domain/' . basename($params['name']) . '-panel', \Innomatic\Logging\Logger::ERROR);
             } else
                 if (file_exists($params['name'] . '.php')) {
-                    if (@copy($params['name'] . '.php', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['name']) . '.php')) {
-                        @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['name']) . '.php', 0644);
+                    if (@copy($params['name'] . '.php', $this->container->getHome() . 'domain/' . basename($params['name']) . '.php')) {
+                        @chmod($this->container->getHome() . 'domain/' . basename($params['name']) . '.php', 0644);
                         $result = true;
                     } else
-                        $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['name'] . ' into destination ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['name']), \Innomatic\Logging\Logger::ERROR);
+                        $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['name'] . ' into destination ' . $this->container->getHome() . 'domain/' . basename($params['name']), \Innomatic\Logging\Logger::ERROR);
                 }
         }
         if (! isset($params['icon']))
             $params['icon'] = '';
         if (strlen($params['icon'])) {
             $params['icon'] = $this->basedir . '/domain/' . $params['icon'];
-            if (@copy($params['icon'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['icon']))) {
-                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['icon']), 0644);
+            if (@copy($params['icon'], $this->container->getHome() . 'domain/' . basename($params['icon']))) {
+                @chmod($this->container->getHome() . 'domain/' . basename($params['icon']), 0644);
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['icon'] . ' into destination ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['icon']), \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['icon'] . ' into destination ' . $this->container->getHome() . 'domain/' . basename($params['icon']), \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }
@@ -75,27 +75,27 @@ class DomainpanelComponent extends \Innomatic\Application\ApplicationComponent
         $result = false;
         if (strlen($params['name'])) {
             // Removes the new style application
-            if (is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['name']) . '-panel')) {
-                if (\Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['name']) . '-panel')) {
+            if (is_dir($this->container->getHome() . 'domain/' . basename($params['name']) . '-panel')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($this->container->getHome() . 'domain/' . basename($params['name']) . '-panel')) {
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['name']) . '-panel', \Innomatic\Logging\Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . $this->container->getHome() . 'domain/' . basename($params['name']) . '-panel', \Innomatic\Logging\Logger::ERROR);
             }
             // Removes the old style application
-            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['name']) . '.php')) {
-                if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['name']) . '.php')) {
+            if (file_exists($this->container->getHome() . 'domain/' . basename($params['name']) . '.php')) {
+                if (@unlink($this->container->getHome() . 'domain/' . basename($params['name']) . '.php')) {
                     $result = true;
                 } else
-                    $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['name']), \Innomatic\Logging\Logger::ERROR);
+                    $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . $this->container->getHome() . 'domain/' . basename($params['name']), \Innomatic\Logging\Logger::ERROR);
             }
         }
         if (! isset($params['icon']))
             $params['icon'] = '';
         if (strlen($params['icon'])) {
-            if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['icon']))) {
+            if (@unlink($this->container->getHome() . 'domain/' . basename($params['icon']))) {
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'domain/' . basename($params['icon']), \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domainpanel_component_domainpanelcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . $this->container->getHome() . 'domain/' . basename($params['icon']), \Innomatic\Logging\Logger::ERROR);
         }
         return $result;
     }

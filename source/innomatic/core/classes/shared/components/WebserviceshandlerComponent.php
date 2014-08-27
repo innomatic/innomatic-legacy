@@ -44,8 +44,8 @@ class WebserviceshandlerComponent extends \Innomatic\Application\ApplicationComp
         $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/classes/shared/webservices/' . $params['file'];
-            if (@copy($params['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/webservices/' . basename($params['file']))) {
-                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/webservices/' . basename($params['file']), 0644);
+            if (@copy($params['file'], $this->container->getHome() . 'core/classes/shared/webservices/' . basename($params['file']))) {
+                @chmod($this->container->getHome() . 'core/classes/shared/webservices/' . basename($params['file']), 0644);
                 $result = true;
             } else
                 $this->mLog->logEvent('shared.components.webserviceshandlercomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy handler file', \Innomatic\Logging\Logger::ERROR);
@@ -57,13 +57,13 @@ class WebserviceshandlerComponent extends \Innomatic\Application\ApplicationComp
     {
         $result = false;
         if (strlen($params['file'])) {
-            if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/webservices/' . basename($params['file']))) {
+            if (@unlink($this->container->getHome() . 'core/classes/shared/webservices/' . basename($params['file']))) {
                 // :NOTE: 20020614 teg - Excessive delete.
                 // It deletes all permissions, not only the ones referring to this handler.
                 $this->rootda->execute('DELETE FROM webservices_permissions WHERE application=' . $this->rootda->formatText($this->appname));
                 $result = true;
             } else
-                $this->mLog->logEvent('shared.components.webserviceshandlercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/webservices/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('shared.components.webserviceshandlercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . $this->container->getHome() . 'core/classes/shared/webservices/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
         } else
             $this->mLog->logEvent('shared.components.webserviceshandlercomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty xmlrpc handler file name', \Innomatic\Logging\Logger::ERROR);
         return $result;

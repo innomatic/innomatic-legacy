@@ -102,7 +102,7 @@ class AjaxcallComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('AjaxcallComponent::doUninstallAction', 'Empty parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+        $web_xml_file = $this->container->getHome()
             . 'core/conf/ajax.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Removes the Ajax call function.
@@ -127,7 +127,7 @@ class AjaxcallComponent extends \Innomatic\Application\ApplicationComponent
             );
             return false;
         }
-        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+        $web_xml_file = $this->container->getHome()
             . 'core/conf/ajax.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Keeps track if the Ajax call function is found in ajax.xml file.
