@@ -462,12 +462,16 @@ Calendar.prototype.cal_header = function() {
 
 Calendar.prototype.cal_data = function() {
     var vDate = new Date();
+
     vDate.setDate(1);
     vDate.setMonth(this.gMonth);
     vDate.setFullYear(this.gYear);
 
+    // Note: by default Sunday is 0, Monday is 1, and so on.
+    // For us Sunday is 6, Monday is 0, Tuesday is 1, and so on.
     var vFirstDay=(vDate.getDay() -1);
-    if (vFirstDay == -1) vFirstDay = 0;
+    if (vFirstDay == -1) vFirstDay = 6;
+
     var vDay=1;
     var vLastDay=Calendar.get_daysofmonth(this.gMonth, this.gYear);
     var vOnLastDay=0;
