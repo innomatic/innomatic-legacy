@@ -103,6 +103,7 @@ FIXES:
   applications. (Alex Pagnoni)
 - Fixed missing namespaces in system.* functions in XmlRpcServer. (Alex
   Pagnoni)
+- Fixed wrong week days in WuiDate calendar popup. (Alex Pagnoni)
 
 DEPRECATED:
 - \Innomatic\Domain\User\Permissions class is deprecated in favor of new
