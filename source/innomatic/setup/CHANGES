@@ -81,6 +81,8 @@ CHANGES:
   Pagnoni)
 - Application deployment now uses PHP PharData in place of
   \Innomatic\Io\Archive\Archive class. (Alex Pagnoni)
+- Renamed XmlRpc_Client to XmlRpcClient and XmlRpc_Server to XmlRpcServer.
+  (Alex Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).
@@ -99,6 +101,8 @@ FIXES:
   user (now the user auth session key is removed). (Alex Pagnoni)
 - Fixed random "Missing dependencies" problem when installing/updating
   applications. (Alex Pagnoni)
+- Fixed missing namespaces in system.* functions in XmlRpcServer. (Alex
+  Pagnoni)
 
 DEPRECATED:
 - \Innomatic\Domain\User\Permissions class is deprecated in favor of new
