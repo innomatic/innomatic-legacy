@@ -81,8 +81,8 @@ CHANGES:
   Pagnoni)
 - Application deployment now uses PHP PharData in place of
   \Innomatic\Io\Archive\Archive class. (Alex Pagnoni)
-- Renamed XmlRpc_Client to XmlRpcClient and XmlRpc_Server to XmlRpcServer.
-  (Alex Pagnoni)
+- Renamed XmlRpc_Client to XmlRpcClient, XmlRpc_Server to XmlRpcServer and
+  XmlRpc_Wrappers to XmlRpcWrappers. (Alex Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).

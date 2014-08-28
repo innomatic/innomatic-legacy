@@ -499,7 +499,7 @@
 		<class name="innomatic/webservices/WebServicesHandler.php" />
 		<class name="innomatic/webservices/xmlrpc/XmlRpcClient.php" />
 		<class name="innomatic/webservices/xmlrpc/XmlRpcServer.php" />
-		<class name="innomatic/webservices/xmlrpc/XmlRpc_Wrappers.php" />
+		<class name="innomatic/webservices/xmlrpc/XmlRpcWrappers.php" />
         <class name="innomatic/webservices/xmlrpc/XmlRpcMsg.php" />
         <class name="innomatic/webservices/xmlrpc/XmlRpcResp.php" />
         <class name="innomatic/webservices/xmlrpc/XmlRpcVal.php" />
