@@ -12,7 +12,7 @@
  * @link       http://www.innomaticplatform.com
  */
 namespace Innomatic\Application;
-require_once('innomatic/webservices/xmlrpc/XmlRpc_Client.php');
+require_once('innomatic/webservices/xmlrpc/XmlRpcClient.php');
 
 /**
  * @since 5.0.0 introduced
@@ -52,7 +52,7 @@ class AppCentralRemoteServer
             $this->mAccountId
         );
 
-        $this->mXClient = new \Innomatic\Webservices\Xmlrpc\XmlRpc_Client(
+        $this->mXClient = new \Innomatic\Webservices\Xmlrpc\XmlRpcClient(
             $this->mXAccount->mPath,
             $this->mXAccount->mHost,
             $this->mXAccount->mPort

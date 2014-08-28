@@ -89,7 +89,7 @@ class WebServicesWebAppHandler extends \Innomatic\Webapp\WebAppHandler
             }
         }
 
-        $xs = new \Innomatic\Webservices\Xmlrpc\XmlRpc_Server($structure);
+        $xs = new \Innomatic\Webservices\Xmlrpc\XmlRpcServer($structure);
     }
 
     public function doPost(\Innomatic\Webapp\WebAppRequest $req, \Innomatic\Webapp\WebAppResponse $res)

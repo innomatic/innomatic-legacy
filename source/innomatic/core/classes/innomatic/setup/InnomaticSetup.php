@@ -433,7 +433,7 @@ class InnomaticSetup
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
     
         if (isset($eventData['appcentral']) and $eventData['appcentral'] == 'on') {
-            $xmlrpc_client = new \Innomatic\Webservices\Xmlrpc\XmlRpc_Client(
+            $xmlrpcClient = new \Innomatic\Webservices\Xmlrpc\XmlRpcClient(
                 '/webservices/',
                 'stable.innomatic.org',
                 80
@@ -443,7 +443,7 @@ class InnomaticSetup
                 'appcentral-server.retrieve_appcentral_client'
                );
 
-            $xmlrpc_resp = $xmlrpc_client->Send($xmlrpc_message);
+            $xmlrpc_resp = $xmlrpcClient->Send($xmlrpc_message);
 
             if ($xmlrpc_resp) {
                 if (!$xmlrpc_resp->FaultCode()) {
