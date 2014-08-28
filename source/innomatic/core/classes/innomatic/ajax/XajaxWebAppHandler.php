@@ -13,16 +13,15 @@
  */
 namespace Innomatic\Ajax;
 
-use \Innomatic\Webapp;
 use \Innomatic\Core\InnomaticContainer;
 
 /**
  * This is the webapp handler for Xajax calls.
- * 
+ *
  * @since 5.0.0 introduced
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
-class XajaxWebAppHandler extends WebAppHandler
+class XajaxWebAppHandler extends \Innomatic\Webapp\WebAppHandler
 {
     /**
      * Initializes the webapp handler.
