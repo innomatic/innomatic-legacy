@@ -204,6 +204,14 @@ abstract class DataAccess
      */
     abstract public function removeColumn($params);
 
+    // Add a key
+    //
+    abstract public function addKey($params);   
+
+    // Drops a key
+    //
+    abstract public function removeKey($params);
+
     // Alters a table
     //
     abstract public function alterTable($params);

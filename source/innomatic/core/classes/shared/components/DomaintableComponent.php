@@ -119,23 +119,7 @@ class DomaintableComponent extends \Innomatic\Application\ApplicationComponent
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/db/' . $params['file'];
             $xml_upd = new \Innomatic\Dataaccess\DataAccessXmlTableUpdater($this->domainda, $this->container->getHome() . 'core/db/' . basename($params['file']) . '.old', $params['file']);
-            $xml_upd->CheckDiffs();
-            $old_columns = $xml_upd->getOldColumns();
-            if (is_array($old_columns)) {
-                while (list (, $column) = each($old_columns)) {
-                    $upd_data['tablename'] = $params['name'];
-                    $upd_data['column'] = $column;
-                    $this->domainda->RemoveColumn($upd_data);
-                }
-            }
-            $new_columns = $xml_upd->getNewColumns();
-            if (is_array($new_columns)) {
-                while (list (, $column) = each($new_columns)) {
-                    $upd_data['tablename'] = $params['name'];
-                    $upd_data['columnformat'] = $column;
-                    $this->domainda->AddColumn($upd_data);
-                }
-            }
+            $xml_upd->applyDiffs($params); 
         } else
             $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
