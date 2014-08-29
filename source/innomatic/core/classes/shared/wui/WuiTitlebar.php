@@ -50,13 +50,14 @@ class WuiTitlebar extends \Innomatic\Wui\Widgets\WuiWidget
             } else {
                 $iconname = 'document';
             }
-            $icon = '<img id="stoppingAjax" src="' . $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons'][$iconname]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$iconname]['file'] . '" alt="" border="0" style="padding-left: 11px; padding-right: 1px; width: 30px; height: 30px;">';
+            $icon = '<img id="stoppingAjax" src="' . $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons'][$iconname]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$iconname]['file'] . '" alt="" border="0" style="padding-left: 11px; padding-right: 1px; padding-top: 1px; width: 30px; height: 30px;">';
         } else
             $icon = '';
 
         $GLOBALS['wui']['titlebar-title'] = $icon
-            . "<img id=\"loadingAjax\" src=\"".$this->mThemeHandler->mStyle['ajax_big']."\" border=\"0\" style=\"padding-left: 10px; width:32px; height:32px; display:none;\"></td>\n"
-            . "<td nowrap style=\"white-space: nowrap; height: 25px; padding-right: 15px; padding-left: 10px; padding-top: 6px;\" class=\"paneltitle\" valign=\"middle\">"
+            . "<img id=\"loadingAjax\" src=\"".$this->mThemeHandler->mStyle['ajax_big']
+            . "\" border=\"0\" style=\"padding-left: 11px; padding-right: 1px; padding-top: 1px; width:30px; height:30px; display:none;\"></td>\n"
+            . "<td nowrap style=\"white-space: nowrap; height: 25px; padding-right: 15px; padding-left: 10px; padding-top: 7px;\" class=\"paneltitle\" valign=\"middle\">"
             . $this->mArgs['title']
             . "</td>\n";
 
