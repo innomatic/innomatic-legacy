@@ -108,6 +108,16 @@ td.titlebar {
 .toolbar .buttontext { color: white }
 */
 
+table.toolbar {
+  border-collapse:separate;
+  border-spacing:1px;
+  border:none;
+  background-color:#ccc;
+}
+table.toolbar td { border:none; }
+table.toolbar table{ height: 32px; }
+table.toolbar table td{ padding: 6px; }
+
 a.leftmenu { color: #007aff; font-style: normal; text-decoration: none }  /* for unvisited links */
 a.leftmenu:link { color: #7b7e8f; font-style: normal; text-decoration: none }  /* for unvisited links */
 a.leftmenu:visited { color: #7b7e8f; font-style: normal; text-decoration: none } /* for visited links */
