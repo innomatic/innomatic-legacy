@@ -126,11 +126,8 @@ Additional Information
 Innomatic Platform official web site:
      http://www.innomaticplatform.com/
 
-Innomatic official web site:
-     http://www.innomatic.io/
-
 Innomatic technical wiki:
-     http://wiki.innomatic.org/
+     http://wiki.innomaticplatform.com/
 
 To submit a bug report:
     https://github.com/innomatic/innomatic/issues
