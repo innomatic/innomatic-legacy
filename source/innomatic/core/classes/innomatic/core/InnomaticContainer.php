@@ -579,7 +579,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
      */
     public function switchDomain($tenantName, $userName = '')
     {
-        return $this->switchTenant($tenantName, $userName)M
+        return $this->switchTenant($tenantName, $userName);
     }
     /* }}} */
 
