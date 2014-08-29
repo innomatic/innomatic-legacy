@@ -47,6 +47,8 @@ NEW FEATURES:
   Pagnoni)
 - Added \Innomatic\Domain\Domain::getTenantNameById() and getTenantIdByName()
   methods. (Alex Pagnoni)
+- Added table keys updating in DataAccess xml parser and in root and tenant
+  table component handlers. (Amanda Accalai)
 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
@@ -105,6 +107,8 @@ FIXES:
   Pagnoni)
 - Fixed wrong week days in WuiDate calendar popup. (Alex Pagnoni)
 - Fixed Xajax webapp handler not working with namespaces. (Alex Pagnoni)
+- Fixed desktop toolbar icons and text size, alignment and ajax loader bug.
+  (Amanda Accalai)
 
 DEPRECATED:
 - \Innomatic\Domain\User\Permissions class is deprecated in favor of new
