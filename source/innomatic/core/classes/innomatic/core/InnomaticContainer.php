@@ -17,7 +17,7 @@ namespace Innomatic\Core;
  * Innomatic base container class.
  *
  * This class takes care of bootstrapping and shutting down the whole container,
- * the root, the domains and the Web Services interface.
+ * the root, the tenants and the Web Services interface.
  *
  * It holds the container current state, mode and interface.
  *
@@ -42,7 +42,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
      */
     private $bootstrapped = false;
     private $rootStarted = false;
-    private $domainStarted = false;
+    private $tenantStarted = false;
     private $pid;
     private $state;
     private $environment;
@@ -84,7 +84,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
     private $currentPanelController;
 
-    private $currentDomain;
+    private $currentTenant;
     private $currentUser;
 
     // Innomatic platform/instance state
@@ -383,30 +383,56 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         $this->rootStarted = true;
     }
 
+    /* public startDomain($domainId, $userId = '') {{{ */
+    /**
+     * Starts a tenant.
+     *
+     * @deprecated Deprecated in favor of startTenant() method.
+     * @see \Innomatic\Core\InnomaticContainer::startTenant()
+     * @param string $tenantId Tenant identifier name.
+     * @param string $userId User identifier name.
+     * @access public
+     * @return boolean True if the tenant has been started.
+     */
     public function startDomain($domainId, $userId = '')
+    {
+        $this->startTenant($domainId, $userId);
+    }
+    /* }}} */
+
+    /* public startTenant($tenantId, $userId = '') {{{ */
+    /**
+     * Starts a tenant.
+     *
+     * @param string $tenantId Tenant identifier name.
+     * @param string $userId User identifier name.
+     * @access public
+     * @return boolean True if the tenant has been started.
+     */
+    public function startTenant($tenantId, $userId = '')
     {
         $result = false;
         $this->setMode(\Innomatic\Core\InnomaticContainer::MODE_DOMAIN);
 
-        if (is_object($this->currentDomain) or $this->domainStarted) {
+        if (is_object($this->currentTenant) or $this->tenantStarted) {
             // A domain has been already started
             return false;
         }
 
-        $this->currentDomain = new \Innomatic\Domain\Domain($this->rootDb, $domainId, null);
+        $this->currentTenant = new \Innomatic\Domain\Domain($this->rootDb, $domainId, null);
 
-        if ($this->currentDomain->isValid()) {
+        if ($this->currentTenant->isValid()) {
             // Check if domain is active
             //
             if (
                 $this->getInterface() != \Innomatic\Core\InnomaticContainer::INTERFACE_WEB
-                and $this->currentDomain->domaindata['domainactive']
+                and $this->currentTenant->domaindata['domainactive']
                 == $this->rootDb->fmtfalse
             ) {
                 $this->abort('Domain disabled');
             }
 
-            if (!$this->currentDomain->getDataAccess()->isConnected()) {
+            if (!$this->currentTenant->getDataAccess()->isConnected()) {
                 $adloc = new \Innomatic\Locale\LocaleCatalog(
                     'innomatic::authentication',
                     $this->language
@@ -419,7 +445,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             // Adds override classes folder to the include path.
             set_include_path(
                 $this->home . 'core/domains/'
-                . $this->currentDomain->getDomainId()
+                . $this->currentTenant->getDomainId()
                 . '/overrides/classes/'
                 . PATH_SEPARATOR . get_include_path()
             );
@@ -433,7 +459,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             // )->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT ? '@'.$domain
             // : '');
             $this->currentUser = new \Innomatic\Domain\User\User(
-                $this->currentDomain->domainserial,
+                $this->currentTenant->domainserial,
                 \Innomatic\Domain\User\User::getUserIdByUsername(
                     strlen($userId) ? $userId : 'admin@' . $domainId
                 )
@@ -441,34 +467,59 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
 
             $result = true;
         }
-        $this->domainStarted = $result;
+        $this->tenantStarted = $result;
         return $result;
     }
+    /* }}} */
 
+    /* public stopDomain() {{{ */
+    /**
+     * Stops a tenant.
+     *
+     * @deprecated Deprecated in favor of stopTenant() method.
+     * @see \Innomatic\Core\InnomaticContainer::stopTenant()
+     * @access public
+     * @return void
+     */
     public function stopDomain()
     {
-        if ($this->domainStarted) {
+        $this->stopTenant();
+    }
+    /* }}} */
+
+    /* public stopTenant() {{{ */
+    /**
+     * Stops a tenant.
+     *
+     * @access public
+     * @return void
+     */
+    public function stopTenant()
+    {
+        if ($this->tenantStarted) {
             if ($this->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
-                $this->currentDomain->getDataAccess()->close();
+                $this->currentTenant->getDataAccess()->close();
             }
-            // TODO implement
+            // @todo implement
 
             // Removes override classes folder from the include path
             set_include_path(
                 str_replace(
                     $this->home . 'core/domains/'
-                    . $this->currentDomain->getDomainId()
+                    . $this->currentTenant->getDomainId()
                     . '/overrides/classes/' . PATH_SEPARATOR,
                     '', get_include_path()
                 )
             );
 
-            $this->domainStarted = false;
-            $this->currentDomain = null;
+            $this->tenantStarted = false;
+            $this->currentTenant = null;
             $this->setMode(\Innomatic\Core\InnomaticContainer::MODE_ROOT);
         }
     }
+    /* }}} */
 
+    /* public switchTenant($tenantName, $userName = '') {{{ */
     /**
      * Automatically closes the current tenant (if started) and starts a new tenant.
      *
@@ -482,13 +533,13 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
      * the tenant will be started with the tenant administrator user)
      * @return null or string with tenant name if previous tenant has been started already.
      */
-    public function switchDomain($tenantName, $userName = '')
+    public function switchTenant($tenantName, $userName = '')
     {
         $prevDomainName = null;
 
         // Check if there an already started domain
-        if ($this->domainStarted) {
-            $prevDomainName = $this->getCurrentDomain()->getDomainId();
+        if ($this->tenantStarted) {
+            $prevDomainName = $this->getCurrentTenant()->getDomainId();
             $prevUserName   = $this->getCurrentUser()->getUserName();
 
             if (
@@ -508,6 +559,29 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         // Return the previous domain id name
         return $prevDomainName;
     }
+    /* }}} */
+
+    /* public switchDomain($tenantName, $userName = '') {{{ */
+    /**
+     * Automatically closes the current tenant (if started) and starts a new tenant.
+     *
+     * Before switching, this method checks:
+     * - if there is an already running tenant;
+     * - if the given tenant and user names combination is the same of the
+     *  current running one.
+     *
+     * @deprecated Deprecated in favor of switchTenant() method.
+     * @see \Innomatic\Core\InnomaticContainer::switchTenant()
+     * @param string $tenantName internal name of the new tenant
+     * @param string $userName optional username of the tenant user (if empty,
+     * the tenant will be started with the tenant administrator user)
+     * @return null or string with tenant name if previous tenant has been started already.
+     */
+    public function switchDomain($tenantName, $userName = '')
+    {
+        return $this->switchTenant($tenantName, $userName)M
+    }
+    /* }}} */
 
     // TODO to be implemented
     public function startWebServices()
@@ -1503,17 +1577,67 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     	return $this->currentPanelController;
     }
 
-    // Domain / User methods
+    // Tenant / User methods
 
+    /* public getCurrentTenant() {{{ */
+    /**
+     * Gets current tenant object.
+     *
+     * @since 6.4.0 introduced
+     * @access public
+     * @return \Innomatic\Domain\Domain
+     */
+    public function getCurrentTenant()
+    {
+        return $this->currentTenant;
+    }
+    /* }}} */
+
+    /* public getCurrentDomain() {{{ */
+    /**
+     * Get current domain object.
+     *
+     * @deprecated Deprecated in favor of getCurrentTenant method.
+     * @see \Innomatic\Core\InnomaticContainer::getCurrentTenant
+     * @access public
+     * @return \Innomatic\Domain\Domain
+     */
     public function getCurrentDomain()
     {
-        return $this->currentDomain;
+        return $this->currentTenant;
     }
+    /* }}} */
 
+    /* public setCurrentTenant(\Innomatic\Domain\Domain $tenant) {{{ */
+    /**
+     * Sets current tenant object.
+     *
+     * @since 6.4.0 introduced
+     * @param \Innomatic\Domain\Domain $tenant Tenant object.
+     * @access public
+     * @return void
+     */
+    public function setCurrentTenant(\Innomatic\Domain\Domain $tenant)
+    {
+        $this->currentTenant = $tenant;
+    }
+    /* }}} */
+
+    /* public setCurrentDomain(\Innomatic\Domain\Domain $domain) {{{ */
+    /**
+     * Sets current tenant object.
+     *
+     * @deprecated Deprecated in favor of setCurrentTenant method.
+     * @see \Innomatic\Core\InnomaticContainer::setCurrentTenant()
+     * @param \Innomatic\Domain\Domain $domain Tenant object.
+     * @access public
+     * @return void
+     */
     public function setCurrentDomain(\Innomatic\Domain\Domain $domain)
     {
-        $this->currentDomain = $domain;
+        return $this->setCurrentTenant($domain);
     }
+    /* }}} */
 
     public function getCurrentUser()
     {
@@ -1530,13 +1654,45 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         return $this->bootstrapped;
     }
 
+    /* public isTenantStarted() {{{ */
+    /**
+     * Checks if a tenant has been started.
+     *
+     * @since 6.4.0 introduced
+     * @access public
+     * @return boolean
+     */
+    public function isTenantStarted()
+    {
+        return $this->tenantStarted;
+    }
+    /* }}} */
+
+    /* public isDomainStarted() {{{ */
+    /**
+     * Checks if a tenant has been started.
+     *
+     * @deprecated This method has been superseded by isTenantStarted method.
+     * @see \Innomatic\Core\InnomaticContainer::isTenantStarted()
+     * @access public
+     * @return boolean
+     */
     public function isDomainStarted()
     {
-        return $this->domainStarted;
+        return $this->tenantStarted;
     }
+    /* }}} */
 
+    /* public isRootStarted() {{{ */
+    /**
+     * Checks if the root has been started.
+     *
+     * @access public
+     * @return boolean
+     */
     public function isRootStarted()
     {
         return $this->rootStarted;
     }
+    /* }}} */
 }
