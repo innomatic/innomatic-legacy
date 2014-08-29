@@ -90,7 +90,7 @@ class LogCenter
             unset($tmp_log);
         }
 
-        // Domain
+        // Tenant
         //
         if (isset($destinations['domain'])) {
             $tmp_log = new \Innomatic\Logging\Logger(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/domains/'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['domainid'].'/log/domain.log');
@@ -98,7 +98,7 @@ class LogCenter
             unset($tmp_log);
         }
 
-        // Domain dataaccess
+        // Tenant dataaccess
         //
         if (isset($destinations['domainda'])) {
             $tmp_log = new \Innomatic\Logging\Logger(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/domains/'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['domainid'].'/logs/dataaccess.log');

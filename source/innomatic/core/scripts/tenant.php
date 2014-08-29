@@ -37,10 +37,10 @@ try {
         case 'enable':
             $tenant = new \Innomatic\Domain\Domain(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $argv[2], null);
             if ($tenant->enable()) {
-                print("Domain $argv[2] enabled\n");
+                print("Tenant $argv[2] enabled\n");
                 $script->cleanExit();
             } else {
-                print("Domain $argv[2] not enabled\n");
+                print("Tenant $argv[2] not enabled\n");
                 $script->cleanExit(1);
             }
             break;
@@ -48,10 +48,10 @@ try {
         case 'disable':
             $tenant = new \Innomatic\Domain\Domain(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $argv[2], null);
             if ($tenant->disable()) {
-                print("Domain $argv[2] disabled\n");
+                print("Tenant $argv[2] disabled\n");
                 $script->cleanExit();
             } else {
-                print("Domain $argv[2] not disabled\n");
+                print("Tenant $argv[2] not disabled\n");
                 $script->cleanExit(1);
             }
             break;
@@ -63,10 +63,10 @@ try {
             $data['domainpassword'] = $argv[4];
             
             if ($tenant->create($data)) {
-                print("Domain $argv[2] created\n");
+                print("Tenant $argv[2] created\n");
                 $script->cleanExit();
             } else {
-                print("Domain $argv[2] not created\n");
+                print("Tenant $argv[2] not created\n");
                 $script->cleanExit(1);
             }
             break;
@@ -74,10 +74,10 @@ try {
         case 'remove':
             $tenant = new \Innomatic\Domain\Domain(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $argv[2], null);
             if ($tenant->remove()) {
-                print("Domain $argv[2] removed\n");
+                print("Tenant $argv[2] removed\n");
                 $script->cleanExit();
             } else {
-                print("Domain $argv[2] not removed\n");
+                print("Tenant $argv[2] not removed\n");
                 $script->cleanExit(1);
             }
             break;

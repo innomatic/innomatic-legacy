@@ -50,14 +50,14 @@ INSTALLATION
 
 
 
-SETTING UP DOMAIN WEBAPPS
+SETTING UP TENANT WEBAPPS
 -------------------------
 
-When you create a new domain in the Innomatic Root desktop, a webapp folder
-for that domain will be created in the first level Innomatic folder
+When you create a new tenant in the Innomatic Root desktop, a webapp folder
+for that tenant will be created in the first level Innomatic folder
 ("innomatic") aside the Innomatic webapp ("innomatic/innomatic").
-You should create a virtual host for each webapp directory, if the domain
-is meant to have a public webapp other than the domain desktop inside Innomatic.
+You should create a virtual host for each webapp directory, if the tenant
+is meant to have a public webapp other than the tenant desktop inside Innomatic.
 
 
 

@@ -32,7 +32,7 @@ class XajaxWebAppHandler extends \Innomatic\Webapp\WebAppHandler
 
     public function doGet(WebAppRequest $req, WebAppResponse $res)
     {
-        // Start Innomatic and Domain
+        // Start Innomatic and Tenant
 
         $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         $innomatic->setInterface(\Innomatic\Core\InnomaticContainer::INTERFACE_EXTERNAL);

@@ -928,9 +928,9 @@
 		<class name="innomatic/domain/user/Role.php" />
 		<class name="innomatic/domain/user/Permission.php" />
 
-        <role name="domain_system_administrator" title="domain_system_administrator" description="" catalog="innomatic::roles" />
-        <permission name="edit_password_all" title="edit_password_all" description="" catalog="innomatic::roles" defaultroles="domain_system_administrator" />
-        <permission name="edit_motd" title="edit_motd" description="" catalog="innomatic::roles" defaultroles="domain_system_administrator" />
+        <role name="tenant_system_administrator" title="tenant_system_administrator" description="" catalog="innomatic::roles" />
+        <permission name="edit_password_all" title="edit_password_all" description="" catalog="innomatic::roles" defaultroles="tenant_system_administrator" />
+        <permission name="edit_motd" title="edit_motd" description="" catalog="innomatic::roles" defaultroles="tenant_system_administrator" />
 
 		<!-- Panels -->
 

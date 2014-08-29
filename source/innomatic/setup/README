@@ -65,7 +65,7 @@ properties and can be updated like any other application with a single step.
 programmed with a dedicated library of functions; no HTML in code.
 
 - Override system. Applications can be customized without affecting other
-domains and without changing the original application code with the override
+tenants and without changing the original application code with the override
 feature.
 
 - Use of open standards and technologies. Innomatic follows open standards

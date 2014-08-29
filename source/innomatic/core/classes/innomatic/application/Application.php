@@ -32,7 +32,7 @@ class Application
 
     /*! @public rootda DataAccess class - Innomatic database handler. */
     public $rootda;
-    /*! @public domainda DataAccess class - Domain dataaccess handler. */
+    /*! @public domainda DataAccess class - Tenant dataaccess handler. */
     public $domainda;
     /*! @public appname string - Application id name. */
     public $appname;
@@ -996,7 +996,7 @@ only application. */
                             );
                             $domaindata = $domainquery->getFields();
 
-                            // Connects to the domain database if Innomatic has been installed in ASP edition.
+                            // Connects to the tenant database if Innomatic has been installed in ASP edition.
                             if (
                                 $this->container->getEdition()
                                 == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT

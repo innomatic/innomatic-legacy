@@ -29,7 +29,7 @@ NEW FEATURES:
 - Added pending actions to be processed by cronjob scripts. (Alex Pagnoni)
 - Added roles and permissions support for tenant users. (Alex Pagnoni)
 - Added role and permission application component types. (Alex Pagnoni)
-- Added domain_system_administrator role. (Alex Pagnoni)
+- Added tenant_system_administrator role. (Alex Pagnoni)
 - Added edit_password_all and edit_motd permissions. (Alex Pagnoni)
 - Added dashboard widget method to decide when a widget is visible. (Alex
   Pagnoni)
