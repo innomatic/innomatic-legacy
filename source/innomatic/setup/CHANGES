@@ -22,12 +22,12 @@ NEW FEATURES:
 - Added timestamp field type handling in MysqlDataAccess. (Amanda Accalai)
 - Added the desktop tray bar. (Alex Pagnoni)
 - Added \Innomatic\Core\InnomaticContainer::switchDomain() method to stop the
-  current domain and start a new one. (Alex Pagnoni)
+  current tenant and start a new one. (Alex Pagnoni)
 - Added support for panels hidden from panels menu, by default available to
   every user. (Alex Pagnoni)
 - Added support for root key/value settings. (Alex Pagnoni)
 - Added pending actions to be processed by cronjob scripts. (Alex Pagnoni)
-- Added roles and permissions support for domain users. (Alex Pagnoni)
+- Added roles and permissions support for tenant users. (Alex Pagnoni)
 - Added role and permission application component types. (Alex Pagnoni)
 - Added domain_system_administrator role. (Alex Pagnoni)
 - Added edit_password_all and edit_motd permissions. (Alex Pagnoni)
@@ -38,12 +38,12 @@ NEW FEATURES:
 - Added PHPUnit phpunit.xml configuration file. (Alex Pagnoni)
 - Added support for rowspan in WUI Grid widget. (Alex Pagnoni)
 - Added tooltip WUI widget. (Alex Pagnoni)
-- Added support for disabling and enabling domain users. (Alex Pagnoni)
+- Added support for disabling and enabling tenant users. (Alex Pagnoni)
 - Added mainaction attribute in WUI Button widget to be used when the button
   is the panel view main action. (Alex Pagnoni)
 - Added dangeraction attribute in WUI Button widget to be used when the button
   launches a dangerous action (eg. delete). (Alex Pagnoni)
-- Added link to domain home in Innomatic icon when in domain desktop. (Alex
+- Added link to tenant home in Innomatic icon when in tenant desktop. (Alex
   Pagnoni)
 - Added \Innomatic\Domain\Domain::getTenantNameById() and getTenantIdByName()
   methods. (Alex Pagnoni)
@@ -54,14 +54,14 @@ CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
 - Upgraded MySQL support from mysql to mysqli. (Alex Pagnoni)
 - Changed \Innomatic\Domain\User\Group constructor arguments. (Alex Pagnoni)
-- Upgraded domain profiles panel to new style panel. (Alex Pagnoni)
+- Upgraded tenant profiles panel to new style panel. (Alex Pagnoni)
 - Removed root dataaccess parameter to ApplicationStructureDefinition,
   ApplicationSettings and ApplicationDependencies classes. (Alex Pagnoni)
 - Improved class loader compatibility layer handling of classes with the same
   name in different namespaces. (Alex Pagnoni)
 - The Innomatic autoloader is no more loaded in prepend mode, nor it throws
   exceptions any more with not found classes. (Alex Pagnoni)
-- Domain database name is now prefixed with Innomatic platform name if set.
+- Tenant database name is now prefixed with Innomatic platform name if set.
   (Alex Pagnoni)
 - Javascript code included in <script> tags in Xajax response is now
   executed at client side after loading the ajax response. (Alex Pagnoni)
@@ -69,7 +69,7 @@ CHANGES:
 - Changed default desktop font to Helvetica Neue. (Alex Pagnoni)
 - New WUI Button widget rendering for particular actions (main and delete).
   (Alex Pagnoni)
-- Removed base desktop (domains are no more accessed through the /domain/
+- Removed base desktop (tenants are no more accessed through the /domain/
   path). (Alex Pagnoni)
 - Updated Innomatic minimum version to upgrade to 6.2.2, in order to follow
   the mandatory upgrade path for 6.1 release. (Alex Pagnoni)
@@ -97,7 +97,7 @@ FIXES:
   (Alex Pagnoni)
 - Fixed empty username in SecurityManager logAccess() when an user logs out.
   (Alex Pagnoni)
-- Fixed wrong dependency error in domains for applications with PHP extensions
+- Fixed wrong dependency error in tenants for applications with PHP extensions
   in dependencies list. (Alex Pagnoni)
 - Fixed problem when accessing Innomatic with a valid session by a deleted
   user (now the user auth session key is removed). (Alex Pagnoni)
