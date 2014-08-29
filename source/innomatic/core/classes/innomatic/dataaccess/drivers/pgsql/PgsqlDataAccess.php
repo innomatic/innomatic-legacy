@@ -220,6 +220,26 @@ class PgsqlDataAccess extends \Innomatic\Dataaccess\DataAccess
         return false;
     }
 
+
+    public function addKey($params)
+    {
+        $result = false;
+
+        if (!empty($params['tablename']) and !empty($params['keyformat']) and $this->opened){
+            $result = $this->doExecute('ALTER TABLE '.$params['tablename'].' ADD '.$params['keyformat']);
+        }   
+        return $result;
+    }
+
+    public function removeKey($params)
+    {
+        if (!empty($params['tablename']) and !empty($params['keyformat']) and $this->opened) {
+            return $this->doExecute('ALTER TABLE '.$params['tablename'].' DROP '.$params['keyformat']);
+        }
+
+        return false;
+    }
+
     public function alterTable($params)
     {
         throw new DataAccessException(DataAccessException::ERROR_UNSUPPORTED);

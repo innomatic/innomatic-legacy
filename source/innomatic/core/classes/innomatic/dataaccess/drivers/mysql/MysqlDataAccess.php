@@ -162,8 +162,9 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     {
         $result = false;
 
-        if (!empty($params['tablename']) and !empty($params['columnformat']) and $this->opened)
+        if (!empty($params['tablename']) and !empty($params['columnformat']) and $this->opened){
             $result = $this->doExecute('ALTER TABLE '.$params['tablename'].' ADD COLUMN '.$params['columnformat']);
+        }
 
         return $result;
     }
@@ -174,6 +175,24 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
             return $this->doExecute('ALTER TABLE '.$params['tablename'].' DROP COLUMN '.$params['column']);
         }
 
+        return false;
+    }
+
+    public function addKey($params)
+    {
+        $result = false;
+
+        if (!empty($params['tablename']) and !empty($params['keyformat']) and $this->opened){
+            $result = $this->doExecute('ALTER TABLE '.$params['tablename'].' ADD '.$params['keyformat']);
+        }   
+        return $result;
+    }
+
+    public function removeKey($params)
+    {
+        if (!empty($params['tablename']) and !empty($params['keyformat']) and $this->opened) {
+            return $this->doExecute('ALTER TABLE '.$params['tablename'].' DROP '.$params['keyformat']);
+        }
         return false;
     }
 

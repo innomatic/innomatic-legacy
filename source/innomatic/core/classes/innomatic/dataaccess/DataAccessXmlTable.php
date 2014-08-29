@@ -28,6 +28,8 @@ class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
     public $temp_sql;
     public $mFields = array();
     public $mFieldsList = array();
+    public $mKeys = array();
+    public $mKeysList = array();
     public $mTableStructure = array();
     public $insfields = array();
     public $values = array();
@@ -56,9 +58,9 @@ class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
     {
         $result = false;
         $this->deffile = $deffile;
-        $content = file_get_contents( $this->deffile );
-        if ( $content ) {
-            $this->get_data( $content );
+        $content = file_get_contents($this->deffile);
+        if ($content) {
+            $this->get_data($content);
             $result = true;
         }
 
@@ -103,7 +105,7 @@ class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
                 if ( isset($attrs['DEFAULT'] ) ) $attrs['default'] = isset($attrs['DEFAULT'] ) ? $attrs['DEFAULT'] : '';
                 if ( isset($attrs['NOTNULL'] ) ) $attrs['notnull'] = isset($attrs['NOTNULL'] ) ? $attrs['NOTNULL'] : '';
                 if ( isset($attrs['LENGTH'] ) ) $attrs['length']  = isset($attrs['LENGTH'] ) ? $attrs['LENGTH'] : '';
-                $this->mFields[$attrs['name']]   = $this->db->getFieldTypeDeclaration( $attrs['NAME'], $attrs );
+                $this->mFields[$attrs['name']]   = $this->db->getFieldTypeDeclaration($attrs['NAME'], $attrs);
                 $this->mFieldsList[$attrs['name']] = $attrs['name'];
                 $this->mTableStructure[$attrs['name']] = $attrs;
                 break;
@@ -124,7 +126,33 @@ class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
                 break;
 
             case DataAccessXmlTable::SQL_UPDATE_NEW:
+                if (isset($attrs['TYPE'] ) and $attrs['TYPE'] == 'primary') {
+                    $this->mKeys[$attrs['FIELD']] = 'PRIMARY KEY ('.$attrs['FIELD'].')';
+                    $this->mKeysList[$attrs['FIELD']] = $attrs['FIELD'];
+                } 
+                if (isset($attrs['TYPE'] ) and $attrs['TYPE'] == 'unique' ) {
+                    $this->mKeys[$attrs['FIELD']] = 'UNIQUE ('.$attrs['FIELD'].')';
+                    $this->mKeysList[$attrs['FIELD']] = $attrs['FIELD'];
+                } 
+                if (isset($attrs['TYPE'] ) and $attrs['TYPE'] == 'index') {
+                    $this->mKeys[$attrs['FIELD']] = 'INDEX ('.$attrs['FIELD'].')';
+                    $this->mKeysList[$attrs['FIELD']] = $attrs['FIELD'];
+                }
+                break;
+
             case DataAccessXmlTable::SQL_UPDATE_OLD:
+                if (isset($attrs['TYPE'] ) and $attrs['TYPE'] == 'primary') {
+                    $this->mKeys[$attrs['FIELD']] = 'PRIMARY KEY '.$attrs['FIELD'];
+                    $this->mKeysList[$attrs['FIELD']] = $attrs['FIELD'];
+                } 
+                if (isset($attrs['TYPE'] ) and $attrs['TYPE'] == 'unique' ) {
+                    $this->mKeys[$attrs['FIELD']] = 'UNIQUE '.$attrs['FIELD'];
+                    $this->mKeysList[$attrs['FIELD']] = $attrs['FIELD'];
+                } 
+                if (isset($attrs['TYPE'] ) and $attrs['TYPE'] == 'index') {
+                    $this->mKeys[$attrs['FIELD']] = 'INDEX '.$attrs['FIELD'];
+                    $this->mKeysList[$attrs['FIELD']] = $attrs['FIELD'];
+                }
                 break;
             }
             break;
@@ -136,7 +164,7 @@ class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
                 $attrs['name']  = $attrs['NAME'];
                 $attrs['start'] = isset($attrs['START'] ) ? $attrs['START'] : '';
                 if ( $attrs['start'] == '' ) $attrs['start'] = 1;
-                $this->sql[] = $this->mAction == DataAccessXmlTable::SQL_CREATE ? $this->db->getCreateSequenceQuery( $attrs ) : $this->db->getDropSequenceQuery( $attrs );
+                $this->sql[] = $this->mAction == DataAccessXmlTable::SQL_CREATE ? $this->db->getCreateSequenceQuery($attrs) : $this->db->getDropSequenceQuery($attrs);
                 break;
 
             case DataAccessXmlTable::SQL_UPDATE_NEW:
@@ -160,7 +188,7 @@ class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
 
         case 'DATA':
             $this->insfields[] = $attrs['FIELD'];
-            $this->values[]    = $this->db->formatText( $attrs['VALUE'] );
+            $this->values[]    = $this->db->formatText($attrs['VALUE']);
             break;
         }
     }
@@ -171,7 +199,7 @@ class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
         case 'TABLE':
             switch ( $this->mAction ) {
             case DataAccessXmlTable::SQL_CREATE:
-                $this->sql[] = $this->temp_sql.implode( ', ', $this->mFields ).' )'.$this->table_options.' CHARACTER SET utf8 COLLATE utf8_general_ci;';
+                $this->sql[] = $this->temp_sql.implode(', ', $this->mFields).' )'.$this->table_options.' CHARACTER SET utf8 COLLATE utf8_general_ci;';
                 $this->temp_sql = '';
                 $this->mFields = array();
                 break;
@@ -186,8 +214,8 @@ class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
         case 'INSERT':
             switch ( $this->mAction ) {
             case DataAccessXmlTable::SQL_CREATE:
-                $this->sql[] = $this->temp_sql.' ( '.implode( ', ', $this->insfields ).' ) VALUES ( ';
-                $this->sql[] = implode( ', ', $this->values ).' );';
+                $this->sql[] = $this->temp_sql.' ( '.implode(', ', $this->insfields).' ) VALUES ( ';
+                $this->sql[] = implode(', ', $this->values).' );';
                 $this->insfields = array();
                 $this->values    = array();
                 break;
@@ -208,9 +236,9 @@ class DataAccessXmlTable extends \Innomatic\Xml\XMLParser
     public function getSQL()
     {
         $ret = '';
-        $this->parse( $this->mData );
+        $this->parse($this->mData);
 
-        for ( $i = 0; $i < count( $this->sql ); $i++ ) $ret .= $this->sql[$i];
+        for ($i = 0; $i < count($this->sql); $i++) $ret .= $this->sql[$i];
         return $ret;
     }
 }
