@@ -74,7 +74,6 @@ only application. */
         $this->serial = $modserial;
         $this->eltypes = new ApplicationComponentFactory($rootda);
         $this->eltypes->FillTypes();
-            set_time_limit(0);
     }
 
     /*!
@@ -126,14 +125,14 @@ only application. */
                     }
                     $appArchive->decompress();
                 } catch (\BadMethodCallException $e) {
-                    
+
                 }
 
                 try {
                     $appArchive->extractTo($tmpdir);
                 } catch (Exception $e) {
-                    
-                } 
+
+                }
             }
 
             // Checks if the files are into a directory instead of the root
@@ -1493,6 +1492,11 @@ only application. */
     {
         $result = false;
         $this->onlyextension = true;
+
+        // When executing operations with applications, Innomatic must ignore
+        // PHPExecutionTimeLimit parameter in innomatic.ini and set it to 0
+        // in order to avoid interruptions during the operation
+        set_time_limit(0);
 
         // Installation mode depending variables initializazion
         //
