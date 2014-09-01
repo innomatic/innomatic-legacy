@@ -74,9 +74,7 @@ only application. */
         $this->serial = $modserial;
         $this->eltypes = new ApplicationComponentFactory($rootda);
         $this->eltypes->FillTypes();
-        if (!get_cfg_var('safe_mode')) {
             set_time_limit(0);
-        }
     }
 
     /*!

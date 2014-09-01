@@ -36,9 +36,7 @@ class Domain
         $this->container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
         $this->rootda = $rootda;
-        if (!get_cfg_var('safe_mode')) {
             set_time_limit(0);
-        }
         if (empty($domainda) and $domainid != '0') {
             $tmpquery = $this->rootda->execute('SELECT * FROM domains WHERE domainid='.$this->rootda->formatText($domainid));
             if ($tmpquery->getNumberRows() == 1) {
