@@ -419,7 +419,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             return false;
         }
 
-        $this->currentTenant = new \Innomatic\Domain\Domain($this->rootDb, $domainId, null);
+        $this->currentTenant = new \Innomatic\Domain\Domain($this->rootDb, $tenantId, null);
 
         if ($this->currentTenant->isValid()) {
             // Check if domain is active
@@ -461,7 +461,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             $this->currentUser = new \Innomatic\Domain\User\User(
                 $this->currentTenant->domainserial,
                 \Innomatic\Domain\User\User::getUserIdByUsername(
-                    strlen($userId) ? $userId : 'admin@' . $domainId
+                    strlen($userId) ? $userId : 'admin@' . $tenantId
                 )
             );
 
