@@ -175,7 +175,7 @@ class InnomaticSetup
     public static function checksystem($eventData = '', $log = '')
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         @touch($container->getHome().'core/temp/setup_systemchecked', time());
         if (file_exists($container->getHome().'core/temp/setup_checkingsystem')) @unlink($container->getHome().'core/temp/setup_checkingsystem');
 
@@ -185,7 +185,7 @@ class InnomaticSetup
     public static function installFiles($eventData = '', $log = '')
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         InnomaticSetup::recursive_copy($container->getHome(), $container->getHome().'core/temp/innomatic');
 
         @touch($container->getHome().'core/temp/setup_filesinstalled', time());
@@ -197,7 +197,7 @@ class InnomaticSetup
     public static function setEdition($eventData, $log = '')
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         @touch($container->getHome().'core/temp/setup_editionset', time());
         if (file_exists($container->getHome().'core/temp/setup_settingedition')) @unlink($container->getHome().'core/temp/setup_settingedition');
         $innomaticcfg = new \Innomatic\Config\ConfigFile($container->getConfigurationFile());
@@ -209,7 +209,7 @@ class InnomaticSetup
     public static function dataaccessdrivers($eventData = '', $log = '')
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         $daf = new \Innomatic\Dataaccess\DataAccessFactory();
         $daf->addDriver('mysql', 'MySQL 3.22+');
         $daf->addDriver('pgsql', 'PostgreSQL 7.0+');
@@ -283,7 +283,7 @@ class InnomaticSetup
     public static function initializeComponents($eventData = '', $log = '')
     {
         $result = false;
-        
+
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
         if (isset($eventData['dbname']) and strlen($eventData['dbname'])) {
@@ -387,7 +387,7 @@ class InnomaticSetup
     public static function setInnomaticHost($eventData, $log = '')
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         @touch($container->getHome().'core/temp/setup_innomatichostset', time());
         if (file_exists($container->getHome().'core/temp/setup_settinginnomatichost')) {
             @unlink($container->getHome().'core/temp/setup_settinginnomatichost');
@@ -403,7 +403,7 @@ class InnomaticSetup
     public static function setCountry($eventData, $log = '')
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         @touch($container->getHome().'core/temp/setup_countryset', time());
         if (file_exists($container->getHome().'core/temp/setup_settingcountry')) {
             @unlink($container->getHome().'core/temp/setup_settingcountry');
@@ -417,7 +417,7 @@ class InnomaticSetup
     public static function setLanguage($eventData, $log = '')
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         @touch($container->getHome().'core/temp/setup_languageset', time());
         if (file_exists($container->getHome().'core/temp/setup_settinglanguage')) {
             @unlink($container->getHome().'core/temp/setup_settinglanguage');
@@ -431,7 +431,7 @@ class InnomaticSetup
     public static function appcentral($eventData, $log = '')
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-    
+
         if (isset($eventData['appcentral']) and $eventData['appcentral'] == 'on') {
             $xmlrpcClient = new \Innomatic\Webservices\Xmlrpc\XmlRpcClient(
                 '/webservices/',
@@ -495,7 +495,7 @@ class InnomaticSetup
     public static function setBaseUrl($url = '')
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         $fh = @fopen($container->getHome().'core/conf/innomatic.ini', 'a');
         if ($fh) {
             if (strlen($url)) {
@@ -515,7 +515,7 @@ class InnomaticSetup
     public static function cleanup($eventData = '', $log = '')
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($container->getHome().'core/temp/innomatic/');
         \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($container->getHome().'setup');
         //@unlink($container->getHome().'core/conf/kickstart.ini');
@@ -533,7 +533,7 @@ class InnomaticSetup
     public static function finish($eventData = '', $log = '')
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         //@unlink($container->getHome().'core/classes/innomatic/setup/InnomaticSetup.php');
         @touch($container->getHome().'core/temp/setup_done', time());
         $log->logEvent(
@@ -548,7 +548,7 @@ class InnomaticSetup
     public static function check_lock_files()
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         if (
             file_exists($container->getHome().'core/temp/setup_systemchecked') and
             file_exists($container->getHome().'core/temp/setup_filesinstalled') and
@@ -574,7 +574,7 @@ class InnomaticSetup
     public static function remove_lock_files()
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         @unlink($container->getHome().'core/temp/setup_systemchecked');
         @unlink($container->getHome().'core/temp/setup_filesinstalled');
         @unlink($container->getHome().'core/temp/setup_dataaccessdriverscreated');
@@ -596,7 +596,7 @@ class InnomaticSetup
     public static function remove_setup_lock_file()
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         if (file_exists($container->getHome().'core/temp/setup_lock')) {
             return @unlink($container->getHome().'core/temp/setup_lock');
         }
@@ -606,17 +606,17 @@ class InnomaticSetup
 
     public static function check_log(&$container)
     {
-        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
-        if (!file_exists($container->getHome().'core/log/innomatic.log')) {
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+
+        if (!file_exists($innomatic->getHome().'core/log/innomatic.log')) {
             return;
         }
-        $log_content = file_get_contents($container->getHome().'core/log/innomatic.log');
+        $log_content = file_get_contents($innomatic->getHome().'core/log/innomatic.log');
 
         $container->addChild(new WuiHorizBar('loghr'));
         $container->addChild(new WuiText("rootlog", array('disp' => 'action', "readonly" => "true", "value" => \Innomatic\Wui\Wui::utf8_entities($log_content), "rows" => "20", "cols" => "80")), 0, 1);
 
-        @unlink($container->getHome().'core/log/innomatic.log');
+        @unlink($innomatic->getHome().'core/log/innomatic.log');
     }
 
     public static function recursive_copy($source, $target)
