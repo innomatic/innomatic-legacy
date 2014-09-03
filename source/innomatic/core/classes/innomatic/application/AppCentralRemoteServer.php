@@ -322,7 +322,7 @@ class AppCentralRemoteServer
                 $xv = $xmlrpcResp->Value();
 
                 $tmpFilename = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
-                .'core/temp/appcentral-client/'.md5(uniqid(rand()));
+                .'core/temp/appcentral-client/'.md5(uniqid(rand())).'.tgz';
 
                 $fh = fopen($tmpFilename, 'wb');
                 if ( $fh ) {
