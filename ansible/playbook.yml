@@ -19,10 +19,12 @@
   - name: make sure apache is running
     action: service name=apache2 state=started enabled=true
 
-  - file: src=/etc/apache2/mods-available/rewrite.load dest=/etc/apache2/mods-enabled/rewrite.load state=link
+  - name: change apache user/group to vagrant
+    shell: sed -i 's/www-data/vagrant/g' /etc/apache2/envvars
     notify: restart apache
 
-  - file: src=/etc/apache2/mods-available/headers.load dest=/etc/apache2/mods-enabled/headers.load state=link
+  - name: enable some apache modules
+    action: command a2enmod rewrite headers
     notify: restart apache
 
   - copy: src=/vagrant/ansible/templates/innomatic.conf dest=/etc/apache2/sites-enabled/innomatic.conf

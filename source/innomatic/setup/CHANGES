@@ -85,6 +85,7 @@ CHANGES:
   \Innomatic\Io\Archive\Archive class. (Alex Pagnoni)
 - Renamed XmlRpc_Client to XmlRpcClient, XmlRpc_Server to XmlRpcServer and
   XmlRpc_Wrappers to XmlRpcWrappers. (Alex Pagnoni)
+- Updated Vagrant file to ansible based provisioning. (Alex Pagnoni)
 
 FIXES:
 - Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).
