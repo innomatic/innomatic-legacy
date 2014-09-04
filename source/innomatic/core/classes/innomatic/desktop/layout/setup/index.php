@@ -437,8 +437,8 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
 
         $wui_vgroup = new WuiVertgroup('vgroup');
 
-        $editions['asp'] = $innomaticLocale->getStr('asp_edition_label');
-        $editions['enterprise'] = $innomaticLocale->getStr('enterprise_edition_label');
+        $editions['multitenant'] = $innomaticLocale->getStr('multitenant_edition_label');
+        $editions['singletenant'] = $innomaticLocale->getStr('singletenant_edition_label');
 
         $wui_edition_grid = new WuiGrid('localegrid');
 
