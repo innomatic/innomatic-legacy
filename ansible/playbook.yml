@@ -1,0 +1,138 @@
+---
+- hosts: all
+  sudo: true
+  tasks:
+
+  - name: install misc packages
+    apt: name={{ item }} state=latest
+    with_items:
+      - git-core
+      - curl
+      - unzip
+      - vim
+
+  # Apache2 
+
+  - name: ensure apache is installed
+    apt: name=apache2 state=present
+
+  - name: make sure apache is running
+    action: service name=apache2 state=started enabled=true
+
+  - file: src=/etc/apache2/mods-available/rewrite.load dest=/etc/apache2/mods-enabled/rewrite.load state=link
+    notify: restart apache
+
+  - file: src=/etc/apache2/mods-available/headers.load dest=/etc/apache2/mods-enabled/headers.load state=link
+    notify: restart apache
+
+  - copy: src=/vagrant/ansible/templates/innomatic.conf dest=/etc/apache2/sites-enabled/innomatic.conf
+    notify: restart apache
+
+  - file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
+    notify: restart apache
+
+  - file: path=/etc/apache2/conf.d state=directory
+
+  - copy: src=/vagrant/ansible/templates/fqdn.conf dest=/etc/apache2/conf.d/fqdn.conf
+    notify: restart apache
+
+  - copy: src=/vagrant/ansible/templates/nosendfile.conf dest=/etc/apache2/conf.d/nosendfile.conf
+    notify: restart apache
+
+  # MySQL
+
+  - name: install MySQL
+    apt: name={{ item }} state=latest
+    with_items:
+      - mysql-server
+      - mysql-client
+      - python-mysqldb
+
+  - name: add mysql user
+    mysql_user: name=vagrant
+                host={{ item }}
+                password=vagrant priv=*.*:ALL,GRANT
+                login_user=root
+                login_password=
+    with_items:
+      - "{{ ansible_hostname }}"
+      - 127.0.0.1
+      - ::1
+      - localhost
+
+  - file: path=/etc/mysql/conf.d state=directory
+  - name: Set MySQL number of connections
+    copy: src=/vagrant/ansible/templates/max_connections.cnf dest=/etc/mysql/conf.d/max_connections.cnf
+    notify: restart mysql
+  - name: Install mysql command line client configuration file
+    copy: src=/vagrant/ansible/templates/my.cnf dest=/home/vagrant/.my.cnf owner=vagrant group=vagrant
+
+  # PHP
+
+  - name: add php5 ppa
+    apt_repository: repo='ppa:ondrej/php5'
+
+  - name: install PHP5 packages
+    apt: name={{ item }} state=latest
+    with_items:
+      - php5
+      - libapache2-mod-php5
+      - php5-cli
+      - php5-dev
+      - php5-mysql
+      - php-pear
+      - php5-mcrypt
+      - php5-gd
+      - php5-curl
+      - php5-xdebug
+      - php5-readline
+      - php5-sqlite
+
+  - file: path=/etc/php5/conf.d state=directory
+
+  - copy: src=/vagrant/ansible/templates/php-innomatic.ini dest=/etc/php5/conf.d/php-innomatic.ini
+    notify: restart apache
+
+  - name: symlink common php configuration for cli handler
+    file: src=/etc/php5/conf.d/php-innomatic.ini dest=/etc/php5/cli/conf.d/php-innomatic.ini state=link
+    notify: restart apache
+
+  - name: symlink common php configuration for apache2 handler
+    file: src=/etc/php5/conf.d/php-innomatic.ini dest=/etc/php5/apache2/conf.d/php-innomatic.ini state=link
+    notify: restart apache
+
+  - file: path=/var/lib/php5 mode=0777
+
+  # phpmyadmin
+
+  - name: install phpmyadmin
+    apt: name=phpmyadmin state=latest
+
+
+  # Set up Innomatic
+  #
+
+  - name: copy innomatic files
+    synchronize: src=/vagrant/source/ dest=/vagrant/dev
+
+  - name: setup a multi tenant innomatic instance
+    shell: php innomatic/core/scripts/kickstart.php /vagrant/ansible/templates/innomatic-kickstart.ini chdir=/vagrant/dev
+    sudo: yes
+    sudo_user: vagrant
+
+  - name: ensure once more that 000-default.conf is deleted
+    file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
+    notify: restart apache
+
+  - name: ensure that phpmyadmin's stock config is deleted
+    file: path=/etc/apache2/conf.d/phpmyadmin.conf state=absent
+
+  # Common stuff
+
+  handlers:
+    - name: restart apache
+      action: service name=apache2 state=restarted
+    - name: restart mysql
+      action: service name=mysql state=restarted
+    # - name: reload queue listener
+    #   action: supervisorctl name=queue_listen state=restarted
