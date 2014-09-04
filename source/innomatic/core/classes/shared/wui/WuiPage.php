@@ -472,6 +472,8 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
             if (!($container->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
                 $menu_header = ((isset($GLOBALS['gEnv']['runtime']['wui_menu']['header'])) ? '' : $mid->MakeHeader()) . $mid->getMenu($this->mName);
                 $menu_footer = $mid->MakeFooter();
+            } else {
+                $menu_header = $menu_footer = '';
             }
 
             $block .= "<table class=\"page\" border=\"0\" style=\"border-bottom: 0px solid "

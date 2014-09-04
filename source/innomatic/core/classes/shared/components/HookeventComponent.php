@@ -43,6 +43,9 @@ class HookeventComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['name'])) {
+            if (!isset($params['function'])) {
+                $params['function'] = '';
+            }
             $hook = new \Innomatic\Process\Hook($this->rootda, $this->appname, $params['function']);
             if ($hook->addEvent($params['event']))
                 $result = true;
@@ -56,6 +59,9 @@ class HookeventComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['name'])) {
+            if (!isset($params['function'])) {
+                $params['function'] = '';
+            }
             $xm = new \Innomatic\Process\Hook($this->rootda, $this->appname, $params['function']);
             if ($xm->RemoveEvent($params['event']))
                 $result = true;

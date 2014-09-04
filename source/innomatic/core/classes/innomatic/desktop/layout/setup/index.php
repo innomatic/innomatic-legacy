@@ -271,7 +271,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
 
         @touch($container->getHome().'core/temp/setup_checkingsystem', time());
 
-        $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('systemcheck_title');
+        $wuiTitleBar->mArgs['title'] .= ' - '.$innomaticLocale->getStr('systemcheck_title');
 
         $headers = array();
         $wui_info_table = new WuiTable('sysinfotable', array('headers' => $headers));
@@ -420,7 +420,6 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
         $wui_vgroup->addChild($next_button);
 
         \Innomatic\Setup\InnomaticSetup::check_log($wui_vgroup);
-
         $wuiMainFrame->addChild($wui_vgroup);
     }
     // Files installation
@@ -472,7 +471,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
 
         $wuiMainFrame->addChild($wui_vgroup2);
 
-        $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('edition_title');
+        $wuiTitleBar->mArgs['title'] .= ' - '.$innomaticLocale->getStr('edition_title');
     }
     // Database creation
     //
@@ -484,7 +483,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
         \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader('Location', $next_action->getEventsCallString());
     } elseif (!file_exists($container->getHome().'core/temp/setup_dbcreated')) {
         @touch($container->getHome().'core/temp/setup_creatingdb', time());
-        $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('dbcreation_title');
+        $wuiTitleBar->mArgs['title'] .= ' - '.$innomaticLocale->getStr('dbcreation_title');
 
         $wui_vgroup = new WuiVertgroup('vgroup');
         $wui_vgroup->addChild(new WuiLabel('phaselabel', array('label' => $innomaticLocale->getStr('dbcreation_phase_label'))));
@@ -539,7 +538,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
     else if (!file_exists($container->getHome().'core/temp/setup_componentsinitialized')) {
         @touch($container->getHome().'core/temp/setup_initializingcomponents', time());
 
-        $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('components_title');
+        $wuiTitleBar->mArgs['title'] .= ' - '.$innomaticLocale->getStr('components_title');
 
         $wui_vgroup = new WuiVertgroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
         $wui_hgroup1 = new WuiHorizgroup('nexthgroup', array('align' => 'middle', 'groupalign' => 'center'));
@@ -560,7 +559,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
     else if (!file_exists($container->getHome().'core/temp/setup_innomatichostset')) {
         @touch($container->getHome().'core/temp/setup_settinginnomatichost', time());
 
-        $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('innomatichost_title');
+        $wuiTitleBar->mArgs['title'] .= ' - '.$innomaticLocale->getStr('innomatichost_title');
 
         $wui_vgroup = new WuiVertgroup('vgroup');
         $wui_vgroup->addChild(new WuiLabel('phaselabel', array('label' => $innomaticLocale->getStr('innomatichost_phase_label'))));
@@ -662,7 +661,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
 
             $wuiMainFrame->addChild($wui_vgroup2);
 
-            $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('rootcountry_title');
+            $wuiTitleBar->mArgs['title'] .= ' - '.$innomaticLocale->getStr('rootcountry_title');
         } else $log->logEvent('innomatic.root.main_php',
                                 'Unable to connect to root database during initialization', \Innomatic\Logging\Logger::ERROR);
     }
@@ -746,7 +745,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
 
             $wuiMainFrame->addChild($wui_vgroup2);
 
-            $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('rootlanguage_title');
+            $wuiTitleBar->mArgs['title'] .= ' - '.$innomaticLocale->getStr('rootlanguage_title');
         } else $log->logEvent('innomatic.root.main_php',
                                 'Unable to connect to root database during initialization', \Innomatic\Logging\Logger::ERROR);
     }
@@ -787,7 +786,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
 
         $wuiMainFrame->addChild($wui_vgroup2);
 
-        $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('password_title');
+        $wuiTitleBar->mArgs['title'] .= ' - '.$innomaticLocale->getStr('password_title');
     }
     // AppCentral
     //
@@ -826,7 +825,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
 
     $wui_mainframe->addChild($wui_vgroup2);
 
-    $wui_titlebar->mTitle .= ' - '.$innomatic_locale->getStr('appcentral_title');
+    $wui_titlebar->mArgs['title'] .= ' - '.$innomatic_locale->getStr('appcentral_title');
     }
     */
     // Final cleanup
@@ -834,7 +833,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
     else if (!file_exists($container->getHome().'core/temp/setup_cleanedup')) {
         @touch($container->getHome().'core/temp/setup_cleaningup', time());
 
-        $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('cleanup_title');
+        $wuiTitleBar->mArgs['title'] .= ' - '.$innomaticLocale->getStr('cleanup_title');
 
         $wui_vgroup = new WuiVertgroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
         $wui_hgroup1 = new WuiHorizgroup('nexthgroup', array('align' => 'middle', 'groupalign' => 'center'));
@@ -850,7 +849,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
         \Innomatic\Setup\InnomaticSetup::check_log($wui_vgroup);
         $wuiMainFrame->addChild($wui_vgroup);
     } elseif (!file_exists($container->getHome().'core/temp/setup_done')) {
-        $wuiTitleBar->mTitle .= ' - '.$innomaticLocale->getStr('finish_title');
+        $wuiTitleBar->mArgs['title'] .= ' - '.$innomaticLocale->getStr('finish_title');
 
         $wui_vgroup = new WuiVertgroup('nextvgroup', array('halign' => 'left', 'groupalign' => 'left'));
         $wui_hgroup1 = new WuiHorizgroup('nexthgroup', array('align' => 'middle', 'groupalign' => 'center'));
