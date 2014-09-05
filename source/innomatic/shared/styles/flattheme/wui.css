@@ -110,7 +110,7 @@ td.titlebar {
 
 table.toolbar {
   border-collapse:separate;
-  border-spacing:1px;
+  /*border-spacing:1px;*/
   border:none;
   background-color:#ccc;
 }
