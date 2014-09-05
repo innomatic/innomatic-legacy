@@ -10,6 +10,8 @@
       - curl
       - unzip
       - vim
+      - libyaml-0-2
+      - libyaml-dev
 
   # Apache2 
 
