@@ -26,7 +26,7 @@ namespace Innomatic\Application;
 abstract class ApplicationComponent implements ApplicationComponentBase
 {
     public $container;
-    
+
     /**
      * Innomatic root data access
      *
@@ -127,7 +127,7 @@ abstract class ApplicationComponent implements ApplicationComponentBase
         $basedir
     ) {
         $this->container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        
+
         // Arguments check and properties initialization
         //
         $this->rootda = $rootda;
@@ -386,12 +386,8 @@ abstract class ApplicationComponent implements ApplicationComponentBase
                                     .' AND applicationid='. (int) $appid
                                 );
                                 if ($actquery->getNumberRows()) {
-                                    \Innomatic\Core\InnomaticContainer::instance(
-                                        '\Innomatic\Core\InnomaticContainer'
-                                    )->startDomain($domaindata['domainid']);
-                                    $this->domainda = \Innomatic\Core\InnomaticContainer::instance(
-                                        '\Innomatic\Core\InnomaticContainer'
-                                    )->getCurrentDomain()->getDataAccess();
+                                    $this->container->startDomain($domaindata['domainid']);
+                                    $this->domainda = $this->container->getCurrentDomain()->getDataAccess();
 
                                     if (
                                         strlen($domainprescript)
@@ -416,9 +412,7 @@ abstract class ApplicationComponent implements ApplicationComponentBase
                                         include($domainpostscript);
                                     }
 
-                                    \Innomatic\Core\InnomaticContainer::instance(
-                                        '\Innomatic\Core\InnomaticContainer'
-                                    )->stopDomain();
+                                    $this->container->stopDomain();
                                 }
 
                                 $actquery->free();
@@ -430,9 +424,7 @@ abstract class ApplicationComponent implements ApplicationComponentBase
                 break;
 
             default:
-                $log = \Innomatic\Core\InnomaticContainer::instance(
-                    '\Innomatic\Core\InnomaticContainer'
-                )->getLogger();
+                $log = $this->container->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applicationcomponent.update',
                     'Invalid update mode',
@@ -499,7 +491,7 @@ abstract class ApplicationComponent implements ApplicationComponentBase
                     $this->container->startDomain(\Innomatic\Domain\Domain::getTenantNameById($domainid));
 
                     // Set the domain dataaccess for the component
-                    $this->container->getCurrentDomain()->getDataAccess();
+                    $this->domainda = $this->container->getCurrentDomain()->getDataAccess();
                 }
 
                 if ($this->doEnableDomainAction($domainid, $params)) {
@@ -586,7 +578,7 @@ abstract class ApplicationComponent implements ApplicationComponentBase
                         $this->container->startDomain(\Innomatic\Domain\Domain::getTenantNameById($domainid));
 
                         // Set the domain dataaccess for the component
-                        $this->container->getCurrentDomain()->getDataAccess();
+                        $this->domainda = $this->container->getCurrentDomain()->getDataAccess();
                     }
 
                     $result = $this->doDisableDomainAction($domainid, $params);
