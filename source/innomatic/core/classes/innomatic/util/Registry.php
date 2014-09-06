@@ -67,4 +67,21 @@ final class Registry
     {
         return (isset($this->globalObjects[$key]));
     }
+
+    /* public unsetGlobalObject($key) {{{ */
+    /**
+     * Deletes a global object from the registry.
+     *
+     * @since 6.4.0
+     * @param string $key Global object index name.
+     * @access public
+     * @return void
+     */
+    public function unsetGlobalObject($key)
+    {
+        if (isset($this->globalObjects[$key])) {
+            unset($this->globalObjects[$key]);
+        }
+    }
+    /* }}} */
 }
