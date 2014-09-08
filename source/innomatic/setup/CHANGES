@@ -88,6 +88,7 @@ CHANGES:
 - Updated Vagrant file to ansible based provisioning. (Alex Pagnoni)
 
 FIXES:
+- Fixed change password for Innomatic Multi Tenant Edition. (Amanda Accalai).
 - Fixed multiple login for Innomatic Multi Tenant Edition. (Amanda Accalai).
 - Fixed height of headerbar. (Amanda Accalai)
 - Fixed namespace bug in XmlRpc_Client. (Amanda Accalai)
