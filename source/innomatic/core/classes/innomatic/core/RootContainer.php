@@ -318,4 +318,17 @@ class RootContainer extends \Innomatic\Util\Singleton
 			$GLOBALS['system_class_alias'][$alias] = $original;
 		}
 	}
+
+    public static function clearClassesCache()
+    {
+        $home = realpath(dirname(__FILE__).'/../../../../..').'/';
+        // Check if the serialized classes file exists
+        if (file_exists($home.'innomatic/core/temp/cache/classes.ser')) {
+            unlink($home.'innomatic/core/temp/cache/classes.ser');
+
+            $registry = \Innomatic\Util\Registry::instance();
+            $registry->setGlobalObject('system_classes', $system_classes);
+            $registry->setGlobalObject('system_fqcns', $system_fqcns);
+        }
+    }
 }
