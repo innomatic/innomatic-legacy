@@ -105,10 +105,11 @@ class User
      */
     public function setUserIdByUsername($username)
     {
+
         if (!empty($username)) {
             $edition = $this->container->getEdition();
-            if ($edition == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
-                $formatUsername = $this->domainDA->formatText('%@'.$username);
+            if ($edition == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT && strpos($username, '@')===false) {
+                $formatUsername = $this->domainDA->formatText($username.'@%');
                 $sql = "SELECT id
                     FROM domain_users
                     WHERE username LIKE $formatUsername";
