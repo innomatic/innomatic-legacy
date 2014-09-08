@@ -240,20 +240,20 @@ class RootContainer extends \Innomatic\Util\Singleton
                 // The serialized cache file doesn't exists, lets build the class list
                 $system_classes = $system_fqcns = array();
                 $system_fqcns   = array();
-                if (file_exists('innomatic/setup/application.xml')) {
-                    $application_classes = self::getApplicationClasses('innomatic/setup/application.xml');
+                if (file_exists($home.'innomatic/setup/application.xml')) {
+                    $application_classes = self::getApplicationClasses($home.'innomatic/setup/application.xml');
                     $system_classes      = $application_classes['classes'];
                     $system_fqcns        = $application_classes['fqcns'];
                 }
-                if ($handle = opendir('innomatic/core/applications/')) {
+                if ($handle = opendir($home.'innomatic/core/applications/')) {
                     while (false !== ($entry = readdir($handle))) {
                         if (
                             $entry != "."
                             && $entry != ".."
-                            && is_dir('innomatic/core/applications/'.$entry)
-                            && file_exists('innomatic/core/applications/'.$entry.'/application.xml')
+                            && is_dir($home.'innomatic/core/applications/'.$entry)
+                            && file_exists($home.'innomatic/core/applications/'.$entry.'/application.xml')
                         ) {
-                            $application_classes = self::getApplicationClasses('innomatic/core/applications/'.$entry.'/application.xml');
+                            $application_classes = self::getApplicationClasses($home.'innomatic/core/applications/'.$entry.'/application.xml');
                             $system_classes      = array_merge($application_classes['classes'], is_array($system_classes) ? $system_classes : array());
                             $system_fqcns        = array_merge($application_classes['fqcns'], is_array($system_fqcns) ? $system_fqcns : array());
                         }
