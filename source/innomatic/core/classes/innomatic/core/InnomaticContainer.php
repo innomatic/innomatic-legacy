@@ -21,7 +21,7 @@ namespace Innomatic\Core;
  *
  * It holds the container current state, mode and interface.
  *
- * This class provided a custom PHP error handler for the container
+ * This class provides a custom PHP error handler for the container
  * applications.
  *
  * @copyright  1999-2014 Innoteam Srl
