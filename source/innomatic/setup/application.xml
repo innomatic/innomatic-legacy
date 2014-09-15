@@ -144,7 +144,7 @@
 		<class name="innomatic/core/InnomaticContainer.php" />
 		<class name="innomatic/core/InnomaticSettings.php" />
 		<unittest name="innomatic/core/tests/InnomaticSettingsTest.php" />
-        <configurationfile name="tests/innomatic.ini" />
+        <!-- configurationfile name="tests/innomatic.ini" / -->
 		<class name="innomatic/debug/InnomaticDump.php" />
         <class name="innomatic/debug/LoadTime.php" />
 
