@@ -318,16 +318,13 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         unset($securityReportsInterval);
 
         // Maintenance
-        $maintenanceInterval = $this->config->value('MaintenanceInterval');
+        $maintenanceHandler = new \Innomatic\Maintenance\MaintenanceHandler();
+        $maintenanceInterval = $maintenanceHandler->getMaintenanceInterval();
         if ($this->state != \Innomatic\Core\InnomaticContainer::STATE_MAINTENANCE and $maintenanceInterval > 0) {
-            $lastMaintenance = $this->config->value(
-                'MaintenanceLastExecutionTime'
-            );
+            $lastMaintenance = $maintenanceHandler->getLastMaintenanceTime();
             if (
                 !$lastMaintenance
-                or $lastMaintenance < (time() - (
-                    $maintenanceInterval * 3600 * 24
-                ))
+                or $lastMaintenance < (time() - ($maintenanceInterval * 3600 * 24))
             ) {
                 $innomaticMaintenance = new \Innomatic\Maintenance\MaintenanceHandler();
                 $innomaticMaintenance->doMaintenance();

@@ -221,6 +221,8 @@
 
 		<!-- Maintenance -->
 
+        <configurationfile name="maintenance.ini" keep="1" />
+
 		<class name="innomatic/maintenance/MaintenanceHandler.php" />
 		<class name="innomatic/maintenance/MaintenanceTask.php" />
 

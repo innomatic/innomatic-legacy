@@ -86,6 +86,8 @@ CHANGES:
 - Renamed XmlRpc_Client to XmlRpcClient, XmlRpc_Server to XmlRpcServer and
   XmlRpc_Wrappers to XmlRpcWrappers. (Alex Pagnoni)
 - Updated Vagrant file to ansible based provisioning. (Alex Pagnoni)
+- Moved maintenance settings from innomatic.ini to maintenance.ini
+  configuration file. (Alex Pagnoni)
 
 FIXES:
 - Fixed change password for Innomatic Multi Tenant Edition. (Amanda Accalai).
