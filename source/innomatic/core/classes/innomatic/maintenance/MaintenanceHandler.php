@@ -29,6 +29,8 @@ class MaintenanceHandler
             $result = 0;
         $this->mMaintenanceInterval = $result;
 
+        // Settings are stored in a dedicated file in order to avoid frequent
+        // updates to the critical innomatic.ini file during maintenance execution.
         $this->configurationFile = $container->getHome().'core/conf/maintenance.ini';
     }
 

@@ -87,7 +87,8 @@ CHANGES:
   XmlRpc_Wrappers to XmlRpcWrappers. (Alex Pagnoni)
 - Updated Vagrant file to ansible based provisioning. (Alex Pagnoni)
 - Moved maintenance settings from innomatic.ini to maintenance.ini
-  configuration file. (Alex Pagnoni)
+  configuration file in order to avoid frequent updates to the critical
+  innomatic.ini file during maintenance execution. (Alex Pagnoni)
 
 FIXES:
 - Fixed change password for Innomatic Multi Tenant Edition. (Amanda Accalai).
