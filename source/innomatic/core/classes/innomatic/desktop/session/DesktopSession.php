@@ -8,8 +8,8 @@
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomaticplatform.com/license/ New BSD License
- * @link       http://www.innomaticplatform.com
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Desktop\Session;
@@ -25,8 +25,8 @@ use \Innomatic\Core\InnomaticContainer;
  * in the core/conf/innomatic.ini configuration file.
  *
  * @copyright  2000-2012 Innoteam Srl
- * @license    http://www.innomaticplatform.com/license/ New BSD License
- * @link       http://www.innomaticplatform.com
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  * @package    Desktop
  */

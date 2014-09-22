@@ -8,8 +8,8 @@
  * with this package in the file LICENSE.
  *
  * @copyright  2014 Innoteam Srl
- * @license    http://www.innomaticplatform.com/license/ New BSD License
- * @link       http://www.innomaticplatform.com
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.1
  */
 namespace Shared\Components;
@@ -18,8 +18,8 @@ namespace Shared\Components;
  * Module component handler.
  *
  * @copyright  2014 Innoteam Srl
- * @license    http://www.innomaticplatform.com/license/ New BSD License
- * @link       http://www.innomaticplatform.com
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.1
  */
 class ModuleComponent extends \Innomatic\Application\ApplicationComponent

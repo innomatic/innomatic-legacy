@@ -8,8 +8,8 @@
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomaticplatform.com/license/ New BSD License
- * @link       http://www.innomaticplatform.com
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 
@@ -46,7 +46,7 @@ if ($app_cfg->getKey('innomatic-biglogo-disabled') != '1') {
     else
         $biglogo_image = $wuiPage->mThemeHandler->mStyle['biglogo'];
 
-    $wui_button = new WuiButton('button', array('action' => ' http://www.innomaticplatform.com', 'target' => '_top', 'image' => $biglogo_image, 'highlight' => 'false'));
+    $wui_button = new WuiButton('button', array('action' => ' http://www.innomatic.io', 'target' => '_top', 'image' => $biglogo_image, 'highlight' => 'false'));
     $wui_buttons_group->addChild($wui_button);
 }
 

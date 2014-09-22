@@ -124,7 +124,7 @@ Additional Information
 ----------------------
 
 Innomatic Platform official web site:
-     http://www.innomaticplatform.com/
+     http://www.innomatic.io/
 
 Innomatic technical wiki:
      http://wiki.innomaticplatform.com/
