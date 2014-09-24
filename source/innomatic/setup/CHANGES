@@ -14,6 +14,7 @@ Summary: new tray bar, new pending actions, new roles/permissions system, new
 unittest component, UI improvements, performance improvements.
 
 NEW FEATURES:
+- Added parameter keep for the component WebappConfiguration
 - Added truncateTable() and resetSequence() methods for
   \Innomatic\Dataaccess\DataAccess classes. (Amanda Accalai)
 - Added width field in WuiStatusbar. (Amanda Accalai)

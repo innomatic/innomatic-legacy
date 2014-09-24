@@ -166,6 +166,12 @@ class WebappconfigurationComponent extends \Innomatic\Application\ApplicationCom
 
         $fileDestName = RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().$domain.'/core/conf/'.basename($params['file']);
 
+        // Checks if the "keep" parameter is set to true.
+        // If so, the configuration file will not be overwritten.
+        if (isset($params['keep']) and $params['keep'] == true and file_exists($fileDestName)) {
+            return true;
+        } 
+
         if (!file_exists(RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().$domain.'/core/conf/')) {
             DirectoryUtils::mkTree(RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().$domain.'/core/conf/', 0755);
         }
