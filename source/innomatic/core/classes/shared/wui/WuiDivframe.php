@@ -140,7 +140,7 @@ class WuiDivframe extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
         // Generic style
         if (isset($this->mArgs['style']) and strlen( $this->mArgs['style'])) {
-            $style .= ' '.$this->mStyle;
+            $style .= ' '.$this->mArgs['style'];
         }
 
         $style .= ( $this->mArgs['iscollapsable'] ? '; overflow:hidden;" ' : '" ' );
