@@ -172,6 +172,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
             ) {
                 $dump = \Innomatic\Debug\InnomaticDump::instance('\Innomatic\Debug\InnomaticDump');
                 $dump->desktopApplication = $desktopPanel;
+                $dump->sessionId = $this->session->getId();
             }
 
             if (is_dir($resource . '-panel')) {
@@ -258,6 +259,7 @@ class DesktopFrontController extends \Innomatic\Util\Singleton
             if ($this->container->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
                 $dump = \Innomatic\Debug\InnomaticDump::instance('\Innomatic\Debug\InnomaticDump');
                 $dump->desktopApplication = $desktopPanel;
+                $dump->sessionId = $this->session->getId();
             }
 
             switch ($desktopPanel) {

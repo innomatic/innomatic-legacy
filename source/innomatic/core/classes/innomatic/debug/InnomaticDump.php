@@ -92,6 +92,20 @@ class InnomaticDump extends \Innomatic\Util\Singleton
      * @var string
      */
     public $desktopApplication = array();
+    /**
+     * Session content.
+     *
+     * @var array
+     * @access public
+     */
+    public $sessionContent;
+    /**
+     * Session ID.
+     *
+     * @var string
+     * @access public
+     */
+    public $sessionId;
 
     /**
      * Esecutes a snapshot of the system information.
