@@ -127,6 +127,8 @@ DEPRECATED:
   (Alex Pagnoni)
 - \Innomatic\Io\Archive\* classes are deprecated, PHP PharData should be used
   instead. (Alex Pagnoni)
+- Innomatic\Dataaccess\DataAccessObject::_dataAccess is deprecated, use
+  $dataAccess. (Alex Pagnoni)
 
 
 
