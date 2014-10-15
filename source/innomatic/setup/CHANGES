@@ -11,7 +11,8 @@
 6000 - 6.4.0 - 
 -------------------------
 Summary: new tray bar, new pending actions, new roles/permissions system, new
-unittest component, UI improvements, performance improvements.
+unittest component, UI improvements, performance improvements, panel view
+templates.
 
 NEW FEATURES:
 - Added parameter keep for the component WebappConfiguration
@@ -50,7 +51,8 @@ NEW FEATURES:
   methods. (Alex Pagnoni)
 - Added table keys updating in DataAccess xml parser and in root and tenant
   table component handlers. (Amanda Accalai)
-
+- Added WUI definition templates system in desktop panel views. (Alex Pagnoni)
+ 
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
 - Upgraded MySQL support from mysql to mysqli. (Alex Pagnoni)
