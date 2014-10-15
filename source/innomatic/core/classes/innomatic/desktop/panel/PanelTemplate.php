@@ -52,6 +52,15 @@ class PanelTemplate implements \Innomatic\Tpl\Template
                 $name,
                 \Shared\Wui\WuiXml::encode($value)
             );
+        } elseif (is_numeric($value)) {
+            // This is a number, it must be passed as it is.
+            //
+            $this->vars[$name] = $value;
+
+            $this->tplEngine->set(
+                $name,
+                $value
+            );
         } else {
             // This is a string, it must be passed as a CDATA.
             //
