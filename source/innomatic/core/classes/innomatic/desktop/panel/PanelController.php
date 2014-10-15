@@ -8,8 +8,8 @@
  * with this package in the file LICENSE.
  *
  * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.io/license/ New BSD License
- * @link       http://www.innomatic.io
+ * @license    http://www.innomaticplatform.com/license/ New BSD License
+ * @link       http://www.innomaticplatform.com
 */
 namespace Innomatic\Desktop\Panel;
 
@@ -205,5 +205,10 @@ abstract class PanelController implements \Innomatic\Util\Observer
     public function getAjax()
     {
         return $this->ajax;
+    }
+    
+    public function getPanelHome()
+    {
+        return $this->applicationHome;
     }
 }

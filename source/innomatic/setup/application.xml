@@ -939,6 +939,7 @@
 		<class name="innomatic/desktop/panel/PanelController.php" />
 		<class name="innomatic/desktop/panel/PanelActions.php" />
 		<class name="innomatic/desktop/panel/PanelViews.php" />
+		<class name="innomatic/desktop/panel/PanelTemplate.php" />
 
 		<!-- Dashboard -->
 

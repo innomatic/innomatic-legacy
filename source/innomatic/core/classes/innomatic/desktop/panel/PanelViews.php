@@ -24,9 +24,8 @@ namespace Innomatic\Desktop\Panel;
  * @since Class available since Release 5.0
  * @package Desktop
  */
-abstract class PanelViews implements \Innomatic\Util\Observer
+abstract class PanelViews implements \Innomatic\Util\Observer 
 {
-
     /**
      *
      * @deprecated
@@ -53,6 +52,10 @@ abstract class PanelViews implements \Innomatic\Util\Observer
     protected $_wuiContainer;
 
     protected $wuiContainer;
+    
+    protected $tpl;
+    
+    protected $wuiPanelContent;
 
     public function __construct(\Innomatic\Desktop\Panel\PanelController $controller)
     {
@@ -79,7 +82,20 @@ abstract class PanelViews implements \Innomatic\Util\Observer
         if (! method_exists($this, $methodName)) {
             $methodName = 'viewDefault';
         }
+        
+        // Check if a template file exists for this view.
+        //
+        $tplFile = $this->controller->getPanelHome().'templates/'.$view.'.xml.php';
+        if (file_exists($tplFile)) {
+            $this->tpl = new \Innomatic\Desktop\Panel\PanelTemplate($tplFile);
+        }
+        // Executes the view.
+        //
         $this->$methodName($eventData);
+
+        if (is_a($this->tpl, '\\Innomatic\\Desktop\\Panel\\PanelTemplate')) {
+            $this->wuiPanelContent = new \Shared\WuiXml('content', array('definition' => $this->tpl->parse()));
+        }
     }
 
     public function display()
