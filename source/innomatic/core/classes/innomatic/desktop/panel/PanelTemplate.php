@@ -39,14 +39,29 @@ class PanelTemplate implements \Innomatic\Tpl\Template
      */
     public function set($name, $value)
     {
-        $this->vars[$name] = $value instanceof \Innomatic\Tpl\Template ?
-            $value->parse()
-            : \Shared\Wui\WuiXml::cdata($value);
+        if ($value instanceof \Innomatic\Tpl\Template) {
+            // This is a subtemplate, process it.
+            //
+            $this->vars[$name] = $value->parse();
+        } elseif (is_array($value)) {
+            // This is an array, it must be passed encoded.
+            //
+            $this->vars[$name] = $value;
 
-        $this->tplEngine->set(
-            $name,
-            $this->vars[$name]
-        );
+            $this->tplEngine->set(
+                $name,
+                \Shared\Wui\WuiXml::encode($value)
+            );
+        } else {
+            // This is a string, it must be passed as a CDATA.
+            //
+            $this->vars[$name] = $value;
+            
+            $this->tplEngine->set(
+                $name,
+                \Shared\Wui\WuiXml::cdata($value)
+            );
+        }
     }
 
     /**
@@ -80,7 +95,7 @@ class PanelTemplate implements \Innomatic\Tpl\Template
     public function setArray($name, &$value)
     {
         $this->vars[$name] = &$value;
-        $this->tplEngine->setArray($name, \Shared\Wui\WuiXml::encode($value));
+        $this->tplEngine->setArray($name, $value);
     }
 
     /**
