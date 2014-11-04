@@ -15,11 +15,11 @@
 		<password>test</password>
 		<allowedmodules>
 			<allowedmodule>
-				<modulelocation>it.innoteam.helloworldmodule</modulelocation>
+				<modulelocation>io.innomatic.helloworldmodule</modulelocation>
 				<moduledasn></moduledasn>
 			</allowedmodule>
 			<allowedmodule>
-				<modulelocation>it.innoteam.carsmodule</modulelocation>
+				<modulelocation>io.innomatic.carsmodule</modulelocation>
 				<moduledasn>sqlite:///context:carsdb.sql</moduledasn>
 			</allowedmodule>
 		</allowedmodules>

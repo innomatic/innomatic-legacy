@@ -4,14 +4,14 @@
 		<address>127.0.0.1</address>
 		<port>9990</port>
 		<services>
-			<EASmodule>it.innoteam.helloworldeas</EASmodule>
+			<EASmodule>io.innomatic.helloworldeas</EASmodule>
 		</services>
 	</node>
 	<node>
 		<address>127.0.0.1</address>
 		<port>9991</port>
 		<services>
-			<EASmodule>MiaProvaEAS</EASmodule>
+			<EASmodule>MyTestEAS</EASmodule>
 		</services>
 	</node>
 </registry>

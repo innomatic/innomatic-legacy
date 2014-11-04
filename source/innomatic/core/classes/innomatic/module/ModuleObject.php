@@ -50,7 +50,7 @@ abstract class ModuleObject implements \Serializable
         $this->config = $config;
         $vo_fqcn = $this->config->getValueObjectClass();
         if (!strlen($vo_fqcn)) {
-            $vo_fqcn = 'it.innoteam.module.util.ModuleEmptyValueObject';
+            $vo_fqcn = '\Innomatic\Module\Util\ModuleEmptyValueObject';
         }
 
         // Imports value object.

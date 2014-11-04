@@ -172,7 +172,7 @@ class ModuleServiceController extends ModuleServerController
         // TODO
            if (strtoupper(substr(PHP_OS, 0, 3) == 'WIN')) {
              $context = ModuleServerContext::instance('\Innomatic\Module\Server\ModuleServerContext');
-            $path = $context->getHome().'classes\\it\\innoteam\\module\\services\\';
+            $path = $context->getHome().'classes\\io\\innomatic\\module\\services\\';
             $WshShell1 = new COM("WScript.Shell");
             $WshShell2 = new COM("WScript.Shell");
             $oExec1 = $WshShell1->Run('cmd /c carthag '.$path.'ModulePingerServer.php', 1, false);

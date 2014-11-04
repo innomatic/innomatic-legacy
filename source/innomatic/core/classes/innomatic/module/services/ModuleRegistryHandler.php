@@ -161,9 +161,9 @@ print("Result content:\r\n".$result."\n");
     ["services"]=>
     array(2) {
       [0]=>
-      string(25) "it.innoteam.helloworldmodule"
+      string(25) "io.innomatic.helloworldmodule"
       [1]=>
-      string(11) "MiaProvaModule"
+      string(11) "MyTestModule"
     }
   }
 */
