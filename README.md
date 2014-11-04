@@ -5,7 +5,7 @@ General information
 -------------------
 
 Innomatic is an open source platform for building multi-tenant cloud
-applications developed by Innoteam in PHP language.
+applications developed by Innomatic Company in PHP language.
 
 It is suitable as an Internet/Intranet development and deployment
 system, featuring a powerful modular architecture and allowing very fast

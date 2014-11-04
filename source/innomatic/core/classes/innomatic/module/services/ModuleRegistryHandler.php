@@ -5,7 +5,7 @@ namespace Innomatic\Module\Services;
  * Module server socket handler and requests dispatcher.
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2014 Innoteam Srl
+ * @copyright Copyright 2005-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleRegistryHandler

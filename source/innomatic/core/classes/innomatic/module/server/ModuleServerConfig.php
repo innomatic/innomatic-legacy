@@ -5,7 +5,7 @@ namespace Innomatic\Module\Server;
  * Accesses Module server configuration.
  *
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleServerConfig

@@ -7,7 +7,7 @@ use \Innomatic\Module\Server;
  * Module server socket handler and requests dispatcher.
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2014 Innoteam Srl
+ * @copyright Copyright 2005-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler

@@ -7,7 +7,7 @@ use \Innomatic\Module\Server;
  * Controls Module server execution with service support.
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2014 Innoteam Srl
+ * @copyright Copyright 2005-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleServiceController extends ModuleServerController

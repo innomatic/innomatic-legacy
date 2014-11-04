@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
+ * @copyright  1999-2014 Innomatic Company
  * @license    http://www.innomatic.io/license/ New BSD License
  * @link       http://www.innomatic.io
  */
@@ -119,7 +119,7 @@ class DataAccessSourceName
      * @author Tomas V.V.Cox <cox@idecnet.com>
      * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
      * @copyright Copyright (c) 1997-2004 The PHP Group
-     * @copyright Copyright 2004-2012 Innoteam Srl
+     * @copyright Copyright 2004-2012 Innomatic Company
      */
     public function __construct($dasn)
     {

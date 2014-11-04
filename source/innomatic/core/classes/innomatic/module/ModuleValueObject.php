@@ -17,7 +17,7 @@ namespace Innomatic\Module;
  * are not allowed.
  *
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 abstract class ModuleValueObject implements \Serializable
