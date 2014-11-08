@@ -19,6 +19,15 @@ use \Innomatic\Core;
 
 /**
  * Webapp Configuration file component handler.
+ *
+ * A webapp configuration component is used to define a configuration file
+ * to be copied inside a tenant webapp.
+ *
+ * Component parameters:
+ *
+ * - name: name of the webapp configuration
+ * - file: name of the configuration file, without path
+ * - keep: will preserve changes if an already existing configuration file has been enabled to a tenant
  */
 class WebappconfigurationComponent extends \Innomatic\Application\ApplicationComponent
 {
