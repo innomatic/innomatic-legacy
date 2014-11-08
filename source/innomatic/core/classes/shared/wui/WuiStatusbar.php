@@ -15,7 +15,8 @@
 namespace Shared\Wui;
 
 /**
- * @package WUI
+ * Status bar WUI widget.
+ *
  */
 class WuiStatusbar extends \Innomatic\Wui\Widgets\WuiWidget
 {
@@ -33,11 +34,11 @@ class WuiStatusbar extends \Innomatic\Wui\Widgets\WuiWidget
             $this->mArgs['width'] = "100%";
         }
     }
-    
+
     protected function generateSource()
     {
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' statusbar -->' : '');
-        
+
         if (isset($this->mArgs['status']) and strlen($this->mArgs['status'])) {
             $this->mLayout .= '<table border="0" '
                 . (isset($this->mArgs['width']) ? 'width="'.$this->mArgs['width'].'" ' : '')
@@ -46,11 +47,11 @@ class WuiStatusbar extends \Innomatic\Wui\Widgets\WuiWidget
                 . $this->mThemeHandler->mColorsSet['statusbars']['bgcolor']
                 . "\">\n";
             $this->mLayout .= "<tr>\n";
-            $this->mLayout .= '<td class="status" nowrap style="white-space: nowrap">' 
+            $this->mLayout .= '<td class="status" nowrap style="white-space: nowrap">'
                 . ((isset($this->mArgs['status']) and strlen($this->mArgs['status'])) ?
                 \Innomatic\Wui\Wui::utf8_entities($this->mArgs['status']) : '&nbsp;')
                 . "</td>\n";
-            if ($this->mArgs['width'] == "100%") 
+            if ($this->mArgs['width'] == "100%")
                 $this->mLayout .= '<td width="100%">&nbsp;</td>';
             $this->mLayout .= "</tr>\n";
             $this->mLayout .= "</table>\n";
