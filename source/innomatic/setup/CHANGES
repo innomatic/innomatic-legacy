@@ -15,7 +15,7 @@ unittest component, UI improvements, performance improvements, panel view
 templates.
 
 NEW FEATURES:
-- Added parameter keep for the component WebappConfiguration
+- Added keep parameter to the WebappConfiguration component. (Amanda Accalai)
 - Added truncateTable() and resetSequence() methods for
   \Innomatic\Dataaccess\DataAccess classes. (Amanda Accalai)
 - Added width field in WuiStatusbar. (Amanda Accalai)
