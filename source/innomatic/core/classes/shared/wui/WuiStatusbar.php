@@ -47,7 +47,9 @@ class WuiStatusbar extends \Innomatic\Wui\Widgets\WuiWidget
                 . $this->mThemeHandler->mColorsSet['statusbars']['bgcolor']
                 . "\">\n";
             $this->mLayout .= "<tr>\n";
-            $this->mLayout .= '<td class="status" nowrap style="white-space: nowrap">'
+            $this->mLayout .= '<td class="status" nowrap style="white-space: nowrap;'
+                . ((isset($this->mArgs['color']) and strlen($this->mArgs['color'])) ? 
+                'color:'.$this->mArgs['color'].';' : '').'">'
                 . ((isset($this->mArgs['status']) and strlen($this->mArgs['status'])) ?
                 \Innomatic\Wui\Wui::utf8_entities($this->mArgs['status']) : '&nbsp;')
                 . "</td>\n";
