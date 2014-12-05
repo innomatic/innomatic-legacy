@@ -52,6 +52,7 @@ NEW FEATURES:
 - Added table keys updating in DataAccess xml parser and in root and tenant
   table component handlers. (Amanda Accalai)
 - Added WUI definition templates system in desktop panel views. (Alex Pagnoni)
+- Added color parameter to WUI statusbar widget. (Amanda Accalai)
  
 CHANGES:
 - Changed "user profile" concept to "application access". (Alex Pagnoni)
