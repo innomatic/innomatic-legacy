@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 
@@ -20,7 +20,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     public $wuiMainframe;
     public $wuiMainstatus;
     public $wuiTitlebar;
-    protected $_localeCatalog;
+    protected $localeCatalog;
 
     public function update($observable, $arg = '')
     {
@@ -39,41 +39,41 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
         );
 
-        $this->_wuiContainer->loadWidget('innomatictoolbar');
-        $this->_wuiContainer->loadWidget('button');
-        $this->_wuiContainer->loadWidget('checkbox');
-        $this->_wuiContainer->loadWidget('combobox');
-        $this->_wuiContainer->loadWidget('date');
-        $this->_wuiContainer->loadWidget('empty');
-        $this->_wuiContainer->loadWidget('file');
-        $this->_wuiContainer->loadWidget('formarg');
-        $this->_wuiContainer->loadWidget('form');
-        $this->_wuiContainer->loadWidget('grid');
-        $this->_wuiContainer->loadWidget('helpnode');
-        $this->_wuiContainer->loadWidget('horizbar');
-        $this->_wuiContainer->loadWidget('horizframe');
-        $this->_wuiContainer->loadWidget('horizgroup');
-        $this->_wuiContainer->loadWidget('image');
-        $this->_wuiContainer->loadWidget('label');
-        $this->_wuiContainer->loadWidget('link');
-        $this->_wuiContainer->loadWidget('listbox');
-        $this->_wuiContainer->loadWidget('menu');
-        $this->_wuiContainer->loadWidget('page');
-        $this->_wuiContainer->loadWidget('progressbar');
-        $this->_wuiContainer->loadWidget('radio');
-        $this->_wuiContainer->loadWidget('sessionkey');
-        $this->_wuiContainer->loadWidget('statusbar');
-        $this->_wuiContainer->loadWidget('string');
-        $this->_wuiContainer->loadWidget('submit');
-        $this->_wuiContainer->loadWidget('tab');
-        $this->_wuiContainer->loadWidget('table');
-        $this->_wuiContainer->loadWidget('text');
-        $this->_wuiContainer->loadWidget('titlebar');
-        $this->_wuiContainer->loadWidget('toolbar');
-        $this->_wuiContainer->loadWidget('treemenu');
-        $this->_wuiContainer->loadWidget('vertframe');
-        $this->_wuiContainer->loadWidget('vertgroup');
-        $this->_wuiContainer->loadWidget('xml');
+        $this->wuiContainer->loadWidget('innomatictoolbar');
+        $this->wuiContainer->loadWidget('button');
+        $this->wuiContainer->loadWidget('checkbox');
+        $this->wuiContainer->loadWidget('combobox');
+        $this->wuiContainer->loadWidget('date');
+        $this->wuiContainer->loadWidget('empty');
+        $this->wuiContainer->loadWidget('file');
+        $this->wuiContainer->loadWidget('formarg');
+        $this->wuiContainer->loadWidget('form');
+        $this->wuiContainer->loadWidget('grid');
+        $this->wuiContainer->loadWidget('helpnode');
+        $this->wuiContainer->loadWidget('horizbar');
+        $this->wuiContainer->loadWidget('horizframe');
+        $this->wuiContainer->loadWidget('horizgroup');
+        $this->wuiContainer->loadWidget('image');
+        $this->wuiContainer->loadWidget('label');
+        $this->wuiContainer->loadWidget('link');
+        $this->wuiContainer->loadWidget('listbox');
+        $this->wuiContainer->loadWidget('menu');
+        $this->wuiContainer->loadWidget('page');
+        $this->wuiContainer->loadWidget('progressbar');
+        $this->wuiContainer->loadWidget('radio');
+        $this->wuiContainer->loadWidget('sessionkey');
+        $this->wuiContainer->loadWidget('statusbar');
+        $this->wuiContainer->loadWidget('string');
+        $this->wuiContainer->loadWidget('submit');
+        $this->wuiContainer->loadWidget('tab');
+        $this->wuiContainer->loadWidget('table');
+        $this->wuiContainer->loadWidget('text');
+        $this->wuiContainer->loadWidget('titlebar');
+        $this->wuiContainer->loadWidget('toolbar');
+        $this->wuiContainer->loadWidget('treemenu');
+        $this->wuiContainer->loadWidget('vertframe');
+        $this->wuiContainer->loadWidget('vertgroup');
+        $this->wuiContainer->loadWidget('xml');
 
         $this->wuiPage = new WuiPage('page', array('title' => $this->_localeCatalog->getStr('domains_title')));
         $this->wuiMainvertgroup = new WuiVertgroup('mainvertgroup');
@@ -101,7 +101,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $wuiMainToolBar->addChild($wuiHomeButton);
 
         if (
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_ENTERPRISE
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT
         ) {
             $domainQuery = \Innomatic\Core\InnomaticContainer::instance(
                 '\Innomatic\Core\InnomaticContainer'
@@ -109,7 +109,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         }
 
         if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
-            ->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS or !$domainQuery->getFields('domains') > 0) {
+            ->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT or !$domainQuery->getFields('domains') > 0) {
             $newAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
             $newAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'newdomain', ''));
             $wuiNewButton = new WuiButton(
@@ -181,7 +181,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $this->wuiMainvertgroup->addChild($this->wuiMainframe);
         $this->wuiMainvertgroup->addChild($this->wuiMainstatus);
         $this->wuiPage->addChild($this->wuiMainvertgroup);
-        $this->_wuiContainer->addChild($this->wuiPage);
+        $this->wuiContainer->addChild($this->wuiPage);
     }
 
     public function viewDefault($eventData)
@@ -222,25 +222,11 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
             while (!$query->eof) {
                 $data = $query->getFields();
-                if (
-                    $data['domainactive'] == \Innomatic\Core\InnomaticContainer::instance(
-                        '\Innomatic\Core\InnomaticContainer'
-                    )->getDataAccess()->fmttrue
-                )
-                $wuiDomainsTable->addChild(
-                    new WuiImage(
-                        'status'.$row, array('imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['greenball'])),
-                    $row, 0
-                );
-                else
-                $wuiDomainsTable->addChild(
-                    new WuiImage(
-                        'status'.$row,
-                        array(
-                            'imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['redball'])
-                        ),
-                    $row, 0
-                );
+                if ( $data['domainactive'] == \Innomatic\Core\InnomaticContainer::instance( '\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmttrue) {
+                    $wuiDomainsTable->addChild( new WuiImage( 'status'.$row, array('imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['greenball'])), $row, 0, 'center');
+                } else {
+                    $wuiDomainsTable->addChild( new WuiImage( 'status'.$row, array( 'imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['redball'])), $row, 0, 'center');
+                }
 
                 $wuiDomainsTable->addChild(
                     new WuiLabel(
@@ -742,7 +728,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             7, 1
         );
 
-        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
             // Database fields
             //
             $wuiDomainGrid->addChild(
@@ -1146,7 +1132,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 7, 1
             );
 
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
                 // Database fields
                 //
                 $wuiDomainGrid->addChild(
@@ -1579,7 +1565,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 6, 1
             );
 
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS) {
+            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT) {
                 // Database fields
                 //
                 $wuiDomainGrid->addChild(
@@ -1895,16 +1881,18 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewAccessDomain($eventData)
     {
-        $domainquery = \Innomatic\Core\InnomaticContainer::instance(
-            '\Innomatic\Core\InnomaticContainer'
-        )->getDataAccess()->execute('SELECT domainid FROM domains WHERE id='.$eventData['domainid']);
-        DesktopFrontController::instance(
-            '\Innomatic\Desktop\Controller\DesktopFrontController'
-        )->session->put('INNOMATIC_AUTH_USER', \Innomatic\Domain\User\User::getAdminUsername($domainquery->getFields('domainid')));
-        \Innomatic\Webapp\WebAppContainer::instance(
-            '\Innomatic\Webapp\WebAppContainer'
-        )->getProcessor()->getResponse()->addHeader(
-            'Location', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl().'/domain/'
+        $innomaticCore = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        $domainquery = $innomaticCore->getDataAccess()->execute('SELECT domainid FROM domains WHERE id='.$eventData['domainid']);
+        
+        DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session->put(
+            'INNOMATIC_AUTH_USER',
+            \Innomatic\Domain\User\User::getAdminUsername($domainquery->getFields('domainid'))
+            );
+        
+        \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader(
+            'Location',
+            $innomaticCore->getBaseUrl().'/'
         );
     }
 
@@ -1951,9 +1939,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
                         $wuiEnGroup[$row] = new WuiVertgroup('enable');
                         $wuiDomainApplicationsToolbar[$row] = new WuiHorizgroup('domainapplicationstoolbar'.$row);
-                        $appDep = new \Innomatic\Application\ApplicationDependencies(
-                            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()
-                        );
+                        $appDep = new \Innomatic\Application\ApplicationDependencies();
 
                         if ($actQuery->getNumberRows()) {
                             // Application is enabled
@@ -2325,7 +2311,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
         $row = 0;
 
-        $appDeps = new \Innomatic\Application\ApplicationDependencies(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
+        $appDeps = new \Innomatic\Application\ApplicationDependencies();
 
         while (!$domainsQuery->eof) {
             $xmlDef.= '<label row="'.$row.'" col="0">

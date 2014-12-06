@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Components;
@@ -20,9 +20,9 @@ namespace Shared\Components;
  * A webapp skeleton is a collection of directories and files providing at least
  * a minimal working webapp tree with a web.xml file.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 class WebappskeletonComponent extends \Innomatic\Application\ApplicationComponent
@@ -62,7 +62,7 @@ class WebappskeletonComponent extends \Innomatic\Application\ApplicationComponen
             return false;
         }
         // Destination folder.
-        $skeleton_destination = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
+        $skeleton_destination = $this->container->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
         // Copies the skeleton folder to the destination.
         $result = \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($skeleton_source, $skeleton_destination);
         if (!$result) {
@@ -85,7 +85,7 @@ class WebappskeletonComponent extends \Innomatic\Application\ApplicationComponen
             return false;
         }
         // Skeleton folder.
-        $skeleton_folder = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel';
+        $skeleton_folder = $this->container->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel';
         // Removes skeleton directory.
         $result = \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($skeleton_folder);
         if (!$result) {
@@ -116,7 +116,7 @@ class WebappskeletonComponent extends \Innomatic\Application\ApplicationComponen
             return false;
         }
         // Destination folder.
-        $skeleton_destination = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
+        $skeleton_destination = $this->container->getHome() . 'core/conf/skel/webapps/' . basename($params['name']) . '-skel/';
         // Removes previous skeleton directory.
         \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($skeleton_destination);
         // Copies the skeleton folder to the destination.

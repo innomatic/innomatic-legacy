@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Wui;
@@ -17,15 +17,30 @@ namespace Shared\Wui;
 use \Innomatic\Locale;
 
 /**
- * @package WUI
+ * Date widget.
  */
 class WuiDate extends \Innomatic\Wui\Widgets\WuiWidget
 {
-    /*! @public mHint string - Help string for this element. */
+    /**
+     * Help string for this widget.
+     *
+     * @var string
+     * @access public
+     */
     public $mHint;
-    /*! @public mValue array - Default date. */
+    /**
+     * Default date in Innomatic date array format.
+     *
+     * @var array
+     * @access public
+     */
     public $mValue;
-    /*! @public mDisp string - Dispatcher for this element. */
+    /**
+     * Dispatcher.
+     *
+     * @var string
+     * @access public
+     */
     public $mDisp;
     /*! @public mReadOnly boolean - Set to 'true' if this is a read only string. */
     public $mReadOnly;
@@ -48,37 +63,53 @@ class WuiDate extends \Innomatic\Wui\Widgets\WuiWidget
         $elemArgs = '',
         $elemTheme = '',
         $dispEvents = ''
-    )
-    {
+    ) {
         parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
-        if (isset($this->mArgs['hint']))
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+
+        if (isset($this->mArgs['hint'])) {
             $this->mHint = $this->mArgs['hint'];
-        if (isset($this->mArgs['value']))
+        }
+
+        if (isset($this->mArgs['value'])) {
             $this->mValue = $this->mArgs['value'];
-        if (isset($this->mArgs['disp']))
+        }
+
+        if (isset($this->mArgs['disp'])) {
             $this->mDisp = $this->mArgs['disp'];
-        if (isset($this->mArgs['tabindex']))
+        }
+
+        if (isset($this->mArgs['tabindex'])) {
             $this->mTabIndex = $this->mArgs['tabindex'];
-        if (isset($this->mArgs['country']) and strlen($this->mArgs['country']))
+        }
+        
+        if (isset($this->mArgs['country']) and strlen($this->mArgs['country'])) {
             $this->mCountry = $this->mArgs['country'];
-        else
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->isDomainStarted()) {
-                $this->mCountry = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getCountry();
+        } else {
+            if ($container->isDomainStarted()) {
+                $this->mCountry = $container->getCurrentUser()->getCountry();
             } else {
-                $this->mCountry = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCountry();
+                $this->mCountry = $container->getCountry();
             }
-        if (isset($this->mArgs['language']) and strlen($this->mArgs['language']))
+        }
+        
+        if (isset($this->mArgs['language']) and strlen($this->mArgs['language'])) {
             $this->mLanguage = $this->mArgs['language'];
-        else
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->isDomainStarted()) {
-                $this->mLanguage = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage();
+        } else {
+            if ($container->isDomainStarted()) {
+                $this->mLanguage = $container->getCurrentUser()->getLanguage();
             } else {
-                $this->mLanguage = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage();
+                $this->mLanguage = $container->getLanguage();
             }
+        }
+        
         $this->mLocaleCountryHandler = new \Innomatic\Locale\LocaleCountry($this->mCountry);
         $this->mLocaleHandler = new \Innomatic\Locale\LocaleCatalog('innomatic::wui', $this->mLanguage);
-        if (isset($this->mArgs['readonly']))
+        
+        if (isset($this->mArgs['readonly'])) {
             $this->mReadOnly = $this->mArgs['readonly'];
+        }
+        
         if (isset($this->mArgs['type'])) {
             switch ($this->mArgs['type']) {
                 case 'date':
@@ -86,11 +117,13 @@ class WuiDate extends \Innomatic\Wui\Widgets\WuiWidget
                     $this->mMaxLength = 10;
                     $this->mType = $this->mArgs['type'];
                     break;
+
                 case 'time':
                     $this->mSize = 8;
                     $this->mMaxLength = 8;
                     $this->mType = $this->mArgs['type'];
                     break;
+
                 case 'shorttime':
                     $this->mSize = 5;
                     $this->mMaxLength = 5;
@@ -99,6 +132,7 @@ class WuiDate extends \Innomatic\Wui\Widgets\WuiWidget
             }
         }
     }
+
     protected function generateSource()
     {
         $result = false;
@@ -139,8 +173,29 @@ Calendar.Months = new Array( '" . $this->mLocaleHandler->getStr('january') . "',
     '" . $this->mLocaleHandler->getStr('december') . "');
 </script>";
         }
-        $this->mLayout .= ($this->mComments ? '<!-- begin ' . $this->mName . ' date -->' : '') . '<span style="white-space: nowrap;"><input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').$this->getEventsCompleteString().' class="normal" ' . (strlen($this->mHint) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mHint) . '\');" onMouseOut="wuiUnHint();" ' : '') . 'type="text" name="' . $event_data->getDataString() . '"' . ' tabindex="' . $this->mTabIndex . '"' . (is_array($this->mValue) ? ' value="' . \Innomatic\Wui\Wui::utf8_entities($this->mType == 'date' ? $this->mLocaleCountryHandler->FormatShortArrayDate($this->mValue) : $this->mLocaleCountryHandler->FormatArrayTime($this->mValue)) . '"' : '') . ($this->mHint ? ' alt="' . $this->mHint . '"' : '') . (strlen($this->mSize) ? ' size="' . $this->mSize . '"' : '') . (strlen($this->mMaxLength) ? ' maxlength="' . $this->mMaxLength . '"' : '') . (strlen($this->mReadOnly) ? ' readonly' : '') . '>' . ($this->mReadOnly != 'true' ? ($this->mType == 'date' ? "&nbsp;<a href=\"javascript:show_calendar( 'forms[' + GetFormNumber('" . $event_data->getDataString() . "') + '].elements[' +  GetElementNumber('" . $event_data->getDataString() . "') + ']'," . (is_array($this->mValue) ? "'" . sprintf('%u', $this->mValue['mon'] - 1) . "','" . $this->mValue['year'] . "'" : 'null,null') . ",'" . $calendar_dateformat . "');\">" . '<img src="' . $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['mini']['icons']['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons']['calendar']['file'] . '" alt="" border="0" style="width: 16px; height: 16px;"></a>' : '') : '') . '</span>' . ($this->mComments ? '<!-- end ' . $this->mName . " string -->\n" : '');
-        $result = true;
-        return $result;
+
+        $this->mLayout .= ($this->mComments ? '<!-- begin ' . $this->mName . ' date -->' : '') .
+            '<span style="white-space: nowrap;"><input'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '').
+            $this->getEventsCompleteString().' class="normal" ' .
+            (strlen($this->mHint) ? 'onMouseOver="wuiHint(\'' . str_replace("'", "\'", $this->mHint) . '\');" onMouseOut="wuiUnHint();" ' : '') .
+            'type="text" name="' . $event_data->getDataString() . '"' . ' tabindex="' . $this->mTabIndex . '"' .
+            (is_array($this->mValue) ? ' value="' . \Innomatic\Wui\Wui::utf8_entities(
+                $this->mType == 'date' ?
+                $this->mLocaleCountryHandler->formatShortArrayDate($this->mValue) :
+                $this->mLocaleCountryHandler->formatArrayTime($this->mValue)) .
+            '"' : '').
+            ($this->mHint ? ' alt="' . $this->mHint . '"' : '') .
+            (strlen($this->mSize) ? ' size="' . $this->mSize . '"' : '') .
+            (strlen($this->mMaxLength) ? ' maxlength="' . $this->mMaxLength . '"' : '') .
+            (strlen($this->mReadOnly) ? ' readonly' : '') . '>' .
+            ($this->mReadOnly != 'true' ? ($this->mType == 'date' ? "&nbsp;<a href=\"javascript:show_calendar( 'forms[' + GetFormNumber('" .
+            $event_data->getDataString() . "') + '].elements[' +  GetElementNumber('" . $event_data->getDataString() . "') + ']'," .
+            (is_array($this->mValue) ? "'" . sprintf('%u', $this->mValue['mon'] - 1) . "','" . $this->mValue['year'] . "'" : 'null,null') . ",'" .
+            $calendar_dateformat . "');\">" .
+            '<img src="' . $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['mini']['icons']['base'] . '/icons/' .
+            $this->mThemeHandler->mIconsSet['icons']['calendar']['file'] . '" alt="" border="0" style="width: 16px; height: 16px;"></a>' : '') : '') .
+            '</span>' . ($this->mComments ? '<!-- end ' . $this->mName . " string -->\n" : '');
+
+        return true;
     }
 }

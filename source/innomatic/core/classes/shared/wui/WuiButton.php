@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Wui;
@@ -43,6 +43,25 @@ class WuiButton extends \Innomatic\Wui\Widgets\WuiWidget
     )
     {
         parent::__construct($elemName, $elemArgs, $elemTheme, $dispEvents);
+
+        $iconsBase = 'icons';
+
+        if (isset($this->mArgs['mainaction'])) {
+            $this->mArgs['mainaction'] = $this->mArgs['mainaction'] == 'true' ? 'true' : 'false';
+        } else {
+            $this->mArgs['mainaction'] = 'false';
+        }
+
+        if (isset($this->mArgs['dangeraction'])) {
+            $this->mArgs['dangeraction'] = $this->mArgs['dangeraction'] == 'true' ? 'true' : 'false';
+        } else {
+            $this->mArgs['dangeraction'] = 'false';
+        }
+
+        if ($this->mArgs['mainaction'] == 'true' or $this->mArgs['dangeraction'] == 'true') {
+            $iconsBase = 'light';
+        }
+
         if (isset($this->mArgs['compact']))
             $this->mArgs['compact'] = $this->mArgs['compact'] == 'true' ? 'true' : 'false';
         else
@@ -53,10 +72,10 @@ class WuiButton extends \Innomatic\Wui\Widgets\WuiWidget
 
         if (isset($this->mArgs['themeimage']) and strlen($this->mArgs['themeimage'])) {
             if (
-            	isset($this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base']) and
-            	file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/icons/'.$this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['file'])
+            	isset($this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['base']) and
+            	file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/icons/'.$this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['base'] . '/'.$iconsBase.'/' . $this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['file'])
 			) {
-                $this->mArgs['image'] = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons'][$this->mArgs['themeimage']]['file'];
+                $this->mArgs['image'] = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['base'] . '/'.$iconsBase.'/' . $this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['file'];
             } else {
                 // Fallback to old icon set style
                  $this->mArgs['image'] = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$this->mArgs['themeimagetype']][$this->mArgs['themeimage']]['base'] . '/' . $this->mArgs['themeimagetype'] . '/' . $this->mThemeHandler->mIconsSet[$this->mArgs['themeimagetype']][$this->mArgs['themeimage']]['file'];
@@ -91,6 +110,21 @@ class WuiButton extends \Innomatic\Wui\Widgets\WuiWidget
     }
     protected function generateSource()
     {
+        $buttonTextColorClass = 'buttontext';
+        $mouseOutColor        = $this->mThemeHandler->mColorsSet['pages']['bgcolor'];
+        $mouseOverColor       = $this->mThemeHandler->mColorsSet['buttons']['notselected'];
+
+        if ($this->mArgs['mainaction'] == 'true') {
+            $buttonTextColorClass = 'buttontextmainaction';
+            $mouseOutColor = '#24c128';
+            $mouseOverColor = '#00ff06';
+        } elseif ($this->mArgs['dangeraction'] == 'true') {
+            $buttonTextColorClass = 'buttontextdangeraction';
+            $mouseOutColor = '#e93f33';
+            $mouseOverColor = '#ff1100';
+        }
+
+$this->mArgs['mainaction'] = 'false';
         if ($this->mArgs['themeimagetype'] == 'actions') {
             $image_width = 20;
             $image_height = 20;
@@ -119,10 +153,10 @@ class WuiButton extends \Innomatic\Wui\Widgets\WuiWidget
             }
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' button -->' : '') . '<table'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '')
              . $this->getEventsCompleteString() . ($this->mArgs['compact'] == 'true' ? ' cellpadding="1" cellspacing="0"' : ' cellpadding="4"')
-            . ' style="' . ($this->mArgs['disabled'] == 'true' ? 'cursor: default;' : 'cursor: pointer;') . '"'
-            . ($this->mArgs['disabled'] == 'true' ? '' : ($this->mArgs['highlight'] == 'true' ? ' onMouseOver="this.style.backgroundColor=\'' . $this->mThemeHandler->mColorsSet['buttons']['notselected'] . '\';'
+            . ' style="background-color: '.$mouseOutColor.';' . ($this->mArgs['disabled'] == 'true' ? 'cursor: default;' : 'cursor: pointer;') . '"'
+            . ($this->mArgs['disabled'] == 'true' ? '' : ($this->mArgs['highlight'] == 'true' ? ' onMouseOver="this.style.backgroundColor=\'' . $mouseOverColor . '\';'
             . ((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? 'wuiHint(\'' . str_replace("'", "\'", $this->mArgs['label']) . '\');' : '')
-            . '" onMouseOut="this.style.backgroundColor=\'' . $this->mThemeHandler->mColorsSet['pages']['bgcolor'] . '\';wuiUnHint();"' : '')
+            . '" onMouseOut="this.style.backgroundColor=\'' . $mouseOutColor . '\';wuiUnHint();"' : '')
             . ' onClick="' . ((isset($this->mArgs['needconfirm']) and $this->mArgs['needconfirm'] == 'true') ? 'javascript:if ( confirm(\'' . $this->mArgs['confirmmessage'] . '\') ) {' : '')
             . ($this->mArgs['highlight'] == 'true' ? 'this.style.backgroundColor=\'' . $this->mThemeHandler->mColorsSet['buttons']['selected'] . '\';' : '')
             . ((isset($this->mArgs['formsubmit']) and strlen($this->mArgs['formsubmit'])) ? 'void(submitForm(\'' . $this->mArgs['formsubmit'] . '\',\'' . $this->mArgs['action'] . '\',\''
@@ -131,8 +165,11 @@ class WuiButton extends \Innomatic\Wui\Widgets\WuiWidget
             . ((isset($this->mArgs['target']) and $this->mArgs['target'] == '_blank') ? 'window.open(\'' : 'location.href=\'') . $this->mArgs['action'] . ((isset($this->mArgs['target']) and $this->mArgs['target'] == '_blank') ? '\')' : '\''))) . ((isset($this->mArgs['needconfirm']) and $this->mArgs['needconfirm'] == 'true') ? '}' : '') . '"')
             . '><tr valign="middle"><td class="normalbig" align="center" ' . ($this->mArgs['nowrap'] == 'true' ? 'nowrap style="white-space: nowrap" ' : '') . ' valign="middle"><center>' . ((isset($this->mArgs['image']) and strlen($this->mArgs['image'])) ? '<img src="' . $this->mArgs['image']
             . '" align="middle" border="0"' . $sizes . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? ' alt="' . $this->mArgs['hint'] . '"' : 'alt=""') . '>' . ((isset($this->mArgs['horiz']) and $this->mArgs['horiz']) == 'true' ? '</center></td><td class="normalbig" align="center" ' . ($this->mArgs['nowrap'] == 'true' ? 'nowrap style="white-space: nowrap"' : '')
-            . ' valign="middle"><center>' : '<br>') : '') . ($this->mArgs['disabled'] == 'true' ? '<font color="' . $this->mThemeHandler->mColorsSet['buttons']['disabledtext'] . '">' . ((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? \Innomatic\Wui\Wui::utf8_entities($this->mArgs['label']) : "") . '</font>' : '<font color="' . $this->mThemeHandler->mColorsSet['buttons']['text'] . '"><span class="buttontext">'
-            . ((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? \Innomatic\Wui\Wui::utf8_entities($this->mArgs['label']) : "")) . '</span></font></center></td></tr></table>' . ($this->mComments ? '<!-- end ' . $this->mName . " button -->\n" : '');
+            . ' valign="middle"><center>' : '<br>') : '') . ($this->mArgs['disabled'] == 'true' ? '<font color="' . $this->mThemeHandler->mColorsSet['buttons']['disabledtext'] . '">'
+            . ($this->mArgs['mainaction'] == 'true' ? '<strong>' : '').((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? \Innomatic\Wui\Wui::utf8_entities($this->mArgs['label']) : "")
+            . ($this->mArgs['mainaction'] == 'true' ? '</strong>' : '')
+            . '</font>' : '<font color="' . $this->mThemeHandler->mColorsSet['buttons']['text'] . '"><span class="'.$buttonTextColorClass.'">'
+            . ($this->mArgs['mainaction'] == 'true' ? '<strong>' : '').((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? \Innomatic\Wui\Wui::utf8_entities($this->mArgs['label']) : ""). ($this->mArgs['mainaction'] == 'true' ? '</strong>' : '')) . '</span></font></center></td></tr></table>' . ($this->mComments ? '<!-- end ' . $this->mName . " button -->\n" : '');
         return true;
     }
 }

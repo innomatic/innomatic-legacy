@@ -7,88 +7,148 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
-*/
+ */
 namespace Innomatic\Wui\Widgets;
 
-/*!
- @class WuiWidget
- @abstract Base widget class.
- @discussion Base widget class, to be extended by every widget handler.
+/**
+ * Base widget abstract class.
+ *
+ * @abstract
  */
 abstract class WuiWidget
 {
-    /*! @var mrWuiDisp dispatcher class - Wui internal dispatcher. */
+    /**
+     * Internal dispatcher.
+     *
+     * @var \Innomatic\Wui\Dispatch\WuiDispatcher
+     * @access public
+     */
     public $mrWuiDisp;
-    /*! @var mLayout string - Component layout. */
+
+    /**
+     * Widget layout.
+     *
+     * @var string
+     * @access public
+     */
     public $mLayout;
-    /*! @var mName string - Component unique name. */
+
+    /**
+     * Widget unique instance name.
+     *
+     * @var string
+     * @access public
+     */
     public $mName;
-    /*! @var mArgs array - Array of element arguments and attributes. */
+
+    /**
+     * Array of widget arguments and attributes.
+     *
+     * @var array
+     * @access public
+     */
     public $mArgs = array();
-    /*! @var mTheme string - Theme applied to the element. */
+
+    /**
+     * Theme applied to the widget.
+     *
+     * @var string
+     * @access public
+     */
     public $mTheme;
-    /*! @var mThemeHandler WuiTheme class - Theme handler. */
+
+    /**
+     * Widget theme handler.
+     *
+     * @var \Innomatic\Wui\WuiTheme
+     * @access public
+     */
     public $mThemeHandler;
-    /*! @var mDispEvents array - Dispatcher events. */
+
+    /**
+     * Dispatcher events.
+     *
+     * @var array
+     * @access public
+     */
     public $mDispEvents = array();
-    /*! @var mComments boolean - Set to true if element should contain comment
-    blocks. */
+
+    /**
+     * Set to true if the widget should print comment blocks in the output code.
+     *
+     * @var boolean
+     * @access public
+     */
     public $mComments;
-    /*! @var mUseSession boolean - true if the widget should use the stored
-    session parameters. */
+
+    /**
+     * Set to true if the widget instance should use the stored session parameters.
+     *
+     * @var boolean
+     * @access public
+     */
     public $mUseSession;
-    /*! @var mSessionObjectName string - Name of this widget as object
-    in the session. */
+
+    /**
+     * Widget object name in the session.
+     *
+     * @var string
+     * @access public
+     */
     public $mSessionObjectName;
+
     public $mSessionObjectUserName;
+
     public $mSessionObjectNoUser;
+
     public $mSessionObjectNoPage;
+
     public $mSessionObjectNoType;
+
     public $mSessionObjectNoName;
+
     public $events = array();
 
-    /*!
-     @function WuiWidget
-     @abstract Class constructor.
-     @discussion Class constructor.
-     @param elemName string - Component unique name.
-     @param elemArgs array - Array of element arguments and attributes.
-     @param elemTheme string - Theme to be applied to the element.
-    Currently unuseful.
-     @param dispEvents array - Dispatcher events.
+    /**
+     * Class constructor.
+     *
+     * @param string $elemName Widget instance unique name.
+     * @param array $elemArgs Widget arguments and attributes.
+     * @param string $elemTheme Theme name to be applied to the element. Not used anymore.
+     * @param array $dispEvents Dispatcher events.
      */
     public function __construct(
         $elemName,
         $elemArgs = '',
         $elemTheme = '',
         $dispEvents = ''
-    )
-    {
+    ) {
         $this->mName = $elemName;
         $this->mArgs = &$elemArgs;
         $this->mComments = \Innomatic\Wui\Wui::showSourceComments();
+
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $wuiContainer = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 
         if (is_array($dispEvents)) {
             $this->mDispEvents = &$dispEvents;
         }
 
-        $currentWuiTheme = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getThemeName();
+        $currentWuiTheme = $wuiContainer->getThemeName();
         if (strlen($elemTheme) and $elemTheme != $currentWuiTheme) {
             $this->mTheme = $elemTheme;
 
             $this->mThemeHandler = new \Innomatic\Wui\WuiTheme(
-                \Innomatic\Core\InnomaticContainer::instance(
-                    '\Innomatic\Core\InnomaticContainer'
-                )->getDataAccess(),
+                $container->getDataAccess(),
                 $this->mTheme
             );
         } else {
             $this->mTheme = $currentWuiTheme;
-            $this->mThemeHandler = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getTheme();
+            $this->mThemeHandler = $wuiContainer->getTheme();
         }
 
         if (
@@ -101,6 +161,7 @@ abstract class WuiWidget
             $this->mUseSession = 'true';
         }
 
+        // Initialise session parameters.
         if (isset($this->mArgs['sessionobjectnouser'])) {
             $this->mSessionObjectNoUser = $this->mArgs['sessionobjectnouser'];
         }
@@ -119,52 +180,49 @@ abstract class WuiWidget
         }
 
         $url_path = '';
-        
+
         if ($this->mSessionObjectNoPage != 'true') {
-	        $url_path = $_SERVER['REQUEST_URI'];
-	        if (strpos($url_path, '?')) {
-	        	$url_path = substr($url_path, 0, strpos($url_path, '?'));
-	        }
-	        $url_path .= '_';
+            $url_path = $_SERVER['REQUEST_URI'];
+            if (strpos($url_path, '?')) {
+                $url_path = substr($url_path, 0, strpos($url_path, '?'));
+            }
+            $url_path .= '_';
         }
-        
+
         $this->mSessionObjectName = ($this->mSessionObjectNoUser == 'true' ? ''
-            : (is_object(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()) ?
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName() : 'root')
+            : (is_object($container->getCurrentUser()) ?
+            $container->getCurrentUser()->getUserName() : 'root')
              .'_') .$url_path.
              ($this->mSessionObjectNoType == 'true' ? '' : get_class($this).'_') .
              ($this->mSessionObjectNoName == 'true' ? '' : $this->mName) .
              (strlen($this->mSessionObjectUserName) ? '_'.$this->mSessionObjectUserName : '');
 
-        // AJAX
-        $ajax_request_uri = $_SERVER['REQUEST_URI'];
-        if (strpos($ajax_request_uri, '?')) {
-            $ajax_request_uri = substr($ajax_request_uri, 0, strpos($ajax_request_uri, '?'));
-        }
+        // Check if the widget should be prepared once for all instances
+        $widgetName = substr(get_class($this), 3);
+        if (!isset($wuiContainer->preparedWidgets[$widgetName])) {
+            // Register action ajax calls
+            $theObject = new \ReflectionObject($this);
+            $methods = $theObject->getMethods();
+            foreach ($methods as $method) {
+                // Ignore private methods
+                $theMethod = new \ReflectionMethod($theObject->getName(), $method->getName());
+                if (!$theMethod->isPublic()) {
+                    continue;
+                }
 
-        $xajax = \Innomatic\Ajax\Xajax::instance('Xajax', $ajax_request_uri);
+                // Expose only methods beginning with "ajax" prefix
+                if (!(substr($method->getName(), 0, 4) == 'ajax')) {
+                    continue;
+                }
 
-        $wuiContainer = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
-
-        // Register action ajax calls
-        $theObject = new \ReflectionObject($this);
-        $methods = $theObject->getMethods();
-        foreach ($methods as $method) {
-            // Ignore private methods
-            $theMethod = new \ReflectionMethod($theObject->getName(), $method->getName());
-            if (!$theMethod->isPublic()) {
-                continue;
+                // Register the ajax call
+                $call_name = substr($method->getName(), 4);
+                $wuiContainer->registerAjaxCall($call_name);
+                $wuiContainer->getXajax()->registerExternalFunction(array($call_name, get_class($this), $method->getName()), 'shared/wui/'.get_class($this).'.php');
             }
 
-            // Expose only methods beginning with "ajax" prefix
-            if (!(substr($method->getName(), 0, 4) == 'ajax')) {
-                continue;
-            }
-
-            // Register the ajax call
-            $call_name = substr($method->getName(), 4);
-            $wuiContainer->registerAjaxCall($call_name);
-            $xajax->registerExternalFunction(array($call_name, get_class($this), $method->getName()), 'shared/wui/'.get_class($this).'.php');
+            // Set the widget as prepared
+            $wuiContainer->preparedWidgets[$widgetName] = $widgetName;
         }
     }
 
@@ -227,10 +285,12 @@ abstract class WuiWidget
         }
     }
 
-    /*!
-     @function RetrieveSession
-     @abstract Retrieves stored widget parameters.
-     @result The array of the stored parameters, if any.
+    /* public retrieveSession() {{{ */
+    /**
+     * Gets the widget parameters stored in the session.
+     *
+     * @access public
+     * @return array Widget parameters in session.
      */
     public function retrieveSession()
     {
@@ -249,11 +309,13 @@ abstract class WuiWidget
             return false;
         }
     }
+    /* }}} */
 
     // --- Javascript Events --------------------------------------------------
 
     /**
-      * Adds a Javascript event.
+     * Adds a Javascript event.
+     *
      * @param string $event Event name, without the "on" prefix, e.g. "onclick" must be given as "click".
      * @param string $call Javascript function to be called.
      */
@@ -329,6 +391,7 @@ abstract class WuiWidget
 
     /**
      * Builds the event content string, e.g. action_a();action_b().
+     *
      * @param string $event Event name.
      * @return string Javascript functions list.
      */
@@ -343,6 +406,7 @@ abstract class WuiWidget
     /**
      * Builds the event string containing the event plus the the Javascript
      * function calls, e.g. onclick="action_a();action_b()".
+     *
      * @param String $event Event name.
      * @return string Event with Javascript functions list, prepared for HTML.
      */
@@ -359,6 +423,7 @@ abstract class WuiWidget
      * Builds the events strings containing the events plus the the Javascript
      * function calls, e.g. onclick="action_a();action_b()"
      * onmouseover="action_c()".
+     *
      * @param String $event Event name.
      * @return string Event with Javascript functions list, prepared for HTML.
      */

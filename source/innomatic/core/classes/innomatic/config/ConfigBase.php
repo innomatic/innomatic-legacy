@@ -7,20 +7,20 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Config;
 
-/*!
- @class ConfigBase
-
- @abstract File manipulation utilty, it transparently handles root files.
+/**
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 class ConfigBase
 {
+    protected $container;
+    
     /*! @var mConfigFile string - Location of configuration file. */
     protected $configFile;
     /*! @var mConfigMode integer - Configuration file handling, ConfigBase::MODE_ROOT if it is a root file,
@@ -51,17 +51,18 @@ class ConfigBase
         $application = '',
         $entry = ''
     ) {
+        $this->container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         // Arguments check
         //
         if (strlen($configFile))
         $this->configFile = $configFile;
         else {
             
-            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log = $this->container->getLogger();
             $log->LogDie('innomatic.configman.configbase.configbase', 'No config file');
         }
 
-        if (!strlen(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('RootCrontab'))) {
+        if (!strlen($this->container->getConfig()->value('RootCrontab'))) {
             $configMode = ConfigBase::MODE_DIRECT;
         }
 
@@ -93,7 +94,7 @@ class ConfigBase
             //$this->unlockfile();
         } else {
             
-            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log = $this->container->getLogger();
             $log->logEvent(
                 'innomatic.configman.configbase.readconfig',
                 'Unable to open configuration file',
@@ -120,7 +121,7 @@ class ConfigBase
             fclose($fh);
         } else {
             
-            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log = $this->container->getLogger();
             $log->logEvent(
                 'innomatic.configman.configbase.writeconfig',
                 'Unable to open destination configuration file '.$this->getdestfile(),
@@ -131,9 +132,9 @@ class ConfigBase
         $this->unLockFile();
 
         if ($this->autoCommit and $this->configMode == ConfigBase::MODE_ROOT) {
-            $userUpd = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            $userUpd = $this->container->getHome()
             .'core/bin/updater "'.md5($this->configFile).'.'.basename($this->configFile).'" "'
-            .\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            .$this->container->getHome()
             .'core/temp/" "'.$this->configFile.'"'."\n";
             $this->cron->addEntry($this->entry, $userUpd, \Innomatic\Process\Crontab::TYPE_TEMPORARY);
         }
@@ -152,12 +153,12 @@ class ConfigBase
             case ConfigBase::MODE_ROOT :
                 if (
                     file_exists(
-                        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                        $this->container->getHome()
                         .'core/temp/'.md5($this->configFile).'.'
                         .basename($this->configFile).ConfigBase::UPDATINGEXT
                     )
                 ) {
-                    $sourceFile = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                    $sourceFile = $this->container->getHome()
                     .'core/temp/'.md5($this->configFile).'.'.basename($this->configFile);
                 } else {
                     $sourceFile = $this->configFile;
@@ -181,7 +182,7 @@ class ConfigBase
     {
         switch ($this->configMode) {
             case ConfigBase::MODE_ROOT :
-                $destFile = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                $destFile = $this->container->getHome()
                 .'core/temp/'.md5($this->configFile).'.'.basename($this->configFile);
                 break;
 
@@ -202,7 +203,7 @@ class ConfigBase
     {
         while (
             file_exists(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                $this->container->getHome()
                 .'core/temp/'.md5($this->configFile).'.'
                 .basename($this->configFile).ConfigBase::LOCKEXT
             )
@@ -212,7 +213,7 @@ class ConfigBase
         }
 
         $result = @touch(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            $this->container->getHome()
             .'core/temp/'.md5($this->configFile).'.'
             .basename($this->configFile).ConfigBase::LOCKEXT, time()
         );
@@ -228,12 +229,12 @@ class ConfigBase
     public function unLockFile()
     {
         $result = file_exists(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            $this->container->getHome()
             .'core/temp/'.md5($this->configFile).'.'
             .basename($this->configFile).ConfigBase::LOCKEXT
         )
         ? @unlink(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            $this->container->getHome()
             .'core/temp/'.md5($this->configFile).'.'.basename($this->configFile).ConfigBase::LOCKEXT
         )
         : true;
@@ -250,7 +251,7 @@ class ConfigBase
     {
         if ($this->configMode == ConfigBase::MODE_ROOT)
         @touch(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            $this->container->getHome()
             .'core/temp/'.md5($this->configFile).'.'
             .basename($this->configFile).ConfigBase::UPDATINGEXT, time()
         );

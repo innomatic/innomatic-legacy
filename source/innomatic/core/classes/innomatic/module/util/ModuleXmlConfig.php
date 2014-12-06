@@ -9,8 +9,8 @@ namespace Innomatic\Module\Util;
  *
  * This class must be instanced using the ModuleLXmlConfig::getInstance() method.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleXmlConfig extends \Innomatic\Module\ModuleConfig
@@ -18,7 +18,6 @@ class ModuleXmlConfig extends \Innomatic\Module\ModuleConfig
     /**
      * Value object structure.
      *
-     * @access protected
      * @var array
      * @since 5.1
      */
@@ -31,7 +30,6 @@ class ModuleXmlConfig extends \Innomatic\Module\ModuleConfig
      * stored in a Module server is parsed only once and not for each Module
      * request.
      *
-     * @access public
      * @param string $configFile full path of Xml configuration file.
      * @since 5.1
      * @return ModuleXmlConfig
@@ -48,7 +46,6 @@ class ModuleXmlConfig extends \Innomatic\Module\ModuleConfig
     /**
      * Construct the object.
      *
-     * @access public
      * @param string $configFile full path of Xml configuration file.
      * @since 5.1
      */

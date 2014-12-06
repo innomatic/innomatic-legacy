@@ -7,8 +7,8 @@ namespace Innomatic\Module\Deploy;
  * This class deploys Module in the Module server modules directory and manages
  * redeployment and undeployment.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleDeployer
@@ -16,7 +16,6 @@ class ModuleDeployer
     /**
      * Deploys a Module in the Module server.
      *
-     * @access public
      * @param string $module Full path of the Module archive.
      * @return boolean
      * @since 5.1
@@ -94,7 +93,6 @@ class ModuleDeployer
     /**
      * Redeploys a Module in the Module server.
      *
-     * @access public
      * @param string $module Full path of the Module archive.
      * @return boolean
      * @since 5.1
@@ -177,7 +175,6 @@ class ModuleDeployer
     /**
      * Undeploys a Module in the Module server.
      *
-     * @access public
      * @param string $location Module name.
      * @return boolean
      * @since 5.1

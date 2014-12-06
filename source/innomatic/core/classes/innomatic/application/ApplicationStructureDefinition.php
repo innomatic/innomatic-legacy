@@ -7,19 +7,20 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Application;
 
-/*!
- @class ApplicationStructureDefinition
-
- @abstract Provides XML definition file handling.
-
- @discussion This class reads a xml definition file and gives the application components structure.
+/**
+ * Provides XML definition file handling.
+ * 
+ * This class reads a XML definition file and builds the application component
+ * structure.
+ * 
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 class ApplicationStructureDefinition extends \Innomatic\Xml\XMLParser
 {
@@ -33,8 +34,6 @@ class ApplicationStructureDefinition extends \Innomatic\Xml\XMLParser
     public $modstructure = array();
     /*! @public eltypes applicationcomponentfactory class - Application component types handler. */
     public $eltypes;
-    /*! @public rootda DataAccess class - Innomatic database handler. */
-    public $rootda;
     /*! @public basedir string - Application base directory. */
     public $basedir;
 
@@ -43,13 +42,13 @@ class ApplicationStructureDefinition extends \Innomatic\Xml\XMLParser
 
      @abstract Class constructor.
 
-     @param rootda DataAccess class - Innomatic database handler.
      @param basedir string - Application base directory.
      */
-    public function __construct($rootda, $basedir = '')
+    public function __construct($basedir = '')
     {
-        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
-        $this->eltypes = new ApplicationComponentFactory($rootda);
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $this->mLog = $container->getLogger();
+        $this->eltypes = new ApplicationComponentFactory($container->getDataAccess());
         $this->eltypes->fillTypes();
         parent::__construct();
         $this->basedir = $basedir;

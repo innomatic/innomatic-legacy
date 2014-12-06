@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false"
+         bootstrap="core/scripts/phpunit_bootstrap.php"
+>
+
+    <php>
+        <ini name="intl.default_locale" value="en"/>
+        <ini name="intl.error_level" value="0"/>
+        <ini name="memory_limit" value="-1"/>
+        <ini name="display_errors" value="off"/>
+        <ini name="xdebug.show_exception_trace" value="off"/>
+    </php>
+
+    <testsuites>
+        <testsuite>
+            <directory>./core/classes/*/tests/</directory>
+            <directory>./core/classes/*/*/tests/</directory>
+            <directory>./core/classes/*/*/*/tests/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
+

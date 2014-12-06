@@ -7,7 +7,7 @@ use \Innomatic\Module\Server;
  * Module server socket handler and requests dispatcher.
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2014 Innoteam Srl
+ * @copyright Copyright 2005-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
@@ -16,7 +16,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      * Access log flag.
      *
      * @var bool
-     * @access protected
      * @since 5.1
      */
     protected $accessLogEnabled = false;
@@ -24,7 +23,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      * Server log flag.
      *
      * @var bool
-     * @access protected
      * @since 5.1
      */
     protected $serverLogEnabled = false;
@@ -32,7 +30,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      * Access logger object.
      *
      * @var ModuleServerLogger
-     * @access protected
      * @since 5.1
      */
     protected $accessLogger;
@@ -40,7 +37,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      * Server logger object.
      *
      * @var ModuleServerLogger
-     * @access protected
      * @since 5.1
      */
     protected $serverLogger;
@@ -48,7 +44,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      * Shutdown phase flag.
      *
      * @var bool
-     * @access protected
      * @since 5.1
      */
     protected $shutdown = false;
@@ -56,7 +51,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      * Authenticator object.
      *
      * @var ModuleServerAuthenticator
-     * @access protected
      * @since 5.1
      */
     protected $authenticator;
@@ -65,7 +59,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      * reference to the handler of the registry
      *
      * @var ModuleRegistryHandler
-     * @access protected
      * @since 5.1
      */
     protected $registryHandler;
@@ -75,7 +68,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      * (indicates in real-time the n� of client served)
      *
      * @var int
-     * @access protected
      * @since 5.1
      */
     protected $load;
@@ -87,7 +79,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      * During this method execution, loggers are started and garbage collecting
      * process is launched.
      *
-     * @access public
      * @since 5.1
      */
     public function onStart() { //OK
@@ -118,7 +109,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
     /**
      * Actions executed at socket server shutdown.
      *
-     * @access public
      * @since 5.1
      */
     public function onShutDown()
@@ -139,7 +129,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      *
      * If this method is called, this means that the Module server has failed.
      *
-     * @access public
      * @since 5.1
      */
     public function onHalt()
@@ -154,7 +143,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      *
      * No real action is executed.
      *
-     * @access public
      * @since 5.1
      */
     public function onConnect($clientId = null)
@@ -166,7 +154,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      *
      * No real action is executed.
      *
-     * @access public
      * @since 5.1
      */
     public function onConnectionRefused($clientId = null)
@@ -178,7 +165,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      *
      * No real action is executed.
      *
-     * @access public
      * @since 5.1
      */
     public function onClose($clientId = null)
@@ -196,7 +182,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
      * - REFRESH: refreshes the loaded Module configuration;
      * - INVOKE: a command is requested to be executed.
      *
-     * @access public
      * @since 5.1
      */
     public function onReceiveData($clientId = null, $data = null)
@@ -309,7 +294,6 @@ class ModuleServiceSocketHandler extends \Innomatic\Net\Socket\SocketHandler
     *
     * This method is executed only if the access logger flag is set to true.
     *
-    * @access protected
     * @since 5.1
     * @param integer $clientId Client id.
     * @param string $user Username given by the client.

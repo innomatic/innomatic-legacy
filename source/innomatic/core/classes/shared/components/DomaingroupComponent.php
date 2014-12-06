@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Components;
@@ -51,7 +51,7 @@ class DomaingroupComponent extends \Innomatic\Application\ApplicationComponent
     public function doDisableDomainAction($domainid, $params)
     {
         $tmpquery = $this->domainda->execute('SELECT id FROM domain_panels_groups WHERE name = ' . $this->domainda->formatText($params['name']));
-        $tmpperm = new \Innomatic\Domain\User\Permissions($this->domainda, 0);
+        $tmpperm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($this->domainda, 0);
         $tmpperm->removeNodes($tmpquery->getFields('id'), 'group');
         $result = $this->domainda->execute('DELETE FROM domain_panels_groups WHERE name = ' . $this->domainda->formatText($params['name']));
         if (! $result)

@@ -10,6 +10,7 @@
 		<field name="lname" type="text" length="30" />
 		<field name="otherdata" type="text" />
 		<field name="email" type="text" />
+        <field name="disabled" type="boolean" />
 		<key field="id" type="unique" />
 		<key field="username" type="index" />
 	</table>

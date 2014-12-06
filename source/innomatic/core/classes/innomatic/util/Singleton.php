@@ -7,55 +7,76 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Util;
 
 require_once(dirname(__FILE__).'/Registry.php');
 
+
 /**
- * Classe per fornire oggetti singleton.
+ * Class that handles singletons.
  *
- * Questa classe fornisce un metodo comune per creare un oggetto
- * singleton, facendo uso, in questa particolare implementazione,
- * del registro fornito dalla classe Registry. Inoltre non viene
- * fatto uso di variabili statiche.
- * Questa classe deve essere utilizzata estendendola nella classe
- * per la quale si intende ottenere un oggetto singleton.
- * Per instanziare un oggetto si dovr� usare
- * Oggetto::instance( 'nome classe' ).
- * Attenzione: poich� viene rilasciata una referenza, non sar�
- * possibile distruggere l'oggetto tramite unset() (almeno nel PHP 4).
+ * This class delivers a common method to create singleton objects using
+ * a registry.
  *
- * @since 1.0
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2012 Innoteam Srl
+ * Since the object returned by the instance method is a reference to the
+ * real object stored inside the Registry, it cannot be destroyed with
+ * unset().
+ *
+ * @since 5.0
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2012 Innomatic Company
  */
 abstract class Singleton
 {
+    /* public Singleton() {{{ */
+    /**
+     * Class constructor.
+     *
+     * @access public
+     * @return void
+     */
     public function Singleton()
     {
         $registry = \Innomatic\Util\Registry::instance();
         if ($registry->isGlobalObject('singleton ' . get_class($this))) {
         }
     }
+    /* }}} */
 
+    /* public instance($class) {{{ */
+    /**
+     * Method to be called when instancing a singleton.
+     *
+     * This method must be called when creating a new instance of a singleton;
+     * singletons must not be created with the new keyword.
+     *
+     * This method calls the class ___construct method if available (please note
+     * the three underscores), the first time the singleton is instanced.
+     *
+     * @param string $class Fully qualified class name to be instanced.
+     * @static
+     * @final
+     * @access public
+     * @return object
+     */
     final public static function instance($class)
-    {   
+    {
         $registry = \Innomatic\Util\Registry::instance();
 
         // @todo compatibility mode
-        
+
         if ($registry->isGlobalObject('system_classes')) {
-        	$system_classes = $registry->getGlobalObject('system_classes');
-        	if (isset($system_classes[$class])) {
-        		$class = $system_classes[$class]['fqcn'];
-        	}
+            $system_classes = $registry->getGlobalObject('system_classes');
+            if (isset($system_classes[$class])) {
+                $class = $system_classes[$class]['fqcn'];
+            }
         }
-        
+
         if (!$registry->isGlobalObject('singleton ' . $class)) {
             $singleton = new $class();
             $registry->setGlobalObject('singleton ' . $class, $singleton);
@@ -83,6 +104,7 @@ abstract class Singleton
         }
         return $registry->getGlobalObject('singleton '.$class);
     }
+    /* }}} */
 
     /*
      * A singleton cannot be cloned, so the __clone method is overriden and

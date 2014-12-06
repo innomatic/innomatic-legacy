@@ -71,9 +71,6 @@ if (!defined ('XAJAX_POST')) {
  */
 class Xajax extends \Innomatic\Util\Singleton
 {
-    /**#@+
-     * @access protected
-     */
     /**
      * @var array Array of PHP functions that will be callable through javascript wrappers
      */
@@ -836,7 +833,6 @@ class Xajax extends \Innomatic\Util\Singleton
     /**
      * Returns the current URL based upon the SERVER vars.
      *
-     * @access private
      * @return string
      */
     public function _detectURI()
@@ -922,7 +918,6 @@ class Xajax extends \Innomatic\Util\Singleton
      * false if not.
      *
      * @param string the name of the function
-     * @access private
      * @return boolean
      */
     public function _isObjectCallback($sFunction)
@@ -936,7 +931,6 @@ class Xajax extends \Innomatic\Util\Singleton
      * not.
      *
      * @param string the name of the function
-     * @access private
      * @return boolean
      */
     public function _isFunctionCallable($sFunction)
@@ -958,7 +952,6 @@ class Xajax extends \Innomatic\Util\Singleton
      *
      * @param string the name of the function
      * @param array  arguments to pass to the function
-     * @access private
      * @return mixed the output of the called function or method
      */
     public function _callFunction($sFunction, $aArgs)
@@ -976,7 +969,6 @@ class Xajax extends \Innomatic\Util\Singleton
      *
      * @param string the name of the function
      * @param mixed  the request type
-     * @access private
      * @return string
      */
     public function _wrap($sFunction,$sRequestType=XAJAX_POST)
@@ -996,7 +988,6 @@ class Xajax extends \Innomatic\Util\Singleton
      *
      * @param string the root tag of the XML
      * @param string XML to convert
-     * @access private
      * @return array
      */
     public function _xmlToArray($rootTag, $sXml)
@@ -1026,7 +1017,6 @@ class Xajax extends \Innomatic\Util\Singleton
      * $this->aObjArray.
      *
      * @param string the root tag of the XML
-     * @access private
      * @return array
      */
     public function _parseObjXml($rootTag)
@@ -1111,7 +1101,6 @@ class Xajax extends \Innomatic\Util\Singleton
      * Decodes string data from UTF-8 to the current xajax encoding.
      *
      * @param string data to convert
-     * @access private
      * @return string converted data
      */
     public function _decodeUTF8Data($sData)

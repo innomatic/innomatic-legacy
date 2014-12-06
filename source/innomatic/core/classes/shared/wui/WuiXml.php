@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Wui;
@@ -167,8 +167,9 @@ class WuiXml extends \Innomatic\Wui\Widgets\WuiWidget
         //
         if (! class_exists($elementType, true)) {
             $widget_name = strtolower($element['tag']);
-            if (! defined(strtoupper($widget_name . '_WUI')) and file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php')) {
-                include_once (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php');
+            $home = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome();
+            if (! defined(strtoupper($widget_name . '_WUI')) and file_exists($home . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php')) {
+                include_once ($home . 'core/classes/shared/wui/Wui' . ucfirst($widget_name) . '.php');
             }
         }
         // Create the element and add children if any

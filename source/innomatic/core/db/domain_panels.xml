@@ -9,6 +9,7 @@
 		<field name="catalog" type="text" length="250" />
 		<field name="themeicon" type="text" default="" />
 		<field name="themeicontype" type="text" default="" />
+		<field name="hidden" type="boolean" />
 		<key field="id" type="unique" />
 		<key field="name" type="index" />
 	</table>

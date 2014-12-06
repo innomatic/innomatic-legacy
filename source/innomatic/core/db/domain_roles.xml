@@ -1,0 +1,17 @@
+<?xml version='1.0'?>
+<database>
+
+	<table name="domain_roles">
+		<field name="id" type="integer" notnull="1" />
+		<field name="name" type="text" length="128" notnull="1" />
+        <field name="title" type="text" notnull="1" />
+		<field name="description" type="text" notnull="1" />
+		<field name="catalog" type="text" />
+        <field name="application" type="text" />
+		<key field="id" type="primary" />
+		<key field="name" type="index" />
+	</table>
+
+	<sequence name="domain_roles_id_seq" />
+
+</database>

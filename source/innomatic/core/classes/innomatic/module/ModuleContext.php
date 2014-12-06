@@ -7,8 +7,8 @@ namespace Innomatic\Module;
  * ModuleContext class is useful for retrieving information about the Module context,
  * like its location and filesystem home directory.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleContext
@@ -16,7 +16,6 @@ class ModuleContext
     /**
      * Module name.
      *
-     * @access protected
      * @var string
      * @since 5.1
      */
@@ -24,7 +23,6 @@ class ModuleContext
     /**
      * Module home directory in filesystem.
      *
-     * @access protected
      * @var string
      * @since 5.1
      */
@@ -33,7 +31,6 @@ class ModuleContext
     /**
      * Object constructor.
      *
-     * @access public
      * @param string $location Module name.
      * @since 5.1
      */
@@ -47,7 +44,6 @@ class ModuleContext
     /**
      * Retrieves Module home directory path in filesystem.
      *
-     * @access public
      * @since 5.1
      * @return string Module home directory path.
      */
@@ -59,7 +55,6 @@ class ModuleContext
     /**
      * Retrieves Module name.
      *
-     * @access public
      * @since 5.1
      * @return string Module name.
      */

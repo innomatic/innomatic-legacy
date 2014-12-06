@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Logging;
@@ -90,7 +90,7 @@ class LogCenter
             unset($tmp_log);
         }
 
-        // Domain
+        // Tenant
         //
         if (isset($destinations['domain'])) {
             $tmp_log = new \Innomatic\Logging\Logger(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/domains/'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['domainid'].'/log/domain.log');
@@ -98,7 +98,7 @@ class LogCenter
             unset($tmp_log);
         }
 
-        // Domain dataaccess
+        // Tenant dataaccess
         //
         if (isset($destinations['domainda'])) {
             $tmp_log = new \Innomatic\Logging\Logger(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/domains/'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domaindata['domainid'].'/logs/dataaccess.log');

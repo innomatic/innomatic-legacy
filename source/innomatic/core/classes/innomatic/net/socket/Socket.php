@@ -17,7 +17,7 @@ namespace Innomatic\Net\Socket;
 // +----------------------------------------------------------------------+
 // | Authors: Stig Bakken <ssb@fast.no>                                   |
 // |          Chuck Hagenbuch <chuck@horde.org>                           |
-// |          Alex Pagnoni <alex.pagnoni@innoteam.it> Innomatic porting       |
+// |          Alex Pagnoni <alex.pagnoni@innomatic.io> Innomatic porting       |
 // +----------------------------------------------------------------------+
 //
 // $Id: Socket.php,v 1.7 2004/09/14 13:53:02 alex Exp $
@@ -62,7 +62,6 @@ class Socket
     /**
      * Constructs a new Net_Socket object.
      *
-     * @access public
      */
     public function __construct()
     {
@@ -80,7 +79,6 @@ class Socket
      * @param $persistent bool (optional) whether the connection is
      *        persistent (kept open between requests by the web server)
      * @param $timeout int (optional) how long to wait for data
-     * @access public
      * @return mixed true on success or error object
      */
     public function connect($addr, $port, $persistent = null, $timeout = null)
@@ -126,7 +124,6 @@ class Socket
     /**
      * Disconnects from the peer, closes the socket.
      *
-     * @access public
      * @return mixed true on success or an error object otherwise
      */
     public function disconnect()
@@ -145,7 +142,6 @@ class Socket
     /**
      * Find out if the socket is in blocking mode.
      *
-     * @access public
      * @return bool the current blocking mode.
      */
     public function isBlocking()
@@ -162,7 +158,6 @@ class Socket
      * is data for blocking sockets.
      *
      * @param $mode bool true for blocking sockets, false for nonblocking
-     * @access public
      * @return mixed true on success or an error object otherwise
      */
     public function setBlocking($mode)
@@ -184,7 +179,6 @@ class Socket
      *
      * @param $seconds int seconds
      * @param $microseconds int microseconds
-     * @access public
      * @return mixed true on success or an error object otherwise
      */
     public function setTimeout($seconds, $microseconds)
@@ -210,7 +204,6 @@ class Socket
      * unread_bytes (int) - Number of bytes left in the socket buffer<br>
      * </p>
      *
-     * @access public
      * @return mixed Array containing information about existing socket resource or an error object otherwise
      */
     public function getStatus()
@@ -227,7 +220,6 @@ class Socket
     /**
      * Get a specified line of data
      *
-     * @access public
      * @return $size bytes of data from the socket, or a PEAR_Error if
      *         not connected.
      */
@@ -249,7 +241,6 @@ class Socket
      * beforehand, this is definitely the way to go.
      *
      * @param $size The number of bytes to read from the socket.
-     * @access public
      * @return $size bytes of data from the socket, or a PEAR_Error if
      *         not connected.
      */
@@ -267,7 +258,6 @@ class Socket
     /**
      * Write a specified amount of data.
      *
-     * @access public
      * @return mixed true on success or an error object otherwise
      */
     public function write($data)
@@ -284,7 +274,6 @@ class Socket
     /**
      * Write a line of data to the socket, followed by a trailing "\r\n".
      *
-     * @access public
      * @return mixed fputs result, or an error
      */
     public function writeLine($data)
@@ -301,7 +290,6 @@ class Socket
     /**
      * Tests for end-of-file on a socket descriptor
      *
-     * @access public
      * @return bool
      */
     public function eof()
@@ -314,7 +302,6 @@ class Socket
     /**
      * Reads a byte of data
      *
-     * @access public
      * @return 1 byte of data from the socket, or a PEAR_Error if
      *         not connected.
      */
@@ -332,7 +319,6 @@ class Socket
     /**
      * Reads a word of data
      *
-     * @access public
      * @return 1 word of data from the socket, or a PEAR_Error if
      *         not connected.
      */
@@ -351,7 +337,6 @@ class Socket
     /**
      * Reads an int of data
      *
-     * @access public
      * @return 1 int of data from the socket, or a PEAR_Error if
      *         not connected.
      */
@@ -371,7 +356,6 @@ class Socket
     /**
      * Reads a zeroterminated string of data
      *
-     * @access public
      * @return string, or a PEAR_Error if
      *         not connected.
      */
@@ -393,7 +377,6 @@ class Socket
     /**
      * Reads an IP Address and returns it in a dot formated string
      *
-     * @access public
      * @return Dot formated string, or a PEAR_Error if
      *         not connected.
      */
@@ -414,7 +397,6 @@ class Socket
      * Read until either the end of the socket or a newline, whichever
      * comes first. Strips the trailing newline from the returned data.
      *
-     * @access public
      * @return All available data up to a newline, without that
      *         newline, or until the end of the socket, or a PEAR_Error if
      *         not connected.
@@ -444,7 +426,6 @@ class Socket
      * Read until the socket closes. THIS FUNCTION WILL NOT EXIT if the
      * socket is in blocking mode until the socket closes.
      *
-     * @access public
      * @return All data until the socket closes, or a PEAR_Error if
      *         not connected.
      */

@@ -110,7 +110,6 @@ ex: autoCheck( true ) turn the validator on
 by default autoCheck feature is on
 
 @param boolean        $bool set to true to turn on the auto validation
-@access public
 */
 function autoCheck($bool)
 {
@@ -317,7 +316,6 @@ function Attach($filename,$filetype = "",$disposition = "inline")
 
 Build the email message
 
-@access protected
 
 */
 function BuildMail()
@@ -369,7 +367,6 @@ function BuildMail()
 
 /*
         fornat and send the mail
-        @access public
 */
 
 function Send()
@@ -402,7 +399,6 @@ function get()
 
 /*
         check an email address validity
-        @access public
         @param string $address : email address to check
         @return true if email adress is ok
  */

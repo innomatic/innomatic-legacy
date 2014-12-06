@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Locale;
@@ -146,12 +146,13 @@ class LocaleCatalog
      */
     public function openCatalog()
     {
+        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
         if (!(($this->catalog != null) and ($this->lang != null))) {
             return false;
         }
 
         list($base, $catalog) = explode('::', $this->catalog);
-        $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
         // Tries specified language catalog
         //
@@ -160,8 +161,8 @@ class LocaleCatalog
         }
         // Tries Innomatic language catalog
         //
-        else if (file_exists($innomatic->getHome().'core/locale/catalogs/'.$base.'/'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage().'/'.$catalog.'.ini')) {
-            $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage().'/'.$catalog.'.ini';
+        else if (file_exists($innomatic->getHome().'core/locale/catalogs/'.$base.'/'.$innomatic->getLanguage().'/'.$catalog.'.ini')) {
+            $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/'.$innomatic->getLanguage().'/'.$catalog.'.ini';
         }
         // Tries English catalog
         //
@@ -169,7 +170,7 @@ class LocaleCatalog
             $catfile = $innomatic->getHome().'core/locale/catalogs/'.$base.'/en/'.$catalog.'.ini';
         } else {
             
-            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log = $innomatic->getLogger();
             $log->logEvent('innomatic/locale/Locale/opencatalog', 'Unable to find a catalog file for the specified catalog ('.$this->catalog.') and language ('.$this->lang.') or fallback to another language', \Innomatic\Logging\Logger::ERROR);
         }
 

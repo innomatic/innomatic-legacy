@@ -16,8 +16,8 @@ namespace Innomatic\Module;
  * Applications must access logic only through this object, and in most
  * situations this is the only way, like when accessing remote Modules.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 abstract class ModuleObject implements \Serializable
@@ -25,14 +25,12 @@ abstract class ModuleObject implements \Serializable
     /**
      * Config object.
      * @var ModuleConfig
-     * @access protected
      * @since 5.1
      */
     protected $config;
     /**
      * Value object.
      * @var ModuleValueObject
-     * @access protected
      * @since 5.1
      */
     protected $valueObject;
@@ -43,7 +41,6 @@ abstract class ModuleObject implements \Serializable
      * Builds the object depending on the Module configuration, given to the object
      * itself as an instance of a ModuleConfig class.
      *
-     * @access public
      * @since 5.1
      * @param ModuleConfig $config Configuration object.
      */
@@ -53,7 +50,7 @@ abstract class ModuleObject implements \Serializable
         $this->config = $config;
         $vo_fqcn = $this->config->getValueObjectClass();
         if (!strlen($vo_fqcn)) {
-            $vo_fqcn = 'it.innoteam.module.util.ModuleEmptyValueObject';
+            $vo_fqcn = '\Innomatic\Module\Util\ModuleEmptyValueObject';
         }
 
         // Imports value object.
@@ -81,7 +78,6 @@ abstract class ModuleObject implements \Serializable
     /**
      * Flushes the value object.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -93,7 +89,6 @@ abstract class ModuleObject implements \Serializable
     /**
      * Returns the value object instance.
      *
-     * @access public
      * @since 5.1
      * @return ValueObject
      */
@@ -108,7 +103,6 @@ abstract class ModuleObject implements \Serializable
      * Setting a new value object is done at memory level, no action is done
      * at the persistence storage layer.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -126,7 +120,6 @@ abstract class ModuleObject implements \Serializable
      *
      * This is useful when transferring a value object using remote calls.
      *
-     * @access public
      * @since 5.1
      * @return boolean
      */
@@ -152,7 +145,6 @@ abstract class ModuleObject implements \Serializable
      * This can be used when some actions must be performed when the
      * Module is deployed, like preparing a database.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -164,7 +156,6 @@ abstract class ModuleObject implements \Serializable
      * This can be used when some actions must be performed when the
      * Module is redeployed, like updating a database.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -176,7 +167,6 @@ abstract class ModuleObject implements \Serializable
      * This can be used when some actions must be performed when the
      * Module is undeployed, like removing a database.
      *
-     * @access public
      * @since 5.1
      * @return void
      */

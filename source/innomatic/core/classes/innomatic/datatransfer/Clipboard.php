@@ -7,28 +7,27 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Datatransfer;
 
 /**
  * Classe che implementa un meccanismo per trasferire dati
  * tramite operazioni di copia/taglia/incolla.
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @since 1.0
  */
 class Clipboard
 {
-    private $_type;
-    private $_customType;
-    private $_unit;
-    private $_application;
-    private $_domain;
-    private $_user;
-    private $_fileName;
+    protected $type;
+    protected $customType;
+    protected $unit;
+    protected $application;
+    protected $domain;
+    protected $user;
+    protected $fileName;
     const TYPE_TEXT = 'text';
     const TYPE_RAW = 'raw';
     const TYPE_FILE = 'file';
@@ -54,20 +53,20 @@ class Clipboard
         $user = ''
     )
     {
-        $this->_type = $type;
-        if ($this->_type == Clipboard::TYPE_CUSTOM) {
-            $this->_customType = $customType;
+        $this->type = $type;
+        if ($this->type == Clipboard::TYPE_CUSTOM) {
+            $this->customType = $customType;
         }
-        $this->_unit = $unit;
-        $this->_application = $application;
-        $this->_domain = $domain;
-        $this->_user = $user;
-        $this->_fileName = \Innomatic\Core\InnomaticContainer::instance(
+        $this->unit = $unit;
+        $this->application = $application;
+        $this->domain = $domain;
+        $this->user = $user;
+        $this->fileName = \Innomatic\Core\InnomaticContainer::instance(
             '\Innomatic\Core\InnomaticContainer'
         )->getHome() . 'core/temp/clipboard/'
-        . $this->_type . '_' . $this->_customType . '_' . $this->_unit
-        . '_' . $this->_application . '_' . $this->_domain
-        . '_' . $this->_user . '.clipboard';
+        . $this->type . '_' . $this->customType . '_' . $this->unit
+        . '_' . $this->application . '_' . $this->domain
+        . '_' . $this->user . '.clipboard';
     }
 
     /**
@@ -78,7 +77,7 @@ class Clipboard
     public function isValid()
     {
         clearstatcache();
-        return file_exists($this->_fileName);
+        return file_exists($this->fileName);
     }
 
     /**
@@ -91,13 +90,13 @@ class Clipboard
     public function store(&$item)
     {
         $result = false;
-        $sem = new \Innomatic\Process\Semaphore('clipboard', $this->_fileName);
+        $sem = new \Innomatic\Process\Semaphore('clipboard', $this->fileName);
         $sem->waitGreen();
         $sem->setRed();
 
-        $fh = fopen($this->_fileName, 'wb');
+        $fh = fopen($this->fileName, 'wb');
         if ($fh) {
-            switch ($this->_type) {
+            switch ($this->type) {
                 case Clipboard::TYPE_TEXT :
                 case Clipboard::TYPE_RAW :
                     fwrite($fh, $item);
@@ -139,17 +138,17 @@ class Clipboard
     public function retrieve()
     {
         $result = '';
-        $sem = new \Innomatic\Process\Semaphore('clipboard', $this->_fileName);
+        $sem = new \Innomatic\Process\Semaphore('clipboard', $this->fileName);
         $sem->waitGreen();
 
         if ($this->IsValid()) {
             $sem->setRed();
-            if (file_exists($this->_fileName)) {
-                switch ($this->_type) {
+            if (file_exists($this->fileName)) {
+                switch ($this->type) {
                     case Clipboard::TYPE_TEXT :
                         // this break was intentionally left blank
                     case Clipboard::TYPE_RAW :
-                        $result = file_get_contents($this->_fileName);
+                        $result = file_get_contents($this->fileName);
                         break;
 
                     case Clipboard::TYPE_FILE :
@@ -160,7 +159,7 @@ class Clipboard
                         // this break was intentionally left blank
                     case Clipboard::TYPE_CUSTOM :
                         $result = unserialize(
-                            file_get_contents($this->_fileName)
+                            file_get_contents($this->fileName)
                         );
                         break;
                 }
@@ -179,10 +178,10 @@ class Clipboard
     {
         $result = false;
         if ($this->IsValid()) {
-            $sem = new \Innomatic\Process\Semaphore('clipboard', $this->_fileName);
+            $sem = new \Innomatic\Process\Semaphore('clipboard', $this->fileName);
             $sem->waitGreen();
             $sem->setRed();
-            $result = unlink($this->_fileName);
+            $result = unlink($this->fileName);
             $sem->setGreen();
         } else
             $result = true;
@@ -191,31 +190,31 @@ class Clipboard
 
     public function getType()
     {
-        return $this->_type;
+        return $this->type;
     }
 
     public function getCustomType()
     {
-        return $this->_customType;
+        return $this->customType;
     }
 
     public function getUnit()
     {
-        return $this->_unit;
+        return $this->unit;
     }
 
     public function getApplication()
     {
-        return $this->_application;
+        return $this->application;
     }
 
     public function getDomain()
     {
-        return $this->_domain;
+        return $this->domain;
     }
 
     public function getFileName()
     {
-        return $this->_fileName;
+        return $this->fileName;
     }
 }

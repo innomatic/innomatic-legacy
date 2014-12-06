@@ -7,19 +7,19 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 
 function main_page()
 {
     $innomatic_locale = new \Innomatic\Locale\LocaleCatalog('innomatic::root_menu', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
-    $app_cfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
+    $app_cfg = new \Innomatic\Application\ApplicationSettings('innomatic');
 
     if (is_object( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess() ) and !(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP)) {
-        $app_cfg = new \Innomatic\Application\ApplicationSettings( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic' );
+        $app_cfg = new \Innomatic\Application\ApplicationSettings('innomatic');
         $innomatic_logo_disabled = $app_cfg->getKey( 'innomatic-biglogo-disabled' );
     } else {
         $innomatic_logo_disabled = 0;
@@ -62,7 +62,7 @@ function main_page()
         $wui_buttons_group->addChild(new WuiButton('innomaticlogo', array('label' => $innomatic_locale->getStr('innomatichome'),
             'image' => $wui_page->mThemeHandler->mStyle['innomaticminilogo'],
             'horiz' => 'true',
-            'action' => 'http://www.innomatic.org/',
+            'action' => 'http://www.innomatic.io/',
             'width' => 32,
             'height' => 32)));
     }
@@ -80,13 +80,13 @@ function main_page()
 
     $wui_logos_group = new WuiVertgroup( 'buttons_group', array( 'align' => 'center', 'groupalign' => 'center', 'groupvalign' => 'middle', 'height' => '0%' ) );
     if ( $innomatic_logo_disabled != '1' ) {
-        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_SAAS ) $edition = '_asp';
+        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getEdition() == \Innomatic\Core\InnomaticContainer::EDITION_MULTITENANT ) $edition = '_asp';
         else $edition = '_enterprise';
 
         if ( isset($wui_page->mThemeHandler->mStyle['biglogo'.$edition] ) ) $biglogo_image = $wui_page->mThemeHandler->mStyle['biglogo'.$edition];
         else $biglogo_image = $wui_page->mThemeHandler->mStyle['biglogo'];
 
-        $wui_button = new WuiButton( 'button', array( 'action' => ' http://www.innomatic.org', 'target' => '_top', 'image' => $biglogo_image, 'highlight' => 'false' ) );
+        $wui_button = new WuiButton( 'button', array( 'action' => ' http://www.innomatic.io', 'target' => '_top', 'image' => $biglogo_image, 'highlight' => 'false' ) );
         $wui_logos_group->addChild( $wui_button );
     }
 
@@ -98,7 +98,7 @@ function main_page()
 
         if ( $app_cfg->getKey( 'serviceprovider-biglogo-disabled' ) != '1' ) {
             if ( strlen( $serviceprovider_biglogo_filename ) and file_exists( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/'.$serviceprovider_biglogo_filename ) ) {
-                $serviceprovider_button = new WuiButton( 'serviceproviderbutton', array( 'action' => strlen( $serviceprovider_url ) ? $serviceprovider_url : ' http://www.innoteam.it', 'target' => '_top', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/'.$serviceprovider_biglogo_filename, 'highlight' => 'false' ) );
+                $serviceprovider_button = new WuiButton( 'serviceproviderbutton', array( 'action' => strlen( $serviceprovider_url ) ? $serviceprovider_url : ' http://www.innomatic.io', 'target' => '_top', 'image' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false).'/shared/'.$serviceprovider_biglogo_filename, 'highlight' => 'false' ) );
                 $wui_logos_group->addChild( $serviceprovider_button );
             }
         }

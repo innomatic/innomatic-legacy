@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Components;
@@ -46,13 +46,13 @@ class HelpnodeComponent extends \Innomatic\Application\ApplicationComponent
             $params['file'] = $this->basedir . '/shared/help/' . $params['file'];
             // Check if the help directory exists and if not, create it.
             //
-            if (! is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/help/')) {
+            if (! is_dir($this->container->getHome() . 'shared/help/')) {
                 $old_umask = umask(0);
-                @mkdir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/help/', 0755);
+                @mkdir($this->container->getHome() . 'shared/help/', 0755);
                 umask($old_umask);
             }
-            if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($params['file'] . '/', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/help/' . basename($params['file']) . '/')) {
-                //@chmod( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/help/'.basename( $params['file'] ), 0644 );
+            if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($params['file'] . '/', $this->container->getHome() . 'shared/help/' . basename($params['file']) . '/')) {
+                //@chmod( $this->container->getHome().'shared/help/'.basename( $params['file'] ), 0644 );
                 $result = true;
             }
         } else
@@ -63,7 +63,7 @@ class HelpnodeComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            if (\Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/help/' . basename($params['file']))) {
+            if (\Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($this->container->getHome() . 'shared/help/' . basename($params['file']))) {
                 $result = true;
             }
         } else
@@ -72,7 +72,7 @@ class HelpnodeComponent extends \Innomatic\Application\ApplicationComponent
     }
     public function doUpdateAction($params)
     {
-        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'shared/help/' . basename($params['file']));
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($this->container->getHome() . 'shared/help/' . basename($params['file']));
         return $this->doInstallAction($params);
     }
 }

@@ -29,8 +29,8 @@ namespace Innomatic\Module;
  *
  * Username and password are generally required for accessing a Module.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleLocator
@@ -38,7 +38,6 @@ class ModuleLocator
     /**
      * Module server hostname.
      *
-     * @access private
      * @var string
      * @since 5.1
      */
@@ -46,7 +45,6 @@ class ModuleLocator
     /**
      * Module server port.
      *
-     * @access private
      * @var string
      * @since 5.1
      */
@@ -54,7 +52,6 @@ class ModuleLocator
     /**
      * Module username.
      *
-     * @access private
      * @var string
      * @since 5.1
      */
@@ -62,7 +59,6 @@ class ModuleLocator
     /**
      * Module password.
      *
-     * @access private
      * @var string
      * @since 5.1
      */
@@ -70,7 +66,6 @@ class ModuleLocator
     /**
      * Module name and location.
      *
-     * @access private
      * @var string
      * @since 5.1
      */
@@ -79,7 +74,6 @@ class ModuleLocator
     /**
      * Class constructor.
      *
-     * @access public
      * @param string $locator Locator string.
      * @since 5.1
      */
@@ -128,7 +122,6 @@ class ModuleLocator
     /**
      * Tells if the location refers to a remote server.
      *
-     * @access public
      * @since 5.1
      * @return boolean
      */
@@ -140,7 +133,6 @@ class ModuleLocator
     /**
      * Returns Module server hostname.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -152,7 +144,6 @@ class ModuleLocator
     /**
      * Returns Module server port.
      *
-     * @access public
      * @since 5.1
      * @return integer
      */
@@ -164,7 +155,6 @@ class ModuleLocator
     /**
      * Returns Module username.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -176,7 +166,6 @@ class ModuleLocator
     /**
      * Returns Module password.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -188,7 +177,6 @@ class ModuleLocator
     /**
      * Returns Module location.
      *
-     * @access public
      * @since 5.1
      * @return string
      */

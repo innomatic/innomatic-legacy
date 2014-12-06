@@ -7,17 +7,22 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Dataaccess\Drivers\Mysql;
 
+/**
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ */
 class MysqlDataAccessResult extends \Innomatic\Dataaccess\DataAccessResult
 {
+
     public $suppseek = true;
-    private $_start = false;
+
+    protected $start = false;
 
     public function __construct(&$resultid)
     {
@@ -27,25 +32,25 @@ class MysqlDataAccessResult extends \Innomatic\Dataaccess\DataAccessResult
 
     protected function init()
     {
-        $this->resultrows = @mysql_num_rows($this->resultid);
-        $this->resultfields = @mysql_num_fields($this->resultid);
+        $this->resultrows = $this->resultid->num_rows;
+        $this->resultfields = $this->resultid->field_count;
     }
 
     protected function seek($row)
     {
-        @mysql_data_seek($this->resultid, $row);
+        $this->resultid->data_seek($row);
         $this->currentrow = $row;
         return true;
     }
 
     protected function fetch()
     {
-        $this->currfields = @mysql_fetch_array($this->resultid);
+        $this->currfields = $this->resultid->fetch_array();
         return ($this->currfields == true);
     }
 
     protected function doFree()
     {
-        return @mysql_free_result($this->resultid);
+        return $this->resultid->free_result();
     }
 }

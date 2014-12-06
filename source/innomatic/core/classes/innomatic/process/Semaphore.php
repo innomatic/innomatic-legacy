@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Process;
@@ -17,7 +17,7 @@ namespace Innomatic\Process;
 /**
  * Questa classe fornisce un meccanismo di controllo delle risorse
  * basato sul concetto di semaforo.
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  * @since 3.5
  */
 class Semaphore
@@ -25,13 +25,11 @@ class Semaphore
     /**
      * Tipo di risorsa da controllare.
      * @var string
-     * @access protected
      */
     protected $resourceType;
     /**
      * Identificativo della risorsa da controllare.
      * @var string
-     * @access protected
      */
     protected $resource;
     const STATUS_GREEN = 'green';
@@ -51,7 +49,6 @@ class Semaphore
     /**
      * Imposta il tipo di risorsa da controllare.
      * @param string $resourceType
-     * @access public
      * @return void
      */
     public function setResourceType($resourceType)
@@ -61,7 +58,6 @@ class Semaphore
 
     /**
      * Restituisce il tipo di risorsa controllata.
-     * @access public
      * @return string
      */
     public function getResourceType()
@@ -72,7 +68,6 @@ class Semaphore
     /**
      * Imposta l'identificativo della risorsa da controllare.
      * @param string $resource
-     * @access public
      * @return void
      */
     public function setResource($resource)
@@ -82,7 +77,6 @@ class Semaphore
 
     /**
      * Restituisce l'identificativo della risorsa controllata.
-     * @access public
      * @return string
      */
     public function getResource()
@@ -92,7 +86,6 @@ class Semaphore
 
     /**
      * Restituisce il path completo del file di lock della risorsa.
-     * @access private
      * @return string
      */
     public function getFileName()
@@ -106,7 +99,6 @@ class Semaphore
     /**
      * Controlla in che stato è la risorsa.
      * @return string
-     * @access public
      */
     public function checkStatus()
     {
@@ -122,7 +114,6 @@ class Semaphore
     /**
      * Imposta lo stato della risorsa.
      * @param string $status
-     * @access private
      * @return bool
      */
     public function setStatus($status)
@@ -146,8 +137,8 @@ class Semaphore
                             fputs($fh, serialize(array('pid' => $innomatic->getPid(), 'time' => time(), 'resource' => $this->resource)));
                             fclose($fh);
                         } else {
-                            if (!file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/semaphores/')) {
-                                mkdir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/semaphores/');
+                            if (!file_exists($innomatic->getHome().'core/temp/semaphores/')) {
+                                mkdir($innomatic->getHome().'core/temp/semaphores/');
                             }
                             return false;
                         }
@@ -161,7 +152,6 @@ class Semaphore
 
     /**
      * Imposta lo stato della risorsa come disponibile.
-     * @access public
      * @return void
      */
     public function setGreen()
@@ -171,7 +161,6 @@ class Semaphore
 
     /**
      * Imposta lo stato della risorsa come occupata.
-     * @access public
      * @return void
      */
     public function setRed()
@@ -182,7 +171,6 @@ class Semaphore
     /**
      * Restituisce il contenuto del semaforo.
      * Il contenuto � un array con le chiavi pid, time e resource.
-     * @access public
      * @return array
      */
     public function getSemaphoreData()
@@ -201,7 +189,6 @@ class Semaphore
      * @param integer $checkDelay intervallo in secondi di attesa tra ogni tentativo.
      * @param integer $maxDelay tempo in secondi opzionale dopo il quale il metodo restituisce il controllo.
      * @return bool
-     * @access public
      */
     public function waitGreen($checkDelay = 1, $maxDelay = 0)
     {

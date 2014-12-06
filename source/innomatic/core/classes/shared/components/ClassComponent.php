@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Components;
@@ -20,9 +20,9 @@ namespace Shared\Components;
  * A class component is a PHP file containing a PHP class, to be deployed
  * in core/classes directory.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 class ClassComponent extends \Innomatic\Application\ApplicationComponent
@@ -31,13 +31,13 @@ class ClassComponent extends \Innomatic\Application\ApplicationComponent
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Checks if the classes folder exists
-        if (! is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/')) {
-            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/', 0755);
+        if (! is_dir($this->container->getHome() . 'core/classes/')) {
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/classes/', 0755);
             clearstatcache();
         }
         // Checks if the classes global override folder exists
-        if (! is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/overrides/classes/')) {
-            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/overrides/classes/', 0755);
+        if (! is_dir($this->container->getHome() . 'core/overrides/classes/')) {
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/overrides/classes/', 0755);
             clearstatcache();
         }
     }
@@ -73,32 +73,36 @@ class ClassComponent extends \Innomatic\Application\ApplicationComponent
             }
             switch ($params['override']) {
                 case self::OVERRIDE_GLOBAL:
-                    if (! file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/overrides/classes/' . dirname($params['name']))) {
-                        \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/overrides/classes/' . dirname($params['name']) . '/', 0755);
+                    if (! file_exists($this->container->getHome() . 'core/overrides/classes/' . dirname($params['name']))) {
+                        \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/overrides/classes/' . dirname($params['name']) . '/', 0755);
                     }
-                    return copy($this->basedir . '/core/overrides/classes/' . $params['name'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/overrides/classes/' . $params['name']);
+                    return copy($this->basedir . '/core/overrides/classes/' . $params['name'], $this->container->getHome() . 'core/overrides/classes/' . $params['name']);
                     break;
                 case self::OVERRIDE_DOMAIN:
-                    if (! is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/')) {
-                        \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/', 0755);
+                    if (! is_dir($this->container->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/')) {
+                        \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/', 0755);
                         clearstatcache();
                     }
-                    if (! file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/' . dirname($params['name']))) {
-                        \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/' . dirname($params['name']) . '/', 0755);
+                    if (! file_exists($this->container->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/' . dirname($params['name']))) {
+                        \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/' . dirname($params['name']) . '/', 0755);
                     }
-                    return copy($this->basedir . '/core/overrides/classes/' . $params['name'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/' . $params['name']);
+                    return copy($this->basedir . '/core/overrides/classes/' . $params['name'], $this->container->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/' . $params['name']);
                     break;
                 default:
                     return false;
             }
+
+            \Innomatic\Core\RootContainer::clearClassesCache();
         } else {
             if (! file_exists($this->basedir . '/core/classes/' . $params['name'])) {
                 return false;
             }
-            if (! file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/' . dirname($params['name']))) {
-                \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/' . dirname($params['name']) . '/', 0755);
+            if (! file_exists($this->container->getHome() . 'core/classes/' . dirname($params['name']))) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/classes/' . dirname($params['name']) . '/', 0755);
             }
-            return copy($this->basedir . '/core/classes/' . $params['name'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/' . $params['name']);
+
+            \Innomatic\Core\RootContainer::clearClassesCache();
+            return copy($this->basedir . '/core/classes/' . $params['name'], $this->container->getHome() . 'core/classes/' . $params['name']);
         }
     }
 
@@ -106,13 +110,15 @@ class ClassComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (isset($params['override']) and ($params['override'] == self::OVERRIDE_DOMAIN or $params['override'] == self::OVERRIDE_GLOBAL)) {
-            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/overrides/classes/' . $params['name'])) {
-                $result = unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/overrides/classes/' . $params['name']);
+            if (file_exists($this->container->getHome() . 'core/overrides/classes/' . $params['name'])) {
+                \Innomatic\Core\RootContainer::clearClassesCache();
+                $result = unlink($this->container->getHome() . 'core/overrides/classes/' . $params['name']);
             }
         } else {
             if (strlen($params['name'])) {
-                if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/' . $params['name'])) {
-                    $result = unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/' . $params['name']);
+                if (file_exists($this->container->getHome() . 'core/classes/' . $params['name'])) {
+                    \Innomatic\Core\RootContainer::clearClassesCache();
+                    $result = unlink($this->container->getHome() . 'core/classes/' . $params['name']);
                     // TODO add removal of empty class directory
                 }
             }
@@ -146,14 +152,16 @@ class ClassComponent extends \Innomatic\Application\ApplicationComponent
         }
         $domain_id = $domain_query->getFields('domainid');
         // Checks if the classes override directory exists
-        if (! is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/')) {
-            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/', 0755);
+        if (! is_dir($this->container->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/')) {
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/', 0755);
             clearstatcache();
         }
-        if (! file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/' . dirname($params['name']))) {
-            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/' . dirname($params['name']) . '/', 0755);
+        if (! file_exists($this->container->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/' . dirname($params['name']))) {
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/' . dirname($params['name']) . '/', 0755);
         }
-        return copy(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/' . $params['name'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/' . $params['name']);
+
+        \Innomatic\Core\RootContainer::clearClassesCache();
+        return copy($this->container->getHome() . 'core/applications/' . $this->appname . '/overrides/classes/' . $params['name'], $this->container->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/' . $params['name']);
     }
 
     /**
@@ -176,8 +184,9 @@ class ClassComponent extends \Innomatic\Application\ApplicationComponent
             return false;
         }
         $domain_id = $domain_query->getFields('domainid');
-        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/' . $params['name'])) {
-            return unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/' . $params['name']);
+        if (file_exists($this->container->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/' . $params['name'])) {
+            \Innomatic\Core\RootContainer::clearClassesCache();
+            return unlink($this->container->getHome() . 'core/domains/' . $domain_id . '/overrides/classes/' . $params['name']);
             // TODO add removal of empty class directory
         }
         return false;

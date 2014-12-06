@@ -4,8 +4,8 @@ namespace Innomatic\Module\Server;
 /**
  * Controls Module server execution.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleServerController
@@ -14,7 +14,6 @@ class ModuleServerController
      * Server socket.
      *
      * @var Socket
-     * @access protected
      * @since 5.1
      */
     protected $socket;
@@ -22,7 +21,6 @@ class ModuleServerController
      * Hostname bound to the server.
      *
      * @var string
-     * @access protected
      * @since 5.1
      */
     protected $host;
@@ -30,7 +28,6 @@ class ModuleServerController
      * Port where the server is listening.
      *
      * @var integer
-     * @access protected
      * @since 5.1
      */
     protected $port;
@@ -38,7 +35,6 @@ class ModuleServerController
     /**
      * Class constructor.
      *
-     * @access public
      * @since 5.1
      */
     public function __construct()
@@ -57,7 +53,6 @@ class ModuleServerController
     /**
      * Starts the server.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -70,7 +65,6 @@ class ModuleServerController
     /**
      * Restarts the server.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -87,7 +81,6 @@ class ModuleServerController
     /**
      * Starts the server watch dog and the server using the watch dog itself.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -100,7 +93,6 @@ class ModuleServerController
     /**
      * Restarts the server watch dog and the server using the watch dog itself.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -118,7 +110,6 @@ class ModuleServerController
     /**
      * Safely shutdowns the server.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -136,7 +127,6 @@ class ModuleServerController
     /**
      * Retrieves server status.
      *
-     * @access public
      * @since 5.1
      * @return string Server status.
      */
@@ -161,7 +151,6 @@ class ModuleServerController
     /**
      * Forces the server to refresh its configuration.
      *
-     * @access public
      * @since 5.1
      * @return string Server result string.
      */

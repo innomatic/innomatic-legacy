@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Components;
@@ -23,8 +23,8 @@ class BinaryComponent extends \Innomatic\Application\ApplicationComponent
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Creates the binaries directory if it doesn't exists.
-        if (!is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/bin/')) {
-            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/bin/', 0755);
+        if (!is_dir($this->container->getHome() . 'core/bin/')) {
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/bin/', 0755);
         }
     }
     public static function getType()
@@ -56,22 +56,22 @@ class BinaryComponent extends \Innomatic\Application\ApplicationComponent
             return false;
         }
         // Cheks that the binary file name does not contain malicious code.
-        if (\Innomatic\Security\SecurityManager::isAboveBasePath(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/bin/' . $params['name'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/bin/')) {
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath($this->container->getHome() . 'core/bin/' . $params['name'], $this->container->getHome() . 'core/bin/')) {
             $this->mLog->logEvent('BinaryComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious binary file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Checks if the binary file name contains a directory.
         $dirname = dirname($params['name']);
         if ($dirname != '.') {
-            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/bin/' . $params['name'], 0755);
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/bin/' . $params['name'], 0755);
         }
         // Copies the binary file.
-        if (! copy($this->basedir . '/core/bin/' . $params['name'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/bin/' . $params['name'])) {
+        if (! copy($this->basedir . '/core/bin/' . $params['name'], $this->container->getHome() . 'core/bin/' . $params['name'])) {
             $this->mLog->logEvent('BinaryComponent::doInstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy binary file', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Updates file permissions.
-        chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/bin/' . $params['name'], 0644);
+        chmod($this->container->getHome() . 'core/bin/' . $params['name'], 0644);
         return true;
     }
     public function doUninstallAction($params)
@@ -82,16 +82,16 @@ class BinaryComponent extends \Innomatic\Application\ApplicationComponent
             return false;
         }
         // Cheks that the binary file name does not contain malicious code.
-        if (\Innomatic\Security\SecurityManager::isAboveBasePath(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/bin/' . $params['name'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/bin/')) {
+        if (\Innomatic\Security\SecurityManager::isAboveBasePath($this->container->getHome() . 'core/bin/' . $params['name'], $this->container->getHome() . 'core/bin/')) {
             $this->mLog->logEvent('BinaryComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Malicious binary file name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
         // Checks if the binary file exists.
-        if (! file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . '/core/bin/' . $params['name'])) {
+        if (! file_exists($this->container->getHome() . '/core/bin/' . $params['name'])) {
             $this->mLog->logEvent('BinaryComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Missing binary file', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        if (! @unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/bin/' . $params['name'])) {
+        if (! @unlink($this->container->getHome() . 'core/bin/' . $params['name'])) {
             $this->mLog->logEvent('BinaryComponent::doUninstallAction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove binary file', \Innomatic\Logging\Logger::ERROR);
             return false;
         }

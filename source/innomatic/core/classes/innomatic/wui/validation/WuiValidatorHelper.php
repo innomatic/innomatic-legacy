@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Wui\Validation;
@@ -31,8 +31,8 @@ class WuiValidatorHelper
                 if ($validators_query) {
                     // TODO old
                     while (!$validators_query->eof) {
-                        if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/classes/shared/wui/validators/'.$validators_query->getFields('file'))) {
-                            include_once(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/classes/shared/wui/validators/'.$validators_query->getFields('file'));
+                        if (file_exists($innomatic->getHome().'core/classes/shared/wui/validators/'.$validators_query->getFields('file'))) {
+                            include_once($innomatic->getHome().'core/classes/shared/wui/validators/'.$validators_query->getFields('file'));
                         }
                         $validators_query->moveNext();
                     }

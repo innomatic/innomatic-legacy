@@ -10,6 +10,6 @@
 		<key field="id" type="unique" />
 	</table>
 
-	<sequence name="applications_components_types_id_seq" start="38" />
+	<sequence name="applications_components_types_id_seq" start="46" />
 
 </database>

@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Wui;
@@ -140,7 +140,7 @@ class WuiDivframe extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
         // Generic style
         if (isset($this->mArgs['style']) and strlen( $this->mArgs['style'])) {
-            $style .= ' '.$this->mStyle;
+            $style .= ' '.$this->mArgs['style'];
         }
 
         $style .= ( $this->mArgs['iscollapsable'] ? '; overflow:hidden;" ' : '" ' );

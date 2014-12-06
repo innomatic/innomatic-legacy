@@ -7,17 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Io\Filesystem;
 
 /**
  * @since 1.0
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2000-2012 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2000-2012 Innomatic Company
  */
 class DirectoryUtils
 {
@@ -82,7 +82,6 @@ class DirectoryUtils
     * present), return <code>null</code> instead.
     *
     * @param string $path
-    * @access public
     * @return string
     */
     public static function normalize($path)

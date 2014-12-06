@@ -7,19 +7,15 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Application;
 
-/*!
- @class ApplicationDependencies
-
- @abstract Application dependencies handling.
-
- @discussion ApplicationDependencies class handles.
+/**
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 class ApplicationDependencies
 {
@@ -35,9 +31,9 @@ class ApplicationDependencies
     /*!
      @param rrootDb DataAccess class - Innomatic database handler.
      */
-    public function __construct(\Innomatic\Dataaccess\DataAccess $rrootDb)
+    public function __construct()
     {
-        $this->mrRootDb = $rrootDb;
+        $this->mrRootDb = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
     }
 
     public function explodeSingleDependency($appId)
@@ -103,7 +99,7 @@ class ApplicationDependencies
             }
         } else {
             if (empty($appid)) {
-                
+
                 $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.appdeps.adddepsarray',
@@ -138,7 +134,7 @@ class ApplicationDependencies
                 .$this->mrRootDb->formatText($appVersion).')'
             );
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.adddep',
@@ -170,7 +166,7 @@ class ApplicationDependencies
                 .' AND deptype='.$this->mrRootDb->formatText($deptype)
             );
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.remdep',
@@ -193,7 +189,7 @@ class ApplicationDependencies
                 'DELETE FROM applications_dependencies WHERE appid='.$this->mrRootDb->formatText($modserial)
             );
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic.applications.appdeps.remalldep', 'Empty application serial', \Innomatic\Logging\Logger::ERROR);
             return false;
@@ -244,7 +240,7 @@ class ApplicationDependencies
                 }
             }
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic.applications.appdeps.isinstalled', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
         }
@@ -286,7 +282,7 @@ class ApplicationDependencies
                     $result = $depmods;
                 }
             } else {
-                
+
                 $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
                 $log->logEvent(
                     'innomatic.applications.appdeps.dependson',
@@ -295,7 +291,7 @@ class ApplicationDependencies
                 );
             }
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent('innomatic.applications.appdeps.dependson', 'Empty application id', \Innomatic\Logging\Logger::ERROR);
         }
@@ -371,7 +367,7 @@ class ApplicationDependencies
                 }
             }
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkapplicationdeps',
@@ -422,7 +418,7 @@ class ApplicationDependencies
                 }
             }
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdependingapplications',
@@ -448,7 +444,22 @@ class ApplicationDependencies
     {
         $result = false;
 
-        if (!empty($appid) and !empty($domainid)) {
+        if (empty($appid) or empty($domainid)) {
+            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
+            $log->logEvent(
+                'innomatic.applications.appdeps.isenabled',
+                'Empty application id ('.$appid.') or domain id ('.$domainid.')',
+                \Innomatic\Logging\Logger::ERROR
+            );
+            return false;
+        }
+
+            // Check if the given dependency is a PHP extension
+            if (strpos($appid, '.extension')) {
+                $appid = substr($appid, 0, strpos($appid, '.extension'));
+                return extension_loaded($appid);
+            }
+
             // Looks if the given application has been installed
             //
             $modquery = $this->IsInstalled($appid);
@@ -459,7 +470,7 @@ class ApplicationDependencies
                 // it is automatically enabled for all domains
                 //
                 if (strcmp($appdata['onlyextension'], $this->mrRootDb->fmttrue) == 0) {
-                    $result = $considerExtensions;
+                   return $considerExtensions;
                 } else {
                     // Checks if the given domain id exists
                     //
@@ -467,28 +478,18 @@ class ApplicationDependencies
                         'SELECT id FROM domains WHERE domainid='.$this->mrRootDb->formatText($domainid)
                     );
 
-                    if ($stquery->getNumberRows() != 0) {
-                        // Checks if the application has been enabled
-                        //
-                        $amquery = $this->mrRootDb->execute(
-                            'SELECT applicationid FROM applications_enabled WHERE applicationid='
-                            .$this->mrRootDb->formatText($appdata['id'])
-                            .' AND domainid='.$this->mrRootDb->formatText($stquery->getFields('id'))
-                        );
+                if ($stquery->getNumberRows() != 0) {
+                    // Checks if the application has been enabled
+                    //
+                    $amquery = $this->mrRootDb->execute(
+                        'SELECT applicationid FROM applications_enabled WHERE applicationid='
+                        .$this->mrRootDb->formatText($appdata['id'])
+                        .' AND domainid='.$this->mrRootDb->formatText($stquery->getFields('id'))
+                    );
 
-                        if ($amquery->getNumberRows() != 0)
-                            $result = true;
-                    }
+                    return $amquery->getNumberRows() != 0;
                 }
             }
-        } else {
-            
-            $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
-            $log->logEvent(
-                'innomatic.applications.appdeps.isenabled',
-                'Empty application id ('.$appid.') or domain id ('.$domainid.')',
-                \Innomatic\Logging\Logger::ERROR
-            );
         }
         return $result;
     }
@@ -546,7 +547,7 @@ class ApplicationDependencies
                     $result = $unmetdeps;
             }
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdomainapplicationdeps',
@@ -607,7 +608,7 @@ class ApplicationDependencies
             } else
                 $result = false;
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkdomaindependingapplications',
@@ -642,7 +643,7 @@ class ApplicationDependencies
                 $result = $endomains;
             }
         } else {
-            
+
             $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
             $log->logEvent(
                 'innomatic.applications.appdeps.checkenableddomains',

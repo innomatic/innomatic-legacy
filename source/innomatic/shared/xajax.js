@@ -1,6 +1,32 @@
 /* xajax Javascript library :: version 0.2.4 */
 Array.prototype.containsValue=function(valueToCheck){for(var i=0;i<this.length;i++){if(this[i]==valueToCheck)return true;}
 return false;}
+function XajaxParseScript(strcode) {
+  var scripts = new Array();         // Array which will store the script's code
+
+  // Strip out tags
+  while(strcode.indexOf("<script") > -1 || strcode.indexOf("</script") > -1) {
+    var s = strcode.indexOf("<script");
+    var s_e = strcode.indexOf(">", s);
+    var e = strcode.indexOf("</script", s);
+    var e_e = strcode.indexOf(">", e);
+
+    // Add to scripts array
+    scripts.push(strcode.substring(s_e+1, e));
+    // Strip from strcode
+    strcode = strcode.substring(0, s) + strcode.substring(e_e+1);
+  }
+
+  // Loop through every script collected and eval it
+  for(var i=0; i<scripts.length; i++) {
+    try {
+      eval(scripts[i]);
+    }
+    catch(ex) {
+      // do what you want here when a script fails
+    }
+  }
+}
 function Xajax(){this.DebugMessage=function(text){if(text.length > 1000)text=text.substr(0,1000)+"...\n[long response]\n...";try{if(this.debugWindow==undefined||this.debugWindow.closed==true){this.debugWindow=window.open('about:blank','xajax-debug','width=800,height=600,scrollbars=1,resizable,status');this.debugWindow.document.write('<html><head><title>Xajax debug output</title></head><body><h2>Xajax debug output</h2><div id="debugTag"></div></body></html>');}
 text=text.replace(/&/g,"&amp;")
 text=text.replace(/</g,"&lt;")
@@ -144,7 +170,7 @@ else if(cmd=="jc"){cmdFullname="addScriptCall";var scr=id+'(';if(data[0]!=null){
 }
 scr+=');';eval(scr);}
 else if(cmd=="in"){cmdFullname="addIncludeScript";this.include(data);}
-else if(cmd=="as"){cmdFullname="addAssign/addClear";if(this.willChange(id,property,data)){eval("objElement."+property+"=data;");}
+else if(cmd=="as"){cmdFullname="addAssign/addClear";if(this.willChange(id,property,data)){eval("objElement."+property+"=data;");XajaxParseScript(data)}
 }
 else if(cmd=="ap"){cmdFullname="addAppend";eval("objElement."+property+"+=data;");}
 else if(cmd=="pp"){cmdFullname="addPrepend";eval("objElement."+property+"=data+objElement."+property);}

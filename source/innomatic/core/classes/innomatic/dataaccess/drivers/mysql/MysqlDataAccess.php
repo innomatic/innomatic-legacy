@@ -7,18 +7,16 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Dataaccess\Drivers\Mysql;
 
-/*!
-@class MysqlDataAccess
-
-@abstract DataAccess for MySql.
-*/
+/**
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ */
 class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 {
     public $driver = 'mysql';
@@ -58,14 +56,15 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
         $result = false;
 
         if (!empty($params['dbname'])) {
-            $tmplink = @mysql_connect($params['dbhost'], $params['dbuser'], $params['dbpass']);
+            $tmplink = new \mysqli($params['dbhost'], $params['dbuser'], $params['dbpass']);
             if ($tmplink) {
-                if (mysql_query('CREATE DATABASE '.$params['dbname'].'  DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $tmplink))
+                if ($tmplink->query('CREATE DATABASE '.$params['dbname'].'  DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci')) {
                     $result = true;
-                else
-                    $this->lastError = @mysql_error($tmplink);
+                } else {
+                    $this->lastError = $tmplink->error;
+                }
+                $tmplink->close();
             }
-            //@mysql_close( $tmplink );
         }
 
         return $result;
@@ -74,7 +73,7 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     public function dropDB($params)
     {
         if (!empty($params['dbname'])) {
-            return @mysql_query('DROP DATABASE '.$params['dbname'], $this->dbhandler);
+            return $this->dbhandler->query('DROP DATABASE '.$params['dbname']);
         }
 
         return false;
@@ -82,14 +81,11 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 
     protected function openConnection()
     {
-        $result = @mysql_connect($this->dasn->getHostSpec(), $this->dasn->getUsername(), $this->dasn->getPassword());
+        $result = new \mysqli($this->dasn->getHostSpec(), $this->dasn->getUsername(), $this->dasn->getPassword(), $this->dasn->getDatabase());
 
-        if ($result != false) {
+        if (!$result->connect_error) {
             $this->dbhandler = $result;
-            if (!@mysql_select_db($this->dasn->getDatabase(), $this->dbhandler)) {
-                $result = false;
-            }
-            mysql_query('SET CHARACTER SET utf8', $this->dbhandler);
+            $this->dbhandler->set_charset('utf8');
         }
 
         return $result;
@@ -97,13 +93,11 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 
     protected function openPersistentConnection()
     {
-        $result = @mysql_pconnect($this->dasn->getHostSpec(), $this->dasn->getUsername(), $this->dasn->getPassword());
+        $result = new \mysqli('p:'.$this->dasn->getHostSpec(), $this->dasn->getUsername(), $this->dasn->getPassword(), $this->dasn->getDatabase());
 
-        if ($result != false) {
+        if (!$result->connect_error) {
             $this->dbhandler = $result;
-            if (!@mysql_select_db($this->dasn->getDatabase(), $this->dbhandler)) {
-                $result = false;
-            }
+            $this->dbhandler->set_charset('utf8');
         }
 
         return $result;
@@ -117,7 +111,7 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     protected function closeConnection()
     {
         return true;
-        //return @mysql_close( $this->dbhandler );
+        return $this->dbhandler->close();
     }
 
     public function createTable($params)
@@ -135,15 +129,23 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
         return $result;
     }
 
+    public function truncateTable($params)
+    {
+        $result = false;
+
+        if (!empty($params['tablename']) and $this->opened)
+            $result = $this->doExecute('TRUNCATE '.$params['tablename']);
+
+        return $result;
+    }
+
     protected function doExecute($query)
     {
-        @mysql_select_db($this->dasn->getDatabase(), $this->dbhandler);
-        $this->lastquery = @mysql_query($query, $this->dbhandler);
-        //if ( defined( 'DEBUG' ) and !$this->lastquery ) echo mysql_error();
-        if (@mysql_error($this->dbhandler)) {
-            
-        $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
-            $this->log->logEvent('innomatic.mysqldataaccess.mysqldataaccess._query', 'Error: '.@mysql_error($this->dbhandler), \Innomatic\Logging\Logger::ERROR);
+        $this->dbhandler->select_db($this->dasn->getDatabase());
+        $this->lastquery = $this->dbhandler->query($query);
+        if (strlen($this->dbhandler->error)) {
+            $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
+            $this->log->logEvent('innomatic.mysqldataaccess.mysqldataaccess._query', 'Error: '.$this->dbhandler->error, \Innomatic\Logging\Logger::ERROR);
         }
         return $this->lastquery;
     }
@@ -151,7 +153,7 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     protected function doGetAffectedRowsCount()
     {
         if ($this->lastquery != false) {
-            return @mysql_affected_rows($this->dbhandler);
+            return $this->dbhandler->affected_rows;
         }
         return false;
     }
@@ -160,8 +162,9 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     {
         $result = false;
 
-        if (!empty($params['tablename']) and !empty($params['columnformat']) and $this->opened)
+        if (!empty($params['tablename']) and !empty($params['columnformat']) and $this->opened){
             $result = $this->doExecute('ALTER TABLE '.$params['tablename'].' ADD COLUMN '.$params['columnformat']);
+        }
 
         return $result;
     }
@@ -172,6 +175,24 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
             return $this->doExecute('ALTER TABLE '.$params['tablename'].' DROP COLUMN '.$params['column']);
         }
 
+        return false;
+    }
+
+    public function addKey($params)
+    {
+        $result = false;
+
+        if (!empty($params['tablename']) and !empty($params['keyformat']) and $this->opened){
+            $result = $this->doExecute('ALTER TABLE '.$params['tablename'].' ADD '.$params['keyformat']);
+        }   
+        return $result;
+    }
+
+    public function removeKey($params)
+    {
+        if (!empty($params['tablename']) and !empty($params['keyformat']) and $this->opened) {
+            return $this->doExecute('ALTER TABLE '.$params['tablename'].' DROP '.$params['keyformat']);
+        }
         return false;
     }
 
@@ -210,6 +231,30 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
         return $result;
     }
 
+    public function resetSequence($params)
+    {
+        if (!empty($params['name'])) {
+            $ris_update = $this->doExecute('UPDATE _sequence_'.$params['name'].' SET sequence = 0');
+            $ris_alter = $this->doExecute('ALTER TABLE _sequence_'.$params['name'].' AUTO_INCREMENT 1');
+            return ($ris_update and $ris_alter);
+        } else {
+            return false;
+
+        }
+    }
+
+    public function getResetSequenceQuery($params)
+    {
+        if (!empty($params['name'])) {
+            $result = 'UPDATE _sequence_'.$params['name'].' SET sequence = 0; ';
+            $result .= 'ALTER TABLE _sequence_'.$params['name'].' AUTO_INCREMENT 1;';
+            return $result;
+        } else {
+            return false;
+
+        }
+    }
+
     public function dropSequence($params)
     {
         if (!empty($params['name']))
@@ -230,7 +275,9 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     {
         if (!empty($name)) {
             $result = $this->doExecute('SELECT MAX(sequence) FROM _sequence_'.$name);
-            return @mysql_result($result, 0, 0);
+            $result->data_seek(0);
+            $result->field_seek(0);
+            return $result->fetch_field();
         } else
             return false;
     }
@@ -250,7 +297,7 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     {
         if (!empty($name)) {
             if ($this->doExecute('INSERT INTO _sequence_'.$name.' (sequence) VALUES (NULL)')) {
-                $value = intval(mysql_insert_id($this->dbhandler));
+                $value = intval($this->dbhandler->insert_id);
                 $this->doExecute('DELETE FROM _sequence_'.$name.' WHERE sequence<'.$value);
             }
             return $value;
@@ -300,6 +347,25 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
     public function getTimeFieldTypeDeclaration($name, &$field)
     {
         return ($name." TIME". (IsSet($field["default"]) ? " DEFAULT '".$field["default"]."'" : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
+    }
+
+    /**
+     * The DATETIME type is used for values that contain both date and time parts. 
+     * MySQL retrieves and displays DATETIME values in 'YYYY-MM-DD HH:MM:SS' format. 
+     * The supported range is '1000-01-01 00:00:00' to '9999-12-31 23:59:59'.
+     */
+    public function getDatetimeFieldTypeDeclaration($name, &$field)
+    {
+        return ($name." DATETIME". (IsSet($field["default"]) ? " DEFAULT '".$field["default"]."'" : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
+    }
+
+    /**
+     * The TIMESTAMP data type is used for values that contain both date and time parts. 
+     * TIMESTAMP has a range of '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.
+     */
+    public function getTimestampFieldTypeDeclaration($name, &$field)
+    {
+        return ($name." TIMESTAMP". (IsSet($field["default"]) ? " DEFAULT '".$field["default"]."'" : ""). (IsSet($field["notnull"]) ? " NOT NULL" : ""));
     }
 
     public function getFloatFieldTypeDeclaration($name, &$field)

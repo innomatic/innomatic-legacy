@@ -5,7 +5,7 @@ General information
 -------------------
 
 Innomatic is an open source platform for building multi-tenant cloud
-applications developed by Innoteam in PHP language.
+applications developed by Innomatic Company in PHP language.
 
 It is suitable as an Internet/Intranet development and deployment
 system, featuring a powerful modular architecture and allowing very fast
@@ -27,14 +27,13 @@ e-Commerce platform using the CMF) and user-centric applications.
 Features
 --------
 
-- Web interface. The first standard Innomatic interface is the web
-administration system.
+- Web interface. The first standard Innomatic interface is the web desktop.
 
 - Web services interface. The container provides a powerful interface for
 XmlRpc web services calls.
 
-- Centralized customers/domains administration. Creation, editing and remotion
-of the customer profiles/sites can be done through a single interface.
+- Centralized tenants administration. Creation, editing and remotion
+of the tenants can be done through a single interface.
 
 - Centralized applications administration. Installation, update and
 remotion of the applications is done through a single interface.
@@ -50,15 +49,14 @@ with the other applications, through API calls, hooks, web services and other.
 The container also provides dependencies support between
 applications.
 
-- Immediate deployment and update of applications. To install an
+- Immediate installation and update of applications. To install an
 application in the container you only need to upload the application
 file through a applications administration page. The same applies for the
-update of already installed applications, automatically updated for all the
-container sites.
+update of already installed applications.
 
-- Deploy applications once - use many times. When installing an
+- Install applications once - use many times. When installing an
 application, it can be enabled to all container sites without
-reinstalling it.
+manually reinstalling it.
 
 - Easy installation and immediate update of the container. Since Innomatic
 is seen by itself as a deployable application, it has all of applications
@@ -68,11 +66,11 @@ properties and can be updated like any other application with a single step.
 programmed with a dedicated library of functions; no HTML in code.
 
 - Override system. Applications can be customized without affecting other
-domains and without changing the original application code with the override
+tenants and without changing the original application code with the override
 feature.
 
 - Use of open standards and technologies. Innomatic follows open standards
-like SQL, XML, XML-RPC and so on.
+like SQL, YAML, XML, XML-RPC and so on.
 
 - Open source license. Innomatic is licensed with the new BSD License.
 
@@ -103,11 +101,11 @@ Requirements
 ------------
 
 Serverside:
-    A web server with PHP >= 5.1 support and a SQL server supported by Innomatic.
+    A web server with PHP >= 5.4 support and a SQL server supported by Innomatic.
     Read INSTALL file for more information.
 
 Clientside:
-    A modern web browser with HTML 4.0 and CSS support.
+    A modern web browser.
 
 See the file named INSTALL for more details.
 
@@ -123,20 +121,17 @@ See the file named INSTALL.
 Additional Information
 ----------------------
 
-Innomatic official web site:
-     http://www.innomatic.org/
+Innomatic Platform official web site:
+     http://www.innomatic.io/
 
-Innoteam official web site:
-     http://www.innoteam.it
+Innomatic technical wiki:
+     http://wiki.innomatic.io/
 
 To submit a bug report:
-    https://bitbucket.org/innoteam/innomatic/issues
-
-To submit a support request:
-    https://bitbucket.org/innoteam/innomatic/issues
+    https://github.com/innomatic/innomatic/issues
 
 Would you like to participate in developing Innomatic? Send an e-mail at
-info@innoteam.it
+info@innomatic.io
 
 
 

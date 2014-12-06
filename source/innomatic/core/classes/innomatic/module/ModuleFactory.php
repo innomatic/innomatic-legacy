@@ -17,8 +17,8 @@ use \Innomatic\Module\Server;
  * The factory automatically retrieves the object from the local context or
  * from a remote server by parsing the given Module locator.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleFactory
@@ -29,7 +29,6 @@ class ModuleFactory
      * This is the static method for obtaining a Module object in a transparent
      * way, without having to deal with the Module locator parsing.
      *
-     * @access public
      * @since 5.1
      * @param ModuleLocator $locator Module locator object.
      * @return ModuleObject The Module object.
@@ -47,7 +46,6 @@ class ModuleFactory
      *
      * The method also builds the configuration for the Module.
      *
-     * @access public
      * @since 5.1
      * @param ModuleLocator $locator Module locator object.
      * @return ModuleObject The Module object.
@@ -103,7 +101,6 @@ class ModuleFactory
      *
      * This static method retrieves a Module located in a remote Module server.
      *
-     * @access public
      * @since 5.1
      * @param ModuleLocator $locator Module locator object.
      * @return ModuleGenericRemoteObject The Module object.
@@ -121,7 +118,6 @@ class ModuleFactory
      * Normally there's no need to manually call this method, since Module sessions
      * are transparently handled by the Module server.
      *
-     * @access public
      * @since 5.1
      * @param ModuleLocator $locator Module locator object.
      * @return ModuleObject The Module object.

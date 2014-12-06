@@ -25,9 +25,6 @@ class XmlRpcMsg
 			}
 			}
 
-			/**
-			* @access private
-			*/
 			function xml_header($charset_encoding='')
 			{
 			if ($charset_encoding != '')
@@ -41,7 +38,6 @@ class XmlRpcMsg
 			}
 
 					/**
-        * @access private
 					*/
 					function xml_footer()
 						{
@@ -49,16 +45,12 @@ class XmlRpcMsg
 					}
 
 					/**
-        * @access private
 							*/
 							function kindOf()
 							 {
 							 return 'msg';
 			}
 
-			/**
-			* @access private
-				*/
 				function createPayload($charset_encoding='')
 			{
 				if ($charset_encoding != '')
@@ -82,7 +74,6 @@ class XmlRpcMsg
 						* Gets/sets the xmlrpc method to be invoked
 							* @param string $meth the method to be set (leave empty not to set it)
 							* @return string the method that will be invoked
-									* @access public
 									*/
 									function method($meth='')
 				{
@@ -96,7 +87,7 @@ class XmlRpcMsg
 				/**
 				* Returns xml representation of the message. XML prologue included
 				* @return string the xml representation of the message, xml prologue included
-				* @access public
+				
 				*/
 				function serialize($charset_encoding='')
 					{
@@ -108,7 +99,7 @@ class XmlRpcMsg
 					* Add a parameter to the list of parameters to be used upon method invocation
 					* @param xmlrpcval $par
 					* @return boolean false on failure
-					* @access public
+					
 					*/
 					function addParam($par)
 					{
@@ -128,21 +119,21 @@ class XmlRpcMsg
 					  * Returns the nth parameter in the message. The index zero-based.
 					  * @param integer $i the index of the parameter to fetch (zero based)
 					* @return xmlrpcval the i-th parameter
-						* @access public
+						
 						*/
 						function getParam($i) { return $this->params[$i]; }
 
 						/**
 						* Returns the number of parameters in the messge.
 						* @return integer the number of parameters currently set
-						* @access public
+						
 						*/
 							function getNumParams() { return count($this->params); }
 
 							/**
 							* Given an open file handle, read all data available and parse it as axmlrpc response.
 							* NB: the file handle is not closed by this function.
-							* @access public
+							
 							* @return xmlrpcresp
 							* @todo add 2nd & 3rd param to be passed to ParseResponse() ???
 							*/
@@ -160,7 +151,6 @@ class XmlRpcMsg
 
 			/**
 			* Parses HTTP headers and separates them from data.
-			* @access private
 			*/
 			function &parseResponseHeaders(&$data, $headers_processed=false)
 			{
@@ -400,7 +390,7 @@ class XmlRpcMsg
 							 			* @param bool $headers_processed when true prevents parsing HTTP headers for interpretation of content-encoding and consequent decoding
 							 			* @param string $return_type decides return type, i.e. content of response->value(). Either 'xmlrpcvals', 'xml' or 'phpvals'
 							 			* @return xmlrpcresp
-							 			* @access public
+							 			
 							 				*/
 							 				function &parseResponse($data='', $headers_processed=false, $return_type='xmlrpcvals')
 							 				{

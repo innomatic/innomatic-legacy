@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 
@@ -989,7 +989,7 @@ function main_dependencies($eventData)
 
     $applicationData = $query->getFields();
 
-    $tempDeps = new \Innomatic\Application\ApplicationDependencies(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
+    $tempDeps = new \Innomatic\Application\ApplicationDependencies();
 
     $applicationDeps = array();
     $applicationSuggs = array();
@@ -1649,7 +1649,7 @@ function main_repositoryapplications($eventData)
         if (
             strlen($data['dependencies'])
         ) {
-            $appDeps = new \Innomatic\Application\ApplicationDependencies(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
+            $appDeps = new \Innomatic\Application\ApplicationDependencies();
             $depCheck = $appDeps->checkApplicationDependencies(
                 0,
                 '',
@@ -1916,9 +1916,7 @@ function main_applicationversions($eventData)
         if (
             strlen($data['dependencies'])
         ) {
-            $appDeps = new \Innomatic\Application\ApplicationDependencies(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()
-            );
+            $appDeps = new \Innomatic\Application\ApplicationDependencies();
             $depCheck = $appDeps->checkApplicationDependencies(
                 0,
                 '',
@@ -2324,8 +2322,8 @@ function main_about($eventData)
 
             <link>
               <args>
-                <label type="encoded">'.urlencode('www.innomatic.org').'</label>
-                <link type="encoded">'.urlencode('http://www.innomatic.org').'</link>
+                <label type="encoded">'.urlencode('www.innomatic.io').'</label>
+                <link type="encoded">'.urlencode('http://www.innomatic.io').'</link>
                 <target>_blank</target>
               </args>
             </link>

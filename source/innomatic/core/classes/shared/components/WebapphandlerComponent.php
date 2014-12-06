@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Components;
@@ -20,9 +20,9 @@ namespace Shared\Components;
  * A Webapp Handler is the front controller for a certain mapping in a webapp
  * as defined in the web.xml file for that webapp.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 class WebapphandlerComponent extends \Innomatic\Application\ApplicationComponent
@@ -54,7 +54,7 @@ class WebapphandlerComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('WebapphandlerComponent::doInstallAction', 'Empty webapp handler parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/web.xml';
+        $web_xml_file = $this->container->getHome() . 'core/web.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Handler
         $ok = true;
@@ -108,7 +108,7 @@ class WebapphandlerComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('WebapphandlerComponent::doUninstallAction', 'Empty webapp handler parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/web.xml';
+        $web_xml_file = $this->container->getHome() . 'core/web.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Removes any mapping to the webapp handler.
         foreach ($sx->handlermapping as $hm) {
@@ -134,7 +134,7 @@ class WebapphandlerComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('WebapphandlerComponent::doUpdateAction', 'Empty webapp handler parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/web.xml';
+        $web_xml_file = $this->container->getHome() . 'core/web.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Keeps track if the webapp handler is found in web.xml file.
         $found_handler = false;

@@ -7,29 +7,29 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.1
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  */
-
-require_once('scripts_container.php');
+require_once 'scripts_container.php';
 $script = \Innomatic\Scripts\ScriptContainer::instance('\Innomatic\Scripts\ScriptContainer');
 
-if (!isset ($argv[1])) $argv[1] = '';
+if (!isset($argv[1])) {
+    $argv[1] = '';
+}
 
 try {
     switch ($argv[1]) {
-        case '-h' :
-            print('Usage: php innomatic/core/scripts/application.php command argument'."\n");
+        case '-h':
+            print('Usage: php innomatic/core/scripts/application.php command argument' . "\n");
             print("\n");
-            print('Supported commands:'."\n");
-            print('    deploy appfile                  Deploys an application'."\n");
-            print('    undeploy appname                Undeploys an application'."\n");
+            print('Supported commands:' . "\n");
+            print('    deploy appfile                  Deploys an application' . "\n");
+            print('    undeploy appname                Undeploys an application' . "\n");
             $script->cleanExit();
             break;
-
-        case 'deploy' :
+        
+        case 'deploy':
             $app = new \Innomatic\Application\Application(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
             if (file_exists($argv[2]) and $app->install($argv[2])) {
                 print("Application $app->appname deployed\n");
@@ -39,8 +39,8 @@ try {
                 $script->cleanExit(1);
             }
             break;
-
-        case 'undeploy' :
+        
+        case 'undeploy':
             $appid = \Innomatic\Application\Application::getAppIdFromName($argv[2]);
             $app = new \Innomatic\Application\Application(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $appid);
             if ($app->uninstall()) {
@@ -51,10 +51,10 @@ try {
                 $script->cleanExit(1);
             }
             break;
-
-        default :
-            print('Usage: php innomatic/core/scripts/application.php command'."\n");
-            print('Type application.php -h for a list of supported commands'."\n");
+        
+        default:
+            print('Usage: php innomatic/core/scripts/application.php command' . "\n");
+            print('Type application.php -h for a list of supported commands' . "\n");
     }
 } catch (\Exception $e) {
     echo $e;

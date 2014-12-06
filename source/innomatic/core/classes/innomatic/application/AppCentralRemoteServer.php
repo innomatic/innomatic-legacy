@@ -7,13 +7,17 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Application;
+require_once('innomatic/webservices/xmlrpc/XmlRpcClient.php');
 
+/**
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ */
 class AppCentralRemoteServer
 {
     public $mId;
@@ -48,7 +52,7 @@ class AppCentralRemoteServer
             $this->mAccountId
         );
 
-        $this->mXClient = new \Innomatic\Webservices\Xmlrpc\XmlRpc_Client(
+        $this->mXClient = new \Innomatic\Webservices\Xmlrpc\XmlRpcClient(
             $this->mXAccount->mPath,
             $this->mXAccount->mHost,
             $this->mXAccount->mPort
@@ -318,7 +322,7 @@ class AppCentralRemoteServer
                 $xv = $xmlrpcResp->Value();
 
                 $tmpFilename = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
-                .'core/temp/appcentral-client/'.md5(uniqid(rand()));
+                .'core/temp/appcentral-client/'.md5(uniqid(rand())).'.tgz';
 
                 $fh = fopen($tmpFilename, 'wb');
                 if ( $fh ) {

@@ -7,39 +7,53 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Dataaccess;
 
 /**
  * This class implements the Data Access Object (DAO) pattern.
- * @since 1.0
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
+ *
+ * @since 5.0.0
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 abstract class DataAccessObject
 {
+    /**
+     * Data access object.
+     *
+     * @var \Innomatic\Dataaccess\DataAccess;
+     * @deprecated 6.8.0 Replaced by $dataAccess.
+     * @access protected
+     */
     protected $_dataAccess;
+    /**
+     * Data access object.
+     *
+     * @var \Innomatic\Dataaccess\DataAccess
+     * @access protected
+     */
+    protected $dataAccess;
 
     /**
      * Constructor.
      * The constructor needs a DataAccess object.
      * @since 1.0
-     * @access public
      * @param DataAccess $dataAccess
      * @return void
      */
     public function __construct(\Innomatic\Dataaccess\DataAccess $dataAccess)
     {
-        $this->_dataAccess = $dataAccess;
+        $this->dataAccess = $dataAccess;
+        $this->_dataAccess = $this->dataAccess;
     }
 
     public function retrieve($query)
     {
-        $result = $this->_dataAccess->execute($query);
-        if (!$this->_dataAccess->isError()) {
+        $result = $this->dataAccess->execute($query);
+        if (!$this->dataAccess->isError()) {
             return $result;
         }
         return null;
@@ -47,10 +61,10 @@ abstract class DataAccessObject
 
     public function update($query)
     {
-        $this->_dataAccess->execute($query);
+        $this->dataAccess->execute($query);
         // :TODO: Alex Pagnoni - to be implemented
         // isError() is still to be implemented
-        if (!$this->_dataAccess->isError()) {
+        if (!$this->dataAccess->isError()) {
             return true;
         }
         return false;
@@ -68,6 +82,6 @@ abstract class DataAccessObject
 
     public function close()
     {
-        $this->_dataAccess->close();
+        $this->dataAccess->close();
     }
 }

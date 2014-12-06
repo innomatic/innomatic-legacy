@@ -4,8 +4,8 @@ namespace Innomatic\Module\Server;
 /**
  * Logger for Module server events.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleServerLogger
@@ -14,7 +14,6 @@ class ModuleServerLogger
      * Log file name.
      *
      * @var string
-     * @access private
      * @since 5.1
      */
     private $logfile;
@@ -22,7 +21,6 @@ class ModuleServerLogger
     /**
      * Class constructor.
      *
-     * @access public
      * @since 5.1
      * @param string $logfile Log file full path.
      */
@@ -34,7 +32,6 @@ class ModuleServerLogger
     /**
      * Logs an event.
      *
-     * @access public
      * @since 5.1
      * @param string $message Message to be logged.
      * @return void
@@ -50,7 +47,6 @@ class ModuleServerLogger
     /**
      * Erases the log file
      *
-     * @access public
      * @since 5.1
      * @return void
      */

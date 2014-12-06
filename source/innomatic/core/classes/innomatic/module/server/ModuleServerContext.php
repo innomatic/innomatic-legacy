@@ -4,8 +4,8 @@ namespace Innomatic\Module\Server;
 /**
  * Context where the Module server runs.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleServerContext extends \Innomatic\Util\Singleton
@@ -16,7 +16,6 @@ class ModuleServerContext extends \Innomatic\Util\Singleton
     /**
      * Class constructor.
      *
-     * @access public
      * @since 5.1
      */
     public function ___construct()
@@ -35,7 +34,6 @@ class ModuleServerContext extends \Innomatic\Util\Singleton
      * Gets server home directory.
      *
      * @since 5.1
-     * @access public
      * @return string Server home directory.
      */
     public function getHome()
@@ -46,7 +44,6 @@ class ModuleServerContext extends \Innomatic\Util\Singleton
     /**
      * Returns server configuration object.
      *
-     * @access public
      * @since 5.1
      * @return ModuleServerObject Configuration.
      */
@@ -58,7 +55,6 @@ class ModuleServerContext extends \Innomatic\Util\Singleton
     /**
      * Returns the list of the available Modules.
      *
-     * @access public
      * @since 5.1
      * @return array
      */

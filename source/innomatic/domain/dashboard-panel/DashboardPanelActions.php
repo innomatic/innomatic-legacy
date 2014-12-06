@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 6.1
 */
 
@@ -22,7 +22,8 @@ use \Shared\Wui;
 
 class DashboardPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 {
-    private $_localeCatalog;
+    public $localeCatalog;
+    protected $container;
 
     public function __construct(\Innomatic\Desktop\Panel\PanelController $controller)
     {
@@ -31,9 +32,11 @@ class DashboardPanelActions extends \Innomatic\Desktop\Panel\PanelActions
 
     public function beginHelper()
     {
-        $this->_localeCatalog = new LocaleCatalog(
+        $this->container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
+        $this->localeCatalog = new LocaleCatalog(
             'innomatic::domain_dashboard',
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
+            $this->container->getCurrentUser()->getLanguage()
         );
     }
 
@@ -41,14 +44,15 @@ class DashboardPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     {
     }
 
-    public function ajaxGetDashboardWidget($name)
+    public static function ajaxGetDashboardWidget($name)
     {
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         $objResponse = new XajaxResponse();
         $xml = '<void/>';
+        
+        $domain_da = $container->getCurrentDomain()->getDataAccess();
 
-        $domain_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
-
-        $perm = new Permissions($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
+        $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($domain_da, $container->getCurrentUser()->getGroup());
 
         // Check if the widget exists in the widgets list
         $widget_query = $domain_da->execute('SELECT * FROM domain_dashboards_widgets WHERE name='.$domain_da->formatText($name));
@@ -60,7 +64,7 @@ class DashboardPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             // Do not show widgets tied to a panel when the panel is not accessible to the current user
             if (strlen($panel)) {
                 $node_id = $perm->getNodeIdFromFileName($panel);
-                if ( $perm->check( $node_id, Permissions::NODETYPE_PAGE ) == Permissions::NODE_NOTENABLED ) {
+                if ( $perm->check( $node_id, \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_PAGE ) == \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED ) {
                     $allowed = false;
                 }
             }

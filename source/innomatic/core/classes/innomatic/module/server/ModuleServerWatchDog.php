@@ -5,8 +5,8 @@ namespace Innomatic\Module\Server;
  * Watch dog that monitors Module server execution and restarts it in case
  * of failure.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleServerWatchDog
@@ -14,7 +14,6 @@ class ModuleServerWatchDog
     /**
      * Launches a server process and watches it.
      *
-     * @access public
      * @since 5.1
      * @param string $command Command for launching server to be watched.
      * @return void
@@ -41,7 +40,6 @@ class ModuleServerWatchDog
     /**
      * Runs a command and gets its output.
      *
-     * @access protected
      * @since 5.1
      * @param string $command Command to be executed.
      * @return string Command output.

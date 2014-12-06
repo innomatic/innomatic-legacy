@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Components;
@@ -43,14 +43,14 @@ class WuivalidatorComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            if (@copy($this->basedir . '/core/classes/shared/wui/validators/' . basename($params['file']), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']))) {
-                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']), 0644);
+            if (@copy($this->basedir . '/core/classes/shared/wui/validators/' . basename($params['file']), $this->container->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']))) {
+                @chmod($this->container->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']), 0644);
                 if ($this->rootda->execute('INSERT INTO wui_validators ' . 'VALUES (' . $this->rootda->formatText($params['name']) . ',' . $this->rootda->formatText($params['file']) . ')')) {
                     $result = true;
                 } else
                     $this->mLog->logEvent('shared.components.wuivalidator.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to install component', \Innomatic\Logging\Logger::ERROR);
             } else
-                $this->mLog->logEvent('shared.components.wuivalidator.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('shared.components.wuivalidator.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . $this->container->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
         } else
             $this->mLog->logEvent('shared.components.wuivalidator.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
@@ -60,7 +60,7 @@ class WuivalidatorComponent extends \Innomatic\Application\ApplicationComponent
         $result = false;
         if (strlen($params['file'])) {
             if ($this->rootda->execute('DELETE FROM wui_validators ' . 'WHERE name=' . $this->rootda->formatText($params['name']))) {
-                if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']))) {
+                if (@unlink($this->container->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']))) {
                     $result = true;
                 } else
                     $this->mLog->logEvent('shared.components.wuivalidator.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to unlink component', \Innomatic\Logging\Logger::ERROR);
@@ -74,11 +74,11 @@ class WuivalidatorComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            if (@copy($this->basedir . '/core/classes/shared/wui/validators/' . basename($params['file']), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']))) {
-                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']), 0644);
+            if (@copy($this->basedir . '/core/classes/shared/wui/validators/' . basename($params['file']), $this->container->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']))) {
+                @chmod($this->container->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']), 0644);
                 $result = true;
             } else
-                $this->mLog->logEvent('shared.components.wuivalidator.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('shared.components.wuivalidator.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy wui component file (' . $params['file'] . ') to its destination (' . $this->container->getHome() . 'core/classes/shared/wui/validators/' . basename($params['file']) . ')', \Innomatic\Logging\Logger::ERROR);
         } else
             $this->mLog->logEvent('shared.components.wuivalidator.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty component file name', \Innomatic\Logging\Logger::ERROR);
         return $result;

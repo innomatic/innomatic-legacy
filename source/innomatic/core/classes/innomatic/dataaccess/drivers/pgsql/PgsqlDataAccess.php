@@ -7,18 +7,16 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Dataaccess\Drivers\Pgsql;
 
-/*!
-@class PgsqlDataAccess
-
-@abstract DataAccess for PostgreSQL.
-*/
+/**
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ */
 class PgsqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 {
     public $driver = 'pgsql';
@@ -179,6 +177,16 @@ class PgsqlDataAccess extends \Innomatic\Dataaccess\DataAccess
         return $result;
     }
 
+    public function truncateTable($params)
+    {
+        $result = false;
+
+        if (!empty($params['tablename']) and $this->opened)
+            $result = $this->doExecute('TRUNCATE '.$params['tablename']);
+
+        return $result;
+    }
+
     protected function doExecute($query)
     {
         $this->lastquery = @pg_exec($this->dbhandler, $query);
@@ -209,6 +217,26 @@ class PgsqlDataAccess extends \Innomatic\Dataaccess\DataAccess
         if (!empty($params['tablename']) and !empty($params['column']) and $this->opened) {
             return $this->doExecute('ALTER TABLE '.$params['tablename'].' DROP COLUMN '.$params['column']);
         }
+        return false;
+    }
+
+
+    public function addKey($params)
+    {
+        $result = false;
+
+        if (!empty($params['tablename']) and !empty($params['keyformat']) and $this->opened){
+            $result = $this->doExecute('ALTER TABLE '.$params['tablename'].' ADD '.$params['keyformat']);
+        }   
+        return $result;
+    }
+
+    public function removeKey($params)
+    {
+        if (!empty($params['tablename']) and !empty($params['keyformat']) and $this->opened) {
+            return $this->doExecute('ALTER TABLE '.$params['tablename'].' DROP '.$params['keyformat']);
+        }
+
         return false;
     }
 
@@ -254,6 +282,30 @@ class PgsqlDataAccess extends \Innomatic\Dataaccess\DataAccess
             return 'CREATE SEQUENCE '.$params['name'].' INCREMENT 1'. ($params['start'] < 1 ? ' MINVALUE '.$params['start'] : '').' START '.$params['start'].';';
         } else
             return false;
+    }
+
+    public function resetSequence($params)
+    {
+        if (!empty($params['name'])) {
+            $ris_update = $this->doExecute('UPDATE _sequence_'.$params['name'].' SET sequence = 0');
+            $ris_alter = $this->doExecute('ALTER TABLE _sequence_'.$params['name'].' AUTO_INCREMENT 1');
+            return ($ris_update and $ris_alter);
+        } else {
+            return false;
+
+        }
+    }
+
+    public function getResetSequenceQuery($params)
+    {
+        if (!empty($params['name'])) {
+            $result = 'UPDATE _sequence_'.$params['name'].' SET sequence = 0; ';
+            $result .= 'ALTER TABLE _sequence_'.$params['name'].' AUTO_INCREMENT 1;';
+            return $result;
+        } else {
+            return false;
+
+        }
     }
 
     public function dropSequence($params)

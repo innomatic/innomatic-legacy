@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Desktop\Webapp;
@@ -23,9 +23,9 @@ namespace Innomatic\Desktop\Webapp;
  * CompressedOutputBuffering parameter in the core/conf/innomatic.ini
  * configuration file.
  *
- * @copyright  2000-2012 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  2000-2012 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
@@ -80,13 +80,13 @@ class DesktopRootWebAppHandler extends \Innomatic\Webapp\WebAppHandler
         $home = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome();
         $innomatic->bootstrap($home, $home.'core/conf/innomatic.ini');
 
-        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
+        if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
             $innomatic->abort('Setup phase');
         }
 
         if (!headers_sent()) {
             // Starts output compression.
-            if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfig()->value('CompressedOutputBuffering') == '1') {
+            if ($innomatic->getConfig()->value('CompressedOutputBuffering') == '1') {
                 ini_set('zlib.output_compression', 'on');
                 ini_set('zlib.output_compression_level', 6);
             }
@@ -117,7 +117,6 @@ class DesktopRootWebAppHandler extends \Innomatic\Webapp\WebAppHandler
      * @param $request WebAppRequest
      * @param $redirectPath string
      * @return string
-     * @access protected
      */
     protected function getURL(\Innomatic\Webapp\WebAppRequest $request, $redirectPath)
     {

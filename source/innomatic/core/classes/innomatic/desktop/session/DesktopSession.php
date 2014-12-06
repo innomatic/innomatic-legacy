@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Desktop\Session;
@@ -24,9 +24,9 @@ use \Innomatic\Core\InnomaticContainer;
  * The session lifetime is definable with the DesktopSessionLifetime parameter
  * in the core/conf/innomatic.ini configuration file.
  *
- * @copyright  2000-2012 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  2000-2012 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  * @package    Desktop
  */
@@ -37,15 +37,15 @@ class DesktopSession implements \Innomatic\Webapp\WebAppSession
      *
      * @var string
      */
-    protected $_id;
+    protected $id;
 
     public function start($id = '')
     {
         if (strlen($id)) {
-            session_id($id);
-            $this->_id = $id;
+            sessionid($id);
+            $this->id = $id;
         } else {
-            $this->_id = session_id();
+            $this->id = session_id();
         }
 
         // This must be set before session_start
@@ -69,13 +69,15 @@ class DesktopSession implements \Innomatic\Webapp\WebAppSession
         ini_set('session.gc_maxlifetime', $lifetime);
         ini_set('session.cookie_lifetime', $lifetime);
 
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        
         if (
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getState()
+            $container->getState()
             != \Innomatic\Core\InnomaticContainer::STATE_SETUP
         ) {
             ini_set(
                 'session.save_path',
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+                $container->getHome()
                 . 'core/temp/phpsessions/'
             );
         }
@@ -105,7 +107,7 @@ class DesktopSession implements \Innomatic\Webapp\WebAppSession
 
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     public function destroy()

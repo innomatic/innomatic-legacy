@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 
@@ -21,8 +21,8 @@ namespace Innomatic\Tpl;
  * Innomatic provides a generic template interface so that a contract for
  * templates system is available by default.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2012 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2012 Innomatic Company
  * @since 1.1
  */
 interface Template
@@ -30,7 +30,6 @@ interface Template
     /**
      * Initializes the template engine.
      *
-     * @access public
      * @since 1.2
      * @param string $file Template file.
      */
@@ -39,7 +38,6 @@ interface Template
     /**
      * Sets the value for a certain tag.
      *
-     * @access public
      * @since 1.2
      * @param string $name Tag name.
      * @param string $value Tag value.
@@ -49,7 +47,6 @@ interface Template
     /**
      * Parses the given template and returns the parsed result.
      *
-     * @access public
      * @since 1.1
      * @return mixed
      */
@@ -58,7 +55,6 @@ interface Template
     /**
      * Returns a list of the set tag names.
      *
-     * @access public
      * @since 6.1
      * @return array
      */

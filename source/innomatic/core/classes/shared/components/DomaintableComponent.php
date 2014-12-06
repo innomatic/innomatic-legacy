@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Components;
@@ -46,11 +46,11 @@ class DomaintableComponent extends \Innomatic\Application\ApplicationComponent
         $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/db/' . $params['file'];
-            if (@copy($params['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']))) {
-                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']), 0644);
+            if (@copy($params['file'], $this->container->getHome() . 'core/db/' . basename($params['file']))) {
+                @chmod($this->container->getHome() . 'core/db/' . basename($params['file']), 0644);
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['file'] . ' to destination ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['file'] . ' to destination ' . $this->container->getHome() . 'core/db/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doinstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
@@ -59,10 +59,10 @@ class DomaintableComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['file'])) {
-            if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']))) {
+            if (@unlink($this->container->getHome() . 'core/db/' . basename($params['file']))) {
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to remove ' . $this->container->getHome() . 'core/db/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
@@ -72,14 +72,14 @@ class DomaintableComponent extends \Innomatic\Application\ApplicationComponent
         $result = false;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/db/' . $params['file'];
-            if (file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']) . '.old'))
-                @copy(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']) . '.old', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']) . '.old2');
-            @copy(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']), \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']) . '.old');
-            if (@copy($params['file'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']))) {
-                @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']), 0644);
+            if (file_exists($this->container->getHome() . 'core/db/' . basename($params['file']) . '.old'))
+                @copy($this->container->getHome() . 'core/db/' . basename($params['file']) . '.old', $this->container->getHome() . 'core/db/' . basename($params['file']) . '.old2');
+            @copy($this->container->getHome() . 'core/db/' . basename($params['file']), $this->container->getHome() . 'core/db/' . basename($params['file']) . '.old');
+            if (@copy($params['file'], $this->container->getHome() . 'core/db/' . basename($params['file']))) {
+                @chmod($this->container->getHome() . 'core/db/' . basename($params['file']), 0644);
                 $result = true;
             } else
-                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['file'] . ' to destination ' . \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
+                $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Unable to copy ' . $params['file'] . ' to destination ' . $this->container->getHome() . 'core/db/' . basename($params['file']), \Innomatic\Logging\Logger::ERROR);
         } else
             $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doupdateaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', \Innomatic\Logging\Logger::ERROR);
         return $result;
@@ -89,7 +89,7 @@ class DomaintableComponent extends \Innomatic\Application\ApplicationComponent
         $result = false;
         if (strlen($params['file'])) {
             $xmldb = new \Innomatic\Dataaccess\DataAccessXmlTable($this->domainda, \Innomatic\Dataaccess\DataAccessXmlTable::SQL_CREATE);
-            $xmldb->load_deffile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . $params['file']);
+            $xmldb->load_deffile($this->container->getHome() . 'core/db/' . $params['file']);
             if ($this->domainda->execute($xmldb->getSQL())) {
                 $result = true;
             } else
@@ -104,7 +104,7 @@ class DomaintableComponent extends \Innomatic\Application\ApplicationComponent
         $result = false;
         if (strlen($params['file'])) {
             $xmldb = new \Innomatic\Dataaccess\DataAccessXmlTable($this->domainda, \Innomatic\Dataaccess\DataAccessXmlTable::SQL_DROP);
-            $xmldb->load_deffile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . $params['file']);
+            $xmldb->load_deffile($this->container->getHome() . 'core/db/' . $params['file']);
             if ($this->domainda->execute($xmldb->getSQL())) {
                 $result = true;
             } else
@@ -118,24 +118,8 @@ class DomaintableComponent extends \Innomatic\Application\ApplicationComponent
         $result = true;
         if (strlen($params['file'])) {
             $params['file'] = $this->basedir . '/core/db/' . $params['file'];
-            $xml_upd = new \Innomatic\Dataaccess\DataAccessXmlTableUpdater($this->domainda, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/db/' . basename($params['file']) . '.old', $params['file']);
-            $xml_upd->CheckDiffs();
-            $old_columns = $xml_upd->getOldColumns();
-            if (is_array($old_columns)) {
-                while (list (, $column) = each($old_columns)) {
-                    $upd_data['tablename'] = $params['name'];
-                    $upd_data['column'] = $column;
-                    $this->domainda->RemoveColumn($upd_data);
-                }
-            }
-            $new_columns = $xml_upd->getNewColumns();
-            if (is_array($new_columns)) {
-                while (list (, $column) = each($new_columns)) {
-                    $upd_data['tablename'] = $params['name'];
-                    $upd_data['columnformat'] = $column;
-                    $this->domainda->AddColumn($upd_data);
-                }
-            }
+            $xml_upd = new \Innomatic\Dataaccess\DataAccessXmlTableUpdater($this->domainda, $this->container->getHome() . 'core/db/' . basename($params['file']) . '.old', $params['file']);
+            $xml_upd->applyDiffs($params); 
         } else
             $this->mLog->logEvent('innomatic.domaintablecomponent.domaintablecomponent.doupdatedomainaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty table file name', \Innomatic\Logging\Logger::ERROR);
         return $result;

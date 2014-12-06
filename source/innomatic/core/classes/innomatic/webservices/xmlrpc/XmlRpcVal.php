@@ -123,7 +123,6 @@ class XmlRpcVal
 	 * Add an array of xmlrpcval objects to an xmlrpcval
 	 * @param array $vals
 	 * @return int 1 or 0 on failure
-	 * @access public
 	 *
 	 * @todo add some checking for $vals to be an array of xmlrpcvals?
 	 */
@@ -152,7 +151,6 @@ class XmlRpcVal
 	 * Add an array of named xmlrpcval objects to an xmlrpcval
 	 * @param array $vals
 	 * @return int 1 or 0 on failure
-	 * @access public
 	 *
 	 * @todo add some checking for $vals to be an array?
 	 */
@@ -197,7 +195,6 @@ class XmlRpcVal
 			/**
 			* Returns a string containing "struct", "array" or "scalar" describing the base type of the value
 					* @return string
-					* @access public
 					*/
 					function kindOf()
 					{
@@ -217,9 +214,6 @@ class XmlRpcVal
 							}
 						}
 
-						/**
-						* @access private
-								*/
 								function serializedata($typ, $val, $charset_encoding='')
 								{
 										$rs='';
@@ -294,7 +288,6 @@ return $rs;
 * Returns xml representation of the value. XML prologue not included
 * @param string $charset_encoding the charset to be used for serialization. if null, US-ASCII is assumed
 * @return string
-* @access public
 */
 function serialize($charset_encoding='')
 {
@@ -325,7 +318,6 @@ return '<value>' . $this->serializedata($typ, $val) . "</value>\n";
 * Works only on xmlrpcvals of type struct.
 * @param string $m the name of the struct member to be looked up
 * @return boolean
-* @access public
 */
 function structmemexists($m)
 	{
@@ -337,7 +329,6 @@ function structmemexists($m)
 	* Will raise a php warning if struct member of given name does not exist
 	* @param string $m the name of the struct member to be looked up
 	* @return xmlrpcval
-	* @access public
 	*/
 	function structmem($m)
 	 {
@@ -346,7 +337,6 @@ function structmemexists($m)
 
 	 /**
 	 * Reset internal pointer for xmlrpcvals of type struct.
-	 * @access public
 	 */
 	 function structreset()
 	 {
@@ -356,7 +346,6 @@ function structmemexists($m)
 	 /**
 	 * Return next member element for xmlrpcvals of type struct.
 	 * @return xmlrpcval
-	 * @access public
 	 	*/
 	 	function structeach()
 	 	{
@@ -406,7 +395,6 @@ $t[$id] = $cont->scalarval();
 	 					/**
 	 					* Returns the value of a scalar xmlrpcval
 	 					* @return mixed
-	 					* @access public
 	 					*/
 	 					function scalarval()
 	 					{
@@ -419,7 +407,6 @@ $t[$id] = $cont->scalarval();
 	 		* Returns the type of the xmlrpcval.
 	 				* For integers, 'int' is always returned in place of 'i4'
 	 		* @return string
-	 		* @access public
 	 		*/
 	 		function scalartyp()
 	 		{
@@ -436,7 +423,6 @@ $t[$id] = $cont->scalarval();
 	 		* Returns the m-th member of an xmlrpcval of struct type
 	 		* @param integer $m the index of the value to be retrieved (zero based)
 	 		* @return xmlrpcval
-	 		 * @access public
 	 		 */
 	 		 function arraymem($m)
 	 		 {
@@ -446,7 +432,6 @@ $t[$id] = $cont->scalarval();
 /**
 * Returns the number of members in an xmlrpcval of array type
 * @return integer
-* @access public
 */
 function arraysize()
 {
@@ -456,7 +441,6 @@ return count($this->me['array']);
 /**
 * Returns the number of members in an xmlrpcval of struct type
 * @return integer
-	* @access public
 	*/
 	function structsize()
 	{

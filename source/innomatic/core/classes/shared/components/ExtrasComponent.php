@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Components;
@@ -45,12 +45,12 @@ class ExtrasComponent extends \Innomatic\Application\ApplicationComponent
         if (strlen($params['name'])) {
             $file = $this->basedir . '/core/extras/' . $params['name'];
             if (is_dir($file)) {
-                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($file.'/', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/' .basename($file).'/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($file.'/', $this->container->getHome() . 'core/applications/' . $this->appname . '/' .basename($file).'/')) {
                     $result = true;
                 }
             } else {
-                if (@copy($file, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/' .basename($file))) {
-                    @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($file), 0644);
+                if (@copy($file, $this->container->getHome() . 'core/applications/' . $this->appname . '/' .basename($file))) {
+                    @chmod($this->container->getHome() . 'core/applications/' . $this->appname . '/' . basename($file), 0644);
                     $result = true;
                 }
             }
@@ -62,11 +62,11 @@ class ExtrasComponent extends \Innomatic\Application\ApplicationComponent
     {
         $result = false;
         if (strlen($params['name'])) {
-            if (is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']))) {
-                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']));
+            if (is_dir($this->container->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']))) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($this->container->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']));
                 $result = true;
             } else {
-                if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']))) {
+                if (@unlink($this->container->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']))) {
                     $result = true;
                 }
             }
@@ -77,23 +77,23 @@ class ExtrasComponent extends \Innomatic\Application\ApplicationComponent
     public function doUpdateAction($params)
     {
         if (strlen($params['name'])) {
-            if (is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']))) {
-                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']));
+            if (is_dir($this->container->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']))) {
+                \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($this->container->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']));
                 $result = true;
             } else {
-                if (@unlink(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']))) {
+                if (@unlink($this->container->getHome() . 'core/applications/' . $this->appname . '/' . basename($params['name']))) {
                     $result = true;
                 }
             }
 
             $file = $this->basedir . '/core/extras/' . $params['name'];
             if (is_dir($file)) {
-                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($file.'/', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/' .basename($file).'/')) {
+                if (\Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($file.'/', $this->container->getHome() . 'core/applications/' . $this->appname . '/' .basename($file).'/')) {
                     $result = true;
                 }
             } else {
-                if (@copy($file, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($file))) {
-                    @chmod(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/applications/' . $this->appname . '/' . basename($file), 0644);
+                if (@copy($file, $this->container->getHome() . 'core/applications/' . $this->appname . '/' . basename($file))) {
+                    @chmod($this->container->getHome() . 'core/applications/' . $this->appname . '/' . basename($file), 0644);
                     $result = true;
                 }
             }

@@ -7,11 +7,10 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Core;
 
 // This require uses the absolute path because at this time the PHP include path
@@ -27,11 +26,8 @@ require_once(dirname(__FILE__).'/../util/Singleton.php');
  * been exited in a clean way or if it crashed, letting the Innomatic container
  * call the RootContainer::stop() method.
  *
- * @copyright  2008-2012 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @version    Release: @package_version@
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
+ * @copyright  2008-2012 Innomatic Company
+ * @since      5.0.0 introduced
  * @package    Core
  */
 class RootContainer extends \Innomatic\Util\Singleton
@@ -68,7 +64,7 @@ class RootContainer extends \Innomatic\Util\Singleton
             . 'innomatic/core/classes/'
         );
 
-        spl_autoload_register('\Innomatic\Core\RootContainer::autoload', true, true);
+        spl_autoload_register('\Innomatic\Core\RootContainer::autoload', false, false);
     }
 
     /**
@@ -103,15 +99,15 @@ class RootContainer extends \Innomatic\Util\Singleton
     {
         return $this->clean;
     }
-    
+
     /**
      * SPL autoload method.
-     * 
+     *
      * @since 6.1
      * @param string $class_name
      */
     public static function autoload($class_name)
-	{		
+	{
 	    if (strpos($class_name, '\\') !== false) {
 	        $orig = $class_name;
 	        $class_pop = explode('\\',$class_name);
@@ -122,12 +118,14 @@ class RootContainer extends \Innomatic\Util\Singleton
 	    	$file = self::getClassFile($class_name);
 	    }
 	    // use some function to find the file that declares the class requested
-	    
+
 	    // remember the defined classes, include the $file and detect newly declared classes
 	    $pre = array_merge(get_declared_classes(), get_declared_interfaces());
-	    require_once($file);
+        if (!@include_once($file)) {
+            return false;
+        }
 	    $post = array_unique(array_diff(array_merge(get_declared_classes(), get_declared_interfaces()), $pre));
-	    
+
 	    // loop through the new class definitions and create weak aliases if they are given with qualified names
 	    foreach ($post as $cd) {
 	        $d = explode('\\',$cd);
@@ -136,7 +134,7 @@ class RootContainer extends \Innomatic\Util\Singleton
 	            self::createClassAlias($cd,array_pop($d));
 	        }
 	    }
-	    
+
 	    // get the class definition. note: we assume that there's only one class/interface in each file!
 	    $def = array_pop($post);
 	    if (!isset($orig) && !$def)
@@ -163,13 +161,33 @@ class RootContainer extends \Innomatic\Util\Singleton
 	    }
 	}
 
+    /* public getApplicationClasses($file) {{{ */
+    /**
+     * This method gets all the declared classes in the application.xml
+     * definition file of the given application.
+     *
+     * Returned classes are of "class" and "wuiwidget" component types.
+     *
+     * @todo This method should be removed when dropping the class loader
+     * compatibility layer
+     *
+     * @param string $file Full path of the application.xml file.
+     * @static
+     * @access public
+     * @return array
+     */
     public static function getApplicationClasses($file)
     {
-        $xml = file_get_contents($file);
+        // Manually open files instead of using file_get_contents due to
+        // performance optimization
+        $fh = fopen($file, 'r');
+        $xml = fread($fh, filesize($file));
+        fclose($fh);
         $file = new \SimpleXMLElement($xml);
 
         $application_classes = array();
-        
+        $application_fqcns = array();
+
         foreach($file->components->class as $class) {
             $path = "{$class['name']}";
             $elements = explode('/', $path);
@@ -180,11 +198,12 @@ class RootContainer extends \Innomatic\Util\Singleton
                     $match = ucfirst($match);
                 }
             );
-            
+
             $fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
             $application_classes[strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+            $application_fqcns[$fqcn] = $fqcn;
         }
-        
+
         foreach($file->components->wuiwidget as $class) {
             $path = "shared/wui/{$class['file']}";
             $elements = explode('/', $path);
@@ -195,42 +214,65 @@ class RootContainer extends \Innomatic\Util\Singleton
                     $match = ucfirst($match);
                 }
             );
-        
+
             $fqcn = (count($elements) ? '\\'.implode('\\', $elements) : '').'\\'.$class;
             $application_classes[strtolower($class)] = array('path' => $path, 'fqcn' => $fqcn);
+            $application_fqcns[$fqcn] = $fqcn;
         }
 
-        return $application_classes;
+        return array('classes' => $application_classes, 'fqcns' => $application_fqcns);
     }
+    /* }}} */
 
-	public static function getClassFile($className)
-	{
-		$registry = \Innomatic\Util\Registry::instance();
-		// Backwards compatibility system
-		if (!$registry->isGlobalObject('system_classes')) {
-			$system_classes = array();
-            if (file_exists('innomatic/setup/application.xml')) {
-                $system_classes = self::getApplicationClasses('innomatic/setup/application.xml');
+    public static function getClassFile($className)
+    {
+        $registry = \Innomatic\Util\Registry::instance();
+
+        // Backwards compatibility system
+        if (!$registry->isGlobalObject('system_classes')) {
+            $home = realpath(dirname(__FILE__).'/../../../../..').'/';
+            // Check if the serialized classes file exists
+            if (file_exists($home.'innomatic/core/temp/cache/classes.ser')) {
+                $classesCache   = unserialize(file_get_contents($home.'innomatic/core/temp/cache/classes.ser'));
+                $system_classes = $classesCache['system_classes'];
+                $system_fqcns   = $classesCache['system_fqcns'];
+            } else {
+                // The serialized cache file doesn't exists, lets build the class list
+                $system_classes = $system_fqcns = array();
+                $system_fqcns   = array();
+                if (file_exists($home.'innomatic/setup/application.xml')) {
+                    $application_classes = self::getApplicationClasses($home.'innomatic/setup/application.xml');
+                    $system_classes      = $application_classes['classes'];
+                    $system_fqcns        = $application_classes['fqcns'];
+                }
+                if ($handle = opendir($home.'innomatic/core/applications/')) {
+                    while (false !== ($entry = readdir($handle))) {
+                        if (
+                            $entry != "."
+                            && $entry != ".."
+                            && is_dir($home.'innomatic/core/applications/'.$entry)
+                            && file_exists($home.'innomatic/core/applications/'.$entry.'/application.xml')
+                        ) {
+                            $application_classes = self::getApplicationClasses($home.'innomatic/core/applications/'.$entry.'/application.xml');
+                            $system_classes      = array_merge($application_classes['classes'], is_array($system_classes) ? $system_classes : array());
+                            $system_fqcns        = array_merge($application_classes['fqcns'], is_array($system_fqcns) ? $system_fqcns : array());
+                        }
+                    }
+
+                    closedir($handle);
+                }
+
+                // Create the classes cache file
+                if (($fh = fopen($home.'innomatic/core/temp/cache/classes.ser', 'w')) !== false) {
+                    fwrite($fh, serialize(array('system_classes' => $system_classes, 'system_fqcns' => $system_fqcns)));
+                    fclose($fh);
+                }
             }
-			if ($handle = opendir('innomatic/core/applications/')) {
-				while (false !== ($entry = readdir($handle))) {
-					if (
-						$entry != "."
-						&& $entry != ".."
-						&& is_dir('innomatic/core/applications/'.$entry)
-						&& file_exists('innomatic/core/applications/'.$entry.'/application.xml')
-					) {
-                        $application_classes = self::getApplicationClasses('innomatic/core/applications/'.$entry.'/application.xml');
-                        $system_classes = array_merge($application_classes, $system_classes);
-					}
-				}
-				
-				closedir($handle);
-			}
-			$registry->setGlobalObject('system_classes', $system_classes);
+            $registry->setGlobalObject('system_classes', $system_classes);
+            $registry->setGlobalObject('system_fqcns', $system_fqcns);
 		}
-		
-		$className = ltrim($className, '\\');
+
+		$className = $fqcn = ltrim($className, '\\');
 		$fileName  = '';
 		$namespace = '';
 		if ($lastNsPos = strrpos($className, '\\')) {
@@ -240,14 +282,16 @@ class RootContainer extends \Innomatic\Util\Singleton
 		}
 
         $reg = $registry->getGlobalObject('system_classes');
-		if (isset($reg[strtolower($className)])){
+        $fqcns = $registry->getGlobalObject('system_fqcns');
+
+		if (!isset($fqcns['\\'.$fqcn]) && isset($reg[strtolower($className)])) {
 			$fileName = $reg[strtolower($className)]['path'];
 		} else {
 			$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 		}
 		return $fileName;
 	}
-	
+
 	public static function createClassAlias($original, $alias, $strong=false)
 	{
 		// if strong create a real alias known to PHP
@@ -256,22 +300,35 @@ class RootContainer extends \Innomatic\Util\Singleton
 				class_alias($original,$alias);
 			}
 		}
-	
+
 		// In any case store the alias in a global variable
 		$alias = strtolower($alias);
-		
+
 		if (isset($GLOBALS['system_class_alias'][$alias])) {
 			if ($GLOBALS['system_class_alias'][$alias] == $original) {
 				return;
 			}
-	
+
 			if (!is_array($GLOBALS['system_class_alias'][$alias])) {
 				$GLOBALS['system_class_alias'][$alias] = array($GLOBALS['system_class_alias'][$alias]);
 			}
-			
+
 			$GLOBALS['system_class_alias'][$alias][] = $original;
 		} else {
 			$GLOBALS['system_class_alias'][$alias] = $original;
 		}
 	}
+
+    public static function clearClassesCache()
+    {
+        $home = realpath(dirname(__FILE__).'/../../../../..').'/';
+        // Check if the serialized classes file exists
+        if (file_exists($home.'innomatic/core/temp/cache/classes.ser')) {
+            unlink($home.'innomatic/core/temp/cache/classes.ser');
+
+            $registry = \Innomatic\Util\Registry::instance();
+            $registry->setGlobalObject('system_classes', $system_classes);
+            $registry->setGlobalObject('system_fqcns', $system_fqcns);
+        }
+    }
 }

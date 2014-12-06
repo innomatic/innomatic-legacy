@@ -4,8 +4,8 @@ namespace Innomatic\Module;
 /**
  * Class for transparently access a remote Module object.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 abstract class ModuleRemoteObject
@@ -13,7 +13,6 @@ abstract class ModuleRemoteObject
     /**
      * Module locator object.
      *
-     * @access protected
      * @var ModuleLocator
      * @since 5.1
      */
@@ -21,7 +20,6 @@ abstract class ModuleRemoteObject
     /**
      * Module session id.
      *
-     * @access protected
      * @var string
      * @since 5.1
      */
@@ -30,7 +28,6 @@ abstract class ModuleRemoteObject
     /**
      * Object constructor.
      *
-     * @access public
      * @param ModuleLocator $locator Module locator object.
      * @since 5.1
      */
@@ -43,7 +40,6 @@ abstract class ModuleRemoteObject
     /**
      * Executes a remote call to the Module server.
      *
-     * @access protected
      * @param string $method Remote Module method name to call.
      * @param array $args Optional arguments.
      * @return mixed Remote object result value.
@@ -145,7 +141,6 @@ abstract class ModuleRemoteObject
     /**
      * Method that is called before executing a class method.
      *
-     * @access public
      * @param string $method Remote Module method name to call.
      * @param array $args Arguments.
      * @return mixed Remote object result value.

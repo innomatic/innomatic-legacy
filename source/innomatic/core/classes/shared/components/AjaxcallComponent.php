@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Components;
@@ -19,9 +19,9 @@ use \Innomatic\Core\InnomaticContainer;
 /**
  * Ajaxcall component handler.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 class AjaxcallComponent extends \Innomatic\Application\ApplicationComponent
@@ -102,7 +102,7 @@ class AjaxcallComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('AjaxcallComponent::doUninstallAction', 'Empty parameters in application ' . $this->appname, \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+        $web_xml_file = $this->container->getHome()
             . 'core/conf/ajax.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Removes the Ajax call function.
@@ -127,7 +127,7 @@ class AjaxcallComponent extends \Innomatic\Application\ApplicationComponent
             );
             return false;
         }
-        $web_xml_file = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+        $web_xml_file = $this->container->getHome()
             . 'core/conf/ajax.xml';
         $sx = simplexml_load_file($web_xml_file);
         // Keeps track if the Ajax call function is found in ajax.xml file.

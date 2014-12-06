@@ -7,51 +7,123 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Application;
 
 /**
- * This class is to be extended for every component type. Extended classes
- * should define doInstallAction(), doUninstallAction(), doUpdateAction(),
- * doEnableDomainAction() and doDisableDomainAction(), or some of them,
- * for their intended use.
+ * This class is to be extended for every component type.
  *
+ * Extended classes should define doInstallAction(), doUninstallAction(),
+ * doUpdateAction(), doEnableDomainAction() and doDisableDomainAction(),
+ * or some of them, for their intended use.
+ *
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 abstract class ApplicationComponent implements ApplicationComponentBase
 {
-    /*! @public rootda DataAccess class - Innomatic database handler. */
+    /**
+     * Innomatic container.
+     *
+     * @var \Innomatic\Core\InnomaticContainer
+     * @access public
+     */
+    public $container;
+
+    /**
+     * Innomatic root data access
+     *
+     * @var \Innomatic\Dataaccess\DataAccess
+     * @access public
+     */
     public $rootda;
-    /*! @public domainda DataAccess class - Domain data access handler. */
+
+    /**
+     * Domain data access
+     *
+     * @var \Innomatic\Dataaccess\DataAccess
+     * @access public
+     */
     public $domainda;
-    /*! @public applicationsComponentsRegister applicationsComponentsRegister
-    class - Application register handler. */
+
+    /**
+     * Application register handler
+     *
+     * @var ApplicationComponentRegister
+     * @access public
+     */
     public $applicationsComponentsRegister;
-    /*! @public appname string - Application name. */
+
+    /**
+     * Application identifier name
+     *
+     * @var string
+     * @access public
+     */
     public $appname;
-    /*! @public name string - Component name. */
+
+    /**
+     * Component type name
+     *
+     * @var string
+     * @access public
+     */
     public $name;
-    /*! @public basedir string - Application temporary directory path, where the
-    application has been extracted. */
+
+    /**
+     * Application temporary directory.
+     *
+     * This is the path where the application archive has been extracted.
+     *
+     * @var string
+     * @access public
+     */
     public $basedir;
-    /*! @public setup bool - Setup flag, true when in Innomatic setup phase. */
+
+    /**
+     * Innomatic setup flag.
+     *
+     * This is set to true when in Innomatic is in setup mode.
+     *
+     * @var bool
+     * @access public
+     */
     public $setup = false;
+
+    /**
+     * Innomatic logger.
+     *
+     * @var \Innomatic\Logging\Logger
+     * @access public
+     */
     public $mLog;
+
+    /**
+     * Component doesn't support overriding.
+     */
     const OVERRIDE_NONE = 'false';
+
+    /**
+     * Component supports tenant level overriding.
+     */
     const OVERRIDE_DOMAIN = 'domain';
+
+    /**
+     * Component supports global overriding.
+     */
     const OVERRIDE_GLOBAL = 'global';
 
-    /*!
-     @abstract Class constructor.
-     @param rootda DataAccess class - Innomatic database handler.
-     @param domainda DataAccess class - Domain database handler. Used when
-    enabling/disabling an component to a domain. May be null otherwise.
-     @param appname string - Application name.
-     @param name string - Component name.
-     @param basedir string - Application temporary directory path.
+    /**
+     * Class constructor.
+     *
+     * @param \Innomatic\Dataaccess\DataAccess $rootda Innomatic root data access.
+     * @param \Innomatic\Dataaccess\DataAccess $domainda Tenant data access.
+     * @param string $appname Application name identifier.
+     * @param string $name Component name.
+     * @param string $basedir Temporary directory containing the application extracted archive.
      */
     public function __construct(
         \Innomatic\Dataaccess\DataAccess $rootda,
@@ -59,8 +131,9 @@ abstract class ApplicationComponent implements ApplicationComponentBase
         $appname,
         $name,
         $basedir
-    )
-    {
+    ) {
+        $this->container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+
         // Arguments check and properties initialization
         //
         $this->rootda = $rootda;
@@ -80,12 +153,13 @@ abstract class ApplicationComponent implements ApplicationComponentBase
         $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
     }
 
-    /*!
-     @abstract Installs the component and registers the component in the
-application register.
-     @param params array - Array of the parameters in the component definition
-structure.
-     @result True if succesfully or already installed.
+    /* public install($params) {{{ */
+    /**
+     * Installs the component and registers it in the application component register.
+     *
+     * @param array $params Array of the parameters in the component definition
+     * @access public
+     * @return bool Returns true if succesfully or already installed
      */
     public function install($params)
     {
@@ -93,10 +167,10 @@ structure.
         $override = self::OVERRIDE_NONE;
         if (isset($params['override'])) {
             switch($params['override']) {
-                case self::OVERRIDE_DOMAIN:
-                case self::OVERRIDE_GLOBAL:
-                    $override = $params['override'];
-                    break;
+            case self::OVERRIDE_DOMAIN:
+            case self::OVERRIDE_GLOBAL:
+                $override = $params['override'];
+                break;
             }
         }
 
@@ -111,15 +185,12 @@ structure.
         ) {
             //if ( isset($params['donotinstall'] ) or $this->setup ) $result = true;
             if (
-                (
-                    isset($params['donotinstall'])
-                    or $this->setup
-                )
+                (isset($params['donotinstall']) or $this->setup)
                 and (!isset($params['forceinstall']))
             ) {
                 $result = true;
             } else {
-                $result = $this->DoInstallAction($params);
+                $result = $this->doInstallAction($params);
             }
 
             if ($result == true) {
@@ -144,14 +215,17 @@ structure.
 
         return $result;
     }
+    /* }}} */
 
-    /*!
-     @abstract Uninstalls the component and unregisters it from
-the application register.
-     @param params array - Array of the parameters in the component definition
-structure.
-     @result True if successfully uninstalled and unregistered, false if
-component not found.
+    /* public uninstall($params) {{{ */
+    /**
+     * Uninstalls the component and removes it from the application component
+     * register.
+     *
+     * @param array $params Parameters in the component definition
+     * @access public
+     * @return bool Returns true when successfully uninstalled and removed from
+     * the register, false when the component has not been found
      */
     public function uninstall($params)
     {
@@ -205,14 +279,20 @@ component not found.
         }
         return $result;
     }
+    /* }}} */
 
-    /*!
-     @abstract Updates the component.
-     @discussion $this->domain controls if the component may be used by a domain,
-                 and there isn't an error of the function if it isn't usable.
-     @param updatemode int - update mode (defined).
-     @param params array - Array of the parameters in the component definition structure.
-     @result True if successfully updated.
+    /* public update($updatemode, $params, $domainprescript = '', $domainpostscript = '') {{{ */
+    /**
+     * Updates the component.
+     *
+     * @param integer $updatemode Update mode (Application::UPDATE_MODE_* constants)
+     * @param array $params Parameters in the component definition
+     * @param string $domainprescript Full path of an optional PHP script to be executed
+     * before proceeding with the component update
+     * @param string $domainpostscript Full path of an optional PHP script to be executed
+     * after proceeding with the component update
+     * @access public
+     * @return void
      */
     public function update($updatemode, $params, $domainprescript = '', $domainpostscript = '')
     {
@@ -244,25 +324,12 @@ component not found.
                                     'SELECT * FROM applications_enabled WHERE domainid='.(int)$domaindata['id']
                                     .' AND applicationid='.(int)$appid
                                 );
-                                
-                                if ($actquery->getNumberRows()) {
-                                	// Start domain
-                                    \Innomatic\Core\InnomaticContainer::instance(
-                                        '\Innomatic\Core\InnomaticContainer'
-                                    )->startDomain($domaindata['domainid']);
-                                    
-                                    // Set the domain dataaccess for the component
-                                    $this->domainda = \Innomatic\Core\InnomaticContainer::instance(
-                                        '\Innomatic\Core\InnomaticContainer'
-                                    )->getCurrentDomain()->getDataAccess();
 
+                                if ($actquery->getNumberRows()) {
                                     // Enable the component for the current iteration domain
                                     if (!$this->enable($domainsquery->getFields('id'), $params)) {
                                         $result = false;
                                     }
-
-                                    // Stop domain
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->stopDomain();
                                 }
 
                                 $actquery->free();
@@ -288,19 +355,10 @@ component not found.
                                     . (int) $domaindata['id'].' AND applicationid='. (int) $appid
                                 );
                                 if ($actquery->getNumberRows()) {
-                                	// Start domain
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->startDomain($domaindata['domainid']);
-                                    
-                                    // Set the domain dataaccess for the component
-                                    $this->domainda = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
-
                                     // Disable the component for the current iteration domain
                                     if (!$this->disable($domainsquery->getFields('id'), $params)) {
                                         $result = false;
                                     }
-
-                                    // Stop domain
-                                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->stopDomain();
                                 }
 
                                 $actquery->free();
@@ -308,7 +366,7 @@ component not found.
                             }
                         }
                     }
-                
+
                 if ($this->uninstall($params)) {
                    	$result = true;
                 }
@@ -334,12 +392,8 @@ component not found.
                                     .' AND applicationid='. (int) $appid
                                 );
                                 if ($actquery->getNumberRows()) {
-                                    \Innomatic\Core\InnomaticContainer::instance(
-                                        '\Innomatic\Core\InnomaticContainer'
-                                    )->startDomain($domaindata['domainid']);
-                                    $this->domainda = \Innomatic\Core\InnomaticContainer::instance(
-                                        '\Innomatic\Core\InnomaticContainer'
-                                    )->getCurrentDomain()->getDataAccess();
+                                    $this->container->startDomain($domaindata['domainid']);
+                                    $this->domainda = $this->container->getCurrentDomain()->getDataAccess();
 
                                     if (
                                         strlen($domainprescript)
@@ -364,9 +418,7 @@ component not found.
                                         include($domainpostscript);
                                     }
 
-                                    \Innomatic\Core\InnomaticContainer::instance(
-                                        '\Innomatic\Core\InnomaticContainer'
-                                    )->stopDomain();
+                                    $this->container->stopDomain();
                                 }
 
                                 $actquery->free();
@@ -378,9 +430,7 @@ component not found.
                 break;
 
             default:
-                $log = \Innomatic\Core\InnomaticContainer::instance(
-                    '\Innomatic\Core\InnomaticContainer'
-                )->getLogger();
+                $log = $this->container->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applicationcomponent.update',
                     'Invalid update mode',
@@ -402,12 +452,16 @@ component not found.
 
         return $result;
     }
+    /* }}} */
 
-    /*!
-     @abstract Enables the component to a domain.
-     @param domainid string - id name of the domain to enable.
-     @param params array - Array of the parameters in the component definition structure.
-     @result True if successfully enabled, registered or not usable.
+    /* public enable($domainid, $params) {{{ */
+    /**
+     * Enables the component to the given domain.
+     *
+     * @param string $domainid Identifier name of the domain
+     * @param array $params Parameters in the component definition
+     * @access public
+     * @return bool True when the component has been successfully enabled to the domain
      */
     public function enable($domainid, $params)
     {
@@ -438,6 +492,14 @@ component not found.
                     $override
                 ) == false
             ) {
+                if (strlen($domainid)) {
+                    // Start domain
+                    $this->container->startDomain(\Innomatic\Domain\Domain::getTenantNameById($domainid));
+
+                    // Set the domain dataaccess for the component
+                    $this->domainda = $this->container->getCurrentDomain()->getDataAccess();
+                }
+
                 if ($this->doEnableDomainAction($domainid, $params)) {
                     $this->applicationsComponentsRegister->registerComponent(
                         $this->appname,
@@ -446,6 +508,10 @@ component not found.
                         $domainid,
                         $override
                     );
+                    if (strlen($domainid)) {
+                        // Stop domain
+                        $this->container->stopDomain();
+                    }
                     $result = true;
                 }
             } else {
@@ -463,13 +529,16 @@ component not found.
         }
         return $result;
     }
+    /* }}} */
 
-    /*!
-     @abstract Disables the component to a domain.
-     @param domainid string - id name of the domain to disable.
-     @param params array - Array of the parameters in the component definition
-structure.
-     @result True if successfully disabled, unregistered or not usable.
+    /* public disable($domainid, $params) {{{ */
+    /**
+     * Disables the component to the given domain.
+     *
+     * @param string $domainid Identifier name of the domain
+     * @param array $params Parameters in the component definition
+     * @access public
+     * @return bool True when the component has been successfully disabled from the domain
      */
     public function disable($domainid, $params)
     {
@@ -510,6 +579,14 @@ structure.
                         true
                     ) == false
                 ) {
+                    if (strlen($domainid)) {
+                        // Start domain
+                        $this->container->startDomain(\Innomatic\Domain\Domain::getTenantNameById($domainid));
+
+                        // Set the domain dataaccess for the component
+                        $this->domainda = $this->container->getCurrentDomain()->getDataAccess();
+                    }
+
                     $result = $this->doDisableDomainAction($domainid, $params);
                     $this->applicationsComponentsRegister->unregisterComponent(
                         $this->appname,
@@ -518,6 +595,10 @@ structure.
                         $domainid,
                         $override
                     );
+                    if (strlen($domainid)) {
+                        // Stop domain
+                        $this->container->stopDomain();
+                    }
                 } else {
                     $result = $this->applicationsComponentsRegister->unregisterComponent(
                         $this->appname,
@@ -533,85 +614,110 @@ structure.
         }
         return $result;
     }
+    /* }}} */
 
-    /*!
-     @abstract Executes component install action.
-     @discussion It should be called by Install() member only. It should be
-redefined by the extended class.
-     @param params array - Array of the parameters in the component definition
-structure
-     @result True if not redefined.
+    /* public doInstallAction($params) {{{ */
+    /**
+     * Executes component install action.
+     *
+     * It should be called by install() method only. It should be redefined
+     * by the extending class.
+     *
+     * @param array $params Parameters in the component definition
+     * @access public
+     * @return bool True if not extended.
      */
     public function doInstallAction($params)
     {
         return true;
     }
+    /* }}} */
 
-    /*!
-     @abstract Executes component uninstall action.
-     @discussion It should be called by Uninstall() member only. It should be
-redefined by the extended class.
-     @param params array - Array of the parameters in the component definition
-structure.
-     @result True if not redefined.
+    /* public doUninstallAction($params) {{{ */
+    /**
+     * Executes component uninstall action.
+     *
+     * It should be called by uninstall() method only. It should be redefined
+     * by the extending class.
+     *
+     * @param array $params Parameters in the component definition
+     * @access public
+     * @return bool True if not extended.
      */
     public function doUninstallAction($params)
     {
         return true;
     }
+    /* }}} */
 
-    /*!
-     @abstract Executes component update action.
-     @discussion It should be called by Update() member only. It should be
-redefined by the extended class.
-     @param params array - Array of the parameters in the component definition
-structure.
-     @result True if not redefined.
+    /* public doUpdateAction($params) {{{ */
+     /**
+     * Executes component update action.
+     *
+     * It should be called by update() method only. It should be redefined
+     * by the extending class.
+     *
+     * @param array $params Parameters in the component definition
+     * @access public
+     * @return bool True if not extended.
      */
     public function doUpdateAction($params)
     {
         return true;
     }
+    /* }}} */
 
-    /*!
-     @abstract Executes enable domain action.
-     @discussion It should be called by Enable() member only. It should be
-redefined by the extended class.
-     @param domainid string - Domain name.
-     @param params array - Array of the parameters in the component definition
-structure.
-     @result True if not redefined.
+    /* public doEnableDomainAction($domainid, $params) {{{ */
+    /**
+     * Executes enable domain action.
+     *
+     * It should be called by enable() method only. It should be redefined
+     * by the extending class.
+     *
+     * @param string $domainid Domain identifier name
+     * @param array $params Parameters in the component definition
+     * @access public
+     * @return void
      */
     public function doEnableDomainAction($domainid, $params)
     {
         return true;
     }
+    /* }}} */
 
-    /*!
-     @abstract Executes disable domain action.
-     @discussion It should be called by Disable() member only. It should be
-redefined by the extended class.
-     @param domainid string - Domain name.
-     @param params array - Array of the parameters in the component definition
-structure.
-     @result True if not redefined.
+    /* public doDisableDomainAction($domainid, $params) {{{ */
+    /**
+     * Executes disable domain action.
+     *
+     * It should be called by disable() method only. It should be redefined
+     * by the extending class.
+     *
+     * @param string $domainid Domain identifier name
+     * @param array $params Parameters in the component definition
+     * @access public
+     * @return void
      */
     public function doDisableDomainAction($domainid, $params)
     {
         return true;
     }
+    /* }}} */
 
-    /*!
-     @abstract Executes domain component update action.
-     @discussion It should be called by Update() member only. It should be
-redefined by the extended class.
-     @param domainid string - Domain name.
-     @param params array - Array of the parameters in the component definition
-structure.
-     @result True if not redefined.
+    /* public doUpdateDomainAction($domainid, $params) {{{ */
+    /**
+     * Executes update domain action.
+     *
+     * It should be called by update() method only. It should be redefined
+     * by the extending class.
+     *
+     * @param string $domainid Domain identifier name
+     * @param array $params Parameters in the component definition
+     * @access public
+     * @return void
      */
     public function doUpdateDomainAction($domainid, $params)
     {
         return true;
     }
+    /* }}} */
 }

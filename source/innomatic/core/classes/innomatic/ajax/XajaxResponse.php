@@ -69,9 +69,6 @@ namespace Innomatic\Ajax;
  */
 class XajaxResponse
 {
-    /**#@+
-     * @access protected
-     */
     /**
      * @var string internal XML storage
      */
@@ -523,7 +520,6 @@ class XajaxResponse
     /**
      * Generates XML from command data
      *
-     * @access private
      * @param array associative array of attributes
      * @param string data
      * @return string XML command
@@ -555,7 +551,6 @@ class XajaxResponse
      * the client. It could be thought of as the opposite of
      * {@link xajax::_parseObjXml()}.
      *
-     * @access private
      * @param mixed data structure to serialize to XML
      * @return string serialized XML
      */

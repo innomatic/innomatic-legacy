@@ -6,8 +6,8 @@ namespace Innomatic\Module;
  *
  * Configuration values have to be manually set.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleConfig
@@ -15,7 +15,6 @@ class ModuleConfig
     /**
      * Module name.
      *
-     * @access protected
      * @var string
      * @since 5.1
      */
@@ -23,7 +22,6 @@ class ModuleConfig
     /**
      * Module version.
      *
-     * @access protected
      * @var string
      * @since 5.1
      */
@@ -31,7 +29,6 @@ class ModuleConfig
     /**
      * Module Fully Qualified Class Name.
      *
-     * @access protected
      * @var string
      * @since 5.1
      */
@@ -39,7 +36,6 @@ class ModuleConfig
     /**
      * Module optional value object Fully Qualified Class Name.
      *
-     * @access protected
      * @var string
      * @since 5.1
      */
@@ -47,7 +43,6 @@ class ModuleConfig
     /**
      * Module optional value object fields list.
      *
-     * @access protected
      * @var array
      * @since 5.1
      */
@@ -55,7 +50,6 @@ class ModuleConfig
     /**
      * Module optional Data Access Source Name.
      *
-     * @access protected
      * @var DataAccessSourceName
      * @since 5.1
      */
@@ -63,7 +57,6 @@ class ModuleConfig
     /**
      * Module optional table name.
      *
-     * @access protected
      * @var string
      * @since 5.1
      */
@@ -71,7 +64,6 @@ class ModuleConfig
     /**
      * Module optional id field.
      *
-     * @access protected
      * @var string
      * @since 5.1
      */
@@ -87,7 +79,6 @@ class ModuleConfig
      * @param DataAccessSourceName $dasn Module optional Data Access Source Name.
      * @param string $table Module optional value table name.
      * @param string $idField Module optional id field name.
-     * @access public
      * @since 5.1
      */
     public function __construct($name, $version, $fqcn, $voClass = '', $dasn = '', $table = '', $idField = '')
@@ -106,7 +97,6 @@ class ModuleConfig
     /**
      * Sets Module name.
      *
-     * @access public
      * @param string $name Module name.
      * @since 5.1
      * @return void
@@ -119,7 +109,6 @@ class ModuleConfig
     /**
      * Gets Module name.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -131,7 +120,6 @@ class ModuleConfig
     /**
      * Sets Module version.
      *
-     * @access public
      * @param string $version Module version.
      * @since 5.1
      * @return void
@@ -144,7 +132,6 @@ class ModuleConfig
     /**
      * Gets Module version.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -156,7 +143,6 @@ class ModuleConfig
     /**
      * Sets Module Fully Qualified Class Name.
      *
-     * @access public
      * @param string $fqcn Module Fully Qualified Class Name.
      * @since 5.1
      * @return void
@@ -169,7 +155,6 @@ class ModuleConfig
     /**
      * Gets Module Fully Qualified Class Name.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -181,7 +166,6 @@ class ModuleConfig
     /**
      * Sets Module optional Data Access Source Name.
      *
-     * @access public
      * @param DataAccessSourceName $dasn Module optional Data Access Source Name.
      * @since 5.1
      * @return void
@@ -194,7 +178,6 @@ class ModuleConfig
     /**
      * Gets Module optional Data Access Source Name.
      *
-     * @access public
      * @since 5.1
      * @return DataAccessSourceName
      */
@@ -206,7 +189,6 @@ class ModuleConfig
     /**
      * Sets Module optional table name.
      *
-     * @access public
      * @param string $table Module optional table name.
      * @since 5.1
      * @return void
@@ -219,7 +201,6 @@ class ModuleConfig
     /**
      * Gets Module optional table name.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -231,7 +212,6 @@ class ModuleConfig
     /**
      * Sets Module optional value object Fully Qualified Class Name.
      *
-     * @access public
      * @param string $class Module value object Fully Qualified Class Name.
      * @since 5.1
      * @return void
@@ -244,7 +224,6 @@ class ModuleConfig
     /**
      * Gets Module optional value object Fully Qualified Class Name.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -256,7 +235,6 @@ class ModuleConfig
     /**
      * Sets Module optional value object fields.
      *
-     * @access public
      * @param string $fields Module optional value object fields.
      * @since 5.1
      * @return void
@@ -269,7 +247,6 @@ class ModuleConfig
     /**
      * Gets Module optional value object fields.
      *
-     * @access public
      * @since 5.1
      * @return string
      */
@@ -281,7 +258,6 @@ class ModuleConfig
     /**
      * Sets Module optional id field.
      *
-     * @access public
      * @param string $idField Module optional id field.
      * @since 5.1
      * @return void
@@ -294,7 +270,6 @@ class ModuleConfig
     /**
      * Gets Module optional id field.
      *
-     * @access public
      * @since 5.1
      * @return string
      */

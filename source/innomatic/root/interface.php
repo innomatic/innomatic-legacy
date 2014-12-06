@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 
@@ -165,7 +165,6 @@ function pass_setserviceprovider($eventData)
     $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
     $appCfg = new \Innomatic\Application\ApplicationSettings(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         'innomatic'
     );
     $appCfg->setKey('serviceprovider-name', $eventData['serviceprovidername']);
@@ -214,7 +213,7 @@ function pass_setenabledicons($eventData)
     global $wuiMainStatus, $innomaticLocale, $wuiPage;
 
     $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
-    $appCfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
+    $appCfg = new \Innomatic\Application\ApplicationSettings('innomatic');
     $appCfg->setKey('innomatic-link-disabled', $eventData['innomaticicon'] == 'on' ? 0 : 1);
     $appCfg->setKey('serviceprovider-link-disabled', $eventData['serviceprovidericon'] == 'on' ? 0 : 1);
     $appCfg->setKey('innomatic-biglogo-disabled', $eventData['innomaticbigicon'] == 'on' ? 0 : 1);
@@ -232,7 +231,7 @@ function pass_settheme($eventData)
 
     $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
 
-    $appCfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
+    $appCfg = new \Innomatic\Application\ApplicationSettings('innomatic');
     $appCfg->setKey('wui-root-theme', $eventData['theme']);
 
     $wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
@@ -346,7 +345,7 @@ function main_default($eventData)
 {
     global $wuiMainFrame, $wuiTitleBar, $innomaticLocale, $actionDispatcher,
            $wuiMainStatus, $wuiComments, $compressedOb;
-    $appCfg = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
+    $appCfg = new \Innomatic\Application\ApplicationSettings('innomatic');
 
     $themesQuery = \Innomatic\Core\InnomaticContainer::instance(
         '\Innomatic\Core\InnomaticContainer'

@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 
@@ -27,7 +27,7 @@ class InterfacePanelViews extends \Innomatic\Desktop\Panel\PanelViews
     public $wuiMainframe;
     public $wuiMainstatus;
     public $wuiTitlebar;
-    protected $_localeCatalog;
+    protected $localeCatalog;
 
     public function update($observable, $arg = '')
     {
@@ -41,51 +41,51 @@ class InterfacePanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function beginHelper()
     {
-        $this->_localeCatalog = new LocaleCatalog(
+        $this->localeCatalog = new LocaleCatalog(
             'innomatic::domain_interface',
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
         );
 
-        $this->_wuiContainer->loadWidget('button');
-        $this->_wuiContainer->loadWidget('checkbox');
-        $this->_wuiContainer->loadWidget('combobox');
-        $this->_wuiContainer->loadWidget('date');
-        $this->_wuiContainer->loadWidget('empty');
-        $this->_wuiContainer->loadWidget('file');
-        $this->_wuiContainer->loadWidget('formarg');
-        $this->_wuiContainer->loadWidget('form');
-        $this->_wuiContainer->loadWidget('grid');
-        $this->_wuiContainer->loadWidget('helpnode');
-        $this->_wuiContainer->loadWidget('horizbar');
-        $this->_wuiContainer->loadWidget('horizframe');
-        $this->_wuiContainer->loadWidget('horizgroup');
-        $this->_wuiContainer->loadWidget('image');
-        $this->_wuiContainer->loadWidget('label');
-        $this->_wuiContainer->loadWidget('link');
-        $this->_wuiContainer->loadWidget('listbox');
-        $this->_wuiContainer->loadWidget('menu');
-        $this->_wuiContainer->loadWidget('page');
-        $this->_wuiContainer->loadWidget('progressbar');
-        $this->_wuiContainer->loadWidget('radio');
-        $this->_wuiContainer->loadWidget('sessionkey');
-        $this->_wuiContainer->loadWidget('statusbar');
-        $this->_wuiContainer->loadWidget('string');
-        $this->_wuiContainer->loadWidget('submit');
-        $this->_wuiContainer->loadWidget('tab');
-        $this->_wuiContainer->loadWidget('table');
-        $this->_wuiContainer->loadWidget('text');
-        $this->_wuiContainer->loadWidget('titlebar');
-        $this->_wuiContainer->loadWidget('toolbar');
-        $this->_wuiContainer->loadWidget('treemenu');
-        $this->_wuiContainer->loadWidget('vertframe');
-        $this->_wuiContainer->loadWidget('vertgroup');
-        $this->_wuiContainer->loadWidget('xml');
+        $this->wuiContainer->loadWidget('button');
+        $this->wuiContainer->loadWidget('checkbox');
+        $this->wuiContainer->loadWidget('combobox');
+        $this->wuiContainer->loadWidget('date');
+        $this->wuiContainer->loadWidget('empty');
+        $this->wuiContainer->loadWidget('file');
+        $this->wuiContainer->loadWidget('formarg');
+        $this->wuiContainer->loadWidget('form');
+        $this->wuiContainer->loadWidget('grid');
+        $this->wuiContainer->loadWidget('helpnode');
+        $this->wuiContainer->loadWidget('horizbar');
+        $this->wuiContainer->loadWidget('horizframe');
+        $this->wuiContainer->loadWidget('horizgroup');
+        $this->wuiContainer->loadWidget('image');
+        $this->wuiContainer->loadWidget('label');
+        $this->wuiContainer->loadWidget('link');
+        $this->wuiContainer->loadWidget('listbox');
+        $this->wuiContainer->loadWidget('menu');
+        $this->wuiContainer->loadWidget('page');
+        $this->wuiContainer->loadWidget('progressbar');
+        $this->wuiContainer->loadWidget('radio');
+        $this->wuiContainer->loadWidget('sessionkey');
+        $this->wuiContainer->loadWidget('statusbar');
+        $this->wuiContainer->loadWidget('string');
+        $this->wuiContainer->loadWidget('submit');
+        $this->wuiContainer->loadWidget('tab');
+        $this->wuiContainer->loadWidget('table');
+        $this->wuiContainer->loadWidget('text');
+        $this->wuiContainer->loadWidget('titlebar');
+        $this->wuiContainer->loadWidget('toolbar');
+        $this->wuiContainer->loadWidget('treemenu');
+        $this->wuiContainer->loadWidget('vertframe');
+        $this->wuiContainer->loadWidget('vertgroup');
+        $this->wuiContainer->loadWidget('xml');
 
-$this->wuiPage = new WuiPage('page', array('title' => $this->_localeCatalog->getStr('interface_pagetitle')));
+$this->wuiPage = new WuiPage('page', array('title' => $this->localeCatalog->getStr('interface_pagetitle')));
 $this->wuiMainvertgroup = new WuiVertgroup('mainvertgroup');
 $this->wuiTitlebar = new WuiTitleBar(
                                'titlebar',
-                               array('title' => $this->_localeCatalog->getStr('interface_title'), 'icon' => 'picture')
+                               array('title' => $this->localeCatalog->getStr('interface_title'), 'icon' => 'picture')
                               );
 $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
 
@@ -98,7 +98,7 @@ $defaultAction->addEvent(new WuiEvent('view', 'default', ''));
 $wuiDefaultButton = new WuiButton(
                                    'defaultbutton',
                                    array(
-                                         'label' => $this->_localeCatalog->getStr('default_button'),
+                                         'label' => $this->localeCatalog->getStr('default_button'),
                                          'themeimage' => 'mask',
                                          'horiz' => 'true',
                                          'action' => $defaultAction->getEventsCallString()
@@ -111,7 +111,7 @@ $countryAction->addEvent(new WuiEvent('view', 'localization', ''));
 $wuiCountryButton = new WuiButton(
                                    'countrybutton',
                                    array(
-                                         'label' => $this->_localeCatalog->getStr('localization_button'),
+                                         'label' => $this->localeCatalog->getStr('localization_button'),
                                          'themeimage' => 'globe2',
                                          'horiz' => 'true',
                                          'action' => $countryAction->getEventsCallString()
@@ -132,7 +132,7 @@ if (strcmp($eventName, 'help')) {
     $wuiHelpButton = new WuiButton(
                                    'helpbutton',
                                    array(
-                                         'label' => $this->_localeCatalog->getStr('help_button'),
+                                         'label' => $this->localeCatalog->getStr('help_button'),
                                          'themeimage' => 'info',
                                          'horiz' => 'true',
                                          'action' => $helpAction->getEventsCallString()
@@ -161,13 +161,13 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
         $this->wuiMainvertgroup->addChild($this->wuiMainframe);
         $this->wuiMainvertgroup->addChild($this->wuiMainstatus);
         $this->wuiPage->addChild($this->wuiMainvertgroup);
-        $this->_wuiContainer->addChild($this->wuiPage);
+        $this->wuiContainer->addChild($this->wuiPage);
     }
 
     public function viewdefault($eventData)
     {
         //$app_cfg = new ApplicationSettings(
-        //    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic' );
+        //    'innomatic' );
 
         $themesQuery = \Innomatic\Core\InnomaticContainer::instance(
                 '\Innomatic\Core\InnomaticContainer'
@@ -199,7 +199,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
                 .'</action></args><children>
         <grid><name>themegrid</name><children>
           <label row="0" col="0"><name>themelabel</name><args><label type="encoded">'
-                        .urlencode($this->_localeCatalog->getStr('themes_label'))
+                        .urlencode($this->localeCatalog->getStr('themes_label'))
                         .'</label><bold>true</bold></args></label>
           <listbox row="1" col="0"><name>theme</name><args><elements type="array">'
                                 .WuiXml::encode($elements)
@@ -208,14 +208,14 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
                                         '</default><disp>action</disp><size>10</size></args></listbox>
         </children></grid>
         <submit><name>submit</name><args><caption type="encoded">'
-                                                .urlencode($this->_localeCatalog->getStr('settheme_submit'))
+                                                .urlencode($this->localeCatalog->getStr('settheme_submit'))
                                                 .'</caption></args></submit>
       </children></form>
     </children></vertgroup>';
 
         $this->wuiMainframe->addChild(new WuiXml('page', array('definition' => $xmlDef)));
 
-        $this->wuiTitlebar->mArgs['title'].= ' - '.$this->_localeCatalog->getStr('themes_title');
+        $this->wuiTitlebar->mArgs['title'].= ' - '.$this->localeCatalog->getStr('themes_title');
     }
 
     public function viewlocalization($eventData)
@@ -252,7 +252,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
         $wuiLocaleGrid->addChild(
                 new WuiLabel(
                         'countrylabel',
-                        array('label' => $this->_localeCatalog->getStr('country_label'))
+                        array('label' => $this->localeCatalog->getStr('country_label'))
                 ),
                 0, 0
         );
@@ -274,7 +274,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
         $wuiLocaleGrid->addChild(
                 new WuiSubmit(
                         'submit1',
-                        array('caption' => $this->_localeCatalog->getStr('country_submit'))
+                        array('caption' => $this->localeCatalog->getStr('country_submit'))
                 ),
                 0, 2
         );
@@ -325,7 +325,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
         $wuiLocaleGrid->addChild(
                 new WuiLabel(
                         'languagelabel',
-                        array('label' => $this->_localeCatalog->getStr('language_label'))
+                        array('label' => $this->localeCatalog->getStr('language_label'))
                 ),
                 0, 0
         );
@@ -346,7 +346,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
         $wuiLocaleGrid->addChild(
                 new WuiSubmit(
                         'submit1',
-                        array('caption' => $this->_localeCatalog->getStr('language_submit'))
+                        array('caption' => $this->localeCatalog->getStr('language_submit'))
                 ),
                 0, 2
         );
@@ -358,7 +358,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
                         'deflanglabel',
                         array(
                                 'label' => sprintf(
-                                        $this->_localeCatalog->getStr('countrylanguage_label'),
+                                        $this->localeCatalog->getStr('countrylanguage_label'),
                                         $languages[$countryLanguage]
                                 )
                         )
@@ -374,7 +374,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
 
         $this->wuiMainframe->addChild($wuiForm);
 
-        $this->wuiTitlebar->mArgs['title'].= ' - '.$this->_localeCatalog->getStr('country_title');
+        $this->wuiTitlebar->mArgs['title'].= ' - '.$this->localeCatalog->getStr('country_title');
     }
 
     public function viewlanguage($eventData)
@@ -415,7 +415,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
                 new WuiLabel(
                         'languagelabel',
                         array(
-                                'label' => $this->_localeCatalog->getStr('language_label')
+                                'label' => $this->localeCatalog->getStr('language_label')
                         )
                 ),
                 0, 0
@@ -436,7 +436,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
         $wuiLocaleGrid->addChild(
                 new WuiSubmit(
                         'submit1',
-                        array('caption' => $this->_localeCatalog->getStr('language_submit'))
+                        array('caption' => $this->localeCatalog->getStr('language_submit'))
                 ),
                 0, 2
         );
@@ -448,7 +448,7 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
                         'deflanglabel',
                         array(
                                 'label' => sprintf(
-                                        $this->_localeCatalog->getStr('countrylanguage_label'),
+                                        $this->localeCatalog->getStr('countrylanguage_label'),
                                         $languages[$countryLanguage]
                                 )
                         )
@@ -464,12 +464,12 @@ $this->wuiMainstatus = new WuiStatusBar('mainstatusbar');
 
         $this->wuiMainframe->addChild($wuiForm);
 
-        $this->wuiTitlebar->mArgs['title'].= ' - '.$this->_localeCatalog->getStr('language_title');
+        $this->wuiTitlebar->mArgs['title'].= ' - '.$this->localeCatalog->getStr('language_title');
     }
 
     public function viewhelp($eventData)
     {
-        $this->wuiTitlebar->mArgs['title'].= ' - '.$this->_localeCatalog->getStr('help_title');
+        $this->wuiTitlebar->mArgs['title'].= ' - '.$this->localeCatalog->getStr('help_title');
         $this->wuiMainframe->addChild(
                 new WuiHelpNode(
                         'locale_help',

@@ -16,8 +16,8 @@ namespace Innomatic\Module;
  * Field names can only contains letters. Numbers, signs and other characters
  * are not allowed.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 abstract class ModuleValueObject implements \Serializable
@@ -25,7 +25,6 @@ abstract class ModuleValueObject implements \Serializable
     /**
      * Returns value for a field.
      *
-     * @access public
      * @since 5.1
      * @param string $key Field name.
      * @return mixed
@@ -38,7 +37,6 @@ abstract class ModuleValueObject implements \Serializable
     /**
      * Sets value for a field.
      *
-     * @access public
      * @since 5.1
      * @param string $key Field name.
      * @param string $value Value to set.
@@ -54,7 +52,6 @@ abstract class ModuleValueObject implements \Serializable
     /**
      * Sets value for many fields.
      *
-     * @access public
      * @since 5.1
      * @param array $valueArray Associative array of values in key-value format.
      * @return void
@@ -71,7 +68,6 @@ abstract class ModuleValueObject implements \Serializable
     /**
      * Flushes in-memory value object content.
      *
-     * @access public
      * @since 5.1
      * @return void
      */
@@ -93,7 +89,6 @@ abstract class ModuleValueObject implements \Serializable
      * value object structure is defined in a configuration file or is
      * dynamically determined.
      *
-     * @access public
      * @since 5.1
      * @param string $field Name of the field to add.
      */

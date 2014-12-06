@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
  */
 namespace Shared\Components;
@@ -48,12 +48,12 @@ class CatalogComponent extends \Innomatic\Application\ApplicationComponent
         $catalog = $this->basedir . '/core/locale/catalogs/' . $params['name'];
         // Check if the help directory exists and if not, create it.
         //
-        if (! is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/locale/catalogs/')) {
+        if (! is_dir($this->container->getHome() . 'core/locale/catalogs/')) {
             $old_umask = umask(0);
-            @mkdir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/locale/catalogs/', 0755);
+            @mkdir($this->container->getHome() . 'core/locale/catalogs/', 0755);
             umask($old_umask);
         }
-        return \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($catalog . '/', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/locale/catalogs/' . basename($catalog) . '/');
+        return \Innomatic\Io\Filesystem\DirectoryUtils::dirCopy($catalog . '/', $this->container->getHome() . 'core/locale/catalogs/' . basename($catalog) . '/');
     }
     public function doUninstallAction($params)
     {
@@ -62,11 +62,11 @@ class CatalogComponent extends \Innomatic\Application\ApplicationComponent
             $this->mLog->logEvent('innomatic.catalogcomponent.catalogcomponent.douninstallaction', 'In application ' . $this->appname . ', component ' . $params['name'] . ': Empty catalog name', \Innomatic\Logging\Logger::ERROR);
             return false;
         }
-        return \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/locale/catalogs/' . basename($params['name']));
+        return \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($this->container->getHome() . 'core/locale/catalogs/' . basename($params['name']));
     }
     public function doUpdateAction($params)
     {
-        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/locale/catalogs/' . basename($params['name']));
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($this->container->getHome() . 'core/locale/catalogs/' . basename($params['name']));
         return $this->doInstallAction($params);
     }
 }

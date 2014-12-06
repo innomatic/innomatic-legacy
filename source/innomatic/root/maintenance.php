@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 
@@ -1221,7 +1221,7 @@ function main_innomatic($eventData)
     //
     $row ++;
 
-    if (function_exists('mysql_connect') or function_exists('pg_connect')) {
+    if (function_exists('mysqli_connect') or function_exists('pg_connect')) {
         $ball = $wuiWidget->mThemeHandler->mStyle['greenball'];
         $checkResult = $gLocale->getStr('db_available_label');
     } else {

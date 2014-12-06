@@ -7,21 +7,20 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Desktop\Auth;
 
 /**
  * Factory for DesktopAuthenticator classes.
  *
- * @copyright  2000-2012 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
+ * @copyright  2000-2012 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
  * @version    Release: @package_version@
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
+ * @link       http://www.innomatic.io
+ * @since      5.0.0
  * @package    Desktop
  */
 class DesktopAuthenticatorHelperFactory

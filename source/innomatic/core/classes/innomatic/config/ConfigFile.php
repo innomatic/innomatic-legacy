@@ -7,24 +7,20 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
-*/
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
+ */
 namespace Innomatic\Config;
 
-/*!
- @class ConfigFile
-
- @abstract Handling of configuration files in the "key = value" format.
-
- @discussion This is read only now.
+/**
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 class ConfigFile
 {
     /*! @var mConfigFile string - Full path of the configuration file. */
-    private $_configFile;
+    protected $configFile;
     /*! @var mConfigValues array - Array of all the key value pairs. */
     public $mConfigValues;
     /*! @var mOpened boolean - True if the given file exists and has been opened. */
@@ -42,7 +38,7 @@ class ConfigFile
 
             $fp = @fopen($fileName, $mode);
             if ($fp) {
-                $this->_configFile = $fileName;
+                $this->configFile = $fileName;
                 $this->mOpened = true;
 
                 while ($fl = @fgets($fp)) {
@@ -96,7 +92,7 @@ class ConfigFile
         $result = false;
 
         $fm = new FileMan();
-        $fm->setFile($this->_configFile);
+        $fm->setFile($this->configFile);
 
         if ($fm->basefile) {
             $keys = $fm->searchInLine('^'.$keyName.' ');

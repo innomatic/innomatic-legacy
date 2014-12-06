@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.1
  */
 namespace Shared\Components;
@@ -17,9 +17,9 @@ namespace Shared\Components;
 /**
  * Module component handler.
  *
- * @copyright  2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.1
  */
 class ModuleComponent extends \Innomatic\Application\ApplicationComponent
@@ -28,8 +28,8 @@ class ModuleComponent extends \Innomatic\Application\ApplicationComponent
     {
         parent::__construct($rootda, $domainda, $appname, $name, $basedir);
         // Checks if the classes folder exists
-        if (! is_dir(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/modules/')) {
-            \Innomatic\Io\Filesystem\DirectoryUtils::mktree(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/modules/', 0755);
+        if (! is_dir($this->container->getHome() . 'core/modules/')) {
+            \Innomatic\Io\Filesystem\DirectoryUtils::mktree($this->container->getHome() . 'core/modules/', 0755);
             clearstatcache();
         }
     }

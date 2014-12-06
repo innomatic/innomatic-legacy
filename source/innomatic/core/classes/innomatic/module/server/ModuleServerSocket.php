@@ -4,16 +4,15 @@ namespace Innomatic\Module\Server;
 /**
  * Module server socket launcher.
  *
- * @author Alex Pagnoni <alex.pagnoni@innoteam.it>
- * @copyright Copyright 2004-2014 Innoteam Srl
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
+ * @copyright Copyright 2004-2014 Innomatic Company
  * @since 5.1
  */
 class ModuleServerSocket
 {
     /**
      * Starts the server socket.
-     *
-     * @access public
+     * 
      * @since 5.1
      * @return void
      */

@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 6.1
 */
 
@@ -21,9 +21,10 @@ class DashboardPanelController extends \Innomatic\Desktop\Panel\PanelController
 
     public function getWidgetsList()
     {
-        $domain_da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $domain_da = $container->getCurrentDomain()->getDataAccess();
 
-        $perm = new \Innomatic\Domain\User\Permissions($domain_da, \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getGroup());
+        $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator($domain_da, $container->getCurrentUser()->getGroup());
 
         // Extract the list of all the widgets
         $widget_query = $domain_da->execute('SELECT * FROM domain_dashboards_widgets');
@@ -34,7 +35,7 @@ class DashboardPanelController extends \Innomatic\Desktop\Panel\PanelController
             // Do not show widgets tied to a panel when the panel is not accessible to the current user
             if (strlen($panel)) {
                 $node_id = $perm->getNodeIdFromFileName($panel);
-                if ( $perm->check( $node_id, \Innomatic\Domain\User\Permissions::NODETYPE_PAGE ) == \Innomatic\Domain\User\Permissions::NODE_NOTENABLED ) {
+                if ( $perm->check( $node_id, \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_PAGE ) == \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED ) {
                 	$widget_query->moveNext();
                     continue;
                 }

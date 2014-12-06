@@ -7,34 +7,38 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Maintenance;
 
 class MaintenanceHandler
 {
-    public $mApplicationSettings;
     public $mMaintenanceInterval;
+    protected $configurationFile;
 
     public function __construct()
     {
-        $this->mApplicationSettings = new \Innomatic\Application\ApplicationSettings(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), 'innomatic');
+        $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
-        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile(), false, INI_SCANNER_RAW);
+        $cfg = @parse_ini_file($container->getConfigurationFile(), false, INI_SCANNER_RAW);
         $result = isset($cfg['MaintenanceInterval']) ? $cfg['MaintenanceInterval'] : '';
         if (!strlen($result))
             $result = 0;
         $this->mMaintenanceInterval = $result;
+
+        // Settings are stored in a dedicated file in order to avoid frequent
+        // updates to the critical innomatic.ini file during maintenance execution.
+        $this->configurationFile = $container->getHome().'core/conf/maintenance.ini';
     }
 
     // ----- Settings -----
 
     public function setMaintenanceInterval($interval)
     {
-        $cfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
+        $cfg = new \Innomatic\Config\ConfigFile($this->configurationFile);
 
         $result = $cfg->setValue('MaintenanceInterval', (int) $interval);
 
@@ -50,7 +54,7 @@ class MaintenanceHandler
 
     public function getLastMaintenanceTime()
     {
-        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile(), false, INI_SCANNER_RAW);
+        $cfg = @parse_ini_file($this->configurationFile, false, INI_SCANNER_RAW);
 
         return $cfg['MaintenanceLastExecutionTime'];
     }
@@ -106,26 +110,26 @@ class MaintenanceHandler
         }
 
         $tasks_query->free();
-        $cfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
+        $cfg = new \Innomatic\Config\ConfigFile($this->configurationFile);
         $cfg->setValue('MaintenanceLastExecutionTime', time());
         return $result;
     }
 
     public function EnableReports()
     {
-        $cfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
+        $cfg = new \Innomatic\Config\ConfigFile($this->configurationFile);
         return $cfg->setValue('MaintenanceReportsEnabled', '1');
     }
 
     public function DisableReports()
     {
-        $cfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
+        $cfg = new \Innomatic\Config\ConfigFile($this->configurationFile);
         return $cfg->setValue('MaintenanceReportsEnabled', '0');
     }
 
     public function getReportsEnableStatus()
     {
-        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
+        $cfg = @parse_ini_file($this->configurationFile);
         if (isset($cfg['MaintenanceReportsEnabled']) and $cfg['MaintenanceReportsEnabled'] == '1') {
             return true;
         }
@@ -134,13 +138,13 @@ class MaintenanceHandler
 
     public function setReportsEmail($email)
     {
-        $cfg = new \Innomatic\Config\ConfigFile(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
+        $cfg = new \Innomatic\Config\ConfigFile($this->configurationFile);
         return $cfg->setValue('MaintenanceReportsEmail', $email);
     }
 
     public function getReportsEmail()
     {
-        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
+        $cfg = @parse_ini_file($this->configurationFile);
 
         return isset($cfg['MaintenanceReportsEmail']) ? $cfg['MaintenanceReportsEmail'] : '';
     }
@@ -149,10 +153,10 @@ class MaintenanceHandler
     {
         $result = false;
 
-        $cfg = @parse_ini_file(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getConfigurationFile());
-        $email = $cfg['MaintenanceReportsEmail'];
+        $cfg = @parse_ini_file($this->configurationFile);
+        $email = isset($cfg['MaintenanceReportsEmail']) ? $cfg['MaintenanceReportsEmail'] : '';
 
-        if ($cfg['MaintenanceReportsEnabled'] == '1' and strlen($email) and is_array($maintenanceResult)) {
+        if (isset($cfg['MaintenanceReportsEnabled']) and $cfg['MaintenanceReportsEnabled'] == '1' and strlen($email) and is_array($maintenanceResult)) {
             $result_text = '';
             $locale = new \Innomatic\Locale\LocaleCatalog('innomatic::maintenance', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage());
             $tasks_list = $this->getTasksList();

@@ -7,16 +7,15 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
- * @since      Class available since Release 5.0
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
 */
 namespace Innomatic\Dataaccess;
 
-/*!
- @class DataAccess
- @abstract Database access abstraction
+/**
+ * @since 5.0.0 introduced
+ * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 abstract class DataAccess
 {
@@ -122,7 +121,7 @@ abstract class DataAccess
             }
         } else {
             $this->lastError = 'Unable to connect to database '.$this->dbname;
-            
+
             $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
             $this->log->logEvent('innomatic.dataaccess.connect', $this->lastError, \Innomatic\Logging\Logger::ERROR);
             throw new DataAccessException(DataAccessException::ERROR_CONNECT_FAILED);
@@ -158,13 +157,13 @@ abstract class DataAccess
                 $this->lastError = '';
             } else {
                 $this->lastError = 'Unable to close database';
-                
+
                 $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
                 $this->log->logEvent('innomatic.dataaccess.close', $this->lastError, \Innomatic\Logging\Logger::ERROR);
             }
         } else {
             $this->lastError = 'Tried to close an already closed database';
-            
+
             $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
             $this->log->logEvent('innomatic.dataaccess.close', $this->lastError, \Innomatic\Logging\Logger::ERROR);
             $result = true;
@@ -187,6 +186,10 @@ abstract class DataAccess
     //
     abstract public function dropTable($params);
 
+    // Truncate a table
+    //
+    abstract public function truncateTable($params);
+
     /*!
      @function AddColumn
      @abstract Adds a column to a table.
@@ -201,6 +204,14 @@ abstract class DataAccess
      */
     abstract public function removeColumn($params);
 
+    // Add a key
+    //
+    abstract public function addKey($params);   
+
+    // Drops a key
+    //
+    abstract public function removeKey($params);
+
     // Alters a table
     //
     abstract public function alterTable($params);
@@ -214,6 +225,12 @@ abstract class DataAccess
     abstract public function createSequence($params);
 
     abstract public function getCreateSequenceQuery($params);
+
+    // Reset a sequence
+    //
+    abstract public function resetSequence($params);
+    
+    abstract public function getResetSequenceQuery($params);
 
     // Drops a sequence
     //
@@ -365,19 +382,21 @@ abstract class DataAccess
                     $this->innomatic->getDbLoadTimer()->Stop($debugCounter.': '.$pieces[$i]);
 
                     if ($this->debug == true) {
-                        
+
                         $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
                         $this->log->logEvent('innomatic.dataaccess.execute', 'Executed query '.$pieces[$i], \Innomatic\Logging\Logger::DEBUG);
                     }
-                } else $resid = $this->doExecute($pieces[$i]);
+                } else {
+                    $resid = $this->doExecute($pieces[$i]);
+                }
 
-                if ($resid == false) {
+                if ($resid === false) {
                     $this->lastError = 'Unable to execute query '.$pieces[$i];
-                    
+
                     $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
                     $this->log->logEvent('innomatic.dataaccess.execute', $this->lastError, \Innomatic\Logging\Logger::ERROR);
                     $result = false;
-                } elseif (($i == count($pieces) - 1) and ($resid != 1)) {
+                } elseif (($i == count($pieces) - 1) and ($resid !== true)) {
                 	$rsname = '\\Innomatic\\Dataaccess\\Drivers\\'.ucfirst(strtolower($this->driver)).'\\'.ucfirst(strtolower($this->driver)).'DataAccessResult';
                     $result = new $rsname($resid);
                     $this->lastError = '';
@@ -388,7 +407,7 @@ abstract class DataAccess
             }
         } else {
             $this->lastError = 'Database not connected';
-            
+
             $this->log = new \Innomatic\Logging\Logger($this->dasn->getOption('logfile'));
             $this->log->logEvent('innomatic.dataaccess.execute', $this->lastError, \Innomatic\Logging\Logger::ERROR);
         }
@@ -465,8 +484,10 @@ abstract class DataAccess
     public function formatText($string)
     {
         //return "'".str_replace( "'", $this->fmtquote, $string )."'";
-        if (get_magic_quotes_gpc() == 1)
-        $string = stripslashes($string);
+        if (get_magic_quotes_gpc() == 1) {
+            $string = preg_replace(array('/\x5C(?!\x5C)/u', '/\x5C\x5C/u'), array('','\\'), $s);
+        }
+        $string = str_replace('\\', '\\\\', $string);
         return "'".str_replace("'", "''", $string)."'";
     }
 
@@ -599,6 +620,11 @@ abstract class DataAccess
         return ("$name CHAR (".strlen('YYYY-MM-DD').')'. (IsSet($field['default']) ? ' DEFAULT '.$this->getDateFieldValue($field['default']) : ''). (IsSet($field['notnull']) ? ' NOT NULL' : ''));
     }
 
+    public function getDatetimeFieldTypeDeclaration($name, &$field)
+    {
+        return ("$name CHAR (".strlen('YYYY-MM-DD HH:MM:SS').')'. (IsSet($field['default']) ? ' DEFAULT '.$this->getDatetimeFieldValue($field['default']) : ''). (IsSet($field['notnull']) ? ' NOT NULL' : ''));
+    }
+
     public function getTimestampFieldTypeDeclaration($name, &$field)
     {
         return ("$name CHAR (".strlen('YYYY-MM-DD HH:MM:SS').')'. (IsSet($field['default']) ? ' DEFAULT '.$this->getTimestampFieldValue($field['default']) : ''). (IsSet($field['notnull']) ? ' NOT NULL' : ''));
@@ -644,6 +670,11 @@ abstract class DataAccess
         return (!strcmp($value, 'NULL') ? 'NULL' : "'$value'");
     }
 
+    public function getDatetimeFieldValue($value)
+    {
+        return (!strcmp($value, 'NULL') ? 'NULL' : "'$value'");
+    }
+
     public function getTimestampFieldValue($value)
     {
         return (!strcmp($value, 'NULL') ? 'NULL' : "'$value'");
@@ -677,6 +708,8 @@ abstract class DataAccess
                 return ($this->getBooleanFieldTypeDeclaration($name, $field));
             case 'date' :
                 return ($this->getDateFieldTypeDeclaration($name, $field));
+            case 'datetime' :
+                return ($this->getDatetimeFieldTypeDeclaration($name, $field));
             case 'unixtimestamp' :
                 return ($this->getUnixTimestampFieldTypeDeclaration($name, $field));
             case 'timestamp' :
@@ -706,6 +739,8 @@ abstract class DataAccess
                 return ($this->getUnixTimestampFieldValue($value));
             case 'date' :
                 return ($this->getDateFieldValue($value));
+            case 'datetime' :
+                return ($this->getDatetimeFieldValue($value));
             case 'timestamp' :
                 return ($this->getTimestampFieldValue($value));
             case 'time' :

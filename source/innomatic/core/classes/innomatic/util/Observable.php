@@ -7,9 +7,9 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innoteam Srl
- * @license    http://www.innomatic.org/license/   BSD License
- * @link       http://www.innomatic.org
+ * @copyright  1999-2014 Innomatic Company
+ * @license    http://www.innomatic.io/license/ New BSD License
+ * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
 */
 namespace Innomatic\Util;
@@ -30,15 +30,13 @@ abstract class Observable
     /**
      * Array degli oggetti che osservano.
      * @var array
-     * @access private
      */
-    protected $_observingObjects = array();
+    protected $observingObjects = array();
     /**
      * Indica se l'oggetto e' stato cambiato.
      * @protected bool
-     * @access private
      */
-    protected $_observableChanged = false;
+    protected $observableChanged = false;
 
     /**
      * Costruisce un oggetto Observable con nessun osservatore.
@@ -46,8 +44,8 @@ abstract class Observable
      */
     public function __construct()
     {
-        $this->_observingObjects = array();
-        $this->_observableChanged = false;
+        $this->observingObjects = array();
+        $this->observableChanged = false;
     }
 
     /**
@@ -58,27 +56,25 @@ abstract class Observable
      */
     public function addObserver(\Innomatic\Util\Observer $observer)
     {
-        $this->_observingObjects[] = $observer;
+        $this->observingObjects[] = $observer;
     }
 
     /**
      * Reimposta l'oggetto come non cambiato.
-     * @access private
      * @return void
      */
     protected function clearChanged()
     {
-        $this->_observableChanged = false;
+        $this->observableChanged = false;
     }
 
     /**
      * Indica quanti oggetti stanno osservando questo oggetto.
-     * @access public
      * @return void
      */
     public function countObservers()
     {
-        return count($this->_observingObjects);
+        return count($this->observingObjects);
     }
 
     /**
@@ -108,38 +104,35 @@ abstract class Observable
     /**
      * Azzera l'elenco degli oggetti in osservazione.
      * @see Observable::deleteObserver()
-     * @access public
      * @return void
      */
     public function deleteObservers()
     {
-        $this->_observingObjects = array ();
+        $this->observingObjects = array ();
     }
 
     /**
      * Indica se l'oggetto ha subito cambiamenti.
      * @see Observable::setChanged()
      * @see Observable::clearChanged()
-     * @access public
      * @return bool
      */
     public function hasChanged()
     {
-        return $this->_observableChanged;
+        return $this->observableChanged;
     }
 
     /**
      * Notifica agli oggetti in osservazione che questo oggetto e' stato aggiornato.
      * @see Observable::setChanged()
      * @param mixed $arg argomento opzionale da passare agli oggetti osservatori.
-     * @access public
      * @return void
      */
     public function notifyObservers($arg = '')
     {
         if ($this->hasChanged()) {
-            foreach ($this->_observingObjects as $id => $objects) {
-                $this->_observingObjects[$id]->update($this, $arg);
+            foreach ($this->observingObjects as $id => $objects) {
+                $this->observingObjects[$id]->update($this, $arg);
             }
 
             $this->clearChanged();
@@ -148,11 +141,10 @@ abstract class Observable
 
     /**
      * Imposta questo oggetto come cambiato.
-     * @access private
      * @return void
      */
     protected function setChanged()
     {
-        $this->_observableChanged = true;
+        $this->observableChanged = true;
     }
 }
