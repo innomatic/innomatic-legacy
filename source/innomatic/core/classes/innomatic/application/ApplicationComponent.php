@@ -25,6 +25,12 @@ namespace Innomatic\Application;
  */
 abstract class ApplicationComponent implements ApplicationComponentBase
 {
+    /**
+     * Innomatic container.
+     *
+     * @var \Innomatic\Core\InnomaticContainer
+     * @access public
+     */
     public $container;
 
     /**
@@ -96,28 +102,28 @@ abstract class ApplicationComponent implements ApplicationComponentBase
     public $mLog;
 
     /**
-     * Component doesn't support overriding
+     * Component doesn't support overriding.
      */
     const OVERRIDE_NONE = 'false';
 
     /**
-     * Component supports domain level overriding
+     * Component supports tenant level overriding.
      */
     const OVERRIDE_DOMAIN = 'domain';
 
     /**
-     * Component supports global overriding
+     * Component supports global overriding.
      */
     const OVERRIDE_GLOBAL = 'global';
 
     /**
-     * Constructor.
+     * Class constructor.
      *
-     * @param \Innomatic\Dataaccess\DataAccess $rootda Innomatic root data access
-     * @param \Innomatic\Dataaccess\DataAccess $domainda Domain data access
-     * @param string $appname Application identifier
-     * @param string $name Component name
-     * @param string $basedir Application extracted archive temporary directory
+     * @param \Innomatic\Dataaccess\DataAccess $rootda Innomatic root data access.
+     * @param \Innomatic\Dataaccess\DataAccess $domainda Tenant data access.
+     * @param string $appname Application name identifier.
+     * @param string $name Component name.
+     * @param string $basedir Temporary directory containing the application extracted archive.
      */
     public function __construct(
         \Innomatic\Dataaccess\DataAccess $rootda,
