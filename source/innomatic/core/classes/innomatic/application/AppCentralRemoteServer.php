@@ -136,25 +136,27 @@ class AppCentralRemoteServer
         return $result;
     }
 
-    public function Remove()
+    public function remove()
     {
         $result = false;
 
-        if ( $this->mId ) {
+        if ($this->id) {
             if (
-                $this->mrRootDb->Execute(
+                $this->dataAccess->execute(
                     'DELETE FROM applications_repositories '.
-                    'WHERE id='.$this->mId
+                    'WHERE id='.$this->id
                 )
             ) {
+                // Destroy the cache for this repository.
                 $cachedItem = new \Innomatic\Datatransfer\Cache\CachedItem(
-                    $this->mrRootDb,
+                    $this->dataAccess,
                     'appcentral-client',
-                    'repositories-'.$this->mId );
+                    'repositories-'.$this->id
+                );
 
-                $cachedItem->Destroy();
+                $cachedItem->destroy();
 
-                $this->mId = 0;
+                $this->id = 0;
                 $result = true;
             }
         }
@@ -162,58 +164,55 @@ class AppCentralRemoteServer
         return $result;
     }
 
-    public function ListAvailableRepositories($refresh = false)
+    public function listAvailableRepositories($refresh = false)
     {
         $result = false;
 
         $cachedItem = new \Innomatic\Datatransfer\Cache\CachedItem(
-            $this->mrRootDb,
+            $this->dataAccess,
             'appcentral-client',
-            'repositories-'.$this->mId );
+            'repositories-'.$this->id
+        );
 
         $goon = true;
 
-        if ( !$refresh ) {
-            $cacheContent = $cachedItem->Retrieve();
+        if (!$refresh) {
+            $cacheContent = $cachedItem->retrieve();
 
-            if ( $cacheContent != false ) {
+            if ($cacheContent != false) {
                 $goon = false;
                 $result = unserialize($cacheContent);
             }
         }
 
-        if ( $goon ) {
-
+        if ($goon) {
             $xmlrpcMessage = new \Innomatic\Webservices\Xmlrpc\XmlRpcMsg(
                 'appcentral-server.list_available_repositories'
             );
-            $xmlrpcResp = $this->mXClient->Send($xmlrpcMessage);
+            $xmlrpcResp = $this->client->send($xmlrpcMessage);
 
-            if ( $xmlrpcResp ) {
+            if ($xmlrpcResp) {
+                if (!$xmlrpcResp->faultCode()) {
+                    $xv = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($xmlrpcResp->value());
 
-                if ( !$xmlrpcResp->FaultCode() ) {
-
-                    $xv = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($xmlrpcResp->Value());
-
-                    if ( is_array($xv) ) {
-
-                        $cachedItem->Store(serialize($xv));
+                    if (is_array($xv)) {
+                        $cachedItem->store(serialize($xv));
 
                         $result = $xv;
-                    } else $this->mLogCenter->logEvent(
-                        array( 'root' => '' ),
+                    } else $this->log->logEvent(
+                        ['root' => ''],
                         'appcentral-client.appcentral-client.appcentralremoteserver.listavailablerepositories',
                         'Not an array from server',
                         \Innomatic\Logging\Logger::ERROR
                     );
-                } else $this->mLogCenter->logEvent(
-                    array( 'root' => '' ),
+                } else $this->log->logEvent(
+                    ['root' => ''],
                     'appcentral-client.appcentral-client.appcentralremoteserver.listavailablerepositories',
-                    'Error in response from server: '.$xmlrpcResp->FaultString(),
+                    'Error in response from server: '.$xmlrpcResp->faultString(),
                     \Innomatic\Logging\Logger::ERROR
                 );
-            } else $this->mLogCenter->logEvent(
-                array( 'root' => '' ),
+            } else $this->log->logEvent(
+                ['root' => ''],
                 'appcentral-client.appcentral-client.appcentralremoteserver.listavailablerepositories',
                 'Invalid response from server',
                 \Innomatic\Logging\Logger::ERROR
@@ -223,59 +222,57 @@ class AppCentralRemoteServer
         return $result;
     }
 
-    public function ListAvailableApplications($repId, $refresh = false)
+    public function listAvailableApplications($repId, $refresh = false)
     {
         $result = false;
 
         $cachedItem = new \Innomatic\Datatransfer\Cache\CachedItem(
-            $this->mrRootDb,
+            $this->dataAccess,
             'appcentral-client',
-            'repository_applications-'.$this->mId.'-'.$repId
+            'repository_applications-'.$this->id.'-'.$repId
         );
 
         $goon = true;
 
-        if ( !$refresh ) {
-            $cacheContent = $cachedItem->Retrieve();
+        if (!$refresh) {
+            $cacheContent = $cachedItem->retrieve();
 
-            if ( $cacheContent != false ) {
+            if ($cacheContent != false) {
                 $goon = false;
                 $result = unserialize($cacheContent);
             }
         }
 
-        if ( $goon ) {
+        if ($goon) {
             $xmlrpcMessage = new \Innomatic\Webservices\Xmlrpc\XmlRpcMsg(
                 'appcentral-server.list_available_applications',
-                array(
-                    new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($repId, 'int')
-                )
+                [new \Innomatic\Webservices\Xmlrpc\XmlRpcVal($repId, 'int')]
             );
 
-            $xmlrpcResp = $this->mXClient->Send($xmlrpcMessage);
+            $xmlrpcResp = $this->client->send($xmlrpcMessage);
 
-            if ( $xmlrpcResp ) {
-                if ( !$xmlrpcResp->FaultCode() ) {
-                    $xv = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($xmlrpcResp->Value());
+            if ($xmlrpcResp) {
+                if (!$xmlrpcResp->faultCode()) {
+                    $xv = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($xmlrpcResp->value());
 
-                    if ( is_array($xv) ) {
-                        $cachedItem->Store(serialize($xv));
+                    if (is_array($xv)) {
+                        $cachedItem->store(serialize($xv));
 
                         $result = $xv;
-                    } else $this->mLogCenter->logEvent(
-                        array('root' => ''),
+                    } else $this->log->logEvent(
+                        ['root' => ''],
                         'appcentral-client.appcentral-client.appcentralremoteserver.listavailableapplications',
                         'Not an array from server',
                         \Innomatic\Logging\Logger::ERROR
                     );
-                } else $this->mLogCenter->logEvent(
-                    array('root' => ''),
+                } else $this->log->logEvent(
+                    ['root' => ''],
                     'appcentral-client.appcentral-client.appcentralremoteserver.listavailableapplications',
-                    'Error in response from server: '.$xmlrpcResp->FaultString(),
+                    'Error in response from server: '.$xmlrpcResp->faultString(),
                     \Innomatic\Logging\Logger::ERROR
                 );
-            } else $this->mLogCenter->logEvent(
-                array('root' => ''),
+            } else $this->log->logEvent(
+                ['root' => ''],
                 'appcentral-client.appcentral-client.appcentralremoteserver.listavailableapplications',
                 'Invalid response from server',
                 \Innomatic\Logging\Logger::ERROR
@@ -285,27 +282,27 @@ class AppCentralRemoteServer
         return $result;
     }
 
-    public function ListAvailableApplicationVersions($repId, $applicationId, $refresh = false)
+    public function listAvailableApplicationVersions($repId, $applicationId, $refresh = false)
     {
         $result = false;
 
         $cachedItem = new \Innomatic\Datatransfer\Cache\CachedItem(
-            $this->mrRootDb,
+            $this->dataAccess,
             'appcentral-client',
-            'repository_application_versions-'.$this->mId.'-'.$repId.'-'.$applicationId );
+            'repository_application_versions-'.$this->id.'-'.$repId.'-'.$applicationId);
 
         $goon = true;
 
-        if ( !$refresh ) {
-            $cacheContent = $cachedItem->Retrieve();
+        if (!$refresh) {
+            $cacheContent = $cachedItem->retrieve();
 
-            if ( $cacheContent != false ) {
+            if ($cacheContent != false) {
                 $goon = false;
                 $result = unserialize($cacheContent);
             }
         }
 
-        if ( $goon ) {
+        if ($goon) {
             $xmlrpcMessage = new \Innomatic\Webservices\Xmlrpc\XmlRpcMsg(
                 'appcentral-server.list_available_application_versions',
                 array(
@@ -314,29 +311,29 @@ class AppCentralRemoteServer
                 )
             );
 
-            $xmlrpcResp = $this->mXClient->Send($xmlrpcMessage);
+            $xmlrpcResp = $this->client->send($xmlrpcMessage);
 
-            if ( $xmlrpcResp ) {
-                if ( !$xmlrpcResp->FaultCode() ) {
-                    $xv = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($xmlrpcResp->Value());
+            if ($xmlrpcResp) {
+                if (!$xmlrpcResp->faultCode()) {
+                    $xv = \Innomatic\Webservices\Xmlrpc\php_xmlrpc_decode($xmlrpcResp->value());
 
-                    if ( is_array($xv) ) {
-                        $cachedItem->Store(serialize($xv));
+                    if (is_array($xv)) {
+                        $cachedItem->store(serialize($xv));
                         $result = $xv;
-                    } else $this->mLogCenter->logEvent(
-                        array('root' => ''),
+                    } else $this->log->logEvent(
+                        ['root' => ''],
                         'appcentral-client.appcentral-client.appcentralremoteserver.listavailableapplications',
                         'Not an array from server',
                         \Innomatic\Logging\Logger::ERROR
                     );
-                } else $this->mLogCenter->logEvent(
-                    array('root' => ''),
+                } else $this->log->logEvent(
+                    ['root' => ''],
                     'appcentral-client.appcentral-client.appcentralremoteserver.listavailableapplications',
-                    'Error in response from server: '.$xmlrpcResp->FaultString(),
+                    'Error in response from server: '.$xmlrpcResp->faultString(),
                     \Innomatic\Logging\Logger::ERROR
                 );
-            } else $this->mLogCenter->logEvent(
-                array('root' => ''),
+            } else $this->log->logEvent(
+                ['root' => ''],
                 'appcentral-client.appcentral-client.appcentralremoteserver.listavailableapplications',
                 'Invalid response from server',
                 \Innomatic\Logging\Logger::ERROR
@@ -346,7 +343,7 @@ class AppCentralRemoteServer
         return $result;
     }
 
-    public function RetrieveApplication($repId, $applicationId, $applicationVersion = '')
+    public function retrieveApplication($repId, $applicationId, $applicationVersion = '')
     {
         $result = false;
 
@@ -359,34 +356,34 @@ class AppCentralRemoteServer
             )
         );
 
-        $xmlrpcResp = $this->mXClient->Send($xmlrpcMessage);
+        $xmlrpcResp = $this->client->send($xmlrpcMessage);
 
-        if ( $xmlrpcResp ) {
-            if ( !$xmlrpcResp->FaultCode() ) {
-                $xv = $xmlrpcResp->Value();
+        if ($xmlrpcResp) {
+            if (!$xmlrpcResp->faultCode()) {
+                $xv = $xmlrpcResp->value();
 
                 $tmpFilename = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
                 .'core/temp/appcentral-client/'.md5(uniqid(rand())).'.tgz';
 
                 $fh = fopen($tmpFilename, 'wb');
-                if ( $fh ) {
+                if ($fh) {
                     fputs($fh, $xv->scalarVal());
                     fclose($fh);
 
                     unset($xv);
                     unset($xmlrpcResp);
 
-                    $tmpApplication = new \Innomatic\Application\Application($this->mrRootDb, '');
-                    if ( $tmpApplication->Install($tmpFilename) ) $result = true;
+                    $tmpApplication = new \Innomatic\Application\Application($this->dataAccess, '');
+                    if ($tmpApplication->install($tmpFilename)) $result = true;
                 }
-            } else $this->mLogCenter->logEvent(
-                array('root' => ''),
+            } else $this->log->logEvent(
+                ['root' => ''],
                 'appcentral-client.appcentral-client.appcentralremoteserver.retrieveapplication',
-                'Error in response from server: '.$xmlrpcResp->FaultString(),
+                'Error in response from server: '.$xmlrpcResp->faultString(),
                 \Innomatic\Logging\Logger::ERROR
             );
-        } else $this->mLogCenter->logEvent(
-            array('root' => ''),
+        } else $this->log->logEvent(
+            ['root' => ''],
             'appcentral-client.appcentral-client.appcentralremoteserver.retrieveapplication',
             'Invalid response from server',
             \Innomatic\Logging\Logger::ERROR
