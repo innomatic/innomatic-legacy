@@ -12,78 +12,122 @@
  * @link       http://www.innomatic.io
  */
 namespace Innomatic\Application;
-require_once('innomatic/webservices/xmlrpc/XmlRpcClient.php');
 
 /**
+ * This class handles operations with remote AppCentral repositories.
+ *
  * @since 5.0.0 introduced
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 class AppCentralRemoteServer
 {
-    public $mId;
-    public $mrRootDb;
-    public $mLogCenter;
-    public $mAccountId;
-    public $mXAccount;
-    public $mXClient;
+    /**
+     * Server id.
+     *
+     * @var integer
+     * @access protected
+     */
+    protected $id;
+    /**
+     * Innomatic root data access handler.
+     *
+     * @var \Innomatic\Dataaccess\DataAccess
+     * @access protected
+     */
+    protected $dataAccess;
+    /**
+     * Innomatic logger handler.
+     *
+     * @var \Innomatic\Logging\LogCenter
+     * @access protected
+     */
+    protected $log;
+    /**
+     * Innomatic web services account id.
+     *
+     * @var integer
+     * @access protected
+     */
+    protected $accountId;
+    /**
+     * Innomatic web services account handler.
+     *
+     * @var \Innomatic\Webservices\WebServicesAccount
+     * @access protected
+     */
+    protected $account;
+    /**
+     * XmlRpc client handler.
+     *
+     * @var \Innomatic\Webservices\Xmlrpc\XmlRpcClient
+     * @access protected
+     */
+    protected $client;
 
-    public function __construct($rrootDb, $repId)
+    /* public __construct($repId = null) {{{ */
+    /**
+     * Class constructor.
+     *
+     * @param integer $repId AppCentral repository id.
+     * @access public
+     * @return void
+     */
+    public function __construct($repId = null)
     {
-        $this->mrRootDb = $rrootDb;
-        $this->mLogCenter = new \Innomatic\Logging\LogCenter('appcentral-client');
+        $this->dataAccess = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
+        $this->log        = new \Innomatic\Logging\LogCenter('appcentral-client');
 
-        if ( $repId ) {
-            $repQuery = $this->mrRootDb->execute(
+        if ($repId) {
+            $repQuery = $this->dataAccess->execute(
                 'SELECT * FROM applications_repositories WHERE id=' . $repId
             );
 
-            if ( $repQuery->getNumberRows() ) {
-                $this->mId = $repId;
-                $this->mAccountId = $repQuery->getFields('accountid');
-                $this->SetClient();
+            if ($repQuery->getNumberRows()) {
+                $this->id = $repId;
+                $this->accountId = $repQuery->getFields('accountid');
+                $this->setClient();
             }
         }
     }
+    /* }}} */
 
-    public function SetClient()
+    protected function setClient()
     {
-        $this->mXAccount = new \Innomatic\Webservices\WebServicesAccount(
-            $this->mrRootDb,
-            $this->mAccountId
+        $this->account = new \Innomatic\Webservices\WebServicesAccount(
+            $this->dataAccess,
+            $this->accountId
         );
 
-        $this->mXClient = new \Innomatic\Webservices\Xmlrpc\XmlRpcClient(
-            $this->mXAccount->mPath,
-            $this->mXAccount->mHost,
-            $this->mXAccount->mPort
+        $this->client = new \Innomatic\Webservices\Xmlrpc\XmlRpcClient(
+            $this->account->mPath,
+            $this->account->mHost,
+            $this->account->mPort
         );
 
-        $this->mXClient->SetCredentials(
-            $this->mXAccount->mUsername,
-            $this->mXAccount->mPassword
+        $this->client->setCredentials(
+            $this->account->mUsername,
+            $this->account->mPassword
         );
-
-        //$this->mXClient->SetDebug( true );
     }
 
-    public function Add($accountId)
+    public function add($accountId)
     {
         $result = false;
 
-        if ( $accountId ) {
-            $repId = $this->mrRootDb->getNextSequenceValue(
+        if ($accountId) {
+            $repId = $this->dataAccess->getNextSequenceValue(
                 'applications_repositories_id_seq'
             );
 
             if (
-                $this->mrRootDb->Execute(
+                $this->dataAccess->execute(
                     'INSERT INTO applications_repositories '.
                     'VALUES ('.$repId.','.$accountId.')'
                 )
             ) {
-                $this->mId = $repId;
-                $this->mAccountId = $accountId;
-                $this->SetClient();
+                $this->id = $repId;
+                $this->accountId = $accountId;
+                $this->setClient();
 
                 $result = true;
             }

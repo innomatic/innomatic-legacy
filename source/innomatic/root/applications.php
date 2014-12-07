@@ -241,7 +241,7 @@ function action_newrepository($eventData)
 {
     global $gLocale, $gStatus;
 
-    $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
+    $remoteAc = new \Innomatic\Application\AppCentralRemoteServer();
     if ($remoteAc->Add($eventData['accountid'])) $gStatus = $gLocale->getStr('repository_added.status');
     else $gStatus = $gLocale->getStr('repository_not_added.status');
 }
@@ -252,7 +252,7 @@ function action_removerepository($eventData)
     global $gLocale, $gStatus;
 
     $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['id']
+        $eventData['id']
     );
     if ($remoteAc->Remove()) $gStatus = $gLocale->getStr('repository_removed.status');
     else $gStatus = $gLocale->getStr('repository_not_removed.status');
@@ -267,7 +267,6 @@ function action_installapplication($eventData)
     global $gLocale, $gStatus;
 
     $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['id']
     );
     if (
@@ -1346,7 +1345,6 @@ function main_appcentral($eventData)
         $repsQuery->MoveFirst();
         while (!$repsQuery->eof) {
             $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
                 $repsQuery->getFields('id')
             );
             $availReps = $acRemote->ListAvailableRepositories(isset($eventData['refresh']) ? true : false);
@@ -1564,7 +1562,6 @@ function main_repositoryapplications($eventData)
     global $gLocale, $gXmlDefinition, $gPageTitle, $gToolbars;
 
     $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['id']
     );
 
@@ -1848,7 +1845,6 @@ function main_applicationversions($eventData)
     global $gLocale, $gXmlDefinition, $gPageTitle, $gToolbars;
 
     $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['id']
     );
 
