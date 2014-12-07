@@ -13,6 +13,7 @@ CHANGES:
 - Removed deprecated icons set. (Alex Pagnoni)
 - Removed deprecated EDITION_SAAS, EDITION_ASP and EDITION_ENTERPRISE
   InnomaticContainer constants. (Alex Pagnoni)
+- Removed deprecated library component. (Alex Pagnoni)
 
 
 

@@ -565,14 +565,6 @@
 	</insert>
 
 	<insert table="applications_components_types">
-		<data field="id" value="10" />
-		<data field="typename" value="library" />
-		<data field="priority" value="110" />
-		<data field="domain" value="f" />
-		<data field="file" value="LibraryComponent.php" />
-	</insert>
-
-	<insert table="applications_components_types">
 		<data field="id" value="11" />
 		<data field="typename" value="rootpanel" />
 		<data field="priority" value="0" />

@@ -78,7 +78,6 @@
 		<component name="wuitheme" file="WuithemeComponent.php" />
 		<component name="wuivalidator" file="WuivalidatorComponent.php" />
 		<component name="language" file="LanguageComponent.php" />
-		<component name="library" file="LibraryComponent.php" />
 		<component name="maintenancetask"
 			file="MaintenancetaskComponent.php" />
 		<component name="applicationsettings"
