@@ -779,7 +779,7 @@
 			file="flattheme_wuicolorsset.ini" catalog="innomatic::flattheme" />
 		<wuistyle name="flattheme" file="flattheme_wuistyle.ini"
 			catalog="innomatic::flattheme" />
-		<wuiiconsset name="crystalflat" file="crystalflat_wuiiconsset.ini"
+		<wuiiconsset name="subway" file="subway_wuiiconsset.ini"
 			catalog="innomatic::flattheme" />
 
 		<!-- WUI dispatching -->
