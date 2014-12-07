@@ -122,12 +122,6 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
     const EDITION_MULTITENANT = 1;
     const EDITION_SINGLETENANT = 2;
 
-    // Deprecated
-
-    const EDITION_ASP = 1;
-    const EDITION_SAAS = 1;
-    const EDITION_ENTERPRISE = 2;
-
     // Password result codes
     const SETROOTPASSWORD_NEW_PASSWORD_IS_EMPTY = -1;
     const SETROOTPASSWORD_UNABLE_TO_WRITE_NEW_PASSWORD = -2;
