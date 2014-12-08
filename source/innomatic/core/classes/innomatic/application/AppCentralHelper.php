@@ -211,4 +211,30 @@ class AppCentralHelper
         }
     }
     /* }}} */
+
+    /* public getLastVersion($versionList) {{{ */
+    /**
+     * Find the highest version among a list of version numbers.
+     *
+     * @param array $versionList Version list.
+     * @access public
+     * @return string Highest version number found.
+     */
+    public function getLastVersion($versionList) {
+        if (!is_array($versionList)) {
+            return false;
+        }
+
+        $lastVersion = '0';
+
+        foreach ($versionList as $version) {
+            $compare = ApplicationDependencies::compareVersionNumbers($version, $lastVersion);
+            if ($compare == ApplicationDependencies::VERSIONCOMPARE_EQUAL or $compare == ApplicationDependencies::VERSIONCOMPARE_MORE) {
+                $lastVersion = $version;
+            }
+        }
+
+        return $lastVersion;
+    }
+    /* }}} */
 }
