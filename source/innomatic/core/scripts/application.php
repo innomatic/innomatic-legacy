@@ -56,11 +56,11 @@ try {
         case 'update':
             $appCentral = new \Innomatic\Application\AppCentralHelper();
             $appCentral->updateApplicationsList(
-                function($serverId, $serverName, $repoId, $repoData) {
-                    print('Server '.$serverName.' - Repository '.$repoData['name'].'... ');
+                function ($serverId, $serverName, $repoId, $repoData) {
+                    print('Server ' . $serverName . ' - Repository ' . $repoData['name'] . '... ');
                 },
-                function($result) {
-                    print('done'.PHP_EOL);
+                function ($result) {
+                    print('done' . PHP_EOL);
                 }
             );
 

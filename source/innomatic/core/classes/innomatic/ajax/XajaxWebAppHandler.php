@@ -59,7 +59,7 @@ class XajaxWebAppHandler extends \Innomatic\Webapp\WebAppHandler
                 \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getCurrentWebApp()->getHome().'core/conf/ajax.xml');
 
         if (isset($cfg->functions)) {
-            foreach($cfg->functions as $name => $functionData) {
+            foreach ($cfg->functions as $name => $functionData) {
                 $xajax->registerExternalFunction(array($name, $functionData['classname'], $functionData['method']), $functionData['classfile']);
             }
         }

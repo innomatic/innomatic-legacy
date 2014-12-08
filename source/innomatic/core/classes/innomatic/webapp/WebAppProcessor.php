@@ -64,7 +64,7 @@ class WebAppProcessor
     {
         $statusReportsTree = simplexml_load_file(\Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer')->getHome().'innomatic/core/conf/webapp/statusreports.xml');
         $statusReports = array();
-        foreach($statusReportsTree->status as $status) {
+        foreach ($statusReportsTree->status as $status) {
             $statusReports[sprintf('%s', $status->statuscode)] = sprintf('%s', $status->statusreport);
         }
 
@@ -140,15 +140,15 @@ class WebAppProcessor
         // POST, GET and FILES parameters
         $parameters = array();
         parse_str($this->request->getQueryString(), $results);
-        foreach($results as $name => $values) {
+        foreach ($results as $name => $values) {
             settype($values, 'array');
             $parameters[$name] = array_values($values);
         }
-        foreach($_POST as $name => $values) {
+        foreach ($_POST as $name => $values) {
             settype($values, 'array');
             $parameters[$name] = array_values($values);
         }
-        foreach($_FILES as $name => $values) {
+        foreach ($_FILES as $name => $values) {
             settype($values, 'array');
             $parameters[$name] = array_values($values);
         }
@@ -162,7 +162,7 @@ class WebAppProcessor
         $locales = array ();
         $value = str_replace(array (' ', "\t"), '', $value);
         $entries = explode(',', $value);
-        foreach($entries as $entry) {
+        foreach ($entries as $entry) {
             // extract the quality factor
             $quality = 1.0;
             if (($semi = strpos($entry, ';q=')) !== false) {
@@ -192,8 +192,8 @@ class WebAppProcessor
             $locales["$key"][] = $locale;
         }
         ksort($locales);
-        foreach($locales as $localeSet) {
-            foreach($localeSet as $locale) {
+        foreach ($locales as $localeSet) {
+            foreach ($localeSet as $locale) {
                 $this->request->addLocale($locale);
             }
         }

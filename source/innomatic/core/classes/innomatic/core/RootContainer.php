@@ -140,7 +140,7 @@ class RootContainer extends \Innomatic\Util\Singleton
 	    if (!isset($orig) && !$def)
 	    // plain class requested AND file was already included, so search up the declared classes and alias
 	    {
-	        foreach( array_reverse($pre) as $c ) {
+	        foreach (array_reverse($pre) as $c) {
 	            if (!(strtolower(substr($c,strlen($c)-strlen($class_name))) == strtolower($class_name))) {
 	                continue;
 	            }
@@ -188,7 +188,7 @@ class RootContainer extends \Innomatic\Util\Singleton
         $application_classes = array();
         $application_fqcns = array();
 
-        foreach($file->components->class as $class) {
+        foreach ($file->components->class as $class) {
             $path = "{$class['name']}";
             $elements = explode('/', $path);
             $class = str_replace('.php', '', array_pop($elements));
@@ -204,7 +204,7 @@ class RootContainer extends \Innomatic\Util\Singleton
             $application_fqcns[$fqcn] = $fqcn;
         }
 
-        foreach($file->components->wuiwidget as $class) {
+        foreach ($file->components->wuiwidget as $class) {
             $path = "shared/wui/{$class['file']}";
             $elements = explode('/', $path);
             $class = str_replace('.php', '', array_pop($elements));

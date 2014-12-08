@@ -93,11 +93,11 @@ class ModuleRegistryHandler
         $this->registry = array ();
         $nodename = 0;
         foreach ($xmldoc->node as $node) {
-              $this->registry[$nodename]['address']="$node->address";
+            $this->registry[$nodename]['address']="$node->address";
             $this->registry[$nodename]['port']="$node->port";
             $this->registry[$nodename]['load']="$node->load";
-             $this->registry[$nodename]['ping_port']="$node->ping_port";
-            foreach($node->services->Modulemodule as $module) {
+            $this->registry[$nodename]['ping_port']="$node->ping_port";
+            foreach ($node->services->Modulemodule as $module) {
                 $this->registry[$nodename]['services'][] = "$module";
             }
             $nodename++;

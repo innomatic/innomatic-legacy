@@ -75,7 +75,7 @@ class PermissionComponent extends \Innomatic\Application\ApplicationComponent
         if ($result && isset($params['defaultroles'])) {
             $roles = explode(',', $params['defaultroles']);
         
-            foreach($roles as $role) {
+            foreach ($roles as $role) {
                 $permission->assignRole(trim($role));
             }
         }
