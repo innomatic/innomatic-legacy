@@ -135,7 +135,7 @@ $gActionDispatcher->addEvent('uninstall', 'action_uninstall');
 function action_uninstall($eventData)
 {
     global $gLocale, $gLocale, $wuiPage, $gStatus;
-    
+
     $tempApplication = new \Innomatic\Application\Application(
         \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['appid']
@@ -1321,6 +1321,12 @@ function main_appcentral($eventData)
     </form>';
     }
 
+    // Refresh repositories and applications list if requested
+    if (isset($eventData['refresh'])) {
+        $helper = new \Innomatic\Application\AppCentralHelper();
+        $helper->updateApplicationsList();
+    }
+
     if ( $repsQuery->getNumberRows() ) {
         $tabs = array();
 
@@ -1347,7 +1353,7 @@ function main_appcentral($eventData)
             $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
                 $repsQuery->getFields('id')
             );
-            $availReps = $acRemote->ListAvailableRepositories(isset($eventData['refresh']) ? true : false);
+            $availReps = $acRemote->listAvailableRepositories();
 
             $gXmlDefinition .=
 '<vertgroup><name>tab</name><children>
