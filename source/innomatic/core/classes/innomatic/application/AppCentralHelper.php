@@ -95,7 +95,8 @@ class AppCentralHelper
                     foreach ($versions as $version => $versionData) {
                         $apps[$appData['appid']][$version][] = [
                             'server' => $serverId,
-                            'repository' => $repoId
+                            'repository' => $repoId,
+                            'appid' => $appId
                         ];
                     }
                 }
