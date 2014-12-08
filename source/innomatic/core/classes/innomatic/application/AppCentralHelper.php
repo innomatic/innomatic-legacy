@@ -141,6 +141,10 @@ class AppCentralHelper
                 }
             }
         }
+        
+        if (!count($found)) {
+            return false;
+        }
 
         return $found;
     }
