@@ -122,6 +122,19 @@ class AppCentralRemoteServer
     }
     /* }}} */
 
+    /* public getAccount() {{{ */
+    /**
+     * Gets webservices account for the current server.
+     *
+     * @access public
+     * @return \Innomatic\Webservices\WebServicesAccount
+     */
+    public function getAccount()
+    {
+        return $this->account;
+    }
+    /* }}} */
+
     /* public add($accountId) {{{ */
     /**
      * Adds a new AppCentral remote server.
