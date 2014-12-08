@@ -1946,12 +1946,12 @@ function main_applicationversions($eventData)
                 ) {
                 case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_EQUAL:
                     $label = $gLocale->getStr('reinstall_application.button');
-                    $icon = 'reload';
+                    $icon = 'cycle';
                     break;
 
                 case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_MORE:
                     $label = $gLocale->getStr('update_application.button');
-                    $icon = 'folder_new';
+                    $icon = 'up';
                     break;
 
                 case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_LESS:
