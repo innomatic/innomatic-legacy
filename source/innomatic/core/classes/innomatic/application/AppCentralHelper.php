@@ -57,6 +57,7 @@ class AppCentralHelper
      * Gets a list of all the available applications in the registered
      * AppCentral repositories.
      *
+     * @param bool   $refresh     True if the cache must be refreshed.
      * @access public
      * @return array
      */
