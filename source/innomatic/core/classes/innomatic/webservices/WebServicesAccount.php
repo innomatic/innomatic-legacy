@@ -40,7 +40,7 @@ class WebServicesAccount
      * @var \Innomatic\Dataaccess\DataAccess
      * @access public
      */
-    public $mrRootDb;
+    public $dataAccess;
     /**
      * Account id.
      *
@@ -128,19 +128,21 @@ class WebServicesAccount
      * @access public
      * @return void
      */
-    public function __construct($rrootDb, $id = '')
+    public function __construct($id = '')
     {
-        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
-        $this->mWebServicesLog = new \Innomatic\Logging\Logger( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log' );
+        $container             = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $this->dataAccess      = $container->getDataAccess();
+        $this->mLog            = $container->getLogger();
+        $this->mWebServicesLog = new \Innomatic\Logging\Logger($container->getHome().'core/log/webservices.log');
 
         $this->mId = $id;
 
-        if ( is_object( $rrootDb ) ) $this->mrRootDb = $rrootDb;
+        if ( is_object( $rrootDb ) ) $this->dataAccess = $rrootDb;
         else $this->mLog->logEvent( 'innomatic.webservicesaccount',
                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         if ( $this->mId ) {
-            $acc_query = $this->mrRootDb->execute( 'SELECT * '.
+            $acc_query = $this->dataAccess->execute( 'SELECT * '.
                                                   'FROM webservices_accounts '.
                                                   'WHERE id='.(int)$this->mId );
 
@@ -177,23 +179,23 @@ class WebServicesAccount
     {
         $result = false;
 
-        $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.create' );
+        $hook = new \Innomatic\Process\Hook( $this->dataAccess, 'innomatic', 'webservicesaccount.create' );
         if ( $hook->callHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( strlen( $name ) ) {
-                $acc_seq = $this->mrRootDb->getNextSequenceValue( 'webservices_accounts_id_seq' );
+                $acc_seq = $this->dataAccess->getNextSequenceValue( 'webservices_accounts_id_seq' );
 
-                $result = $this->mrRootDb->execute(
+                $result = $this->dataAccess->execute(
                     'INSERT INTO webservices_accounts '.
                     'VALUES ('.
                     $acc_seq.','.
-                    $this->mrRootDb->formatText( $name ).','.
-                    $this->mrRootDb->formatText( $host ).','.
-                    $this->mrRootDb->formatText( $path ).','.
-                    $this->mrRootDb->formatText( $port ).','.
-                    $this->mrRootDb->formatText( $username ).','.
-                    $this->mrRootDb->formatText( $password ).','.
-                    $this->mrRootDb->formatText( $proxy ).','.
-                    $this->mrRootDb->formatText( $proxyPort ).')'
+                    $this->dataAccess->formatText( $name ).','.
+                    $this->dataAccess->formatText( $host ).','.
+                    $this->dataAccess->formatText( $path ).','.
+                    $this->dataAccess->formatText( $port ).','.
+                    $this->dataAccess->formatText( $username ).','.
+                    $this->dataAccess->formatText( $password ).','.
+                    $this->dataAccess->formatText( $proxy ).','.
+                    $this->dataAccess->formatText( $proxyPort ).')'
                 );
 
                 if ( $result ) {
@@ -250,10 +252,10 @@ class WebServicesAccount
     {
         $result = false;
 
-        $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.remove' );
+        $hook = new \Innomatic\Process\Hook( $this->dataAccess, 'innomatic', 'webservicesaccount.remove' );
         if ( $hook->callHooks( 'calltime', $this, array( 'id' => $this->mId ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mId ) {
-                $result = $this->mrRootDb->execute( 'DELETE FROM webservices_accounts WHERE id='.(int)$this->mId );
+                $result = $this->dataAccess->execute( 'DELETE FROM webservices_accounts WHERE id='.(int)$this->mId );
 
                 if ( $result ) {
                     $this->mLog->logEvent( 'Innomatic',
@@ -285,21 +287,21 @@ class WebServicesAccount
     {
         $result = false;
 
-        $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.update' );
+        $hook = new \Innomatic\Process\Hook( $this->dataAccess, 'innomatic', 'webservicesaccount.update' );
         if ( $hook->callHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mId ) {
                 if ( strlen( $name ) ) {
-                    $result = $this->mrRootDb->execute(
+                    $result = $this->dataAccess->execute(
                         'UPDATE webservices_accounts '.
                         'SET '.
-                        'name='.$this->mrRootDb->formatText( $name ).','.
-                        'host='.$this->mrRootDb->formatText( $host ).','.
-                        'path='.$this->mrRootDb->formatText( $path ).','.
-                        'port='.$this->mrRootDb->formatText( $port ).','.
-                        'username='.$this->mrRootDb->formatText( $username ).','.
-                        'password='.$this->mrRootDb->formatText( $password ).','.
-                        'proxy='.$this->mrRootDb->formatText( $proxy ).','.
-                        'proxyport='.$this->mrRootDb->formatText( $proxyPort ).' '.
+                        'name='.$this->dataAccess->formatText( $name ).','.
+                        'host='.$this->dataAccess->formatText( $host ).','.
+                        'path='.$this->dataAccess->formatText( $path ).','.
+                        'port='.$this->dataAccess->formatText( $port ).','.
+                        'username='.$this->dataAccess->formatText( $username ).','.
+                        'password='.$this->dataAccess->formatText( $password ).','.
+                        'proxy='.$this->dataAccess->formatText( $proxy ).','.
+                        'proxyport='.$this->dataAccess->formatText( $proxyPort ).' '.
                         'WHERE id='.(int)$this->mId
                     );
 

@@ -1591,7 +1591,6 @@ function main_repositoryapplications($eventData)
     reset($availModsSortedList);
 
     $xAccount = new WebServicesAccount(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $acRemote->mAccountId
     );
 
@@ -1865,7 +1864,6 @@ function main_applicationversions($eventData)
 
 
     $xAccount = new WebServicesAccount(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $acRemote->mAccountId
     );
 

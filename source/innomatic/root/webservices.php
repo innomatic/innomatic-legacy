@@ -403,7 +403,7 @@ function pass_createaccount($eventData)
 {
     global $wuiMainStatus, $innomaticLocale;
 
-    $acc = new \Innomatic\Webservices\WebServicesAccount(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
+    $acc = new \Innomatic\Webservices\WebServicesAccount();
     if (
         $acc->Create(
             $eventData['name'],
@@ -431,7 +431,7 @@ function pass_removeaccount($eventData)
 
     if (!empty($eventData['accountid'])) {
         $acc = new \Innomatic\Webservices\WebServicesAccount(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['accountid']
+            $eventData['accountid']
         );
         $result = $acc->Remove();
     }
@@ -450,7 +450,7 @@ function pass_updateaccount($eventData)
 
     if (!empty($eventData['accountid'])) {
         $acc = new \Innomatic\Webservices\WebServicesAccount(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['accountid']
+            $eventData['accountid']
         );
         $result = $acc->Update(
             $eventData['name'],
@@ -2152,7 +2152,6 @@ function main_showmethods($eventData)
     $wuiVGroup = new WuiVertgroup('vgroup');
 
     $xmlrpcAccount = new \Innomatic\Webservices\WebServicesAccount(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['accountid']
     );
     $xmlrpcClient = new \Innomatic\Webservices\Xmlrpc\XmlRpcClient($xmlrpcAccount->mPath, $xmlrpcAccount->mHost, $xmlrpcAccount->mPort);

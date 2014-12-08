@@ -105,7 +105,6 @@ class AppCentralRemoteServer
     protected function setClient()
     {
         $this->account = new \Innomatic\Webservices\WebServicesAccount(
-            $this->dataAccess,
             $this->accountId
         );
 
