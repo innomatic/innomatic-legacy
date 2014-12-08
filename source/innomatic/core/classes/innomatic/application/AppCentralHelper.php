@@ -143,7 +143,7 @@ class AppCentralHelper
                 }
             }
         }
-        
+
         if (!count($found)) {
             return false;
         }
@@ -152,9 +152,79 @@ class AppCentralHelper
     }
     /* }}} */
 
+    /* public resolveDependencies($dependencies) {{{ */
+    /**
+     * Automatically resolves a list of application dependencies and installs
+     * the found ones.
+     *
+     * The method automatically tries to retrieve applications from other
+     * available servers when is unable to retrieve if from the first one.
+     *
+     * @param string $dependencies A list of dependencies as returned by \Innomatic\Application\ApplicationDependencies::checkApplicationDependencies()
+     * @access public
+     * @return array An array of resolved and missing dependencies.
+     */
     public function resolveDependencies($dependencies)
     {
+        if (!is_array($dependencies)) {
+            return false;
+        }
+
+        // Build the list of the found and missing dependencies.
+        $found = $missing = [];
+
+        foreach ($dependencies as $dependency) {
+            // Extract application and version.
+            list($application, $version) = sscanf(str_replace(['[', ']'], ' ', $dependency), "%s %s");
+
+            // Check if the application is available in some AppCentral servers.
+            $versions = $this->findApplication($application, strlen($version) ? $version : null);
+
+            if ($versions != false) {
+                // Application found.
+
+                // Extract the latest version.
+                $versionList = [];
+                foreach ($versions as $versionId => $versionData) {
+                    $versionList[] = $versionId;
+                }
+
+                $lastVersion = $this->getLastVersion($versionList);
+
+                // Add the latest application version to the resolved dependencies list.
+                $found[$application] = ['version' => $lastVersion, 'serverinfo' => $versions[$lastVersion]];
+            } else {
+                // Application not found.
+
+                // Add the application to the missing list.
+                $missing[$application] = $version;
+            }
+        }
+
+        // Retrieve and install the found applications.
+        foreach ($found as $appName => $appData) {
+            $result = false;
+
+            // Check AppCentral servers until it can retrieve and install the application.
+            foreach ($appData['serverinfo'] as $serverInfo) {
+                $server = new AppCentralRemoteServer($serverInfo['server']);
+                $result = $server->retrieveApplication($serverInfo['repository'], $serverInfo['appid']);
+                if ($result == true) {
+                    break 1;
+                }
+            }
+
+            if ($result == false) {
+                // Unable to retrieve and install the application.
+                // Move it from the found list to the missing ones.
+                $missing[$appName] = $appData['version'];
+                unset($found[$appName]);
+            }
+        }
+
+        return ['found' => $found, 'missing' => $missing];
     }
+    /* }}} */
 
     /* public updateApplicationsList(\Closure $item = null, \Closure $result = null) {{{ */
     /**
