@@ -132,6 +132,16 @@ class AppCentralHelper
     {
     }
 
+    /* public updateApplicationsList(\Closure $item = null, \Closure $result = null) {{{ */
+    /**
+     * Refreshes the list of the available repositories and applications from
+     * the registered AppCentral servers.
+     *
+     * @param \Closure $item Optional callback that is called before refreshing the applications list of a repository.
+     * @param \Closure $result Optional callback that is called after refreshing each repository.
+     * @access public
+     * @return void
+     */
     public function updateApplicationsList(\Closure $item = null, \Closure $result = null)
     {
         // Fetch the list of the registered AppCentral servers.
@@ -142,18 +152,20 @@ class AppCentralHelper
             "SELECT id FROM applications_repositories"
         );
 
+        // Refresh each AppCentral server.
         while (!$serverList->eof) {
             $serverId = $serverList->getFields('id');
             $server = new AppCentralRemoteServer($serverId);
 
             // Fetch the list of the available repositories, refreshing the cache.
             $repositories = $server->listAvailableRepositories(true);
-                        
+
             foreach ($repositories as $repoId => $repoData) {
+                // Call the repository refresh data callback.
                 if (is_callable($item)) {
                     $item($serverId, $server->getAccount()->getName(), $repoId, $repoData);
                 }
-                
+
                 // Fetch the list of the available repository applications.
                 $repoApplications = $server->listAvailableApplications($repoId, true);
 
@@ -166,6 +178,7 @@ class AppCentralHelper
                     );
                 }
 
+                // Call the repository refresh result callback.
                 if (is_callable($result)) {
                     $result(true);
                 }
@@ -173,4 +186,5 @@ class AppCentralHelper
             $serverList->moveNext();
         }
     }
+    /* }}} */
 }
