@@ -113,18 +113,36 @@ class AppCentralHelper
      * AppCentral servers.
      *
      * @param string $application Application name.
+     * @param string $version     Optional minimun version number.
+     * @param bool   $refresh     True if the cache must be refreshed.
      * @access public
      * @return mixed false if the applications has not been found or an array of the servers
      * containing the application.
      */
-    public function findApplication($application, $refresh = false)
+    public function findApplication($application, $version = null, $refresh = false)
     {
+        // Get the list of the available applications.
         $apps = $this->getAvailableApplications($refresh);
+
+        // Check if the application has been found.
         if (!isset($apps[$application])) {
             return false;
         }
 
-        return $apps[$application];
+        $found = $apps[$application];
+
+        // If a minimum version number has been given, remove the application
+        // versions under the latter.
+        if (!is_null($version)) {
+            foreach ($found as $appVersion => $appData) {
+                $compare = ApplicationDependencies::compareVersionNumbers($appVersion, $version);
+                if ($compare == ApplicationDependencies::VERSIONCOMPARE_LESS) {
+                    unset($found[$appVersion]);
+                }
+            }
+        }
+
+        return $found;
     }
     /* }}} */
 
