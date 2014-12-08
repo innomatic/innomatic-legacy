@@ -9,6 +9,10 @@
                                 =======
 6.x
 -------------------------
+NEW FEATURES:
+- Added update action in application.php script for updating AppCentral
+  applications list. (Alex Pagnoni)
+
 CHANGES:
 - Removed deprecated icons set. (Alex Pagnoni)
 - Removed deprecated EDITION_SAAS, EDITION_ASP and EDITION_ENTERPRISE

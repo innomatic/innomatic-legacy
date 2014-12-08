@@ -135,7 +135,7 @@ $gActionDispatcher->addEvent('uninstall', 'action_uninstall');
 function action_uninstall($eventData)
 {
     global $gLocale, $gLocale, $wuiPage, $gStatus;
-    
+
     $tempApplication = new \Innomatic\Application\Application(
         \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['appid']
@@ -241,7 +241,7 @@ function action_newrepository($eventData)
 {
     global $gLocale, $gStatus;
 
-    $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
+    $remoteAc = new \Innomatic\Application\AppCentralRemoteServer();
     if ($remoteAc->Add($eventData['accountid'])) $gStatus = $gLocale->getStr('repository_added.status');
     else $gStatus = $gLocale->getStr('repository_not_added.status');
 }
@@ -252,7 +252,7 @@ function action_removerepository($eventData)
     global $gLocale, $gStatus;
 
     $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $eventData['id']
+        $eventData['id']
     );
     if ($remoteAc->Remove()) $gStatus = $gLocale->getStr('repository_removed.status');
     else $gStatus = $gLocale->getStr('repository_not_removed.status');
@@ -267,7 +267,6 @@ function action_installapplication($eventData)
     global $gLocale, $gStatus;
 
     $remoteAc = new \Innomatic\Application\AppCentralRemoteServer(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['id']
     );
     if (
@@ -1322,6 +1321,12 @@ function main_appcentral($eventData)
     </form>';
     }
 
+    // Refresh repositories and applications list if requested
+    if (isset($eventData['refresh'])) {
+        $helper = new \Innomatic\Application\AppCentralHelper();
+        $helper->updateApplicationsList();
+    }
+
     if ( $repsQuery->getNumberRows() ) {
         $tabs = array();
 
@@ -1346,10 +1351,9 @@ function main_appcentral($eventData)
         $repsQuery->MoveFirst();
         while (!$repsQuery->eof) {
             $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
                 $repsQuery->getFields('id')
             );
-            $availReps = $acRemote->ListAvailableRepositories(isset($eventData['refresh']) ? true : false);
+            $availReps = $acRemote->listAvailableRepositories();
 
             $gXmlDefinition .=
 '<vertgroup><name>tab</name><children>
@@ -1564,7 +1568,6 @@ function main_repositoryapplications($eventData)
     global $gLocale, $gXmlDefinition, $gPageTitle, $gToolbars;
 
     $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['id']
     );
 
@@ -1594,7 +1597,6 @@ function main_repositoryapplications($eventData)
     reset($availModsSortedList);
 
     $xAccount = new WebServicesAccount(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $acRemote->mAccountId
     );
 
@@ -1848,7 +1850,6 @@ function main_applicationversions($eventData)
     global $gLocale, $gXmlDefinition, $gPageTitle, $gToolbars;
 
     $acRemote = new \Innomatic\Application\AppCentralRemoteServer(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $eventData['id']
     );
 
@@ -1869,7 +1870,6 @@ function main_applicationversions($eventData)
 
 
     $xAccount = new WebServicesAccount(
-        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
         $acRemote->mAccountId
     );
 
@@ -1946,12 +1946,12 @@ function main_applicationversions($eventData)
                 ) {
                 case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_EQUAL:
                     $label = $gLocale->getStr('reinstall_application.button');
-                    $icon = 'reload';
+                    $icon = 'cycle';
                     break;
 
                 case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_MORE:
                     $label = $gLocale->getStr('update_application.button');
-                    $icon = 'folder_new';
+                    $icon = 'up';
                     break;
 
                 case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_LESS:

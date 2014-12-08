@@ -654,6 +654,21 @@ class ApplicationDependencies
         return $result;
     }
 
+    /* public compareVersionNumbers($a, $b) {{{ */
+    /**
+     * Compares two application version numbers.
+     *
+     * Returns:
+     * - self::VERSIONCOMPARE_MORE:  the second version is greater than the first.
+     * - self::VERSIONCOMPARE_LESS:  the second version is lesser than the first.
+     * - self::VERSIONCOMPARE_EQUAL: the versions are the same.
+     *
+     * @param string $a First version number.
+     * @param string $b Second version number.
+     * @static
+     * @access public
+     * @return integer self::VERSIONCOMPARE_* static constants.
+     */
     public static function compareVersionNumbers($a, $b)
     {
         $a = strtr($a, '-', '.');
@@ -667,11 +682,11 @@ class ApplicationDependencies
         if ($aDots != $bDots) {
             if ($aDots == $dots) {
                 for ($i = 0; $i < ($dots - $bDots); $i ++) {
-                    $b.= '.0';
+                    $b .= '.0';
                 }
             } else {
                 for ($i = 0; $i < ($dots - $aDots); $i ++) {
-                    $a.= '.0';
+                    $a .= '.0';
                 }
             }
         }
@@ -680,13 +695,14 @@ class ApplicationDependencies
         $bNumbers = explode('.', $b);
 
         for ($i = 0; $i <= $dots; $i ++) {
-            if ($aNumbers[$i] > $bNumbers[$i])
+            if ($aNumbers[$i] > $bNumbers[$i]) {
                 return ApplicationDependencies::VERSIONCOMPARE_MORE;
-            else
-                if ($aNumbers[$i] < $bNumbers[$i])
-                    return ApplicationDependencies::VERSIONCOMPARE_LESS;
+            } elseif ($aNumbers[$i] < $bNumbers[$i]) {
+                return ApplicationDependencies::VERSIONCOMPARE_LESS;
+            }
         }
 
         return ApplicationDependencies::VERSIONCOMPARE_EQUAL;
     }
+    /* }}} */
 }

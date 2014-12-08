@@ -14,36 +14,95 @@
 */
 namespace Innomatic\Webservices;
 
-/*!
- @class WebServicesAccount
-
- @abstract Handles web services accounts.
+/**
+ * This class handles accounts to external web services.
+ *
  */
 class WebServicesAccount
 {
-    /*! @var mLog Logger class - Innomatic log handler. */
+    /**
+     * Innomatic log handler.
+     *
+     * @var \Innomatic\Logging\Logger
+     * @access public
+     */
     public $mLog;
-    /*! @var mLog Logger class - Web services procedures log handler. */
+    /**
+     * Web services log handler.
+     *
+     * @var \Innomatic\Logging\Logger
+     * @access public
+     */
     public $mWebServicesLog;
-    /*! @var mrRootdb DataAccess class - Innomatic database handler. */
-    public $mrRootDb;
-    /*! @var mId integer - Account id. */
+    /**
+     * Innomatic root data access handler.
+     *
+     * @var \Innomatic\Dataaccess\DataAccess
+     * @access public
+     */
+    public $dataAccess;
+    /**
+     * Account id.
+     *
+     * @var integer
+     * @access public
+     */
     public $mId;
-    /*! @var mName string - Account name. */
+    /**
+     * Account name.
+     *
+     * @var string
+     * @access public
+     */
     public $mName;
-    /*! @var mHost string - Account host. */
+    /**
+     * Account server hostname.
+     *
+     * @var string
+     * @access public
+     */
     public $mHost;
-    /*! @var mPort string - Account port. */
+    /**
+     * Account server port.
+     *
+     * @var integer
+     * @access public
+     */
     public $mPort;
-    /*! @var mPath string - Account path. */
+    /**
+     * Account server receiver path.
+     *
+     * @var string
+     * @access public
+     */
     public $mPath;
-    /*! @var mUsername string - Account username. */
+    /**
+     * Account username.
+     *
+     * @var string
+     * @access public
+     */
     public $mUsername;
-    /*! @var mPassword string - Account password. */
+    /**
+     * Account password.
+     *
+     * @var string
+     * @access public
+     */
     public $mPassword;
-    /*! @var mProxy string - Optional proxy hostname. */
+    /**
+     * Account optional proxy server hostname.
+     *
+     * @var string
+     * @access public
+     */
     public $mProxy;
-    /*! @var mProxyPort string - Optional proxy port. */
+    /**
+     * Account optional proxy server port.
+     *
+     * @var integer
+     * @access public
+     */
     public $mProxyPort;
     // WebServicesAccount::Create
     //
@@ -61,29 +120,29 @@ class WebServicesAccount
     const UPDATE_EMPTY_ACCOUNT_ID = '-2'; // Empty account id.
     const UPDATE_EMPTY_ACCOUNT_NAME = '-3'; // Empty account name.
 
-    /*!
-     @function WebServicesAccount
-
-     @abstract Class constructor.
-
-     @discussion Class constructor.
-
-     @param rrootDb DataAccess class - Innomatic database handler.
-     @param id integer - Account id.
+    /* public __construct($rrootDb, $id = '') {{{ */
+    /**
+     * Class constructor.
+     *
+     * @param integer $id Account id
+     * @access public
+     * @return void
      */
-    public function __construct($rrootDb, $id = '')
+    public function __construct($id = '')
     {
-        $this->mLog = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLogger();
-        $this->mWebServicesLog = new \Innomatic\Logging\Logger( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/log/webservices.log' );
+        $container             = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
+        $this->dataAccess      = $container->getDataAccess();
+        $this->mLog            = $container->getLogger();
+        $this->mWebServicesLog = new \Innomatic\Logging\Logger($container->getHome().'core/log/webservices.log');
 
         $this->mId = $id;
 
-        if ( is_object( $rrootDb ) ) $this->mrRootDb = $rrootDb;
+        if ( is_object( $rrootDb ) ) $this->dataAccess = $rrootDb;
         else $this->mLog->logEvent( 'innomatic.webservicesaccount',
                                    'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
 
         if ( $this->mId ) {
-            $acc_query = $this->mrRootDb->execute( 'SELECT * '.
+            $acc_query = $this->dataAccess->execute( 'SELECT * '.
                                                   'FROM webservices_accounts '.
                                                   'WHERE id='.(int)$this->mId );
 
@@ -102,24 +161,12 @@ class WebServicesAccount
                                        'Invalid account id', \Innomatic\Logging\Logger::ERROR );
         }
     }
+    /* }}} */
 
-    /*!
-     @function Create
-
-     @abstract Creates a new account.
-
-     @discussion Creates a new account.
-
-     @param name string - Account name.
-     @param host string - Account host.
-     @param port string - Account port.
-     @param path string - Account path.
-     @param username - Account username.
-     @param password - Account password.
-
-     @result True if the account has been created.
+    /**
+     * Creates a new account.
      */
-    public function Create(
+    public function create(
         $name,
         $host = 'localhost',
         $port = '80',
@@ -132,22 +179,24 @@ class WebServicesAccount
     {
         $result = false;
 
-        $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.create' );
+        $hook = new \Innomatic\Process\Hook( $this->dataAccess, 'innomatic', 'webservicesaccount.create' );
         if ( $hook->callHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( strlen( $name ) ) {
-                $acc_seq = $this->mrRootDb->getNextSequenceValue( 'webservices_accounts_id_seq' );
+                $acc_seq = $this->dataAccess->getNextSequenceValue( 'webservices_accounts_id_seq' );
 
-                $result = $this->mrRootDb->execute( 'INSERT INTO webservices_accounts '.
-                                                    'VALUES ('.
-                                                    $acc_seq.','.
-                                                    $this->mrRootDb->formatText( $name ).','.
-                                                    $this->mrRootDb->formatText( $host ).','.
-                                                    $this->mrRootDb->formatText( $path ).','.
-                                                    $this->mrRootDb->formatText( $port ).','.
-                                                    $this->mrRootDb->formatText( $username ).','.
-                                                    $this->mrRootDb->formatText( $password ).','.
-                                                    $this->mrRootDb->formatText( $proxy ).','.
-                                                    $this->mrRootDb->formatText( $proxyPort ).')' );
+                $result = $this->dataAccess->execute(
+                    'INSERT INTO webservices_accounts '.
+                    'VALUES ('.
+                    $acc_seq.','.
+                    $this->dataAccess->formatText( $name ).','.
+                    $this->dataAccess->formatText( $host ).','.
+                    $this->dataAccess->formatText( $path ).','.
+                    $this->dataAccess->formatText( $port ).','.
+                    $this->dataAccess->formatText( $username ).','.
+                    $this->dataAccess->formatText( $password ).','.
+                    $this->dataAccess->formatText( $proxy ).','.
+                    $this->dataAccess->formatText( $proxyPort ).')'
+                );
 
                 if ( $result ) {
                     $this->mLog->logEvent(
@@ -192,23 +241,21 @@ class WebServicesAccount
         return $result;
     }
 
-    /*!
-     @function Remove
-
-     @abstract Removes the account.
-
-     @discussion Removes the account.
-
-     @result True if the account has been removed.
+    /* public remove() {{{ */
+    /**
+     * Removes the account.
+     *
+     * @access public
+     * @return bool True if the account has been removed.
      */
-    public function Remove()
+    public function remove()
     {
         $result = false;
 
-        $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.remove' );
+        $hook = new \Innomatic\Process\Hook( $this->dataAccess, 'innomatic', 'webservicesaccount.remove' );
         if ( $hook->callHooks( 'calltime', $this, array( 'id' => $this->mId ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mId ) {
-                $result = $this->mrRootDb->execute( 'DELETE FROM webservices_accounts WHERE id='.(int)$this->mId );
+                $result = $this->dataAccess->execute( 'DELETE FROM webservices_accounts WHERE id='.(int)$this->mId );
 
                 if ( $result ) {
                     $this->mLog->logEvent( 'Innomatic',
@@ -222,13 +269,12 @@ class WebServicesAccount
 
         return $result;
     }
+    /* }}} */
 
-    /*!
-     @function Update
-
-     @abstract Updates the account.
+    /**
+     * Updates the account information.
      */
-    public function Update(
+    public function update(
         $name,
         $host = 'localhost',
         $port = '80',
@@ -241,21 +287,23 @@ class WebServicesAccount
     {
         $result = false;
 
-        $hook = new \Innomatic\Process\Hook( $this->mrRootDb, 'innomatic', 'webservicesaccount.update' );
+        $hook = new \Innomatic\Process\Hook( $this->dataAccess, 'innomatic', 'webservicesaccount.update' );
         if ( $hook->callHooks( 'calltime', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password ) ) == \Innomatic\Process\Hook::RESULT_OK ) {
             if ( $this->mId ) {
                 if ( strlen( $name ) ) {
-                    $result = $this->mrRootDb->execute( 'UPDATE webservices_accounts '.
-                                                        'SET '.
-                                                        'name='.$this->mrRootDb->formatText( $name ).','.
-                                                        'host='.$this->mrRootDb->formatText( $host ).','.
-                                                        'path='.$this->mrRootDb->formatText( $path ).','.
-                                                        'port='.$this->mrRootDb->formatText( $port ).','.
-                                                        'username='.$this->mrRootDb->formatText( $username ).','.
-                                                        'password='.$this->mrRootDb->formatText( $password ).','.
-                                                        'proxy='.$this->mrRootDb->formatText( $proxy ).','.
-                                                        'proxyport='.$this->mrRootDb->formatText( $proxyPort ).' '.
-                                                        'WHERE id='.(int)$this->mId );
+                    $result = $this->dataAccess->execute(
+                        'UPDATE webservices_accounts '.
+                        'SET '.
+                        'name='.$this->dataAccess->formatText( $name ).','.
+                        'host='.$this->dataAccess->formatText( $host ).','.
+                        'path='.$this->dataAccess->formatText( $path ).','.
+                        'port='.$this->dataAccess->formatText( $port ).','.
+                        'username='.$this->dataAccess->formatText( $username ).','.
+                        'password='.$this->dataAccess->formatText( $password ).','.
+                        'proxy='.$this->dataAccess->formatText( $proxy ).','.
+                        'proxyport='.$this->dataAccess->formatText( $proxyPort ).' '.
+                        'WHERE id='.(int)$this->mId
+                    );
 
                     if ( $result ) {
                         if ( $hook->callHooks( 'accountudpated', $this, array( 'name' => $name, 'host' => $host, 'port' => $port, 'path' => $path, 'username' => $username, 'password' => $password, 'id' => $this->mId ) ) != \Innomatic\Process\Hook::RESULT_OK ) $result = false;
@@ -268,4 +316,130 @@ class WebServicesAccount
 
         return $result;
     }
+
+    /* public getId() {{{ */
+    /**
+     * Gets account id.
+     *
+     * @since 6.5.0 introduced
+     * @access public
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->mId;
+    }
+    /* }}} */
+
+    /* public getName() {{{ */
+    /**
+     * Gets account name.
+     *
+     * @since 6.5.0 introduced
+     * @access public
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->mName;
+    }
+    /* }}} */
+
+    /* public getHost() {{{ */
+    /**
+     * Gets account server hostname.
+     *
+     * @since 6.5.0 introduced
+     * @access public
+     * @return string
+     */
+    public function getHost()
+    {
+        return $this->mHost;
+    }
+    /* }}} */
+
+    /* public getPort() {{{ */
+    /**
+     * Gets account server port.
+     *
+     * @since 6.5.0 introduced
+     * @access public
+     * @return integer
+     */
+    public function getPort()
+    {
+        return $this->mPort;
+    }
+    /* }}} */
+
+    /* public getPath() {{{ */
+    /**
+     * Gets account server receiver path.
+     *
+     * @since 6.5.0 introduced
+     * @access public
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->mPath;
+    }
+    /* }}} */
+
+    /* public getUsername() {{{ */
+    /**
+     * Gets account username.
+     *
+     * @since 6.5.0 introduced
+     * @access public
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->mUsername;
+    }
+    /* }}} */
+
+    /* public getPassword() {{{ */
+    /**
+     * Gets account password.
+     *
+     * @since 6.5.0 introduced
+     * @access public
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->mPassword;
+    }
+    /* }}} */
+
+    /* public getProxy() {{{ */
+    /**
+     * Gets account proxy server hostname.
+     *
+     * @since 6.5.0 introduced
+     * @access public
+     * @return string
+     */
+    public function getProxy()
+    {
+        return $this->mProxy;
+    }
+    /* }}} */
+
+    /* public getProxyPort() {{{ */
+    /**
+     * Gets account proxy server port.
+     *
+     * @since 6.5.0 introduced
+     * @access public
+     * @return integer
+     */
+    public function getProxyPort()
+    {
+        return $this->mProxyPort;
+    }
+    /* }}} */
 }

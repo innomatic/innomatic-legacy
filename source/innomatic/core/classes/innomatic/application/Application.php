@@ -203,6 +203,18 @@ only application. */
                         $this->unmetdeps = false;
                     }
 
+                    // Fetch missing dependencies from AppCentral servers.
+                    if ($this->unmetdeps != false) {
+                       $appCentral = new AppCentralHelper();
+                       $resolveResult = $appCentral->resolveDependencies($this->unmetdeps); 
+                       
+                       // Refresh the unmet dependencies list.
+                       $this->unmetdeps = [];
+                       foreach ($resolveResult['missing'] as $missingName => $missingVersion) {
+                           $this->unmetdeps[] = $missingName.'['.$missingVersion.']';
+                       }
+                    }
+
                     // Suggestions check
                     //
                     if ($suggs != false) {
@@ -404,6 +416,18 @@ only application. */
                             $this->unmetsuggs = $unmetsuggs;
                         }
 
+                        // Fetch missing dependencies from AppCentral servers.
+                        if ($this->unmetdeps != false) {
+                            $appCentral = new AppCentralHelper();
+                            $resolveResult = $appCentral->resolveDependencies($this->unmetdeps); 
+                       
+                            // Refresh the unmet dependencies list.
+                            $this->unmetdeps = [];
+                            foreach ($resolveResult['missing'] as $missingName => $missingVersion) {
+                                $this->unmetdeps[] = $missingName.'['.$missingVersion.']';
+                            }
+                        }
+                        
                         // If dependencies are ok, go on
                         //
                         if ($this->unmetdeps == false) {

@@ -26,9 +26,10 @@ try {
             print('Supported commands:' . "\n");
             print('    deploy appfile                  Deploys an application' . "\n");
             print('    undeploy appname                Undeploys an application' . "\n");
+            print('    update                          Updates the AppCentral applications list' . "\n");
             $script->cleanExit();
             break;
-        
+
         case 'deploy':
             $app = new \Innomatic\Application\Application(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
             if (file_exists($argv[2]) and $app->install($argv[2])) {
@@ -39,7 +40,7 @@ try {
                 $script->cleanExit(1);
             }
             break;
-        
+
         case 'undeploy':
             $appid = \Innomatic\Application\Application::getAppIdFromName($argv[2]);
             $app = new \Innomatic\Application\Application(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(), $appid);
@@ -51,7 +52,22 @@ try {
                 $script->cleanExit(1);
             }
             break;
-        
+
+        case 'update':
+            $appCentral = new \Innomatic\Application\AppCentralHelper();
+            $appCentral->updateApplicationsList(
+                function($serverId, $serverName, $repoId, $repoData) {
+                    print('Server '.$serverName.' - Repository '.$repoData['name'].'... ');
+                },
+                function($result) {
+                    print('done'.PHP_EOL);
+                }
+            );
+
+            print("Applications list updated\n");
+            $script->cleanExit();
+            break;
+
         default:
             print('Usage: php innomatic/core/scripts/application.php command' . "\n");
             print('Type application.php -h for a list of supported commands' . "\n");
