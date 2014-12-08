@@ -329,6 +329,7 @@
 
 		<!-- AppCentral -->
 
+		<class name="innomatic/application/AppCentralHelper.php" />
 		<class name="innomatic/application/AppCentralRemoteServer.php" />
 
 		<roottable name="applications_repositories"
