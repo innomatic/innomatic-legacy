@@ -110,6 +110,8 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 
     protected function closeConnection()
     {
+        // @todo This is a temporary workaround needed to avoid some errors
+        // during Innomatic setup and tenant creation.
         return true;
         return $this->dbhandler->close();
     }
