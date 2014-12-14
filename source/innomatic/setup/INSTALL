@@ -48,6 +48,10 @@ INSTALLATION
 - Point your browser to the newly created Innomatic virtual host and follow
   the Web setup procedure.
 
+- Once you have successfully installed Innomatic, you can access the root
+  control panel adding “/root” to the URL, e.g.:
+  http://innomatic.mydomain.com/root
+
 
 
 SETTING UP TENANT WEBAPPS
