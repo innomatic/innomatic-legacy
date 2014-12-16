@@ -1,0 +1,17 @@
+{
+    "name": "innomatic/innomatic-legacy",
+    "description": "Innomatic Platform legacy stack",
+    "homepage": "http://www.innomatic.io",
+    "license": "New BSD",
+    "type": "innomatic-legacy",
+    "authors": [
+        {
+            "name": "Innomatic Team",
+            "homepage": "http://www.innomatic.io"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "innomatic/innomatic-legacy-installer": "*"
+    }
+}
