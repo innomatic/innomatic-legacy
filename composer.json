@@ -12,6 +12,6 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "innomatic/innomatic-legacy-installer": "*"
+        "innomatic/innomatic-legacy-installer": "dev-develop"
     }
 }
