@@ -3,7 +3,7 @@
     "description": "Innomatic Platform legacy stack",
     "homepage": "http://www.innomatic.io",
     "license": "New BSD",
-    "type": "innomatic-legacy",
+    "type": "innomatic-legacy-platform",
     "authors": [
         {
             "name": "Innomatic Team",
