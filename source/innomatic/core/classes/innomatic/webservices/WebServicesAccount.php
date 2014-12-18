@@ -321,7 +321,7 @@ class WebServicesAccount
     /**
      * Gets account id.
      *
-     * @since 6.5.0 introduced
+     * @since 7.0.0 introduced
      * @access public
      * @return integer
      */
@@ -335,7 +335,7 @@ class WebServicesAccount
     /**
      * Gets account name.
      *
-     * @since 6.5.0 introduced
+     * @since 7.0.0 introduced
      * @access public
      * @return string
      */
@@ -349,7 +349,7 @@ class WebServicesAccount
     /**
      * Gets account server hostname.
      *
-     * @since 6.5.0 introduced
+     * @since 7.0.0 introduced
      * @access public
      * @return string
      */
@@ -363,7 +363,7 @@ class WebServicesAccount
     /**
      * Gets account server port.
      *
-     * @since 6.5.0 introduced
+     * @since 7.0.0 introduced
      * @access public
      * @return integer
      */
@@ -377,7 +377,7 @@ class WebServicesAccount
     /**
      * Gets account server receiver path.
      *
-     * @since 6.5.0 introduced
+     * @since 7.0.0 introduced
      * @access public
      * @return string
      */
@@ -391,7 +391,7 @@ class WebServicesAccount
     /**
      * Gets account username.
      *
-     * @since 6.5.0 introduced
+     * @since 7.0.0 introduced
      * @access public
      * @return string
      */
@@ -405,7 +405,7 @@ class WebServicesAccount
     /**
      * Gets account password.
      *
-     * @since 6.5.0 introduced
+     * @since 7.0.0 introduced
      * @access public
      * @return string
      */
@@ -419,7 +419,7 @@ class WebServicesAccount
     /**
      * Gets account proxy server hostname.
      *
-     * @since 6.5.0 introduced
+     * @since 7.0.0 introduced
      * @access public
      * @return string
      */
@@ -433,7 +433,7 @@ class WebServicesAccount
     /**
      * Gets account proxy server port.
      *
-     * @since 6.5.0 introduced
+     * @since 7.0.0 introduced
      * @access public
      * @return integer
      */

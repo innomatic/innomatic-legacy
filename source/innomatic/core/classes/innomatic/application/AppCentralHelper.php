@@ -18,7 +18,7 @@ namespace Innomatic\Application;
  * like retrieving list of all the available applications, updating
  * applications and so on.
  *
- * @since 6.5.0 introduced
+ * @since 7.0.0 introduced
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
  */
 class AppCentralHelper
