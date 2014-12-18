@@ -46,7 +46,13 @@ class RootContainer extends \Innomatic\Util\Singleton
      * @var boolean
      */
     private $clean = false;
-
+    /**
+     * Tells if the Composer autoloader has been registered.
+     * 
+     * @var boolean 
+     */
+    protected $hasComposer = false;
+    
     /**
      * RootContainer constructor.
      *
@@ -64,6 +70,15 @@ class RootContainer extends \Innomatic\Util\Singleton
             . 'innomatic/core/classes/'
         );
 
+        // If in Innomatic Platform legacy stack context, add Composer defined
+        // autoloader if exists.
+        $composerAutoload = dirname(__FILE__).'/../../../../../../vendor/autoload.php';
+        if (file_exists($composerAutoload)) {
+            require_once($composerAutoload);
+            $this->hasComposer = true;
+        }
+
+        // Legacy autoloader.
         spl_autoload_register('\Innomatic\Core\RootContainer::autoload', false, false);
     }
 
@@ -100,6 +115,19 @@ class RootContainer extends \Innomatic\Util\Singleton
         return $this->clean;
     }
 
+    /**
+     * Tells if the Composer autoloader has been registered.
+     * 
+     * The Composers autoloader is available when the current installation is
+     * based on the new Innomatic Platform stack.
+     * 
+     * @return boolean
+     */
+    public function hasComposer()
+    {
+        return $this->hasComposer;
+    }
+    
     /**
      * SPL autoload method.
      *
