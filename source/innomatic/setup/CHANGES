@@ -7,12 +7,14 @@
 
                                 CHANGES
                                 =======
-6.x
+7.0.0
 -------------------------
 NEW FEATURES:
+- Added Composer integration. (Alex Pagnoni)
 - Added update action in application.php script for updating AppCentral
   applications list. (Alex Pagnoni)
-
+- Added automatic application dependencies resolution. (Alex Pagnoni)
+ 
 CHANGES:
 - Removed deprecated icons set. (Alex Pagnoni)
 - Removed deprecated EDITION_SAAS, EDITION_ASP and EDITION_ENTERPRISE
