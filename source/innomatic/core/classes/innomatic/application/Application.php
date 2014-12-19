@@ -1060,6 +1060,22 @@ only application. */
                                 $domaindata['domainid'],
                                 ApplicationDependencies::TYPE_DEPENDENCY
                             );
+                            
+                            // Recursively enable application dependencies.
+                            if (is_array($unmetdeps)) {
+                                foreach ($unmetdeps as $depId => $depName) {
+                                    $appQuery = $this->rootda->execute(
+                                        'SELECT id FROM applications WHERE appid=' .
+                                        $this->rootda->formatText($depName)
+                                        );
+                                    
+                                    $app = new Application($this->rootda, $appQuery->getFields('id'));
+                                    if ($app->enable($domainid)) {
+                                        unset($unmetdeps[$depId]);
+                                    } 
+                                }
+                            }
+
                             $unmetsuggs = $appdeps->checkDomainApplicationDependencies(
                                 $this->appname,
                                 $domaindata['domainid'],
