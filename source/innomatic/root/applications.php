@@ -1702,6 +1702,9 @@ function main_repositoryapplications($eventData)
         } else {
             $appInstallable = true;
 
+            $label = $gLocale->getStr('install_application.button');
+            $icon = 'mathadd';
+
             $missingDeps = '<br><strong>'.$gLocale->getStr('missing_deps.label').'</strong>';
 
             while ( list(, $dep) = each($depCheck) ) {
@@ -1732,7 +1735,6 @@ function main_repositoryapplications($eventData)
             )).'</action>
                   </args>
                 </button>';
-
 
         if (
             $appInstallable
