@@ -1700,7 +1700,7 @@ function main_repositoryapplications($eventData)
                 $icon = 'mathadd';
             }
         } else {
-            $appInstallable = false;
+            $appInstallable = true;
 
             $missingDeps = '<br><strong>'.$gLocale->getStr('missing_deps.label').'</strong>';
 
