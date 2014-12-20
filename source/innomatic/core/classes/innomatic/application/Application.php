@@ -30,23 +30,67 @@ class Application
      */
     protected $container;
 
-    /*! @public rootda DataAccess class - Innomatic database handler. */
-    public $rootda;
-    /*! @public domainda DataAccess class - Tenant dataaccess handler. */
-    public $domainda;
-    /*! @public appname string - Application id name. */
+    /**
+     * Root data access handler.
+     * 
+     * @var \Innomatic\Dataaccess\DataAccess
+     */
+    public $rootDA;
+
+    /**
+     * Tenant data access handler.
+     * 
+     * @var \Innomatic\Dataaccess\DataAccess
+     */
+    protected $tenantDA;
+
+    /**
+     * Application name.
+     * 
+     * @var string
+     */
     public $appname;
-    /*! @public unmetdeps array - Array of unmet dependencies. */
-    public $unmetdeps = array();
-    /*! @public unmetsuggs array - Array of unmet suggestions. */
-    public $unmetsuggs = array();
-    /*! @public eltypes array - Application component types. */
+    
+    /**
+     * Array of unmet dependencies.
+     * 
+     * @var array
+     */
+    public $unmetdeps = [];
+    
+    /**
+     * Array of unmet suggestions.
+     * 
+     * @var array
+     */
+    public $unmetsuggs = [];
+    
+    /**
+     * Application component types.
+     * 
+     * @var array
+     */
     public $eltypes;
-    /*! @public serial int - Application serial. */
-    public $serial;
-    /*! @public onlyextension bool - True if the application is an extension
-only application. */
+    
+    /**
+     * Application id number.
+     * 
+     * @var integer
+     */
+    public $id;
+
+    /**
+     * True if the application is an extension.
+     * 
+     * @var boolean
+     */
     public $onlyextension = true;
+    
+    /**
+     * Application base dir.
+     * 
+     * @var string
+     */
     public $basedir;
 
     const INSTALL_MODE_INSTALL = 0;
@@ -59,21 +103,19 @@ only application. */
     const UPDATE_MODE_REMOVE = 1;
     const UPDATE_MODE_CHANGE = 2;
 
-    /*!
-     @function Application
-
-     @abstract Application constructor.
-
-     @param rootda DataAccess class - Innomatic database handler.
-     @param modserial int - serial number of the application.
+    /**
+     * Class constructor.
+     * 
+     * @param \Innomatic\Dataaccess\DataAccess $rootDA Root data access handler.
+     * @param number $id Application id.
      */
-    public function __construct(\Innomatic\Dataaccess\DataAccess $rootda, $modserial = 0)
+    public function __construct(\Innomatic\Dataaccess\DataAccess $rootDA, $id = 0)
     {
         $this->container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
-        $this->rootda = $rootda;
-        $this->serial = $modserial;
-        $this->eltypes = new ApplicationComponentFactory($rootda);
-        $this->eltypes->FillTypes();
+        $this->rootDA = $rootDA;
+        $this->id = $id;
+        $this->eltypes = new ApplicationComponentFactory($rootDA);
+        $this->eltypes->fillTypes();
     }
 
     /*!
@@ -167,7 +209,7 @@ only application. */
                 while (list (, $application) = each($applicationsArray)) {
                     $application = trim($application);
                     if (strlen($application) and file_exists($tmpdir.'/applications/'.$application)) {
-                        $tempApplication = new Application($this->rootda);
+                        $tempApplication = new Application($this->rootDA);
                         if (!$tempApplication->Install($tmpdir.'/applications/'.$application))
                         $result = false;
                     }
@@ -180,9 +222,9 @@ only application. */
 
                 // Checks if the application has been already installed
                 //
-                $tmpquery = $this->rootda->execute(
+                $tmpquery = $this->rootDA->execute(
                     'SELECT id,appfile FROM applications WHERE appid='
-                    . $this->rootda->formatText($this->appname)
+                    . $this->rootDA->formatText($this->appname)
                 );
                 if (!$tmpquery->getNumberRows()) {
                     // Application is new, so it will be installed
@@ -226,33 +268,33 @@ only application. */
                     // If dependencies are ok, go on
                     //
                     if ($this->unmetdeps == false) {
-                        // Gets serial number for the application
+                        // Gets id number for the application
                         //
-                        $this->serial = $this->rootda->getNextSequenceValue(
+                        $this->id = $this->rootDA->getNextSequenceValue(
                             'applications_id_seq'
                         );
-                        $this->rootda->execute(
+                        $this->rootDA->execute(
                             'INSERT INTO applications VALUES ( ' .
-                            $this->serial .
-                            ','.$this->rootda->formatText($genconfig['ApplicationIdName']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationVersion']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationDate']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationDescription']) .
-                            ','.$this->rootda->formatText(basename($tmpfilepath)) .
-                            ','.$this->rootda->formatText($this->rootda->fmtfalse) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationAuthor']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationAuthorEmail']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationAuthorWeb']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationSupportEmail']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationBugsEmail']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationCopyright']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationLicense']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationLicenseFile']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationChangesFile']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationMaintainer']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationMaintainerEmail']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationCategory']) .
-                            ','.$this->rootda->formatText($genconfig['ApplicationIconFile']) .
+                            $this->id .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationIdName']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationVersion']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationDate']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationDescription']) .
+                            ','.$this->rootDA->formatText(basename($tmpfilepath)) .
+                            ','.$this->rootDA->formatText($this->rootDA->fmtfalse) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationAuthor']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationAuthorEmail']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationAuthorWeb']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationSupportEmail']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationBugsEmail']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationCopyright']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationLicense']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationLicenseFile']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationChangesFile']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationMaintainer']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationMaintainerEmail']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationCategory']) .
+                            ','.$this->rootDA->formatText($genconfig['ApplicationIconFile']) .
                             ')'
                         );
 
@@ -341,21 +383,21 @@ only application. */
                         //
                         $genconfig = $this->parseApplicationDefinition($tmpdir.'/setup/application.xml');
 
-                        $ext = $this->rootda->fmtfalse;
+                        $ext = $this->rootDA->fmtfalse;
 
                         if ($genconfig['ApplicationIsExtension'] == 'y') {
-                            $ext = $this->rootda->fmttrue;
+                            $ext = $this->rootDA->fmttrue;
                             $this->onlyextension = true;
                         } elseif ($genconfig['ApplicationIsExtension'] == 'n') {
-                            $ext = $this->rootda->fmtfalse;
+                            $ext = $this->rootDA->fmtfalse;
                             $this->onlyextension = false;
                         } elseif ($this->onlyextension) {
-                            $ext = $this->rootda->fmttrue;
+                            $ext = $this->rootDA->fmttrue;
                         }
 
-                        $this->rootda->execute(
-                            'UPDATE applications SET onlyextension='.$this->rootda->formatText($ext)
-                            .' WHERE appid='.$this->rootda->formatText($this->appname)
+                        $this->rootDA->execute(
+                            'UPDATE applications SET onlyextension='.$this->rootDA->formatText($ext)
+                            .' WHERE appid='.$this->rootDA->formatText($this->appname)
                         );
                         $result = true;
 
@@ -373,7 +415,7 @@ only application. */
                             if (
                                 $this->container->getEdition()
                                 == \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT and $this->appname != 'innomatic'
-                                and $ext != $this->rootda->fmttrue
+                                and $ext != $this->rootDA->fmttrue
                             ) {
                                 $domainsQuery = \Innomatic\Core\InnomaticContainer::instance(
                                     '\Innomatic\Core\InnomaticContainer'
@@ -388,11 +430,11 @@ only application. */
                     }
                 } else {
                     $appdata = $tmpquery->getFields();
-                    $this->serial = $appdata['id'];
+                    $this->id = $appdata['id'];
 
                     // Application will be updated
                     //
-                    if ($this->serial) {
+                    if ($this->id) {
                         // Dependencies check
                         //
                         $this->unmetdeps = array();
@@ -458,27 +500,27 @@ only application. */
 
                             // Updates applications table
                             //
-                            $this->rootda->execute(
+                            $this->rootDA->execute(
                                 'UPDATE applications SET appversion='.
-                                $this->rootda->formatText($genconfig['ApplicationVersion']).
-                                ', appdate='.$this->rootda->formatText($genconfig['ApplicationDate']).
-                                ', appdesc='.$this->rootda->formatText($genconfig['ApplicationDescription']).
-                                ', appfile='.$this->rootda->formatText(basename($tmpfilepath)).
-                                ', author='.$this->rootda->formatText($genconfig['ApplicationAuthor']).
-                                ', authoremail='.$this->rootda->formatText($genconfig['ApplicationAuthorEmail']).
-                                ', authorsite='.$this->rootda->formatText($genconfig['ApplicationAuthorWeb']).
-                                ', supportemail='.$this->rootda->formatText($genconfig['ApplicationSupportEmail']).
-                                ', bugsemail='.$this->rootda->formatText($genconfig['ApplicationBugsEmail']).
-                                ', copyright='.$this->rootda->formatText($genconfig['ApplicationCopyright']).
-                                ', license='.$this->rootda->formatText($genconfig['ApplicationLicense']).
-                                ', licensefile='.$this->rootda->formatText($genconfig['ApplicationLicenseFile']).
-                                ', changesfile='.$this->rootda->formatText($genconfig['ApplicationChangesFile']).
-                                ', maintainer='.$this->rootda->formatText($genconfig['ApplicationMaintainer']).
+                                $this->rootDA->formatText($genconfig['ApplicationVersion']).
+                                ', appdate='.$this->rootDA->formatText($genconfig['ApplicationDate']).
+                                ', appdesc='.$this->rootDA->formatText($genconfig['ApplicationDescription']).
+                                ', appfile='.$this->rootDA->formatText(basename($tmpfilepath)).
+                                ', author='.$this->rootDA->formatText($genconfig['ApplicationAuthor']).
+                                ', authoremail='.$this->rootDA->formatText($genconfig['ApplicationAuthorEmail']).
+                                ', authorsite='.$this->rootDA->formatText($genconfig['ApplicationAuthorWeb']).
+                                ', supportemail='.$this->rootDA->formatText($genconfig['ApplicationSupportEmail']).
+                                ', bugsemail='.$this->rootDA->formatText($genconfig['ApplicationBugsEmail']).
+                                ', copyright='.$this->rootDA->formatText($genconfig['ApplicationCopyright']).
+                                ', license='.$this->rootDA->formatText($genconfig['ApplicationLicense']).
+                                ', licensefile='.$this->rootDA->formatText($genconfig['ApplicationLicenseFile']).
+                                ', changesfile='.$this->rootDA->formatText($genconfig['ApplicationChangesFile']).
+                                ', maintainer='.$this->rootDA->formatText($genconfig['ApplicationMaintainer']).
                                 ', maintaineremail='.
-                                $this->rootda->formatText($genconfig['ApplicationMaintainerEmail']).
-                                ', category='.$this->rootda->formatText($genconfig['ApplicationCategory']).
-                                ', iconfile='.$this->rootda->formatText($genconfig['ApplicationIconFile']).
-                                ' WHERE id='. (int) $this->serial
+                                $this->rootDA->formatText($genconfig['ApplicationMaintainerEmail']).
+                                ', category='.$this->rootDA->formatText($genconfig['ApplicationCategory']).
+                                ', iconfile='.$this->rootDA->formatText($genconfig['ApplicationIconFile']).
+                                ' WHERE id='. (int) $this->id
                             );
                             $genconfig = $this->parseApplicationDefinition($tmpdir.'/setup/application.xml');
 
@@ -551,23 +593,23 @@ only application. */
                             );
                             // Checks if it is an extension application
                             //
-                            $ext = $this->rootda->fmtfalse;
+                            $ext = $this->rootDA->fmtfalse;
 
                             if ($genconfig['ApplicationIsExtension'] == 'y') {
-                                $ext = $this->rootda->fmttrue;
+                                $ext = $this->rootDA->fmttrue;
                                 $this->onlyextension = true;
                             } elseif (
                                 $genconfig['ApplicationIsExtension'] == 'n') {
-                                $ext = $this->rootda->fmtfalse;
+                                $ext = $this->rootDA->fmtfalse;
                                 $this->onlyextension = false;
                             } elseif (
                                 $this->onlyextension) {
-                                $ext = $this->rootda->fmttrue;
+                                $ext = $this->rootDA->fmttrue;
                             }
 
-                            $this->rootda->execute(
-                                'UPDATE applications SET onlyextension='.$this->rootda->formatText($ext).
-                                ' WHERE appid='.$this->rootda->formatText($this->appname)
+                            $this->rootDA->execute(
+                                'UPDATE applications SET onlyextension='.$this->rootDA->formatText($ext).
+                                ' WHERE appid='.$this->rootDA->formatText($this->appname)
                             );
 
                             $this->setOptions(explode(',', trim($genconfig['ApplicationOptions'], ' ,')));
@@ -575,7 +617,7 @@ only application. */
                             if ($this->appname != 'innomatic') {
                                 // Remove old dependencies
                                 //
-                                $appdeps->removeAllDependencies($this->serial);
+                                $appdeps->removeAllDependencies($this->id);
 
                                 // Adds new Applications dependencies
                                 //
@@ -632,7 +674,7 @@ only application. */
 
                         $log->logEvent(
                             'innomatic.applications.applications.install',
-                            'Empty application serial',
+                            'Empty application id',
                             \Innomatic\Logging\Logger::ERROR
                         );
                     }
@@ -691,10 +733,10 @@ only application. */
     {
         $result = false;
 
-        if ($this->serial) {
+        if ($this->id) {
             // Checks if the application exists in applications table
             //
-            $modquery = $this->rootda->execute('SELECT * FROM applications WHERE id='. (int) $this->serial);
+            $modquery = $this->rootDA->execute('SELECT * FROM applications WHERE id='. (int) $this->id);
 
             if ($modquery->getNumberRows() == 1) {
                 $appdata = $modquery->getFields();
@@ -720,7 +762,7 @@ only application. */
                         // If dependencies are ok, go on
                         //
                         if ($pendingdeps == false) {
-                            if ($appdata['onlyextension'] != $this->rootda->fmttrue)
+                            if ($appdata['onlyextension'] != $this->rootDA->fmttrue)
                             $this->disableFromAllDomains($appdata['appid']);
 
                             $this->HandleStructure(
@@ -750,7 +792,7 @@ only application. */
 
                             // Application rows in applications table
                             //
-                            $this->rootda->execute('DELETE FROM applications WHERE id='. (int) $this->serial);
+                            $this->rootDA->execute('DELETE FROM applications WHERE id='. (int) $this->id);
 
                             // Remove cached items
                             //
@@ -762,8 +804,8 @@ only application. */
 
                             // Remove dependencies
                             //
-                            $appdeps->removeAllDependencies($this->serial);
-                            $this->serial = 0;
+                            $appdeps->removeAllDependencies($this->id);
+                            $this->id = 0;
                             $result = true;
 
                             if (
@@ -804,7 +846,7 @@ only application. */
                 $log = $this->container->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.uninstall',
-                    'A application with serial '.$this->serial.' was not found in applications table',
+                    'A application with id '.$this->id.' was not found in applications table',
                     \Innomatic\Logging\Logger::ERROR
                 );
             }
@@ -814,7 +856,7 @@ only application. */
             $log = $this->container->getLogger();
             $log->logEvent(
                 'innomatic.applications.applications.uninstall',
-                'Empty application serial',
+                'Empty application id',
                 \Innomatic\Logging\Logger::ERROR
             );
         }
@@ -860,37 +902,37 @@ only application. */
 
             // Checks if Innomatic has been already installed
             //
-            $tmpquery = $this->rootda->execute(
-                'SELECT id FROM applications WHERE appid='.$this->rootda->formatText($this->appname)
+            $tmpquery = $this->rootDA->execute(
+                'SELECT id FROM applications WHERE appid='.$this->rootDA->formatText($this->appname)
             );
 
             if (!$tmpquery->getNumberRows()) {
-                // Gets serial number for the application
+                // Gets id number for the application
                 //
-                $this->serial = $this->rootda->getNextSequenceValue('applications_id_seq');
+                $this->id = $this->rootDA->getNextSequenceValue('applications_id_seq');
 
                 if (
-                    $this->rootda->execute(
-                        'INSERT INTO applications VALUES ( '.$this->serial.
-                        ','.$this->rootda->formatText($genconfig['ApplicationIdName']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationVersion']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationDate']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationDescription']).
-                        ','.$this->rootda->formatText('').
-                        ','.$this->rootda->formatText($this->rootda->fmtfalse).
-                        ','.$this->rootda->formatText($genconfig['ApplicationAuthor']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationAuthorEmail']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationAuthorWeb']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationSupportEmail']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationBugsEmail']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationCopyright']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationLicense']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationLicenseFile']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationChangesFile']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationMaintainer']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationMaintainerEmail']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationCategory']).
-                        ','.$this->rootda->formatText($genconfig['ApplicationIconFile']).
+                    $this->rootDA->execute(
+                        'INSERT INTO applications VALUES ( '.$this->id.
+                        ','.$this->rootDA->formatText($genconfig['ApplicationIdName']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationVersion']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationDate']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationDescription']).
+                        ','.$this->rootDA->formatText('').
+                        ','.$this->rootDA->formatText($this->rootDA->fmtfalse).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationAuthor']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationAuthorEmail']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationAuthorWeb']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationSupportEmail']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationBugsEmail']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationCopyright']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationLicense']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationLicenseFile']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationChangesFile']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationMaintainer']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationMaintainerEmail']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationCategory']).
+                        ','.$this->rootDA->formatText($genconfig['ApplicationIconFile']).
                         ')'
                     )
                 ) {
@@ -982,26 +1024,26 @@ only application. */
     public function enable($domainid)
     {
         $result = false;
-        $hook = new \Innomatic\Process\Hook($this->rootda, 'innomatic', 'application.enable');
+        $hook = new \Innomatic\Process\Hook($this->rootDA, 'innomatic', 'application.enable');
         if (
             $hook->callHooks(
                 'calltime',
                 $this,
                 array(
-                    'domainserial' => $domainid,
-                    'modserial' => $this->serial
+                    'tenantserial' => $domainid,
+                    'applicationid' => $this->id
                 )
             ) == \Innomatic\Process\Hook::RESULT_OK
         ) {
-            if ($this->serial) {
+            if ($this->id) {
                 // Checks if the application exists in applications table
                 //
-                $modquery = $this->rootda->execute('SELECT * FROM applications WHERE id='. (int) $this->serial);
+                $modquery = $this->rootDA->execute('SELECT * FROM applications WHERE id='. (int) $this->id);
 
                 if ($modquery->getNumberRows() == 1) {
                     $appdata = $modquery->getFields();
 
-                    if ($appdata['onlyextension'] != $this->rootda->fmttrue) {
+                    if ($appdata['onlyextension'] != $this->rootDA->fmttrue) {
                         // Checks if the structure file still exists
                         //
                         if (
@@ -1012,8 +1054,8 @@ only application. */
                         ) {
                             $this->appname = $appdata['appid'];
 
-                            $domainquery = $this->rootda->execute(
-                                'SELECT * FROM domains WHERE id='.$this->rootda->formatText((int) $domainid)
+                            $domainquery = $this->rootDA->execute(
+                                'SELECT * FROM domains WHERE id='.$this->rootDA->formatText((int) $domainid)
                             );
                             $domaindata = $domainquery->getFields();
 
@@ -1039,12 +1081,12 @@ only application. */
                                 $args['dbname'].'?'.
                                 'logfile='.$args['dblog'];
 
-                                $this->domainda = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(
+                                $this->tenantDA = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(
                                     new \Innomatic\Dataaccess\DataAccessSourceName($dasnString)
                                 );
-                                $this->domainda->connect();
+                                $this->tenantDA->connect();
                             } else {
-                                $this->domainda = $this->rootda;
+                                $this->tenantDA = $this->rootDA;
                             }
 
                             // Dependencies check
@@ -1064,9 +1106,9 @@ only application. */
                             // Recursively enable application dependencies.
                             if (is_array($unmetdeps)) {
                                 foreach ($unmetdeps as $depId => $depName) {
-                                    $appQuery = $this->rootda->execute(
+                                    $appQuery = $this->rootDA->execute(
                                         'SELECT id FROM applications WHERE appid=' .
-                                        $this->rootda->formatText($depName)
+                                        $this->rootDA->formatText($depName)
                                         );
                                     
                                     // Check if the application has been already enabled.
@@ -1078,7 +1120,7 @@ only application. */
                                     }
 
                                     // Enable the application.
-                                    $app = new Application($this->rootda, $appQuery->getFields('id'));
+                                    $app = new Application($this->rootDA, $appQuery->getFields('id'));
                                     if ($app->enable($domainid)) {
                                         unset($unmetdeps[$depId]);
                                     } 
@@ -1107,15 +1149,15 @@ only application. */
                                     'core/applications/'.$appdata['appid'].'/',
                                     $domainid
                                 );
-                                $modquery = $this->rootda->execute(
+                                $modquery = $this->rootDA->execute(
                                     'SELECT id FROM applications WHERE appid='.
-                                    $this->rootda->formatText($this->appname)
+                                    $this->rootDA->formatText($this->appname)
                                 );
-                                $this->rootda->execute(
+                                $this->rootDA->execute(
                                     'INSERT INTO applications_enabled VALUES ('.
-                                    $this->serial.','.$this->rootda->formatText($domainid).','.
-                                    $this->rootda->formatDate(time()).','.$this->rootda->formatDate(time()).','.
-                                    $this->rootda->formatText($this->rootda->fmttrue).')'
+                                    $this->id.','.$this->rootDA->formatText($domainid).','.
+                                    $this->rootDA->formatDate(time()).','.$this->rootDA->formatDate(time()).','.
+                                    $this->rootDA->formatText($this->rootDA->fmttrue).')'
                                 );
 
                                 if (
@@ -1135,7 +1177,7 @@ only application. */
                                     $hook->callHooks(
                                         'applicationenabled',
                                         $this,
-                                        array('domainserial' => $domainid, 'modserial' => $this->serial)
+                                        array('tenantserial' => $domainid, 'applicationid' => $this->id)
                                     ) != \Innomatic\Process\Hook::RESULT_OK
                                 )
                                 $result = false;
@@ -1172,7 +1214,7 @@ only application. */
                     $log = $this->container->getLogger();
                     $log->logEvent(
                         'innomatic.applications.applications.enable',
-                        'A application with serial '.$this->serial.
+                        'A application with id '.$this->id.
                         ' was not found in applications table',
                         \Innomatic\Logging\Logger::ERROR
                     );
@@ -1182,7 +1224,7 @@ only application. */
                 $log = $this->container->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.enable',
-                    'Empty application serial',
+                    'Empty application id',
                     \Innomatic\Logging\Logger::ERROR
                 );
             }
@@ -1199,7 +1241,7 @@ only application. */
     {
         $result = false;
 
-        $domainsquery = $this->rootda->execute('SELECT id FROM domains');
+        $domainsquery = $this->rootDA->execute('SELECT id FROM domains');
 
         if ($domainsquery->getNumberRows() > 0) {
             while (!$domainsquery->eof) {
@@ -1238,23 +1280,23 @@ only application. */
     {
         $result = false;
 
-        $hook = new \Innomatic\Process\Hook($this->rootda, 'innomatic', 'application.disable');
+        $hook = new \Innomatic\Process\Hook($this->rootDA, 'innomatic', 'application.disable');
         if (
             $hook->callHooks(
                 'calltime',
                 $this,
-                array('domainserial' => $domainid, 'modserial' => $this->serial)
+                array('tenantserial' => $domainid, 'applicationid' => $this->id)
             ) == \Innomatic\Process\Hook::RESULT_OK
         ) {
-            if ($this->serial) {
+            if ($this->id) {
                 // Checks if the application exists in applications table
                 //
-                $modquery = $this->rootda->execute('SELECT * FROM applications WHERE id='. (int) $this->serial);
+                $modquery = $this->rootDA->execute('SELECT * FROM applications WHERE id='. (int) $this->id);
 
                 if ($modquery->getNumberRows() == 1) {
                     $appdata = $modquery->getFields();
 
-                    if ($appdata['onlyextension'] != $this->rootda->fmttrue) {
+                    if ($appdata['onlyextension'] != $this->rootDA->fmttrue) {
                         // Checks if the structure file still exists
                         //
                         if (
@@ -1265,8 +1307,8 @@ only application. */
                         ) {
                             $this->appname = $appdata['appid'];
 
-                            $domainquery = $this->rootda->execute(
-                                'SELECT * FROM domains WHERE id='.$this->rootda->formatText((int) $domainid)
+                            $domainquery = $this->rootDA->execute(
+                                'SELECT * FROM domains WHERE id='.$this->rootDA->formatText((int) $domainid)
                             );
                             $domaindata = $domainquery->getFields();
 
@@ -1291,12 +1333,12 @@ only application. */
                                 $args['dbname'].'?'.
                         'logfile='.$args['dblog'];
 
-                                $this->domainda = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(
+                                $this->tenantDA = \Innomatic\Dataaccess\DataAccessFactory::getDataAccess(
                                     new \Innomatic\Dataaccess\DataAccessSourceName($dasnString)
                                 );
-                                $this->domainda->Connect();
+                                $this->tenantDA->Connect();
                             } else {
-                                $this->domainda = $this->rootda;
+                                $this->tenantDA = $this->rootDA;
                             }
 
                             // Dependencies check
@@ -1324,16 +1366,16 @@ only application. */
                                     $domainid
                                 );
 
-                                $modquery = $this->rootda->execute(
-                                    'SELECT id FROM applications WHERE appid='.$this->rootda->formatText($this->appname)
+                                $modquery = $this->rootDA->execute(
+                                    'SELECT id FROM applications WHERE appid='.$this->rootDA->formatText($this->appname)
                                 );
-                                $this->rootda->execute(
-                                    'DELETE FROM applications_enabled WHERE applicationid='. (int) $this->serial.
-                                    ' AND domainid='.$this->rootda->formatText($domainid)
+                                $this->rootDA->execute(
+                                    'DELETE FROM applications_enabled WHERE applicationid='. (int) $this->id.
+                                    ' AND domainid='.$this->rootDA->formatText($domainid)
                                 );
-                                $this->rootda->execute(
+                                $this->rootDA->execute(
                                     'DELETE FROM applications_options_disabled WHERE applicationid='.
-                                    (int) $this->serial.' AND domainid='. (int) $domainid
+                                    (int) $this->id.' AND domainid='. (int) $domainid
                                 );
 
                                 if (
@@ -1352,7 +1394,7 @@ only application. */
                                 if (
                                     $hook->callHooks(
                                         'applicationdisabled',
-                                        $this, array('domainserial' => $domainid, 'modserial' => $this->serial)
+                                        $this, array('tenantserial' => $domainid, 'applicationid' => $this->id)
                                     ) != \Innomatic\Process\Hook::RESULT_OK
                                 )
                                 $result = false;
@@ -1390,7 +1432,7 @@ only application. */
                     $log = $this->container->getLogger();
                     $log->logEvent(
                         'innomatic.applications.applications.disable',
-                        'A application with serial '.$this->serial.' was not found in applications table',
+                        'A application with id '.$this->id.' was not found in applications table',
                         \Innomatic\Logging\Logger::ERROR
                     );
                 }
@@ -1399,7 +1441,7 @@ only application. */
                 $log = $this->container->getLogger();
                 $log->logEvent(
                     'innomatic.applications.applications.disable',
-                    'Empty application serial',
+                    'Empty application id',
                     \Innomatic\Logging\Logger::ERROR
                 );
             }
@@ -1419,7 +1461,7 @@ only application. */
     {
         $result = false;
 
-        $domainsquery = $this->rootda->execute('SELECT id FROM domains');
+        $domainsquery = $this->rootDA->execute('SELECT id FROM domains');
 
         if ($domainsquery->getNumberRows() > 0) {
             while (!$domainsquery->eof) {
@@ -1437,26 +1479,26 @@ only application. */
     {
         $currentOptions = $this->getOptions();
 
-        while (list (, $optionName) = each($options)) {
+        while (list(, $optionName) = each($options)) {
             $optionName = trim($optionName);
 
             if (strlen($optionName)) {
                 $key = array_search($optionName, $currentOptions);
 
-                if ($key != false)
-                unset($currentOptions[$key]);
-                else {
-                    $this->rootda->execute(
+                if ($key != false) {
+                    unset($currentOptions[$key]);
+                } else {
+                    $this->rootDA->execute(
                         'INSERT INTO applications_options VALUES ('
-                        . $this->serial
-                        . ',' . $this->rootda->formatText($optionName)
+                        . $this->id
+                        . ',' . $this->rootDA->formatText($optionName)
                         . ')'
                     );
                 }
             }
         }
 
-        while (list (, $oldOptionName) = each($currentOptions)) {
+        while (list(, $oldOptionName) = each($currentOptions)) {
             $this->removeOption($oldOptionName);
         }
 
@@ -1467,9 +1509,9 @@ only application. */
     {
         $result = array();
 
-        $subQuery = $this->rootda->execute(
+        $subQuery = $this->rootDA->execute(
             'SELECT name FROM applications_options WHERE applicationid='
-            . (int) $this->serial . ' ORDER BY name'
+            . (int) $this->id . ' ORDER BY name'
         );
 
         $row = 1;
@@ -1485,22 +1527,22 @@ only application. */
 
     public function removeOption($option)
     {
-        $this->rootda->execute(
-            'DELETE FROM applications_options WHERE applicationid='. (int) $this->serial.
-            ' AND name='.$this->rootda->formatText($option)
+        $this->rootDA->execute(
+            'DELETE FROM applications_options WHERE applicationid='. (int) $this->id.
+            ' AND name='.$this->rootDA->formatText($option)
         );
-        $this->rootda->execute(
-            'DELETE FROM applications_options_disabled WHERE applicationid='. (int) $this->serial.
-            ' AND optionname='.$this->rootda->formatText($option)
+        $this->rootDA->execute(
+            'DELETE FROM applications_options_disabled WHERE applicationid='. (int) $this->id.
+            ' AND optionname='.$this->rootDA->formatText($option)
         );
         return true;
     }
 
     public function enableOption($option, $domainId)
     {
-        $this->rootda->execute(
-            'DELETE FROM applications_options_disabled WHERE applicationid='. (int) $this->serial.
-            ' AND domainid='. (int) $domainId.' AND optionname='.$this->rootda->formatText($option)
+        $this->rootDA->execute(
+            'DELETE FROM applications_options_disabled WHERE applicationid='. (int) $this->id.
+            ' AND domainid='. (int) $domainId.' AND optionname='.$this->rootDA->formatText($option)
         );
         return true;
     }
@@ -1508,9 +1550,9 @@ only application. */
     public function disableOption($option, $domainId)
     {
         if ($this->checkIfOptionEnabled($option, $domainId)) {
-            $this->rootda->execute(
+            $this->rootDA->execute(
                 'INSERT INTO applications_options_disabled VALUES ('.
-                $this->serial.','.$this->rootda->formatText($option).','.$domainId.')'
+                $this->id.','.$this->rootDA->formatText($option).','.$domainId.')'
             );
         }
         return true;
@@ -1520,12 +1562,12 @@ only application. */
     {
         $result = true;
 
-        $subCheck = $this->rootda->execute(
+        $subCheck = $this->rootDA->execute(
             'SELECT optionname FROM applications_options_disabled '
             . 'WHERE applicationid='
-            . (int) $this->serial
+            . (int) $this->id
             . ' AND domainid=' . (int) $domainId
-            . ' AND optionname=' . $this->rootda->formatText($option)
+            . ' AND optionname=' . $this->rootDA->formatText($option)
         );
         if ($subCheck->getNumberRows())
         $result = false;
@@ -1680,7 +1722,7 @@ only application. */
                             if ($tmpclassname) {
                             	$tmpclassname = $tmpclassname;
                                 $tmpcomponent = new $tmpclassname(
-                                    $this->rootda, $this->domainda, $this->appname, $val['name'], $tmpdir
+                                    $this->rootDA, $this->tenantDA, $this->appname, $val['name'], $tmpdir
                                 );
 
                                 /*
@@ -2170,24 +2212,25 @@ only application. */
     public static function parseApplicationDefinition($file)
     {
         $xml = simplexml_load_file($file);
-        $config['ApplicationIdName'] = sprintf('%s', $xml->definition[0]->idname);
-        $config['ApplicationVersion'] = sprintf('%s', $xml->definition[0]->release[0]->version);
-        $config['ApplicationDate'] = sprintf('%s', $xml->definition->release->date[0]);
-        $config['ApplicationDescription'] = sprintf('%s', $xml->definition->description[0]);
-        $config['ApplicationAuthor'] = sprintf('%s', $xml->definition->legal->author->name[0]);
-        $config['ApplicationAuthorEmail'] = sprintf('%s', $xml->definition->legal->author->email[0]);
-        $config['ApplicationAuthorWeb'] = sprintf('%s', $xml->definition->legal->author->web[0]);
-        $config['ApplicationSupportEmail'] = sprintf('%s', $xml->definition->support->supportemail[0]);
-        $config['ApplicationBugsEmail'] = sprintf('%s', $xml->definition->support->bugsemail[0]);
-        $config['ApplicationCopyright'] = sprintf('%s', $xml->definition->legal->copyright[0]);
-        $config['ApplicationLicense'] = sprintf('%s', $xml->definition->legal->license[0]);
-        $config['ApplicationLicenseFile'] = sprintf('%s', $xml->definition->legal->licensefile[0]);
-        $config['ApplicationChangesFile'] = sprintf('%s', $xml->definition->release->changesfile[0]);
-        $config['ApplicationMaintainer'] = sprintf('%s', $xml->definition->support->maintainer->name[0]);
+
+        $config['ApplicationIdName']          = sprintf('%s', $xml->definition[0]->idname);
+        $config['ApplicationVersion']         = sprintf('%s', $xml->definition[0]->release[0]->version);
+        $config['ApplicationDate']            = sprintf('%s', $xml->definition->release->date[0]);
+        $config['ApplicationDescription']     = sprintf('%s', $xml->definition->description[0]);
+        $config['ApplicationAuthor']          = sprintf('%s', $xml->definition->legal->author->name[0]);
+        $config['ApplicationAuthorEmail']     = sprintf('%s', $xml->definition->legal->author->email[0]);
+        $config['ApplicationAuthorWeb']       = sprintf('%s', $xml->definition->legal->author->web[0]);
+        $config['ApplicationSupportEmail']    = sprintf('%s', $xml->definition->support->supportemail[0]);
+        $config['ApplicationBugsEmail']       = sprintf('%s', $xml->definition->support->bugsemail[0]);
+        $config['ApplicationCopyright']       = sprintf('%s', $xml->definition->legal->copyright[0]);
+        $config['ApplicationLicense']         = sprintf('%s', $xml->definition->legal->license[0]);
+        $config['ApplicationLicenseFile']     = sprintf('%s', $xml->definition->legal->licensefile[0]);
+        $config['ApplicationChangesFile']     = sprintf('%s', $xml->definition->release->changesfile[0]);
+        $config['ApplicationMaintainer']      = sprintf('%s', $xml->definition->support->maintainer->name[0]);
         $config['ApplicationMaintainerEmail'] = sprintf('%s', $xml->definition->support->maintainer->email[0]);
-        $config['ApplicationCategory'] = sprintf('%s', $xml->definition->category[0]);
-        $config['ApplicationIconFile'] = sprintf('%s', $xml->definition->iconfile[0]);
-        $config['ApplicationIsExtension'] = sprintf('%s', $xml->definition->isextension[0]);
+        $config['ApplicationCategory']        = sprintf('%s', $xml->definition->category[0]);
+        $config['ApplicationIconFile']        = sprintf('%s', $xml->definition->iconfile[0]);
+        $config['ApplicationIsExtension']     = sprintf('%s', $xml->definition->isextension[0]);
 
         $depsStart = true;
         $config['ApplicationDependencies'] = '';
@@ -2230,14 +2273,24 @@ only application. */
         return $config;
     }
 
+    /**
+     * Finds application id from name.
+     * 
+     * @param string $name Application name.
+     * @return string
+     */
     public static function getAppIdFromName($name)
     {
-        if (!strlen($name)) return false;
+        if (!strlen($name)) {
+            return false;
+        }
 
         $da = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess();
         $query = $da->execute('SELECT id FROM applications WHERE appid='.$da->formatText($name));
 
-        if ($query->getNumberRows() != 1) return false;
+        if ($query->getNumberRows() != 1) {
+            return false;
+        }
 
         return $query->getFields('id');
     }
