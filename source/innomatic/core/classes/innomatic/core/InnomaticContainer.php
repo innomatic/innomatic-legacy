@@ -613,7 +613,7 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         exit($status);
     }
 
-    public function shutdown()
+    public function shutdown($exit = true)
     {
         if ($this->state != \Innomatic\Core\InnomaticContainer::STATE_SETUP) {
             if (is_object($this->rootDb)) {
@@ -696,7 +696,9 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
             @unlink($this->home . 'core/temp/pids/' . $this->pid);
         }
 
-        exit();
+        if ($exit) {
+            exit();
+        }
     }
 
     public function abort($text, $forceInterface = '')
@@ -1685,4 +1687,24 @@ class InnomaticContainer extends \Innomatic\Util\Singleton
         return $this->rootStarted;
     }
     /* }}} */
+
+    /**
+     * Runs a callback function in legacy stack. 
+     * 
+     * @param \Closure $callback Callback function.
+     * @return mixed Callback result.
+     */
+    public function runCallback(\Closure $callback)
+    {
+        try {
+            $result = $callback();
+        } catch (Exception $e) {
+            $this->shutdown(false);
+            throw $e;
+        }
+
+        $this->shutdown(false);
+
+        return $result;
+    }
 }
