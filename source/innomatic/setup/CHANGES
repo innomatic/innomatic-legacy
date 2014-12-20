@@ -24,6 +24,8 @@ CHANGES:
 DEPRECATED:
 - Application\Application::enableToAllDomains() has been deprecated. (Alex
   Pagnoni)
+- Deprecated domain* application structure tags, renamed to tenant*. (Alex
+  Pagnoni)
 
 
 

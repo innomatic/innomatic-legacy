@@ -1664,13 +1664,13 @@ class Application
         //
         uksort($structure, array($this, $sortmode));
 
-        // Check for domain update scripts
+        // Check for tenant update scripts
 
-        if (isset($structure['domainpreupdate'])) {
-            $domainprescript = $scriptdir.$structure['domainpreupdate'];
+        if (isset($structure['tenantpreupdate'])) {
+            $domainprescript = $scriptdir.$structure['tenantpreupdate'];
         }
-        if (isset($structure['domainpostupdate'])) {
-            $domainpostscript = $scriptdir.$structure['domainpostupdate'];
+        if (isset($structure['tenantpostupdate'])) {
+            $domainpostscript = $scriptdir.$structure['tenantpostupdate'];
         }
 
         // Check for preinstallation jobs
@@ -1688,19 +1688,20 @@ class Application
                 case 'generalpreuninstall' :
                 case 'generalpostinstall' :
                 case 'generalpostuninstall' :
-                case 'domainpreinstall' :
-                case 'domainpreuninstall' :
-                case 'domainpostinstall' :
-                case 'domainpostuninstall' :
+                case 'tenantpreinstall' :
+                case 'tenantpreuninstall' :
+                case 'tenantpostinstall' :
+                case 'tenantpostuninstall' :
                 case 'generalpreupdate' :
                 case 'generalpostupdate' :
-                case 'domainpreupdate' :
-                case 'domainpostupdate' :
+                case 'tenantpreupdate' :
+                case 'tenantpostupdate' :
                     break;
 
                 default :
                     // Checks if the component type file exists
                     //
+                    // @todo Must support PSR autoloading standards
                     if (
                         file_exists(
                             $this->container->getHome().
@@ -1907,22 +1908,22 @@ class Application
             $scripts['generalpostinstall'] = $structureb['generalpostinstall'];
             if (isset($structureb['generalpostuninstall']))
             $scripts['generalpostuninstall'] = $structureb['generalpostuninstall'];
-            if (isset($structureb['domainpreinstall']))
-            $scripts['domainpreinstall'] = $structureb['domainpreinstall'];
-            if (isset($structureb['domainpreuninstall']))
-            $scripts['domainpreuninstall'] = $structureb['domainpreuninstall'];
-            if (isset($structureb['domainpostinstall']))
-            $scripts['domainpostinstall'] = $structureb['domainpostinstall'];
-            if (isset($structureb['domainpostuninstall']))
-            $scripts['domainpostuninstall'] = $structureb['domainpostuninstall'];
+            if (isset($structureb['tenantpreinstall']))
+            $scripts['tenantpreinstall'] = $structureb['tenantpreinstall'];
+            if (isset($structureb['tenantpreuninstall']))
+            $scripts['tenantpreuninstall'] = $structureb['tenantpreuninstall'];
+            if (isset($structureb['tenantpostinstall']))
+            $scripts['tenantpostinstall'] = $structureb['tenantpostinstall'];
+            if (isset($structureb['tenantpostuninstall']))
+            $scripts['tenantpostuninstall'] = $structureb['tenantpostuninstall'];
             if (isset($structureb['generalpreupdate']))
             $scripts['generalpreupdate'] = $structureb['generalpreupdate'];
             if (isset($structureb['generalpostupdate']))
             $scripts['generalpostupdate'] = $structureb['generalpostupdate'];
-            if (isset($structureb['domainpreupdate']))
-            $scripts['domainpreupdate'] = $structureb['domainpreupdate'];
-            if (isset($structureb['domainpostupdate']))
-            $scripts['domainpostupdate'] = $structureb['domainpostupdate'];
+            if (isset($structureb['tenantpreupdate']))
+            $scripts['tenantpreupdate'] = $structureb['tenantpreupdate'];
+            if (isset($structureb['tenantpostupdate']))
+            $scripts['tenantpostupdate'] = $structureb['tenantpostupdate'];
 
             // Remove scripts and odd entries
             //
@@ -2124,14 +2125,14 @@ class Application
             case 'generalpreuninstall' :
             case 'generalpostinstall' :
             case 'generalpostuninstall' :
-            case 'domainpreinstall' :
-            case 'domainpreuninstall' :
-            case 'domainpostinstall' :
-            case 'domainpostuninstall' :
             case 'generalpreupdate' :
             case 'generalpostupdate' :
-            case 'domainpreupdate' :
-            case 'domainpostupdate' :
+            case 'tenantpreinstall' :
+            case 'tenantpreuninstall' :
+            case 'tenantpostinstall' :
+            case 'tenantpostuninstall' :
+            case 'tenantpreupdate' :
+            case 'tenantpostupdate' :
                 return -1;
                 break;
         }
@@ -2141,14 +2142,14 @@ class Application
             case 'generalpreuninstall' :
             case 'generalpostinstall' :
             case 'generalpostuninstall' :
-            case 'domainpreinstall' :
-            case 'domainpreuninstall' :
-            case 'domainpostinstall' :
-            case 'domainpostuninstall' :
             case 'generalpreupdate' :
             case 'generalpostupdate' :
-            case 'domainpreupdate' :
-            case 'domainpostupdate' :
+            case 'tenantpreinstall' :
+            case 'tenantpreuninstall' :
+            case 'tenantpostinstall' :
+            case 'tenantpostuninstall' :
+            case 'tenantpreupdate' :
+            case 'tenantpostupdate' :
                 return 1;
                 break;
         }
@@ -2175,14 +2176,14 @@ class Application
             case 'generalpreuninstall' :
             case 'generalpostinstall' :
             case 'generalpostuninstall' :
-            case 'domainpreinstall' :
-            case 'domainpreuninstall' :
-            case 'domainpostinstall' :
-            case 'domainpostuninstall' :
             case 'generalpreupdate' :
             case 'generalpostupdate' :
-            case 'domainpreupdate' :
-            case 'domainpostupdate' :
+            case 'tenantpreinstall' :
+            case 'tenantpreuninstall' :
+            case 'tenantpostinstall' :
+            case 'tenantpostuninstall' :
+            case 'tenantpreupdate' :
+            case 'tenantpostupdate' :
                 return -1;
                 break;
         }
@@ -2192,14 +2193,14 @@ class Application
             case 'generalpreuninstall' :
             case 'generalpostinstall' :
             case 'generalpostuninstall' :
-            case 'domainpreinstall' :
-            case 'domainpreuninstall' :
-            case 'domainpostinstall' :
-            case 'domainpostuninstall' :
             case 'generalpreupdate' :
             case 'generalpostupdate' :
-            case 'domainpreupdate' :
-            case 'domainpostupdate' :
+            case 'tenantpreinstall' :
+            case 'tenantpreuninstall' :
+            case 'tenantpostinstall' :
+            case 'tenantpostuninstall' :
+            case 'tenantpreupdate' :
+            case 'tenantpostupdate' :
                 return 1;
                 break;
         }

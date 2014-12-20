@@ -125,20 +125,24 @@ class ApplicationStructureDefinition extends \Innomatic\Xml\XMLParser
 
                 // Domain cases
                 //
-            case 'DOMAINPREINSTALL' : // Before enabling the application to a domain
-                $this->modstructure['domainpreinstall'] = $attrs['FILE'];
+            case 'DOMAINPREINSTALL' : // Before enabling the application to a tenant 
+            case 'TENANTPREINSTALL' : // Before enabling the application to a tenant
+                $this->modstructure['tenantpreinstall'] = $attrs['FILE'];
                 break;
 
-            case 'DOMAINPREUNINSTALL' : // Before disabling the application to a domain
-                $this->modstructure['domainpreuninstall'] = $attrs['FILE'];
+            case 'DOMAINPREUNINSTALL' : // Before disabling the application to a tenant
+            case 'TENANTPREUNINSTALL' : // Before disabling the application to a tenant
+                $this->modstructure['tenantpreuninstall'] = $attrs['FILE'];
                 break;
 
-            case 'DOMAINPOSTINSTALL' : // After enabling the application to a domain
-                $this->modstructure['domainpostinstall'] = $attrs['FILE'];
+            case 'DOMAINPOSTINSTALL' : // After enabling the application to a tenant
+            case 'TENANTPOSTINSTALL' : // After enabling the application to a tenant
+                $this->modstructure['tenantpostinstall'] = $attrs['FILE'];
                 break;
 
-            case 'DOMAINPOSTUNINSTALL' : // After disabling the application to a domain
-                $this->modstructure['domainpostuninstall'] = $attrs['FILE'];
+            case 'DOMAINPOSTUNINSTALL' : // After disabling the application to a tenant
+            case 'TENANTPOSTUNINSTALL' : // After disabling the application to a tenant
+                $this->modstructure['tenantpostuninstall'] = $attrs['FILE'];
                 break;
 
                 // Update cases
@@ -151,12 +155,14 @@ class ApplicationStructureDefinition extends \Innomatic\Xml\XMLParser
                 $this->modstructure['generalpostupdate'] = $attrs['FILE'];
                 break;
 
-            case 'DOMAINPREUPDATE' : // Before updating the application, for every enabled domain
-                $this->modstructure['domainpreupdate'] = $attrs['FILE'];
+            case 'DOMAINPREUPDATE' : // Before updating the application, for every enabled tenant
+            case 'TENANTPREUPDATE' : // Before updating the application, for every enabled tenant
+                $this->modstructure['tenantpreupdate'] = $attrs['FILE'];
                 break;
 
-            case 'DOMAINPOSTUPDATE' : // After updating the application, for every enabled domain
-                $this->modstructure['domainpostupdate'] = $attrs['FILE'];
+            case 'DOMAINPOSTUPDATE' : // After updating the application, for every enabled tenant
+            case 'TENANTPOSTUPDATE' : // After updating the application, for every enabled tenant
+                $this->modstructure['tenantpostupdate'] = $attrs['FILE'];
                 break;
 
                 // Component case
