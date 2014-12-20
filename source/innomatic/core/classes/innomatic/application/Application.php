@@ -1069,6 +1069,15 @@ only application. */
                                         $this->rootda->formatText($depName)
                                         );
                                     
+                                    // Check if the application has been already enabled.
+                                    // This happens when an application before in the dependencies list
+                                    // as already enabled the current item.
+                                    if ($appdeps->isEnabled($depName, $domaindata['domainid'])) {
+                                        unset($unmetdeps[$depId]);
+                                        continue;
+                                    }
+
+                                    // Enable the application.
                                     $app = new Application($this->rootda, $appQuery->getFields('id'));
                                     if ($app->enable($domainid)) {
                                         unset($unmetdeps[$depId]);
