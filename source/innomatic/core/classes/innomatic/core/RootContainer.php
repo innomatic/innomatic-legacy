@@ -393,8 +393,8 @@ class RootContainer extends \Innomatic\Util\Singleton
             unlink($home.'innomatic/core/temp/cache/classes.ser');
 
             $registry = \Innomatic\Util\Registry::instance();
-            $registry->setGlobalObject('system_classes', $system_classes);
-            $registry->setGlobalObject('system_fqcns', $system_fqcns);
+            $registry->setGlobalObject('system_classes', null);
+            $registry->setGlobalObject('system_fqcns', null);
         }
     }
 }
