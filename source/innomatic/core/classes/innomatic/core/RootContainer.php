@@ -26,26 +26,35 @@ require_once(dirname(__FILE__).'/../util/Singleton.php');
  * been exited in a clean way or if it crashed, letting the Innomatic container
  * call the RootContainer::stop() method.
  *
- * @copyright  2008-2012 Innomatic Company
+ * @copyright  2008-2014 Innomatic Company
  * @since      5.0.0 introduced
  * @package    Core
  */
 class RootContainer extends \Innomatic\Util\Singleton
 {
     /**
-     * Holds the root container base directory, where all the container
+     * Holds the legacy root container base directory, where all the container
      * applications and the main index.php receiver file are stored.
      *
      * @var string
      */
-    private $home;
+    protected $legacyHome;
+
+    /**
+     * Holds the new platform root container base directory.
+     * 
+     * @var string
+     */
+    protected $platformHome;
+
     /**
      * The clean state is false until explicitly changed to true calling the
      * RootContainer::stop() method.
      *
      * @var boolean
      */
-    private $clean = false;
+    protected $clean = false;
+
     /**
      * Tells if the Composer autoloader has been registered.
      * 
@@ -59,20 +68,21 @@ class RootContainer extends \Innomatic\Util\Singleton
      */
     public function ___construct()
     {
-        $this->home = realpath(dirname(__FILE__).'/../../../../..').'/';
-        @chdir($this->home);
+        $this->legacyHome = realpath(dirname(__FILE__).'/../../../../..').'/';
+        $this->platformHome = realpath(dirname(__FILE__).'/../../../../../..').'/';
+        @chdir($this->legacyHome);
 
         // This is needed in order to prevent a successive chdir() to screw
         // including classes when relying on having Innomatic root directory
         // as current directory
         set_include_path(
-            get_include_path() . PATH_SEPARATOR . $this->home
+            get_include_path() . PATH_SEPARATOR . $this->legacyHome
             . 'innomatic/core/classes/'
         );
 
         // If in Innomatic Platform legacy stack context, add Composer defined
         // autoloader if exists.
-        $composerAutoload = dirname(__FILE__).'/../../../../../../vendor/autoload.php';
+        $composerAutoload = $this->platformHome . 'vendor/autoload.php';
         if (file_exists($composerAutoload)) {
             require_once($composerAutoload);
             $this->hasComposer = true;
@@ -83,13 +93,41 @@ class RootContainer extends \Innomatic\Util\Singleton
     }
 
     /**
-     * Returns the root container home directory.
+     * Returns the legacy root container home directory.
+     * 
+     * This is an alias for RootContainer->getLegacyHome().
      *
+     * @see RootContainer->getLegacyHome()
+     * @see RootContainer->getPlatformHome()
      * @return string
      */
     public function getHome()
     {
-        return $this->home;
+        return $this->getLegacyHome();
+    }
+    
+    /**
+     * Returns the legacy root container home directory.
+     *
+     * @see RootContainer->getLegacyHome()
+     * @see RootContainer->getPlatformHome()
+     * @return string
+     */
+    public function getLegacyHome()
+    {
+        return $this->legacyHome;
+    }
+    
+    /**
+     * Returns the new platform root container home directory.
+     *
+     * @see RootContainer->getLegacyHome()
+     * @see RootContainer->getPlatformHome()
+     * @return string
+     */
+    public function getPlatformHome()
+    {
+        return $this->platformHome;
     }
 
     /**
