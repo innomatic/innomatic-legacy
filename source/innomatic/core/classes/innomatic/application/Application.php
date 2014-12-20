@@ -1190,14 +1190,12 @@ only application. */
         return $result;
     }
 
-    /*!
-     @function EnableToAllDomains
-
-     @abstract Enables a application for all domains.
-
-     @result True if successfully enabled.
+    /**
+     * Enables an application to all tenants.
+     * 
+     * @return boolean
      */
-    public function enableToAllDomains()
+    public function enableToAllTenants()
     {
         $result = false;
 
@@ -1213,6 +1211,18 @@ only application. */
         $domainsquery->free();
 
         return $result;
+    }
+    
+    /**
+     * Enables an application to all tenants.
+     * 
+     * @deprecated 7.0.0
+     * @see Application::enableToAllTenants()
+     * @return boolean
+     */
+    public function enableToAllDomains()
+    {
+        return $this->enableToAllTenants();
     }
 
     /*!

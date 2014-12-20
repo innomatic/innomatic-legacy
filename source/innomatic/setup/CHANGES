@@ -21,6 +21,10 @@ CHANGES:
   InnomaticContainer constants. (Alex Pagnoni)
 - Removed deprecated library component. (Alex Pagnoni)
 
+DEPRECATED:
+- Application\Application::enableToAllDomains() has been deprecated. (Alex
+  Pagnoni)
+
 
 
 6000 - 6.4.0 - 2014/12/10 
