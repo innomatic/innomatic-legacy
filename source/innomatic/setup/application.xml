@@ -4,8 +4,8 @@
 	<definition>
 		<idname>innomatic</idname>
 		<release>
-			<version>6.4.0</version>
-			<date>2014/12/10</date>
+			<version>6.4.1</version>
+			<date>2014/12/22</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description><![CDATA[<strong>Innomatic Platform</strong> for Multi-Tenant Cloud Applications.]]></description>
