@@ -426,23 +426,38 @@ class LocaleCountry
         return $result;
     }
 
+    public function getDateArrayFromDateTime(\DateTime $datetime)
+    {
+        if (!is_object($datetime)) {
+            return false;
+        }
+        $result['year'] = $datetime->format('Y');
+        $result['mon'] = $datetime->format('m');
+        $result['mday'] = $datetime->format('d');
+        $result['hours'] = $datetime->format('H');
+        $result['minutes'] = $datetime->format('i');
+        $result['seconds'] = $datetime->format('s');
+        return $result;
+    }
+
+
     public function normalizeYear($year)
     {
         $result = $year;
 
         switch (strlen($year)) {
-            case '0' :
-                $result = '2000';
-                break;
-            case '1' :
-                $result = '200'.$year;
-                break;
-            case '2' :
-                $result = '20'.$year;
-                break;
-            case '3' :
-                $result = '2'.$year;
-                break;
+        case '0':
+            $result = '2000';
+            break;
+        case '1':
+            $result = '200'.$year;
+            break;
+        case '2':
+            $result = '20'.$year;
+            break;
+        case '3':
+            $result = '2'.$year;
+            break;
         }
 
         return $result;
