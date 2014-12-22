@@ -187,8 +187,16 @@ class RootContainer extends \Innomatic\Util\Singleton
 
 	    // remember the defined classes, include the $file and detect newly declared classes
 	    $pre = array_merge(get_declared_classes(), get_declared_interfaces());
+        // Lets try with original case.
         if (!@include_once($file)) {
-            return false;
+            $classPart = substr($file, strrpos($file, '/') + 1);
+            $pathPart = substr($file, 0, strrpos($file, '/'));
+            $lowerFile = strtolower($pathPart) . '/' . $classPart;
+
+            // Fallback to lower case path.
+            if (!@include_once($lowerFile)) {
+                return false;
+            }
         }
 	    $post = array_unique(array_diff(array_merge(get_declared_classes(), get_declared_interfaces()), $pre));
 
@@ -344,7 +352,7 @@ class RootContainer extends \Innomatic\Util\Singleton
 		if ($lastNsPos = strrpos($className, '\\')) {
 			$namespace = substr($className, 0, $lastNsPos);
 			$className = substr($className, $lastNsPos + 1);
-			$fileName  = strtolower(str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR);
+            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
 		}
 
         $reg = $registry->getGlobalObject('system_classes');
