@@ -278,6 +278,7 @@
 			name="innomatic/application/ApplicationComponentRegister.php" />
 		<class
 			name="innomatic/application/ApplicationStructureDefinition.php" />
+		<class name="innomatic/application/ComposerManager.php" />
 
 		<hookevent name="application.enable.calltime"
 			function="application.enable" event="calltime" forceinstall="true" />
