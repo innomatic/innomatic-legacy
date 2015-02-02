@@ -14,6 +14,8 @@ NEW FEATURES:
 - Added update action in application.php script for updating AppCentral
   applications list. (Alex Pagnoni)
 - Added automatic application dependencies resolution. (Alex Pagnoni)
+- Added Innomatic\Locale\LocaleCountry\getDateArrayFromDateTime method.
+  (Amanda Accalai)
  
 CHANGES:
 - Removed deprecated icons set. (Alex Pagnoni)
