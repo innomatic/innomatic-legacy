@@ -132,7 +132,7 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
             $widget_counter ++;
 
-            // Check if this last widget for each column
+            // Check if this is last widget for each column
             if ($widget_counter % $rows_per_column == 0) {
                 $end_column = true;
             }
