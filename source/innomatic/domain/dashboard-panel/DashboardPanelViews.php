@@ -128,7 +128,32 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             $headers[0]['label'] = $widget_locale->getStr($widget['title']);
 
             // Draw the widget
-            $wui_xml .= '<table halign="left" valign="top"><args><headers type="array">' . WuiXml::encode($headers) . '</headers></args><children><vertgroup row="0" col="0" halign="left" valign="top"><args><width>' . $width . '</width><height>' . $height . '</height><groupvalign>top</groupvalign></args><children><divframe><args><id>widget_' . $widget['name'] . '</id><width>300</width></args><children><void/></children></divframe></children></vertgroup></children></table>';
+            $wui_xml .= '
+<table halign="left" valign="top">
+  <args>
+    <headers type="array">' . WuiXml::encode($headers) . '</headers>
+  </args>
+  <children>
+    <vertgroup row="0" col="0" halign="left" valign="top">
+      <args>
+        <width>' . $width . '</width>
+        <height>' . $height . '</height>
+        <groupvalign>top</groupvalign>
+      </args>
+      <children>
+        <divframe>
+          <args>
+            <id>widget_' . $widget['name'] . '</id>
+            <width>300</width>
+          </args>
+          <children>
+            <void/>
+          </children>
+        </divframe>
+      </children>
+    </vertgroup>
+  </children>
+</table>';
 
             $widget_counter ++;
 
