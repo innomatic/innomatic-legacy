@@ -22,6 +22,9 @@ CHANGES:
 - Removed deprecated EDITION_SAAS, EDITION_ASP and EDITION_ENTERPRISE
   InnomaticContainer constants. (Alex Pagnoni)
 - Removed deprecated library component. (Alex Pagnoni)
+- Desktop dashboard widgets are now loaded by AJAX only when explicitly set
+  with the \Innomatic\Desktop\Dashboard\DashboardWidget->isDeferred()
+  method. (Alex Pagnoni)
 
 DEPRECATED:
 - Application\Application::enableToAllDomains() has been deprecated. (Alex

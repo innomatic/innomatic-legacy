@@ -944,6 +944,7 @@
 		<!-- Dashboard -->
 
 		<class name="innomatic/desktop/dashboard/DashboardWidget.php" />
+		<class name="innomatic/desktop/dashboard/WidgetHelper.php" />
 		<domaintable name="domain_dashboards_widgets"
 			file="domain_dashboards_widgets.xml" />
 
