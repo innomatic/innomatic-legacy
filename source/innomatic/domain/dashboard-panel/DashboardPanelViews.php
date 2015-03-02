@@ -18,10 +18,10 @@ use \Innomatic\Wui\Dispatch;
 use \Innomatic\Locale\LocaleCatalog;
 use \Innomatic\Domain\User;
 use \Shared\Wui;
+use \Innomatic\Desktop\Dashboard\WidgetHelper;
 
 class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 {
-
     public $wuiPage;
 
     public $wuiMainvertgroup;
@@ -33,7 +33,7 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     public $wuiTitlebar;
 
     protected $localeCatalog;
-    
+
     protected $container;
 
     public function update($observable, $arg = '')
@@ -73,7 +73,7 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $def_width = 380;
         $def_height = 250;
 
-        $widgets = $this->getController()->getWidgetsList();
+        $widgets = WidgetHelper::getWidgetsList();
 
         $widget_counter = 0;
         $columns = 3;
@@ -87,6 +87,7 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         foreach ($widgets as $widget) {
             $width = 0;
             $height = 0;
+            $isDeferred = false;
 
             $class = $widget['class'];
 
@@ -100,6 +101,9 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                     continue;
                 }
 
+                // Check if the widget must be loaded through AJAX
+                $isDeferred = $widget_obj->isDeferred();
+
                 $width = $widget_obj->getWidth() * $def_width;
                 $height = $widget_obj->getHeight();
             } else {
@@ -111,8 +115,24 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 $wui_xml .= '<vertgroup><children>';
                 $start_column = false;
             }
-            // Add ajax setup call
-            \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\'' . $widget['name'] . '\')');
+
+            if ($isDeferred) {
+                // Add ajax setup call
+                \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->registerAjaxSetupCall('xajax_GetDashboardWidget(\'' . $widget['name'] . '\')');
+
+                $widgetXml = '
+        <divframe>
+          <args>
+            <id>widget_'.$widget['name'].'</id>
+            <width>300</width>
+          </args>
+          <children>
+            <void/>
+          </children>
+        </divframe>';
+            } else {
+                $widgetXml = WidgetHelper::getWidgetXml($widget['name']);
+            }
 
             // Check width and height parameters
             if ($width == 0) {
@@ -128,11 +148,31 @@ class DashboardPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             $headers[0]['label'] = $widget_locale->getStr($widget['title']);
 
             // Draw the widget
-            $wui_xml .= '<table halign="left" valign="top"><args><headers type="array">' . WuiXml::encode($headers) . '</headers></args><children><vertgroup row="0" col="0" halign="left" valign="top"><args><width>' . $width . '</width><height>' . $height . '</height><groupvalign>top</groupvalign></args><children><divframe><args><id>widget_' . $widget['name'] . '</id><width>300</width></args><children><void/></children></divframe></children></vertgroup></children></table>';
+            $wui_xml .= '
+<table halign="left" valign="top">
+  <args>
+    <headers type="array">'.WuiXml::encode($headers).'</headers>
+  </args>
+  <children>
+    <vertgroup row="0" col="0" halign="left" valign="top">
+      <args>
+        <width>'.$width.'</width>
+        <height>'.$height.'</height>
+        <groupvalign>top</groupvalign>
+      </args>
+      <children>';
+            
+            $wui_xml .= $widgetXml;
+            
+            $wui_xml .= '
+      </children>
+    </vertgroup>
+  </children>
+</table>';
 
             $widget_counter ++;
 
-            // Check if this last widget for each column
+            // Check if this is last widget for each column
             if ($widget_counter % $rows_per_column == 0) {
                 $end_column = true;
             }
