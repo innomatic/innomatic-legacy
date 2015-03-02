@@ -14,6 +14,7 @@
 namespace Innomatic\Application;
 
 use \Innomatic\Core\Container;
+use Innomatic\Application\ComposerManager;
 
 /**
  * Class for handling basic application operations.
@@ -339,6 +340,30 @@ class Application
 
                         $this->setOptions(explode(',', trim($genconfig['ApplicationOptions'], ' ,')));
 
+                            // Check if the application provides a Composer configuration file.
+                            if (file_exists($tmpdir.'/composer.json')) {
+                                // Copy the composer.json inside the application directory.
+                                @copy(
+                                    $tmpdir.'/composer.json',
+                                    $this->container->getHome().
+                                    'core/applications/'.$genconfig['ApplicationIdName'].'/composer.json'
+                                );
+                                
+                                // Start the Composer manager.
+                                $composerManager = new ComposerManager();
+                                $composerManager->updateDependencies();
+                            } elseif (file_exists($this->container->getHome().
+                                    'core/applications/'.$genconfig['ApplicationIdName'].'/composer.json')) {
+                                // The application provided a composer.json file in past versions
+                                // while the current one no more, so it should be removed. 
+                                unlink($this->container->getHome().
+                                    'core/applications/'.$genconfig['ApplicationIdName'].'/composer.json');
+
+                                // Start the Composer manager.
+                                $composerManager = new ComposerManager();
+                                $composerManager->updateDependencies();
+                            }
+
                         $this->HandleStructure(
                             $tmpdir.'/setup/application.xml',
                             Application::INSTALL_MODE_INSTALL,
@@ -542,6 +567,30 @@ class Application
                                     }
                                 }
                                 closedir($dhandle);
+                            }
+                            
+                            // Check if the application provides a Composer configuration file.
+                            if (file_exists($tmpdir.'/composer.json')) {
+                                // Copy the composer.json inside the application directory.
+                                @copy(
+                                    $tmpdir.'/composer.json',
+                                    $this->container->getHome().
+                                    'core/applications/'.$genconfig['ApplicationIdName'].'/composer.json'
+                                );
+                                
+                                // Start the Composer manager.
+                                $composerManager = new ComposerManager();
+                                $composerManager->updateDependencies();
+                            } elseif (file_exists($this->container->getHome().
+                                    'core/applications/'.$genconfig['ApplicationIdName'].'/composer.json')) {
+                                // The application provided a composer.json file in past versions
+                                // while the current one no more, so it should be removed. 
+                                unlink($this->container->getHome().
+                                    'core/applications/'.$genconfig['ApplicationIdName'].'/composer.json');
+
+                                // Start the Composer manager.
+                                $composerManager = new ComposerManager();
+                                $composerManager->updateDependencies();
                             }
 
                             $this->HandleStructure(
@@ -754,7 +803,7 @@ class Application
                     ) {
                         $this->appname = $appdata['appid'];
 
-                        // Checks if there are depengind applications
+                        // Checks if there are depending applications
                         //
                         $appdeps = new ApplicationDependencies();
                         $pendingdeps = $appdeps->CheckDependingApplications($appdata['appid']);
@@ -771,6 +820,18 @@ class Application
                                 Application::INSTALL_MODE_UNINSTALL,
                                 $this->container->getHome().'core/temp/appinst/'
                             );
+
+                            // Check if the application provides a Composer configuration file.
+                            if (file_exists($this->container->getHome().
+                                'core/applications/'.$appdata['appid'].'/composer.json')) {
+                                // Remove the application composer.json file.
+                                unlink($this->container->getHome().
+                                    'core/applications/'.$appdata['appid'].'/composer.json');
+                                
+                                // Start the Composer manager.
+                                $composerManager = new ComposerManager();
+                                $composerManager->updateDependencies();
+                            }
 
                             // Removes application archive and directory
                             //
