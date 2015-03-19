@@ -1924,7 +1924,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
                 $row = 0;
 
-                $wuiDomainApplicationsTable = new WuiTable('domainapplicationstable', array('headers' => $headers));
+                $wuiDomainApplicationsTable = new WuiTable('domainapplicationstable', array('headers' => $headers, 'hoverrow' => 'true'));
 
                 while (!$applicationsQuery->eof) {
                     $applicationsData = $applicationsQuery->getFields();
@@ -2121,6 +2121,9 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                                 \Innomatic\Application\ApplicationDependencies::TYPE_DEPENDENCY
                             );
 
+                            if (!is_array($domainApplicationDeps)) {
+                                // All application dependecies are met
+                                //
                                 $enableAction[$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                                 $enableAction[$row]->addEvent(
                                     new \Innomatic\Wui\Dispatch\WuiEvent(
@@ -2151,8 +2154,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                                     )
                                 );
                                 $wuiDomainApplicationsToolbar[$row]->addChild($wuiEnableButton[$row]);
-
-                            if (is_array($domainApplicationDeps)) {
+                            } else {
                                 // At least one application dependency is not met
                                 //
                                 $appDepListStr = '';
