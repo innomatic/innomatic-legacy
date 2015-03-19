@@ -1924,7 +1924,7 @@ class DomainsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
                 $row = 0;
 
-                $wuiDomainApplicationsTable = new WuiTable('domainapplicationstable', array('headers' => $headers));
+                $wuiDomainApplicationsTable = new WuiTable('domainapplicationstable', array('headers' => $headers, 'hoverrow' => 'true'));
 
                 while (!$applicationsQuery->eof) {
                     $applicationsData = $applicationsQuery->getFields();
