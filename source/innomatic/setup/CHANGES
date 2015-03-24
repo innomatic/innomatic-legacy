@@ -11,6 +11,8 @@
 -------------------------
 NEW FEATURES:
 - Added Composer integration. (Alex Pagnoni)
+- Added support for composer.json in Innomatic legacy applications with
+  automatic composer install command. (Alex Pagnoni)
 - Added update action in application.php script for updating AppCentral
   applications list. (Alex Pagnoni)
 - Added automatic application dependencies resolution. (Alex Pagnoni)
