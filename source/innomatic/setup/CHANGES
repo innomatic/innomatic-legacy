@@ -25,6 +25,8 @@ CHANGES:
 - Desktop dashboard widgets are now loaded by AJAX only when explicitly set
   with the \Innomatic\Desktop\Dashboard\DashboardWidget->isDeferred()
   method. (Alex Pagnoni)
+- Removed max lenght limit in tenant database password. (Alex Pagnoni)
+- Increased max lenght limit to 16 in tenant database username. (Alex Pagnoni)
 
 DEPRECATED:
 - Application\Application::enableToAllDomains() has been deprecated. (Alex

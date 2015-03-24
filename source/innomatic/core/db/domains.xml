@@ -10,8 +10,8 @@
 		<field name="domaindaname" type="text" length="40" notnull="1" />
 		<field name="dataaccesshost" type="text" length="100" />
 		<field name="dataaccessport" type="integer" />
-		<field name="dataaccessuser" type="text" length="15" />
-		<field name="dataaccesspassword" type="text" length="15" />
+		<field name="dataaccessuser" type="text" length="16" />
+		<field name="dataaccesspassword" type="text" />
 		<field name="dataaccesstype" type="text" length="20"
 			notnull="1" />
 		<field name="domaincreationdate" type="date" />
