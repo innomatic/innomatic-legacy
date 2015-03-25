@@ -20,6 +20,28 @@ use \Innomatic\Locale\LocaleCatalog;
 use \Innomatic\Domain\User;
 use \Shared\Wui;
 
+/**
+ * Method for get number page.
+ *
+ * @param integer $pageNumber number of the page.
+ * 
+ * @return void
+ */
+function users_list_action_builder($pageNumber)
+{
+    return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+        '',
+        array(
+            array(
+                'view',
+                'default',
+                array('userspage' => $pageNumber)
+            )
+        )
+    );
+}
+
+
 class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 {
     public $wuiPage;
@@ -27,31 +49,32 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     public $wuiMainframe;
     public $wuiMainstatus;
     public $wuiTitlebar;
+    
+    protected $innomaticContainer;
     protected $localeCatalog;
 
     public function update($observable, $arg = '')
     {
         switch ($arg) {
-            case 'status':
-                $this->wuiMainstatus->mArgs['status'] =
-                    $this->_controller->getAction()->status;
-                break;
+        case 'status':
+            $this->wuiMainstatus->mArgs['status'] = $this->_controller->getAction()->status;
+            break;
         }
     }
 
     public function beginHelper()
     {
+        $this->innomaticContainer = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         $this->localeCatalog = new LocaleCatalog(
             'innomatic::domain_profiles',
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
+            $this->innomaticContainer->getCurrentUser()->getLanguage()
         );
 
         $this->wuiPage = new WuiPage('page', array('title' => $this->localeCatalog->getStr('profiles_title')));
         $this->wuiMainvertgroup = new WuiVertgroup('mainvertgroup');
         $this->wuiTitlebar = new WuiTitleBar(
             'titlebar',
-            array('title' => $this->localeCatalog->getStr('profiles_title'),
-                'icon' => 'user')
+            array('title' => $this->localeCatalog->getStr('profiles_title'), 'icon' => 'user')
         );
         $this->wuiMainvertgroup->addChild($this->wuiTitlebar);
 
@@ -103,59 +126,59 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $wuiRolesToolBar->addChild($wuiPermissionsButton);
 
         $rolesAction = new WuiEventsCall();
-                $rolesAction->addEvent(new WuiEvent('view', 'roles', ''));
-                $wuiRolesButton = new WuiButton(
-                    'usersbutton',
-                    array(
-                    'label' => $this->localeCatalog->getStr('roles_button'),
-                    'themeimage' => 'user',
-                    'horiz' => 'true',
-                    'action' => $rolesAction->getEventsCallString()
-                )
-                );
-                $wuiRolesToolBar->addChild($wuiRolesButton);
+        $rolesAction->addEvent(new WuiEvent('view', 'roles', ''));
+        $wuiRolesButton = new WuiButton(
+            'usersbutton',
+            array(
+                'label' => $this->localeCatalog->getStr('roles_button'),
+                'themeimage' => 'user',
+                'horiz' => 'true',
+                'action' => $rolesAction->getEventsCallString()
+            )
+        );
+        $wuiRolesToolBar->addChild($wuiRolesButton);
 
         $newRoleAction = new WuiEventsCall();
         $newRoleAction->addEvent(new WuiEvent('view', 'newrole', ''));
         $wuiNewRoleButton = new WuiButton(
             'newuserbutton',
             array(
-            'label' => $this->localeCatalog->getStr('newrole_button'),
+                'label' => $this->localeCatalog->getStr('newrole_button'),
                 'themeimage' => 'useradd',
                 'horiz' => 'true',
                 'action' => $newRoleAction->getEventsCallString()
             )
-            );
-                $wuiRolesToolBar->addChild($wuiNewRoleButton);
+        );
+        $wuiRolesToolBar->addChild($wuiNewRoleButton);
 
-                // Profiles bar
-                //
-                $wuiProfilesToolBar = new WuiToolBar('profilestoolbar');
+        // Profiles bar
+        //
+        $wuiProfilesToolBar = new WuiToolBar('profilestoolbar');
 
         $homeAction = new WuiEventsCall();
-                $homeAction->addEvent(new WuiEvent('view', 'profiles', ''));
-                    $wuiHomeButton = new WuiButton(
-                        'homebutton',
-                        array('label' => $this->localeCatalog->getStr('profiles_button'),
-                            'themeimage' => 'user',
-                            'horiz' => 'true',
-                            'action' => $homeAction->getEventsCallString()
-                        )
-                        );
-                    $wuiProfilesToolBar->addChild($wuiHomeButton);
+        $homeAction->addEvent(new WuiEvent('view', 'profiles', ''));
+        $wuiHomeButton = new WuiButton(
+            'homebutton',
+            array('label' => $this->localeCatalog->getStr('profiles_button'),
+                'themeimage' => 'user',
+                'horiz' => 'true',
+                'action' => $homeAction->getEventsCallString()
+            )
+        );
+        $wuiProfilesToolBar->addChild($wuiHomeButton);
 
-                        $newProfileAction = new WuiEventsCall();
-                        $newProfileAction->addEvent(new WuiEvent('view', 'newprofile', ''));
-                        $wuiNewProfileButton = new WuiButton(
-                            'newprofilebutton',
-                            array(
-                                'label' => $this->localeCatalog->getStr('newprofile_button'),
-                                'themeimage' => 'useradd',
-                                'horiz' => 'true',
-                                'action' => $newProfileAction->getEventsCallString()
-                            )
-                        );
-                        $wuiProfilesToolBar->addChild($wuiNewProfileButton);
+        $newProfileAction = new WuiEventsCall();
+        $newProfileAction->addEvent(new WuiEvent('view', 'newprofile', ''));
+        $wuiNewProfileButton = new WuiButton(
+            'newprofilebutton',
+            array(
+                'label' => $this->localeCatalog->getStr('newprofile_button'),
+                'themeimage' => 'useradd',
+                'horiz' => 'true',
+                'action' => $newProfileAction->getEventsCallString()
+            )
+        );
+        $wuiProfilesToolBar->addChild($wuiNewProfileButton);
 
         // Help tool bar
         //
@@ -188,10 +211,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $wuiToolBarFrame->addChild($wuiRolesToolBar);
         $wuiToolBarFrame->addChild($wuiProfilesToolBar);
 
-        if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
-            ->getCurrentUser()
-            ->hasPermission('edit_motd'))
-        {
+        if ($this->innomaticContainer->getCurrentUser()->hasPermission('edit_motd')) {
             $motdTb = new WuiToolBar('motdtb');
             $motdAction = new WuiEventsCall();
             $motdAction->addEvent(New WuiEvent('view', 'motd', ''));
@@ -229,9 +249,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewProfiles($eventData)
     {
-        $profQuery = \Innomatic\Core\InnomaticContainer::instance(
-            '\Innomatic\Core\InnomaticContainer'
-        )->getCurrentDomain()->getDataAccess()->execute(
+        $profQuery = $this->innomaticContainer->getCurrentDomain()->getDataAccess()->execute(
             'SELECT * FROM domain_users_groups ORDER BY groupname'
         );
 
@@ -309,21 +327,19 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewEditprofile($eventData)
     {
-        $profQuery = \Innomatic\Core\InnomaticContainer::instance(
-            '\Innomatic\Core\InnomaticContainer'
-        )->getCurrentDomain()->getDataAccess()->execute(
+        $profQuery = $this->innomaticContainer->getCurrentDomain()->getDataAccess()->execute(
             'SELECT * FROM domain_users_groups WHERE id='.$eventData['profileid']
         );
 
         $profData = $profQuery->getFields();
 
-        $groupsQuery = \Innomatic\Core\InnomaticContainer::instance(
-            '\Innomatic\Core\InnomaticContainer'
-        )->getCurrentDomain()->getDataAccess()->execute('SELECT * FROM domain_panels_groups ORDER BY name');
+        $groupsQuery = $this->innomaticContainer->getCurrentDomain()->getDataAccess()->execute(
+            'SELECT * FROM domain_panels_groups ORDER BY name'
+        );
 
         if ($groupsQuery->getNumberRows()) {
             $perm = new \Innomatic\Desktop\Auth\DesktopPanelAuthorizator(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
+                $this->innomaticContainer->getCurrentDomain()->getDataAccess(),
                 $eventData['profileid']
             );
             $row = 0;
@@ -344,20 +360,20 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 $nodeState = $perm->Check($groupData['id'], \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODETYPE_GROUP);
 
                 switch ($nodeState) {
-                	case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_FULLYENABLED :
-                	    $icon = $this->wuiMainframe->mThemeHandler->mStyle['greenball'];
-                	    $enabled = true;
-                	    break;
+                case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_FULLYENABLED :
+                    $icon = $this->wuiMainframe->mThemeHandler->mStyle['greenball'];
+                    $enabled = true;
+                    break;
 
-                	case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_PARTIALLYENABLED :
-                	    $icon = $this->wuiMainframe->mThemeHandler->mStyle['goldball'];
-                	    $enabled = true;
-                	    break;
+                case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_PARTIALLYENABLED :
+                    $icon = $this->wuiMainframe->mThemeHandler->mStyle['goldball'];
+                    $enabled = true;
+                    break;
 
-                	case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED :
-                	    $icon = $this->wuiMainframe->mThemeHandler->mStyle['redball'];
-                	    $enabled = false;
-                	    break;
+                case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED :
+                    $icon = $this->wuiMainframe->mThemeHandler->mStyle['redball'];
+                    $enabled = false;
+                    break;
                 }
 
                 $wuiGroupsTable->addChild(new WuiImage('statusimage'.$row, array('imageurl' => $icon)), $row, 0);
@@ -452,9 +468,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                     'SELECT *
                 FROM domain_panels
                 WHERE groupid='.$groupData['id'].'
-                AND (hidden != '.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()
-                    ->getDataAccess()->formatText(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()
-                        ->getDataAccess()->fmttrue).'
+                AND (hidden != '.$this->innomaticContainer->getCurrentDomain()->getDataAccess()->formatText($this->innomaticContainer->getCurrentDomain()->getDataAccess()->fmttrue).'
                 OR hidden IS NULL)
                 ORDER BY name'
                 );
@@ -463,20 +477,20 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                     $pageData = $pagesQuery->getFields();
                     $tempLocale = new LocaleCatalog(
                         $pageData['catalog'],
-                        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
+                        $this->innomaticContainer->getCurrentUser()->getLanguage()
                     );
                     $nodeState = $perm->Check($pageData['id'], 'page');
 
                     switch ($nodeState) {
-                    	case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_FULLYENABLED :
-                    	    $icon = $this->wuiMainframe->mThemeHandler->mStyle['greenball'];
-                    	    $enabled = true;
-                    	    break;
+                    case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_FULLYENABLED :
+                        $icon = $this->wuiMainframe->mThemeHandler->mStyle['greenball'];
+                        $enabled = true;
+                        break;
 
-                    	case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED :
-                    	    $icon = $this->wuiMainframe->mThemeHandler->mStyle['redball'];
-                    	    $enabled = false;
-                    	    break;
+                    case \Innomatic\Desktop\Auth\DesktopPanelAuthorizator::NODE_NOTENABLED :
+                        $icon = $this->wuiMainframe->mThemeHandler->mStyle['redball'];
+                        $enabled = false;
+                        break;
                     }
 
                     $wuiGroupsTable->addChild(
@@ -646,7 +660,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewDeleteprofile($eventData)
     {
-        $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
+        $profQuery = $this->innomaticContainer->getCurrentDomain()->getDataAccess()->execute(
             'SELECT * FROM domain_users_groups WHERE id='.$eventData['profileid']
         );
 
@@ -767,7 +781,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewRenameprofile($eventData)
     {
-        $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
+        $profQuery = $this->innomaticContainer->getCurrentDomain()->getDataAccess()->execute(
             'SELECT * FROM domain_users_groups WHERE id='.$eventData['profileid']
         );
 
@@ -841,10 +855,75 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewDefault($eventData)
     {
-        $usersQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
-            'SELECT id,username,fname,lname,email,groupid,disabled FROM domain_users ORDER BY username'
+
+        // Filtering
+        if (isset($eventData['filter'])) {
+        
+            // if ($eventData['filter_projectid'] != 0) 
+            $search_keys['username'] = $eventData['username'];
+
+            // Username
+            $username_filter_sk = new WuiSessionKey(
+                'username_filter',
+                array('value' => $eventData['username'])
+            );
+
+            $search_keys['completename'] = $eventData['completename'];
+
+            // completename
+            $completename_filter_sk = new WuiSessionKey(
+                'completename_filter',
+                array('value' => $eventData['completename'])
+            );
+
+            $search_keys['email'] = $eventData['email'];
+
+            // email
+            $email_filter_sk = new WuiSessionKey(
+                'email_filter',
+                array('value' => $eventData['email'])
+            );
+        } else {
+
+            $username_filter_sk = new WuiSessionKey('username_filter');
+            if (strlen($username_filter_sk->mValue) and $username_filter_sk->mValue != 0 ) {
+                $search_keys['username'] = $username_filter_sk->mValue;
+            }
+            $eventData['username'] = $username_filter_sk->mValue;
+
+            $completename_filter_sk = new WuiSessionKey('completename_filter');
+            if (strlen($completename_filter_sk->mValue) and $completename_filter_sk->mValue != 0 ) {
+                $search_keys['completename'] = $completename_filter_sk->mValue;
+            }
+            $eventData['completename'] = $completename_filter_sk->mValue;
+
+            $email_filter_sk = new WuiSessionKey('email_filter');
+            if (strlen($email_filter_sk->mValue) and $email_filter_sk->mValue != 0 ) {
+                $search_keys['email'] = $email_filter_sk->mValue;
+            }
+            $eventData['email'] = $email_filter_sk->mValue;
+
+        }
+
+        $where = array();
+        if (isset($eventData['username']) and !empty($eventData['username'])) {
+            $where[] = "username LIKE '%".$eventData['username']."%' ";
+        }
+        if (isset($eventData['completename']) and !empty($eventData['completename'])) {
+            $where[] = "fname LIKE '%".$eventData['completename']."%' OR lname LIKE '%".$eventData['completename']."%' ";
+        }
+        if (isset($eventData['email']) and !empty($eventData['email'])) {
+            $where[] = "email LIKE '%".$eventData['email']."%' ";
+        }
+
+        $usersQuery = $this->innomaticContainer->getCurrentDomain()->getDataAccess()->execute(
+            'SELECT id, username, fname, lname, email, groupid, disabled 
+            FROM domain_users '.
+            (!empty($where) ? "WHERE ".implode("OR ", $where) : '').
+            ' ORDER BY username'
         );
-        $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
+
+        $profQuery = $this->innomaticContainer->getCurrentDomain()->getDataAccess()->execute(
             'SELECT id,groupname FROM domain_users_groups ORDER BY groupname'
         );
 
@@ -855,6 +934,71 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             $profQuery->moveNext();
         }
 
+        $wuiVGroup = new WuiVertgroup('vgroup');
+
+        $wuiVGroup->addChild(new WuiLabel('filter', array('bold' => true, 'label' => $this->localeCatalog->getStr('filter_label'))));
+
+        $formEventsCall = new WuiEventsCall();
+        $formEventsCall->addEvent(new WuiEvent('view', 'default', array()));
+        $wuiForm = new WuiForm('usersform', array('action' => $formEventsCall->getEventsCallString()));
+
+        $wuiHGroup = new WuiHorizgroup('hgroup', array('width' => '0%'));
+        
+        $wuiHGroup->addChild(new WuiLabel('username', array('label' => $this->localeCatalog->getStr('username_header').':')));
+        $wuiHGroup->addChild(new WuiString('username', array('disp' => 'view', 'value' => (isset($eventData['username']) ? $eventData['username'] : ''))));
+
+        $wuiHGroup->addChild(new WuiLabel('completename', array('label' => $this->localeCatalog->getStr('completename_header').':')));
+        $wuiHGroup->addChild(new WuiString('completename', array('disp' => 'view', 'value' => (isset($eventData['completename']) ? $eventData['completename'] : ''))));
+
+        $wuiHGroup->addChild(new WuiLabel('email', array('label' => $this->localeCatalog->getStr('email_header').':')));
+        $wuiHGroup->addChild(new WuiString('email', array('disp' => 'view', 'value' => (isset($eventData['email']) ? $eventData['email'] : ''))));
+
+        $wuiSearchButton = new WuiButton(
+            'searchbutton',
+            array(
+                'label' => $this->localeCatalog->getStr('filter_button'),
+                'themeimage' => 'zoom',
+                'themeimagetype' => 'mini',
+                'horiz' => 'true', 
+                'formsubmit' => 'usersform',
+                'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                    '', 
+                    array(
+                        array('view', 'default', array('filter' => 'true'))
+                    )
+                )
+            )
+        );
+        $wuiHGroup->addChild($wuiSearchButton);
+
+        $wuiEraseFilter = new WuiButton(
+            'searchbutton',
+            array(
+                'label' => $this->localeCatalog->getStr('erasefilter_button'),
+                'themeimage' => 'buttoncancel',
+                'themeimagetype' => 'mini',
+                'horiz' => 'true', 
+                'frame' => 'false', 
+                'formsubmit' => 'usersform',
+                'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                    '', 
+                    array(
+                        array('view', 'default', array()), 
+                        array('action', 'erasefilter', array())
+                    )
+                )
+            )
+        );
+        $wuiHGroup->addChild($wuiEraseFilter);
+
+        $wuiForm->addChild($wuiHGroup);
+
+        $wuiVGroup->addChild($wuiForm);
+
+        $wuiVGroup->addChild(new WuiHorizBar('horizbar1'));
+
+        $wuiVGroup->addChild(new WuiLabel('filter', array('bold' => true, 'label' => $this->localeCatalog->getStr('users_title'))));
+
         if ($usersQuery->getNumberRows()) {
             $headers[0]['label'] = $this->localeCatalog->getStr('status_header');
             $headers[1]['label'] = $this->localeCatalog->getStr('username_header');
@@ -864,12 +1008,20 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
             $row = 0;
 
-            $wuiUsersTable = new WuiTable('userstable', array('headers' => $headers));
+            $wuiUsersTable = new WuiTable(
+                'userstable',
+                array(
+                    'headers' => $headers,
+                    'rowsperpage' => '25',
+                    'pagesactionfunction' => 'users_list_action_builder',
+                    'pagenumber' => (is_array($eventData) and isset($eventData['userspage'])) ? $eventData['userspage'] : 1
+                )
+            );
 
             while (!$usersQuery->eof) {
                 $userData = $usersQuery->getFields();
 
-                if ($userData['disabled'] == \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->fmttrue) {
+                if ($userData['disabled'] == $this->innomaticContainer->getCurrentDomain()->getDataAccess()->fmttrue) {
                     $enabled = false;
                 } else {
                     $enabled = true;
@@ -879,9 +1031,9 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 $chDataAction[$row]->addEvent(new WuiEvent('view', 'edituser', array('userid' => $userData['id'])));
 
                 if ($enabled) {
-                    $wuiUsersTable->addChild( new WuiImage( 'status'.$row, array('imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['greenball'])), $row, 0, 'center');
+                    $wuiUsersTable->addChild(new WuiImage('status'.$row, array('imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['greenball'])), $row, 0, 'center');
                 } else {
-                    $wuiUsersTable->addChild( new WuiImage( 'status'.$row, array( 'imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['redball'])), $row, 0, 'center');
+                    $wuiUsersTable->addChild(new WuiImage('status'.$row, array('imageurl' => $this->wuiMainframe->mThemeHandler->mStyle['redball'])), $row, 0, 'center');
                 }
 
                 $wuiUsersTable->addChild(
@@ -897,7 +1049,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                         array(
                             'label' => strcmp(
                                 $userData['username'],
-                                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId()
+                                $this->innomaticContainer->getCurrentDomain()->getDomainId()
                             )
                             != 0 ? $userData['lname'].' '.$userData['fname']
                             : $this->localeCatalog->getStr('superuser_label')
@@ -918,10 +1070,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                     $row, 4
                 );
 
-                if (\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
-                    ->getCurrentUser()
-                    ->hasPermission('edit_password_all'))
-                {
+                if ($this->innomaticContainer->getCurrentUser()->hasPermission('edit_password_all')) {
                     $wuiUserToolbar[$row] = new WuiHorizgroup('usertoolbar'.$row);
 
                     $chPasswdAction[$row] = new WuiEventsCall();
@@ -957,7 +1106,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                     );
                     $wuiUserToolbar[$row]->addChild($wuiChDataButton[$row]);
 
-                    if (!\Domain\User\User::isAdminUser($userData['username'], \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domainid)) {
+                    if (!\Domain\User\User::isAdminUser($userData['username'], $this->innomaticContainer->getCurrentDomain()->domainid)) {
                         $removeAction[$row] = new WuiEventsCall();
                         $removeAction[$row]->addEvent(
                             new WuiEvent(
@@ -1012,7 +1161,8 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 $row ++;
             }
 
-            $this->wuiMainframe->addChild($wuiUsersTable);
+            $wuiVGroup->addChild($wuiUsersTable);
+            $this->wuiMainframe->addChild($wuiVGroup);
         }
 
         $this->wuiTitlebar->mTitle.= ' - '.$this->localeCatalog->getStr('users_title');
@@ -1020,7 +1170,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewNewuser($eventData)
     {
-        $profQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
+        $profQuery = $this->innomaticContainer->getCurrentDomain()->getDataAccess()->execute(
             'SELECT * FROM domain_users_groups'
         );
 
@@ -1246,7 +1396,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewDeleteuser($eventData)
     {
-        $userQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
+        $userQuery = $this->innomaticContainer->getCurrentDomain()->getDataAccess()->execute(
             'SELECT * FROM domain_users WHERE id='.$eventData['userid']
         );
 
@@ -1330,13 +1480,13 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewEdituser($eventData)
     {
-        $domainDa = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess();
+        $domainDa = $this->innomaticContainer->getCurrentDomain()->getDataAccess();
 
         $userQuery = $domainDa->execute('SELECT * FROM domain_users WHERE id='.$eventData['userid']);
         $userData = $userQuery->getFields();
 
         $user = new \Innomatic\Domain\User\User(
-            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->domainserial,
+            $this->innomaticContainer->getCurrentDomain()->domainserial,
             $eventData['userid']
         );
         $userRolesQuery = $user->getAllRoles();
@@ -1446,7 +1596,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewChpassword($eventData)
     {
-        $userQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
+        $userQuery = $this->innomaticContainer->getCurrentDomain()->getDataAccess()->execute(
             'SELECT * FROM domain_users WHERE id='.$eventData['userid']
         );
         $userData = $userQuery->getFields();
@@ -1522,97 +1672,94 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
         $this->wuiTitlebar->mTitle.= ' - '.$userData['username'].' - '.$this->localeCatalog->getStr('chpasswd_title');
     }
 
-        public function viewMotd($eventData)
-        {
-            if (
-                !\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')
-                    ->getCurrentUser()
-                    ->hasPermission('edit_motd'))
-            {
-                return $this->viewDefault();
-            }
+    public function viewMotd($eventData)
+    {
+        if (!$this->innomaticContainer->getCurrentUser()->hasPermission('edit_motd')) {
+            return $this->viewDefault();
+        }
 
-            $domain = new \Innomatic\Domain\Domain(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId(),
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
-            );
+        $domain = new \Innomatic\Domain\Domain(
+            $this->innomaticContainer->getDataAccess(),
+            $this->innomaticContainer->getCurrentDomain()->getDomainId(),
+            $this->innomaticContainer->getCurrentDomain()->getDataAccess()
+        );
 
-            $xmlDef = '<vertgroup><name>motd</name>
-          <children>
-
-            <form><name>motd</name>
-              <args>
-                <method>post</method>
-                <action type="encoded">'
-                .urlencode(
-                    WuiEventsCall::buildEventsCallString(
-                        '',
-                        array(
-                            array('view', 'motd', ''),
-                            array('action', 'setmotd', '')
-                        )
-                    )
-                )
-                .'</action>
-              </args>
+        $xmlDef = '<vertgroup><name>motd</name>
               <children>
 
-                <grid><name>motd</name>
-
-                  <children>
-
-                    <label row="0" col="0" halign="" valign="top"><name>label</name>
-                      <args>
-                        <label type="encoded">'.urlencode($this->localeCatalog->getStr('motd.label')).'</label>
-                      </args>
-                    </label>
-
-                    <text row="0" col="1"><name>motd</name>
-                      <args>
-                        <rows>10</rows>
-                        <cols>80</cols>
-                        <disp>action</disp>
-                        <value type="encoded">'.urlencode($domain->getMotd()).'</value>
-                      </args>
-                    </text>
-
-                  </children>
-
-                </grid>
-
-              </children>
-            </form>
-
-            <horizbar><name>hb</name></horizbar>
-
-            <button>
-              <name>apply</name>
-              <args>
-                <horiz>true</horiz>
-                <frame>false</frame>
-                <themeimage>buttonok</themeimage>
-                <label type="encoded">'.urlencode($this->localeCatalog->getStr('set_motd.submit')).'</label>
-                <formsubmit>motd</formsubmit>
-                <action type="encoded">'
-                        .urlencode(
-                            WuiEventsCall::buildEventsCallString(
-                                '',
-                                array(
-                                    array('view', 'motd', ''),
-                                    array('action', 'setmotd', '')
-                                )
+                <form><name>motd</name>
+                  <args>
+                    <method>post</method>
+                    <action type="encoded">'
+                    .urlencode(
+                        WuiEventsCall::buildEventsCallString(
+                            '',
+                            array(
+                                array('view', 'motd', ''),
+                                array('action', 'setmotd', '')
                             )
                         )
-                        .'</action>
-              </args>
-            </button>
+                    )
+                    .'</action>
+                  </args>
+                  <children>
 
-          </children>
-        </vertgroup>';
-            $this->wuiMainframe->addChild(new WuiXml('page', array('definition' => $xmlDef)));
+                    <grid><name>motd</name>
 
-            $this->wuiTitlebar->mTitle.= ' - '.$this->localeCatalog->getStr('motd.title');
+                      <children>
+
+                        <label row="0" col="0" halign="" valign="top"><name>label</name>
+                          <args>
+                            <label type="encoded">'.urlencode($this->localeCatalog->getStr('motd.label')).'</label>
+                          </args>
+                        </label>
+
+                        <text row="0" col="1"><name>motd</name>
+                          <args>
+                            <rows>10</rows>
+                            <cols>80</cols>
+                            <disp>action</disp>
+                            <value type="encoded">'.urlencode($domain->getMotd()).'</value>
+                          </args>
+                        </text>
+
+                      </children>
+
+                    </grid>
+
+                  </children>
+                </form>
+
+                <horizbar><name>hb</name></horizbar>
+
+                <button>
+                  <name>apply</name>
+                  <args>
+                    <horiz>true</horiz>
+                    <frame>false</frame>
+                    <themeimage>buttonok</themeimage>
+                    <label type="encoded">'.urlencode($this->localeCatalog->getStr('set_motd.submit')).'</label>
+                    <formsubmit>motd</formsubmit>
+                    <action type="encoded">'
+                            .urlencode(
+                                WuiEventsCall::buildEventsCallString(
+                                    '',
+                                    array(
+                                        array('view', 'motd', ''),
+                                        array('action', 'setmotd', '')
+                                    )
+                                )
+                            )
+                            .'</action>
+                  </args>
+                </button>
+
+              </children>
+            </vertgroup>';
+
+        $this->wuiMainframe->addChild(new WuiXml('page', array('definition' => $xmlDef)));
+
+        $this->wuiTitlebar->mTitle.= ' - '.$this->localeCatalog->getStr('motd.title');
     }
 
     public function viewHelp($eventData)
@@ -1624,7 +1771,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 array(
                     'base' => 'innomatic',
                     'node' => 'innomatic.domain.profiles.'.$eventData['node'].'.html',
-                    'language' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getLanguage()
+                    'language' => $this->innomaticContainer->getCurrentUser()->getLanguage()
                 )
             )
         );
@@ -1653,11 +1800,13 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                     'label' => $this->localeCatalog->getStr('editrole_button'),
                     'themeimage' => 'pencil',
                     'horiz' => 'true',
-                    'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array(
-                        'view',
-                        'editrole',
-                        array('id' => $roleId))))
-                    );
+                    'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                        '', 
+                        array(
+                            array('view', 'editrole', array('id' => $roleId))
+                        )
+                    )
+                );
             }
             $toolsArray['trash'] = array(
                 'label' => $this->localeCatalog->getStr('removerole_button'),
@@ -1665,20 +1814,23 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                 'horiz' => 'true',
                 'needconfirm' => 'true',
                 'confirmmessage' => $this->localeCatalog->getStr('removerole_confirm'),
-                'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(
-                    array('view', 'roles'),
-                    array('action', 'removerole', array('id' => $roleId))))
-                );
+                'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                    '', 
+                    array(
+                        array('view', 'roles'),
+                        array('action', 'removerole', array('id' => $roleId))
+                    )
+                )
+            );
 
             $xml .= '<label row="'.$row.'" col="0"><args><label>'.WuiXml::cdata($roleData['title']).'</label></args></label>
                 <label row="'.$row.'" col="1"><args><label>'.WuiXml::cdata($roleData['description']).'</label><nowrap>false</nowrap></args></label>
-                    <innomatictoolbar row="'.$row.'" col="2"><name>tools</name>
-  <args>
-    <frame>false</frame>
-    <toolbars type="array">'.WuiXml::encode(array(
-                'view' => $toolsArray)).'</toolbars>
-  </args>
-</innomatictoolbar>';
+                <innomatictoolbar row="'.$row.'" col="2"><name>tools</name>
+                  <args>
+                    <frame>false</frame>
+                    <toolbars type="array">'.WuiXml::encode(array('view' => $toolsArray)).'</toolbars>
+                  </args>
+                </innomatictoolbar>';
             $row++;
         }
 
@@ -1690,15 +1842,16 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
     {
         $xml = '<vertgroup><children>
             <form><name>newrole</name>
-              <args><action>'.WuiXml::cdata(
-    	      		\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
-    	      				'',
-    	      				array(
-    	      					array('view', 'roles', array()),
-    	      				    array('action', 'addrole', array())
-    	      				)
-    	      		)
-    	      ).'</action></args>
+                <args><action>'
+                .WuiXml::cdata(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                        '',
+                        array(
+                            array('view', 'roles', array()),
+                            array('action', 'addrole', array())
+                        )
+                    )
+                ).'</action></args>
               <children>
                 <grid><children>
                   <label row="0" col="0"><args><label>'.WuiXml::cdata($this->localeCatalog->getStr('rolename_label')).'</label></args></label>
@@ -1711,17 +1864,18 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             <horizgroup><children>
               <button><name>save</name>
                 <args>
-                  <themeimage>buttonok</themeimage>
-                  <label>'.WuiXml::cdata($this->localeCatalog->getStr('newrole_button')).'</label>
-                  <action>'.WuiXml::cdata(
-    	      		\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
-    	      				'',
-    	      				array(
-    	      					array('view', 'roles', array()),
-    	      				    array('action', 'addrole', array())
-    	      				)
-    	      		)
-    	      ).'</action>
+                    <themeimage>buttonok</themeimage>
+                    <label>'.WuiXml::cdata($this->localeCatalog->getStr('newrole_button')).'</label>
+                    <action>'
+                    .WuiXml::cdata(
+                        \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                            '',
+                            array(
+                                array('view', 'roles', array()),
+                                array('action', 'addrole', array())
+                            )
+                        )
+                    ).'</action>
                   <formsubmit>newrole</formsubmit>
                   <horiz>true</horiz>
                   <frame>false</frame>
