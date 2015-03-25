@@ -1162,8 +1162,8 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             }
 
             $wuiVGroup->addChild($wuiUsersTable);
-            $this->wuiMainframe->addChild($wuiVGroup);
         }
+        $this->wuiMainframe->addChild($wuiVGroup);
 
         $this->wuiTitlebar->mTitle.= ' - '.$this->localeCatalog->getStr('users_title');
     }
