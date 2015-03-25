@@ -249,6 +249,13 @@ class ProfilesPanelActions extends \Innomatic\Desktop\Panel\PanelActions
             ->store();
     }
 
+    public function executeErasefilter($eventData) 
+    {
+        $filter_sk = new WuiSessionKey('username_filter', array('value' => ''));
+        $filter_sk = new WuiSessionKey('completename_filter', array('value' => ''));
+        $filter_sk = new WuiSessionKey('email_filter', array('value' => ''));
+    }
+
     public static function ajaxSaveRolesPermissions($permissions) {
         // Build list of checked roles/permissions
         $permissions = explode(',', $permissions);
