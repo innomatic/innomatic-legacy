@@ -18,6 +18,7 @@ NEW FEATURES:
 - Added automatic application dependencies resolution. (Alex Pagnoni)
 - Added Innomatic\Locale\LocaleCountry\getDateArrayFromDateTime method.
   (Amanda Accalai)
+- Added filter in profiles panel. (Amanda Accalai)
  
 CHANGES:
 - Removed deprecated icons set. (Alex Pagnoni)
@@ -29,6 +30,9 @@ CHANGES:
   method. (Alex Pagnoni)
 - Removed max lenght limit in tenant database password. (Alex Pagnoni)
 - Increased max lenght limit to 16 in tenant database username. (Alex Pagnoni)
+
+FIXES:
+- Removed scrolling on firefox when the page is not long. (Amanda Accalai)
 
 DEPRECATED:
 - Application\Application::enableToAllDomains() has been deprecated. (Alex
