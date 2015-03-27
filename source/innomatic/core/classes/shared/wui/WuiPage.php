@@ -478,7 +478,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
 
             $block .= "<table class=\"page\" border=\"0\" style=\"border-bottom: 0px solid "
                 . $this->mThemeHandler->mColorsSet['pages']['border']
-                . ";\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
+                . ";\" width=\"100%\" cellspacing=\"0\" cellpadding=\"10\">\n"
                 . '<thead id="page-thead" class="page"><tr class="' . $env_class . '">' . "\n"
                 . "<td style=\"width: 100%; align: center; padding-left: 16px;\" align=\"left\">"
                 . "<a href=\"".$container->getBaseUrl(false)."\"><img src=\"" . $this->mThemeHandler->mStyle['titlelogo']
