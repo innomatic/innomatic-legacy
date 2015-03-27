@@ -83,7 +83,7 @@ class ComposerManager
         chdir($platformHome);
         
         // Call composer install command
-        $input = new ArrayInput(array('command' => 'install'));
+        $input = new ArrayInput(array('command' => 'update'));
         if ($container->getInterface() == InnomaticContainer::INTERFACE_CONSOLE) {
             $output = new ConsoleOutput();
         } else {
