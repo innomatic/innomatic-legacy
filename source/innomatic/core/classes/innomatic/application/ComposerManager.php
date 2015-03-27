@@ -96,5 +96,8 @@ class ComposerManager
         
         // Switch back to the previous current directory
         chdir($previousDirectory);
+        
+        // Switch back to the standard Innomatic PHP error handler
+        set_error_handler(array($container, 'errorHandler'));
     }
 }
