@@ -18,6 +18,7 @@ use Innomatic\Core\RootContainer;
 use Composer\Console\Application as ComposerApplication;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * ComposerManager handles Composer basic operations for Innomatic applications.
