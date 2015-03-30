@@ -27,8 +27,8 @@ class WuiException extends \Exception
     const MISSING_VIEWS_CLASS = 4;
     const MISSING_ACTIONS_FILE = 5;
     const MISSING_ACTIONS_CLASS = 6;
-    const MISSING_CONTROLLER_FILE = 5;
-    const MISSING_CONTROLLER_CLASS = 6;
+    const MISSING_CONTROLLER_FILE = 12;
+    const MISSING_CONTROLLER_CLASS = 13;
     const UNABLE_TO_RENDER = 7;
     const LOADALLWIDGETS_UNAVAILABLE = 8;
     const MISSING_WIDGET_FILE = 9;

@@ -33,6 +33,8 @@ CHANGES:
 
 FIXES:
 - Removed scrolling on firefox when the page is not long. (Amanda Accalai)
+- Fixed value for exception codes MISSING_CONTROLLER_FILE and
+  MISSING_CONTROLLER_CLASS in WuiException. (Alex Pagnoni)
 
 DEPRECATED:
 - Application\Application::enableToAllDomains() has been deprecated. (Alex
