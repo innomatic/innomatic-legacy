@@ -63,9 +63,9 @@ class WuiDate extends \Innomatic\Wui\Widgets\WuiWidget
      * If not specified is set to true.
      * 
      * @var boolean
-     * @access private
+     * @access public
      */
-    private $mAutoSlash;
+    public $mAutoSlash;
 
     public function __construct (
         $elemName,
