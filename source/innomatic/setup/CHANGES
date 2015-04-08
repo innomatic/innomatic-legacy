@@ -8,6 +8,25 @@
                                 CHANGES
                                 =======
 
+6000 - 6.4.2 - 2015/04/08
+-------------------------
+NEW FEATURES:
+- Backport from 7.x-develop: Added auto insert of slashes when writing date on
+  Innomatic WuiDate widget. (Paolo Guanciarossa)
+- Backport from 7-x-develop: Added hover row in WUI table. (Amanda Accalai)
+- Backport form 7-x-develop: Added user filter in tenant profiles panel.
+  (Amanda Accalai)
+ 
+
+
+6000 - 6.4.1 - 2014/12/22
+-------------------------
+NEW FEATURES:
+- Added getDateArrayFromDateTime() method in \Innomatic\Locale\LocaleCountry 
+  class. (Amanda Accalai)
+
+
+
 6000 - 6.4.0 - 2014/12/10 
 -------------------------
 Summary: new tray bar, new pending actions, new roles/permissions system, new
