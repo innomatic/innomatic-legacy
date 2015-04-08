@@ -57,6 +57,15 @@ class WuiDate extends \Innomatic\Wui\Widgets\WuiWidget
     /*! @public mTabIndex integer - Position of the current element in the tabbing order. */
     public $mTabIndex = 0;
     public $mType = 'date';
+    
+    /**
+     * Indicates if the auto insert of slashes when writing the date is enabled or not.
+     * If not specified is set to true.
+     * 
+     * @var boolean
+     * @access private
+     */
+    private $mAutoSlash;
 
     public function __construct (
         $elemName,
@@ -131,6 +140,22 @@ class WuiDate extends \Innomatic\Wui\Widgets\WuiWidget
                     break;
             }
         }
+        
+        // Init autoslash
+        //
+        if (isset($this->mArgs['autoslash'])) {
+            switch ($this->mArgs['autoslash']) {
+                case 'false':
+                    $this->mAutoSlash = false;
+                    break;
+                case 'true':
+                default:
+                    $this->mAutoSlash = true;
+                    break;
+            }
+        } else {
+            $this->mAutoSlash = true;
+        }
     }
 
     protected function generateSource()
@@ -144,6 +169,41 @@ class WuiDate extends \Innomatic\Wui\Widgets\WuiWidget
         $calendar_dateformat = str_replace('Y', 'YYYY', $calendar_dateformat);
         $this->mLayout = '';
         if ($this->mType == 'date') {
+            
+            // Build the script for the AutoSlash when writing the date
+            //
+            if ($this->mAutoSlash) {
+                
+                if (!empty($this->mArgs['id'])) {
+                    $selector = '#'.$this->mArgs['id'];
+                } else {
+                    $name = \str_replace('[', '\[',  $event_data->getDataString());
+                    $name = \str_replace(']', '\]',  $name);
+                    $selector = "input[name=\'$name\']";
+                }
+                
+                $jsAutoSlashJs = "
+                    $(document).ready(function() {
+                        $('$selector').bind('keyup',function(e) {
+                            var pos = $(this).val().length;
+                            if (e.which === 8) {
+                                if(pos === 2 || pos === 5) {
+                                    $(this).val($(this).val().substring(0, pos - 1));
+                                }
+                            } else {
+                                if(pos === 2 || pos === 5) {
+                                    $(this).val($(this).val()+'/');
+                                } else if ($(this).val().substring(pos - 2, pos) == '//') {
+                                    $(this).val($(this).val().substring(0, pos-1));
+                                }
+                            }
+                        });
+                    });
+                ";
+            } else {
+                $jsAutoSlashJs = '';
+            }
+            
             $this->mLayout .= "<script language=\"JavaScript\">
 
 Calendar.Title = '" . $this->mLocaleHandler->getStr('calendar') . "';
@@ -171,6 +231,8 @@ Calendar.Months = new Array( '" . $this->mLocaleHandler->getStr('january') . "',
     '" . $this->mLocaleHandler->getStr('october') . "',
     '" . $this->mLocaleHandler->getStr('november') . "',
     '" . $this->mLocaleHandler->getStr('december') . "');
+
+    $jsAutoSlashJs
 </script>";
         }
 
