@@ -8,7 +8,7 @@ namespace Innomatic\Module;
  * like its location and filesystem home directory.
  *
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
- * @copyright Copyright 2004-2014 Innomatic Company
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
 class ModuleContext

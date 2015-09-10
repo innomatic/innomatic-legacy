@@ -7,7 +7,7 @@ namespace Innomatic\Module;
  * A persistent Module object offers a persistence storage system.
  *
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
- * @copyright Copyright 2004-2014 Innomatic Company
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
 abstract class ModulePersistentObject extends ModuleObject

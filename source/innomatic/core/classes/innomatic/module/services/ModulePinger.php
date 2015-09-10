@@ -10,7 +10,7 @@ namespace Innomatic\Module\Services;
  * 2) (int) n. of seconds between 2 consecutives ping cicles
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2014 Innomatic Company
+ * @copyright Copyright 2005-2014 Innoteam Srl
  * @since 5.1
  */
 class ModulePinger

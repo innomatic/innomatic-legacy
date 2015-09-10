@@ -17,7 +17,7 @@ namespace Innomatic\Module;
  * situations this is the only way, like when accessing remote Modules.
  *
  * @author Alex Pagnoni <alex.pagnoni@innomatic.io>
- * @copyright Copyright 2004-2014 Innomatic Company
+ * @copyright Copyright 2004-2014 Innoteam Srl
  * @since 5.1
  */
 abstract class ModuleObject implements \Serializable

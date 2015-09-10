@@ -5,7 +5,7 @@ namespace Innomatic\Module\Services;
  * Module service socket launcher.
  *
  * @author Alex Pagnoni
- * @copyright Copyright 2005-2014 Innomatic Company
+ * @copyright Copyright 2005-2014 Innoteam Srl
  * @since 5.1
  */
 class ModuleServiceSocket extends ModuleServerSocket
