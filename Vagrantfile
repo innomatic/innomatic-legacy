@@ -4,8 +4,14 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |vconfig|
-    vconfig.vm.box = "precise64"
-    vconfig.vm.box_url = "http://files.vagrantup.com/precise64.box"
+    # Configure the box to use
+    vconfig.vm.box       = 'precise64'
+    vconfig.vm.box_url   = 'http://files.vagrantup.com/precise64.box'
+
+    vconfig.vm.provider "vmware_fusion" do |v, override|
+        override.vm.box     = 'hashicorp/precise64'
+        override.vm.box_url = 'https://vagrantcloud.com/hashicorp/precise64/version/2/provider/virtualbox.box'
+    end
 
     vconfig.vm.define :innomatic do |config|
         config.vm.provider :virtualbox do |v|
@@ -14,6 +20,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |vconfig|
             # maybe this will help Windows hosts with symlinks
             v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
         end
+
+        # Configure VMWare Fusion environment
+        config.vm.provider :vmware_fusion do |v|
+            v.vmx["memsize"] = "1100"
+        end
+
         config.vm.host_name = "innomaticvagrant"
 
         # set lavish permission so that everything is executable
