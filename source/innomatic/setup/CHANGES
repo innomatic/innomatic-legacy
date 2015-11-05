@@ -19,6 +19,7 @@ NEW FEATURES:
 - Added Innomatic\Locale\LocaleCountry\getDateArrayFromDateTime method.
   (Amanda Accalai)
 - Added filter in profiles panel. (Amanda Accalai)
+- Added support for vagrant_fusion provider in Vagrantfile. (Alex Pagnoni)
  
 CHANGES:
 - Removed deprecated icons set. (Alex Pagnoni)
@@ -41,6 +42,25 @@ DEPRECATED:
   Pagnoni)
 - Deprecated domain* application structure tags, renamed to tenant*. (Alex
   Pagnoni)
+
+
+
+6000 - 6.4.2 - 2015/04/08
+-------------------------
+NEW FEATURES:
+- Backport from 7.x-develop: Added auto insert of slashes when writing date on
+  Innomatic WuiDate widget. (Paolo Guanciarossa)
+- Backport from 7-x-develop: Added hover row in WUI table. (Amanda Accalai)
+- Backport form 7-x-develop: Added user filter in tenant profiles panel.
+  (Amanda Accalai)
+
+
+
+6000 - 6.4.1 - 2014/12/22
+-------------------------
+NEW FEATURES:
+- Added getDateArrayFromDateTime() method in \Innomatic\Locale\LocaleCountry
+  class. (Amanda Accalai)
 
 
 
