@@ -9,72 +9,7 @@
                                 =======
 
 Please check here for always updated installing and upgrading instructions:
-
-- http://wiki.innomatic.io/requirements
-- http://wiki.innomatic.io/installation
-- http://wiki.innomatic.io/upgrading
-
-
-
-REQUIREMENTS
-------------
-
-- PHP >= 5.4
-- PHP files upload support enabled
-- At least 4M in upload_max_filesize and post_max_size directives in php.ini
-- MySQL or PostgreSQL
-- PHP support for MySQLi or PostgreSQL
-- PHP extensions: zlib
-- Optional PHP extensions: Curl, PCNTL, POSIX
-- When using Innomatic in multi-tenant mode and database autocreation: a MySQL
-  user with database creation grant
-
-
-
-INSTALLATION
-------------
-
-- Unpack the Innomatic archive, a folder named "innomatic" will be created.
-  Inside this folder, you'll find an index.php file and another "innomatic"
-  folder ("innomatic/innomatic"), that is the real public folder for Innomatic.
-  The index.php file is not a real public Web file, it is the common receiver for
-  the public webapps. If the first level Innomatic directory is left Web
-  publicly available, the index.php file will redirect the browser to "innomatic"
-  subfolder.
-
-- Create a virtual host in your web server configuration for Innomatic public
-  folder (innomatic/innomatic), e.g. innomatic.mydomain.com.
-
-- Point your browser to the newly created Innomatic virtual host and follow
-  the Web setup procedure.
-
-- Once you have successfully installed Innomatic, you can access the root
-  control panel adding “/root” to the URL, e.g.:
-  http://innomatic.mydomain.com/root
-
-
-
-SETTING UP TENANT WEBAPPS
--------------------------
-
-When you create a new tenant in the Innomatic Root desktop, a webapp folder
-for that tenant will be created in the first level Innomatic folder
-("innomatic") aside the Innomatic webapp ("innomatic/innomatic").
-You should create a virtual host for each webapp directory, if the tenant
-is meant to have a public webapp other than the tenant desktop inside Innomatic.
-
-
-
-UPGRADE
--------
-
-You must upgrade Innomatic using the Applications panel in the Innomatic
-Root desktop. Please use AppCentral to obtain a newer version
-or manually upload the Innomatic archive file in the Applications panel just
-as if you were installing or upgrading a Innomatic application.
-
-Overwriting your current Innomatic installation with the content of the
-Innomatic distribution archive files will result in not recoverable damages.
+https://innomatic.atlassian.net/wiki/display/IMP/Installation+and+Upgrade+Guides
 
 
 
