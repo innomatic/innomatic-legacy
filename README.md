@@ -100,13 +100,6 @@ Innomatic is released under the new BSD license. See the file named LICENSE.
 Requirements
 ------------
 
-Serverside:
-    A web server with PHP >= 5.4 support and a SQL server supported by Innomatic.
-    Read INSTALL file for more information.
-
-Clientside:
-    A modern web browser.
-
 See the file named INSTALL for more details.
 
 
@@ -124,14 +117,14 @@ Additional Information
 Innomatic Platform official web site:
      http://www.innomatic.io/
 
-Innomatic technical wiki:
-     http://wiki.innomatic.io/
+Innomatic technical documentation:
+     https://innomatic.atlassian.net/wiki/
 
 To submit a bug report:
-    https://github.com/innomatic/innomatic/issues
+    https://innomatic.atlassian.net/
 
 Would you like to participate in developing Innomatic? Send an e-mail at
-info@innomatic.io
+info@innoteam.io
 
 
 
