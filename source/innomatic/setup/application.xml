@@ -25,7 +25,7 @@
 		<legal>
 			<author>
 				<name>Innoteam Srl</name>
-				<email>info@innomatic.io</email>
+				<email>info@innoteam.io</email>
 				<web>http://www.innomatic.io/</web>
 			</author>
 			<copyright>Copyright (C) 1999-2015 Innoteam Srl</copyright>
@@ -33,11 +33,11 @@
 			<licensefile>LICENSE</licensefile>
 		</legal>
 		<support>
-			<supportemail>helpdesk@innomatic.io</supportemail>
-			<bugsemail>bugs@innomatic.io</bugsemail>
+			<supportemail>helpdesk@innoteam.io</supportemail>
+			<bugsemail>bugs@innoteam.io</bugsemail>
 			<maintainer>
 				<name>Alex Pagnoni</name>
-				<email>alex.pagnoni@innomatic.io</email>
+				<email>alex.pagnoni@innoteam.io</email>
 			</maintainer>
 		</support>
 	</definition>
