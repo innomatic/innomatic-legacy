@@ -18,15 +18,19 @@
   - name: ensure apache is installed
     apt: name=apache2 state=present
 
+  - name: disable apache authz_default module
+    action: command a2dismod authz_default
+    notify: restart apache
+
+  - name: enable some apache modules
+    action: command a2enmod rewrite headers authz_host
+    notify: restart apache
+
   - name: make sure apache is running
     action: service name=apache2 state=started enabled=true
 
   - name: change apache user/group to vagrant
     shell: sed -i 's/www-data/vagrant/g' /etc/apache2/envvars
-    notify: restart apache
-
-  - name: enable some apache modules
-    action: command a2enmod rewrite headers
     notify: restart apache
 
   - copy: src=/vagrant/ansible/templates/innomatic.conf dest=/etc/apache2/sites-enabled/innomatic.conf
@@ -103,6 +107,9 @@
   - name: enable PHP YAML extension
     shell: php5enmod yaml
 
+  - name: enable some apache 2.4 modules
+    action: command a2enmod authz_host
+    notify: restart apache
 
   - copy: src=/vagrant/ansible/templates/php-innomatic.ini dest=/etc/php5/conf.d/php-innomatic.ini
     notify: restart apache
