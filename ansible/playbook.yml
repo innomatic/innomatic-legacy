@@ -94,6 +94,16 @@
 
   - file: path=/etc/php5/conf.d state=directory
 
+  - shell: touch /etc/php5/mods-available/yaml.ini
+
+  - shell: pear config-set php_ini /etc/php5/mods-available/yaml.ini
+
+  - shell: yes "" | sudo pecl -q install -f yaml
+
+  - name: enable PHP YAML extension
+    shell: php5enmod yaml
+
+
   - copy: src=/vagrant/ansible/templates/php-innomatic.ini dest=/etc/php5/conf.d/php-innomatic.ini
     notify: restart apache
 
