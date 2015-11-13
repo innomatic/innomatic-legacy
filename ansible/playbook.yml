@@ -108,7 +108,7 @@
     shell: php5enmod yaml
 
   - name: enable some apache 2.4 modules
-    action: command a2enmod authz_host
+    action: command a2enmod authz_host access_compat
     notify: restart apache
 
   - copy: src=/vagrant/ansible/templates/php-innomatic.ini dest=/etc/php5/conf.d/php-innomatic.ini
