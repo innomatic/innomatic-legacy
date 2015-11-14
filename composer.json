@@ -4,7 +4,6 @@
     "homepage": "http://www.innomatic.io",
     "license": "BSD-3-Clause",
     "type": "innomatic-legacy-platform",
-    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Innomatic Team",
@@ -14,6 +13,6 @@
     "require": {
         "php": ">=5.4.0",
         "innomatic/innomatic-legacy-installer": "~1.0",
-        "composer/composer": "1.0.0-alpha10"
+        "composer/composer": "^1.0@alpha"
     }
 }
