@@ -13,6 +13,6 @@
     "require": {
         "php": ">=5.4.0",
         "innomatic/innomatic-legacy-installer": "~1.0",
-        "composer/composer": "dev-master@dev"
+        "composer/composer": "1.0.*@dev"
     }
 }
