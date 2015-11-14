@@ -202,12 +202,6 @@ class DesktopRootAuthenticatorHelper implements \Innomatic\Desktop\Auth\DesktopA
         $wui_maingroup->addChild($wui_titlebar);
         // $wui_maingroup->addChild( new WuiButton( 'innomaticlogo', array( 'image' => $innomatic->getBaseUrl(false).'/shared/styles/cleantheme/innomatic_big_asp.png', 'action' => $innomatic->getBaseUrl().'/' ) ) );
         $wui_mainbframe->addChild($wui_mainframe);
-        $wui_mainbframe->addChild(new WuiHorizBar('hb'));
-        $wui_mainbframe->addChild(new WuiLink('copyright', array(
-            'label' => $innomatic_locale->getStr('auth_copyright.label'),
-            'link' => 'http://www.innomatic.io/',
-            'target' => '_blank'
-        )));
         $wui_maingroup->addChild($wui_mainbframe);
         $wui_maingroup->addChild($wui_mainstatus);
         $wui_topgroup->addChild($wui_maingroup);
