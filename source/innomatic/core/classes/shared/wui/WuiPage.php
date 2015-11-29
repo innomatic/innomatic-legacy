@@ -141,10 +141,10 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                     if (strlen($pagedata['themeicontype'])) {
                                         $imageType = $pagedata['themeicontype'];
                                     } else {
-                                        $imageType = 'apps';
+                                        $imageType = 'icons';
                                     }
 
-                                    strlen($pagedata['themeicon']) ? $imageUrl = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['base'] . '/' . $imageType . '/' . $this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['file'] : $imageUrl = $pagedata['iconfile'];
+                                    strlen($pagedata['themeicon']) and isset($this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]) ? $imageUrl = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['base'] . '/' . $imageType . '/' . $this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['file'] : $imageUrl = $pagedata['iconfile'];
 
                                     $el[$group_data['id']]['groupelements'][$cont_b]['name'] = $descstr;
                                     $el[$group_data['id']]['groupelements'][$cont_b]['image'] = $imageUrl;
