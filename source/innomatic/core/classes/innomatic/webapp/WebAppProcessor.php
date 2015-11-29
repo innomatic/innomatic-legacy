@@ -44,6 +44,9 @@ class WebAppProcessor
                 $handler->service($this->request, $this->response);
             } catch (\Exception $e) {
                 $this->response->sendError(WebAppResponse::SC_INTERNAL_SERVER_ERROR, get_class($e), $e);
+
+                // Rethrow the exception and let Symfony handle it
+                throw $e;
             }
         }
 
