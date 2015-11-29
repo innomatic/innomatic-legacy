@@ -579,7 +579,7 @@ function main_default($eventData)
     } else
         $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('noprofiles_status');
 
-    $wuiTitleBar->mTitle.= ' - '.$innomaticLocale->getStr('default_title');
+    $wuiTitleBar->mArgs['title'] .= ' - '.$innomaticLocale->getStr('default_title');
 }
 
 $viewDispatcher->addEvent('newprofile', 'main_newprofile');
