@@ -4,8 +4,8 @@
 	<definition>
 		<idname>innomatic</idname>
 		<release>
-			<version>6.4.2</version>
-			<date>2015/04/08</date>
+			<version>6.4.3</version>
+			<date>2015/11/30</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description><![CDATA[<strong>Innomatic Platform</strong> for Multi-Tenant Cloud Applications.]]></description>
@@ -28,12 +28,12 @@
 				<email>info@innomatic.io</email>
 				<web>http://www.innomatic.io/</web>
 			</author>
-			<copyright>Copyright (C) 1999-2014 Innomatic Company</copyright>
+			<copyright>Copyright (C) 1999-2015 Innoteam Srl</copyright>
 			<license>New BSD</license>
 			<licensefile>LICENSE</licensefile>
 		</legal>
 		<support>
-			<supportemail>helpdesk@innomatic.io</supportemail>
+			<supportemail>support@innomatic.io</supportemail>
 			<bugsemail>bugs@innomatic.io</bugsemail>
 			<maintainer>
 				<name>Alex Pagnoni</name>
