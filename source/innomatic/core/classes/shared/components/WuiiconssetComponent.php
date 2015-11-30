@@ -249,49 +249,49 @@ class WuiiconssetComponent extends \Innomatic\Application\ApplicationComponent
                         @mkdir($this->container->getHome() . 'shared/icons/' . $params['name'] . '/icons', 0755);
                     if (! file_exists($this->container->getHome() . 'shared/icons/' . $params['name'] . '/light'))
                         @mkdir($this->container->getHome() . 'shared/icons/' . $params['name'] . '/light', 0755);
-                    if (is_array($set_components['actions'])) {
+                    if (isset($set_components['actions']) and is_array($set_components['actions'])) {
                         while (list (, $file) = each($set_components['actions'])) {
                             if (strlen($file['file']))
                                 @copy($this->basedir . '/shared/icons/' . $params['name'] . '/actions/' . $file['file'], $this->container->getHome() . 'shared/icons/' . $params['name'] . '/actions/' . $file['file']);
                         }
                     }
-                    if (is_array($set_components['apps'])) {
+                    if (isset($set_components['apps']) and is_array($set_components['apps'])) {
                         while (list (, $file) = each($set_components['apps'])) {
                             if (strlen($file['file']))
                                 @copy($this->basedir . '/shared/icons/' . $params['name'] . '/apps/' . $file['file'], $this->container->getHome() . 'shared/icons/' . $params['name'] . '/apps/' . $file['file']);
                         }
                     }
-                    if (is_array($set_components['devices'])) {
+                    if (isset($set_components['devices']) and is_array($set_components['devices'])) {
                         while (list (, $file) = each($set_components['devices'])) {
                             if (strlen($file['file']))
                                 @copy($this->basedir . '/shared/icons/' . $params['name'] . '/devices/' . $file['file'], $this->container->getHome() . 'shared/icons/' . $params['name'] . '/devices/' . $file['file']);
                         }
                     }
-                    if (is_array($set_components['filesystems'])) {
+                    if (isset($set_components['filesystems']) and is_array($set_components['filesystems'])) {
                         while (list (, $file) = each($set_components['filesystems'])) {
                             if (strlen($file['file']))
                                 @copy($this->basedir . '/shared/icons/' . $params['name'] . '/filesystems/' . $file['file'], $this->container->getHome() . 'shared/icons/' . $params['name'] . '/filesystems/' . $file['file']);
                         }
                     }
-                    if (is_array($set_components['mimetypes'])) {
+                    if (isset($set_components['mimetypes']) and is_array($set_components['mimetypes'])) {
                         while (list (, $file) = each($set_components['mimetypes'])) {
                             if (strlen($file['file']))
                                 @copy($this->basedir . '/shared/icons/' . $params['name'] . '/mimetypes/' . $file['file'], $this->container->getHome() . 'shared/icons/' . $params['name'] . '/mimetypes/' . $file['file']);
                         }
                     }
-                    if (is_array($set_components['mini'])) {
+                    if (isset($set_components['mini']) and is_array($set_components['mini'])) {
                         while (list (, $file) = each($set_components['mini'])) {
                             if (strlen($file['file']))
                                 @copy($this->basedir . '/shared/icons/' . $params['name'] . '/mini/' . $file['file'], $this->container->getHome() . 'shared/icons/' . $params['name'] . '/mini/' . $file['file']);
                         }
                     }
-                    if (is_array($set_components['icons'])) {
+                    if (isset($set_components['icons']) and is_array($set_components['icons'])) {
                         while (list (, $file) = each($set_components['icons'])) {
                             if (strlen($file['file']))
                                 @copy($this->basedir . '/shared/icons/' . $params['name'] . '/icons/' . $file['file'], $this->container->getHome() . 'shared/icons/' . $params['name'] . '/icons/' . $file['file']);
                         }
                     }
-                    if (is_array($set_components['light'])) {
+                    if (isset($set_components['light']) and is_array($set_components['light'])) {
                         while (list (, $file) = each($set_components['light'])) {
                             if (strlen($file['file']))
                                 @copy($this->basedir . '/shared/icons/' . $params['name'] . '/light/' . $file['file'], $this->container->getHome() . 'shared/icons/' . $params['name'] . '/light/' . $file['file']);

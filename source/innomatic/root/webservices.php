@@ -11,7 +11,7 @@
  * @license    http://www.innomatic.io/license/ New BSD License
  * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
-*/
+ */
 
 // NOTE: This is an old-style panel code with a single file
 // acting as model, view and controller.
@@ -405,16 +405,16 @@ function pass_createaccount($eventData)
 
     $acc = new \Innomatic\Webservices\WebServicesAccount();
     if (
-        $acc->Create(
-            $eventData['name'],
-            $eventData['host'],
-            $eventData['port'],
-            $eventData['path'],
-            $eventData['username'],
-            $eventData['password'],
-            $eventData['proxy'],
-            $eventData['proxyport']
-        )
+    $acc->Create(
+        $eventData['name'],
+        $eventData['host'],
+        $eventData['port'],
+        $eventData['path'],
+        $eventData['username'],
+        $eventData['password'],
+        $eventData['proxy'],
+        $eventData['proxyport']
+    )
     ) {
         $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('accountcreated_status');
     } else {
@@ -534,9 +534,9 @@ function main_default($eventData)
             $wuiProfileButton[$row] = new WuiButton(
                 'profilebutton'.$row,
                 array('label' => $innomaticLocale->getStr('editprofile_label'),
-                      'horiz' => 'true',
-                      'themeimage' => 'listbulletleft',
-                      'action' => $profileAction[$row]->getEventsCallString()
+                    'horiz' => 'true',
+                    'themeimage' => 'listbulletleft',
+                    'action' => $profileAction[$row]->getEventsCallString()
                 )
             );
             $wuiProfileToolBar[$row]->addChild($wuiProfileButton[$row]);
@@ -639,7 +639,7 @@ function main_newprofile($eventData)
 
     $wuiMainFrame->addChild($wuiForm);
 
-    $wuiTitleBar->mTitle.= ' - '.$innomaticLocale->getStr('newprofile_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$innomaticLocale->getStr('newprofile_title');
 }
 
 $viewDispatcher->addEvent('renameprofile', 'main_renameprofile');
@@ -699,7 +699,7 @@ function main_renameprofile($eventData)
 
     $wuiMainFrame->addChild($wuiForm);
 
-    $wuiTitleBar->mTitle.= ' - '.$profileData['profilename'].' - '.$innomaticLocale->getStr('renameprofile_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$profileData['profilename'].' - '.$innomaticLocale->getStr('renameprofile_title');
 }
 
 function editprofile_list_action_builder($pageNumber)
@@ -745,7 +745,7 @@ function main_editprofile($eventData)
             $nodes[$methodsQuery->getFields('application')][] = $methodsQuery->getFields('name');
 
             $sec[$methodsQuery->getFields('application')][$methodsQuery->getFields('name')]
-            = $methodsQuery->getFields('unsecure')
+                = $methodsQuery->getFields('unsecure')
             == \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmttrue ? false : true;
 
             $tmpDescription = '';
@@ -757,7 +757,7 @@ function main_editprofile($eventData)
                     );
 
                 $desc[$methodsQuery->getFields('application')][$methodsQuery->getFields('name')]
-                = $tmpLocale->getStr($methodsQuery->getFields('name'));
+                    = $tmpLocale->getStr($methodsQuery->getFields('name'));
 
                 $prevCatalog = $methodsQuery->getFields('catalog');
             }
@@ -904,8 +904,8 @@ function main_editprofile($eventData)
                 $img = ($sec[$application][$method] == true ? 'buttonok' : 'buttoncancel');
 
                 $secureImage = $wuiMethodsTable->mThemeHandler->mIconsBase
-                .$wuiMethodsTable->mThemeHandler->mIconsSet['icons'][$img]['base']
-                .'/icons/'.$wuiMethodsTable->mThemeHandler->mIconsSet['icons'][$img]['file'];
+                    .$wuiMethodsTable->mThemeHandler->mIconsSet['icons'][$img]['base']
+                    .'/icons/'.$wuiMethodsTable->mThemeHandler->mIconsSet['icons'][$img]['file'];
 
                 $wuiMethodsTable->addChild(
                     new WuiLabel(
@@ -918,7 +918,7 @@ function main_editprofile($eventData)
                     new WuiImage(
                         'secure'.$row,
                         array('imageurl' => $secureImage, 'width' => 20, 'heigth' => 20)
-                        ),
+                    ),
                     $row, 5
                 );
 
@@ -999,7 +999,7 @@ function main_editprofile($eventData)
         $wuiMainFrame->addChild($wuiMethodsTable);
     }
 
-    $wuiTitleBar->mTitle.= ' - '.$profileData['profilename'].' - '.$innomaticLocale->getStr('editprofile_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$profileData['profilename'].' - '.$innomaticLocale->getStr('editprofile_title');
 }
 
 function users_list_action_builder($pageNumber)
@@ -1071,8 +1071,8 @@ function main_users($eventData)
                     'userprofilelabel'.$row,
                     array(
                         'label' => $userData['profileid']
-                        ? $profiles[$userData['profileid']]
-                        : $innomaticLocale->getStr('noprofileid_label')
+                            ? $profiles[$userData['profileid']]
+                            : $innomaticLocale->getStr('noprofileid_label')
                     )
                 ),
                 $row, 1
@@ -1082,8 +1082,8 @@ function main_users($eventData)
                     'userdomainlabel'.$row,
                     array(
                         'label' => strlen($domainId)
-                        ? $domainId
-                        : $innomaticLocale->getStr('nodomainid_label')
+                            ? $domainId
+                            : $innomaticLocale->getStr('nodomainid_label')
                     )
                 ),
                 $row, 2
@@ -1183,7 +1183,7 @@ function main_users($eventData)
     } else
         $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('nousers_status');
 
-    $wuiTitleBar->mTitle.= ' - '.$innomaticLocale->getStr('users_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$innomaticLocale->getStr('users_title');
 }
 
 $viewDispatcher->addEvent('newuser', 'main_newuser');
@@ -1319,7 +1319,7 @@ function main_newuser($eventData)
 
     $wuiMainFrame->addChild($wuiForm);
 
-    $wuiTitleBar->mTitle.= ' - '.$innomaticLocale->getStr('newuser_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$innomaticLocale->getStr('newuser_title');
 }
 
 $viewDispatcher->addEvent('chpassword', 'main_chpassword');
@@ -1382,7 +1382,7 @@ function main_chpassword($eventData)
 
     $wuiMainFrame->addChild($wuiForm);
 
-    $wuiTitleBar->mTitle.= ' - '.$userData['username'].' - '.$innomaticLocale->getStr('chpasswd_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$userData['username'].' - '.$innomaticLocale->getStr('chpasswd_title');
 }
 
 $viewDispatcher->addEvent('chprofile', 'main_chprofile');
@@ -1456,7 +1456,7 @@ function main_chprofile($eventData)
 
     $wuiMainFrame->addChild($wuiForm);
 
-    $wuiTitleBar->mTitle.= ' - '.$userData['username'].' - '.$innomaticLocale->getStr('chprofile_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$userData['username'].' - '.$innomaticLocale->getStr('chprofile_title');
 }
 
 $viewDispatcher->addEvent('chdomain', 'main_chdomain');
@@ -1538,7 +1538,7 @@ function main_chdomain($eventData)
 
     $wuiMainFrame->addChild($wuiForm);
 
-    $wuiTitleBar->mTitle.= ' - '.$userData['username'].' - '.$innomaticLocale->getStr('chdomain_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$userData['username'].' - '.$innomaticLocale->getStr('chdomain_title');
 }
 
 function accounts_list_action_builder($pageNumber)
@@ -1689,7 +1689,7 @@ function main_accounts($eventData)
     } else
         $wuiMainStatus->mArgs['status'] = $innomaticLocale->getStr('noaccounts_status');
 
-    $wuiTitleBar->mTitle.= ' - '.$innomaticLocale->getStr('accounts_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$innomaticLocale->getStr('accounts_title');
 }
 
 $viewDispatcher->addEvent('newaccount', 'main_newaccount');
@@ -1805,7 +1805,7 @@ function main_newaccount($eventData)
 
     $wuiMainFrame->addChild($wuiForm);
 
-    $wuiTitleBar->mTitle.= ' - '.$innomaticLocale->getStr('newaccount_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$innomaticLocale->getStr('newaccount_title');
 }
 
 $viewDispatcher->addEvent('updateaccount', 'main_updateaccount');
@@ -1974,7 +1974,7 @@ function main_updateaccount($eventData)
 
     $wuiMainFrame->addChild($wuiForm);
 
-    $wuiTitleBar->mTitle.= ' - '.$accData['name'].' - '.$innomaticLocale->getStr('updateaccount_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$accData['name'].' - '.$innomaticLocale->getStr('updateaccount_title');
 }
 
 $viewDispatcher->addEvent('showaccount', 'main_showaccount');
@@ -2115,7 +2115,7 @@ function main_showaccount($eventData)
     $wuiVGroup->addChild($wuiFormGrid);
     $wuiMainFrame->addChild($wuiVGroup);
 
-    $wuiTitleBar->mTitle.= ' - '.$accData['name'].' - '.$innomaticLocale->getStr('showaccount_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$accData['name'].' - '.$innomaticLocale->getStr('showaccount_title');
 }
 
 function methods_list_action_builder($pageNumber)
@@ -2173,11 +2173,11 @@ function main_showmethods($eventData)
                     $methodsTable = new WuiTable(
                         'methods',
                         array(
-                            'elements' => $elements,
+                            'elements' => [],
                             'headers' => $headers,
                             'rowsperpage' => '20',
                             'pagesactionfunction' => 'methods_list_action_builder',
-                            'pagenumber' => $eventData['methodspage']
+                            'pagenumber' => isset($eventData['methodspage']) ? $eventData['methodspage'] : 1
                         )
                     );
 
@@ -2201,14 +2201,14 @@ function main_showmethods($eventData)
 
     $wuiMainFrame->addChild($wuiVGroup);
 
-    $wuiTitleBar->mTitle.= ' - '.$accData['name'].' - '.$innomaticLocale->getStr('showmethods_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$accData['name'].' - '.$innomaticLocale->getStr('showmethods_title');
 }
 
 $viewDispatcher->addEvent('help', 'main_help');
 function main_help($eventData)
 {
     global $wuiTitleBar, $wuiMainFrame, $innomaticLocale;
-    $wuiTitleBar->mTitle.= ' - '.$innomaticLocale->getStr('help_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$innomaticLocale->getStr('help_title');
     $wuiMainFrame->addChild(
         new WuiHelpNode(
             'xmlrpc_help',
