@@ -56,7 +56,7 @@ class MaintenanceHandler
     {
         $cfg = @parse_ini_file($this->configurationFile, false, INI_SCANNER_RAW);
 
-        return $cfg['MaintenanceLastExecutionTime'];
+        return isset($cfg['MaintenanceLastExecutionTime']) ? $cfg['MaintenanceLastExecutionTime'] : 0;
     }
 
     public function getTasksList()
