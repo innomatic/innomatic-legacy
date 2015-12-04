@@ -70,8 +70,8 @@ class WuiGrid extends \Innomatic\Wui\Widgets\WuiContainerWidget
                     $this->mLayout .= '<td' .
                         (isset($this->mArgs['cells'][$row][$col]['halign']) ? ' align="' . $this->mArgs['cells'][$row][$col]['halign'] . '"' : '') .
                         (isset($this->mArgs['cells'][$row][$col]['valign']) ? ' valign="' . $this->mArgs['cells'][$row][$col]['valign'] . '"' : '') .
-                        ($this->mArgs['cells'][$row][$col]['colspan'] > 0 ? ' colspan="' . $this->mArgs['cells'][$row][$col]['colspan'] . '"' : '') .
-                        ($this->mArgs['cells'][$row][$col]['rowspan'] > 0 ? ' rowspan="' . $this->mArgs['cells'][$row][$col]['rowspan'] . '"' : '') .
+                        (isset($this->mArgs['cells'][$row][$col]['colspan']) and $this->mArgs['cells'][$row][$col]['colspan'] > 0 ? ' colspan="' . $this->mArgs['cells'][$row][$col]['colspan'] . '"' : '') .
+                        (isset($this->mArgs['cells'][$row][$col]['rowspan']) and $this->mArgs['cells'][$row][$col]['rowspan'] > 0 ? ' rowspan="' . $this->mArgs['cells'][$row][$col]['rowspan'] . '"' : '') .
                         ">\n";
                     $elem = '';
                     if (isset($this->mArgs['cells'][$row][$col]['widget']) and is_object($this->mArgs['cells'][$row][$col]['widget'])) {
@@ -84,12 +84,12 @@ class WuiGrid extends \Innomatic\Wui\Widgets\WuiContainerWidget
                     $this->mLayout .= "</td>\n";
 
                     // Keep track of rowspanned cells
-                    if ($this->mArgs['cells'][$row][$col]['rowspan'] > 1) {
+                    if (isset($this->mArgs['cells'][$row][$col]['rowspan']) and $this->mArgs['cells'][$row][$col]['rowspan'] > 1) {
                         for ($i = 0; $i < $this->mArgs['cells'][$row][$col]['rowspan']; $i++) {
                             $spannedCells[$row+$i][$col] = true;
                         }
                     }
-                    if ($this->mArgs['cells'][$row][$col]['colspan'] > 0) {
+                    if (isset($this->mArgs['cells'][$row][$col]['colspan']) and $this->mArgs['cells'][$row][$col]['colspan'] > 0) {
                         $col += $this->mArgs['cells'][$row][$col]['colspan'] - 1;
                     }
                 }

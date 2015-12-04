@@ -141,10 +141,10 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                     if (strlen($pagedata['themeicontype'])) {
                                         $imageType = $pagedata['themeicontype'];
                                     } else {
-                                        $imageType = 'apps';
+                                        $imageType = 'icons';
                                     }
 
-                                    strlen($pagedata['themeicon']) ? $imageUrl = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['base'] . '/' . $imageType . '/' . $this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['file'] : $imageUrl = $pagedata['iconfile'];
+                                    strlen($pagedata['themeicon']) and isset($this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]) ? $imageUrl = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['base'] . '/' . $imageType . '/' . $this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['file'] : $imageUrl = $pagedata['iconfile'];
 
                                     $el[$group_data['id']]['groupelements'][$cont_b]['name'] = $descstr;
                                     $el[$group_data['id']]['groupelements'][$cont_b]['image'] = $imageUrl;
@@ -252,8 +252,8 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                     FROM domain_panels
                                     WHERE groupid = ' . $groupdata['id'] . '
                                     AND (hidden != '.$container->getCurrentDomain()
-                                ->getDataAccess()->formatText($container->getCurrentDomain()
-                                ->getDataAccess()->fmttrue).'
+                                        ->getDataAccess()->formatText($container->getCurrentDomain()
+                                            ->getDataAccess()->fmttrue).'
                                     OR hidden IS NULL)
                                     ORDER BY name');
                             $pagesnum = $pagesquery->getNumberRows();
@@ -278,7 +278,7 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
                                             else
                                                 $imageType = 'apps';
 
-                                            strlen($pagedata['themeicon']) ? $imageUrl = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['base'] . '/' . $imageType . '/' . $this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['file'] : $imageUrl = $pagedata['iconfile'];
+                                            (strlen($pagedata['themeicon']) and isset($this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']])) ? $imageUrl = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['base'] . '/' . $imageType . '/' . $this->mThemeHandler->mIconsSet[$imageType][$pagedata['themeicon']]['file'] : $imageUrl = $pagedata['iconfile'];
 
                                             $el[$groupdata['id']]['groupelements'][$contb]['name'] = $descstr;
                                             $el[$groupdata['id']]['groupelements'][$contb]['image'] = $imageUrl;
@@ -373,8 +373,8 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
             $domain_name = $container->getCurrentDomain()->domaindata['domainname'];
 
             $logout_events_call = new \Innomatic\Wui\Dispatch\WuiEventsCall(\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()
-                ->getRequest()
-                ->getUrlPath() . '/');
+                    ->getRequest()
+                    ->getUrlPath() . '/');
             $innomatic_menu_locale = new LocaleCatalog('innomatic::domain_menu', $container->getCurrentUser()->getLanguage());
         } else {
             // In root mode we show generic user data
@@ -382,8 +382,8 @@ class WuiPage extends \Innomatic\Wui\Widgets\WuiContainerWidget
             $domain_name = 'Innomatic';
 
             $logout_events_call = new \Innomatic\Wui\Dispatch\WuiEventsCall(\Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()
-                ->getRequest()
-                ->getUrlPath() . '/root');
+                    ->getRequest()
+                    ->getUrlPath() . '/root');
             $innomatic_menu_locale = new LocaleCatalog('innomatic::root_menu', $container->getLanguage());
         }
         $logout_events_call->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('login', 'logout', ''));

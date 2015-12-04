@@ -85,7 +85,7 @@ WHERE name='.$domain_da->formatText($name)
      *
      * @return array Array of the available widgets.
      */
-    public function getWidgetsList()
+    public static function getWidgetsList()
     {
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
         $domain_da = $container->getCurrentDomain()->getDataAccess();

@@ -149,6 +149,23 @@ class User
         $userdata['username'] = str_replace('/', '', $userdata['username']);
         $userdata['username'] = str_replace('\\', '', $userdata['username']);
 
+        // Default data
+        if (!isset($userdata['fname'])) {
+            $userdata['fname'] = '';
+        }
+
+        if (!isset($userdata['lname'])) {
+            $userdata['lname'] = '';
+        }
+
+        if (!isset($userdata['otherdata'])) {
+            $userdata['otherdata'] = '';
+        }
+
+        if (!isset($userdata['email'])) {
+            $userdata['email'] = '';
+        }
+
         $hook = new \Innomatic\Process\Hook($this->rootDA, 'innomatic', 'domain.user.add');
         if ($hook->callHooks('calltime', $this, array('domainserial' => $this->domainserial, 'userdata' => $userdata)) == \Innomatic\Process\Hook::RESULT_OK) {
             if ($this->userid == 0) {

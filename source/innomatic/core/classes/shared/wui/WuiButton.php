@@ -72,13 +72,13 @@ class WuiButton extends \Innomatic\Wui\Widgets\WuiWidget
 
         if (isset($this->mArgs['themeimage']) and strlen($this->mArgs['themeimage'])) {
             if (
-            	isset($this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['base']) and
-            	file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/icons/'.$this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['base'] . '/'.$iconsBase.'/' . $this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['file'])
-			) {
+                isset($this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['base']) and
+                file_exists(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'shared/icons/'.$this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['base'] . '/'.$iconsBase.'/' . $this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['file'])
+            ) {
                 $this->mArgs['image'] = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['base'] . '/'.$iconsBase.'/' . $this->mThemeHandler->mIconsSet[$iconsBase][$this->mArgs['themeimage']]['file'];
-            } else {
+            } elseif (isset($this->mThemeHandler->mIconsSet[$this->mArgs['themeimagetype']][$this->mArgs['themeimage']])) {
                 // Fallback to old icon set style
-                 $this->mArgs['image'] = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$this->mArgs['themeimagetype']][$this->mArgs['themeimage']]['base'] . '/' . $this->mArgs['themeimagetype'] . '/' . $this->mThemeHandler->mIconsSet[$this->mArgs['themeimagetype']][$this->mArgs['themeimage']]['file'];
+                $this->mArgs['image'] = $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet[$this->mArgs['themeimagetype']][$this->mArgs['themeimage']]['base'] . '/' . $this->mArgs['themeimagetype'] . '/' . $this->mThemeHandler->mIconsSet[$this->mArgs['themeimagetype']][$this->mArgs['themeimage']]['file'];
             }
         }
         if (isset($this->mArgs['confirmmessage']))
@@ -124,7 +124,7 @@ class WuiButton extends \Innomatic\Wui\Widgets\WuiWidget
             $mouseOverColor = '#ff1100';
         }
 
-$this->mArgs['mainaction'] = 'false';
+        $this->mArgs['mainaction'] = 'false';
         if ($this->mArgs['themeimagetype'] == 'actions') {
             $image_width = 20;
             $image_height = 20;
@@ -152,24 +152,24 @@ $this->mArgs['mainaction'] = 'false';
                 $sizes .= '"';
             }
         $this->mLayout = ($this->mComments ? '<!-- begin ' . $this->mName . ' button -->' : '') . '<table'.(isset($this->mArgs['id']) ? ' id="'.$this->mArgs['id'].'"' : '')
-             . $this->getEventsCompleteString() . ($this->mArgs['compact'] == 'true' ? ' cellpadding="1" cellspacing="0"' : ' cellpadding="4"')
+            . $this->getEventsCompleteString() . ($this->mArgs['compact'] == 'true' ? ' cellpadding="1" cellspacing="0"' : ' cellpadding="4"')
             . ' style="background-color: '.$mouseOutColor.';' . ($this->mArgs['disabled'] == 'true' ? 'cursor: default;' : 'cursor: pointer;') . '"'
             . ($this->mArgs['disabled'] == 'true' ? '' : ($this->mArgs['highlight'] == 'true' ? ' onMouseOver="this.style.backgroundColor=\'' . $mouseOverColor . '\';'
-            . ((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? 'wuiHint(\'' . str_replace("'", "\'", $this->mArgs['label']) . '\');' : '')
-            . '" onMouseOut="this.style.backgroundColor=\'' . $mouseOutColor . '\';wuiUnHint();"' : '')
-            . ' onClick="' . ((isset($this->mArgs['needconfirm']) and $this->mArgs['needconfirm'] == 'true') ? 'javascript:if ( confirm(\'' . $this->mArgs['confirmmessage'] . '\') ) {' : '')
-            . ($this->mArgs['highlight'] == 'true' ? 'this.style.backgroundColor=\'' . $this->mThemeHandler->mColorsSet['buttons']['selected'] . '\';' : '')
-            . ((isset($this->mArgs['formsubmit']) and strlen($this->mArgs['formsubmit'])) ? 'void(submitForm(\'' . $this->mArgs['formsubmit'] . '\',\'' . $this->mArgs['action'] . '\',\''
-            . (isset($this->mArgs['formcheckmessage']) ? $this->mArgs['formcheckmessage'] : '') . '\',\''
-            . ((isset($this->mArgs['target']) and strlen($this->mArgs['target'])) ? $this->mArgs['target'] : '') . '\'));' : (((isset($this->mArgs['target']) and strlen($this->mArgs['target']) and ($this->mArgs['target'] != '_blank')) ? $this->mArgs['target'] . '.' : '')
-            . ((isset($this->mArgs['target']) and $this->mArgs['target'] == '_blank') ? 'window.open(\'' : 'location.href=\'') . $this->mArgs['action'] . ((isset($this->mArgs['target']) and $this->mArgs['target'] == '_blank') ? '\')' : '\''))) . ((isset($this->mArgs['needconfirm']) and $this->mArgs['needconfirm'] == 'true') ? '}' : '') . '"')
+                    . ((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? 'wuiHint(\'' . str_replace("'", "\'", $this->mArgs['label']) . '\');' : '')
+                    . '" onMouseOut="this.style.backgroundColor=\'' . $mouseOutColor . '\';wuiUnHint();"' : '')
+                . ' onClick="' . ((isset($this->mArgs['needconfirm']) and $this->mArgs['needconfirm'] == 'true') ? 'javascript:if ( confirm(\'' . $this->mArgs['confirmmessage'] . '\') ) {' : '')
+                . ($this->mArgs['highlight'] == 'true' ? 'this.style.backgroundColor=\'' . $this->mThemeHandler->mColorsSet['buttons']['selected'] . '\';' : '')
+                . ((isset($this->mArgs['formsubmit']) and strlen($this->mArgs['formsubmit'])) ? 'void(submitForm(\'' . $this->mArgs['formsubmit'] . '\',\'' . $this->mArgs['action'] . '\',\''
+                    . (isset($this->mArgs['formcheckmessage']) ? $this->mArgs['formcheckmessage'] : '') . '\',\''
+                    . ((isset($this->mArgs['target']) and strlen($this->mArgs['target'])) ? $this->mArgs['target'] : '') . '\'));' : (((isset($this->mArgs['target']) and strlen($this->mArgs['target']) and ($this->mArgs['target'] != '_blank')) ? $this->mArgs['target'] . '.' : '')
+                    . ((isset($this->mArgs['target']) and $this->mArgs['target'] == '_blank') ? 'window.open(\'' : 'location.href=\'') . $this->mArgs['action'] . ((isset($this->mArgs['target']) and $this->mArgs['target'] == '_blank') ? '\')' : '\''))) . ((isset($this->mArgs['needconfirm']) and $this->mArgs['needconfirm'] == 'true') ? '}' : '') . '"')
             . '><tr valign="middle"><td class="normalbig" align="center" ' . ($this->mArgs['nowrap'] == 'true' ? 'nowrap style="white-space: nowrap" ' : '') . ' valign="middle"><center>' . ((isset($this->mArgs['image']) and strlen($this->mArgs['image'])) ? '<img src="' . $this->mArgs['image']
-            . '" align="middle" border="0"' . $sizes . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? ' alt="' . $this->mArgs['hint'] . '"' : 'alt=""') . '>' . ((isset($this->mArgs['horiz']) and $this->mArgs['horiz']) == 'true' ? '</center></td><td class="normalbig" align="center" ' . ($this->mArgs['nowrap'] == 'true' ? 'nowrap style="white-space: nowrap"' : '')
-            . ' valign="middle"><center>' : '<br>') : '') . ($this->mArgs['disabled'] == 'true' ? '<font color="' . $this->mThemeHandler->mColorsSet['buttons']['disabledtext'] . '">'
-            . ($this->mArgs['mainaction'] == 'true' ? '<strong>' : '').((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? \Innomatic\Wui\Wui::utf8_entities($this->mArgs['label']) : "")
-            . ($this->mArgs['mainaction'] == 'true' ? '</strong>' : '')
-            . '</font>' : '<font color="' . $this->mThemeHandler->mColorsSet['buttons']['text'] . '"><span class="'.$buttonTextColorClass.'">'
-            . ($this->mArgs['mainaction'] == 'true' ? '<strong>' : '').((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? \Innomatic\Wui\Wui::utf8_entities($this->mArgs['label']) : ""). ($this->mArgs['mainaction'] == 'true' ? '</strong>' : '')) . '</span></font></center></td></tr></table>' . ($this->mComments ? '<!-- end ' . $this->mName . " button -->\n" : '');
+                . '" align="middle" border="0"' . $sizes . ((isset($this->mArgs['hint']) and strlen($this->mArgs['hint'])) ? ' alt="' . $this->mArgs['hint'] . '"' : 'alt=""') . '>' . ((isset($this->mArgs['horiz']) and $this->mArgs['horiz']) == 'true' ? '</center></td><td class="normalbig" align="center" ' . ($this->mArgs['nowrap'] == 'true' ? 'nowrap style="white-space: nowrap"' : '')
+                    . ' valign="middle"><center>' : '<br>') : '') . ($this->mArgs['disabled'] == 'true' ? '<font color="' . $this->mThemeHandler->mColorsSet['buttons']['disabledtext'] . '">'
+                . ($this->mArgs['mainaction'] == 'true' ? '<strong>' : '').((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? \Innomatic\Wui\Wui::utf8_entities($this->mArgs['label']) : "")
+                . ($this->mArgs['mainaction'] == 'true' ? '</strong>' : '')
+                . '</font>' : '<font color="' . $this->mThemeHandler->mColorsSet['buttons']['text'] . '"><span class="'.$buttonTextColorClass.'">'
+                . ($this->mArgs['mainaction'] == 'true' ? '<strong>' : '').((isset($this->mArgs['label']) and strlen($this->mArgs['label'])) ? \Innomatic\Wui\Wui::utf8_entities($this->mArgs['label']) : ""). ($this->mArgs['mainaction'] == 'true' ? '</strong>' : '')) . '</span></font></center></td></tr></table>' . ($this->mComments ? '<!-- end ' . $this->mName . " button -->\n" : '');
         return true;
     }
 }

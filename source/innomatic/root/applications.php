@@ -11,7 +11,7 @@
  * @license    http://www.innomatic.io/license/ New BSD License
  * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
-*/
+ */
 
 // NOTE: This is an old-style panel code with a single file
 // acting as model, view and controller.
@@ -59,13 +59,13 @@ $gToolbars['view'] = array(
         'themeimage' => 'listdetailed2',
         'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array('view', 'default', ''))),
         'horiz' => 'true'
-        ),
+    ),
     'repository' => array(
         'label' => $gLocale->getStr('repository.toolbar'),
         'themeimage' => 'globe2',
         'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array('view', 'appcentral', ''))),
         'horiz' => 'true'
-        ),
+    ),
     'keyring' => array(
         'label' => $gLocale->getStr('keys.toolbar'),
         'themeimage' => 'keyhole',
@@ -83,7 +83,7 @@ $gToolbars['view'] = array(
     )
 );
 
-    $wuiMainFrame = new WuiHorizframe('mainframe');
+$wuiMainFrame = new WuiHorizframe('mainframe');
 //$wui_mainstatus = new WuiStatusBar('mainstatusbar');
 
 // Pass dispatcher
@@ -105,10 +105,10 @@ function action_install($eventData)
             )->getHome().'core/temp/'.$eventData['applicationfile']['name']
         );
         if (
-            !$tempApplication->Install(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/'
-                .$eventData['applicationfile']['name']
-            )
+        !$tempApplication->Install(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome().'core/temp/'
+            .$eventData['applicationfile']['name']
+        )
         ) {
             $unmetDeps = $tempApplication->getLastActionUnmetDeps();
             $unmetDepsStr = '';
@@ -270,15 +270,15 @@ function action_installapplication($eventData)
         $eventData['id']
     );
     if (
-        $remoteAc->RetrieveApplication(
-            $eventData['repid'],
-            $eventData['applicationid'],
-            isset($eventData['version']) ? $eventData['version'] : ''
-        )
+    $remoteAc->RetrieveApplication(
+        $eventData['repid'],
+        $eventData['applicationid'],
+        isset($eventData['version']) ? $eventData['version'] : ''
+    )
     ) {
-            $gStatus = $gLocale->getStr('application_installed.status');
+        $gStatus = $gLocale->getStr('application_installed.status');
     } else {
-            $gStatus = $gLocale->getStr('application_not_installed.status');
+        $gStatus = $gLocale->getStr('application_not_installed.status');
     }
 }
 
@@ -291,9 +291,9 @@ function action_newkey($eventData)
     global $gStatus, $gLocale;
     $keyring = new \Innomatic\Application\ApplicationKeyRing();
     if (
-        $keyring->AddKey(
-            $eventData['key']['tmp_name']
-        )
+    $keyring->AddKey(
+        $eventData['key']['tmp_name']
+    )
     ) {
         $gStatus = $gLocale->getStr('newkey_added.status');
     } else {
@@ -400,16 +400,16 @@ function main_default($eventData)
                     $categories[] = $data['category'];
                     $row = 0;
 
-                  //$wui_applications_table->addChild(
-                  //    new WuiLabel(
-                  //        'modcategory'.$row,
-                  //        array(
-                  //            'label' => '<strong><font color="red">'.ucfirst($data['category']).'</font></strong>'
-                  //        )
-                  //    ),
-                  //    $row, 0
-                  //);
-                  //$row++;
+                    //$wui_applications_table->addChild(
+                    //    new WuiLabel(
+                    //        'modcategory'.$row,
+                    //        array(
+                    //            'label' => '<strong><font color="red">'.ucfirst($data['category']).'</font></strong>'
+                    //        )
+                    //    ),
+                    //    $row, 0
+                    //);
+                    //$row++;
                 }
 
                 if (strlen($data['iconfile'])) {
@@ -419,8 +419,8 @@ function main_default($eventData)
                             array(
                                 'hint' => $data['appid'],
                                 'imageurl' => \Innomatic\Core\InnomaticContainer::instance(
-                                    '\Innomatic\Core\InnomaticContainer'
-                                )->getBaseUrl(false).'/core/applications/'.$data['appid'].'/'.$data['iconfile']
+                                        '\Innomatic\Core\InnomaticContainer'
+                                    )->getBaseUrl(false).'/core/applications/'.$data['appid'].'/'.$data['iconfile']
                             )
                         ),
                         $row, 0, 'center'
@@ -518,7 +518,7 @@ function main_default($eventData)
                             'view',
                             'default',
                             ''
-                            )
+                        )
                     );
                     $removeAction[$data['category']][$row]->addEvent(
                         new \Innomatic\Wui\Dispatch\WuiEvent(
@@ -551,11 +551,11 @@ function main_default($eventData)
                 }
 
                 if (
-                    file_exists(
-                        \Innomatic\Core\InnomaticContainer::instance(
-                            '\Innomatic\Core\InnomaticContainer'
-                        )->getHome().'core/applications/'.$data['appid'].'/application.log'
-                    )
+                file_exists(
+                    \Innomatic\Core\InnomaticContainer::instance(
+                        '\Innomatic\Core\InnomaticContainer'
+                    )->getHome().'core/applications/'.$data['appid'].'/application.log'
+                )
                 ) {
                     $logAction[$data['category']][$row] = new \Innomatic\Wui\Dispatch\WuiEventsCall();
                     $logAction[$data['category']][$row]->addEvent(
@@ -617,7 +617,7 @@ function main_default($eventData)
     }
 
     $gXmlDef =
-'<vertgroup>
+        '<vertgroup>
   <children>
 
     <form><name>newapplicationform</name>
@@ -773,7 +773,7 @@ function main_details($eventData)
             array(
                 'label' => $applicationData['authoremail'],
                 'link' => (
-                    strlen($applicationData['authoremail']) ? 'mailto:'.$applicationData['authoremail'] : ''
+                strlen($applicationData['authoremail']) ? 'mailto:'.$applicationData['authoremail'] : ''
                 )
             )
         ),
@@ -795,7 +795,7 @@ function main_details($eventData)
             array(
                 'label' => $applicationData['supportemail'],
                 'link' => (
-                    strlen($applicationData['supportemail']) ? 'mailto:'.$applicationData['supportemail'] : ''
+                strlen($applicationData['supportemail']) ? 'mailto:'.$applicationData['supportemail'] : ''
                 )
             )
         ),
@@ -817,7 +817,7 @@ function main_details($eventData)
             array(
                 'label' => $applicationData['bugsemail'],
                 'link' => (
-                    strlen($applicationData['bugsemail']) ? 'mailto:'.$applicationData['bugsemail'] : ''
+                strlen($applicationData['bugsemail']) ? 'mailto:'.$applicationData['bugsemail'] : ''
                 )
             )
         ),
@@ -860,7 +860,7 @@ function main_details($eventData)
             array(
                 'label' => $applicationData['maintaineremail'],
                 'link' => (
-                    strlen($applicationData['maintaineremail']) ? 'mailto:'.$applicationData['maintaineremail'] : ''
+                strlen($applicationData['maintaineremail']) ? 'mailto:'.$applicationData['maintaineremail'] : ''
                 )
             )
         ),
@@ -917,24 +917,24 @@ function main_details($eventData)
             .'core/applications/'.$applicationData['appid'].'/'.$applicationData['licensefile']
         )
     ) {
-            $licenseText = file_get_contents(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
-                .'core/applications/'.$applicationData['appid'].'/'.$applicationData['licensefile']
-            );
-            $detailsGrid->addChild(
-                new WuiText(
-                    'licensetext',
-                    array(
-                        'label' => $applicationData['license'],
-                        'value' => $licenseText,
-                        'readonly' => 'true',
-                        'cols' => 90,
-                        'rows' => '20'
-                    )
-                ),
-                $rows, 1
-            );
-            $detailsGrid->mRows = ++$rows;
+        $licenseText = file_get_contents(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            .'core/applications/'.$applicationData['appid'].'/'.$applicationData['licensefile']
+        );
+        $detailsGrid->addChild(
+            new WuiText(
+                'licensetext',
+                array(
+                    'label' => $applicationData['license'],
+                    'value' => $licenseText,
+                    'readonly' => 'true',
+                    'cols' => 90,
+                    'rows' => '20'
+                )
+            ),
+            $rows, 1
+        );
+        $detailsGrid->mRows = ++$rows;
     }
 
     if (
@@ -943,32 +943,32 @@ function main_details($eventData)
             .'core/applications/'.$applicationData['appid'].'/'.$applicationData['changesfile']
         )
     ) {
-            $changesText = file_get_contents(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
-                .'core/applications/'.$applicationData['appid'].'/'.$applicationData['changesfile']
-            );
-            $detailsGrid->addChild(
-                new WuiLabel(
-                    'changeslabel',
-                    array(
-                        'label' => $gLocale->getStr('changes_label')
-                    )
-                ),
-                $rows, 0
-            );
-            $detailsGrid->addChild(
-                new WuiText(
-                    'changestext',
-                    array(
-                        'value' => $changesText,
-                        'readonly' => 'true',
-                        'cols' => 90,
-                        'rows' => '20'
-                    )
-                ),
-                $rows, 1
-            );
-            $detailsGrid->mRows = ++$rows;
+        $changesText = file_get_contents(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+            .'core/applications/'.$applicationData['appid'].'/'.$applicationData['changesfile']
+        );
+        $detailsGrid->addChild(
+            new WuiLabel(
+                'changeslabel',
+                array(
+                    'label' => $gLocale->getStr('changes_label')
+                )
+            ),
+            $rows, 0
+        );
+        $detailsGrid->addChild(
+            new WuiText(
+                'changestext',
+                array(
+                    'value' => $changesText,
+                    'readonly' => 'true',
+                    'cols' => 90,
+                    'rows' => '20'
+                )
+            ),
+            $rows, 1
+        );
+        $detailsGrid->mRows = ++$rows;
     }
 
     $gPageContent->addChild($detailsGrid);
@@ -1117,48 +1117,48 @@ function main_applicationlog($eventData)
     $appLogContent = '';
 
     if (
-        file_exists(
+    file_exists(
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
+        .'core/applications/'.$applicationData['appid'].'/application.log'
+    )
+    ) {
+        $logToolbar = new WuiToolBar('logbar');
+
+        $cleanLogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
+        $cleanLogAction->addEvent(
+            new \Innomatic\Wui\Dispatch\WuiEvent(
+                'view',
+                'default',
+                ''
+            )
+        );
+        $cleanLogAction->addEvent(
+            new \Innomatic\Wui\Dispatch\WuiEvent(
+                'action',
+                'cleanmodlog',
+                array(
+                    'appid' => $applicationData['appid']
+                )
+            )
+        );
+        $cleanLogButton = new WuiButton(
+            'cleanlogbutton',
+            array(
+                'label' => $gLocale->getStr('cleanlog_button'),
+                'themeimage' => 'documentdelete',
+                'action' => $cleanLogAction->getEventsCallString()
+            )
+        );
+
+        $logToolbar->addChild($cleanLogButton);
+        $logFrame = new WuiHorizframe('logframe');
+        $logFrame->addChild($logToolbar);
+        $wuiMainVertGroup->addChild($logFrame);
+
+        $appLogContent = file_get_contentes(
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
             .'core/applications/'.$applicationData['appid'].'/application.log'
-        )
-    ) {
-            $logToolbar = new WuiToolBar('logbar');
-
-            $cleanLogAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
-            $cleanLogAction->addEvent(
-                new \Innomatic\Wui\Dispatch\WuiEvent(
-                    'view',
-                    'default',
-                    ''
-                )
-            );
-            $cleanLogAction->addEvent(
-                new \Innomatic\Wui\Dispatch\WuiEvent(
-                    'action',
-                    'cleanmodlog',
-                    array(
-                        'appid' => $applicationData['appid']
-                    )
-                )
-            );
-            $cleanLogButton = new WuiButton(
-                'cleanlogbutton',
-                array(
-                    'label' => $gLocale->getStr('cleanlog_button'),
-                    'themeimage' => 'documentdelete',
-                    'action' => $cleanLogAction->getEventsCallString()
-                )
-            );
-
-            $logToolbar->addChild($cleanLogButton);
-            $logFrame = new WuiHorizframe('logframe');
-            $logFrame->addChild($logToolbar);
-            $wuiMainVertGroup->addChild($logFrame);
-
-            $appLogContent = file_get_contentes(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome()
-                .'core/applications/'.$applicationData['appid'].'/application.log'
-            );
+        );
     }
 
     $wuiVGroup->addChild(
@@ -1227,7 +1227,7 @@ function main_appcentral($eventData)
             name'
     );
 
-        $newRepXml = '';
+    $newRepXml = '';
 
     $accsQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->execute(
         'SELECT
@@ -1249,29 +1249,29 @@ function main_appcentral($eventData)
     }
 
     if ($accsQuery->getNumberRows()) {
-    $newRepXml =
-'    <form><name>newrepository</name>
+        $newRepXml =
+            '    <form><name>newrepository</name>
       <args>
         <method>post</method>
         <action type="encoded">'
-        .urlencode(
-            \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
-                '',
-                array(
+            .urlencode(
+                \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                    '',
                     array(
-                        'view',
-                        'appcentral',
-                        ''
-                    ),
-                    array(
-                        'action',
-                        'newrepository',
-                        ''
+                        array(
+                            'view',
+                            'appcentral',
+                            ''
+                        ),
+                        array(
+                            'action',
+                            'newrepository',
+                            ''
+                        )
                     )
                 )
             )
-        )
-        .'</action>
+            .'</action>
       </args>
       <children>
         <grid><name>new</name>
@@ -1295,24 +1295,24 @@ function main_appcentral($eventData)
         <frame>false</frame>
         <label type="encoded">'.urlencode($gLocale->getStr('new_repository.submit')).'</label>
         <action type="encoded">'
-        .urlencode(
-            \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
-                '',
-                array(
+            .urlencode(
+                \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                    '',
                     array(
-                        'view',
-                        'appcentral',
-                        ''
-                    ),
-                    array(
-                        'action',
-                        'newrepository',
-                        ''
+                        array(
+                            'view',
+                            'appcentral',
+                            ''
+                        ),
+                        array(
+                            'action',
+                            'newrepository',
+                            ''
+                        )
                     )
                 )
             )
-        )
-        .'</action>
+            .'</action>
       </args>
     </button>
           </children>
@@ -1338,7 +1338,7 @@ function main_appcentral($eventData)
         $headers[0]['label'] = $gLocale->getStr('repository_name.header');
 
         $gXmlDefinition =
-'<vertgroup><name>reps</name>
+            '<vertgroup><name>reps</name>
   <children>
     <tab><name>repositories</name>
       <args>
@@ -1356,7 +1356,7 @@ function main_appcentral($eventData)
             $availReps = $acRemote->listAvailableRepositories();
 
             $gXmlDefinition .=
-'<vertgroup><name>tab</name><children>
+                '<vertgroup><name>tab</name><children>
 <table><name>reps</name>
   <args>
     <headers type="array">'.WuiXml::encode($headers).'</headers>
@@ -1368,7 +1368,7 @@ function main_appcentral($eventData)
             if (is_array($availReps)) {
                 while (list($id, $data) = each($availReps)) {
                     $gXmlDefinition .=
-'<label row="'.$row.'" col="0"><name>rep</name>
+                        '<label row="'.$row.'" col="0"><name>rep</name>
   <args>
     <label type="encoded">'.urlencode('<strong>'.$data['name'].'</strong><br>'.$data['description']).'</label>
   </args>
@@ -1381,18 +1381,18 @@ function main_appcentral($eventData)
         <themeimage>listdetailed</themeimage>
         <horiz>true</horiz>
         <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
-                        '',
-                        array(
+                            '',
                             array(
-                                'view',
-                                'repositoryapplications',
                                 array(
-                                    'id' => $repsQuery->getFields('id'),
-                                    'repid' => $id
+                                    'view',
+                                    'repositoryapplications',
+                                    array(
+                                        'id' => $repsQuery->getFields('id'),
+                                        'repid' => $id
+                                    )
                                 )
                             )
-                        )
-                    )).'</action>
+                        )).'</action>
             </args>
           </button>
         </children>
@@ -1402,7 +1402,7 @@ function main_appcentral($eventData)
             }
 
             $gXmlDefinition .=
-'  </children>
+                '  </children>
 </table>
         <horizbar><name>hb</name></horizbar>
          <button><name>remove</name>
@@ -1411,26 +1411,26 @@ function main_appcentral($eventData)
             <horiz>true</horiz>
             <frame>false</frame>
             <action type="encoded">'
-            .urlencode(
-                \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
-                    '',
-                    array(
+                .urlencode(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                        '',
                         array(
-                            'view',
-                            'appcentral',
-                            ''
-                        ),
-                        array(
-                            'action',
-                            'removerepository',
                             array(
-                                'id' => $repsQuery->getFields('id')
+                                'view',
+                                'appcentral',
+                                ''
+                            ),
+                            array(
+                                'action',
+                                'removerepository',
+                                array(
+                                    'id' => $repsQuery->getFields('id')
+                                )
                             )
                         )
                     )
                 )
-            )
-            .'</action>
+                .'</action>
             <label type="encoded">'.urlencode($gLocale->getStr('remove_account.button')).'</label>
             <needconfirm>true</needconfirm>
             <confirmmessage type="encoded">'.urlencode($gLocale->getStr('remove_account.confirm')).'</confirmmessage>
@@ -1441,37 +1441,37 @@ function main_appcentral($eventData)
             $repsQuery->moveNext();
         }
 
-      $gXmlDefinition .=
-'
+        $gXmlDefinition .=
+            '
       </children>
     </tab>';
 
-if (strlen($newRepXml)) {
-    $gXmlDefinition .= '<horizbar><name>hb</name></horizbar>'.$newRepXml;
-}
-$gXmlDefinition .=
-'  </children>
+        if (strlen($newRepXml)) {
+            $gXmlDefinition .= '<horizbar><name>hb</name></horizbar>'.$newRepXml;
+        }
+        $gXmlDefinition .=
+            '  </children>
 </vertgroup>';
 
-                $gToolbars['reptools'] = array(
-                    'refresh' => array(
-                        'label' => $gLocale->getStr('refresh.button'),
-                        'themeimage' => 'cycle',
-                        'horiz' => 'true',
-                        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
-                            '',
+        $gToolbars['reptools'] = array(
+            'refresh' => array(
+                'label' => $gLocale->getStr('refresh.button'),
+                'themeimage' => 'cycle',
+                'horiz' => 'true',
+                'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                    '',
+                    array(
+                        array(
+                            'view',
+                            'appcentral',
                             array(
-                                array(
-                                    'view',
-                                    'appcentral',
-                                    array(
-                                        'refresh' => '1'
-                                    )
-                                )
+                                'refresh' => '1'
                             )
                         )
                     )
-                );
+                )
+            )
+        );
 
     } else {
         if (strlen($newRepXml)) {
@@ -1494,19 +1494,19 @@ $gXmlDefinition .=
             <horiz>true</horiz>
             <frame>false</frame>
             <action type="encoded">'
-            .urlencode(
-                \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
-                    'webservices',
-                    array(
+                .urlencode(
+                    \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                        'webservices',
                         array(
-                            'view',
-                            'newaccount',
-                            ''
+                            array(
+                                'view',
+                                'newaccount',
+                                ''
+                            )
                         )
                     )
                 )
-            )
-            .'</action>
+                .'</action>
             <label type="encoded">'.urlencode($gLocale->getStr('new_webservices_account.button')).'</label>
            </args>
          </button>
@@ -1596,9 +1596,7 @@ function main_repositoryapplications($eventData)
     }
     reset($availModsSortedList);
 
-    $xAccount = new WebServicesAccount(
-        $acRemote->mAccountId
-    );
+    $xAccount = $acRemote->getAccount();
 
     $headers[0]['label'] = $gLocale->getStr('application.header');
     $headers[1]['label'] = $gLocale->getStr('lastversion.header');
@@ -1606,7 +1604,7 @@ function main_repositoryapplications($eventData)
     $headers[3]['label'] = $gLocale->getStr('installed_version.header');
 
     $gXmlDefinition =
-'<vertgroup><name>applications</name>
+        '<vertgroup><name>applications</name>
   <children>
     <label><name>title</name>
       <args>
@@ -1623,8 +1621,8 @@ function main_repositoryapplications($eventData)
       <children>';
 
     foreach ($availModsSortedList as $availMods) {
-    $gXmlDefinition .=
-'    <table><name>applications</name>
+        $gXmlDefinition .=
+            '    <table><name>applications</name>
       <args>
         <headers type="array">'.WuiXml::encode($headers).'</headers>
         <rowsperpage>10</rowsperpage>
@@ -1634,130 +1632,97 @@ function main_repositoryapplications($eventData)
             $eventData['id'].'-'.
             $eventData['repid'].'-'.
             (isset($eventData['tab']) ? $eventData['tab'] : '').
-        '</sessionobjectusername>
+            '</sessionobjectusername>
       </args>
       <children>';
 
-    $row = 0;
+        $row = 0;
 
-    while (list($id, $data) = each($availMods)) {
-        $appQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->Execute(
-            'SELECT appversion '.
-            'FROM applications '.
-            'WHERE appid='
-            .\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText($data['appid'])
-        );
-
-        if (
-            strlen($data['dependencies'])
-        ) {
-            $appDeps = new \Innomatic\Application\ApplicationDependencies();
-            $depCheck = $appDeps->checkApplicationDependencies(
-                0,
-                '',
-                $appDeps->explodeDependencies($data['dependencies'])
+        while (list($id, $data) = each($availMods)) {
+            $appQuery = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->Execute(
+                'SELECT appversion '.
+                'FROM applications '.
+                'WHERE appid='
+                .\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->formatText($data['appid'])
             );
-        } else {
-            $depCheck = false;
-        }
-
-        if ($appQuery->getNumberRows()) $currentVersion = $appQuery->getFields('appversion');
-        else $currentVersion = $gLocale->getStr('none_version.label');
-
-        if (
-            $depCheck == false
-        ) {
-            $appInstallable = true;
-            $missingDeps = '';
 
             if (
-                $appQuery->getNumberRows()
+            strlen($data['dependencies'])
             ) {
-                switch (
+                $appDeps = new \Innomatic\Application\ApplicationDependencies();
+                $depCheck = $appDeps->checkApplicationDependencies(
+                    0,
+                    '',
+                    $appDeps->explodeDependencies($data['dependencies'])
+                );
+            } else {
+                $depCheck = false;
+            }
+
+            if ($appQuery->getNumberRows()) $currentVersion = $appQuery->getFields('appversion');
+            else $currentVersion = $gLocale->getStr('none_version.label');
+
+            if (
+                $depCheck == false
+            ) {
+                $appInstallable = true;
+                $missingDeps = '';
+
+                if (
+                $appQuery->getNumberRows()
+                ) {
+                    switch (
                     \Innomatic\Application\ApplicationDependencies::compareVersionNumbers(
                         $data['lastversion'],
                         $currentVersion
                     )
-                )
-                {
-                case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_EQUAL:
-                    $label = $gLocale->getStr('reinstall_application.button');
-                    $icon = 'cycle';
-                    break;
+                    )
+                    {
+                        case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_EQUAL:
+                            $label = $gLocale->getStr('reinstall_application.button');
+                            $icon = 'cycle';
+                            break;
 
-                case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_MORE:
-                    $label = $gLocale->getStr('update_application.button');
-                    $icon = 'up';
-                    break;
+                        case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_MORE:
+                            $label = $gLocale->getStr('update_application.button');
+                            $icon = 'up';
+                            break;
 
-                case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_LESS:
-                    $label = $gLocale->getStr('downgrade_application.button');
-                    $icon = 'down';
-                    break;
+                        case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_LESS:
+                            $label = $gLocale->getStr('downgrade_application.button');
+                            $icon = 'down';
+                            break;
+                    }
+                } else {
+                    $label = $gLocale->getStr('install_application.button');
+                    $icon = 'mathadd';
                 }
             } else {
+                $appInstallable = true;
+
                 $label = $gLocale->getStr('install_application.button');
                 $icon = 'mathadd';
+
+                $missingDeps = '<br><strong>'.$gLocale->getStr('missing_deps.label').'</strong>';
+
+                while ( list(, $dep) = each($depCheck) ) {
+                    $missingDeps .= '<br>'.$dep;
+                }
             }
-        } else {
-            $appInstallable = true;
 
-            $label = $gLocale->getStr('install_application.button');
-            $icon = 'mathadd';
+            $toolbars = '';
 
-            $missingDeps = '<br><strong>'.$gLocale->getStr('missing_deps.label').'</strong>';
-
-            while ( list(, $dep) = each($depCheck) ) {
-                $missingDeps .= '<br>'.$dep;
-            }
-        }
-
-        $toolbars = '';
-
-        $toolbars .= '<button>
+            $toolbars .= '<button>
                     <args>
               <label>'.WuiXml::cdata($gLocale->getStr('application_versions.button')).'</label>
         <themeimage>listdetailed</themeimage>
-        <horiz>true</horiz>
-        <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
-                '',
-                array(
-                    array(
-                        'view',
-                        'applicationversions',
-                        array(
-                            'id' => $eventData['id'],
-                            'repid' => $eventData['repid'],
-                            'applicationid' => $id
-                        )
-                    )
-                )
-            )).'</action>
-                  </args>
-                </button>';
-
-        if (
-            $appInstallable
-        ) {
-            $toolbars .= '<button>
-                    <args>
-              <label>'.WuiXml::cdata($label).'</label>
-        <themeimage>'.$icon.'</themeimage>
         <horiz>true</horiz>
         <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                     '',
                     array(
                         array(
                             'view',
-                            'repositoryapplications',
-                            array(
-                                'id' => $eventData['id'],
-                                'repid' => $eventData['repid']
-                            )
-                        ),
-                        array(
-                            'action',
-                            'installapplication',
+                            'applicationversions',
                             array(
                                 'id' => $eventData['id'],
                                 'repid' => $eventData['repid'],
@@ -1768,10 +1733,43 @@ function main_repositoryapplications($eventData)
                 )).'</action>
                   </args>
                 </button>';
-        }
 
-        $gXmlDefinition .=
-'<label row="'.$row.'" col="0"><name>application</name>
+            if (
+            $appInstallable
+            ) {
+                $toolbars .= '<button>
+                    <args>
+              <label>'.WuiXml::cdata($label).'</label>
+        <themeimage>'.$icon.'</themeimage>
+        <horiz>true</horiz>
+        <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                        '',
+                        array(
+                            array(
+                                'view',
+                                'repositoryapplications',
+                                array(
+                                    'id' => $eventData['id'],
+                                    'repid' => $eventData['repid']
+                                )
+                            ),
+                            array(
+                                'action',
+                                'installapplication',
+                                array(
+                                    'id' => $eventData['id'],
+                                    'repid' => $eventData['repid'],
+                                    'applicationid' => $id
+                                )
+                            )
+                        )
+                    )).'</action>
+                  </args>
+                </button>';
+            }
+
+            $gXmlDefinition .=
+                '<label row="'.$row.'" col="0"><name>application</name>
   <args>
     <label type="encoded">'.urlencode('<strong>'.$data['appid'].'</strong><br>'.$data['description']).'</label>
   </args>
@@ -1786,14 +1784,14 @@ function main_repositoryapplications($eventData)
 <label row="'.$row.'" col="2"><name>dependencies</name>
   <args>
     <label type="encoded">'
-    .urlencode(
-        str_replace(
-            ',',
-            '<br>',
-            $data['dependencies']
-        ).(strlen($data['suggestions']) ? '<br><br><strong>'.$gLocale->getStr('suggestions.label')
-        .'</strong><br>'.str_replace(',', '<br>', $data['suggestions']).'<br>' : '').$missingDeps
-    ).'</label>
+                .urlencode(
+                    str_replace(
+                        ',',
+                        '<br>',
+                        $data['dependencies']
+                    ).(strlen($data['suggestions']) ? '<br><br><strong>'.$gLocale->getStr('suggestions.label')
+                        .'</strong><br>'.str_replace(',', '<br>', $data['suggestions']).'<br>' : '').$missingDeps
+                ).'</label>
   </args>
 </label>
 
@@ -1806,42 +1804,42 @@ function main_repositoryapplications($eventData)
 <horizgroup row="'.$row.'" col="4"><name>tb</name>
   <children>'.$toolbars.'</children>
 </horizgroup>';
-        $row++;
-    }
+            $row++;
+        }
 
-    $gXmlDefinition .=
-'      </children>
+        $gXmlDefinition .=
+            '      </children>
     </table>';
 
     }
 
     $gXmlDefinition .=
-'      </children>
+        '      </children>
     </tab>
   </children>
 </vertgroup>';
 
-                $gToolbars['reptools'] = array(
-                    'refresh' => array(
-                        'label' => $gLocale->getStr('refresh.button'),
-                        'themeimage' => 'cycle',
-                        'horiz' => 'true',
-                        'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
-                            '',
-                            array(
-                                array(
-                                    'view',
-                                    'repositoryapplications',
-                                    array(
-                                        'id' => $eventData['id'],
-                                        'repid' => $eventData['repid'],
-                                        'refresh' => '1'
-                                    )
-                                )
-                            )
+    $gToolbars['reptools'] = array(
+        'refresh' => array(
+            'label' => $gLocale->getStr('refresh.button'),
+            'themeimage' => 'cycle',
+            'horiz' => 'true',
+            'action' => \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
+                '',
+                array(
+                    array(
+                        'view',
+                        'repositoryapplications',
+                        array(
+                            'id' => $eventData['id'],
+                            'repid' => $eventData['repid'],
+                            'refresh' => '1'
                         )
                     )
-                );
+                )
+            )
+        )
+    );
 
     $gPageTitle .= ' - '.$gLocale->getStr('repositoryapplications.title');
 }
@@ -1880,7 +1878,7 @@ function main_applicationversions($eventData)
     $headers[2]['label'] = $gLocale->getStr('installed_version.header');
 
     $gXmlDefinition =
-'<vertgroup><name>applications</name>
+        '<vertgroup><name>applications</name>
   <children>
     <label><name>title</name>
       <args>
@@ -1916,7 +1914,7 @@ function main_applicationversions($eventData)
 
     while ( list($version, $data) = each($appVersions) ) {
         if (
-            strlen($data['dependencies'])
+        strlen($data['dependencies'])
         ) {
             $appDeps = new \Innomatic\Application\ApplicationDependencies();
             $depCheck = $appDeps->checkApplicationDependencies(
@@ -1938,28 +1936,28 @@ function main_applicationversions($eventData)
             $missingDeps = '';
 
             if (
-                $appQuery->getNumberRows()
+            $appQuery->getNumberRows()
             ) {
                 switch (
-                    \Innomatic\Application\ApplicationDependencies::compareVersionNumbers(
-                        $version,
-                        $currentVersion
-                    )
+                \Innomatic\Application\ApplicationDependencies::compareVersionNumbers(
+                    $version,
+                    $currentVersion
+                )
                 ) {
-                case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_EQUAL:
-                    $label = $gLocale->getStr('reinstall_application.button');
-                    $icon = 'cycle';
-                    break;
+                    case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_EQUAL:
+                        $label = $gLocale->getStr('reinstall_application.button');
+                        $icon = 'cycle';
+                        break;
 
-                case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_MORE:
-                    $label = $gLocale->getStr('update_application.button');
-                    $icon = 'up';
-                    break;
+                    case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_MORE:
+                        $label = $gLocale->getStr('update_application.button');
+                        $icon = 'up';
+                        break;
 
-                case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_LESS:
-                    $label = $gLocale->getStr('downgrade_application.button');
-                    $icon = 'down';
-                    break;
+                    case \Innomatic\Application\ApplicationDependencies::VERSIONCOMPARE_LESS:
+                        $label = $gLocale->getStr('downgrade_application.button');
+                        $icon = 'down';
+                        break;
                 }
             } else {
                 $label = $gLocale->getStr('install_application.button');
@@ -2011,7 +2009,7 @@ function main_applicationversions($eventData)
         }
 
         $gXmlDefinition .=
-'<label row="'.$row.'" col="0"><name>version</name>
+            '<label row="'.$row.'" col="0"><name>version</name>
   <args>
     <label type="encoded">'.urlencode($version).'</label>
   </args>
@@ -2020,15 +2018,15 @@ function main_applicationversions($eventData)
 <label row="'.$row.'" col="1"><name>dependencies</name>
   <args>
     <label type="encoded">'
-    .urlencode(
-        str_replace(
-            ',',
-            '<br>',
-            $data['dependencies']
-        )
-        .(strlen($data['suggestions']) ? '<br><br><strong>'.$gLocale->getStr('suggestions.label')
-     .'</strong><br>'.str_replace(',', '<br>', $data['suggestions']).'<br>' : '').$missingDeps
-    ).'</label>
+            .urlencode(
+                str_replace(
+                    ',',
+                    '<br>',
+                    $data['dependencies']
+                )
+                .(strlen($data['suggestions']) ? '<br><br><strong>'.$gLocale->getStr('suggestions.label')
+                    .'</strong><br>'.str_replace(',', '<br>', $data['suggestions']).'<br>' : '').$missingDeps
+            ).'</label>
   </args>
 </label>
 
@@ -2045,7 +2043,7 @@ function main_applicationversions($eventData)
     }
 
     $gXmlDefinition .=
-'      </children>
+        '      </children>
     </table>
   </children>
 </vertgroup>';
@@ -2106,10 +2104,10 @@ function main_keyring($eventData)
         'ORDER BY application,version,domain'
     );
 
-$gXmlDefinition .= '<vertgroup><name>vg</name><children>';
+    $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
 
     if (
-        $query->getNumberRows()
+    $query->getNumberRows()
     ) {
         $headers[0]['label'] = $gLocale->getStr('application.header');
         $headers[1]['label'] = $gLocale->getStr('version.header');
@@ -2120,7 +2118,7 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
         $headers[6]['label'] = $gLocale->getStr('expirydate.header');
 
         $gXmlDefinition .=
-'<table>
+            '<table>
   <args>
     <headers type="array">'.WuiXml::encode($headers).'</headers>
     <rowsperpage>20</rowsperpage>
@@ -2140,26 +2138,26 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
                 <needconfirm>true</needconfirm>
                     <confirmmessage>'.WuiXml::cdata($gLocale->getStr('remove_key.confirm')).'</confirmmessage>
         <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
-                        '',
+                    '',
+                    array(
                         array(
+                            'view',
+                            'keyring'
+                        ),
+                        array(
+                            'action',
+                            'removekey',
                             array(
-                                'view',
-                                'keyring'
-                            ),
-                            array(
-                                'action',
-                                'removekey',
-                                array(
-                                    'id' => $query->getFields('id')
-                                )
+                                'id' => $query->getFields('id')
                             )
                         )
-                    )).'</action>
+                    )
+                )).'</action>
                   </args>
                 </button>';
 
             $gXmlDefinition .=
-'<label row="'.$row.'" col="0">
+                '<label row="'.$row.'" col="0">
   <args>
     <label type="encoded">'.urlencode($query->getFields('application')).'</label>
   </args>
@@ -2203,7 +2201,7 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
         }
 
         $gXmlDefinition .=
-'  </children>
+            '  </children>
 </table>
 
 <horizbar><name>hb</name></horizbar>';
@@ -2212,7 +2210,7 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
     }
 
     $gXmlDefinition .=
-'<vertgroup>
+        '<vertgroup>
   <children>
 
     <form><name>newkey</name>
@@ -2286,7 +2284,7 @@ $gXmlDefinition .= '<vertgroup><name>vg</name><children>';
   </children>
 </vertgroup>';
 
-$gXmlDefinition .= '</children></vertgroup>';
+    $gXmlDefinition .= '</children></vertgroup>';
 
     $gPageTitle .= ' - '.$gLocale->getStr('keys.title');
 }
@@ -2307,10 +2305,10 @@ function main_about($eventData)
             <image>
               <args>
                 <imageurl type="encoded">'
-                .urlencode(
-                    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false)
-                    .'/shared/innomatic_logo.png'
-                ).'</imageurl>
+        .urlencode(
+            \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getBaseUrl(false)
+            .'/shared/innomatic_logo.png'
+        ).'</imageurl>
                 <width>310</width>
                 <height>34</height>
               </args>
@@ -2341,7 +2339,7 @@ $gViewDispatcher->Dispatch();
 // Page render
 //
 if (
-    strlen($gXmlDefinition)
+strlen($gXmlDefinition)
 ) {
     $gPageContent = new WuiXml('page', array('definition' => $gXmlDefinition));
 }

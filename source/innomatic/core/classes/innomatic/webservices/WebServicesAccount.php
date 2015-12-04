@@ -137,10 +137,6 @@ class WebServicesAccount
 
         $this->mId = $id;
 
-        if ( is_object( $rrootDb ) ) $this->dataAccess = $rrootDb;
-        else $this->mLog->logEvent( 'innomatic.webservicesaccount',
-                                   'Invalid Innomatic database handler', \Innomatic\Logging\Logger::ERROR );
-
         if ( $this->mId ) {
             $acc_query = $this->dataAccess->execute( 'SELECT * '.
                                                   'FROM webservices_accounts '.

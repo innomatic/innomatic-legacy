@@ -81,14 +81,17 @@ class MysqlDataAccess extends \Innomatic\Dataaccess\DataAccess
 
     protected function openConnection()
     {
-        $result = new \mysqli($this->dasn->getHostSpec(), $this->dasn->getUsername(), $this->dasn->getPassword(), $this->dasn->getDatabase());
+        try {
+            $result = new \mysqli($this->dasn->getHostSpec(), $this->dasn->getUsername(), $this->dasn->getPassword(), $this->dasn->getDatabase());
+            if (!$result->connect_error) {
+                $this->dbhandler = $result;
+                $this->dbhandler->set_charset('utf8');
+            }
+            return $result;
 
-        if (!$result->connect_error) {
-            $this->dbhandler = $result;
-            $this->dbhandler->set_charset('utf8');
+        } catch (\Exception $e) {
+
         }
-
-        return $result;
     }
 
     protected function openPersistentConnection()
