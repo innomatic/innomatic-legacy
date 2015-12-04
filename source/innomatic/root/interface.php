@@ -11,7 +11,7 @@
  * @license    http://www.innomatic.io/license/ New BSD License
  * @link       http://www.innomatic.io
  * @since      Class available since Release 5.0
-*/
+ */
 
 // NOTE: This is an old-style panel code with a single file
 // acting as model, view and controller.
@@ -125,7 +125,7 @@ $viewDispatcher = new \Innomatic\Wui\Dispatch\WuiDispatcher('view');
 $eventName = $viewDispatcher->getEventName();
 
 if (
-    strcmp($eventName, 'help')
+strcmp($eventName, 'help')
 ) {
     $helpAction = new \Innomatic\Wui\Dispatch\WuiEventsCall();
     $helpAction->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('view', 'help', array('node' => $eventName)));
@@ -374,11 +374,11 @@ function main_default($eventData)
         .'</action></args><children>
         <grid><name>themegrid</name><children>
             <label row="0" col="0"><name>themelabel</name><args><label type="encoded">'
-            .urlencode($innomaticLocale->getStr('themes_label')).'</label><bold>true</bold></args></label>
+        .urlencode($innomaticLocale->getStr('themes_label')).'</label><bold>true</bold></args></label>
             <listbox row="1" col="0"><name>theme</name><args><elements type="array">'
-            .WuiXml::encode($elements).'</elements><default>'
-            . (\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getThemeName())
-            .'</default><disp>action</disp><size>10</size></args></listbox>
+        .WuiXml::encode($elements).'</elements><default>'
+        . (\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->getThemeName())
+        .'</default><disp>action</disp><size>10</size></args></listbox>
         </children></grid>
         <submit><name>submit</name><args><caption type="encoded">'
         .urlencode($innomaticLocale->getStr('settheme_submit'))
@@ -748,7 +748,7 @@ function main_default($eventData)
 
     $wuiMainFrame->addChild($tab);
 
-    $wuiTitleBar->mTitle.= ' - '.$innomaticLocale->getStr('default_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$innomaticLocale->getStr('default_title');
 }
 
 $viewDispatcher->addEvent('localization', 'main_localization');
@@ -799,9 +799,9 @@ function main_localization($eventData)
                 'disp' => 'action',
                 'elements' => $countries,
                 'default' => (
-                    $selectedCountry ? $selectedCountry : \Innomatic\Core\InnomaticContainer::instance(
-                        '\Innomatic\Core\InnomaticContainer'
-                    )->getCountry()
+                $selectedCountry ? $selectedCountry : \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
+                )->getCountry()
                 )
             )
         ),
@@ -872,9 +872,9 @@ function main_localization($eventData)
                 'disp' => 'action',
                 'elements' => $languages,
                 'default' => (
-                    $selectedLanguage ? $selectedLanguage : \Innomatic\Core\InnomaticContainer::instance(
-                        '\Innomatic\Core\InnomaticContainer'
-                    )->getLanguage()
+                $selectedLanguage ? $selectedLanguage : \Innomatic\Core\InnomaticContainer::instance(
+                    '\Innomatic\Core\InnomaticContainer'
+                )->getLanguage()
                 )
             )
         ),
@@ -913,7 +913,7 @@ function main_localization($eventData)
 
     $wuiMainFrame->addChild($wuiForm);
 
-    $wuiTitleBar->mTitle.= ' - '.$innomaticLocale->getStr('country_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$innomaticLocale->getStr('country_title');
 }
 
 $viewDispatcher->addEvent('name', 'main_name');
@@ -955,7 +955,7 @@ function main_name($eventData)
     $form->addChild($wuiVGroup);
     $wuiMainFrame->addChild($form);
 
-    $wuiTitleBar->mTitle .= ' - Edit';
+    $wuiTitleBar->mArgs['title'] .= ' - Edit';
     //$wui_mainframe->addChild( new WuiLabel( 'mainlabel', array( 'label' => 'Main page' ) ) );
 }
 
@@ -963,7 +963,7 @@ $viewDispatcher->addEvent('help', 'main_help');
 function main_help($eventData)
 {
     global $wuiTitleBar, $wuiMainFrame, $innomaticLocale;
-    $wuiTitleBar->mTitle.= ' - '.$innomaticLocale->getStr('help_title');
+    $wuiTitleBar->mArgs['title'].= ' - '.$innomaticLocale->getStr('help_title');
     $wuiMainFrame->addChild(
         new WuiHelpNode(
             'locale_help',
