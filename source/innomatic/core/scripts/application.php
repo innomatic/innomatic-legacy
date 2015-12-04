@@ -24,7 +24,7 @@ try {
             print('Usage: php innomatic/core/scripts/application.php command argument' . "\n");
             print("\n");
             print('Supported commands:' . "\n");
-            print('    deploy appfile                  Deploys an application' . "\n");
+            print('    deploy package                  Deploys an application (from a directory of archive)' . "\n");
             print('    undeploy appname                Undeploys an application' . "\n");
             print('    update                          Updates the AppCentral applications list' . "\n");
             $script->cleanExit();
@@ -32,7 +32,7 @@ try {
 
         case 'deploy':
             $app = new \Innomatic\Application\Application(InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess());
-            if (file_exists($argv[2]) and $app->install($argv[2])) {
+            if ((is_dir($argv[2]) or file_exists($argv[2])) and $app->install($argv[2])) {
                 print("Application $app->appname deployed\n");
                 $script->cleanExit();
             } else {

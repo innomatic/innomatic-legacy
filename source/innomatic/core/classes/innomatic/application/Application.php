@@ -132,21 +132,18 @@ class Application
      */
     public function install($tmpfilepath, $updateOnce = false)
     {
-        // Checks if the given path is a directory. This may happen when not
-        // giving a file to the application installation page.
-        if (is_dir($tmpfilepath)) {
-            return false;
-        }
-
         $result = false;
 
         $innomatic = $this->container;
+        $basetmpdir = $tmpdir = "";
+        $packageIsFile = false;
 
         if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
             $innomatic->getLoadTimer()->Mark('applicationinstallstart');
         }
 
-        if (file_exists($tmpfilepath)) {
+        if (file_exists($tmpfilepath) and !is_dir($tmpfilepath)) {
+            $packageIsFile = true;
             // Moves temp file to applications repository and extracts it
             //
             $fname = $this->container->getHome()
@@ -162,7 +159,7 @@ class Application
             } else {
                 try {
                     $appArchive = new \PharData($fname);
-                    $tarFileName = substr($fname, 0, strpos($fname, '.')).'.tar';
+                    $tarFileName = substr($fname, 0, strpos($fname, '.')) . '.tar';
                     if (file_exists($tarFileName)) {
                         unlink($tarFileName);
                     }
@@ -177,60 +174,301 @@ class Application
 
                 }
             }
+        } elseif (is_dir($tmpfilepath)) {
+            $tmpdir = $tmpfilepath;
+        } else {
+            $log = $this->container->getLogger();
+            $log->logEvent(
+                'innomatic.applications.applications.install',
+                'Temporary application file or directory ('.$tmpfilepath.') does not exists',
+                \Innomatic\Logging\Logger::ERROR
+            );
 
-            // Checks if the files are into a directory instead of the root
-            //
-            if (!@is_dir($tmpdir.'/setup')) {
-                $dhandle = opendir($tmpdir);
-                while (false != ($file = readdir($dhandle))) {
-                    if (
-                        $file != '.' && $file != '..' && (
-                            is_dir($tmpdir.'/'.$file.'/setup') or is_dir($tmpdir.'/'.$file.'/innomatic/setup')
-                        )
-                    ) {
-                        if (is_dir($tmpdir.'/'.$file.'/setup')) {
-                            $tmpdir = $tmpdir.'/'.$file;
-                        } else {
-                            $tmpdir = $tmpdir.'/'.$file.'/innomatic';
-                        }
-                        break;
+            return false;
+        }
+
+        // Checks if the files are into a directory instead of the root
+        //
+        if (!@is_dir($tmpdir.'/setup')) {
+            $dhandle = opendir($tmpdir);
+            while (false != ($file = readdir($dhandle))) {
+                if (
+                    $file != '.' && $file != '..' && (
+                        is_dir($tmpdir.'/'.$file.'/setup') or is_dir($tmpdir.'/'.$file.'/innomatic/setup')
+                    )
+                ) {
+                    if (is_dir($tmpdir.'/'.$file.'/setup')) {
+                        $tmpdir = $tmpdir.'/'.$file;
+                    } else {
+                        $tmpdir = $tmpdir.'/'.$file.'/innomatic';
                     }
+                    break;
                 }
-                closedir($dhandle);
             }
+            closedir($dhandle);
+        }
 
-            $this->basedir = $tmpdir;
+        $this->basedir = $tmpdir;
 
-            // Checks for definition and structure files
+        // Checks for definition and structure files
+        //
+        if (file_exists($tmpdir.'/setup/bundle.ini')) {
+            $applicationsArray = file($tmpdir.'/setup/bundle.ini');
+            $result = true;
+
+            while (list (, $application) = each($applicationsArray)) {
+                $application = trim($application);
+                if (strlen($application) and file_exists($tmpdir.'/applications/'.$application)) {
+                    $tempApplication = new Application($this->rootDA);
+                    if (!$tempApplication->Install($tmpdir.'/applications/'.$application))
+                        $result = false;
+                }
+            }
+        } elseif (file_exists($tmpdir.'/setup/application.xml')) {
+            $genconfig = $this->parseApplicationDefinition(
+                $tmpdir . '/setup/application.xml'
+            );
+            $this->appname = $genconfig['ApplicationIdName'];
+
+            // Checks if the application has been already installed
             //
-            if (file_exists($tmpdir.'/setup/bundle.ini')) {
-                $applicationsArray = file($tmpdir.'/setup/bundle.ini');
-                $result = true;
+            $tmpquery = $this->rootDA->execute(
+                'SELECT id,appfile FROM applications WHERE appid='
+                . $this->rootDA->formatText($this->appname)
+            );
+            if (!$tmpquery->getNumberRows()) {
+                // Application is new, so it will be installed
+                //
 
-                while (list (, $application) = each($applicationsArray)) {
-                    $application = trim($application);
-                    if (strlen($application) and file_exists($tmpdir.'/applications/'.$application)) {
-                        $tempApplication = new Application($this->rootDA);
-                        if (!$tempApplication->Install($tmpdir.'/applications/'.$application))
-                            $result = false;
+                // Dependencies check
+                //
+                $this->unmetdeps = array();
+                $this->unmetsuggs = array();
+
+                $appdeps = new ApplicationDependencies();
+                $deps = $appdeps->explodeDependencies($genconfig['ApplicationDependencies']);
+                $suggs = $appdeps->explodeDependencies($genconfig['ApplicationSuggestions']);
+
+                if ($deps != false) {
+                    $this->unmetdeps = $appdeps->checkApplicationDependencies(0, '', $deps);
+                } else {
+                    $this->unmetdeps = false;
+                }
+
+                // Fetch missing dependencies from AppCentral servers.
+                if ($this->unmetdeps != false) {
+                    $appCentral = new AppCentralHelper();
+                    $resolveResult = $appCentral->resolveDependencies($this->unmetdeps);
+
+                    // Refresh the unmet dependencies list.
+                    $this->unmetdeps = [];
+                    foreach ($resolveResult['missing'] as $missingName => $missingVersion) {
+                        $this->unmetdeps[] = $missingName.'['.$missingVersion.']';
                     }
                 }
-            } elseif (file_exists($tmpdir.'/setup/application.xml')) {
-                $genconfig = $this->parseApplicationDefinition(
-                    $tmpdir . '/setup/application.xml'
-                );
-                $this->appname = $genconfig['ApplicationIdName'];
 
-                // Checks if the application has been already installed
+                // Suggestions check
                 //
-                $tmpquery = $this->rootDA->execute(
-                    'SELECT id,appfile FROM applications WHERE appid='
-                    . $this->rootDA->formatText($this->appname)
-                );
-                if (!$tmpquery->getNumberRows()) {
-                    // Application is new, so it will be installed
-                    //
+                if ($suggs != false) {
+                    $unmetsuggs = $appdeps->checkApplicationDependencies(0, '', $suggs);
+                    if (is_array($unmetsuggs))
+                        $this->unmetsuggs = $unmetsuggs;
+                }
 
+                // If dependencies are ok, go on
+                //
+                if ($this->unmetdeps == false) {
+                    // Gets id number for the application
+                    //
+                    $this->id = $this->rootDA->getNextSequenceValue(
+                        'applications_id_seq'
+                    );
+                    $this->rootDA->execute(
+                        'INSERT INTO applications VALUES ( ' .
+                        $this->id .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationIdName']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationVersion']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationDate']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationDescription']) .
+                        ','.$this->rootDA->formatText(basename($tmpfilepath)) .
+                        ','.$this->rootDA->formatText($this->rootDA->fmtfalse) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationAuthor']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationAuthorEmail']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationAuthorWeb']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationSupportEmail']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationBugsEmail']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationCopyright']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationLicense']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationLicenseFile']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationChangesFile']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationMaintainer']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationMaintainerEmail']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationCategory']) .
+                        ','.$this->rootDA->formatText($genconfig['ApplicationIconFile']) .
+                        ')'
+                    );
+
+                    // Application dir creation
+                    //
+                    @mkdir(
+                        $this->container->getHome()
+                        . 'core/applications/'
+                        . $genconfig['ApplicationIdName'],
+                        0755
+                    );
+
+                    // Defs files
+                    //
+                    if ($dhandle = @opendir($tmpdir.'/setup')) {
+                        while (false != ($file = readdir($dhandle))) {
+                            if ($file != '.' && $file != '..' && is_file($tmpdir.'/setup/'.$file)) {
+                                @copy(
+                                    $tmpdir . '/setup/' . $file,
+                                    $this->container->getHome()
+                                    . 'core/applications/'
+                                    . $genconfig['ApplicationIdName']
+                                    . '/' . $file
+                                );
+                            }
+                        }
+                        closedir($dhandle);
+                    }
+
+                    // Adds applications dependencies
+                    //
+                    $appdeps->addDependenciesArray(
+                        $genconfig['ApplicationIdName'],
+                        $deps,
+                        ApplicationDependencies::TYPE_DEPENDENCY
+                    );
+                    $appdeps->addDependenciesArray(
+                        $genconfig['ApplicationIdName'],
+                        $suggs,
+                        ApplicationDependencies::TYPE_SUGGESTION
+                    );
+
+                    $this->setOptions(explode(',', trim($genconfig['ApplicationOptions'], ' ,')));
+
+                    // Check if the application provides a Composer configuration file.
+                    if (file_exists($tmpdir.'/composer.json')) {
+                        // Copy the composer.json inside the application directory.
+                        @copy(
+                            $tmpdir.'/composer.json',
+                            $this->container->getHome().
+                            'core/applications/'.$genconfig['ApplicationIdName'].'/composer.json'
+                        );
+
+                        // Start the Composer manager.
+                        $composerManager = new ComposerManager();
+                        $composerManager->updateDependencies();
+                    } elseif (file_exists($this->container->getHome().
+                        'core/applications/'.$genconfig['ApplicationIdName'].'/composer.json')) {
+                        // The application provided a composer.json file in past versions
+                        // while the current one no more, so it should be removed.
+                        unlink($this->container->getHome().
+                            'core/applications/'.$genconfig['ApplicationIdName'].'/composer.json');
+
+                        // Start the Composer manager.
+                        $composerManager = new ComposerManager();
+                        $composerManager->updateDependencies();
+                    }
+
+                    $this->HandleStructure(
+                        $tmpdir.'/setup/application.xml',
+                        Application::INSTALL_MODE_INSTALL,
+                        $tmpdir
+                    );
+
+                    if (
+                        strlen($genconfig['ApplicationLicenseFile'])
+                        and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'])
+                    ) {
+                        @copy(
+                            $tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'],
+                            $this->container->getHome()
+                            .'core/applications/'.$genconfig['ApplicationIdName'].'/'
+                            .$genconfig['ApplicationLicenseFile']
+                        );
+                    }
+                    if (
+                        strlen($genconfig['ApplicationChangesFile'])
+                        and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationChangesFile'])
+                    ) {
+                        @copy(
+                            $tmpdir.'/setup/'.$genconfig['ApplicationChangesFile'],
+                            $this->container->getHome()
+                            .'core/applications/'.$genconfig['ApplicationIdName'].'/'
+                            .$genconfig['ApplicationChangesFile']
+                        );
+                    }
+                    if (
+                        strlen($genconfig['ApplicationIconFile'])
+                        and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationIconFile'])
+                    ) {
+                        @copy(
+                            $tmpdir.'/setup/'.$genconfig['ApplicationIconFile'],
+                            $this->container->getHome()
+                            .'core/applications/'.$genconfig['ApplicationIdName'].'/'
+                            .$genconfig['ApplicationIconFile']
+                        );
+                    }
+
+                    // Checks if it is an extension application
+                    //
+                    $genconfig = $this->parseApplicationDefinition($tmpdir.'/setup/application.xml');
+
+                    $ext = $this->rootDA->fmtfalse;
+
+                    if ($genconfig['ApplicationIsExtension'] == 'y') {
+                        $ext = $this->rootDA->fmttrue;
+                        $this->onlyextension = true;
+                    } elseif ($genconfig['ApplicationIsExtension'] == 'n') {
+                        $ext = $this->rootDA->fmtfalse;
+                        $this->onlyextension = false;
+                    } elseif ($this->onlyextension) {
+                        $ext = $this->rootDA->fmttrue;
+                    }
+
+                    $this->rootDA->execute(
+                        'UPDATE applications SET onlyextension='.$this->rootDA->formatText($ext)
+                        .' WHERE appid='.$this->rootDA->formatText($this->appname)
+                    );
+                    $result = true;
+
+                    if (
+                        $this->container->getConfig()->Value(
+                            'SecurityAlertOnApplicationOperation'
+                        ) == '1'
+                    ) {
+                        $innomaticSecurity = new \Innomatic\Security\SecurityManager();
+                        $innomaticSecurity->SendAlert('Application '.$this->appname.' has been installed');
+                        unset($innomaticSecurity);
+                    }
+
+                    if ($result == true) {
+                        if (
+                            $this->container->getEdition()
+                            == \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT and $this->appname != 'innomatic'
+                            and $ext != $this->rootDA->fmttrue
+                        ) {
+                            $domainsQuery = \Innomatic\Core\InnomaticContainer::instance(
+                                '\Innomatic\Core\InnomaticContainer'
+                            )->getDataAccess()->execute('SELECT id FROM domains');
+                            if ($domainsQuery->getNumberRows()) {
+                                $this->Enable($domainsQuery->getFields('id'));
+                            }
+                        }
+                        $log = $this->container->getLogger();
+                        $log->logEvent('Innomatic', 'Installed application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
+                    }
+                }
+            } else {
+                $appdata = $tmpquery->getFields();
+                $this->id = $appdata['id'];
+
+                // Application will be updated
+                //
+                if ($this->id) {
                     // Dependencies check
                     //
                     $this->unmetdeps = array();
@@ -246,6 +484,14 @@ class Application
                         $this->unmetdeps = false;
                     }
 
+                    // Suggestions check
+                    //
+                    if ($suggs != false) {
+                        $unmetsuggs = $appdeps->checkApplicationDependencies(0, '', $suggs);
+                        if (is_array($unmetsuggs))
+                            $this->unmetsuggs = $unmetsuggs;
+                    }
+
                     // Fetch missing dependencies from AppCentral servers.
                     if ($this->unmetdeps != false) {
                         $appCentral = new AppCentralHelper();
@@ -258,87 +504,79 @@ class Application
                         }
                     }
 
-                    // Suggestions check
-                    //
-                    if ($suggs != false) {
-                        $unmetsuggs = $appdeps->checkApplicationDependencies(0, '', $suggs);
-                        if (is_array($unmetsuggs))
-                            $this->unmetsuggs = $unmetsuggs;
-                    }
-
                     // If dependencies are ok, go on
                     //
                     if ($this->unmetdeps == false) {
-                        // Gets id number for the application
+                        // Creates lock file
                         //
-                        $this->id = $this->rootDA->getNextSequenceValue(
-                            'applications_id_seq'
-                        );
-                        $this->rootDA->execute(
-                            'INSERT INTO applications VALUES ( ' .
-                            $this->id .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationIdName']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationVersion']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationDate']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationDescription']) .
-                            ','.$this->rootDA->formatText(basename($tmpfilepath)) .
-                            ','.$this->rootDA->formatText($this->rootDA->fmtfalse) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationAuthor']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationAuthorEmail']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationAuthorWeb']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationSupportEmail']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationBugsEmail']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationCopyright']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationLicense']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationLicenseFile']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationChangesFile']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationMaintainer']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationMaintainerEmail']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationCategory']) .
-                            ','.$this->rootDA->formatText($genconfig['ApplicationIconFile']) .
-                            ')'
-                        );
-
-                        // Application dir creation
-                        //
-                        @mkdir(
+                        touch(
                             $this->container->getHome()
-                            . 'core/applications/'
-                            . $genconfig['ApplicationIdName'],
-                            0755
+                            .'core/temp/upgrading_system_lock'
                         );
 
-                        // Defs files
+                        // :WARNING: evil 20020506: possible problems on Windows systems
+                        // It has a 'permission denied'.
+
+                        // Removes old application file
+                        //
+                        if ($packageIsFile == true and
+                            (basename($fname) != $appdata['appfile'])
+                            and (file_exists(
+                                $this->container->getHome()
+                                .'core/applications/'.$appdata['appfile']
+                            )
+                            )
+                        )
+                            @unlink(
+                                $this->container->getHome()
+                                .'core/applications/'.$appdata['appfile']
+                            );
+
+                        // Updates applications table
+                        //
+                        $this->rootDA->execute(
+                            'UPDATE applications SET appversion='.
+                            $this->rootDA->formatText($genconfig['ApplicationVersion']).
+                            ', appdate='.$this->rootDA->formatText($genconfig['ApplicationDate']).
+                            ', appdesc='.$this->rootDA->formatText($genconfig['ApplicationDescription']).
+                            ', appfile='.$this->rootDA->formatText(basename($tmpfilepath)).
+                            ', author='.$this->rootDA->formatText($genconfig['ApplicationAuthor']).
+                            ', authoremail='.$this->rootDA->formatText($genconfig['ApplicationAuthorEmail']).
+                            ', authorsite='.$this->rootDA->formatText($genconfig['ApplicationAuthorWeb']).
+                            ', supportemail='.$this->rootDA->formatText($genconfig['ApplicationSupportEmail']).
+                            ', bugsemail='.$this->rootDA->formatText($genconfig['ApplicationBugsEmail']).
+                            ', copyright='.$this->rootDA->formatText($genconfig['ApplicationCopyright']).
+                            ', license='.$this->rootDA->formatText($genconfig['ApplicationLicense']).
+                            ', licensefile='.$this->rootDA->formatText($genconfig['ApplicationLicenseFile']).
+                            ', changesfile='.$this->rootDA->formatText($genconfig['ApplicationChangesFile']).
+                            ', maintainer='.$this->rootDA->formatText($genconfig['ApplicationMaintainer']).
+                            ', maintaineremail='.
+                            $this->rootDA->formatText($genconfig['ApplicationMaintainerEmail']).
+                            ', category='.$this->rootDA->formatText($genconfig['ApplicationCategory']).
+                            ', iconfile='.$this->rootDA->formatText($genconfig['ApplicationIconFile']).
+                            ' WHERE id='. (int) $this->id
+                        );
+                        $genconfig = $this->parseApplicationDefinition($tmpdir.'/setup/application.xml');
+
+                        // Script files - only before handlestructure
                         //
                         if ($dhandle = @opendir($tmpdir.'/setup')) {
                             while (false != ($file = readdir($dhandle))) {
-                                if ($file != '.' && $file != '..' && is_file($tmpdir.'/setup/'.$file)) {
+                                if (
+                                    $file != '.'
+                                    and $file != '..'
+                                    and $file != 'application.xml'
+                                    and is_file($tmpdir.'/setup/'.$file)
+                                ) {
                                     @copy(
-                                        $tmpdir . '/setup/' . $file,
-                                        $this->container->getHome()
-                                        . 'core/applications/'
-                                        . $genconfig['ApplicationIdName']
-                                        . '/' . $file
+                                        $tmpdir.'/setup/'.$file,
+                                        $this->container->getHome().
+                                        'core/applications/'.$genconfig['ApplicationIdName'].'/'.$file
                                     );
                                 }
                             }
                             closedir($dhandle);
                         }
-
-                        // Adds applications dependencies
-                        //
-                        $appdeps->addDependenciesArray(
-                            $genconfig['ApplicationIdName'],
-                            $deps,
-                            ApplicationDependencies::TYPE_DEPENDENCY
-                        );
-                        $appdeps->addDependenciesArray(
-                            $genconfig['ApplicationIdName'],
-                            $suggs,
-                            ApplicationDependencies::TYPE_SUGGESTION
-                        );
-
-                        $this->setOptions(explode(',', trim($genconfig['ApplicationOptions'], ' ,')));
 
                         // Check if the application provides a Composer configuration file.
                         if (file_exists($tmpdir.'/composer.json')) {
@@ -366,7 +604,7 @@ class Application
 
                         $this->HandleStructure(
                             $tmpdir.'/setup/application.xml',
-                            Application::INSTALL_MODE_INSTALL,
+                            Application::INSTALL_MODE_UPDATE,
                             $tmpdir
                         );
 
@@ -376,9 +614,9 @@ class Application
                         ) {
                             @copy(
                                 $tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'],
-                                $this->container->getHome()
-                                .'core/applications/'.$genconfig['ApplicationIdName'].'/'
-                                .$genconfig['ApplicationLicenseFile']
+                                $this->container->getHome().
+                                'core/applications/'.$genconfig['ApplicationIdName'].'/'.
+                                $genconfig['ApplicationLicenseFile']
                             );
                         }
                         if (
@@ -387,9 +625,9 @@ class Application
                         ) {
                             @copy(
                                 $tmpdir.'/setup/'.$genconfig['ApplicationChangesFile'],
-                                $this->container->getHome()
-                                .'core/applications/'.$genconfig['ApplicationIdName'].'/'
-                                .$genconfig['ApplicationChangesFile']
+                                $this->container->getHome().
+                                'core/applications/'.$genconfig['ApplicationIdName'].'/'.
+                                $genconfig['ApplicationChangesFile']
                             );
                         }
                         if (
@@ -398,362 +636,124 @@ class Application
                         ) {
                             @copy(
                                 $tmpdir.'/setup/'.$genconfig['ApplicationIconFile'],
-                                $this->container->getHome()
-                                .'core/applications/'.$genconfig['ApplicationIdName'].'/'
-                                .$genconfig['ApplicationIconFile']
+                                $this->container->getHome().
+                                'core/applications/'.$genconfig['ApplicationIdName'].'/'.
+                                $genconfig['ApplicationIconFile']
                             );
                         }
 
+                        // setup files - only after handlestructure
+                        //
+                        @copy(
+                            $tmpdir.'/setup/application.xml',
+                            $this->container->getHome().
+                            'core/applications/'.$genconfig['ApplicationIdName'].'/application.xml'
+                        );
                         // Checks if it is an extension application
                         //
-                        $genconfig = $this->parseApplicationDefinition($tmpdir.'/setup/application.xml');
-
                         $ext = $this->rootDA->fmtfalse;
 
                         if ($genconfig['ApplicationIsExtension'] == 'y') {
                             $ext = $this->rootDA->fmttrue;
                             $this->onlyextension = true;
-                        } elseif ($genconfig['ApplicationIsExtension'] == 'n') {
+                        } elseif (
+                            $genconfig['ApplicationIsExtension'] == 'n') {
                             $ext = $this->rootDA->fmtfalse;
                             $this->onlyextension = false;
-                        } elseif ($this->onlyextension) {
+                        } elseif (
+                        $this->onlyextension) {
                             $ext = $this->rootDA->fmttrue;
                         }
 
                         $this->rootDA->execute(
-                            'UPDATE applications SET onlyextension='.$this->rootDA->formatText($ext)
-                            .' WHERE appid='.$this->rootDA->formatText($this->appname)
+                            'UPDATE applications SET onlyextension='.$this->rootDA->formatText($ext).
+                            ' WHERE appid='.$this->rootDA->formatText($this->appname)
                         );
+
+                        $this->setOptions(explode(',', trim($genconfig['ApplicationOptions'], ' ,')));
+
+                        if ($this->appname != 'innomatic') {
+                            // Remove old dependencies
+                            //
+                            $appdeps->removeAllDependencies($this->id);
+
+                            // Adds new Applications dependencies
+                            //
+                            $appdeps->addDependenciesArray(
+                                $genconfig['ApplicationIdName'],
+                                $deps,
+                                ApplicationDependencies::TYPE_DEPENDENCY
+                            );
+                            $appdeps->addDependenciesArray(
+                                $genconfig['ApplicationIdName'],
+                                $suggs,
+                                ApplicationDependencies::TYPE_SUGGESTION
+                            );
+                        }
+
                         $result = true;
 
-                        if (
-                            $this->container->getConfig()->Value(
-                                'SecurityAlertOnApplicationOperation'
-                            ) == '1'
-                        ) {
-                            $innomaticSecurity = new \Innomatic\Security\SecurityManager();
-                            $innomaticSecurity->SendAlert('Application '.$this->appname.' has been installed');
-                            unset($innomaticSecurity);
-                        }
+                        if (function_exists('apc_reset_cache'))
+                            apc_reset_cache();
 
-                        if ($result == true) {
-                            if (
-                                $this->container->getEdition()
-                                == \Innomatic\Core\InnomaticContainer::EDITION_SINGLETENANT and $this->appname != 'innomatic'
-                                and $ext != $this->rootDA->fmttrue
-                            ) {
-                                $domainsQuery = \Innomatic\Core\InnomaticContainer::instance(
-                                    '\Innomatic\Core\InnomaticContainer'
-                                )->getDataAccess()->execute('SELECT id FROM domains');
-                                if ($domainsQuery->getNumberRows()) {
-                                    $this->Enable($domainsQuery->getFields('id'));
-                                }
-                            }
-                            $log = $this->container->getLogger();
-                            $log->logEvent('Innomatic', 'Installed application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
-                        }
-                    }
-                } else {
-                    $appdata = $tmpquery->getFields();
-                    $this->id = $appdata['id'];
+                        if ($updateOnce == false) {
+                            $this->Install($tmpfilepath, true);
 
-                    // Application will be updated
-                    //
-                    if ($this->id) {
-                        // Dependencies check
-                        //
-                        $this->unmetdeps = array();
-                        $this->unmetsuggs = array();
-
-                        $appdeps = new ApplicationDependencies();
-                        $deps = $appdeps->explodeDependencies($genconfig['ApplicationDependencies']);
-                        $suggs = $appdeps->explodeDependencies($genconfig['ApplicationSuggestions']);
-
-                        if ($deps != false) {
-                            $this->unmetdeps = $appdeps->checkApplicationDependencies(0, '', $deps);
-                        } else {
-                            $this->unmetdeps = false;
-                        }
-
-                        // Suggestions check
-                        //
-                        if ($suggs != false) {
-                            $unmetsuggs = $appdeps->checkApplicationDependencies(0, '', $suggs);
-                            if (is_array($unmetsuggs))
-                                $this->unmetsuggs = $unmetsuggs;
-                        }
-
-                        // Fetch missing dependencies from AppCentral servers.
-                        if ($this->unmetdeps != false) {
-                            $appCentral = new AppCentralHelper();
-                            $resolveResult = $appCentral->resolveDependencies($this->unmetdeps);
-
-                            // Refresh the unmet dependencies list.
-                            $this->unmetdeps = [];
-                            foreach ($resolveResult['missing'] as $missingName => $missingVersion) {
-                                $this->unmetdeps[] = $missingName.'['.$missingVersion.']';
-                            }
-                        }
-
-                        // If dependencies are ok, go on
-                        //
-                        if ($this->unmetdeps == false) {
-                            // Creates lock file
+                            // Removes lock file
                             //
-                            touch(
-                                $this->container->getHome()
-                                .'core/temp/upgrading_system_lock'
-                            );
-
-                            // :WARNING: evil 20020506: possible problems on Windows systems
-                            // It has a 'permission denied'.
-
-                            // Removes old application file
-                            //
-                            if (
-                                (basename($fname) != $appdata['appfile'])
-                                and (file_exists(
-                                    $this->container->getHome()
-                                    .'core/applications/'.$appdata['appfile']
-                                )
-                                )
-                            )
-                                @unlink(
-                                    $this->container->getHome()
-                                    .'core/applications/'.$appdata['appfile']
-                                );
-
-                            // Updates applications table
-                            //
-                            $this->rootDA->execute(
-                                'UPDATE applications SET appversion='.
-                                $this->rootDA->formatText($genconfig['ApplicationVersion']).
-                                ', appdate='.$this->rootDA->formatText($genconfig['ApplicationDate']).
-                                ', appdesc='.$this->rootDA->formatText($genconfig['ApplicationDescription']).
-                                ', appfile='.$this->rootDA->formatText(basename($tmpfilepath)).
-                                ', author='.$this->rootDA->formatText($genconfig['ApplicationAuthor']).
-                                ', authoremail='.$this->rootDA->formatText($genconfig['ApplicationAuthorEmail']).
-                                ', authorsite='.$this->rootDA->formatText($genconfig['ApplicationAuthorWeb']).
-                                ', supportemail='.$this->rootDA->formatText($genconfig['ApplicationSupportEmail']).
-                                ', bugsemail='.$this->rootDA->formatText($genconfig['ApplicationBugsEmail']).
-                                ', copyright='.$this->rootDA->formatText($genconfig['ApplicationCopyright']).
-                                ', license='.$this->rootDA->formatText($genconfig['ApplicationLicense']).
-                                ', licensefile='.$this->rootDA->formatText($genconfig['ApplicationLicenseFile']).
-                                ', changesfile='.$this->rootDA->formatText($genconfig['ApplicationChangesFile']).
-                                ', maintainer='.$this->rootDA->formatText($genconfig['ApplicationMaintainer']).
-                                ', maintaineremail='.
-                                $this->rootDA->formatText($genconfig['ApplicationMaintainerEmail']).
-                                ', category='.$this->rootDA->formatText($genconfig['ApplicationCategory']).
-                                ', iconfile='.$this->rootDA->formatText($genconfig['ApplicationIconFile']).
-                                ' WHERE id='. (int) $this->id
-                            );
-                            $genconfig = $this->parseApplicationDefinition($tmpdir.'/setup/application.xml');
-
-                            // Script files - only before handlestructure
-                            //
-                            if ($dhandle = @opendir($tmpdir.'/setup')) {
-                                while (false != ($file = readdir($dhandle))) {
-                                    if (
-                                        $file != '.'
-                                        and $file != '..'
-                                        and $file != 'application.xml'
-                                        and is_file($tmpdir.'/setup/'.$file)
-                                    ) {
-                                        @copy(
-                                            $tmpdir.'/setup/'.$file,
-                                            $this->container->getHome().
-                                            'core/applications/'.$genconfig['ApplicationIdName'].'/'.$file
-                                        );
-                                    }
-                                }
-                                closedir($dhandle);
-                            }
-
-                            // Check if the application provides a Composer configuration file.
-                            if (file_exists($tmpdir.'/composer.json')) {
-                                // Copy the composer.json inside the application directory.
-                                @copy(
-                                    $tmpdir.'/composer.json',
-                                    $this->container->getHome().
-                                    'core/applications/'.$genconfig['ApplicationIdName'].'/composer.json'
-                                );
-
-                                // Start the Composer manager.
-                                $composerManager = new ComposerManager();
-                                $composerManager->updateDependencies();
-                            } elseif (file_exists($this->container->getHome().
-                                'core/applications/'.$genconfig['ApplicationIdName'].'/composer.json')) {
-                                // The application provided a composer.json file in past versions
-                                // while the current one no more, so it should be removed. 
-                                unlink($this->container->getHome().
-                                    'core/applications/'.$genconfig['ApplicationIdName'].'/composer.json');
-
-                                // Start the Composer manager.
-                                $composerManager = new ComposerManager();
-                                $composerManager->updateDependencies();
-                            }
-
-                            $this->HandleStructure(
-                                $tmpdir.'/setup/application.xml',
-                                Application::INSTALL_MODE_UPDATE,
-                                $tmpdir
-                            );
-
-                            if (
-                                strlen($genconfig['ApplicationLicenseFile'])
-                                and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'])
-                            ) {
-                                @copy(
-                                    $tmpdir.'/setup/'.$genconfig['ApplicationLicenseFile'],
-                                    $this->container->getHome().
-                                    'core/applications/'.$genconfig['ApplicationIdName'].'/'.
-                                    $genconfig['ApplicationLicenseFile']
-                                );
-                            }
-                            if (
-                                strlen($genconfig['ApplicationChangesFile'])
-                                and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationChangesFile'])
-                            ) {
-                                @copy(
-                                    $tmpdir.'/setup/'.$genconfig['ApplicationChangesFile'],
-                                    $this->container->getHome().
-                                    'core/applications/'.$genconfig['ApplicationIdName'].'/'.
-                                    $genconfig['ApplicationChangesFile']
-                                );
-                            }
-                            if (
-                                strlen($genconfig['ApplicationIconFile'])
-                                and file_exists($tmpdir.'/setup/'.$genconfig['ApplicationIconFile'])
-                            ) {
-                                @copy(
-                                    $tmpdir.'/setup/'.$genconfig['ApplicationIconFile'],
-                                    $this->container->getHome().
-                                    'core/applications/'.$genconfig['ApplicationIdName'].'/'.
-                                    $genconfig['ApplicationIconFile']
-                                );
-                            }
-
-                            // setup files - only after handlestructure
-                            //
-                            @copy(
-                                $tmpdir.'/setup/application.xml',
+                            unlink(
                                 $this->container->getHome().
-                                'core/applications/'.$genconfig['ApplicationIdName'].'/application.xml'
-                            );
-                            // Checks if it is an extension application
-                            //
-                            $ext = $this->rootDA->fmtfalse;
-
-                            if ($genconfig['ApplicationIsExtension'] == 'y') {
-                                $ext = $this->rootDA->fmttrue;
-                                $this->onlyextension = true;
-                            } elseif (
-                                $genconfig['ApplicationIsExtension'] == 'n') {
-                                $ext = $this->rootDA->fmtfalse;
-                                $this->onlyextension = false;
-                            } elseif (
-                            $this->onlyextension) {
-                                $ext = $this->rootDA->fmttrue;
-                            }
-
-                            $this->rootDA->execute(
-                                'UPDATE applications SET onlyextension='.$this->rootDA->formatText($ext).
-                                ' WHERE appid='.$this->rootDA->formatText($this->appname)
+                                'core/temp/upgrading_system_lock'
                             );
 
-                            $this->setOptions(explode(',', trim($genconfig['ApplicationOptions'], ' ,')));
-
-                            if ($this->appname != 'innomatic') {
-                                // Remove old dependencies
-                                //
-                                $appdeps->removeAllDependencies($this->id);
-
-                                // Adds new Applications dependencies
-                                //
-                                $appdeps->addDependenciesArray(
-                                    $genconfig['ApplicationIdName'],
-                                    $deps,
-                                    ApplicationDependencies::TYPE_DEPENDENCY
-                                );
-                                $appdeps->addDependenciesArray(
-                                    $genconfig['ApplicationIdName'],
-                                    $suggs,
-                                    ApplicationDependencies::TYPE_SUGGESTION
-                                );
+                            if (
+                                \Innomatic\Core\InnomaticContainer::instance(
+                                    '\Innomatic\Core\InnomaticContainer'
+                                )->getConfig()->Value('SecurityAlertOnApplicationOperation') == '1'
+                            ) {
+                                $innomaticSecurity = new \Innomatic\Security\SecurityManager();
+                                $innomaticSecurity->SendAlert('Application '.$this->appname.' has been updated');
+                                unset($innomaticSecurity);
                             }
 
-                            $result = true;
-
-                            if (function_exists('apc_reset_cache'))
-                                apc_reset_cache();
-
-                            if ($updateOnce == false) {
-                                $this->Install($tmpfilepath, true);
-
-                                // Removes lock file
-                                //
-                                unlink(
-                                    $this->container->getHome().
-                                    'core/temp/upgrading_system_lock'
-                                );
-
-                                if (
-                                    \Innomatic\Core\InnomaticContainer::instance(
-                                        '\Innomatic\Core\InnomaticContainer'
-                                    )->getConfig()->Value('SecurityAlertOnApplicationOperation') == '1'
-                                ) {
-                                    $innomaticSecurity = new \Innomatic\Security\SecurityManager();
-                                    $innomaticSecurity->SendAlert('Application '.$this->appname.' has been updated');
-                                    unset($innomaticSecurity);
-                                }
-
-                                if ($result == true) {
-                                    $log = $this->container->getLogger();
-                                    $log->logEvent('Innomatic', 'Updated application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
-                                }
+                            if ($result == true) {
+                                $log = $this->container->getLogger();
+                                $log->logEvent('Innomatic', 'Updated application '.$this->appname, \Innomatic\Logging\Logger::NOTICE);
                             }
                         }
-                        /*
-                         else $this->mLog->logEvent( 'innomatic.applications.applications.install',
-                         'Structure definition file for application '.$this->appname.
-                         ' does not exists', \Innomatic\Logging\Logger::ERROR );
-                         */
-                    } else {
-                        $log = $this->container->getLogger();
-
-                        $log->logEvent(
-                            'innomatic.applications.applications.install',
-                            'Empty application id',
-                            \Innomatic\Logging\Logger::ERROR
-                        );
                     }
-                }
-            } else {
-                $log = $this->container->getLogger();
+                    /*
+                     else $this->mLog->logEvent( 'innomatic.applications.applications.install',
+                     'Structure definition file for application '.$this->appname.
+                     ' does not exists', \Innomatic\Logging\Logger::ERROR );
+                     */
+                } else {
+                    $log = $this->container->getLogger();
 
-                if (!file_exists($tmpdir.'/setup/application.xml'))
                     $log->logEvent(
                         'innomatic.applications.applications.install',
-                        'Application structure file '.$tmpdir.'/setup/application.xml'.' not found',
+                        'Empty application id',
                         \Innomatic\Logging\Logger::ERROR
                     );
+                }
             }
-
-            // Cleans up temp stuff
-            //
-            @chdir($olddir);
-            \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($basetmpdir);
-            if (file_exists($tmpfilepath))
-                @unlink($tmpfilepath);
         } else {
-            if (!file_exists($tmpfilepath)) {
-                $log = $this->container->getLogger();
+            $log = $this->container->getLogger();
+
+            if (!file_exists($tmpdir.'/setup/application.xml'))
                 $log->logEvent(
                     'innomatic.applications.applications.install',
-                    'Temporary application file ('.$tmpfilepath.') does not exists',
+                    'Application structure file '.$tmpdir.'/setup/application.xml'.' not found',
                     \Innomatic\Logging\Logger::ERROR
                 );
-            }
+        }
+
+        // Cleans up temp stuff
+        //
+        @chdir($olddir);
+        \Innomatic\Io\Filesystem\DirectoryUtils::unlinkTree($basetmpdir);
+        if (file_exists($tmpfilepath)) {
+            @unlink($tmpfilepath);
         }
 
         if ($innomatic->getState() == \Innomatic\Core\InnomaticContainer::STATE_DEBUG) {
