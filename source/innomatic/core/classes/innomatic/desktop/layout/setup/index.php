@@ -617,7 +617,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
         if ($tmpdb->Connect()) {
             $tmploc = new \Innomatic\Locale\LocaleCatalog('innomatic::localization', $container->getLanguage());
 
-            $country_query = &$tmpdb->execute('SELECT * '.
+            $country_query = $tmpdb->execute('SELECT * '.
                                                   'FROM locale_countries');
 
             $country_locale = new \Innomatic\Locale\LocaleCatalog('innomatic::localization', $container->getLanguage());
@@ -671,7 +671,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
         @touch($container->getHome().'core/temp/setup_settinglanguage', time());
 
         $pass_data = $actionDispatcher->getEventData();
-        $country = $pass_data['country'];
+        $country = isset($pass_data['country']) ? $pass_data['country'] : '';
 
         if (!strlen($country)) {
             $country = $container->getCountry();
@@ -707,7 +707,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
 
             $wui_vgroup = new WuiVertgroup('vgroup');
 
-            $language_query = &$tmpdb->execute('SELECT * FROM locale_languages');
+            $language_query = $tmpdb->execute('SELECT * FROM locale_languages');
 
             while (!$language_query->eof) {
                 $languages[$language_query->getFields('langshort')] = $language_locale->getStr($language_query->getFields('langname'));
