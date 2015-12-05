@@ -125,7 +125,7 @@ class ApplicationComponentRegister
             'SELECT * FROM applications_components_register WHERE ' . $querystr
         );
         if ($tmpquery->getNumberRows()) {
-            $result = &$tmpquery->getFields();
+            $result = $tmpquery->getFields();
         }
 
         return $result;
