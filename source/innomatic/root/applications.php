@@ -1035,7 +1035,7 @@ function main_dependencies($eventData)
         }
     }
 
-    $$xmlDef = '<grid><name>deps</name><children>
+    $xmlDef = '<grid><name>deps</name><children>
 
       <vertframe row="0" col="0">
         <name>deps</name>
@@ -1066,7 +1066,7 @@ function main_dependencies($eventData)
       </children></vertframe>';
 
     if (strcmp($applicationData['appid'], 'innomatic')) {
-        $$xmlDef.= '  <vertframe row="1" col="0"><name>depending</name><children>
+        $xmlDef.= '  <vertframe row="1" col="0"><name>depending</name><children>
             <label><name>depending</name><args><label>'
             .sprintf($gLocale->getStr('dependingapps_label'), $applicationData['appid'])
             .'</label></args></label>
@@ -1094,9 +1094,9 @@ function main_dependencies($eventData)
           </children></vertframe>';
     }
 
-    $$xmlDef.= '</children></grid>';
+    $xmlDef.= '</children></grid>';
 
-    $gXmlDefinition = $$xmlDef;
+    $gXmlDefinition = $xmlDef;
 
     $gPageTitle.= ' - '.$applicationData['appid'].' - '.$gLocale->getStr('applicationdeps_title');
 }
