@@ -11,7 +11,7 @@
 <project name="Innomatic" default="package">
 
 	<property name="name" value="innomatic" />
-	<property name="version" value="7.0.0" />
+	<property name="version" value="6.5.0" />
 
     <!--
     Helper target that initializes the project and creates the base

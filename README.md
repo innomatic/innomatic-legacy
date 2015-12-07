@@ -1,5 +1,5 @@
-README
-======
+Innomatic 6 (Referred to as "legacy" in Innomatic 7)
+====================================================
 
 General information
 -------------------

@@ -4,11 +4,11 @@
 	<definition>
 		<idname>innomatic</idname>
 		<release>
-			<version>7.0.0</version>
-			<date>2014/12/10</date>
+			<version>6.5.0</version>
+			<date>2015/12/14</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
-		<description><![CDATA[<strong>Innomatic Platform</strong> for Multi-Tenant Cloud Applications.]]></description>
+		<description><![CDATA[<strong>Innomatic Platform</strong> for Multi-Tenant and SaaS Applications.]]></description>
 		<category>innomatic</category>
 		<iconfile>innomatic.png</iconfile>
 		<dependencies>
