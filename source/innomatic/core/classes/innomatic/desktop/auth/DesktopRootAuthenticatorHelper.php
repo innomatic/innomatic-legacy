@@ -27,8 +27,8 @@ class DesktopRootAuthenticatorHelper implements \Innomatic\Desktop\Auth\DesktopA
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
 
         $login_disp = new \Innomatic\Wui\Dispatch\WuiDispatcher('login');
-        $login_disp->addEvent('login', '\Innomatic\Desktop\Auth\login_login');
-        $login_disp->addEvent('logout', '\Innomatic\Desktop\Auth\login_logout');
+        $login_disp->addEvent('login', '\Innomatic\Desktop\Auth\root_login_login');
+        $login_disp->addEvent('logout', '\Innomatic\Desktop\Auth\root_login_logout');
         $login_disp->Dispatch();
 
         if ($container->getConfig()->Value('SecurityOnlyHttpsRootAccessAllowed') == '1') {
@@ -216,7 +216,7 @@ class DesktopRootAuthenticatorHelper implements \Innomatic\Desktop\Auth\DesktopA
     {}
 }
 
-function login_login($eventData)
+function root_login_login($eventData)
 {
     $fh = @fopen(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getHome() . 'core/conf/rootpasswd.ini', 'r');
     if ($fh) {
@@ -238,7 +238,7 @@ function login_login($eventData)
     }
 }
 
-function login_logout($eventData)
+function root_login_logout($eventData)
 {
     $innomatic_security = new \Innomatic\Security\SecurityManager();
     $innomatic_security->LogAccess('', true, true, $_SERVER['REMOTE_ADDR']);

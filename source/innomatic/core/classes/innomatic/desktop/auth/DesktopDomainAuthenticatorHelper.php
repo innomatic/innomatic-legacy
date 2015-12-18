@@ -14,6 +14,7 @@
 namespace Innomatic\Desktop\Auth;
 
 use \Innomatic\Core\InnomaticContainer;
+use \Innomatic\Desktop\Auth\DesktopRootAuthenticatorHelper;
 
 /**
  *
@@ -29,8 +30,8 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
 
         if (isset(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui']['login'])) {
             $loginDispatcher = new \Innomatic\Wui\Dispatch\WuiDispatcher('login');
-            $loginDispatcher->addEvent('logout', '\Innomatic\Desktop\Auth\login_logout');
-            $loginDispatcher->addEvent('login', '\Innomatic\Desktop\Auth\login_login');
+            $loginDispatcher->addEvent('logout', '\Innomatic\Desktop\Auth\tenant_login_logout');
+            $loginDispatcher->addEvent('login', '\Innomatic\Desktop\Auth\tenant_login_login');
             $loginDispatcher->Dispatch();
         }
 
@@ -46,7 +47,7 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
         }
 
         $domainsquery = $container->getDataAccess()->execute('SELECT id FROM domains WHERE domainid=' . $container->getDataAccess()
-            ->formatText(\Innomatic\Domain\User\User::extractDomainID($session->get('INNOMATIC_AUTH_USER'))));
+                ->formatText(\Innomatic\Domain\User\User::extractDomainID($session->get('INNOMATIC_AUTH_USER'))));
         if ($domainsquery->getNumberRows() == 0) {
             self::doAuth();
         } else {
@@ -253,10 +254,27 @@ class DesktopDomainAuthenticatorHelper implements \Innomatic\Desktop\Auth\Deskto
     {}
 }
 
-function login_login($eventData)
+function tenant_login_login($eventData)
 {
     $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
     $username = $eventData['username'];
+
+    // Handle the case when the root user tries to login from the tenant login form
+    if (strcmp($username, 'root') === 0) {
+        require_once('innomatic/desktop/auth/DesktopRootAuthenticatorHelper.php');
+
+        \Innomatic\Desktop\Auth\root_login_login($eventData);
+
+        $response = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')
+            ->getProcessor()
+            ->getResponse();
+
+        $response->sendRedirect($container->getBaseUrl(false).'/root/');
+        $response->flushBuffer();
+
+        return;
+    }
+
     $domainId = \Innomatic\Domain\User\User::extractDomainID($username);
 
     // Checks it it can find the domain by hostname
@@ -297,7 +315,7 @@ function login_login($eventData)
     // unset( $INNOMATIC_ROOT_AUTH_USER );
 }
 
-function login_logout($eventData)
+function tenant_login_logout($eventData)
 {
     $innomaticSecurity = new \Innomatic\Security\SecurityManager();
     $innomaticSecurity->logAccess(\Innomatic\Desktop\Controller\DesktopFrontController::instance('\Innomatic\Desktop\Controller\DesktopFrontController')->session->get('INNOMATIC_AUTH_USER'), true, false, $_SERVER['REMOTE_ADDR']);
