@@ -5,7 +5,7 @@
 		<idname>innomatic</idname>
 		<release>
 			<version>6.5.0</version>
-			<date>2015/12/14</date>
+			<date>2015/12/21</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description><![CDATA[<strong>Innomatic Platform</strong> for Multi-Tenant and SaaS Applications.]]></description>
