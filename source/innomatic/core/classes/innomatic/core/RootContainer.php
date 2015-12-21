@@ -61,6 +61,13 @@ class RootContainer extends \Innomatic\Util\Singleton
      * @var boolean 
      */
     protected $hasComposer = false;
+
+    /**
+     * Holds the Symfony service container.
+     *
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface|null
+     */
+    protected $serviceContainer;
     
     /**
      * RootContainer constructor.
@@ -156,7 +163,7 @@ class RootContainer extends \Innomatic\Util\Singleton
     /**
      * Tells if the Composer autoloader has been registered.
      * 
-     * The Composers autoloader is available when the current installation is
+     * The Composer autoloader is available when the current installation is
      * based on the new Innomatic Platform stack.
      * 
      * @return boolean
@@ -165,7 +172,40 @@ class RootContainer extends \Innomatic\Util\Singleton
     {
         return $this->hasComposer;
     }
-    
+
+    /**
+     * Registers the Symfony service container.
+     *
+     */
+    public function setServiceContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container)
+    {
+        $this->serviceContainer = $container;
+    }
+
+    /**
+     * Returns the Symfony service container if it has been registered,
+     * otherwise returns null.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
+     */
+    public function getServiceContainer()
+    {
+        return $this->serviceContainer;
+    }
+
+    /**
+     * Tells if the Symfony service container has been registered.
+     *
+     * The Symfony service container is available when the current installation
+     * is based on the new Innomatic Platform stack.
+     *
+     * @return bool
+     */
+    public function hasServiceContainer()
+    {
+        return is_object($this->serviceContainer);
+    }
+
     /**
      * SPL autoload method.
      *
