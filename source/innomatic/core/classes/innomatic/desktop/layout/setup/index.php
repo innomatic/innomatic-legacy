@@ -428,7 +428,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
         @touch($container->getHome().'core/temp/setup_installingfiles', time());
         $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'installfiles', ''));
-        \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader('Location', $next_action->getEventsCallString());
+        \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->sendRedirect($next_action->getEventsCallString());
     }
     // Innomatic edition
     //
@@ -480,7 +480,7 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
 
         $next_action = new \Innomatic\Wui\Dispatch\WuiEventsCall();
         $next_action->addEvent(new \Innomatic\Wui\Dispatch\WuiEvent('action', 'createdataaccessdrivers', ''));
-        \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->addHeader('Location', $next_action->getEventsCallString());
+        \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer')->getProcessor()->getResponse()->sendRedirect($next_action->getEventsCallString());
     } elseif (!file_exists($container->getHome().'core/temp/setup_dbcreated')) {
         @touch($container->getHome().'core/temp/setup_creatingdb', time());
         $wuiTitleBar->mArgs['title'] .= ' - '.$innomaticLocale->getStr('dbcreation_title');
