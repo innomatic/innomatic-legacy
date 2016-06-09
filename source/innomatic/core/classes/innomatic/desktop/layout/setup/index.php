@@ -281,8 +281,8 @@ if (!file_exists($container->getHome().'core/temp/setup_lock')) {
         // PHP version check
         //
         $row = 0;
-
-        if (ereg("[5-9]\.[4-9]\.[0-9].*", phpversion())) {
+	
+	if(version_compare(phpversion(), '5.4.0', '>')) {
             $ball = $wuiPage->mThemeHandler->mStyle['greenball'];
             $check_result = sprintf($innomaticLocale->getStr('php_available_label'), phpversion());
         } else {
