@@ -254,7 +254,7 @@ Calendar.Months = new Array( '" . $this->mLocaleHandler->getStr('january') . "',
             $event_data->getDataString() . "') + '].elements[' +  GetElementNumber('" . $event_data->getDataString() . "') + ']'," .
             (is_array($this->mValue) ? "'" . sprintf('%u', $this->mValue['mon'] - 1) . "','" . $this->mValue['year'] . "'" : 'null,null') . ",'" .
             $calendar_dateformat . "');\">" .
-            '<img src="' . $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['mini']['icons']['base'] . '/icons/' .
+            '<img src="' . $this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons']['calendar']['base'] . '/icons/' .
             $this->mThemeHandler->mIconsSet['icons']['calendar']['file'] . '" alt="" border="0" style="width: 16px; height: 16px;"></a>' : '') : '') .
             '</span>' . ($this->mComments ? '<!-- end ' . $this->mName . " string -->\n" : '');
 

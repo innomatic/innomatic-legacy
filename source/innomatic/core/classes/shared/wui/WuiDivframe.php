@@ -160,8 +160,8 @@ class WuiDivframe extends \Innomatic\Wui\Widgets\WuiContainerWidget
             ( $this->mArgs['isdraggable'] ? 'class="drag" ' : '' ).
             $style.' id="'.$this->mArgs['id'].'" '.(isset($this->mArgs['width']) and strlen($this->mArgs['width']) ? 'width="'.$this->mArgs['width'].'" ' : '' ).">\n".
             ( $this->mArgs['iscollapsable'] ? '&nbsp;<img title="'.$locale->getStr('fix_position').'" style="padding-left: 2px; padding-right: 2px; margin-bottom: 2px; float: left; cursor:hand; cursor:pointer;" id="pin_'.$this->mName.'" '.
-                ( isset($session_args['top']) ? 'src="'.$this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['mini']['lock']['base'] . '/mini/' . $this->mThemeHandler->mIconsSet['mini']['lock']['file'].'" '
-                    : 'src="'.$this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['mini']['flag']['base'] . '/mini/' . $this->mThemeHandler->mIconsSet['mini']['flag']['file'].'" ').
+                ( isset($session_args['top']) ? 'src="'.$this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons']['lock']['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons']['lock']['file'].'" '
+                    : 'src="'.$this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons']['flag']['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons']['flag']['file'].'" ').
                 'onclick="javascript:xajax_InnomaticStickFrame(new Array(\''.$this->mName.'\',this.parentNode.offsetTop, this.parentNode.offsetLeft));">' : '' ).
             ((isset($this->mArgs['label']) and strlen($this->mArgs['label']))
                 ? '<a '.( $this->mArgs['iscollapsable']
@@ -169,7 +169,7 @@ class WuiDivframe extends \Innomatic\Wui\Widgets\WuiContainerWidget
                     'if ( myTargetDiv.style.height == \'140px\' ) { myTargetDiv.style.height=\'44px\';} else { myTargetDiv.style.height=\'140px\';}" '
                     : '').
                 'style="padding-left:3px; color:#776666">'.
-                ( $this->mArgs['iscollapsable'] ? '<img title="'.$locale->getStr('minimize').'" style="margin-bottom: 2px; float: left; cursor: pointer; cursor:hand;" src="'.$this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['mini']['folder_red_open']['base'] . '/mini/' . $this->mThemeHandler->mIconsSet['mini']['folder_red_open']['file'].'">' : '' ).
+                ( $this->mArgs['iscollapsable'] ? '<img title="'.$locale->getStr('minimize').'" style="margin-bottom: 2px; float: left; cursor: pointer; cursor:hand;" src="'.$this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons']['folder_red_open']['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons']['folder_red_open']['file'].'">' : '' ).
                 '<b>'.$this->mArgs['label'].'</b></a>'
                 : '' );
 
