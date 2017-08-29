@@ -855,6 +855,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewDefault($eventData)
     {
+        $dataAccess = $this->innomaticContainer->getCurrentDomain()->getDataAccess();
 
         // Filtering
         if (isset($eventData['filter'])) {
@@ -916,14 +917,14 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             $where[] = "email LIKE '%".$eventData['email']."%' ";
         }
 
-        $usersQuery = $this->innomaticContainer->getCurrentDomain()->getDataAccess()->execute(
+        $usersQuery = $dataAccess->execute(
             'SELECT id, username, fname, lname, email, groupid, disabled
             FROM domain_users '.
             (!empty($where) ? "WHERE ".implode("OR ", $where) : '').
             ' ORDER BY username'
         );
 
-        $profQuery = $this->innomaticContainer->getCurrentDomain()->getDataAccess()->execute(
+        $profQuery = $dataAccess->execute(
             'SELECT id,groupname FROM domain_users_groups ORDER BY groupname'
         );
 
@@ -1021,7 +1022,7 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             while (!$usersQuery->eof) {
                 $userData = $usersQuery->getFields();
 
-                if ($userData['disabled'] == $this->innomaticContainer->getCurrentDomain()->getDataAccess()->fmttrue) {
+                if ($userData['disabled'] == $dataAccess->fmttrue) {
                     $enabled = false;
                 } else {
                     $enabled = true;
