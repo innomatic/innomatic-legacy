@@ -855,7 +855,44 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
     public function viewDefault($eventData)
     {
+        // Tenant data access.
         $dataAccess = $this->innomaticContainer->getCurrentDomain()->getDataAccess();
+
+        // Maximum numbers of users per page.
+        $rowsPerPage = 25;
+
+        // Extract the number of tenant users.
+        $usersCountQuery = $dataAccess->execute('SELECT COUNT(*) AS users_count FROM domain_users');
+        $usersCount = $usersCountQuery->getFields('users_count');
+
+        // Current page number.
+        $pageNumber = 1;
+
+        if (is_array($eventData) and isset($eventData['userspage'])) {
+            $pageNumber = $eventData['userspage'];
+        } else {
+            $pageSessionKey = new WuiSessionKey('users_page_number');
+            if (strlen($pageSessionKey->mValue) and $pageSessionKey->mValue != 0 ) {
+                $pageNumber = $pageSessionKey->mValue;
+            }
+        }
+
+        // Calculate the maximum number of pages.
+        $pagesMaxCount = ceil($usersCount / $rowsPerPage);
+
+        // Check if the current page is over the maximum pages count.
+        if ($pageNumber > $pagesMaxCount) {
+            $pageNumber = $pagesMaxCount;
+        }
+
+        // Save the current page in the session.
+        $pageSessionKey = new WuiSessionKey(
+            'users_page_number',
+            array('value' => $pageNumber)
+        );
+
+        // Calculate the rows offset.
+        $rowsOffset = ($pageNumber - 1) * $rowsPerPage;
 
         // Filtering
         if (isset($eventData['filter'])) {
@@ -921,7 +958,8 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             'SELECT id, username, fname, lname, email, groupid, disabled
             FROM domain_users '.
             (!empty($where) ? "WHERE ".implode("OR ", $where) : '').
-            ' ORDER BY username'
+            ' ORDER BY username'.
+            ' LIMIT '.$rowsOffset.', '.$rowsPerPage
         );
 
         $profQuery = $dataAccess->execute(
@@ -1007,15 +1045,16 @@ class ProfilesPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             $headers[3]['label'] = $this->localeCatalog->getStr('email_header');
             $headers[4]['label'] = $this->localeCatalog->getStr('userprofilename_header');
 
-            $row = 0;
+            $row = $rowsOffset;
 
             $wuiUsersTable = new WuiTable(
                 'userstable',
                 array(
+                    'rows' => $usersCount,
                     'headers' => $headers,
-                    'rowsperpage' => '25',
+                    'rowsperpage' => $rowsPerPage,
                     'pagesactionfunction' => 'users_list_action_builder',
-                    'pagenumber' => (is_array($eventData) and isset($eventData['userspage'])) ? $eventData['userspage'] : 1
+                    'pagenumber' => $pageNumber
                 )
             );
 
