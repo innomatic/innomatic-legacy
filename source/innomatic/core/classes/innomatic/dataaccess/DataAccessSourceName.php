@@ -163,7 +163,7 @@ class DataAccessSourceName
             $parsed['dbsyntax'] = $str;
         }
 
-        if (!count($dasn)) {
+        if (strlen($dasn) == 0) {
             return $this->setDASN($parsed);
         }
 
