@@ -4,8 +4,8 @@
 	<definition>
 		<idname>innomatic</idname>
 		<release>
-			<version>6.5.1</version>
-			<date>2016/05/17</date>
+			<version>6.5.2</version>
+			<date>2017/08/30</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description><![CDATA[<strong>Innomatic Platform</strong> for Multi-Tenant and SaaS Applications.]]></description>
@@ -28,7 +28,7 @@
 				<email>info@innoteam.io</email>
 				<web>http://www.innomatic.io/</web>
 			</author>
-			<copyright>Copyright (C) 1999-2015 Innoteam Srl</copyright>
+			<copyright>Copyright (C) 1999-2017 Innoteam Srl</copyright>
 			<license>BSD-3-Clause</license>
 			<licensefile>LICENSE</licensefile>
 		</legal>

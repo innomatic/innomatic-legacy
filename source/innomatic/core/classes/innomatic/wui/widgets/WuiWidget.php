@@ -128,7 +128,9 @@ abstract class WuiWidget
         $dispEvents = ''
     ) {
         $this->mName = $elemName;
-        $this->mArgs = &$elemArgs;
+        if (is_array($elemArgs)) {
+            $this->mArgs = &$elemArgs;
+        }
         $this->mComments = \Innomatic\Wui\Wui::showSourceComments();
 
         $container = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');

@@ -158,7 +158,7 @@ class WuiDivframe extends \Innomatic\Wui\Widgets\WuiContainerWidget
         $myLayout = ( $this->mComments ? '<!-- begin '.$this->mName.' divframe -->' : '' ).
             '<div '.
             ( $this->mArgs['isdraggable'] ? 'class="drag" ' : '' ).
-            $style.' id="'.$this->mArgs['id'].'" '.(isset($this->mArgs['width']) and strlen($this->mArgs['width']) ? 'width="'.$this->mArgs['width'].'" ' : '' ).">\n".
+            $style.' '.(isset($this->mArgs['id']) ? 'id="'.$this->mArgs['id'].'" ' : ' ').(isset($this->mArgs['width']) and strlen($this->mArgs['width']) ? 'width="'.$this->mArgs['width'].'" ' : '' ).">\n".
             ( $this->mArgs['iscollapsable'] ? '&nbsp;<img title="'.$locale->getStr('fix_position').'" style="padding-left: 2px; padding-right: 2px; margin-bottom: 2px; float: left; cursor:hand; cursor:pointer;" id="pin_'.$this->mName.'" '.
                 ( isset($session_args['top']) ? 'src="'.$this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons']['lock']['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons']['lock']['file'].'" '
                     : 'src="'.$this->mThemeHandler->mIconsBase . $this->mThemeHandler->mIconsSet['icons']['flag']['base'] . '/icons/' . $this->mThemeHandler->mIconsSet['icons']['flag']['file'].'" ').

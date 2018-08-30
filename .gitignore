@@ -3,3 +3,4 @@
 /dev
 .vagrant
 /vendor/
+.idea/

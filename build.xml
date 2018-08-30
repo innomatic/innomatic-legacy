@@ -4,14 +4,14 @@
 
    Innomatic build file
 
-   Copyright (c) 2008-2015 Innoteam Srl. All rights reserved.
+   Copyright (c) 2008-2017 Innoteam Srl. All rights reserved.
 
   =======================================================================
 -->
 <project name="Innomatic" default="package">
 
 	<property name="name" value="innomatic" />
-	<property name="version" value="6.5.1" />
+	<property name="version" value="6.5.2" />
 
     <!--
     Helper target that initializes the project and creates the base

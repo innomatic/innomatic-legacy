@@ -34,10 +34,10 @@ class WuiGrid extends \Innomatic\Wui\Widgets\WuiContainerWidget
     public function addChild(\Innomatic\Wui\Widgets\WuiWidget $childWidget, $row = '', $col = '', $halign = '', $valign = '', $colspan = 0, $rowspan = 0)
     {
         if (! isset($this->mArgs['rows']) or $row >= $this->mArgs['rows']) {
-            $this->mArgs['rows'] = $row + 1;
+            $this->mArgs['rows'] = (int)$row + 1;
         }
         if (! isset($this->mArgs['cols']) or $col >= $this->mArgs['cols']) {
-            $this->mArgs['cols'] = $col + 1;
+            $this->mArgs['cols'] = (int)$col + 1;
         }
         $this->mArgs['cells'][$row][$col]['widget'] = $childWidget;
         if ($halign == 'left' or $halign == 'center' or $halign == 'right')
