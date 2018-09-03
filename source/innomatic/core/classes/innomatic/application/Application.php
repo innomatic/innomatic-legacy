@@ -1736,9 +1736,13 @@ class Application
 
         // Check for preinstallation jobs
         //
-        if (isset($structure[$prescript]) and sizeof($structure[$prescript]))
-            include($scriptdir.$structure[$prescript]);
-
+        if (
+            isset($structure[$prescript]) and
+            is_string($structure[$prescript]) and
+            strlen($structure[$prescript])
+        ) {
+            include($scriptdir . $structure[$prescript]);
+        }
         // Install components
         //
         while (list ($eltype, $arraycontent) = each($structure)) {
@@ -1895,7 +1899,11 @@ class Application
 
         // Checks for postinstallation jobs
         //
-        if (isset($structure[$postscript]) and sizeof($structure[$postscript])) {
+        if (
+            isset($structure[$postscript]) and
+            is_string($structure[$postscript]) and
+            strlen($structure[$postscript])
+        ) {
             include($scriptdir.$structure[$postscript]);
         }
 
