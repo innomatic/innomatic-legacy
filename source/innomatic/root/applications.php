@@ -23,7 +23,8 @@ $log = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticCo
 $gLocale = new \Innomatic\Locale\LocaleCatalog(
     'innomatic::root_applications', \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getLanguage()
 );
-$gPageContent = $gStatus = $gToolbars = $gXmlDefinition = '';
+$gPageContent = $gStatus = $gXmlDefinition = null;
+$gToolbars = array();
 
 $wui = \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui');
 $wui->loadAllWidgets();
