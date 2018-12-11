@@ -119,7 +119,7 @@ class WuiDispatcher
      */
     public function getEventData()
     {
-        return isset(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evd']) ? \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evd'] : '';
+        return isset(\Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evd']) ? \Innomatic\Wui\Wui::instance('\Innomatic\Wui\Wui')->parameters['wui'][$this->mName]['evd'] : array();
     }
 
     public static function dispatchersList()
