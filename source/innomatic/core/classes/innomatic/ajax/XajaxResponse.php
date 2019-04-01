@@ -260,10 +260,7 @@ class XajaxResponse
                 $queryEnd = strlen($sURL);
             $queryPart = substr($sURL, $queryStart, $queryEnd-$queryStart);
             parse_str($queryPart, $queryParts);
-            $newQueryPart = "";
-            foreach($queryParts as $key => $value) {
-                $newQueryPart .= rawurlencode($key).'='.rawurlencode($value).ini_get('arg_separator.output');
-            }
+            $newQueryPart = $this->_buildUrlParams($queryParts, true);
             $sURL = str_replace($queryPart, $newQueryPart, $sURL);
         }
         $this->addScript('window.location = "'.$sURL.'";');
@@ -572,4 +569,44 @@ class XajaxResponse
         }
     }
 
+    /**
+     * FORMAT PARAMS LIKE STRING FOR URL
+     *
+     * @param null $var
+     * @param bool $firstCall
+     * @return string
+     */
+    private function _buildUrlParams($var = null, $firstCall = false)
+    {
+        if ($firstCall) {
+            $urlparams = '';
+            if (is_array($var)) {
+                if (count($var) > 1) {
+                    foreach ($var as $key => $part) {
+                        $urlparams .= $key . $this->_buildUrlParams($part) . ini_get('arg_separator.output');
+                    }
+                } elseif (count($var) == 1) {
+                    $urlparams .= key($var) . $this->_buildUrlParams(current($var));
+                }
+            }
+            return $urlparams;
+        }
+
+        if (is_null($var)) {
+            return '';
+        }
+
+        if (is_array($var)) {
+            foreach ($var as $key=>$value) {
+                $partialUrl = $this->_buildUrlParams($value);
+                return '[' . rawurlencode($key) . ']' . $partialUrl;
+            }
+        }
+
+        if (is_string($var)) {
+            return '='.$var;
+        }
+
+        return '';
+    }
 }// end class xajaxResponse
